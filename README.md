@@ -295,7 +295,7 @@ Proyek ini dibuat untuk keperluan akademik - Tugas Akhir Kelompok 4.
 
 ## 📞 Kontak & Support
 
--   **Project Repository**: [GitHub Link]
+-   **Project Repository**: https://github.com/yogya-toserba/yogya-toserba-kel-4
 -   **Documentation**: [Docs Link]
 -   **Issue Tracker**: [Issues Link]
 
