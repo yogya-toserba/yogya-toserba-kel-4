@@ -43,7 +43,7 @@ Sistem Manajemen Yogya Toserba adalah aplikasi web modern yang dirancang untuk m
 
 | No  | Nama Lengkap        | NIM   | Role                            | Kontribusi                              |
 | --- | ------------------- | ----- | ------------------------------- | --------------------------------------- |
-| 1️⃣  | **[Masukkan Nama]** | [NIM] | 🏛️ **Project Manager**          | Koordinasi tim, planning, dokumentasi   |
+| 1️⃣  | **[Muhammad Fikri Haikal]** | [232410560] | 🏛️ **Project Manager**          | Koordinasi tim, planning, dokumentasi   |
 | 2️⃣  | **[Masukkan Nama]** | [NIM] | 🔧 **Backend Developer**        | API development, database design        |
 | 3️⃣  | **[Masukkan Nama]** | [NIM] | 🎨 **Frontend Developer**       | UI/UX implementation, responsive design |
 | 4️⃣  | **[Masukkan Nama]** | [NIM] | 🗄️ **Database Administrator**   | Database optimization, data modeling    |
