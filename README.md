@@ -304,9 +304,8 @@ Proyek ini dibuat untuk keperluan akademik - Tugas Akhir Kelompok 4.
 <div align="center">
 
 **🏪 Yogya Toserba Management System**  
-*Dikembangkan dengan ❤️ oleh Kelompok 4*
+_Dikembangkan dengan ❤️ oleh Kelompok 4_
 
 **Laravel 12** | **2025**
 
 </div>
-
