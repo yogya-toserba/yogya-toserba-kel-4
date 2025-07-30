@@ -1,0 +1,142 @@
+# ================================
+# Laravel Framework & Dependencies
+# ================================
+/vendor
+/node_modules
+composer.phar
+composer.lock
+package-lock.json
+yarn.lock
+
+# ================================
+# Environment & Configuration
+# ================================
+.env
+.env.*
+!.env.example
+phpunit.xml
+auth.json
+
+# ================================
+# Build & Cache Files
+# ================================
+/public/hot
+/public/build
+/public/storage
+/public/css
+/public/js
+/storage/*.key
+/storage/framework/cache/data/*
+/storage/framework/sessions/*
+/storage/framework/testing/*
+/storage/framework/views/*
+/storage/logs/*
+bootstrap/cache/*.php
+
+# ================================
+# IDE & Editor Files
+# ================================
+/.idea
+/.fleet
+/.nova
+/.vscode
+/.zed
+.phpactor.json
+*.sublime-project
+*.sublime-workspace
+
+# ================================
+# Operating System Files
+# ================================
+# Windows
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+$RECYCLE.BIN/
+*.cab
+*.msi
+*.msix
+*.msm
+*.msp
+*.lnk
+
+# macOS
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+.AppleDouble
+.LSOverride
+
+# Linux
+*~
+.directory
+.Trash-*
+
+# ================================
+# Testing & Coverage
+# ================================
+.phpunit.result.cache
+/.phpunit.cache
+coverage/
+.coverage
+.nyc_output
+clover.xml
+
+# ================================
+# Database Files
+# ================================
+*.sqlite
+*.sqlite3
+*.db
+
+# ================================
+# Logs & Temporary Files
+# ================================
+*.log
+*.tmp
+*.temp
+*.pid
+*.seed
+*.pid.lock
+
+# ================================
+# Backup & Archive Files
+# ================================
+*.bak
+*.backup
+*.swp
+*.swo
+*~
+
+# ================================
+# npm/yarn debug logs
+# ================================
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+lerna-debug.log*
+
+# ================================
+# Runtime & Process Files
+# ================================
+pids
+*.pid
+*.seed
+*.pid.lock
+
+# ================================
+# Optional npm cache directory
+# ================================
+.npm
+
+# ================================
+# Project Specific
+# ================================
+/storage/debugbar
+/storage/clockwork
+.rocketeer/
+Homestead.json
+Homestead.yaml
+Thumbs.db
