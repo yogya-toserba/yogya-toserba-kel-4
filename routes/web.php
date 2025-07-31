@@ -1,6 +1,6 @@
 <?php
 
-Route::get('/pelanggan/login', function () {
+Route::get('/login', function () {
     return view('pelanggan.login');
 })->name('pelanggan.login');
 
