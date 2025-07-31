@@ -20,20 +20,21 @@
 
             <!-- Right Side -->
             <div class="register-content">
-                <div class="logo-section">
-                    <img src="{{ asset('image/logo_yogya.png') }}" alt="Yogya Logo">
-                    <h2 class="welcome-title">Daftar Sekarang</h2>
-                    <p class="welcome-subtitle">Buat akun baru untuk mulai berbelanja</p>
-                </div>
-
-                @if (session('error'))
-                    <div class="alert alert-danger">
-                        {{ session('error') }}
+                <div class="form-container">
+                    <div class="logo-section">
+                        <img src="{{ asset('image/logo_yogya.png') }}" alt="Yogya Logo">
+                        <h2 class="welcome-title">Daftar Sekarang</h2>
+                        <p class="welcome-subtitle">Buat akun baru untuk mulai berbelanja</p>
                     </div>
-                @endif
 
-                <form action="" method="POST">
-                    @csrf
+                    @if (session('error'))
+                        <div class="alert alert-danger">
+                            {{ session('error') }}
+                        </div>
+                    @endif
+
+                    <form action="" method="POST">
+                        @csrf
                     
                     <!-- Nama Lengkap -->
                     <div class="form-group floating-label">
@@ -49,26 +50,10 @@
                         </div>
                         <div class="form-group floating-label phone-input-group">
                             <div class="phone-container">
-                                <select class="country-code" name="country_code">
-                                    <option value="+62">🇮🇩 +62</option>
-                                    <option value="+1">🇺🇸 +1</option>
-                                    <option value="+44">🇬🇧 +44</option>
-                                    <option value="+33">🇫🇷 +33</option>
-                                    <option value="+49">🇩🇪 +49</option>
-                                    <option value="+81">🇯🇵 +81</option>
-                                    <option value="+82">🇰🇷 +82</option>
-                                    <option value="+86">🇨🇳 +86</option>
-                                    <option value="+91">🇮🇳 +91</option>
-                                    <option value="+65">🇸🇬 +65</option>
-                                    <option value="+60">🇲🇾 +60</option>
-                                    <option value="+66">🇹🇭 +66</option>
-                                    <option value="+84">🇻🇳 +84</option>
-                                    <option value="+63">🇵🇭 +63</option>
-                                    <option value="+61">🇦🇺 +61</option>
-                                </select>
-                                <input type="tel" name="no_telp" class="form-control phone-input" pattern="[0-9]+" title="Hanya angka yang diperbolehkan" required>
+                                <span class="country-code-fixed">🇮🇩 +62</span>
+                                <input type="tel" name="no_telp" class="form-control phone-input" pattern="[1-9][0-9\-]*" title="Nomor tidak boleh dimulai dengan 0 setelah +62" required>
                             </div>
-                            <label class="floating-label-text">No. Telepon</label>
+                            <label class="floating-label-text">No. Telp</label>
                         </div>
                     </div>
                     
@@ -87,7 +72,7 @@
                                 </div>
                                 <div class="radio-option">
                                     <input type="radio" name="jenis_kelamin" value="N" id="tidak_ingin" required>
-                                    <label for="tidak_ingin">Lainnya</label>
+                                    <label for="tidak_ingin">Tidak Ingin Memberitahukan</label>
                                 </div>
                             </div>
                         </div>
@@ -101,7 +86,7 @@
                     <div class="form-row">
                         <div class="form-group floating-label password-input-group">
                             <input type="password" name="password" class="form-control" minlength="8" required>
-                            <label class="floating-label-text">Kata Sandi (min. 8 karakter)</label>
+                            <label class="floating-label-text">Kata Sandi (min. 8)</label>
                             <span class="password-toggle" onclick="togglePassword('password')">
                                 <i class="fas fa-eye" id="password-eye"></i>
                             </span>
@@ -137,7 +122,7 @@
                 <div class="login-link">
                     <small>Sudah punya akun? <a href="{{ route('pelanggan.login') }}">Masuk sekarang!</a></small>
                 </div>
-                </form>
+                </div>
             </div>
         </div>
     </div>
@@ -183,12 +168,34 @@
                 });
             });
 
-            // Phone number validation - only numbers
+            // Phone number validation with auto formatting - only numbers and not starting with 0
             const phoneInput = document.querySelector('input[name="no_telp"]');
             if (phoneInput) {
                 phoneInput.addEventListener('input', function(e) {
-                    // Remove non-numeric characters
-                    this.value = this.value.replace(/[^0-9]/g, '');
+                    // Remove all non-numeric characters
+                    let value = this.value.replace(/[^0-9]/g, '');
+                    
+                    // Prevent starting with 0
+                    if (value.charAt(0) === '0') {
+                        value = value.substring(1);
+                        this.setCustomValidity('Nomor HP setelah +62 tidak boleh dimulai dengan 0');
+                    } else {
+                        this.setCustomValidity('');
+                    }
+                    
+                    // Auto format with dashes: XXX-XXXX-XXXX (flexible length)
+                    let formattedValue = '';
+                    if (value.length > 0) {
+                        if (value.length <= 3) {
+                            formattedValue = value;
+                        } else if (value.length <= 7) {
+                            formattedValue = value.slice(0, 3) + '-' + value.slice(3);
+                        } else {
+                            formattedValue = value.slice(0, 3) + '-' + value.slice(3, 7) + '-' + value.slice(7);
+                        }
+                    }
+                    
+                    this.value = formattedValue;
                     
                     // Handle floating label for phone input
                     const label = this.closest('.floating-label').querySelector('.floating-label-text');
@@ -207,6 +214,23 @@
                     const label = this.closest('.floating-label').querySelector('.floating-label-text');
                     if (this.value.length === 0) {
                         label.classList.remove('active');
+                    }
+                    
+                    // Final validation on blur
+                    const numericValue = this.value.replace(/[^0-9]/g, '');
+                    if (numericValue.length > 0 && numericValue.charAt(0) === '0') {
+                        this.setCustomValidity('Nomor HP setelah +62 tidak boleh dimulai dengan 0');
+                    }
+                });
+                
+                // Handle keypress to prevent 0 as first character
+                phoneInput.addEventListener('keypress', function(e) {
+                    // Get current numeric value without formatting
+                    const currentNumeric = this.value.replace(/[^0-9]/g, '');
+                    
+                    // If input is empty and user tries to type 0, prevent it
+                    if (currentNumeric.length === 0 && e.key === '0') {
+                        e.preventDefault();
                     }
                 });
             }

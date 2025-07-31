@@ -66,8 +66,9 @@
             left: -50%;
             width: 200%;
             height: 200%;
-            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200"><circle cx="30" cy="40" r="2" fill="rgba(255,255,255,0.15)"/><circle cx="150" cy="60" r="1.5" fill="rgba(255,255,255,0.1)"/><circle cx="80" cy="120" r="2.5" fill="rgba(255,255,255,0.12)"/><circle cx="170" cy="140" r="1" fill="rgba(255,255,255,0.08)"/><circle cx="50" cy="160" r="1.8" fill="rgba(255,255,255,0.13)"/><circle cx="120" cy="30" r="1.2" fill="rgba(255,255,255,0.09)"/><circle cx="40" cy="90" r="3" fill="rgba(255,255,255,0.16)"/><circle cx="180" cy="100" r="1.3" fill="rgba(255,255,255,0.11)"/><circle cx="90" cy="180" r="2.2" fill="rgba(255,255,255,0.14)"/><circle cx="160" cy="20" r="1.7" fill="rgba(255,255,255,0.1)"/></svg>');
-            animation: float 25s infinite linear;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 400"><text x="50" y="60" fill="rgba(255,255,255,0.15)" font-size="20">🍎</text><text x="200" y="100" fill="rgba(255,255,255,0.12)" font-size="18">🐟</text><text x="120" y="180" fill="rgba(255,255,255,0.14)" font-size="22">🥛</text><text x="300" y="150" fill="rgba(255,255,255,0.10)" font-size="16">🍞</text><text x="80" y="250" fill="rgba(255,255,255,0.13)" font-size="19">🧀</text><text x="250" y="220" fill="rgba(255,255,255,0.11)" font-size="17">🥚</text><text x="150" y="320" fill="rgba(255,255,255,0.12)" font-size="20">🍌</text><text x="350" y="280" fill="rgba(255,255,255,0.09)" font-size="15">🥕</text><text x="30" y="200" fill="rgba(255,255,255,0.16)" font-size="24">🛒</text><text x="320" y="80" fill="rgba(255,255,255,0.08)" font-size="14">🍚</text></svg>');
+            animation: float 37s infinite linear, wave 23s infinite ease-in-out;
+            z-index: 0;
         }
 
         .login-left::after {
@@ -77,8 +78,8 @@
             left: -30%;
             width: 160%;
             height: 160%;
-            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 150 150"><circle cx="20" cy="20" r="1" fill="rgba(255,255,255,0.06)"/><circle cx="100" cy="50" r="2" fill="rgba(255,255,255,0.08)"/><circle cx="60" cy="100" r="1.5" fill="rgba(255,255,255,0.07)"/><circle cx="130" cy="120" r="1.2" fill="rgba(255,255,255,0.05)"/><circle cx="40" cy="140" r="1.8" fill="rgba(255,255,255,0.09)"/></svg>');
-            animation: floatReverse 30s infinite linear;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 300 300"><text x="40" y="50" fill="rgba(255,255,255,0.08)" font-size="16">🍕</text><text x="180" y="80" fill="rgba(255,255,255,0.10)" font-size="18">🧻</text><text x="100" y="150" fill="rgba(255,255,255,0.12)" font-size="20">🧴</text><text x="230" y="180" fill="rgba(255,255,255,0.09)" font-size="15">🍜</text><text x="60" y="220" fill="rgba(255,255,255,0.11)" font-size="17">🥤</text><text x="200" y="250" fill="rgba(255,255,255,0.07)" font-size="14">🍪</text><text x="140" y="280" fill="rgba(255,255,255,0.13)" font-size="19">🧽</text></svg>');
+            animation: floatReverse 43s infinite linear, pulse 17s infinite ease-in-out;
             z-index: 0;
         }
 
@@ -87,28 +88,130 @@
                 transform: translate(-50%, -50%) rotate(0deg) scale(1);
                 opacity: 0.8;
             }
-            50% { 
+            12% { 
+                transform: translate(-45%, -55%) rotate(45deg) scale(1.15);
+                opacity: 0.9;
+            }
+            25% { 
+                transform: translate(-60%, -40%) rotate(120deg) scale(0.95);
                 opacity: 1;
-                transform: translate(-50%, -50%) rotate(180deg) scale(1.1);
+            }
+            38% { 
+                transform: translate(-35%, -65%) rotate(200deg) scale(1.25);
+                opacity: 0.85;
+            }
+            50% { 
+                opacity: 0.7;
+                transform: translate(-70%, -30%) rotate(270deg) scale(0.85);
+            }
+            65% { 
+                transform: translate(-25%, -70%) rotate(320deg) scale(1.35);
+                opacity: 1;
+            }
+            80% { 
+                transform: translate(-65%, -45%) rotate(390deg) scale(1.05);
+                opacity: 0.9;
+            }
+            92% { 
+                transform: translate(-40%, -50%) rotate(440deg) scale(0.9);
+                opacity: 0.75;
             }
             100% { 
-                transform: translate(-50%, -50%) rotate(360deg) scale(1);
+                transform: translate(-50%, -50%) rotate(480deg) scale(1);
                 opacity: 0.8;
             }
         }
 
         @keyframes floatReverse {
             0% { 
-                transform: translate(-30%, -30%) rotate(360deg) scale(0.8);
-                opacity: 0.5;
+                transform: translate(-30%, -30%) rotate(0deg) scale(0.8);
+                opacity: 0.6;
             }
-            50% { 
+            15% { 
+                transform: translate(-20%, -40%) rotate(-60deg) scale(1.1);
                 opacity: 0.8;
-                transform: translate(-30%, -30%) rotate(180deg) scale(1.2);
+            }
+            30% { 
+                transform: translate(-45%, -15%) rotate(-150deg) scale(0.7);
+                opacity: 0.9;
+            }
+            45% { 
+                transform: translate(-10%, -50%) rotate(-220deg) scale(1.3);
+                opacity: 0.65;
+            }
+            60% { 
+                opacity: 1;
+                transform: translate(-50%, -10%) rotate(-300deg) scale(0.9);
+            }
+            75% { 
+                transform: translate(-15%, -45%) rotate(-380deg) scale(1.15);
+                opacity: 0.7;
+            }
+            90% { 
+                transform: translate(-40%, -25%) rotate(-450deg) scale(0.85);
+                opacity: 0.85;
             }
             100% { 
-                transform: translate(-30%, -30%) rotate(0deg) scale(0.8);
-                opacity: 0.5;
+                transform: translate(-30%, -30%) rotate(-480deg) scale(0.8);
+                opacity: 0.6;
+            }
+        }
+
+        @keyframes pulse {
+            0% { 
+                transform: scale(1);
+                opacity: 0.7;
+            }
+            15% { 
+                transform: scale(0.85);
+                opacity: 0.9;
+            }
+            35% { 
+                transform: scale(1.25);
+                opacity: 0.4;
+            }
+            50% { 
+                transform: scale(0.95);
+                opacity: 0.8;
+            }
+            70% { 
+                transform: scale(1.4);
+                opacity: 0.3;
+            }
+            85% { 
+                transform: scale(0.75);
+                opacity: 1;
+            }
+            100% { 
+                transform: scale(1);
+                opacity: 0.7;
+            }
+        }
+
+        @keyframes wave {
+            0% { 
+                transform: translate(-50%, -50%) rotate(0deg) scale(1) skewX(0deg);
+            }
+            18% { 
+                transform: translate(-50%, -50%) rotate(65deg) scale(1.15) skewX(8deg);
+            }
+            33% { 
+                transform: translate(-50%, -50%) rotate(140deg) scale(0.9) skewX(-12deg);
+            }
+            47% { 
+                transform: translate(-50%, -50%) rotate(210deg) scale(1.3) skewX(15deg);
+            }
+            62% { 
+                transform: translate(-50%, -50%) rotate(290deg) scale(0.8) skewX(-8deg);
+            }
+            78% { 
+                transform: translate(-50%, -50%) rotate(350deg) scale(1.2) skewX(10deg);
+            }
+            88% { 
+                transform: translate(-50%, -50%) rotate(405deg) scale(1.05) skewX(-5deg);
+            }
+            100% { 
+                transform: translate(-50%, -50%) rotate(450deg) scale(1) skewX(0deg);
             }
         }
 
@@ -119,6 +222,70 @@
             text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
             z-index: 1;
             position: relative;
+            animation: glow 11s infinite ease-in-out alternate;
+        }
+
+        @keyframes glow {
+            0% { 
+                text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1), 0 0 10px rgba(255,255,255,0.2);
+            }
+            20% { 
+                text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1), 0 0 25px rgba(255,255,255,0.5), 0 0 35px rgba(255,255,255,0.3);
+            }
+            35% { 
+                text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1), 0 0 5px rgba(255,255,255,0.1);
+            }
+            55% { 
+                text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1), 0 0 30px rgba(255,255,255,0.6), 0 0 45px rgba(255,255,255,0.4);
+            }
+            70% { 
+                text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1), 0 0 15px rgba(255,255,255,0.25);
+            }
+            85% { 
+                text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1), 0 0 40px rgba(255,255,255,0.7), 0 0 55px rgba(255,255,255,0.5);
+            }
+            100% { 
+                text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1), 0 0 10px rgba(255,255,255,0.2);
+            }
+        }
+
+        @keyframes sparkle {
+            0% { 
+                opacity: 0.7;
+                transform: scale(1) rotate(0deg);
+            }
+            8% { 
+                opacity: 0.3;
+                transform: scale(1.4) rotate(30deg);
+            }
+            22% { 
+                opacity: 1;
+                transform: scale(0.6) rotate(100deg);
+            }
+            35% { 
+                opacity: 0.5;
+                transform: scale(1.8) rotate(180deg);
+            }
+            48% { 
+                opacity: 0.9;
+                transform: scale(0.4) rotate(250deg);
+            }
+            65% { 
+                opacity: 0.2;
+                transform: scale(1.6) rotate(320deg);
+            }
+            80% { 
+                opacity: 1;
+                transform: scale(0.8) rotate(400deg);
+            }
+            95% { 
+                opacity: 0.6;
+                transform: scale(1.2) rotate(470deg);
+            }
+            100% { 
+                opacity: 0.7;
+                transform: scale(1) rotate(500deg);
+            }
         }
 
         .login-left img {
@@ -200,7 +367,7 @@
 
         .floating-label .form-control:focus {
             border-color: #F26B37;
-            box-shadow: 0 0 0 0.2rem rgba(242, 107, 55, 0.25);
+            box-shadow: 0 0 0 0.1rem rgba(242, 107, 55, 0.15);
             background-color: #ffffff;
             outline: none;
         }
@@ -279,7 +446,7 @@
 
         .form-control:focus {
             border-color: #F26B37;
-            box-shadow: 0 0 0 0.2rem rgba(242, 107, 55, 0.25);
+            box-shadow: 0 0 0 0.1rem rgba(242, 107, 55, 0.15);
             background-color: #ffffff;
             outline: none;
         }
@@ -344,9 +511,12 @@
 
         .divider span {
             padding: 0 1rem;
-            color: #6c757d;
-            font-weight: 500;
-            font-size: 0.9rem;
+            color: #495057;
+            font-weight: 600;
+            font-size: 0.95rem;
+            background-color: #ffffff;
+            position: relative;
+            z-index: 1;
         }
 
         .btn-google {
@@ -379,6 +549,8 @@
             margin-right: 0.5rem;
             width: 18px;
             height: 18px;
+            object-fit: contain;
+            flex-shrink: 0;
         }
 
         .register-link {

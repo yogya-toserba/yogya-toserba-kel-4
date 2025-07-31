@@ -10,7 +10,7 @@
 **Sistem Informasi Manajemen Toko Retail Modern**  
 _Tugas Akhir Kelompok 4_
 
-[📖 Dokumentasi](#dokumentasi) •
+[📖 Dokumentasi](docs/DOCUMENTATION.md) •
 [🚀 Instalasi](#instalasi) •
 [👥 Tim](#tim-pengembang) •
 [📝 Fitur](#fitur-utama)
@@ -23,13 +23,21 @@ _Tugas Akhir Kelompok 4_
 
 Sistem Manajemen Yogya Toserba adalah aplikasi web modern yang dirancang untuk mengelola operasional toko retail secara komprehensif. Aplikasi ini dikembangkan menggunakan **Laravel 12** dengan teknologi terdepan untuk memberikan pengalaman pengguna yang optimal dan performa yang handal.
 
-### 🎯 Tujuan Proyek
+### ✨ **Fitur Terbaru v2.0.0**
+
+-   � **Enhanced Authentication UI** - Login/Register dengan animasi produk toserba
+-   🔄 **Random Animation System** - Gerakan acak dan smooth infinity loops
+-   📱 **Indonesian Phone Validation** - Format +62 dengan auto-formatting
+-   👁️ **Password Toggle** - Show/hide password dengan icon yang responsif
+-   🎯 **Floating Labels** - Material Design inspired form interactions
+
+### �🎯 Tujuan Proyek
 
 -   🏢 **Digitalisasi Operasional**: Mengotomatisasi proses bisnis toko retail
 -   📊 **Manajemen Data**: Mengelola inventory, penjualan, dan customer dengan efisien
 -   📈 **Analytics & Reporting**: Menyediakan laporan dan analisis bisnis real-time
 -   🔐 **Keamanan Data**: Implementasi sistem keamanan yang robust
--   📱 **User Experience**: Interface yang intuitif dan responsive
+-   📱 **User Experience**: Interface yang intuitif dan responsive dengan animasi modern
 
 ---
 
@@ -41,15 +49,15 @@ Sistem Manajemen Yogya Toserba adalah aplikasi web modern yang dirancang untuk m
 
 </div>
 
-| No  | Nama Lengkap        | NIM   | Role                            | Kontribusi                              |
-| --- | ------------------- | ----- | ------------------------------- | --------------------------------------- |
-| 1️⃣  | **Muhammad Fikri Haikal** | 232410560 | 🏛️ **Project Manager**          | Koordinasi tim, planning, dokumentasi   |
-| 2️⃣  | **Nabil Cahyadi** | 232410564 | 🔧 **Backend Developer**        | API development, database design        |
+| No  | Nama Lengkap                 | NIM       | Role                            | Kontribusi                              |
+| --- | ---------------------------- | --------- | ------------------------------- | --------------------------------------- |
+| 1️⃣  | **Muhammad Fikri Haikal**    | 232410560 | 🏛️ **Project Manager**          | Koordinasi tim, planning, dokumentasi   |
+| 2️⃣  | **Nabil Cahyadi**            | 232410564 | 🔧 **Backend Developer**        | API development, database design        |
 | 3️⃣  | **Mahesa Putra Faturrohman** | 232410555 | 🎨 **Frontend Developer**       | UI/UX implementation, responsive design |
-| 4️⃣  | **VIkri Alva Pratama** |  232410574  | 🗄️ **Database Administrator**   | Database optimization, data modeling    |
-| 5️⃣  | **Erfan Eka Maulana** | [NIM] | 🎯 **UI/UX Designer**           | Design system, user experience          |
-| 6️⃣  | **Yazdi Prayogi Apriana** | 232410576 | 🧪 **Quality Assurance**        | Testing, bug tracking, quality control  |
-| 7️⃣  | **Ikmal Suryana Putra** | 232410552 | 📚 **Documentation Specialist** | Technical writing, user guides          |
+| 4️⃣  | **VIkri Alva Pratama**       | 232410574 | 🗄️ **Database Administrator**   | Database optimization, data modeling    |
+| 5️⃣  | **Erfan Eka Maulana**        | [NIM]     | 🎯 **UI/UX Designer**           | Design system, user experience          |
+| 6️⃣  | **Yazdi Prayogi Apriana**    | 232410576 | 🧪 **Quality Assurance**        | Testing, bug tracking, quality control  |
+| 7️⃣  | **Ikmal Suryana Putra**      | 232410552 | 📚 **Documentation Specialist** | Technical writing, user guides          |
 
 ---
 
@@ -296,8 +304,40 @@ Proyek ini dibuat untuk keperluan akademik - Tugas Akhir Kelompok 4.
 ## 📞 Kontak & Support
 
 -   **Project Repository**: https://github.com/yogya-toserba/yogya-toserba-kel-4
--   **Documentation**: [Docs Link]
+-   **Documentation**: [📚 Dokumentasi Lengkap](docs/DOCUMENTATION.md)
 -   **Issue Tracker**: [Issues Link]
+
+---
+
+## 📖 Dokumentasi
+
+### **Dokumentasi Teknis**
+
+Untuk informasi teknis lengkap tentang sistem autentikasi, komponen, dan implementasi, silakan lihat:
+
+➡️ **[📚 Dokumentasi Lengkap](docs/DOCUMENTATION.md)**
+
+Dokumentasi mencakup:
+
+-   🔐 **Authentication System** - Login & Register dengan fitur canggih
+-   📱 **Phone Validation** - Validasi nomor HP Indonesia dengan auto-formatting
+-   ✨ **Visual Design** - Floating labels, particle animations, dan responsive design
+-   🛠️ **Technical Stack** - Laravel, Bootstrap, CSS3, JavaScript ES6
+-   🎨 **Design System** - Color palette, typography, spacing system
+-   🔧 **Component Details** - Password toggle, phone formatting, animasi
+-   📱 **Responsive Design** - Mobile-first approach dengan breakpoints
+-   🔒 **Security Features** - Input validation, XSS prevention, CSRF protection
+-   🚀 **Performance** - Optimasi CSS, JavaScript, dan loading performance
+
+### **Quick Links**
+
+-   [🎯 Overview & Features](docs/DOCUMENTATION.md#-overview)
+-   [🛠️ Technical Stack](docs/DOCUMENTATION.md#️-technical-stack)
+-   [🎨 Design System](docs/DOCUMENTATION.md#-design-system)
+-   [🔧 Component Details](docs/DOCUMENTATION.md#-component-details)
+-   [🎭 Animation System](docs/DOCUMENTATION.md#-animation-system)
+-   [📱 Responsive Design](docs/DOCUMENTATION.md#-responsive-design)
+-   [🔒 Security Features](docs/DOCUMENTATION.md#-security-features)
 
 ---
 
