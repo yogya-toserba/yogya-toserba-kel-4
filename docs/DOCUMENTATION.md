@@ -173,5 +173,5 @@ php artisan serve
 
 ---
 
-**Version:** 2.0.0 | **Updated:** July 31, 2025  
+**Version:** 1.0.0 | **Updated:** July 31, 2025  
 **Features:** Product Icon Animations, Random Movement Patterns, Phone Validation, Password Toggle
