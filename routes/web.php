@@ -1,7 +1,7 @@
 <?php
 
-use Illuminate\Support\Facades\Route;
+Route::get('/pelanggan/login', function () {
+    return view('pelanggan.login');
+})->name('pelanggan.login');
 
-Route::get('/', function () {
-    return view('welcome');
-});
+// Route::post('/pelanggan/login', [App\Http\Controllers\PelangganController::class, 'login'])->name('pelanggan.login.submit');
