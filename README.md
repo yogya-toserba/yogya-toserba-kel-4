@@ -43,13 +43,13 @@ Sistem Manajemen Yogya Toserba adalah aplikasi web modern yang dirancang untuk m
 
 | No  | Nama Lengkap        | NIM   | Role                            | Kontribusi                              |
 | --- | ------------------- | ----- | ------------------------------- | --------------------------------------- |
-| 1️⃣  | **[Masukkan Nama]** | [NIM] | 🏛️ **Project Manager**          | Koordinasi tim, planning, dokumentasi   |
-| 2️⃣  | **[Masukkan Nama]** | [NIM] | 🔧 **Backend Developer**        | API development, database design        |
-| 3️⃣  | **[Masukkan Nama]** | [NIM] | 🎨 **Frontend Developer**       | UI/UX implementation, responsive design |
-| 4️⃣  | **[Masukkan Nama]** | [NIM] | 🗄️ **Database Administrator**   | Database optimization, data modeling    |
-| 5️⃣  | **[Masukkan Nama]** | [NIM] | 🎯 **UI/UX Designer**           | Design system, user experience          |
-| 6️⃣  | **[Masukkan Nama]** | [NIM] | 🧪 **Quality Assurance**        | Testing, bug tracking, quality control  |
-| 7️⃣  | **[Masukkan Nama]** | [NIM] | 📚 **Documentation Specialist** | Technical writing, user guides          |
+| 1️⃣  | **Muhammad Fikri Haikal** | [232410560] | 🏛️ **Project Manager**          | Koordinasi tim, planning, dokumentasi   |
+| 2️⃣  | **Nabil Cahyadi** | [NIM] | 🔧 **Backend Developer**        | API development, database design        |
+| 3️⃣  | **Mahesa Putra Faturrohman** | [NIM] | 🎨 **Frontend Developer**       | UI/UX implementation, responsive design |
+| 4️⃣  | **VIkri Alva Pratama** | [NIM] | 🗄️ **Database Administrator**   | Database optimization, data modeling    |
+| 5️⃣  | **Erfan Eka Maulana** | [NIM] | 🎯 **UI/UX Designer**           | Design system, user experience          |
+| 6️⃣  | **Yazdi Prayogi Apriana** | [NIM] | 🧪 **Quality Assurance**        | Testing, bug tracking, quality control  |
+| 7️⃣  | **Ikmal Suryana Putra** | [NIM] | 📚 **Documentation Specialist** | Technical writing, user guides          |
 
 ---
 
@@ -295,7 +295,7 @@ Proyek ini dibuat untuk keperluan akademik - Tugas Akhir Kelompok 4.
 
 ## 📞 Kontak & Support
 
--   **Project Repository**: [GitHub Link]
+-   **Project Repository**: https://github.com/yogya-toserba/yogya-toserba-kel-4
 -   **Documentation**: [Docs Link]
 -   **Issue Tracker**: [Issues Link]
 
