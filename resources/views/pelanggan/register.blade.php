@@ -68,7 +68,7 @@
                                     <label for="perempuan">Perempuan</label>
                                 </div>
                                 <div class="radio-option">
-                                    <input type="radio" na  me="jenis_kelamin" value="N" id="tidak_ingin" required>
+                                    <input type="radio" name="jenis_kelamin" value="N" id="tidak_ingin" required>
                                     <label for="tidak_ingin">Tidak Ingin Memberitahukan</label>
                                 </div>
                             </div>
