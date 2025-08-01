@@ -23,8 +23,6 @@ auth.json
 /public/hot
 /public/build
 /public/storage
-/public/css
-/public/js
 /storage/*.key
 /storage/framework/cache/data/*
 /storage/framework/sessions/*
