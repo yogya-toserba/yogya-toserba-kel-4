@@ -33,7 +33,7 @@
                         </div>
                     @endif
 
-                    <form action="" method="POST">
+                    <form action="" method="POST" id="registerForm">
                         @csrf
                     
                     <!-- Nama Lengkap -->
@@ -48,11 +48,8 @@
                             <input type="email" name="email" class="form-control" required>
                             <label class="floating-label-text">Alamat Email</label>
                         </div>
-                        <div class="form-group floating-label phone-input-group">
-                            <div class="phone-container">
-                                <span class="country-code-fixed">🇮🇩 +62</span>
-                                <input type="tel" name="no_telp" class="form-control phone-input" pattern="[1-9][0-9\-]*" title="Nomor tidak boleh dimulai dengan 0 setelah +62" required>
-                            </div>
+                        <div class="form-group floating-label">
+                            <input type="tel" name="no_telp" class="form-control" pattern="[0-9\-]*" title="Masukkan nomor telepon yang valid" required>
                             <label class="floating-label-text">No. Telp</label>
                         </div>
                     </div>
@@ -71,7 +68,7 @@
                                     <label for="perempuan">Perempuan</label>
                                 </div>
                                 <div class="radio-option">
-                                    <input type="radio" name="jenis_kelamin" value="N" id="tidak_ingin" required>
+                                    <input type="radio" na  me="jenis_kelamin" value="N" id="tidak_ingin" required>
                                     <label for="tidak_ingin">Tidak Ingin Memberitahukan</label>
                                 </div>
                             </div>
@@ -130,7 +127,7 @@
     <script>
         // Enhanced floating label functionality
         document.addEventListener('DOMContentLoaded', function() {
-            const floatingInputs = document.querySelectorAll('.floating-label .form-control, .floating-label .phone-input');
+            const floatingInputs = document.querySelectorAll('.floating-label .form-control');
             
             floatingInputs.forEach(input => {
                 // Special handling for date inputs - label always stays on top
@@ -168,30 +165,25 @@
                 });
             });
 
-            // Phone number validation with auto formatting - only numbers and not starting with 0
+            // Phone number validation with auto formatting - allow all numbers including starting with 0
             const phoneInput = document.querySelector('input[name="no_telp"]');
             if (phoneInput) {
                 phoneInput.addEventListener('input', function(e) {
                     // Remove all non-numeric characters
                     let value = this.value.replace(/[^0-9]/g, '');
                     
-                    // Prevent starting with 0
-                    if (value.charAt(0) === '0') {
-                        value = value.substring(1);
-                        this.setCustomValidity('Nomor HP setelah +62 tidak boleh dimulai dengan 0');
-                    } else {
-                        this.setCustomValidity('');
-                    }
+                    // Clear any previous validation messages
+                    this.setCustomValidity('');
                     
-                    // Auto format with dashes: XXX-XXXX-XXXX (flexible length)
+                    // Auto format with dashes: XXXX-XXXX-XXXX (flexible length)
                     let formattedValue = '';
                     if (value.length > 0) {
-                        if (value.length <= 3) {
+                        if (value.length <= 4) {
                             formattedValue = value;
-                        } else if (value.length <= 7) {
-                            formattedValue = value.slice(0, 3) + '-' + value.slice(3);
+                        } else if (value.length <= 8) {
+                            formattedValue = value.slice(0, 4) + '-' + value.slice(4);
                         } else {
-                            formattedValue = value.slice(0, 3) + '-' + value.slice(3, 7) + '-' + value.slice(7);
+                            formattedValue = value.slice(0, 4) + '-' + value.slice(4, 8) + '-' + value.slice(8);
                         }
                     }
                     
@@ -201,36 +193,6 @@
                     const label = this.closest('.floating-label').querySelector('.floating-label-text');
                     if (this.value.length > 0) {
                         label.classList.add('active');
-                    }
-                });
-                
-                // Handle focus and blur for phone input
-                phoneInput.addEventListener('focus', function() {
-                    const label = this.closest('.floating-label').querySelector('.floating-label-text');
-                    label.classList.add('active');
-                });
-                
-                phoneInput.addEventListener('blur', function() {
-                    const label = this.closest('.floating-label').querySelector('.floating-label-text');
-                    if (this.value.length === 0) {
-                        label.classList.remove('active');
-                    }
-                    
-                    // Final validation on blur
-                    const numericValue = this.value.replace(/[^0-9]/g, '');
-                    if (numericValue.length > 0 && numericValue.charAt(0) === '0') {
-                        this.setCustomValidity('Nomor HP setelah +62 tidak boleh dimulai dengan 0');
-                    }
-                });
-                
-                // Handle keypress to prevent 0 as first character
-                phoneInput.addEventListener('keypress', function(e) {
-                    // Get current numeric value without formatting
-                    const currentNumeric = this.value.replace(/[^0-9]/g, '');
-                    
-                    // If input is empty and user tries to type 0, prevent it
-                    if (currentNumeric.length === 0 && e.key === '0') {
-                        e.preventDefault();
                     }
                 });
             }
@@ -263,6 +225,76 @@
             }
             if (confirmPasswordInput) {
                 confirmPasswordInput.addEventListener('input', validatePassword);
+            }
+
+            // Age validation - minimum 17 years old
+            const dateInput = document.querySelector('input[name="tanggal_lahir"]');
+            if (dateInput) {
+                function validateAge() {
+                    const birthDate = new Date(dateInput.value);
+                    const today = new Date();
+                    const age = today.getFullYear() - birthDate.getFullYear();
+                    const monthDiff = today.getMonth() - birthDate.getMonth();
+                    
+                    // Calculate exact age
+                    let exactAge = age;
+                    if (monthDiff < 0 || (monthDiff === 0 && today.getDate() < birthDate.getDate())) {
+                        exactAge--;
+                    }
+                    
+                    if (dateInput.value && exactAge < 17) {
+                        dateInput.setCustomValidity('Anda harus berumur minimal 17 tahun untuk mendaftar');
+                        return false;
+                    } else {
+                        dateInput.setCustomValidity('');
+                        return true;
+                    }
+                }
+                
+                dateInput.addEventListener('change', validateAge);
+                dateInput.addEventListener('blur', validateAge);
+                
+                // Set max date to today minus 17 years for better UX
+                const maxDate = new Date();
+                maxDate.setFullYear(maxDate.getFullYear() - 17);
+                dateInput.max = maxDate.toISOString().split('T')[0];
+            }
+
+            // Form submission validation
+            const registerForm = document.getElementById('registerForm');
+            if (registerForm) {
+                registerForm.addEventListener('submit', function(e) {
+                    // Check age validation
+                    const dateInput = document.querySelector('input[name="tanggal_lahir"]');
+                    if (dateInput && dateInput.value) {
+                        const birthDate = new Date(dateInput.value);
+                        const today = new Date();
+                        const age = today.getFullYear() - birthDate.getFullYear();
+                        const monthDiff = today.getMonth() - birthDate.getMonth();
+                        
+                        let exactAge = age;
+                        if (monthDiff < 0 || (monthDiff === 0 && today.getDate() < birthDate.getDate())) {
+                            exactAge--;
+                        }
+                        
+                        if (exactAge < 17) {
+                            e.preventDefault();
+                            alert('Anda harus berumur minimal 17 tahun untuk mendaftar akun.');
+                            dateInput.focus();
+                            return false;
+                        }
+                    }
+                    
+                    // Check if all required fields are filled and valid
+                    const requiredFields = registerForm.querySelectorAll('[required]');
+                    for (let field of requiredFields) {
+                        if (!field.value || !field.checkValidity()) {
+                            e.preventDefault();
+                            field.focus();
+                            return false;
+                        }
+                    }
+                });
             }
         });
 

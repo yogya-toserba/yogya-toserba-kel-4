@@ -310,7 +310,7 @@
         }
 
         .login-right {
-            flex: 1.1;
+            flex: 1;
             padding: 20px 25px;
             display: flex;
             flex-direction: column;
@@ -327,7 +327,6 @@
         .logo-section img {
             height: 80px;
             margin-bottom: 0.8rem;
-            filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.1));
         }
 
         .welcome-title {
@@ -530,7 +529,7 @@
             justify-content: center;
             text-decoration: none;
             font-weight: 500;
-            transition: all 0.3s ease;
+            transition: border-color 0.2s ease, background-color 0.2s ease;
             margin-bottom: 0.8rem;
             width: 100%;
             font-size: 0.85rem;
@@ -540,8 +539,6 @@
             border-color: #db4437;
             color: #db4437;
             background-color: #fff5f5;
-            transform: translateY(-2px);
-            box-shadow: 0 8px 25px rgba(219, 68, 55, 0.15);
             text-decoration: none;
         }
 
