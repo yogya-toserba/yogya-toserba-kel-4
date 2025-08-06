@@ -14,7 +14,7 @@
             <!-- Left Side -->
             <div class="register-left text-center">
                 <h2 class="mb-4">MyYOGYA</h2>
-                <img src="{{ asset('image/shopping.png') }}" alt="Shopping Illustration" class="img-fluid">
+                <img src="{{ asset('image/illustration.png') }}" alt="Shopping Illustration" class="img-fluid">
                 <p class="mb-0">Bergabunglah dengan jutaan pelanggan yang telah merasakan kemudahan berbelanja di platform kami. Daftar sekarang dan nikmati pengalaman berbelanja yang tak terlupakan!</p>
             </div>
 
@@ -33,23 +33,33 @@
                         </div>
                     @endif
 
-                    <form action="" method="POST" id="registerForm">
+                    @if ($errors->any())
+                        <div class="alert alert-danger">
+                            <ul class="mb-0">
+                                @foreach ($errors->all() as $error)
+                                    <li>{{ $error }}</li>
+                                @endforeach
+                            </ul>
+                        </div>
+                    @endif
+
+                    <form action="{{ route('pelanggan.register.submit') }}" method="POST" id="registerForm">
                         @csrf
                     
                     <!-- Nama Lengkap -->
                     <div class="form-group floating-label">
-                        <input type="text" name="nama" class="form-control" required autofocus>
+                        <input type="text" name="name" class="form-control" value="{{ old('name') }}" required autofocus>
                         <label class="floating-label-text">Nama Lengkap</label>
                     </div>
                     
                     <!-- Email dan No Telepon -->
                     <div class="form-row">
                         <div class="form-group floating-label">
-                            <input type="email" name="email" class="form-control" required>
+                            <input type="email" name="email" class="form-control" value="{{ old('email') }}" required>
                             <label class="floating-label-text">Alamat Email</label>
                         </div>
                         <div class="form-group floating-label">
-                            <input type="tel" name="no_telp" class="form-control" pattern="[0-9\-]*" title="Masukkan nomor telepon yang valid" required>
+                            <input type="tel" name="phone" class="form-control" value="{{ old('phone') }}" pattern="[0-9\-]*" title="Masukkan nomor telepon yang valid" required>
                             <label class="floating-label-text">No. Telp</label>
                         </div>
                     </div>
@@ -60,36 +70,38 @@
                             <label style="color: #6c757d; font-weight: 500; margin-bottom: 0.3rem; display: block; font-size: 0.9rem;">Jenis Kelamin</label>
                             <div class="gender-group-compact">
                                 <div class="radio-option">
-                                    <input type="radio" name="jenis_kelamin" value="L" id="laki" required>
-                                    <label for="laki">Laki-laki</label>
+                                    <input type="radio" name="gender" value="pria" id="pria" {{ old('gender') == 'pria' ? 'checked' : '' }} required>
+                                    <label for="pria">Pria</label>
                                 </div>
                                 <div class="radio-option">
-                                    <input type="radio" name="jenis_kelamin" value="P" id="perempuan" required>
-                                    <label for="perempuan">Perempuan</label>
-                                </div>
-                                <div class="radio-option">
-                                    <input type="radio" name="jenis_kelamin" value="N" id="tidak_ingin" required>
-                                    <label for="tidak_ingin">Tidak Ingin Memberitahukan</label>
+                                    <input type="radio" name="gender" value="wanita" id="wanita" {{ old('gender') == 'wanita' ? 'checked' : '' }} required>
+                                    <label for="wanita">Wanita</label>
                                 </div>
                             </div>
                         </div>
                         <div class="form-group floating-label">
-                            <input type="date" name="tanggal_lahir" class="form-control" required>
+                            <input type="date" name="birth_date" class="form-control" value="{{ old('birth_date') }}" required>
                             <label class="floating-label-text">Tanggal Lahir</label>
                         </div>
+                    </div>
+
+                    <!-- Alamat (Optional) -->
+                    <div class="form-group floating-label">
+                        <input type="text" name="address" class="form-control" value="{{ old('address') }}">
+                        <label class="floating-label-text">Alamat</label>
                     </div>
                     
                     <!-- Password dan Konfirmasi Password -->
                     <div class="form-row">
                         <div class="form-group floating-label password-input-group">
-                            <input type="password" name="password" class="form-control" minlength="8" required>
+                            <input type="password" name="password" class="form-control" minlength="6" required>
                             <label class="floating-label-text">Kata Sandi (min. 8)</label>
                             <span class="password-toggle" onclick="togglePassword('password')">
                                 <i class="fas fa-eye" id="password-eye"></i>
                             </span>
                         </div>
                         <div class="form-group floating-label password-input-group">
-                            <input type="password" name="password_confirmation" class="form-control" minlength="8" required>
+                            <input type="password" name="password_confirmation" class="form-control" minlength="6" required>
                             <label class="floating-label-text">Konfirmasi Kata Sandi</label>
                             <span class="password-toggle" onclick="togglePassword('password_confirmation')">
                                 <i class="fas fa-eye" id="password_confirmation-eye"></i>
@@ -166,7 +178,7 @@
             });
 
             // Phone number validation with auto formatting - allow all numbers including starting with 0
-            const phoneInput = document.querySelector('input[name="no_telp"]');
+            const phoneInput = document.querySelector('input[name="phone"]');
             if (phoneInput) {
                 phoneInput.addEventListener('input', function(e) {
                     // Remove all non-numeric characters
@@ -228,7 +240,7 @@
             }
 
             // Age validation - minimum 17 years old
-            const dateInput = document.querySelector('input[name="tanggal_lahir"]');
+            const dateInput = document.querySelector('input[name="birth_date"]');
             if (dateInput) {
                 function validateAge() {
                     const birthDate = new Date(dateInput.value);
@@ -265,7 +277,7 @@
             if (registerForm) {
                 registerForm.addEventListener('submit', function(e) {
                     // Check age validation
-                    const dateInput = document.querySelector('input[name="tanggal_lahir"]');
+                    const dateInput = document.querySelector('input[name="birth_date"]');
                     if (dateInput && dateInput.value) {
                         const birthDate = new Date(dateInput.value);
                         const today = new Date();

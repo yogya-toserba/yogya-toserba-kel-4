@@ -291,10 +291,12 @@
         .login-left img {
             z-index: 1;
             position: relative;
-            margin-bottom: 1.5rem;
+            margin: 1.5rem auto;
             max-height: 320px !important;
             width: auto;
             max-width: 95%;
+            display: block;
+            text-align: center;
         }
 
         .login-left p {
@@ -649,7 +651,7 @@
             <!-- Left Side -->
             <div class="login-left text-center">
                 <h2 class="mb-4">MyYOGYA</h2>
-                <img src="{{ asset('image/shopping.png') }}" alt="Shopping Illustration" class="img-fluid">
+                <img src="{{ asset('image/illustration.png') }}" alt="Shopping Illustration" class="img-fluid">
                 <p class="mb-0">Selamat datang di platform belanja online terpercaya. Masuk untuk pengalaman berbelanja yang lebih personal.</p>
             </div>
 
@@ -667,11 +669,27 @@
                     </div>
                 @endif
 
-                <form action="" method="POST">
+                @if (session('success'))
+                    <div class="alert alert-success">
+                        {{ session('success') }}
+                    </div>
+                @endif
+
+                @if ($errors->any())
+                    <div class="alert alert-danger">
+                        <ul class="mb-0">
+                            @foreach ($errors->all() as $error)
+                                <li>{{ $error }}</li>
+                            @endforeach
+                        </ul>
+                    </div>
+                @endif
+
+                <form action="{{ route('pelanggan.login.submit') }}" method="POST">
                     @csrf
                     <div class="form-group floating-label">
-                        <input type="text" name="username" class="form-control" required autofocus>
-                        <label class="floating-label-text">Username atau Email</label>
+                        <input type="email" name="email" class="form-control" value="{{ old('email') }}" required autofocus>
+                        <label class="floating-label-text">Email</label>
                     </div>
                     <div class="form-group floating-label password-input-group">
                         <input type="password" name="password" class="form-control" required>

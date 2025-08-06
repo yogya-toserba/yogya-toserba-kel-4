@@ -1,15 +1,25 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\PelangganController;
+use App\Http\Controllers\DashboardController;
 
-// Pelanggan Routes
-Route::get('/login', function () {
-    return view('pelanggan.login');
-})->name('pelanggan.login');
+// Dashboard utama
+Route::get('/', [DashboardController::class, 'index'])->name('dashboard');
 
-Route::get('/register', function () {
-    return view('pelanggan.register');
-})->name('pelanggan.register');
+// AJAX routes for dashboard
+Route::post('/add-to-cart', [DashboardController::class, 'addToCart'])->name('add.to.cart');
+
+// Pelanggan Routes - login dan register dengan controller
+Route::prefix('pelanggan')->name('pelanggan.')->group(function () {
+    Route::get('/login', [PelangganController::class, 'showLogin'])->name('login');
+    Route::post('/login', [PelangganController::class, 'login'])->name('login.submit');
+
+    Route::get('/register', [PelangganController::class, 'showRegister'])->name('register');
+    Route::post('/register', [PelangganController::class, 'register'])->name('register.submit');
+
+    Route::post('/logout', [PelangganController::class, 'logout'])->name('logout');
+});
 
 // Gudang Routes
 Route::prefix('gudang')->name('gudang.')->group(function () {
