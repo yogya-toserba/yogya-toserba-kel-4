@@ -275,10 +275,12 @@ body {
 .register-left img {
     z-index: 1;
     position: relative;
-    margin-bottom: 1.5rem;
+    margin: 1.5rem auto;
     max-height: 320px !important;
     width: auto;
     max-width: 95%;
+    display: block;
+    text-align: center;
 }
 
 .register-left p {
