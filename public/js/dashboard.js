@@ -2,11 +2,12 @@
 document.addEventListener("DOMContentLoaded", function () {
     // Initialize components
     initPromoModal();
-    initCountdown();
+    initEnhancedCountdown();
     initCopyCode();
     initAddToCart();
     initNewsletter();
     initSearch();
+    initFlashSaleAnimations();
 });
 
 // Show promo modal on page load
@@ -21,10 +22,14 @@ function initPromoModal() {
     }, 1000);
 }
 
-// Countdown timer for flash sale
-function initCountdown() {
-    const timerElement = document.getElementById("timer");
-    if (!timerElement) return;
+// Enhanced countdown timer for flash sale
+function initEnhancedCountdown() {
+    const hoursElement = document.getElementById("hours");
+    const minutesElement = document.getElementById("minutes");
+    const secondsElement = document.getElementById("seconds");
+    const timerElement = document.getElementById("timer"); // Legacy timer
+
+    if (!hoursElement && !timerElement) return;
 
     // Set countdown to 24 hours from now
     const countdownDate = new Date().getTime() + 24 * 60 * 60 * 1000;
@@ -35,7 +40,14 @@ function initCountdown() {
 
         if (distance < 0) {
             clearInterval(countdown);
-            timerElement.innerHTML = "EXPIRED";
+            if (hoursElement) {
+                hoursElement.innerHTML = "00";
+                minutesElement.innerHTML = "00";
+                secondsElement.innerHTML = "00";
+            }
+            if (timerElement) {
+                timerElement.innerHTML = "EXPIRED";
+            }
             return;
         }
 
@@ -45,13 +57,108 @@ function initCountdown() {
         const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
         const seconds = Math.floor((distance % (1000 * 60)) / 1000);
 
-        timerElement.innerHTML =
-            String(hours).padStart(2, "0") +
-            ":" +
-            String(minutes).padStart(2, "0") +
-            ":" +
-            String(seconds).padStart(2, "0");
+        // Update enhanced timer
+        if (hoursElement) {
+            hoursElement.innerHTML = String(hours).padStart(2, "0");
+            minutesElement.innerHTML = String(minutes).padStart(2, "0");
+            secondsElement.innerHTML = String(seconds).padStart(2, "0");
+        }
+
+        // Update legacy timer
+        if (timerElement) {
+            timerElement.innerHTML =
+                String(hours).padStart(2, "0") +
+                ":" +
+                String(minutes).padStart(2, "0") +
+                ":" +
+                String(seconds).padStart(2, "0");
+        }
     }, 1000);
+}
+
+// Flash Sale Animations
+function initFlashSaleAnimations() {
+    // Add copy functionality for enhanced copy buttons
+    const copyButtons = document.querySelectorAll(".copy-btn");
+    copyButtons.forEach((button) => {
+        button.addEventListener("click", function () {
+            const code = this.getAttribute("data-code");
+
+            // Use modern clipboard API if available
+            if (navigator.clipboard && window.isSecureContext) {
+                navigator.clipboard.writeText(code).then(() => {
+                    showCopyFeedback(this);
+                });
+            } else {
+                // Fallback for older browsers
+                const tempInput = document.createElement("input");
+                tempInput.value = code;
+                document.body.appendChild(tempInput);
+                tempInput.select();
+                document.execCommand("copy");
+                document.body.removeChild(tempInput);
+                showCopyFeedback(this);
+            }
+
+            showToast(`Kode ${code} berhasil disalin!`, "success");
+        });
+    });
+
+    // Claim button interactions
+    const claimButtons = document.querySelectorAll(".claim-btn.available");
+    claimButtons.forEach((button) => {
+        button.addEventListener("click", function () {
+            // Add claiming animation
+            this.innerHTML =
+                '<i class="fas fa-spinner fa-spin"></i> Claiming...';
+            this.disabled = true;
+
+            setTimeout(() => {
+                this.innerHTML = '<i class="fas fa-check"></i> Claimed!';
+                this.classList.remove("available");
+                this.classList.add("claimed");
+                this.style.background = "#95a5a6";
+                showToast("Voucher berhasil diklaim!", "success");
+            }, 2000);
+        });
+    });
+
+    // Stats counter animation
+    animateCounters();
+}
+
+function showCopyFeedback(button) {
+    const originalIcon = button.innerHTML;
+    button.innerHTML = '<i class="fas fa-check"></i>';
+    button.style.background = "#4CAF50";
+
+    setTimeout(() => {
+        button.innerHTML = originalIcon;
+        button.style.background = "";
+    }, 1500);
+}
+
+function animateCounters() {
+    const counters = document.querySelectorAll(".stat-number");
+
+    counters.forEach((counter) => {
+        const target = counter.innerText.replace(/,/g, "");
+        const isTime = target.includes(":");
+
+        if (!isTime && !isNaN(target)) {
+            const increment = target / 100;
+            let current = 0;
+
+            const timer = setInterval(() => {
+                current += increment;
+                if (current >= target) {
+                    current = target;
+                    clearInterval(timer);
+                }
+                counter.innerText = Math.floor(current).toLocaleString();
+            }, 20);
+        }
+    });
 }
 
 // Copy voucher code functionality
