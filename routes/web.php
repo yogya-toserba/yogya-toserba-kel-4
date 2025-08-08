@@ -52,7 +52,7 @@ Route::get('/dashboard', function () {
 
 Route::prefix('admin')->name('admin.')->group(function () {
     // Authentication Routes
-    Route::get('/login', [AdminController::class, 'showLogin'])->name('login');
+    Route::get('/login', [AdminController::class, 'showLogin'])->name('admin.login');
     Route::post('/login', [AdminController::class, 'login'])->name('login.submit');
     Route::post('/logout', [AdminController::class, 'logout'])->name('logout');
     Route::get('/dashboard', [AdminController::class, 'dashboard'])->name('dashboard');
