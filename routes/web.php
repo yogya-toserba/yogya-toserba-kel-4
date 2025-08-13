@@ -3,7 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\PelangganController;
 use App\Http\Controllers\DashboardController;
-
+use App\Http\Controllers\ProductController;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\AdminProductController;
 use App\Http\Controllers\AdminOrderController;
@@ -39,8 +39,13 @@ Route::prefix('gudang')->name('gudang.')->group(function () {
         return view('gudang.manual');
     })->name('manual');
 
+    Route::get('/iventory', [ProductController::class, 'index'])->name('iventory');
+    Route::get('/inventory', [ProductController::class, 'index'])->name('inventory.index');
+    Route::get('/inventory/create', [ProductController::class, 'create'])->name('inventory.create');
+    Route::post('/inventory', [ProductController::class, 'store'])->name('inventory.store');
     // Route::post('/login', [App\Http\Controllers\GudangController::class, 'login'])->name('login.submit');
     // Route::get('/dashboard', [App\Http\Controllers\GudangController::class, 'dashboard'])->name('dashboard');
+
 });
 
 Route::get('/dashboard', function () {
