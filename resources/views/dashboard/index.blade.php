@@ -63,7 +63,7 @@
                                     <i class="fas fa-sign-in-alt me-1"></i>Login
                                 </a>
                                 <a href="{{ route('pelanggan.register') }}" class="btn btn-register">
-                                    <i class="fas fa-user-plus me-1"></i>Daftar
+                                    <i class="fas fa-user-plus me-1"></i>sasasassaassa
                                 </a>
                             </div>
                         @endguest
