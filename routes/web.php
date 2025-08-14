@@ -75,8 +75,11 @@ Route::prefix('admin')->name('admin.')->group(function () {
         return view('admin.pengaturan');
     })->name('pengaturan');
     Route::get('keuangan', function () {
-        return view('admin.keuangan');
+        return view('keuangan.app');
     })->name('keuangan');  
+    Route::get('/testing', function(){
+        return view('welcome');
+    });
 
     // // Password Reset Routes
     // Route::get('/forgot-password', [AdminPasswordResetController::class, 'showForgotForm'])
