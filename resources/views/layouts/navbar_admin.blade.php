@@ -10,29 +10,48 @@
     <!-- Font Awesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
+        :root {
+            --admin-bg: #0f172a; /* slate-900 */
+            --admin-bg-soft: #111827; /* gray-900 */
+            --admin-surface: #111827; /* gray-900 */
+            --admin-surface-2: #1f2937; /* gray-800 */
+            --admin-text: #e5e7eb; /* gray-200 */
+            --admin-text-dim: #9ca3af; /* gray-400 */
+            --admin-primary: #22c55e; /* emerald-500 */
+            --admin-primary-600: #16a34a; /* emerald-600 */
+            --admin-hover: #374151; /* gray-700 */
+        }
+
         #sidebar {
             min-height: 100vh;
             width: 250px;
             transition: all 0.3s;
-            background: #343a40;
-            color: #fff;
+            background: linear-gradient(180deg, var(--admin-bg) 0%, var(--admin-surface) 100%);
+            color: var(--admin-text);
         }
         .content {
             width: calc(100% - 250px);
             min-height: 100vh;
+            background: #f8fafc; /* slate-50 */
         }
         .sidebar-link {
-            color: #fff;
+            color: var(--admin-text);
             text-decoration: none;
             padding: 10px 15px;
             display: block;
+            border-radius: 8px;
+            margin: 4px 8px;
         }
         .sidebar-link:hover {
-            background: #495057;
-            color: #fff;
+            background: var(--admin-hover);
+            color: var(--admin-text);
         }
         .sidebar-link.active {
-            background: #0d6efd;
+            background: rgba(34, 197, 94, 0.2);
+            color: var(--admin-primary);
+        }
+        .navbar {
+            background: #ffffff !important;
         }
         @media (max-width: 768px) {
             #sidebar {
@@ -87,7 +106,7 @@
         <!-- Main Content -->
         <div class="content">
             <!-- Navbar -->
-            <nav class="navbar navbar-expand-lg  shadow-sm" style="background-color: #ffffffff;">
+            <nav class="navbar navbar-expand-lg shadow-sm">
                 <div class="container-fluid">
                     <button class="btn btn-link" id="sidebarCollapse">
                         <i class="fas fa-bars"></i>
@@ -99,8 +118,8 @@
                                 <i class="fas fa-user-circle me-1"></i> Admin
                             </button>
                             <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="dropdownMenuButton">
-                                <li><a class="dropdown-item" href="{{ route('admin.dashboard') }}">Profile</a></li>
-                                <li><a class="dropdown-item" href="{{ route('admin.dashboard') }}">Settings</a></li>
+                                <li><a class="dropdown-item" href="{{ route('admin.profile') }}">Profile</a></li>
+                                <li><a class="dropdown-item" href="{{ route('admin.pengaturan') }}">Settings</a></li>
                                 <li><hr class="dropdown-divider"></li>
                                 <li>
                                     <form action="{{ route('admin.logout') }}" method="POST">

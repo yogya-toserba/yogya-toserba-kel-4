@@ -23,48 +23,81 @@ function initPromoModal() {
 }
 
 // Enhanced countdown timer for flash sale
+// Counts down to the next 12:00 WIB (Asia/Jakarta) in real time
 function initEnhancedCountdown() {
     const hoursElement = document.getElementById("hours");
     const minutesElement = document.getElementById("minutes");
     const secondsElement = document.getElementById("seconds");
-    const timerElement = document.getElementById("timer"); // Legacy timer
+    const timerElement = document.getElementById("timer"); // text HH:MM:SS
 
     if (!hoursElement && !timerElement) return;
 
-    // Set countdown to 24 hours from now
-    const countdownDate = new Date().getTime() + 24 * 60 * 60 * 1000;
+    function getWIBParts(d = new Date()) {
+        const fmt = new Intl.DateTimeFormat("en-CA", {
+            timeZone: "Asia/Jakarta",
+            year: "numeric",
+            month: "2-digit",
+            day: "2-digit",
+            hour: "2-digit",
+            minute: "2-digit",
+            second: "2-digit",
+            hour12: false,
+        });
+        const parts = fmt
+            .formatToParts(d)
+            .reduce((acc, p) => ((acc[p.type] = p.value), acc), {});
+        return {
+            year: Number(parts.year),
+            month: Number(parts.month),
+            day: Number(parts.day),
+            hour: Number(parts.hour),
+            minute: Number(parts.minute),
+            second: Number(parts.second),
+        };
+    }
 
-    const countdown = setInterval(() => {
-        const now = new Date().getTime();
-        const distance = countdownDate - now;
+    function nextWIBNoon() {
+        const nowParts = getWIBParts();
+        let y = nowParts.year,
+            m = nowParts.month,
+            d = nowParts.day;
+        // If current WIB time is past or at 12:00:00, target is tomorrow 12:00:00
+        if (
+            nowParts.hour > 12 ||
+            (nowParts.hour === 12 &&
+                (nowParts.minute > 0 || nowParts.second > 0))
+        ) {
+            const date = new Date(Date.UTC(y, m - 1, d));
+            date.setUTCDate(date.getUTCDate() + 1);
+            y = date.getUTCFullYear();
+            m = date.getUTCMonth() + 1;
+            d = date.getUTCDate();
+        }
+        // Build a UTC date that corresponds to WIB 12:00 (UTC+7 => UTC time is 05:00)
+        const targetUTC = Date.UTC(y, m - 1, d, 12 - 7, 0, 0, 0);
+        return new Date(targetUTC);
+    }
 
+    function update() {
+        const target = nextWIBNoon();
+        const now = new Date();
+        let distance = target.getTime() - now.getTime();
+
+        // If negative (edge case), recompute next target
         if (distance < 0) {
-            clearInterval(countdown);
-            if (hoursElement) {
-                hoursElement.innerHTML = "00";
-                minutesElement.innerHTML = "00";
-                secondsElement.innerHTML = "00";
-            }
-            if (timerElement) {
-                timerElement.innerHTML = "EXPIRED";
-            }
-            return;
+            distance = nextWIBNoon().getTime() - Date.now();
         }
 
-        const hours = Math.floor(
-            (distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)
-        );
-        const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
-        const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+        const totalSeconds = Math.max(0, Math.floor(distance / 1000));
+        const hours = Math.floor((totalSeconds % (24 * 3600)) / 3600);
+        const minutes = Math.floor((totalSeconds % 3600) / 60);
+        const seconds = totalSeconds % 60;
 
-        // Update enhanced timer
         if (hoursElement) {
             hoursElement.innerHTML = String(hours).padStart(2, "0");
             minutesElement.innerHTML = String(minutes).padStart(2, "0");
             secondsElement.innerHTML = String(seconds).padStart(2, "0");
         }
-
-        // Update legacy timer
         if (timerElement) {
             timerElement.innerHTML =
                 String(hours).padStart(2, "0") +
@@ -73,7 +106,10 @@ function initEnhancedCountdown() {
                 ":" +
                 String(seconds).padStart(2, "0");
         }
-    }, 1000);
+    }
+
+    update();
+    setInterval(update, 1000);
 }
 
 // Flash Sale Animations

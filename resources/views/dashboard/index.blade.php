@@ -12,8 +12,10 @@
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
     <!-- Google Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
-    <!-- Custom CSS -->
-    <link href="{{ asset('css/dashboard_backup.css') }}" rel="stylesheet">
+    <!-- Custom CSS (consolidated) -->
+    <link href="{{ asset('css/dashboard.css') }}" rel="stylesheet">
+    <!-- Google Fonts - Roboto Mono -->
+    <link href="https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
 </head>
 <body>
     <!-- Enhanced Promo Notification Modal -->
@@ -285,38 +287,90 @@
 
     <!-- Flash Sale Section -->
     <section class="flash-sale" id="flash-sale">
-        <div class="container">
-            <div class="section-header">
-                <h2 class="section-title">
-                    <i class="fas fa-bolt text-warning me-2"></i>Flash Sale
-                    <span class="countdown" id="countdown">Berakhir dalam: <span id="timer">12:34:56</span></span>
-                </h2>
+        <div class="flash-sale-wrapper">
+            <!-- Section Header -->
+            <div class="flash-sale-header">
+                <h2 class="section-title"><i class="fas fa-bolt"></i> Flash Sale</h2>
             </div>
-            
-            <div class="row">
-                @foreach($flashSaleVouchers as $voucher)
-                    <div class="col-lg-3 col-md-6 mb-4">
-                        <div class="voucher-card">
-                            <div class="voucher-discount">{{ $voucher['discount'] }}</div>
-                            <div class="voucher-details">
-                                <p class="voucher-min">{{ $voucher['min_purchase'] }}</p>
-                                <div class="voucher-code">
-                                    <span>Kode: {{ $voucher['code'] }}</span>
-                                    <button class="btn btn-sm btn-outline-primary copy-code" data-code="{{ $voucher['code'] }}">
-                                        <i class="fas fa-copy"></i>
-                                    </button>
-                                </div>
-                            </div>
-                            <div class="voucher-claim">
-                                <button class="btn btn-warning btn-sm">Claim Voucher</button>
-                            </div>
+            <div class="flash-sale-subheader">
+                <div class="flash-sale-timer">
+                    <span class="timer-text">Berakhir dalam:</span>
+                    <span class="timer-value" id="timer">23:59:41</span>
+                </div>
+            </div>
+
+            <!-- Voucher Grid -->
+            <div class="flash-sale-grid">
+                <!-- 70% Voucher -->
+                <div class="voucher-item">
+                    <div class="voucher-header">
+                        <div class="discount-badge">70%</div>
+                        <div class="min-purchase">MINIMAL PEMBELIAN Rp 200.000</div>
+                    </div>
+                    <div class="voucher-box">
+                        <div class="code-info">
+                            <span class="code">FLASH70</span>
+                            <button class="copy-btn" data-code="FLASH70">
+                                <i class="fas fa-copy"></i>
+                            </button>
                         </div>
                     </div>
-                @endforeach
+                    <button class="claim-btn available" aria-label="Klaim voucher FLASH70">KLAIM SEKARANG</button>
+                </div>
+
+                <!-- 50% Voucher -->
+                <div class="voucher-item">
+                    <div class="voucher-header">
+                        <div class="discount-badge">50%</div>
+                        <div class="min-purchase">MINIMAL PEMBELIAN Rp 150.000</div>
+                    </div>
+                    <div class="voucher-box">
+                        <div class="code-info">
+                            <span class="code">SAVE50</span>
+                            <button class="copy-btn" data-code="SAVE50">
+                                <i class="fas fa-copy"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <button class="claim-btn available" aria-label="Klaim voucher SAVE50">KLAIM SEKARANG</button>
+                </div>
+
+                <!-- 30% Voucher -->
+                <div class="voucher-item">
+                    <div class="voucher-header">
+                        <div class="discount-badge">30%</div>
+                        <div class="min-purchase">MINIMAL PEMBELIAN Rp 100.000</div>
+                    </div>
+                    <div class="voucher-box">
+                        <div class="code-info">
+                            <span class="code">DISC30</span>
+                            <button class="copy-btn" data-code="DISC30">
+                                <i class="fas fa-copy"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <button class="claim-btn available" aria-label="Klaim voucher DISC30">KLAIM SEKARANG</button>
+                </div>
+
+                <!-- Free Shipping Voucher -->
+                <div class="voucher-item">
+                    <div class="voucher-header">
+                        <div class="discount-badge">GRATIS ONGKIR</div>
+                        <div class="min-purchase">MINIMAL PEMBELIAN Rp 75.000</div>
+                    </div>
+                    <div class="voucher-box">
+                        <div class="code-info">
+                            <span class="code">FREESHIP</span>
+                            <button class="copy-btn" data-code="FREESHIP">
+                                <i class="fas fa-copy"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <button class="claim-btn available" aria-label="Klaim voucher FREESHIP">KLAIM SEKARANG</button>
+                </div>
             </div>
         </div>
     </section>
-
     <!-- Categories Section -->
     <section class="categories">
         <div class="container">
@@ -350,8 +404,8 @@
             
             <div class="row">
                 @foreach($popularProducts as $product)
-                    <div class="col-lg-3 col-md-6 mb-4">
-                        <div class="product-card">
+                    <div class="col-lg-3 col-md-6 mb-4 d-flex">
+                        <div class="product-card w-100">
                             <div class="product-image">
                                 <img src="{{ asset('image/illustration.png') }}" alt="{{ $product['name'] }}" class="img-fluid">
                                 <div class="product-badge">
@@ -427,8 +481,7 @@
             <div class="row">
                 <div class="col-lg-4 col-md-6 mb-4">
                     <div class="footer-brand">
-                        <img src="{{ asset('image/logo_yogya.png') }}" alt="MyYOGYA" height="40" class="mb-3">
-                        <h5>MyYOGYA</h5>
+                        <h5 class="mb-2">MyYOGYA</h5>
                         <p>Platform belanja online terpercaya dengan ribuan produk berkualitas dan pelayanan terbaik untuk kepuasan Anda.</p>
                     </div>
                 </div>
@@ -475,7 +528,7 @@
                     <p class="footer-text">&copy; 2025 MyYOGYA. All rights reserved.</p>
                 </div>
                 <div class="col-md-6 text-md-end">
-                    <p class="footer-text">Made with <i class="fas fa-heart text-danger"></i> in Indonesia</p>
+                    <p class="footer-text">Made from Selenium in Indonesia</p>
                 </div>
             </div>
         </div>
