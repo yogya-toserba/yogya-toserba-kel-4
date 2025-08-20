@@ -84,7 +84,7 @@
                         <span class="brand-text">MyYOGYA</span>
                         <span class="brand-tagline">Belanja Pintar</span>
                     </div>
-                </div>
+                 </div>
             </a>
 
             <!-- Search Bar -->
@@ -318,27 +318,30 @@
     </section>
 
     <!-- Categories Section -->
-    <section class="categories">
-        <div class="container">
-            <div class="section-header">
-                <h2 class="section-title">Kategori Populer</h2>
-                <p class="section-subtitle">Temukan produk sesuai kebutuhan Anda</p>
-            </div>
-            
-            <div class="row">
-                @foreach($categories as $category)
-                    <div class="col-lg-3 col-md-4 col-6 mb-4">
+<section class="categories">
+    <div class="container">
+        <div class="section-header">
+            <h2 class="section-title">Kategori Populer</h2>
+            <p class="section-subtitle">Temukan produk sesuai kebutuhan Anda</p>
+        </div>
+        
+        <div class="row">
+            @foreach($categories as $category)
+                <div class="col-lg-3 col-md-4 col-6 mb-4">
+                    <a href="{{ $category['url'] }}" class="text-decoration-none">
                         <div class="category-card" style="--category-color: {{ $category['color'] }}">
                             <div class="category-icon">
                                 <i class="{{ $category['icon'] }}"></i>
                             </div>
                             <h5 class="category-name">{{ $category['name'] }}</h5>
                         </div>
-                    </div>
-                @endforeach
-            </div>
+                    </a>
+                </div>
+            @endforeach
         </div>
-    </section>
+    </div>
+</section>
+
 
     <!-- Popular Products Section -->
     <section class="popular-products">

@@ -43,9 +43,21 @@ Route::prefix('gudang')->name('gudang.')->group(function () {
     // Route::get('/dashboard', [App\Http\Controllers\GudangController::class, 'dashboard'])->name('dashboard');
 });
 
+// Dashboard route
 Route::get('/dashboard', function () {
     return view('dashboard.index');
 })->name('dashboard.index');
+
+// Route kategori elektronik
+Route::get('/kategori/elektronik', function () {
+    return view('dashboard.kategori.elektronik');
+})->name('kategori.elektronik');
+
+// Route kategori fashion
+Route::get('/kategori/fashion', function () {
+    return view('dashboard.kategori.fashion');
+})->name('kategori.fashion');
+
 
 // Route::post('/pelanggan/login', [App\Http\Controllers\PelangganController::class, 'login'])->name('pelanggan.login.submit');
 // Route::post('/pelanggan/register', [App\Http\Controllers\PelangganController::class, 'register'])->name('pelanggan.register.submit');

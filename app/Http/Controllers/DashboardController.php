@@ -38,15 +38,16 @@ class DashboardController extends Controller
 
     // Data kategori
     $categories = [
-      ['name' => 'Elektronik', 'icon' => 'fas fa-laptop', 'color' => '#3498db'],
-      ['name' => 'Fashion', 'icon' => 'fas fa-tshirt', 'color' => '#e74c3c'],
-      ['name' => 'Makanan', 'icon' => 'fas fa-hamburger', 'color' => '#f39c12'],
-      ['name' => 'Perawatan', 'icon' => 'fas fa-spa', 'color' => '#9b59b6'],
-      ['name' => 'Rumah Tangga', 'icon' => 'fas fa-home', 'color' => '#1abc9c'],
-      ['name' => 'Olahraga', 'icon' => 'fas fa-dumbbell', 'color' => '#34495e'],
-      ['name' => 'Otomotif', 'icon' => 'fas fa-car', 'color' => '#e67e22'],
-      ['name' => 'Buku', 'icon' => 'fas fa-book', 'color' => '#95a5a6']
+        ['name' => 'Elektronik', 'icon' => 'fas fa-laptop', 'color' => '#3498db', 'url' => '/kategori/elektronik'],
+        ['name' => 'Fashion', 'icon' => 'fas fa-tshirt', 'color' => '#e74c3c', 'url' => '/kategori/fashion'],
+        ['name' => 'Makanan', 'icon' => 'fas fa-hamburger', 'color' => '#f39c12', 'url' => '/kategori/makanan'],
+        ['name' => 'Perawatan', 'icon' => 'fas fa-spa', 'color' => '#9b59b6', 'url' => '/kategori/perawatan'],
+        ['name' => 'Rumah Tangga', 'icon' => 'fas fa-home', 'color' => '#1abc9c', 'url' => '/kategori/rumah-tangga'],
+        ['name' => 'Olahraga', 'icon' => 'fas fa-dumbbell', 'color' => '#34495e', 'url' => '/kategori/olahraga'],
+        ['name' => 'Otomotif', 'icon' => 'fas fa-car', 'color' => '#e67e22', 'url' => '/kategori/otomotif'],
+        ['name' => 'Buku', 'icon' => 'fas fa-book', 'color' => '#95a5a6', 'url' => '/kategori/buku'],
     ];
+
 
     // Data flash sale voucher
     $flashSaleVouchers = [
