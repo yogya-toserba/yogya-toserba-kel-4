@@ -9,7 +9,12 @@ return new class extends Migration {
     {
         Schema::create('kas', function (Blueprint $table) {
             $table->id('id_kas');
-            $table->foreignId('id_cabang')->constrained('cabang')->onDelete('cascade');
+            $table->unsignedBigInteger('id_cabang');
+            $table->foreign('id_cabang')
+                ->references('id_cabang')
+                ->on('cabang')
+                ->onDelete('cascade');
+
             $table->string('referensi');
             $table->string('jenis_transaksi');
             $table->decimal('jumlah', 15, 2);

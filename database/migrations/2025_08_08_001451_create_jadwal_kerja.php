@@ -7,19 +7,21 @@ use Illuminate\Support\Facades\Schema;
 return new class extends Migration {
     public function up(): void
     {
-        Schema::create('gaji', function (Blueprint $table) {
-            $table->id('id_gaji');
+        Schema::create('jadwal_kerja', function (Blueprint $table) {
+            $table->id('id_jadwal');
             $table->unsignedBigInteger('id_karyawan');
             $table->foreign('id_karyawan')->references('id_karyawan')->on('karyawan')->onDelete('cascade');
-            $table->unsignedBigInteger('id_absensi');
-            $table->foreign('id_absensi')->references('id_absensi')->on('absensi')->onDelete('cascade');
-            $table->decimal('jumlah_gaji', 15, 2);
+
+            $table->unsignedBigInteger('id_shift');
+            $table->foreign('id_shift')->references('id_shift')->on('shift')->onDelete('cascade');
+
+            $table->date('tanggal');
             $table->timestamps();
         });
     }
 
     public function down(): void
     {
-        Schema::dropIfExists('gaji');
+        Schema::dropIfExists('jadwal_kerja');
     }
 };

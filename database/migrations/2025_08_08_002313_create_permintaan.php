@@ -9,8 +9,19 @@ return new class extends Migration {
     {
         Schema::create('permintaan', function (Blueprint $table) {
             $table->id('id_permintaan');
-            $table->foreignId('id_cabang')->constrained('cabang')->onDelete('cascade');
-            $table->foreignId('id_produk')->constrained('stok_produk')->onDelete('cascade');
+
+            $table->unsignedBigInteger('id_cabang');
+            $table->foreign('id_cabang')
+                  ->references('id_cabang')
+                  ->on('cabang')
+                  ->onDelete('cascade');
+
+            $table->unsignedBigInteger('id_produk');
+            $table->foreign('id_produk')
+                  ->references('id_produk')
+                  ->on('stok_produk')
+                  ->onDelete('cascade');
+
             $table->date('tanggal_permintaan');
             $table->string('status');
             $table->string('prioritas')->nullable();

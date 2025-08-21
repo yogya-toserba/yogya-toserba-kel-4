@@ -9,8 +9,19 @@ return new class extends Migration {
     {
         Schema::create('detail_transaksi', function (Blueprint $table) {
             $table->id('id_detail_penjualan');
-            $table->foreignId('id_transaksi')->constrained('transaksi')->onDelete('cascade');
-            $table->foreignId('id_produk')->constrained('stok_produk')->onDelete('cascade');
+
+            $table->unsignedBigInteger('id_transaksi');
+            $table->foreign('id_transaksi')
+                  ->references('id_transaksi')
+                  ->on('transaksi')
+                  ->onDelete('cascade');
+
+            $table->unsignedBigInteger('id_produk');
+            $table->foreign('id_produk')
+                  ->references('id_produk')
+                  ->on('stok_produk')
+                  ->onDelete('cascade');
+
             $table->string('nama_barang');
             $table->integer('jumlah_barang');
             $table->decimal('total_harga', 15, 2);

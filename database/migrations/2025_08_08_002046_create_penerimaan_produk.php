@@ -9,9 +9,25 @@ return new class extends Migration {
     {
         Schema::create('penerimaan_produk', function (Blueprint $table) {
             $table->id('id_penerimaan');
-            $table->foreignId('id_pengiriman')->constrained('pengiriman_produk')->onDelete('cascade');
-            $table->foreignId('id_produk')->constrained('stok_produk')->onDelete('cascade');
-            $table->foreignId('id_cabang')->constrained('cabang')->onDelete('cascade');
+
+            $table->unsignedBigInteger('id_pengiriman');
+            $table->foreign('id_pengiriman')
+                  ->references('id_pengiriman')
+                  ->on('pengiriman_produk')
+                  ->onDelete('cascade');
+
+            $table->unsignedBigInteger('id_produk');
+            $table->foreign('id_produk')
+                  ->references('id_produk')
+                  ->on('stok_produk')
+                  ->onDelete('cascade');
+
+            $table->unsignedBigInteger('id_cabang');
+            $table->foreign('id_cabang')
+                  ->references('id_cabang')
+                  ->on('cabang')
+                  ->onDelete('cascade');
+
             $table->integer('jumlah');
             $table->date('tanggal_terima');
             $table->timestamps();
