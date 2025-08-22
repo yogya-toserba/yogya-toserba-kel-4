@@ -12,6 +12,7 @@ return new class extends Migration {
             $table->string('nama_produk');
             $table->string('satuan');
             $table->integer('jumlah');
+            $table->string('foto');
             $table->date('expired')->nullable();
             $table->timestamps();
         });

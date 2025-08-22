@@ -9,7 +9,13 @@ return new class extends Migration {
     {
         Schema::create('pengaduan_pelanggan', function (Blueprint $table) {
             $table->id('id_pengaduan');
-            $table->foreignId('id_customer')->constrained('pelanggan')->onDelete('cascade');
+
+            $table->unsignedBigInteger('id_pelanggan');
+            $table->foreign('id_pelanggan')
+                  ->references('id_pelanggan')
+                  ->on('pelanggan')
+                  ->onDelete('cascade');
+
             $table->string('kategori');
             $table->text('deskripsi');
             $table->string('status')->nullable();

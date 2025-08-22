@@ -9,7 +9,13 @@ return new class extends Migration {
     {
         Schema::create('detail_pembelian', function (Blueprint $table) {
             $table->id('id_detail_pembelian');
-            $table->foreignId('id_pembelian')->constrained('pembelian')->onDelete('cascade');
+
+            $table->unsignedBigInteger('id_pembelian');
+            $table->foreign('id_pembelian')
+                  ->references('id_pembelian')
+                  ->on('pembelian')
+                  ->onDelete('cascade');
+
             $table->string('nama_produk');
             $table->integer('jumlah_produk');
             $table->decimal('total_harga', 15, 2);
