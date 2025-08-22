@@ -3,106 +3,749 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>@yield('title', 'Yogya Toserba')</title>
+    <title>@yield('title', 'MyYOGYA - Belanja Online Terpercaya')</title>
+    <meta name="csrf-token" content="{{ csrf_token() }}">
     
-    <!-- Tailwind CSS -->
-    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Font Awesome -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <!-- Custom CSS -->
+    <link href="{{ asset('css/dashboard.css') }}" rel="stylesheet">
     
-    <!-- Custom Styles -->
     <style>
-        .line-clamp-2 {
+        /* Category specific styles */
+        .category-header {
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            color: white;
+            padding: 80px 0 60px;
+            margin-bottom: 50px;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .category-header::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.05'%3E%3Ccircle cx='30' cy='30' r='2'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E") repeat;
+        }
+        
+        .category-header .container {
+            position: relative;
+            z-index: 1;
+        }
+        
+        .category-header h1 {
+            font-size: 3.5rem;
+            margin-bottom: 20px;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            font-weight: 700;
+        }
+        
+        .category-header .lead {
+            font-size: 1.25rem;
+            opacity: 0.95;
+            max-width: 600px;
+            line-height: 1.6;
+        }
+        
+        .breadcrumb-custom {
+            background: rgba(255, 255, 255, 0.15);
+            backdrop-filter: blur(10px);
+            border-radius: 12px;
+            padding: 12px 20px;
+            margin-bottom: 30px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+        
+        .breadcrumb-custom a {
+            color: rgba(255, 255, 255, 0.85);
+            text-decoration: none;
+            font-weight: 500;
+            transition: var(--transition);
+        }
+        
+        .breadcrumb-custom a:hover {
+            color: white;
+            text-decoration: underline;
+        }
+        
+        .filter-section {
+            background: white;
+            border-radius: 16px;
+            box-shadow: 0 8px 32px rgba(0,0,0,0.1);
+            padding: 32px;
+            margin-bottom: 50px;
+            border: 1px solid rgba(242, 107, 55, 0.1);
+        }
+        
+        .filter-section .form-select {
+            border: 2px solid #e9ecef;
+            border-radius: 12px;
+            padding: 14px 18px;
+            font-weight: 500;
+            font-size: 14px;
+            transition: var(--transition);
+            background-color: #f8f9fa;
+            color: #495057;
+        }
+        
+        .filter-section .form-select:focus {
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 0.25rem rgba(242, 107, 55, 0.25);
+            background-color: white;
+            outline: none;
+        }
+        
+        .filter-section .form-select:hover {
+            border-color: var(--primary-color);
+            background-color: white;
+        }
+        
+        .product-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+            gap: 32px;
+            margin-bottom: 60px;
+        }
+        
+        .product-card {
+            background: white;
+            border-radius: 16px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+            overflow: hidden;
+            transition: all 0.3s ease;
+            border: 1px solid rgba(242, 107, 55, 0.1);
+            position: relative;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .product-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 12px 40px rgba(0,0,0,0.15);
+            border-color: var(--primary-color);
+        }
+        
+        .product-image {
+            position: relative;
+            overflow: hidden;
+            height: 220px;
+            background: #f8f9fa;
+        }
+        
+        .product-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: var(--transition);
+        }
+        
+        .product-card:hover .product-image img {
+            transform: scale(1.05);
+        }
+        
+        .discount-badge {
+            position: absolute;
+            top: 16px;
+            left: 16px;
+            background: linear-gradient(135deg, #dc3545, #c82333);
+            color: white;
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 700;
+            box-shadow: 0 2px 8px rgba(220, 53, 69, 0.3);
+            z-index: 2;
+        }
+        
+        .wishlist-btn {
+            position: absolute;
+            top: 16px;
+            right: 16px;
+            background: white;
+            border: none;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 2px 12px rgba(0,0,0,0.1);
+            opacity: 0;
+            transition: all 0.3s ease;
+            color: #6c757d;
+            z-index: 2;
+        }
+        
+        .product-card:hover .wishlist-btn {
+            opacity: 1;
+            transform: scale(1.1);
+        }
+        
+        .wishlist-btn:hover {
+            background: var(--primary-color);
+            color: white;
+        }
+        
+        .product-info {
+            padding: 24px;
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .product-title {
+            font-size: 15px;
+            font-weight: 600;
+            color: var(--text-dark);
+            margin-bottom: 12px;
             display: -webkit-box;
             -webkit-line-clamp: 2;
             -webkit-box-orient: vertical;
             overflow: hidden;
+            line-height: 1.4;
+            min-height: 42px;
+        }
+        
+        .product-rating {
+            display: flex;
+            align-items: center;
+            margin-bottom: 12px;
+        }
+        
+        .stars {
+            color: #ffc107;
+            margin-right: 8px;
+            font-size: 14px;
+        }
+        
+        .review-count {
+            font-size: 12px;
+            color: var(--text-light);
+            font-weight: 500;
+        }
+        
+        .product-price {
+            display: flex;
+            align-items: center;
+            margin-bottom: 16px;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+        
+        .current-price {
+            font-size: 18px;
+            font-weight: 700;
+            color: var(--primary-color);
+        }
+        
+        .original-price {
+            font-size: 14px;
+            color: var(--text-light);
+            text-decoration: line-through;
+            font-weight: 500;
+        }
+        
+        .add-to-cart-btn {
+            width: 100%;
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            color: white;
+            border: none;
+            padding: 14px 20px;
+            border-radius: 12px;
+            font-weight: 600;
+            font-size: 14px;
+            transition: all 0.3s ease;
+            margin-top: auto;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        
+        .add-to-cart-btn:hover {
+            background: linear-gradient(135deg, var(--secondary-color), #d63c20);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(242, 107, 55, 0.4);
+        }
+        
+        .pagination-custom {
+            display: flex;
+            justify-content: center;
+            margin-top: 60px;
+        }
+        
+        .pagination-custom .page-link {
+            color: var(--primary-color);
+            border: 2px solid var(--border-color);
+            margin: 0 4px;
+            border-radius: 12px;
+            padding: 12px 18px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            background: white;
+        }
+        
+        .pagination-custom .page-link:hover {
+            background: var(--primary-color);
+            color: white;
+            border-color: var(--primary-color);
+            transform: translateY(-2px);
+        }
+        
+        .pagination-custom .page-item.active .page-link {
+            background: var(--primary-color);
+            border-color: var(--primary-color);
+            color: white;
+            box-shadow: 0 4px 15px rgba(242, 107, 55, 0.3);
+        }
+        
+        .pagination-custom .page-item.disabled .page-link {
+            color: var(--text-light);
+            background: #f8f9fa;
+            border-color: var(--border-color);
+        }
+        
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .category-header {
+                padding: 60px 0 40px;
+            }
+            
+            .category-header h1 {
+                font-size: 2.5rem;
+            }
+            
+            .filter-section {
+                padding: 20px;
+            }
+            
+            .product-grid {
+                grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+                gap: 20px;
+            }
+            
+            .filter-section .row .col-md-3 {
+                margin-bottom: 15px;
+            }
+        }
+        
+        @media (max-width: 576px) {
+            .category-header h1 {
+                font-size: 2rem;
+            }
+            
+            .product-grid {
+                grid-template-columns: 1fr;
+                gap: 16px;
+            }
+            
+            .filter-section {
+                padding: 16px;
+            }
+            
+            .product-info {
+                padding: 16px;
+            }
+        }
+        
+        /* Loading Animation */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        .product-card {
+            animation: fadeInUp 0.6s ease forwards;
+        }
+        
+        .product-card:nth-child(1) { animation-delay: 0.1s; }
+        .product-card:nth-child(2) { animation-delay: 0.2s; }
+        .product-card:nth-child(3) { animation-delay: 0.3s; }
+        .product-card:nth-child(4) { animation-delay: 0.4s; }
+        .product-card:nth-child(5) { animation-delay: 0.5s; }
+        .product-card:nth-child(6) { animation-delay: 0.6s; }
+        
+        /* Footer Styles */
+        .footer-custom {
+            background: linear-gradient(135deg, #2c3e50 0%, #34495e 100%);
+            color: #ecf0f1;
+            padding: 50px 0 20px;
+            border-top: 4px solid var(--primary-color);
+        }
+        
+        .footer-brand {
+            color: var(--primary-color);
+            font-size: 24px;
+            font-weight: 700;
+            margin-bottom: 15px;
+        }
+        
+        .footer-description {
+            color: #bdc3c7;
+            line-height: 1.6;
+            margin-bottom: 0;
+        }
+        
+        .footer-title {
+            color: white;
+            font-size: 16px;
+            font-weight: 600;
+            margin-bottom: 20px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        
+        .footer-links {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+        
+        .footer-links li {
+            margin-bottom: 8px;
+        }
+        
+        .footer-link {
+            color: #bdc3c7;
+            text-decoration: none;
+            transition: color 0.3s ease;
+            font-size: 14px;
+        }
+        
+        .footer-link:hover {
+            color: var(--primary-color);
+            text-decoration: none;
+        }
+        
+        .footer-contact .contact-item {
+            color: #bdc3c7;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            font-size: 14px;
+        }
+        
+        .footer-contact .contact-item i {
+            color: var(--primary-color);
+            width: 20px;
+        }
+        
+        .footer-social {
+            margin-top: 20px;
+        }
+        
+        .social-link {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 40px;
+            height: 40px;
+            background: rgba(255, 255, 255, 0.1);
+            color: #bdc3c7;
+            border-radius: 50%;
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+        
+        .social-link:hover {
+            background: var(--primary-color);
+            color: white;
+            transform: translateY(-3px);
+        }
+        
+        .footer-divider {
+            border: none;
+            height: 1px;
+            background: linear-gradient(to right, transparent, rgba(189, 195, 199, 0.3), transparent);
+            margin: 30px 0 20px;
+        }
+        
+        .footer-bottom {
+            padding-top: 20px;
+        }
+        
+        .copyright {
+            color: #95a5a6;
+            font-size: 14px;
+            margin: 0;
+        }
+        
+        /* Footer Responsive */
+        @media (max-width: 768px) {
+            .footer-custom {
+                padding: 40px 0 20px;
+            }
+            
+            .footer-brand {
+                text-align: center;
+            }
+            
+            .footer-social {
+                text-align: center;
+            }
+        }
+        
+        /* Enhanced Search Container */
+        .search-container {
+            max-width: 480px;
+            width: 100%;
+            position: relative;
+            margin: 0 30px;
+        }
+
+        .search-wrapper {
+            position: relative;
+            display: flex;
+            background: var(--white);
+            border-radius: 25px;
+            box-shadow: 0 3px 15px rgba(0, 0, 0, 0.08);
+            border: 2px solid rgba(242, 107, 55, 0.1);
+            transition: var(--transition);
+            overflow: hidden;
+            height: 50px;
+        }
+
+        .search-wrapper:hover {
+            box-shadow: 0 5px 20px rgba(242, 107, 55, 0.12);
+            border-color: rgba(242, 107, 55, 0.25);
+            transform: translateY(-1px);
+        }
+
+        .search-wrapper:focus-within {
+            border-color: var(--primary-color);
+            box-shadow: 0 6px 25px rgba(242, 107, 55, 0.2);
+            transform: translateY(-2px);
+        }
+
+        .search-input {
+            border: none;
+            padding: 14px 18px;
+            font-size: 14px;
+            flex: 1;
+            background: transparent;
+            color: var(--text-dark);
+            font-weight: 500;
+            border-radius: 25px 0 0 25px;
+        }
+
+        .search-input:focus {
+            outline: none;
+            box-shadow: none;
+        }
+
+        .search-input::placeholder {
+            color: var(--text-light);
+            font-weight: 400;
+        }
+
+        .search-btn {
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            border: none;
+            color: var(--white);
+            padding: 0 18px;
+            cursor: pointer;
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 14px;
+            width: 50px;
+            border-radius: 0 25px 25px 0;
+        }
+
+        .search-btn:hover {
+            background: linear-gradient(135deg, var(--secondary-color), #d04119);
+            transform: scale(1.02);
+        }
+        
+        /* Enhanced Navbar Styling */
+        .navbar {
+            background: white !important;
+            box-shadow: 0 2px 20px rgba(0, 0, 0, 0.08) !important;
+            padding: 10px 0;
+            border-bottom: 1px solid rgba(242, 107, 55, 0.1);
+        }
+        
+        .navbar-brand img {
+            transition: var(--transition);
+        }
+        
+        .navbar-brand:hover img {
+            transform: scale(1.05);
+        }
+        
+        /* Cart and User Actions */
+        .nav-icon-wrapper {
+            position: relative;
+            display: inline-block;
+            padding: 8px 12px;
+            border-radius: 10px;
+            background: rgba(242, 107, 55, 0.05);
+            transition: var(--transition);
+        }
+        
+        .nav-icon-wrapper:hover {
+            background: rgba(242, 107, 55, 0.1);
+            transform: translateY(-1px);
+        }
+        
+        .cart-badge {
+            position: absolute;
+            top: -5px;
+            right: -5px;
+            background: var(--primary-color);
+            color: white;
+            border-radius: 50%;
+            width: 20px;
+            height: 20px;
+            font-size: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 600;
+            animation: pulse 2s infinite;
+        }
+        
+        .nav-link {
+            color: var(--text-dark) !important;
+            font-weight: 500;
+            transition: var(--transition);
+        }
+        
+        .nav-link:hover {
+            color: var(--primary-color) !important;
+        }
+        
+        /* Category Navigation Enhancement */
+        .category-nav {
+            background: var(--light-bg) !important;
+            padding: 12px 0 !important;
+            border-bottom: 1px solid var(--border-color) !important;
+        }
+        
+        .category-nav .btn-link {
+            font-weight: 600 !important;
+            text-decoration: none !important;
+        }
+        
+        .category-nav .dropdown-menu {
+            border: none;
+            box-shadow: 0 5px 25px rgba(0, 0, 0, 0.1);
+            border-radius: 12px;
+            padding: 8px 0;
+        }
+        
+        .category-nav .dropdown-item {
+            padding: 10px 20px;
+            font-weight: 500;
+            transition: var(--transition);
+        }
+        
+        .category-nav .dropdown-item:hover {
+            background: var(--primary-color);
+            color: white;
+            transform: translateX(5px);
+        }
+        
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+            100% { transform: scale(1); }
         }
     </style>
 </head>
-<body class="bg-gray-50">
-    <!-- Header -->
-    <header class="bg-white shadow-sm sticky top-0 z-50">
-        <div class="container mx-auto px-4">
-            <!-- Top Bar -->
-            <div class="flex items-center justify-between py-2 text-sm text-gray-600 border-b">
-                <div class="flex items-center space-x-4">
-                    <span>📞 Customer Service: 0800-1-500-500</span>
-                    <span>📧 info@yogyatoserba.com</span>
-                </div>
-                <div class="flex items-center space-x-4">
-                    <a href="{{ route('pelanggan.login') }}" class="hover:text-blue-600">Masuk</a>
-                    <span>|</span>
-                    <a href="{{ route('pelanggan.register') }}" class="hover:text-blue-600">Daftar</a>
+<body>
+    <!-- Enhanced Navigation like Dashboard -->
+    <nav class="navbar navbar-expand-lg navbar-light sticky-top">
+        <div class="container">
+            <!-- Logo -->
+            <a class="navbar-brand" href="{{ route('dashboard') }}">
+                <img src="{{ asset('image/logo-yogya.png') }}" alt="MyYOGYA" style="height: 40px;">
+            </a>
+            
+            <!-- Search Bar -->
+            <div class="search-container mx-auto">
+                <div class="search-wrapper">
+                    <input type="text" class="search-input" placeholder="Cari produk, merek, atau kategori...">
+                    <button class="search-btn">
+                        <i class="fas fa-search"></i>
+                    </button>
                 </div>
             </div>
             
-            <!-- Main Header -->
-            <div class="flex items-center justify-between py-4">
-                <!-- Logo -->
-                <a href="{{ route('dashboard') }}" class="text-2xl font-bold text-blue-600">
-                    🏪 Yogya Toserba
-                </a>
-                
-                <!-- Search Bar -->
-                <div class="flex-1 max-w-2xl mx-8">
-                    <div class="relative">
-                        <input type="text" 
-                               placeholder="Cari produk, merek, atau kategori..." 
-                               class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
-                        <button class="absolute right-2 top-1/2 transform -translate-y-1/2 bg-blue-600 text-white px-4 py-1 rounded">
-                            🔍
-                        </button>
-                    </div>
+            <!-- User Actions -->
+            <div class="navbar-actions d-flex align-items-center">
+                <div class="nav-item me-3">
+                    <a class="nav-link cart-link" href="#">
+                        <div class="nav-icon-wrapper">
+                            <i class="fas fa-shopping-cart"></i>
+                            <span class="cart-badge">0</span>
+                        </div>
+                    </a>
                 </div>
                 
-                <!-- Cart & User -->
-                <div class="flex items-center space-x-4">
-                    <button class="relative p-2 text-gray-600 hover:text-blue-600">
-                        🛒
-                        <span class="absolute -top-1 -right-1 bg-red-500 text-white text-xs rounded-full h-5 w-5 flex items-center justify-center">0</span>
-                    </button>
-                    <button class="p-2 text-gray-600 hover:text-blue-600">
-                        👤
-                    </button>
+                <div class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown">
+                        <div class="nav-icon-wrapper">
+                            <i class="fas fa-user"></i>
+                        </div>
+                    </a>
+                    <ul class="dropdown-menu">
+                        <li><a class="dropdown-item" href="{{ route('pelanggan.login') }}">
+                            <i class="fas fa-sign-in-alt me-2"></i>Masuk
+                        </a></li>
+                        <li><a class="dropdown-item" href="{{ route('pelanggan.register') }}">
+                            <i class="fas fa-user-plus me-2"></i>Daftar
+                        </a></li>
+                    </ul>
                 </div>
             </div>
         </div>
-        
-        <!-- Navigation Menu -->
-        <nav class="bg-blue-600 text-white">
-            <div class="container mx-auto px-4">
-                <div class="flex items-center space-x-8 py-3">
-                    <a href="{{ route('dashboard') }}" class="hover:bg-blue-700 px-3 py-2 rounded">🏠 Beranda</a>
-                    
-                    <!-- Dropdown Kategori -->
-                    <div class="relative group">
-                        <button class="hover:bg-blue-700 px-3 py-2 rounded flex items-center">
-                            📂 Kategori
-                            <svg class="w-4 h-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
-                            </svg>
-                        </button>
-                        <div class="absolute left-0 mt-1 w-64 bg-white text-black shadow-lg rounded-lg opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-50">
-                            <div class="py-2">
-                                <a href="{{ route('kategori.elektronik') }}" class="block px-4 py-2 hover:bg-gray-100">📱 Elektronik</a>
-                                <a href="{{ route('kategori.fashion') }}" class="block px-4 py-2 hover:bg-gray-100">👕 Fashion</a>
-                                <a href="{{ route('kategori.makanan-minuman') }}" class="block px-4 py-2 hover:bg-gray-100">🍔 Makanan & Minuman</a>
-                                <a href="{{ route('kategori.kesehatan-kecantikan') }}" class="block px-4 py-2 hover:bg-gray-100">💄 Kesehatan & Kecantikan</a>
-                                <a href="{{ route('kategori.rumah-tangga') }}" class="block px-4 py-2 hover:bg-gray-100">🏠 Rumah Tangga</a>
-                                <a href="{{ route('kategori.olahraga') }}" class="block px-4 py-2 hover:bg-gray-100">⚽ Olahraga</a>
-                                <a href="{{ route('kategori.otomotif') }}" class="block px-4 py-2 hover:bg-gray-100">🚗 Otomotif</a>
-                                <a href="{{ route('kategori.buku') }}" class="block px-4 py-2 hover:bg-gray-100">📚 Buku & Alat Tulis</a>
-                                <a href="{{ route('kategori.perawatan') }}" class="block px-4 py-2 hover:bg-gray-100">🧴 Perawatan Pribadi</a>
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <a href="#" class="hover:bg-blue-700 px-3 py-2 rounded">🔥 Promo</a>
-                    <a href="#" class="hover:bg-blue-700 px-3 py-2 rounded">⭐ Terlaris</a>
-                    <a href="#" class="hover:bg-blue-700 px-3 py-2 rounded">📞 Bantuan</a>
+    </nav>
+
+    <!-- Category Navigation -->
+    <div class="category-nav" style="background: var(--light-bg); padding: 12px 0; border-bottom: 1px solid var(--border-color);">
+        <div class="container">
+            <div class="d-flex align-items-center">
+                <a href="{{ route('dashboard') }}" class="me-4 text-decoration-none" style="color: var(--text-dark);">
+                    <i class="fas fa-home"></i> Beranda
+                </a>
+                
+                <div class="dropdown me-4">
+                    <button class="btn btn-link dropdown-toggle p-0 text-decoration-none" style="color: var(--primary-color);" data-bs-toggle="dropdown">
+                        <i class="fas fa-th-grid"></i> Kategori
+                    </button>
+                    <ul class="dropdown-menu">
+                        <li><a class="dropdown-item" href="{{ route('kategori.elektronik') }}">📱 Elektronik</a></li>
+                        <li><a class="dropdown-item" href="{{ route('kategori.fashion') }}">👕 Fashion</a></li>
+                        <li><a class="dropdown-item" href="{{ route('kategori.makanan-minuman') }}">🍔 Makanan & Minuman</a></li>
+                        <li><a class="dropdown-item" href="{{ route('kategori.kesehatan-kecantikan') }}">💄 Kesehatan & Kecantikan</a></li>
+                        <li><a class="dropdown-item" href="{{ route('kategori.rumah-tangga') }}">🏠 Rumah Tangga</a></li>
+                        <li><a class="dropdown-item" href="{{ route('kategori.olahraga') }}">⚽ Olahraga</a></li>
+                        <li><a class="dropdown-item" href="{{ route('kategori.otomotif') }}">🚗 Otomotif</a></li>
+                        <li><a class="dropdown-item" href="{{ route('kategori.buku') }}">📚 Buku & Alat Tulis</a></li>
+                        <li><a class="dropdown-item" href="{{ route('kategori.perawatan') }}">🧴 Perawatan Pribadi</a></li>
+                    </ul>
                 </div>
+                
+                <a href="#" class="me-4 text-decoration-none" style="color: var(--text-dark);">🔥 Promo</a>
+                <a href="#" class="me-4 text-decoration-none" style="color: var(--text-dark);">⭐ Terlaris</a>
             </div>
-        </nav>
-    </header>
+        </div>
+    </div>
 
     <!-- Main Content -->
     <main>
@@ -110,67 +753,63 @@
     </main>
 
     <!-- Footer -->
-    <footer class="bg-gray-800 text-white mt-16">
-        <div class="container mx-auto px-4 py-12">
-            <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
-                <!-- Company Info -->
-                <div>
-                    <h3 class="text-xl font-bold mb-4">Yogya Toserba</h3>
-                    <p class="text-gray-300 mb-4">Toko serba ada terpercaya dengan produk berkualitas dan pelayanan terbaik untuk keluarga Indonesia.</p>
-                    <div class="flex space-x-4">
-                        <a href="#" class="text-blue-400 hover:text-blue-300">📘</a>
-                        <a href="#" class="text-blue-400 hover:text-blue-300">📷</a>
-                        <a href="#" class="text-blue-400 hover:text-blue-300">🐦</a>
+    <footer class="footer-custom mt-5">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-3 mb-4">
+                    <h5 class="footer-brand">MyYOGYA</h5>
+                    <p class="footer-description">Platform belanja online terpercaya dengan ribuan produk berkualitas.</p>
+                    <div class="footer-social mt-3">
+                        <a href="#" class="social-link me-3"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#" class="social-link me-3"><i class="fab fa-instagram"></i></a>
+                        <a href="#" class="social-link me-3"><i class="fab fa-twitter"></i></a>
+                        <a href="#" class="social-link"><i class="fab fa-youtube"></i></a>
                     </div>
                 </div>
-                
-                <!-- Customer Service -->
-                <div>
-                    <h4 class="font-semibold mb-4">Layanan Pelanggan</h4>
-                    <ul class="space-y-2 text-gray-300">
-                        <li><a href="#" class="hover:text-white">Pusat Bantuan</a></li>
-                        <li><a href="#" class="hover:text-white">Cara Berbelanja</a></li>
-                        <li><a href="#" class="hover:text-white">Kebijakan Privasi</a></li>
-                        <li><a href="#" class="hover:text-white">Syarat & Ketentuan</a></li>
+                <div class="col-md-3 mb-4">
+                    <h6 class="footer-title">Layanan Pelanggan</h6>
+                    <ul class="footer-links">
+                        <li><a href="#" class="footer-link">Pusat Bantuan</a></li>
+                        <li><a href="#" class="footer-link">Cara Berbelanja</a></li>
+                        <li><a href="#" class="footer-link">Kebijakan Privasi</a></li>
+                        <li><a href="#" class="footer-link">Syarat & Ketentuan</a></li>
                     </ul>
                 </div>
-                
-                <!-- About -->
-                <div>
-                    <h4 class="font-semibold mb-4">Tentang Kami</h4>
-                    <ul class="space-y-2 text-gray-300">
-                        <li><a href="#" class="hover:text-white">Profil Perusahaan</a></li>
-                        <li><a href="#" class="hover:text-white">Karir</a></li>
-                        <li><a href="#" class="hover:text-white">Blog</a></li>
-                        <li><a href="#" class="hover:text-white">Investor</a></li>
+                <div class="col-md-3 mb-4">
+                    <h6 class="footer-title">Tentang Kami</h6>
+                    <ul class="footer-links">
+                        <li><a href="#" class="footer-link">Profil Perusahaan</a></li>
+                        <li><a href="#" class="footer-link">Karir</a></li>
+                        <li><a href="#" class="footer-link">Blog</a></li>
+                        <li><a href="#" class="footer-link">Press Release</a></li>
                     </ul>
                 </div>
-                
-                <!-- Contact -->
-                <div>
-                    <h4 class="font-semibold mb-4">Kontak</h4>
-                    <div class="space-y-2 text-gray-300">
-                        <p>📞 0800-1-500-500</p>
-                        <p>📧 info@yogyatoserba.com</p>
-                        <p>📍 Jl. Malioboro No. 123, Yogyakarta</p>
-                        <p>🕒 24 Jam (CS Online)</p>
+                <div class="col-md-3 mb-4">
+                    <h6 class="footer-title">Kontak</h6>
+                    <div class="footer-contact">
+                        <p class="contact-item">
+                            <i class="fas fa-phone-alt me-2"></i>
+                            <span>0800-1-500-500</span>
+                        </p>
+                        <p class="contact-item">
+                            <i class="fas fa-envelope me-2"></i>
+                            <span>info@myyogya.com</span>
+                        </p>
+                        <p class="contact-item">
+                            <i class="fas fa-map-marker-alt me-2"></i>
+                            <span>Jakarta, Indonesia</span>
+                        </p>
                     </div>
                 </div>
             </div>
-            
-            <div class="border-t border-gray-700 mt-8 pt-8 text-center text-gray-300">
-                <p>&copy; 2025 Yogya Toserba. Semua hak dilindungi.</p>
+            <hr class="footer-divider">
+            <div class="footer-bottom text-center">
+                <p class="copyright">&copy; 2025 MyYOGYA. Semua hak dilindungi.</p>
             </div>
         </div>
     </footer>
 
-    <!-- Scripts -->
-    <script>
-        // Simple cart functionality
-        function addToCart(productId) {
-            // Add to cart logic here
-            alert('Produk berhasil ditambahkan ke keranjang!');
-        }
-    </script>
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
