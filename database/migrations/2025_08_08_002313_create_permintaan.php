@@ -9,7 +9,7 @@ return new class extends Migration {
     {
         Schema::create('permintaan', function (Blueprint $table) {
             $table->id('id_permintaan');
-
+            $table->string('cabang;');
             $table->unsignedBigInteger('id_cabang');
             $table->foreign('id_cabang')
                   ->references('id_cabang')
@@ -26,6 +26,12 @@ return new class extends Migration {
             $table->string('status');
             $table->string('prioritas')->nullable();
             $table->text('catatan')->nullable();
+            $table->string('satuan');
+            $table->integer('alamat');
+            $table->string('jumlah');
+            $table->string('kategori');
+            $table->string('nama_produk');
+
             $table->timestamps();
         });
     }

@@ -8,13 +8,13 @@ return new class extends Migration {
     public function up(): void
     {
         Schema::create('cabang', function (Blueprint $table) {
-            $table->id('id_cabang');
+            $table->unsignedBigInteger('id_cabang')->primary();
             $table->string('nama_cabang');
             $table->string('kategori');
             $table->string('alamat');
             $table->string('wilayah');
             $table->timestamps();
-        });
+        });   
     }
 
     public function down(): void

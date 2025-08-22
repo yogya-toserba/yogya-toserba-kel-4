@@ -9,8 +9,7 @@ class Admin extends Authenticatable
     use Notifiable;
 
     protected $guard = 'admin';
-    protected $table = 'admin'; // Ensure the table name matches the migration
-
+    protected $table = 'admin';
     protected $fillable = [
         'name',
         'email',

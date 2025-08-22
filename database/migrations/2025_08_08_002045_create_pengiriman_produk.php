@@ -12,11 +12,11 @@ return new class extends Migration {
 
             $table->unsignedBigInteger('id_produk');
             $table->foreign('id_produk')
-                  ->references('id_produk')
-                  ->on('stok_produk')
-                  ->onDelete('cascade');
-
-            $table->integer('jumlah');
+                ->references('id_produk')
+                ->on('stok_produk')
+                ->onDelete('cascade');
+            $table->string('nama_barang');
+                 $table->integer('jumlah');
             $table->date('tanggal_dikirim');
             $table->timestamps();
         });

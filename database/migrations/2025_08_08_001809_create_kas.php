@@ -19,7 +19,7 @@ return new class extends Migration {
             $table->string('jenis_transaksi');
             $table->decimal('jumlah', 15, 2);
             $table->string('keterangan')->nullable();
-            $table->timestamps();
+              $table->timestamps();
         });
     }
 

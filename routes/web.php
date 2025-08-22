@@ -49,7 +49,6 @@ Route::prefix('gudang')->name('gudang.')->group(function () {
 });
 
 // Dashboard route
-});
 
 // Dashboard route
 Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard.index');
