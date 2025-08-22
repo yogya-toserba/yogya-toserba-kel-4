@@ -81,6 +81,21 @@ Route::get('/kategori/olahraga', function () {
     return view('dashboard.kategori.olahraga');
 })->name('kategori.olahraga');
 
+// Route kategori otomotif
+Route::get('/kategori/otomotif', function () {
+    return view('dashboard.kategori.otomotif');
+})->name('kategori.otomotif');
+
+// Route kategori buku & alat tulis
+Route::get('/kategori/buku', function () {
+    return view('dashboard.kategori.buku');
+})->name('kategori.buku');
+
+// Route kategori perawatan pribadi
+Route::get('/kategori/perawatan', function () {
+    return view('dashboard.kategori.perawatan');
+})->name('kategori.perawatan');
+
 
 // Route::post('/pelanggan/login', [App\Http\Controllers\PelangganController::class, 'login'])->name('pelanggan.login.submit');
 // Route::post('/pelanggan/register', [App\Http\Controllers\PelangganController::class, 'register'])->name('pelanggan.register.submit');
