@@ -61,6 +61,26 @@ Route::get('/kategori/fashion', function () {
     return view('dashboard.kategori.fashion');
 })->name('kategori.fashion');
 
+// Route kategori makanan & minuman
+Route::get('/kategori/makanan-minuman', function () {
+    return view('dashboard.kategori.makanan-minuman');
+})->name('kategori.makanan-minuman');
+
+// Route kategori kesehatan & kecantikan
+Route::get('/kategori/kesehatan-kecantikan', function () {
+    return view('dashboard.kategori.kesehatan-kecantikan');
+})->name('kategori.kesehatan-kecantikan');
+
+// Route kategori rumah tangga
+Route::get('/kategori/rumah-tangga', function () {
+    return view('dashboard.kategori.rumah-tangga');
+})->name('kategori.rumah-tangga');
+
+// Route kategori olahraga
+Route::get('/kategori/olahraga', function () {
+    return view('dashboard.kategori.olahraga');
+})->name('kategori.olahraga');
+
 
 // Route::post('/pelanggan/login', [App\Http\Controllers\PelangganController::class, 'login'])->name('pelanggan.login.submit');
 // Route::post('/pelanggan/register', [App\Http\Controllers\PelangganController::class, 'register'])->name('pelanggan.register.submit');
