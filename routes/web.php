@@ -5,12 +5,7 @@ use App\Http\Controllers\PelangganController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\AdminController;
-use App\Http\Controllers\AdminProductController;
-use App\Http\Controllers\AdminOrderController;
-use App\Http\Controllers\AdminUserController;
-use App\Http\Controllers\AdminReportController;
-// Add the following import if not already present
-use App\Http\Controllers\AdminPasswordResetController;
+use App\Http\Controllers\CategoryController;
 
 // Dashboard utama
 Route::get('/', [DashboardController::class, 'index'])->name('dashboard');
@@ -39,66 +34,42 @@ Route::prefix('gudang')->name('gudang.')->group(function () {
         return view('gudang.manual');
     })->name('manual');
 
-    Route::get('/iventory', [ProductController::class, 'index'])->name('iventory');
     Route::get('/inventory', [ProductController::class, 'index'])->name('inventory.index');
     Route::get('/inventory/create', [ProductController::class, 'create'])->name('inventory.create');
     Route::post('/inventory', [ProductController::class, 'store'])->name('inventory.store');
-    // Route::post('/login', [App\Http\Controllers\GudangController::class, 'login'])->name('login.submit');
-    // Route::get('/dashboard', [App\Http\Controllers\GudangController::class, 'dashboard'])->name('dashboard');
-
 });
 
 // Dashboard route
 Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard.index');
 
 // Route kategori elektronik
-Route::get('/kategori/elektronik', function () {
-    return view('dashboard.kategori.elektronik');
-})->name('kategori.elektronik');
+Route::get('/kategori/elektronik', [CategoryController::class, 'elektronik'])->name('kategori.elektronik');
 
 // Route kategori fashion
-Route::get('/kategori/fashion', function () {
-    return view('dashboard.kategori.fashion');
-})->name('kategori.fashion');
+Route::get('/kategori/fashion', [CategoryController::class, 'fashion'])->name('kategori.fashion');
 
 // Route kategori makanan & minuman
-Route::get('/kategori/makanan-minuman', function () {
-    return view('dashboard.kategori.makanan-minuman');
-})->name('kategori.makanan-minuman');
+Route::get('/kategori/makanan', [CategoryController::class, 'makanan'])->name('kategori.makanan');
+
+Route::get('/kategori/makanan-minuman', [CategoryController::class, 'makanan'])->name('kategori.makanan-minuman');
 
 // Route kategori kesehatan & kecantikan
-Route::get('/kategori/kesehatan-kecantikan', function () {
-    return view('dashboard.kategori.kesehatan-kecantikan');
-})->name('kategori.kesehatan-kecantikan');
+Route::get('/kategori/kesehatan-kecantikan', [CategoryController::class, 'kesehatan'])->name('kategori.kesehatan-kecantikan');
 
 // Route kategori rumah tangga
-Route::get('/kategori/rumah-tangga', function () {
-    return view('dashboard.kategori.rumah-tangga');
-})->name('kategori.rumah-tangga');
+Route::get('/kategori/rumah-tangga', [CategoryController::class, 'rumahTangga'])->name('kategori.rumah-tangga');
 
 // Route kategori olahraga
-Route::get('/kategori/olahraga', function () {
-    return view('dashboard.kategori.olahraga');
-})->name('kategori.olahraga');
+Route::get('/kategori/olahraga', [CategoryController::class, 'olahraga'])->name('kategori.olahraga');
 
 // Route kategori otomotif
-Route::get('/kategori/otomotif', function () {
-    return view('dashboard.kategori.otomotif');
-})->name('kategori.otomotif');
+Route::get('/kategori/otomotif', [CategoryController::class, 'otomotif'])->name('kategori.otomotif');
 
 // Route kategori buku & alat tulis
-Route::get('/kategori/buku', function () {
-    return view('dashboard.kategori.buku');
-})->name('kategori.buku');
+Route::get('/kategori/buku', [CategoryController::class, 'buku'])->name('kategori.buku');
 
 // Route kategori perawatan pribadi
-Route::get('/kategori/perawatan', function () {
-    return view('dashboard.kategori.perawatan');
-})->name('kategori.perawatan');
-
-
-// Route::post('/pelanggan/login', [App\Http\Controllers\PelangganController::class, 'login'])->name('pelanggan.login.submit');
-// Route::post('/pelanggan/register', [App\Http\Controllers\PelangganController::class, 'register'])->name('pelanggan.register.submit');
+Route::get('/kategori/perawatan', [CategoryController::class, 'perawatan'])->name('kategori.perawatan');
 
 Route::prefix('admin')->name('admin.')->group(function () {
     // Authentication Routes
@@ -126,8 +97,5 @@ Route::prefix('admin')->name('admin.')->group(function () {
         Route::get('keuangan', function () {
             return view('keuangan.app');
         })->name('keuangan');
-        Route::get('/testing', function () {
-            return view('welcome');
-        });
     });
 });

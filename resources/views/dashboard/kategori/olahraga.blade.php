@@ -1,88 +1,164 @@
 @extends('layouts.app')
 
-@section('title', 'Olahraga - Yogya Toserba')
+@section('title', 'Olahraga - MyYOGYA')
 
 @section('content')
-<div class="container mx-auto px-4 py-8">
-    <!-- Header Kategori -->
-    <div class="mb-8">
-        <nav class="text-sm breadcrumbs mb-4">
-            <ul class="flex space-x-2 text-gray-600">
-                <li><a href="{{ route('dashboard') }}" class="hover:text-blue-600">Home</a></li>
-                <li class="before:content-['/'] before:mx-2">Olahraga</li>
-            </ul>
+<!-- Category Header -->
+<div class="category-header">
+    <div class="container">
+        <nav class="breadcrumb-custom">
+            <a href="{{ route('dashboard') }}">Beranda</a>
+            <span class="mx-2">/</span>
+            <span>Olahraga</span>
         </nav>
         
-        <h1 class="text-3xl font-bold text-gray-800 mb-2">Olahraga</h1>
-        <p class="text-gray-600">Perlengkapan olahraga untuk gaya hidup aktif dan sehat</p>
+        <h1 class="display-5 fw-bold mb-3">⚽ Olahraga</h1>
+        <p class="lead mb-0">Perlengkapan olahraga untuk hidup sehat dan aktif</p>
+    </div>
+</div>
+
+<div class="container">
+    <!-- Filter Section -->
+    <div class="filter-section">
+        <div class="row align-items-center">
+            <div class="col-md-8">
+                <div class="row g-3">
+                    <div class="col-md-3">
+                        <select class="form-select">
+                            <option>Semua Kategori</option>
+                            <option>Sepatu Olahraga</option>
+                            <option>Pakaian Olahraga</option>
+                            <option>Peralatan Fitness</option>
+                            <option>Olahraga Air</option>
+                            <option>Bola & Raket</option>
+                        </select>
+                    </div>
+                    <div class="col-md-3">
+                        <select class="form-select">
+                            <option>Rentang Harga</option>
+                            <option>< Rp 100.000</option>
+                            <option>Rp 100.000-500.000</option>
+                            <option>Rp 500.000-1.000.000</option>
+                            <option>> Rp 1.000.000</option>
+                        </select>
+                    </div>
+                    <div class="col-md-3">
+                        <select class="form-select">
+                            <option>Urutkan</option>
+                            <option>Harga Terendah</option>
+                            <option>Harga Tertinggi</option>
+                            <option>Terpopuler</option>
+                            <option>Terbaru</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4 text-end">
+                <small class="text-muted">Menampilkan 1-12 dari 156 produk</small>
+            </div>
+        </div>
     </div>
 
     <!-- Products Grid -->
-    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+    <div class="product-grid">
         @foreach([
             [
-                'name' => 'Matras Yoga Anti Slip',
-                'price' => 'Rp 89.000',
-                'original_price' => 'Rp 120.000',
-                'discount' => '26%',
-                'image' => 'https://via.placeholder.com/300x300/f0f0f0/888?text=Yoga+Mat',
-                'rating' => 4.6,
-                'reviews' => 245
+                'name' => 'Sepatu Running Adidas Ultraboost 22',
+                'price' => 'Rp 2.499.000',
+                'original_price' => 'Rp 2.799.000',
+                'discount' => '11%',
+                'image' => 'https://via.placeholder.com/300x300/f0f0f0/888?text=Adidas+Ultraboost',
+                'rating' => 4.8,
+                'reviews' => 324
             ],
             [
-                'name' => 'Dumbell Set 5kg',
-                'price' => 'Rp 199.000',
+                'name' => 'Dumbbell Set Kettler 10kg',
+                'price' => 'Rp 345.000',
                 'original_price' => '',
                 'discount' => '',
-                'image' => 'https://via.placeholder.com/300x300/f0f0f0/888?text=Dumbell',
-                'rating' => 4.7,
-                'reviews' => 167
+                'image' => 'https://via.placeholder.com/300x300/f0f0f0/888?text=Dumbbell+Kettler',
+                'rating' => 4.6,
+                'reviews' => 189
             ],
             [
-                'name' => 'Sepatu Running Profesional',
-                'price' => 'Rp 389.000',
-                'original_price' => 'Rp 450.000',
-                'discount' => '14%',
-                'image' => 'https://via.placeholder.com/300x300/f0f0f0/888?text=Running+Shoes',
-                'rating' => 4.8,
-                'reviews' => 134
+                'name' => 'Jersey Futsal Nike Dry-FIT',
+                'price' => 'Rp 189.000',
+                'original_price' => 'Rp 225.000',
+                'discount' => '16%',
+                'image' => 'https://via.placeholder.com/300x300/f0f0f0/888?text=Jersey+Nike',
+                'rating' => 4.5,
+                'reviews' => 267
+            ],
+            [
+                'name' => 'Matras Yoga Premium 6mm',
+                'price' => 'Rp 125.000',
+                'original_price' => '',
+                'discount' => '',
+                'image' => 'https://via.placeholder.com/300x300/f0f0f0/888?text=Matras+Yoga',
+                'rating' => 4.4,
+                'reviews' => 456
             ]
         ] as $product)
-        <div class="bg-white rounded-lg shadow-sm border overflow-hidden group hover:shadow-lg transition-all duration-300">
-            <div class="relative">
-                <img src="{{ $product['image'] }}" alt="{{ $product['name'] }}" class="w-full h-48 object-cover">
+        <div class="product-card">
+            <div class="product-image">
+                <img src="{{ $product['image'] }}" alt="{{ $product['name'] }}">
                 @if($product['discount'])
-                <span class="absolute top-2 left-2 bg-red-500 text-white text-xs px-2 py-1 rounded">-{{ $product['discount'] }}</span>
+                <span class="discount-badge">-{{ $product['discount'] }}</span>
                 @endif
+                <button class="wishlist-btn">
+                    <i class="far fa-heart"></i>
+                </button>
             </div>
             
-            <div class="p-4">
-                <h3 class="font-semibold text-gray-800 mb-2 line-clamp-2">{{ $product['name'] }}</h3>
+            <div class="product-info">
+                <h6 class="product-title">{{ $product['name'] }}</h6>
                 
-                <div class="flex items-center mb-2">
-                    <div class="flex items-center">
+                <div class="product-rating">
+                    <div class="stars">
                         @for($i = 1; $i <= 5; $i++)
-                        <svg class="w-4 h-4 {{ $i <= floor($product['rating']) ? 'text-yellow-400' : 'text-gray-300' }}" fill="currentColor" viewBox="0 0 20 20">
-                            <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/>
-                        </svg>
+                        <i class="fas fa-star{{ $i <= floor($product['rating']) ? '' : ' text-muted' }}"></i>
                         @endfor
                     </div>
-                    <span class="text-sm text-gray-600 ml-2">({{ $product['reviews'] }})</span>
+                    <span class="review-count">({{ $product['reviews'] }})</span>
                 </div>
                 
-                <div class="mb-3">
-                    <span class="text-lg font-bold text-blue-600">{{ $product['price'] }}</span>
+                <div class="product-price">
+                    <span class="current-price">{{ $product['price'] }}</span>
                     @if($product['original_price'])
-                    <span class="text-sm text-gray-500 line-through ml-2">{{ $product['original_price'] }}</span>
+                    <span class="original-price">{{ $product['original_price'] }}</span>
                     @endif
                 </div>
                 
-                <button class="w-full bg-blue-600 text-white py-2 px-4 rounded-lg hover:bg-blue-700 transition-colors">
-                    Tambah ke Keranjang
+                <button class="add-to-cart-btn">
+                    <i class="fas fa-shopping-cart me-2"></i>Tambah ke Keranjang
                 </button>
             </div>
         </div>
         @endforeach
     </div>
+
+    <!-- Pagination -->
+    <nav class="pagination-custom" aria-label="Product pagination">
+        <ul class="pagination">
+            <li class="page-item disabled">
+                <span class="page-link">Previous</span>
+            </li>
+            <li class="page-item active">
+                <span class="page-link">1</span>
+            </li>
+            <li class="page-item">
+                <a class="page-link" href="#">2</a>
+            </li>
+            <li class="page-item">
+                <a class="page-link" href="#">3</a>
+            </li>
+            <li class="page-item">
+                <a class="page-link" href="#">4</a>
+            </li>
+            <li class="page-item">
+                <a class="page-link" href="#">Next</a>
+            </li>
+        </ul>
+    </nav>
 </div>
 @endsection

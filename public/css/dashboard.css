@@ -2127,11 +2127,33 @@ body {
 
 /* Update color for eye icon in quick actions */
 .product-actions .fa-eye {
-    color: #06b6d4;
+    color: #f26b37;
     transition: color 0.2s ease;
 }
 .product-actions .btn:hover .fa-eye {
-    color: #0891b2;
+    color: #e55a2b;
+}
+
+/* Heart icon styling to match Yogya theme */
+.fa-heart, .far.fa-heart, .fas.fa-heart {
+    color: #f26b37 !important;
+    transition: all 0.3s ease;
+}
+
+.fa-heart:hover, .far.fa-heart:hover, .fas.fa-heart:hover {
+    color: #e55a2b !important;
+    transform: scale(1.1);
+}
+
+/* Wishlist button heart icon */
+.wishlist-btn .fa-heart,
+.dropdown-item .fa-heart {
+    color: #f26b37 !important;
+}
+
+.wishlist-btn:hover .fa-heart,
+.dropdown-item:hover .fa-heart {
+    color: #ffffff !important;
 }
 
 /* Newsletter */
@@ -2173,6 +2195,12 @@ body {
     font-size: 1rem;
 }
 
+.newsletter-form .form-control:focus {
+    border-color: rgba(242, 107, 55, 0.3) !important;
+    box-shadow: 0 0 0 0.2rem rgba(242, 107, 55, 0.15) !important;
+    outline: none !important;
+}
+
 .newsletter-form .btn {
     border-radius: 0 25px 25px 0;
     padding: 15px 25px;
@@ -2180,6 +2208,62 @@ body {
     color: var(--primary-color);
     border: none;
     font-weight: 600;
+    transition: all 0.3s ease;
+}
+
+/* Animasi pesawat */
+.newsletter-form .btn .fa-paper-plane {
+    transition: transform 0.3s ease;
+    display: inline-block;
+    position: relative;
+    transform-origin: center;
+}
+
+.newsletter-form .btn:hover .fa-paper-plane {
+    animation: flyWithRoute 2.5s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+@keyframes flyWithRoute {
+    /* Takeoff - keluar dari button */
+    0% { 
+        transform: translateX(0) translateY(0) rotate(0deg) scale(1);
+        opacity: 1;
+    }
+    /* Naik diagonal ke kanan atas */
+    15% { 
+        transform: translateX(15px) translateY(-8px) rotate(25deg) scale(1.1);
+        opacity: 1;
+    }
+    /* Terbang horizontal di atas form */
+    30% { 
+        transform: translateX(25px) translateY(-15px) rotate(15deg) scale(1.15);
+        opacity: 1;
+    }
+    /* Puncak rute - di atas tengah form */
+    45% { 
+        transform: translateX(30px) translateY(-18px) rotate(10deg) scale(1.2);
+        opacity: 1;
+    }
+    /* Mulai berputar balik */
+    60% { 
+        transform: translateX(25px) translateY(-15px) rotate(-10deg) scale(1.15);
+        opacity: 1;
+    }
+    /* Terbang kembali diagonal */
+    75% { 
+        transform: translateX(15px) translateY(-8px) rotate(-25deg) scale(1.1);
+        opacity: 1;
+    }
+    /* Mendekati landing */
+    90% { 
+        transform: translateX(5px) translateY(-2px) rotate(-5deg) scale(1.05);
+        opacity: 1;
+    }
+    /* Landing di posisi semula */
+    100% { 
+        transform: translateX(0) translateY(0) rotate(0deg) scale(1);
+        opacity: 1;
+    }
 }
 
 .newsletter-form .btn:hover {

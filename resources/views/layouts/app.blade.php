@@ -477,6 +477,21 @@
             padding-top: 20px;
         }
         
+        /* Maps styling */
+        .maps-container {
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.15);
+            border-radius: 10px;
+            overflow: hidden;
+            border: 3px solid rgba(242, 107, 55, 0.2);
+            transition: all 0.3s ease;
+        }
+        
+        .maps-container:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 12px 40px rgba(0, 0, 0, 0.2);
+            border-color: rgba(242, 107, 55, 0.4);
+        }
+        
         .copyright {
             color: #95a5a6;
             font-size: 14px;
@@ -500,13 +515,13 @@
         
         /* Enhanced Search Container */
         .search-container {
-            max-width: 480px;
             width: 100%;
+            max-width: 100%;
             position: relative;
-            margin: 0 30px;
+            padding: 0 15px;
         }
 
-        .search-wrapper {
+        .search-wrapper, .search-box {
             position: relative;
             display: flex;
             background: var(--white);
@@ -516,15 +531,16 @@
             transition: var(--transition);
             overflow: hidden;
             height: 50px;
+            width: 100%;
         }
 
-        .search-wrapper:hover {
+        .search-wrapper:hover, .search-box:hover {
             box-shadow: 0 5px 20px rgba(242, 107, 55, 0.12);
             border-color: rgba(242, 107, 55, 0.25);
             transform: translateY(-1px);
         }
 
-        .search-wrapper:focus-within {
+        .search-wrapper:focus-within, .search-box:focus-within {
             border-color: var(--primary-color);
             box-shadow: 0 6px 25px rgba(242, 107, 55, 0.2);
             transform: translateY(-2px);
@@ -571,62 +587,390 @@
             transform: scale(1.02);
         }
         
-        /* Enhanced Navbar Styling */
+        .search-icon-left {
+            position: absolute;
+            left: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--text-light);
+            font-size: 16px;
+            z-index: 2;
+        }
+        
+        /* Enhanced Navbar Styling - Same as Dashboard */
         .navbar {
             background: white !important;
             box-shadow: 0 2px 20px rgba(0, 0, 0, 0.08) !important;
-            padding: 10px 0;
+            padding: 15px 0;
             border-bottom: 1px solid rgba(242, 107, 55, 0.1);
         }
         
+        .navbar-brand {
+            padding: 0;
+            text-decoration: none !important;
+        }
+        
+        .navbar-brand:hover {
+            text-decoration: none !important;
+        }
+        
+        .logo-container {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        
         .navbar-brand img {
-            transition: var(--transition);
+            height: 45px !important;
+            max-height: 45px;
+            width: auto;
+            object-fit: contain;
         }
         
-        .navbar-brand:hover img {
-            transform: scale(1.05);
+        .brand-info {
+            display: flex;
+            flex-direction: column;
+            line-height: 1.1;
         }
         
-        /* Cart and User Actions */
+        .brand-text {
+            font-size: 20px;
+            font-weight: 700;
+            color: var(--primary-color);
+            margin: 0;
+        }
+        
+        .brand-tagline {
+            font-size: 12px;
+            color: var(--text-light);
+            font-weight: 500;
+            margin: 0;
+        }
+        
+        /* Search Container - Same as Dashboard */
+        .search-container {
+            max-width: 600px;
+            width: 100%;
+            position: relative;
+        }
+        
+        .search-box {
+            position: relative;
+            background: white;
+            border-radius: 25px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+            border: 2px solid rgba(242, 107, 55, 0.1);
+            overflow: hidden;
+            transition: all 0.3s ease;
+        }
+        
+        .search-box:hover,
+        .search-box:focus-within {
+            border-color: var(--primary-color);
+            box-shadow: 0 6px 30px rgba(242, 107, 55, 0.2);
+            transform: translateY(-2px);
+        }
+        
+        .search-icon-left {
+            position: absolute;
+            left: 18px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--text-light);
+            z-index: 3;
+            font-size: 16px;
+        }
+        
+        .search-input {
+            width: 100%;
+            padding: 16px 20px 16px 50px;
+            border: none;
+            outline: none;
+            font-size: 15px;
+            font-weight: 500;
+            color: var(--text-dark);
+            background: transparent;
+            font-family: 'Montserrat', sans-serif;
+        }
+        
+        .search-input::placeholder {
+            color: var(--text-light);
+            font-weight: 400;
+        }
+        
+        .search-btn {
+            position: absolute;
+            right: 6px;
+            top: 50%;
+            transform: translateY(-50%);
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            border: none;
+            border-radius: 20px;
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 14px;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+        
+        .search-btn:hover {
+            transform: translateY(-50%) scale(1.1);
+            box-shadow: 0 4px 15px rgba(242, 107, 55, 0.4);
+        }
+        
+        .search-suggestions {
+            position: absolute;
+            top: 100%;
+            left: 0;
+            right: 0;
+            margin-top: 8px;
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+            z-index: 1000;
+        }
+        
+        .suggestion-tag {
+            background: rgba(242, 107, 55, 0.1);
+            color: var(--primary-color);
+            padding: 6px 12px;
+            border-radius: 15px;
+            font-size: 12px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .suggestion-tag:hover {
+            background: var(--primary-color);
+            color: white;
+            transform: translateY(-2px);
+        }
+        
+        <!-- Cart and User Actions */
         .nav-icon-wrapper {
             position: relative;
-            display: inline-block;
-            padding: 8px 12px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: 10px 12px;
             border-radius: 10px;
-            background: rgba(242, 107, 55, 0.05);
-            transition: var(--transition);
+            background: rgba(242, 107, 55, 0.08);
+            transition: all 0.3s ease;
+            border: 1px solid rgba(242, 107, 55, 0.15);
+            min-width: 45px;
+            min-height: 45px;
         }
         
         .nav-icon-wrapper:hover {
-            background: rgba(242, 107, 55, 0.1);
-            transform: translateY(-1px);
+            background: var(--primary-color);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 15px rgba(242, 107, 55, 0.3);
+            border-color: var(--primary-color);
         }
         
-        .cart-badge {
+        .nav-icon-wrapper i {
+            color: var(--primary-color);
+            font-size: 16px;
+            transition: color 0.3s ease;
+        }
+        
+        .nav-icon-wrapper:hover i {
+            color: white;
+        }
+        
+        .cart-badge, .notification-badge {
             position: absolute;
-            top: -5px;
-            right: -5px;
-            background: var(--primary-color);
+            top: -8px;
+            right: -8px;
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
             color: white;
             border-radius: 50%;
             width: 20px;
             height: 20px;
-            font-size: 12px;
+            font-size: 10px;
             display: flex;
             align-items: center;
             justify-content: center;
+            font-weight: 700;
+            border: 2px solid white;
+            box-shadow: 0 2px 8px rgba(242, 107, 55, 0.3);
+        }
+        
+        /* Enhanced Navbar Actions */
+        .navbar-actions {
+            gap: 15px;
+        }
+        
+        .profile-info {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 8px 12px;
+            background: rgba(242, 107, 55, 0.08);
+            border-radius: 25px;
+            border: 1px solid rgba(242, 107, 55, 0.15);
+            transition: all 0.3s ease;
+        }
+        
+        .profile-info:hover {
+            background: rgba(242, 107, 55, 0.15);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 15px rgba(242, 107, 55, 0.2);
+        }
+        
+        .avatar {
+            width: 35px;
+            height: 35px;
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 14px;
+        }
+        
+        .user-details {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+        }
+        
+        .user-name {
+            font-size: 14px;
             font-weight: 600;
+            color: var(--text-dark);
+            line-height: 1.2;
+        }
+        
+        .user-status {
+            font-size: 11px;
+            color: var(--primary-color);
+            font-weight: 500;
+        }
+        
+        .btn-nav-outline {
+            padding: 8px 16px;
+            border: 2px solid var(--primary-color);
+            color: var(--primary-color);
+            background: transparent;
+            border-radius: 20px;
+            font-weight: 600;
+            font-size: 14px;
+            transition: all 0.3s ease;
+            text-decoration: none;
+        }
+        
+        .btn-nav-outline:hover {
+            background: var(--primary-color);
+            color: white;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 15px rgba(242, 107, 55, 0.3);
+        }
+        
+        .btn-nav-primary {
+            padding: 8px 16px;
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            color: white;
+            border: none;
+            border-radius: 20px;
+            font-weight: 600;
+            font-size: 14px;
+            transition: all 0.3s ease;
+            text-decoration: none;
+        }
+        
+        .btn-nav-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 15px rgba(242, 107, 55, 0.4);
+            color: white;
+        }
+        
+        /* Animation classes */
+        .bounce {
+            animation: bounce 2s infinite;
+        }
+        
+        .pulse {
             animation: pulse 2s infinite;
+        }
+        
+        @keyframes bounce {
+            0%, 20%, 53%, 80%, 100% {
+                animation-timing-function: cubic-bezier(0.215, 0.61, 0.355, 1);
+                transform: translate3d(0, 0, 0);
+            }
+            40%, 43% {
+                animation-timing-function: cubic-bezier(0.755, 0.05, 0.855, 0.06);
+                transform: translate3d(0, -8px, 0);
+            }
+            70% {
+                animation-timing-function: cubic-bezier(0.755, 0.05, 0.855, 0.06);
+                transform: translate3d(0, -4px, 0);
+            }
+            90% {
+                transform: translate3d(0, -2px, 0);
+            }
+        }
+        
+        /* Remove logo hover effect */
+        .navbar-brand img {
+            transition: none !important;
+        }
+        
+        .navbar-brand:hover img {
+            transform: none !important;
         }
         
         .nav-link {
             color: var(--text-dark) !important;
             font-weight: 500;
             transition: var(--transition);
+            text-decoration: none;
         }
         
         .nav-link:hover {
             color: var(--primary-color) !important;
+        }
+        
+        .dropdown-menu {
+            border: none;
+            box-shadow: 0 5px 25px rgba(0, 0, 0, 0.1);
+            border-radius: 12px;
+            padding: 8px 0;
+            margin-top: 8px;
+        }
+        
+        .dropdown-item {
+            padding: 12px 20px;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            color: var(--text-dark);
+            border-radius: 8px;
+            margin: 2px 8px;
+        }
+        
+        .dropdown-item:hover {
+            background: var(--primary-color) !important;
+            color: white !important;
+            transform: translateX(5px);
+            box-shadow: 0 2px 10px rgba(242, 107, 55, 0.3);
+        }
+        
+        .dropdown-item:focus {
+            background: var(--primary-color) !important;
+            color: white !important;
+        }
+        
+        .dropdown-item i {
+            width: 20px;
         }
         
         /* Category Navigation Enhancement */
@@ -651,13 +995,17 @@
         .category-nav .dropdown-item {
             padding: 10px 20px;
             font-weight: 500;
-            transition: var(--transition);
+            transition: all 0.3s ease;
+            color: var(--text-dark);
+            border-radius: 8px;
+            margin: 2px 8px;
         }
         
         .category-nav .dropdown-item:hover {
-            background: var(--primary-color);
-            color: white;
-            transform: translateX(5px);
+            background: var(--primary-color) !important;
+            color: white !important;
+            transform: translateX(8px);
+            box-shadow: 0 3px 12px rgba(242, 107, 55, 0.4);
         }
         
         @keyframes pulse {
@@ -668,50 +1016,138 @@
     </style>
 </head>
 <body>
-    <!-- Enhanced Navigation like Dashboard -->
-    <nav class="navbar navbar-expand-lg navbar-light sticky-top">
+    <!-- Navbar (same as Dashboard) -->
+    <nav class="navbar navbar-expand-lg sticky-top">
         <div class="container">
             <!-- Logo -->
             <a class="navbar-brand" href="{{ route('dashboard') }}">
-                <img src="{{ asset('image/logo-yogya.png') }}" alt="MyYOGYA" style="height: 40px;">
+                <div class="logo-container">
+                    <img src="{{ asset('image/logo_yogya.png') }}" alt="MyYOGYA" height="45">
+                    <div class="brand-info">
+                        <span class="brand-text">MyYOGYA</span>
+                        <span class="brand-tagline">Belanja Pintar</span>
+                    </div>
+                 </div>
             </a>
-            
+
             <!-- Search Bar -->
             <div class="search-container mx-auto">
-                <div class="search-wrapper">
-                    <input type="text" class="search-input" placeholder="Cari produk, merek, atau kategori...">
-                    <button class="search-btn">
+                <div class="search-box">
+                    <div class="search-icon-left">
                         <i class="fas fa-search"></i>
+                    </div>
+                    <input type="text" class="form-control search-input" placeholder="Cari produk, kategori, atau brand favorit Anda...">
+                    <button class="search-btn">
+                        <i class="fas fa-arrow-right"></i>
                     </button>
                 </div>
+                <div class="search-suggestions">
+                    <span class="suggestion-tag">Elektronik</span>
+                    <span class="suggestion-tag">Fashion</span>
+                    <span class="suggestion-tag">Makanan</span>
+                </div>
             </div>
-            
+
             <!-- User Actions -->
             <div class="navbar-actions d-flex align-items-center">
-                <div class="nav-item me-3">
-                    <a class="nav-link cart-link" href="#">
-                        <div class="nav-icon-wrapper">
-                            <i class="fas fa-shopping-cart"></i>
-                            <span class="cart-badge">0</span>
-                        </div>
-                    </a>
-                </div>
-                
-                <div class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown">
-                        <div class="nav-icon-wrapper">
-                            <i class="fas fa-user"></i>
-                        </div>
-                    </a>
-                    <ul class="dropdown-menu">
-                        <li><a class="dropdown-item" href="{{ route('pelanggan.login') }}">
+                @auth
+                    <!-- Logged in user -->
+                    <div class="nav-item dropdown me-3">
+                        <a class="nav-link notification-link" href="#" id="notificationDropdown" role="button" data-bs-toggle="dropdown">
+                            <div class="nav-icon-wrapper">
+                                <i class="fas fa-bell"></i>
+                                <span class="notification-badge pulse">3</span>
+                            </div>
+                        </a>
+                        <ul class="dropdown-menu notification-dropdown">
+                            <li><h6 class="dropdown-header">
+                                <i class="fas fa-bell me-2"></i>Notifikasi Terbaru
+                            </h6></li>
+                            <li><a class="dropdown-item" href="#">
+                                <div class="notification-item">
+                                    <i class="fas fa-shipping-fast text-success"></i>
+                                    <span>Pesanan Anda sedang dikirim</span>
+                                </div>
+                            </a></li>
+                            <li><a class="dropdown-item" href="#">
+                                <div class="notification-item">
+                                    <i class="fas fa-bolt text-warning"></i>
+                                    <span>Flash Sale dimulai dalam 1 jam</span>
+                                </div>
+                            </a></li>
+                            <li><a class="dropdown-item" href="#">
+                                <div class="notification-item">
+                                    <i class="fas fa-gift text-primary"></i>
+                                    <span>Voucher baru tersedia</span>
+                                </div>
+                            </a></li>
+                            <li><hr class="dropdown-divider"></li>
+                            <li><a class="dropdown-item text-center fw-bold" href="#">Lihat Semua Notifikasi</a></li>
+                        </ul>
+                    </div>
+
+                    <div class="nav-item me-3">
+                        <a class="nav-link cart-link" href="#">
+                            <div class="nav-icon-wrapper">
+                                <i class="fas fa-shopping-cart"></i>
+                                <span class="cart-badge bounce">2</span>
+                            </div>
+                        </a>
+                    </div>
+
+                    <div class="nav-item dropdown">
+                        <a class="nav-link profile-link" href="#" id="profileDropdown" role="button" data-bs-toggle="dropdown">
+                            <div class="profile-info">
+                                <div class="avatar">
+                                    <i class="fas fa-user"></i>
+                                </div>
+                                <div class="user-details">
+                                    <span class="user-name">{{ $user ? $user->name : 'User' }}</span>
+                                    <span class="user-status">Premium Member</span>
+                                </div>
+                                <i class="fas fa-chevron-down ms-2"></i>
+                            </div>
+                        </a>
+                        <ul class="dropdown-menu profile-dropdown">
+                            <li class="dropdown-header">
+                                <div class="profile-header">
+                                    <div class="avatar-large">
+                                        <i class="fas fa-user"></i>
+                                    </div>
+                                    <div>
+                                        <h6 class="mb-0">{{ $user ? $user->name : 'User' }}</h6>
+                                        <small class="text-muted">Premium Member</small>
+                                    </div>
+                                </div>
+                            </li>
+                            <li><hr class="dropdown-divider"></li>
+                            <li><a class="dropdown-item" href="#"><i class="fas fa-user me-2"></i>Profile Saya</a></li>
+                            <li><a class="dropdown-item" href="#"><i class="fas fa-box me-2"></i>Pesanan Saya</a></li>
+                            <li><a class="dropdown-item" href="#"><i class="fas fa-heart me-2"></i>Wishlist</a></li>
+                            <li><a class="dropdown-item" href="#"><i class="fas fa-wallet me-2"></i>Dompet Digital</a></li>
+                            <li><a class="dropdown-item" href="#"><i class="fas fa-cog me-2"></i>Pengaturan</a></li>
+                            <li><hr class="dropdown-divider"></li>
+                            <li>
+                                <form action="{{ route('pelanggan.logout') }}" method="POST" class="d-inline">
+                                    @csrf
+                                    <button type="submit" class="dropdown-item text-danger"><i class="fas fa-sign-out-alt me-2"></i>Logout</button>
+                                </form>
+                            </li>
+                        </ul>
+                    </div>
+                @else
+                    <!-- Guest user -->
+                    <div class="nav-item me-2">
+                        <a href="{{ route('pelanggan.login') }}" class="btn btn-nav-outline">
                             <i class="fas fa-sign-in-alt me-2"></i>Masuk
-                        </a></li>
-                        <li><a class="dropdown-item" href="{{ route('pelanggan.register') }}">
+                        </a>
+                    </div>
+                    <div class="nav-item">
+                        <a href="{{ route('pelanggan.register') }}" class="btn btn-nav-primary">
                             <i class="fas fa-user-plus me-2"></i>Daftar
-                        </a></li>
-                    </ul>
-                </div>
+                        </a>
+                    </div>
+                @endauth
             </div>
         </div>
     </nav>
@@ -803,6 +1239,7 @@
                 </div>
             </div>
             <hr class="footer-divider">
+            
             <div class="footer-bottom text-center">
                 <p class="copyright">&copy; 2025 MyYOGYA. Semua hak dilindungi.</p>
             </div>
