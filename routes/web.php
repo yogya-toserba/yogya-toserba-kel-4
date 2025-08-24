@@ -10,6 +10,42 @@ use App\Http\Controllers\CategoryController;
 // Dashboard utama
 Route::get('/', [DashboardController::class, 'index'])->name('dashboard');
 
+// Tentang MyYOGYA
+Route::get('/tentang', function () {
+    return view('tentang');
+})->name('tentang');
+
+// Layanan & Bantuan
+Route::get('/layanan', function () {
+    return view('layanan');
+})->name('layanan');
+
+// Cara Belanja
+Route::get('/cara-belanja', function () {
+    return view('cara-belanja');
+})->name('cara-belanja');
+
+// Pengiriman
+Route::get('/pengiriman', function () {
+    return view('pengiriman');
+})->name('pengiriman');
+
+Route::get('/metode-pembayaran', function () {
+    return view('metode-pembayaran');
+})->name('metode-pembayaran');
+
+Route::get('/syarat-ketentuan', function () {
+    return view('syarat-ketentuan');
+})->name('syarat-ketentuan');
+
+Route::get('/kebijakan-privasi', function () {
+    return view('kebijakan-privasi');
+})->name('kebijakan-privasi');
+
+Route::get('/kebijakan-return', function () {
+    return view('kebijakan-return');
+})->name('kebijakan-return');
+
 // AJAX routes for dashboard
 Route::post('/add-to-cart', [DashboardController::class, 'addToCart'])->name('add.to.cart');
 

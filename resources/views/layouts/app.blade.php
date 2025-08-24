@@ -380,32 +380,46 @@
         
         /* Footer Styles */
         .footer-custom {
-            background: linear-gradient(135deg, #2c3e50 0%, #34495e 100%);
-            color: #ecf0f1;
-            padding: 50px 0 20px;
-            border-top: 4px solid var(--primary-color);
+            background: linear-gradient(135deg, #1e3a8a 0%, #1e40af 100%);
+            color: white;
+            padding: 60px 0 20px;
+            position: relative;
+            overflow: hidden;
         }
-        
-        .footer-brand {
-            color: var(--primary-color);
-            font-size: 24px;
+
+        .footer-custom::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.03'%3E%3Ccircle cx='30' cy='30' r='2'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E") repeat;
+        }
+
+        .footer-custom .container {
+            position: relative;
+            z-index: 1;
+        }
+
+        .footer-brand h5 {
             font-weight: 700;
-            margin-bottom: 15px;
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+            color: white;
         }
-        
-        .footer-description {
-            color: #bdc3c7;
+
+        .footer-brand p {
+            color: rgba(255, 255, 255, 0.8);
             line-height: 1.6;
             margin-bottom: 0;
         }
         
         .footer-title {
             color: white;
-            font-size: 16px;
+            font-size: 1.1rem;
             font-weight: 600;
-            margin-bottom: 20px;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
+            margin-bottom: 1.5rem;
         }
         
         .footer-links {
@@ -415,66 +429,50 @@
         }
         
         .footer-links li {
-            margin-bottom: 8px;
+            margin-bottom: 0.5rem;
         }
         
         .footer-link {
-            color: #bdc3c7;
+            color: rgba(255, 255, 255, 0.8);
             text-decoration: none;
-            transition: color 0.3s ease;
-            font-size: 14px;
+            transition: var(--transition);
+            font-size: 0.95rem;
         }
         
         .footer-link:hover {
-            color: var(--primary-color);
-            text-decoration: none;
+            color: white;
+            text-decoration: underline;
         }
         
-        .footer-contact .contact-item {
-            color: #bdc3c7;
-            margin-bottom: 10px;
-            display: flex;
-            align-items: center;
-            font-size: 14px;
-        }
-        
-        .footer-contact .contact-item i {
-            color: var(--primary-color);
-            width: 20px;
-        }
-        
-        .footer-social {
-            margin-top: 20px;
-        }
-        
-        .social-link {
+        .footer-social a {
             display: inline-flex;
             align-items: center;
             justify-content: center;
             width: 40px;
             height: 40px;
             background: rgba(255, 255, 255, 0.1);
-            color: #bdc3c7;
             border-radius: 50%;
+            color: rgba(255, 255, 255, 0.8);
             text-decoration: none;
-            transition: all 0.3s ease;
+            transition: var(--transition);
+            backdrop-filter: blur(10px);
         }
         
-        .social-link:hover {
-            background: var(--primary-color);
+        .footer-social a:hover {
+            background: rgba(255, 255, 255, 0.2);
             color: white;
-            transform: translateY(-3px);
+            transform: translateY(-2px);
         }
         
         .footer-divider {
-            border: none;
-            height: 1px;
-            background: linear-gradient(to right, transparent, rgba(189, 195, 199, 0.3), transparent);
-            margin: 30px 0 20px;
+            border-color: rgba(255, 255, 255, 0.1);
+            margin: 3rem 0 1.5rem;
         }
-        
-        .footer-bottom {
-            padding-top: 20px;
+
+        .footer-text {
+            color: rgba(255, 255, 255, 0.7);
+            font-size: 0.9rem;
+            margin: 0;
         }
         
         /* Maps styling */
@@ -1192,56 +1190,65 @@
     <footer class="footer-custom mt-5">
         <div class="container">
             <div class="row">
-                <div class="col-md-3 mb-4">
-                    <h5 class="footer-brand">MyYOGYA</h5>
-                    <p class="footer-description">Platform belanja online terpercaya dengan ribuan produk berkualitas.</p>
-                    <div class="footer-social mt-3">
-                        <a href="#" class="social-link me-3"><i class="fab fa-facebook-f"></i></a>
-                        <a href="#" class="social-link me-3"><i class="fab fa-instagram"></i></a>
-                        <a href="#" class="social-link me-3"><i class="fab fa-twitter"></i></a>
-                        <a href="#" class="social-link"><i class="fab fa-youtube"></i></a>
+                <div class="col-lg-4 col-md-6 mb-4">
+                    <div class="footer-brand">
+                        <h5 class="mb-2">MyYOGYA</h5>
+                        <p>Platform belanja online terpercaya dengan ribuan produk berkualitas dan pelayanan terbaik untuk kepuasan Anda.</p>
                     </div>
                 </div>
-                <div class="col-md-3 mb-4">
-                    <h6 class="footer-title">Layanan Pelanggan</h6>
-                    <ul class="footer-links">
-                        <li><a href="#" class="footer-link">Pusat Bantuan</a></li>
-                        <li><a href="#" class="footer-link">Cara Berbelanja</a></li>
-                        <li><a href="#" class="footer-link">Kebijakan Privasi</a></li>
-                        <li><a href="#" class="footer-link">Syarat & Ketentuan</a></li>
-                    </ul>
-                </div>
-                <div class="col-md-3 mb-4">
+                <div class="col-lg-2 col-md-6 mb-4">
                     <h6 class="footer-title">Tentang Kami</h6>
                     <ul class="footer-links">
-                        <li><a href="#" class="footer-link">Profil Perusahaan</a></li>
+                        <li><a href="{{ route('tentang') }}" class="footer-link">Tentang MyYOGYA</a></li>
                         <li><a href="#" class="footer-link">Karir</a></li>
-                        <li><a href="#" class="footer-link">Blog</a></li>
                         <li><a href="#" class="footer-link">Press Release</a></li>
+                        <li><a href="#" class="footer-link">Investor Relations</a></li>
                     </ul>
                 </div>
-                <div class="col-md-3 mb-4">
-                    <h6 class="footer-title">Kontak</h6>
-                    <div class="footer-contact">
-                        <p class="contact-item">
-                            <i class="fas fa-phone-alt me-2"></i>
-                            <span>0800-1-500-500</span>
-                        </p>
-                        <p class="contact-item">
-                            <i class="fas fa-envelope me-2"></i>
-                            <span>info@myyogya.com</span>
-                        </p>
-                        <p class="contact-item">
-                            <i class="fas fa-map-marker-alt me-2"></i>
-                            <span>Jakarta, Indonesia</span>
-                        </p>
+                <div class="col-lg-2 col-md-6 mb-4">
+                    <h6 class="footer-title">Layanan</h6>
+                    <ul class="footer-links">
+                        <li><a href="{{ route('layanan') }}" class="footer-link">Bantuan</a></li>
+                        <li><a href="{{ route('cara-belanja') }}" class="footer-link">Cara Belanja</a></li>
+                        <li><a href="{{ route('pengiriman') }}" class="footer-link">Pengiriman</a></li>
+                        <li><a href="{{ route('metode-pembayaran') }}" class="footer-link">Metode Pembayaran</a></li>
+                    </ul>
+                </div>
+                <div class="col-lg-2 col-md-6 mb-4">
+                    <h6 class="footer-title">Kebijakan</h6>
+                    <ul class="footer-links">
+                        <li><a href="{{ route('syarat-ketentuan') }}" class="footer-link">Syarat & Ketentuan</a></li>
+                        <li><a href="{{ route('kebijakan-privasi') }}" class="footer-link">Kebijakan Privasi</a></li>
+                        <li><a href="#" class="footer-link">Kebijakan Return</a></li>
+                        <li><a href="#" class="footer-link">Hak Kekayaan Intelektual</a></li>
+                    </ul>
+                </div>
+                <div class="col-lg-2 col-md-6 mb-4">
+                    <h6 class="footer-title">Ikuti Kami</h6>
+                    <div class="footer-social">
+                        <a href="https://www.facebook.com/toserbayogyaciamis57/" target="_blank" rel="noopener" title="Facebook Toserba YOGYA Ciamis" aria-label="Facebook" class="social-link me-3">
+                            <i class="fab fa-facebook-f"></i>
+                        </a>
+                        <a href="https://www.google.com/maps?q=Jl.%20Perintis%20Kemerdekaan%20No.57%2C%20Ciamis%2C%20Kec.%20Ciamis%2C%20Kabupaten%20Ciamis%2C%20Jawa%20Barat%2046211%2C%20Indonesia" target="_blank" rel="noopener" title="Lihat lokasi di Google Maps (Jl. Perintis Kemerdekaan No.57, Ciamis · +62 265 777779)" aria-label="Lokasi" class="social-link me-3">
+                            <i class="fas fa-map-marker-alt"></i>
+                        </a>
+                        <a href="https://www.instagram.com/yogya_ciamis/reels/" target="_blank" rel="noopener" title="Instagram YOGYA Ciamis" aria-label="Instagram" class="social-link me-3">
+                            <i class="fab fa-instagram"></i>
+                        </a>
+                        <a href="https://www.youtube.com/ToserbaYOGYA" target="_blank" rel="noopener" title="YouTube Toserba YOGYA" aria-label="YouTube" class="social-link">
+                            <i class="fab fa-youtube"></i>
+                        </a>
                     </div>
                 </div>
             </div>
             <hr class="footer-divider">
-            
-            <div class="footer-bottom text-center">
-                <p class="copyright">&copy; 2025 MyYOGYA. Semua hak dilindungi.</p>
+            <div class="row">
+                <div class="col-md-6">
+                    <p class="footer-text">&copy; 2025 MyYOGYA. All rights reserved.</p>
+                </div>
+                <div class="col-md-6 text-md-end">
+                    <p class="footer-text">Made from Selenium in Indonesia</p>
+                </div>
             </div>
         </div>
     </footer>
