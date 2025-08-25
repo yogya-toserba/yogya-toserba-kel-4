@@ -90,6 +90,12 @@ clover.xml
 *.db
 
 # ================================
+# Migration Files
+# ================================
+/database/migrations/*
+!/database/migrations/.gitkeep
+
+# ================================
 # Logs & Temporary Files
 # ================================
 *.log

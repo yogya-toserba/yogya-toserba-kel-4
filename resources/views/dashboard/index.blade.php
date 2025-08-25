@@ -491,7 +491,7 @@
                 <div class="col-lg-2 col-md-6 mb-4">
                     <h6 class="footer-title">Tentang Kami</h6>
                     <ul class="footer-links">
-                        <li><a href="#">Tentang MyYOGYA</a></li>
+                        <li><a href="{{ route('tentang') }}">Tentang MyYOGYA</a></li>
                         <li><a href="#">Karir</a></li>
                         <li><a href="#">Press Release</a></li>
                         <li><a href="#">Investor Relations</a></li>
@@ -500,18 +500,18 @@
                 <div class="col-lg-2 col-md-6 mb-4">
                     <h6 class="footer-title">Layanan</h6>
                     <ul class="footer-links">
-                        <li><a href="#">Bantuan</a></li>
-                        <li><a href="#">Cara Belanja</a></li>
-                        <li><a href="#">Pengiriman</a></li>
-                        <li><a href="#">Metode Pembayaran</a></li>
+                        <li><a href="{{ route('layanan') }}">Bantuan</a></li>
+                        <li><a href="{{ route('cara-belanja') }}">Cara Belanja</a></li>
+                        <li><a href="{{ route('pengiriman') }}">Pengiriman</a></li>
+                        <li><a href="{{ route('metode-pembayaran') }}">Metode Pembayaran</a></li>
                     </ul>
                 </div>
                 <div class="col-lg-2 col-md-6 mb-4">
                     <h6 class="footer-title">Kebijakan</h6>
                     <ul class="footer-links">
-                        <li><a href="#">Syarat & Ketentuan</a></li>
-                        <li><a href="#">Kebijakan Privasi</a></li>
-                        <li><a href="#">Kebijakan Return</a></li>
+                        <li><a href="{{ route('syarat-ketentuan') }}">Syarat & Ketentuan</a></li>
+                        <li><a href="{{ route('kebijakan-privasi') }}">Kebijakan Privasi</a></li>
+                        <li><a href="{{ route('kebijakan-return') }}">Kebijakan Return</a></li>
                         <li><a href="#">Hak Kekayaan Intelektual</a></li>
                     </ul>
                 </div>
