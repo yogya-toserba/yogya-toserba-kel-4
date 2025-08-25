@@ -17,6 +17,21 @@ Route::get('/tentang', function () {
     return view('tentang');
 })->name('tentang');
 
+// Karir
+Route::get('/karir', function () {
+    return view('karir');
+})->name('karir');
+
+// Press Release
+Route::get('/press-release', function () {
+    return view('press-release');
+})->name('press-release');
+
+// Investor Relations
+Route::get('/investor-relations', function () {
+    return view('investor-relations');
+})->name('investor-relations');
+
 // Layanan & Bantuan
 Route::get('/layanan', function () {
     return view('layanan');
@@ -47,6 +62,10 @@ Route::get('/kebijakan-privasi', function () {
 Route::get('/kebijakan-return', function () {
     return view('kebijakan-return');
 })->name('kebijakan-return');
+
+Route::get('/hak-kekayaan-intelektual', function () {
+    return view('hak-kekayaan-intelektual');
+})->name('hak-kekayaan-intelektual');
 
 // AJAX routes for dashboard
 Route::post('/add-to-cart', [DashboardController::class, 'addToCart'])->name('add.to.cart');

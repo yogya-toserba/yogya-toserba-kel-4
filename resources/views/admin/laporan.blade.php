@@ -1,4 +1,4 @@
-@extends('layouts.navbar_admin')
+x`@extends('layouts.navbar_admin')
 
 @section('title', 'Page Title')
 
