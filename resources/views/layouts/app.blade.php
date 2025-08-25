@@ -455,16 +455,16 @@
         <!-- Sidebar -->
         <div class="col-md-2 sidebar">
             <h4 class="px-3 mb-4">MyYOGYA</h4>
-            <a href="{{ route('keuangan.dashboard') }}" class="{{ request()->routeIs('keuangan.dashboard') ? 'active' : '' }}">
+            <a href="{{ route('admin.keuangan') }}" class="{{ request()->routeIs('admin.keuangan') ? 'active' : '' }}">
                 Dashboard
             </a>
-            <a href="{{ route('keuangan.riwayat') }}" class="{{ request()->routeIs('keuangan.riwayat') ? 'active' : '' }}">
+            <a href="{{ route('admin.keuangan.riwayat') }}" class="{{ request()->routeIs('admin.keuangan.riwayat') ? 'active' : '' }}">
                 Riwayat Transaksi
             </a>
-            <a href="{{ route('keuangan.bukubesar') }}" class="{{ request()->routeIs('keuangan.bukubesar') ? 'active' : '' }}">
+            <a href="{{ route('admin.keuangan.bukubesar') }}" class="{{ request()->routeIs('admin.keuangan.bukubesar') ? 'active' : '' }}">
                 Buku Besar
             </a>
-            <a href="{{ route('keuangan.laporan') }}" class="{{ request()->routeIs('keuangan.laporan') ? 'active' : '' }}">
+            <a href="{{ route('admin.keuangan.laporan') }}" class="{{ request()->routeIs('admin.keuangan.laporan') ? 'active' : '' }}">
                 Laporan
             </a>
         </div>

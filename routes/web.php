@@ -70,35 +70,35 @@ Route::prefix('gudang')->name('gudang.')->group(function () {
         return view('gudang.manual');
     })->name('manual');
 
-      Route::get('/dahsboard', function () {
+    Route::get('/dashboard', function () {
         return view('gudang.dahsboard');
     })->name('dahsboard');
 
-      Route::get('/permintaan', function () {
+    Route::get('/permintaan', function () {
         return view('gudang.permintaan');
     })->name('permintaan');
 
     Route::get('/pengiriman', function () {
         return view('gudang.pengiriman');
     })->name('pengiriman');
-   
-   Route::get('/stok', function () {
+
+    Route::get('/stok', function () {
         return view('gudang.stok');
     })->name('stok');
 
-        Route::get('/inventori', function () {
+    Route::get('/inventori', function () {
         return view('gudang.inventori');
     })->name('inventori');
 
-        Route::get('/pemasok', function () {
+    Route::get('/pemasok', function () {
         return view('gudang.pemasok');
     })->name('pemasok');
 
-        Route::get('/resiko', function () {
+    Route::get('/resiko', function () {
         return view('gudang.resiko');
     })->name('resiko');
 
-        Route::get('/logistik', function () {
+    Route::get('/logistik', function () {
         return view('gudang.logistik');
     })->name('logistik');
 
@@ -106,7 +106,7 @@ Route::prefix('gudang')->name('gudang.')->group(function () {
     Route::get('/inventory/create', [ProductController::class, 'create'])->name('inventory.create');
     Route::post('/inventory', [ProductController::class, 'store'])->name('inventory.store');
 });
-    
+
 // Dashboard route
 Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard.index');
 
@@ -154,6 +154,18 @@ Route::prefix('admin')->name('admin.')->group(function () {
         route::get('penggajian', function () {
             return view('admin.penggajian');
         })->name('penggajian');
+        route::get('keuangan', function () {
+            return view('keuangan.dashboard');
+        })->name('keuangan');
+        route::get('keuangan/riwayat', function () {
+            return view('keuangan.riwayat');
+        })->name('keuangan.riwayat');
+        route::get('keuangan/bukubesar', function () {
+            return view('keuangan.bukubesar');
+        })->name('keuangan.bukubesar');
+        route::get('keuangan/laporan', function () {
+            return view('keuangan.laporan');
+        })->name('keuangan.laporan');
         route::get('laporan', function () {
             return view('admin.laporan');
         })->name('laporan');
@@ -163,8 +175,5 @@ Route::prefix('admin')->name('admin.')->group(function () {
         route::get('pengaturan', function () {
             return view('admin.pengaturan');
         })->name('pengaturan');
-        Route::get('keuangan', function () {
-            return view('keuangan.app');
-        })->name('keuangan');
     });
 });

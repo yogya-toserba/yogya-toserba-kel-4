@@ -131,7 +131,7 @@
 
         .login-left h2 {
             font-weight: 700;
-            font-size: 2.2rem;
+            font-size: 2.2remw`;
             margin-bottom: 1.5rem;
             text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
             z-index: 1;
