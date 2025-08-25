@@ -1,331 +1,238 @@
-<!DOCTYPE html>
-<html lang="id">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Pilihan Produk Elektronik - Shopee Style</title>
-<style>
-    body {
-        font-family: Arial, sans-serif;
-        background: #f5f5f5;
-        margin: 0;
-        padding: 0;
-    }
+@extends('layouts.app')
 
-    .navbar {
-        position: fixed;
-        top: 0;
-        width: 100%;
-        background: white;
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        padding: 12px 10px; /* padding dikurangi supaya muat */
-        box-shadow: 0 2px 6px rgba(0,0,0,0.1);
-        z-index: 1000;
-        flex-wrap: wrap; /* biar bisa turun kalau layar sempit */
-        box-sizing: border-box; /* supaya padding gak bikin overflow */
-    }
+@section('title', 'Fashion - MyYOGYA')
 
-    .nav-buttons {
-        display: flex;
-        gap: 8px;
-        flex-shrink: 0; /* tombol gak mengecil */
-    }
+@section('content')
+<!-- Category Header -->
+<div class="category-header">
+    <div class="container">
+        <nav class="breadcrumb-custom">
+            <a href="{{ route('dashboard') }}">Beranda</a>
+            <span class="mx-2">/</span>
+            <span>Fashion</span>
+        </nav>
+        
+        <h1 class="display-5 fw-bold mb-3">👗 Fashion</h1>
+        <p class="lead mb-0">Koleksi fashion terdepan untuk gaya hidup modern Anda</p>
+    </div>
+</div>
 
-    .navbar .logo {
-        display: flex;
-        align-items: center;
-        gap: 8px;
-    }
-
-    .navbar .logo img {
-        height: 40px;
-    }
-
-    .navbar .logo-text {
-        font-size: 20px;
-        font-weight: bold;
-        color: #f15a24;
-    }
-
-    .search-bar {
-        flex: 1;
-        margin: 0 20px;
-        display: flex;
-        align-items: center;
-        background: white;
-        border-radius: 30px;
-        border: 2px solid #f15a24;
-        overflow: hidden;
-    }
-
-    .search-bar input {
-        flex: 1;
-        border: none;
-        padding: 10px 15px;
-        font-size: 14px;
-        outline: none;
-    }
-
-    .search-bar button {
-        background: #f15a24;
-        color: white;
-        border: none;
-        padding: 10px 20px;
-        cursor: pointer;
-        font-size: 16px;
-    }
-
-    .btn-outline {
-        border: 2px solid #f15a24;
-        color: #f15a24;
-        background: white;
-        padding: 8px 15px;
-        border-radius: 20px;
-        font-weight: bold;
-        text-decoration: none;
-        transition: 0.3s;
-    }
-
-    .btn-outline:hover {
-        background: #f15a24;
-        color: white;
-    }
-
-    .btn-fill {
-        background: #f15a24;
-        color: white;
-        padding: 8px 15px;
-        border-radius: 20px;
-        font-weight: bold;
-        text-decoration: none;
-        transition: 0.3s;
-    }
-
-    .btn-fill:hover {
-        background: #d94a1d;
-    }
-
-    /* Konten */
-    .content {
-        margin-top: 90px; /* kasih jarak dari navbar */
-        padding: 20px;
-    }
-
-    .product-container {
-    display: grid;
-    grid-template-columns: repeat(6, 1fr); /* 6 kolom */
-    gap: 16px;
-    }
-
-    .product-card {
-        background: #fff;
-        border-radius: 8px;
-        position: relative;
-        box-shadow: 0 2px 6px rgba(0,0,0,0.1);
-        overflow: hidden;
-        transition: transform 0.2s;
-    }
-
-    .product-card:hover {
-        transform: translateY(-5px);
-    }
-
-    .product-card img {
-        width: 100%;
-        height: 200px; /* gambar lebih tinggi */
-        object-fit: cover;
-    }
-
-    .product-info {
-        padding: 10px;
-    }
-
-    .product-title {
-        font-size: 14px;
-        height: 40px;
-        overflow: hidden;
-    }
-
-    .price-section {
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-    }
-
-    .price-original {
-        font-size: 12px;
-        text-decoration: line-through;
-        color: #888;
-    }
-
-    .price-discount {
-        color: #e91e63;
-        font-weight: bold;
-        font-size: 15px;
-    }
-
-    .sold-count {
-        font-size: 12px;
-        color: #666;
-    }
-
-    .discount-label {
-    position: absolute;
-    top: 8px;
-    right: 8px;
-    background: #e91e63;
-    color: white;
-    font-size: 13px;
-    font-weight: bold;
-    padding: 4px 8px;
-    border-radius: 4px;
-    }
-
-</style>
-
-<body>
-    <!-- Navbar -->
-
-
-    <div class="navbar">
-        <div class="logo">
-            <img src="{{ asset('image/logo_yogya.png') }}" alt="Lampu LED">
-            <span class="logo-text">MyYOGYA</span>
-        </div>
-
-        <form class="search-bar">
-            <input type="text" placeholder="Cari produk, kategori, atau brand favorit Anda...">
-            <button type="submit">&#10140;</button>
-        </form>
-
-        <div class="nav-buttons">
-            <a href="#" class="btn-outline">Masuk</a>
-            <a href="#" class="btn-fill">Daftar</a>
+<div class="container">
+    <!-- Filter Section -->
+    <div class="filter-section">
+        <div class="row align-items-center">
+            <div class="col-md-8">
+                <div class="row g-3">
+                    <div class="col-md-3">
+                        <select class="form-select">
+                            <option>Semua Kategori</option>
+                            <option>Pakaian Pria</option>
+                            <option>Pakaian Wanita</option>
+                            <option>Sepatu</option>
+                            <option>Tas & Dompet</option>
+                            <option>Aksesoris</option>
+                        </select>
+                    </div>
+                    <div class="col-md-3">
+                        <select class="form-select">
+                            <option>Ukuran</option>
+                            <option>XS</option>
+                            <option>S</option>
+                            <option>M</option>
+                            <option>L</option>
+                            <option>XL</option>
+                            <option>XXL</option>
+                        </select>
+                    </div>
+                    <div class="col-md-3">
+                        <select class="form-select">
+                            <option>Urutkan</option>
+                            <option>Harga Terendah</option>
+                            <option>Harga Tertinggi</option>
+                            <option>Terpopuler</option>
+                            <option>Terbaru</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4 text-end">
+                <small class="text-muted">Menampilkan 1-12 dari 234 produk</small>
+            </div>
         </div>
     </div>
 
-    <!-- Produk -->
-    <div class="content">
-        <div class="product-container">
-            <div class="product-card">
-                <img src="{{ asset('image/illustration.png') }}" alt="Lampu LED">
-                <span class="discount-label">-38%</span>
-                <div class="product-info">
-                    <div class="product-title">Fitting Saklar E27 LED Lamp Holder</div>
-                    <span class="price-original">Rp 50.000</span>
-                    <div class="price-section">
-                        <span class="price-discount">Rp 31.000</span>
-                        <span class="sold-count">Terjual 500</span>
-                    </div>
-                </div>
+    <!-- Products Grid -->
+    <div class="product-grid">
+        @foreach([
+            [
+                'name' => 'Kemeja Formal Pria Premium Cotton',
+                'price' => 'Rp 299.000',
+                'original_price' => 'Rp 399.000',
+                'discount' => '25%',
+                'image' => 'https://via.placeholder.com/300x300/f0f0f0/888?text=Kemeja+Formal',
+                'rating' => 4.7,
+                'reviews' => 156
+            ],
+            [
+                'name' => 'Dress Wanita Elegant Korean Style',
+                'price' => 'Rp 159.000',
+                'original_price' => 'Rp 219.000',
+                'discount' => '27%',
+                'image' => 'https://via.placeholder.com/300x300/f0f0f0/888?text=Dress+Elegant',
+                'rating' => 4.8,
+                'reviews' => 243
+            ],
+            [
+                'name' => 'Sepatu Sneakers Pria Casual Sport',
+                'price' => 'Rp 449.000',
+                'original_price' => '',
+                'discount' => '',
+                'image' => 'https://via.placeholder.com/300x300/f0f0f0/888?text=Sneakers+Sport',
+                'rating' => 4.6,
+                'reviews' => 189
+            ],
+            [
+                'name' => 'Tas Handbag Wanita Kulit Premium',
+                'price' => 'Rp 689.000',
+                'original_price' => 'Rp 899.000',
+                'discount' => '23%',
+                'image' => 'https://via.placeholder.com/300x300/f0f0f0/888?text=Handbag+Premium',
+                'rating' => 4.9,
+                'reviews' => 98
+            ],
+            [
+                'name' => 'Blouse Wanita Chiffon Modern',
+                'price' => 'Rp 129.000',
+                'original_price' => 'Rp 179.000',
+                'discount' => '28%',
+                'image' => 'https://via.placeholder.com/300x300/f0f0f0/888?text=Blouse+Chiffon',
+                'rating' => 4.5,
+                'reviews' => 167
+            ],
+            [
+                'name' => 'Celana Jeans Pria Slim Fit',
+                'price' => 'Rp 199.000',
+                'original_price' => '',
+                'discount' => '',
+                'image' => 'https://via.placeholder.com/300x300/f0f0f0/888?text=Jeans+Slim+Fit',
+                'rating' => 4.7,
+                'reviews' => 134
+            ],
+            [
+                'name' => 'High Heels Wanita Formal 7cm',
+                'price' => 'Rp 349.000',
+                'original_price' => 'Rp 449.000',
+                'discount' => '22%',
+                'image' => 'https://via.placeholder.com/300x300/f0f0f0/888?text=High+Heels',
+                'rating' => 4.4,
+                'reviews' => 76
+            ],
+            [
+                'name' => 'Jaket Bomber Pria Stylish',
+                'price' => 'Rp 259.000',
+                'original_price' => 'Rp 329.000',
+                'discount' => '21%',
+                'image' => 'https://via.placeholder.com/300x300/f0f0f0/888?text=Jaket+Bomber',
+                'rating' => 4.6,
+                'reviews' => 112
+            ],
+            [
+                'name' => 'Rok Mini Wanita A-Line Casual',
+                'price' => 'Rp 89.000',
+                'original_price' => 'Rp 119.000',
+                'discount' => '25%',
+                'image' => 'https://via.placeholder.com/300x300/f0f0f0/888?text=Rok+Mini+A-Line',
+                'rating' => 4.3,
+                'reviews' => 89
+            ],
+            [
+                'name' => 'Dompet Pria Kulit Asli Premium',
+                'price' => 'Rp 179.000',
+                'original_price' => '',
+                'discount' => '',
+                'image' => 'https://via.placeholder.com/300x300/f0f0f0/888?text=Dompet+Kulit',
+                'rating' => 4.8,
+                'reviews' => 203
+            ],
+            [
+                'name' => 'Kaos Polo Pria Cotton Combed',
+                'price' => 'Rp 149.000',
+                'original_price' => 'Rp 199.000',
+                'discount' => '25%',
+                'image' => 'https://via.placeholder.com/300x300/f0f0f0/888?text=Kaos+Polo',
+                'rating' => 4.5,
+                'reviews' => 145
+            ],
+            [
+                'name' => 'Sandal Wanita Casual Comfortable',
+                'price' => 'Rp 99.000',
+                'original_price' => 'Rp 139.000',
+                'discount' => '29%',
+                'image' => 'https://via.placeholder.com/300x300/f0f0f0/888?text=Sandal+Casual',
+                'rating' => 4.4,
+                'reviews' => 67
+            ]
+        ] as $product)
+        <div class="product-card">
+            <div class="product-image">
+                <img src="{{ $product['image'] }}" alt="{{ $product['name'] }}">
+                @if($product['discount'])
+                <span class="discount-badge">-{{ $product['discount'] }}</span>
+                @endif
+                <button class="wishlist-btn">
+                    <i class="far fa-heart"></i>
+                </button>
             </div>
             
-            <div class="product-card">
-                <img src="{{ asset('image/illustration.png') }}" alt="Lampu LED">
-                <span class="discount-label">-38%</span>
-                <div class="product-info">
-                    <div class="product-title">Fitting Saklar E27 LED Lamp Holder</div>
-                    <span class="price-original">Rp 50.000</span>
-                    <div class="price-section">
-                        <span class="price-discount">Rp 31.000</span>
-                        <span class="sold-count">Terjual 500</span>
+            <div class="product-info">
+                <h6 class="product-title">{{ $product['name'] }}</h6>
+                
+                <div class="product-rating">
+                    <div class="stars">
+                        @for($i = 1; $i <= 5; $i++)
+                        <i class="fas fa-star{{ $i <= floor($product['rating']) ? '' : ' text-muted' }}"></i>
+                        @endfor
                     </div>
+                    <span class="review-count">({{ $product['reviews'] }})</span>
                 </div>
-            </div>
-
-            <div class="product-card">
-                <img src="{{ asset('image/illustration.png') }}" alt="Lampu LED">
-                <span class="discount-label">-38%</span>
-                <div class="product-info">
-                    <div class="product-title">Fitting Saklar E27 LED Lamp Holder</div>
-                    <span class="price-original">Rp 50.000</span>
-                    <div class="price-section">
-                        <span class="price-discount">Rp 31.000</span>
-                        <span class="sold-count">Terjual 500</span>
-                    </div>
+                
+                <div class="product-price">
+                    <span class="current-price">{{ $product['price'] }}</span>
+                    @if($product['original_price'])
+                    <span class="original-price">{{ $product['original_price'] }}</span>
+                    @endif
                 </div>
-            </div>
-
-            <div class="product-card">
-                <img src="{{ asset('image/illustration.png') }}" alt="Lampu LED">
-                <span class="discount-label">-38%</span>
-                <div class="product-info">
-                    <div class="product-title">Fitting Saklar E27 LED Lamp Holder</div>
-                    <span class="price-original">Rp 50.000</span>
-                    <div class="price-section">
-                        <span class="price-discount">Rp 31.000</span>
-                        <span class="sold-count">Terjual 500</span>
-                    </div>
-                </div>
-            </div>
-
-            <div class="product-card">
-                <img src="{{ asset('image/illustration.png') }}" alt="Lampu LED">
-                <span class="discount-label">-38%</span>
-                <div class="product-info">
-                    <div class="product-title">Fitting Saklar E27 LED Lamp Holder</div>
-                    <span class="price-original">Rp 50.000</span>
-                    <div class="price-section">
-                        <span class="price-discount">Rp 31.000</span>
-                        <span class="sold-count">Terjual 500</span>
-                    </div>
-                </div>
-            </div>
-
-            <div class="product-card">
-                <img src="{{ asset('image/illustration.png') }}" alt="Lampu LED">
-                <span class="discount-label">-38%</span>
-                <div class="product-info">
-                    <div class="product-title">Fitting Saklar E27 LED Lamp Holder</div>
-                    <span class="price-original">Rp 50.000</span>
-                    <div class="price-section">
-                        <span class="price-discount">Rp 31.000</span>
-                        <span class="sold-count">Terjual 500</span>
-                    </div>
-                </div>
-            </div>
-
-            <div class="product-card">
-                <img src="{{ asset('image/illustration.png') }}" alt="Lampu LED">
-                <span class="discount-label">-38%</span>
-                <div class="product-info">
-                    <div class="product-title">Fitting Saklar E27 LED Lamp Holder</div>
-                    <span class="price-original">Rp 50.000</span>
-                    <div class="price-section">
-                        <span class="price-discount">Rp 31.000</span>
-                        <span class="sold-count">Terjual 500</span>
-                    </div>
-                </div>
-            </div>
-
-            <div class="product-card">
-                <img src="{{ asset('image/illustration.png') }}" alt="Lampu LED">
-                <span class="discount-label">-38%</span>
-                <div class="product-info">
-                    <div class="product-title">Fitting Saklar E27 LED Lamp Holder</div>
-                    <span class="price-original">Rp 50.000</span>
-                    <div class="price-section">
-                        <span class="price-discount">Rp 31.000</span>
-                        <span class="sold-count">Terjual 500</span>
-                    </div>
-                </div>
-            </div>
-
-            <div class="product-card">
-                <img src="{{ asset('image/illustration.png') }}" alt="Lampu LED">
-                <span class="discount-label">-38%</span>
-                <div class="product-info">
-                    <div class="product-title">Fitting Saklar E27 LED Lamp Holder</div>
-                    <span class="price-original">Rp 50.000</span>
-                    <div class="price-section">
-                        <span class="price-discount">Rp 31.000</span>
-                        <span class="sold-count">Terjual 500</span>
-                    </div>
-                </div>
+                
+                <button class="add-to-cart-btn">
+                    <i class="fas fa-shopping-cart me-2"></i>Tambah ke Keranjang
+                </button>
             </div>
         </div>
+        @endforeach
     </div>
-</body>
-</html>
+
+    <!-- Pagination -->
+    <nav class="pagination-custom" aria-label="Product pagination">
+        <ul class="pagination">
+            <li class="page-item disabled">
+                <span class="page-link">Previous</span>
+            </li>
+            <li class="page-item active">
+                <span class="page-link">1</span>
+            </li>
+            <li class="page-item">
+                <a class="page-link" href="#">2</a>
+            </li>
+            <li class="page-item">
+                <a class="page-link" href="#">3</a>
+            </li>
+            <li class="page-item">
+                <a class="page-link" href="#">4</a>
+            </li>
+            <li class="page-item">
+                <a class="page-link" href="#">Next</a>
+            </li>
+        </ul>
+    </nav>
+</div>
+@endsection

@@ -47,13 +47,9 @@ Route::prefix('gudang')->name('gudang.')->group(function () {
     // Route::get('/dashboard', [App\Http\Controllers\GudangController::class, 'dashboard'])->name('dashboard');
 
 });
-
-// Dashboard route
-
+    
 // Dashboard route
 Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard.index');
-
-// Route kategori elektronik
 
 // Route kategori elektronik
 Route::get('/kategori/elektronik', function () {
@@ -64,6 +60,41 @@ Route::get('/kategori/elektronik', function () {
 Route::get('/kategori/fashion', function () {
     return view('dashboard.kategori.fashion');
 })->name('kategori.fashion');
+
+// Route kategori makanan & minuman
+Route::get('/kategori/makanan-minuman', function () {
+    return view('dashboard.kategori.makanan-minuman');
+})->name('kategori.makanan-minuman');
+
+// Route kategori kesehatan & kecantikan
+Route::get('/kategori/kesehatan-kecantikan', function () {
+    return view('dashboard.kategori.kesehatan-kecantikan');
+})->name('kategori.kesehatan-kecantikan');
+
+// Route kategori rumah tangga
+Route::get('/kategori/rumah-tangga', function () {
+    return view('dashboard.kategori.rumah-tangga');
+})->name('kategori.rumah-tangga');
+
+// Route kategori olahraga
+Route::get('/kategori/olahraga', function () {
+    return view('dashboard.kategori.olahraga');
+})->name('kategori.olahraga');
+
+// Route kategori otomotif
+Route::get('/kategori/otomotif', function () {
+    return view('dashboard.kategori.otomotif');
+})->name('kategori.otomotif');
+
+// Route kategori buku & alat tulis
+Route::get('/kategori/buku', function () {
+    return view('dashboard.kategori.buku');
+})->name('kategori.buku');
+
+// Route kategori perawatan pribadi
+Route::get('/kategori/perawatan', function () {
+    return view('dashboard.kategori.perawatan');
+})->name('kategori.perawatan');
 
 
 // Route::post('/pelanggan/login', [App\Http\Controllers\PelangganController::class, 'login'])->name('pelanggan.login.submit');
