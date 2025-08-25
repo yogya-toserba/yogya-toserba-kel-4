@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Kebijakan Return - MyYOGYA</title>
+    <title>Hak Kekayaan Intelektual - MyYOGYA</title>
     
     <!-- Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
@@ -203,26 +203,6 @@
             border-radius: 50%;
         }
 
-        .privacy-highlight {
-            background: linear-gradient(135deg, rgba(102, 126, 234, 0.1), rgba(118, 75, 162, 0.1));
-            border-left: 4px solid var(--primary-color);
-            border-radius: 10px;
-            padding: 1.5rem;
-            margin: 1.5rem 0;
-        }
-
-        .privacy-highlight h5 {
-            color: var(--primary-color);
-            font-weight: 600;
-            margin-bottom: 0.75rem;
-        }
-
-        .privacy-highlight p {
-            margin-bottom: 0;
-            color: var(--gray-700);
-            line-height: 1.6;
-        }
-
         .highlight-box {
             background: linear-gradient(135deg, #e3f2fd, #bbdefb);
             border: 1px solid #2196f3;
@@ -366,14 +346,14 @@
             margin-top: 3rem;
         }
 
-        .return-process-grid {
+        .ip-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
             gap: 1.5rem;
             margin: 2rem 0;
         }
 
-        .return-process-card {
+        .ip-card {
             background: linear-gradient(135deg, rgba(102, 126, 234, 0.05), rgba(118, 75, 162, 0.05));
             border: 1px solid rgba(102, 126, 234, 0.2);
             border-radius: 15px;
@@ -384,13 +364,13 @@
             overflow: hidden;
         }
 
-        .return-process-card:hover {
+        .ip-card:hover {
             transform: translateY(-5px);
             box-shadow: 0 15px 35px rgba(102, 126, 234, 0.2);
             border-color: var(--primary-color);
         }
 
-        .return-process-icon {
+        .ip-icon {
             width: 60px;
             height: 60px;
             background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
@@ -424,7 +404,7 @@
                 font-size: 1.5rem;
             }
             
-            .return-process-grid {
+            .ip-grid {
                 grid-template-columns: 1fr;
             }
         }
@@ -441,26 +421,26 @@
                         <i class="fas fa-home me-1"></i>Beranda
                     </a>
                     <span class="mx-2">/</span>
-                    <span class="current">Kebijakan Return</span>
+                    <span class="current">Hak Kekayaan Intelektual</span>
                 </nav>
                 
-                <h1 class="display-4 fw-bold mb-4">Kebijakan <span class="text-warning">Return</span></h1>
-                <p class="lead mb-4">Ketentuan lengkap mengenai prosedur return dan pengembalian produk di MyYOGYA untuk memberikan kepuasan dan kemudahan berbelanja bagi pelanggan.</p>
+                <h1 class="display-4 fw-bold mb-4">Hak Kekayaan <span class="text-warning">Intelektual</span></h1>
+                <p class="lead mb-4">Perlindungan dan penghormatan terhadap hak kekayaan intelektual di platform MyYOGYA sesuai dengan peraturan hukum yang berlaku di Indonesia.</p>
                 <div class="d-flex justify-content-center gap-4 flex-wrap">
                     <div class="text-center">
-                        <i class="fas fa-undo-alt mb-2" style="font-size: 2rem;"></i>
-                        <h5 class="mb-1 fw-bold">7 Hari</h5>
-                        <p class="mb-0 opacity-75">Garansi Return</p>
+                        <i class="fas fa-copyright mb-2" style="font-size: 2rem;"></i>
+                        <h5 class="mb-1 fw-bold">Copyright</h5>
+                        <p class="mb-0 opacity-75">Dilindungi Hukum</p>
                     </div>
                     <div class="text-center">
-                        <i class="fas fa-shipping-fast mb-2" style="font-size: 2rem;"></i>
-                        <h5 class="mb-1 fw-bold">Gratis Ongkir</h5>
-                        <p class="mb-0 opacity-75">Return Bergaransi</p>
+                        <i class="fas fa-trademark mb-2" style="font-size: 2rem;"></i>
+                        <h5 class="mb-1 fw-bold">Trademark</h5>
+                        <p class="mb-0 opacity-75">Terdaftar Resmi</p>
                     </div>
                     <div class="text-center">
-                        <i class="fas fa-money-bill-wave mb-2" style="font-size: 2rem;"></i>
-                        <h5 class="mb-1 fw-bold">Full Refund</h5>
-                        <p class="mb-0 opacity-75">Uang Kembali 100%</p>
+                        <i class="fas fa-shield-alt mb-2" style="font-size: 2rem;"></i>
+                        <h5 class="mb-1 fw-bold">Perlindungan</h5>
+                        <p class="mb-0 opacity-75">24/7 Monitoring</p>
                     </div>
                 </div>
             </div>
@@ -468,7 +448,7 @@
     </div>
 </div>
 
-<!-- Privacy Content -->
+<!-- Content -->
 <section class="py-5">
     <div class="container">
         <div class="row">
@@ -476,330 +456,333 @@
                 <div class="privacy-navigation">
                     <h6 class="privacy-nav-title">Daftar Isi</h6>
                     <ul class="privacy-nav-list">
-                        <li><a href="#ketentuan-umum" class="nav-link">1. Ketentuan Umum</a></li>
-                        <li><a href="#syarat-return" class="nav-link">2. Syarat Return</a></li>
-                        <li><a href="#prosedur-return" class="nav-link">3. Prosedur Return</a></li>
-                        <li><a href="#waktu-proses" class="nav-link">4. Waktu Proses</a></li>
-                        <li><a href="#jenis-refund" class="nav-link">5. Jenis Refund</a></li>
-                        <li><a href="#pengecualian" class="nav-link">6. Pengecualian</a></li>
-                        <li><a href="#kontak-bantuan" class="nav-link">7. Kontak Bantuan</a></li>
+                        <li><a href="#pendahuluan" class="nav-link">1. Pendahuluan</a></li>
+                        <li><a href="#jenis-hki" class="nav-link">2. Jenis HKI</a></li>
+                        <li><a href="#kepemilikan" class="nav-link">3. Kepemilikan</a></li>
+                        <li><a href="#penggunaan-diizinkan" class="nav-link">4. Penggunaan Diizinkan</a></li>
+                        <li><a href="#pelanggaran" class="nav-link">5. Pelanggaran HKI</a></li>
+                        <li><a href="#dmca" class="nav-link">6. DMCA Takedown</a></li>
+                        <li><a href="#lisensi" class="nav-link">7. Lisensi Pihak Ketiga</a></li>
+                        <li><a href="#pelaporan" class="nav-link">8. Pelaporan</a></li>
+                        <li><a href="#sanksi" class="nav-link">9. Sanksi</a></li>
+                        <li><a href="#kontak" class="nav-link">10. Kontak</a></li>
                     </ul>
                 </div>
             </div>
             
             <div class="col-lg-9">
                 <div class="privacy-content">
-                    <!-- Section 1: Ketentuan Umum -->
-                    <div id="ketentuan-umum" class="privacy-section">
-                        <h2 class="section-title">1. Ketentuan Umum Return</h2>
-                        <p class="privacy-text">MyYOGYA berkomitmen memberikan pengalaman berbelanja yang memuaskan. Kami menyediakan kebijakan return yang jelas dan mudah untuk memastikan kepuasan pelanggan dalam setiap transaksi pembelian.</p>
+                    <!-- Section 1: Pendahuluan -->
+                    <div id="pendahuluan" class="privacy-section">
+                        <h2 class="section-title">1. Pendahuluan</h2>
+                        <p class="privacy-text">MyYOGYA menghormati dan melindungi hak kekayaan intelektual (HKI) dari semua pihak. Kebijakan ini mengatur penggunaan, perlindungan, dan penegakan hak kekayaan intelektual di platform kami sesuai dengan Undang-Undang No. 28 Tahun 2014 tentang Hak Cipta dan peraturan terkait lainnya.</p>
                         
                         <div class="highlight-box">
-                            <h6><i class="fas fa-shield-alt me-2"></i>Jaminan Kepuasan</h6>
-                            <p>Kebijakan return ini berlaku untuk semua pembelian yang dilakukan melalui platform MyYOGYA, baik melalui website, aplikasi mobile, maupun marketplace resmi kami. Kami menjamin proses return yang mudah dan transparan.</p>
+                            <h6><i class="fas fa-balance-scale me-2"></i>Komitmen Kami</h6>
+                            <p>MyYOGYA berkomitmen untuk menciptakan ekosistem digital yang menghormati hak kekayaan intelektual, mendukung inovasi, dan melindungi kreativitas semua pengguna platform kami.</p>
                         </div>
 
-                        <h3 class="subsection-title">1.1 Hak Return Pelanggan</h3>
-                        <ul class="privacy-list">
-                            <li>Pelanggan berhak melakukan return produk dalam waktu 7 (tujuh) hari sejak barang diterima</li>
-                            <li>Return dapat dilakukan untuk semua kategori produk kecuali yang dikecualikan dalam kebijakan ini</li>
-                            <li>Tidak dikenakan biaya tambahan untuk proses return yang sesuai ketentuan</li>
-                            <li>Pelanggan berhak mendapat pengembalian dana penuh sesuai metode pembayaran awal</li>
-                            <li>Proses return dijamin selesai maksimal 14 hari kerja</li>
-                        </ul>
+                        <p class="privacy-text">Kebijakan ini berlaku untuk semua pengguna, mitra, penjual, dan pihak yang berinteraksi dengan platform MyYOGYA dalam bentuk apapun.</p>
                     </div>
 
-                    <!-- Section 2: Syarat Return -->
-                    <div id="syarat-return" class="privacy-section">
-                        <h2 class="section-title">2. Syarat dan Ketentuan Return</h2>
+                    <!-- Section 2: Jenis HKI -->
+                    <div id="jenis-hki" class="privacy-section">
+                        <h2 class="section-title">2. Jenis Hak Kekayaan Intelektual</h2>
                         
-                        <h3 class="subsection-title">2.1 Syarat Umum</h3>
-                        <ul class="privacy-list">
-                            <li><strong>Batas Waktu:</strong> Maksimal 7 hari sejak barang diterima pelanggan</li>
-                            <li><strong>Kondisi Barang:</strong> Dalam kondisi asli, belum digunakan, dan kemasan utuh</li>
-                            <li><strong>Bukti Pembelian:</strong> Menyertakan nota pembelian atau invoice asli</li>
-                            <li><strong>Kelengkapan:</strong> Semua label, tag, aksesoris, dan kemasan asli masih terpasang/tersedia</li>
-                            <li><strong>Kualitas:</strong> Tidak ada kerusakan yang disebabkan oleh pemakaian</li>
-                        </ul>
+                        <p class="privacy-text">Platform MyYOGYA melindungi berbagai jenis hak kekayaan intelektual:</p>
 
-                        <div class="warning-box">
-                            <h6><i class="fas fa-exclamation-triangle me-2"></i>Perhatian Penting</h6>
-                            <p>Barang yang tidak memenuhi syarat return di atas akan ditolak dan dikembalikan kepada pelanggan dengan biaya pengiriman ditanggung pelanggan.</p>
-                        </div>
-
-                        <div class="return-process-grid">
-                            <div class="return-process-card">
-                                <div class="return-process-icon">
-                                    <i class="fas fa-tshirt"></i>
+                        <div class="ip-grid">
+                            <div class="ip-card">
+                                <div class="ip-icon">
+                                    <i class="fas fa-copyright"></i>
                                 </div>
-                                <h5>Fashion & Pakaian</h5>
-                                <p class="privacy-text">Tag harga masih terpasang, tidak ada noda atau bau, kemasan plastik asli (jika ada).</p>
+                                <h5>Hak Cipta</h5>
+                                <p class="privacy-text">Konten original, foto produk, deskripsi, logo, dan materi kreatif lainnya.</p>
                             </div>
-                            <div class="return-process-card">
-                                <div class="return-process-icon">
-                                    <i class="fas fa-mobile-alt"></i>
+                            <div class="ip-card">
+                                <div class="ip-icon">
+                                    <i class="fas fa-trademark"></i>
                                 </div>
-                                <h5>Elektronik</h5>
-                                <p class="privacy-text">Kotak dan aksesoris lengkap, tidak ada kerusakan fisik, garansi masih berlaku.</p>
+                                <h5>Merek Dagang</h5>
+                                <p class="privacy-text">Logo MyYOGYA, nama brand, slogan, dan identitas visual perusahaan.</p>
                             </div>
-                            <div class="return-process-card">
-                                <div class="return-process-icon">
-                                    <i class="fas fa-home"></i>
+                            <div class="ip-card">
+                                <div class="ip-icon">
+                                    <i class="fas fa-lightbulb"></i>
                                 </div>
-                                <h5>Rumah Tangga</h5>
-                                <p class="privacy-text">Tidak ada tanda-tanda pemakaian, kemasan asli, manual lengkap.</p>
+                                <h5>Paten</h5>
+                                <p class="privacy-text">Teknologi inovatif, algoritma, dan solusi teknis yang dikembangkan.</p>
                             </div>
-                            <div class="return-process-card">
-                                <div class="return-process-icon">
-                                    <i class="fas fa-book"></i>
+                            <div class="ip-card">
+                                <div class="ip-icon">
+                                    <i class="fas fa-user-secret"></i>
                                 </div>
-                                <h5>Buku & Media</h5>
-                                <p class="privacy-text">Tidak ada lipatan, coretan, atau kerusakan cover, kemasan plastik masih utuh.</p>
+                                <h5>Rahasia Dagang</h5>
+                                <p class="privacy-text">Informasi bisnis rahasia, database, dan know-how proprietary.</p>
                             </div>
-                        </div>
-                    </div>
-
-                    <!-- Section 3: Prosedur Return -->
-                    <div id="prosedur-return" class="privacy-section">
-                        <h2 class="section-title">3. Prosedur Return</h2>
-                        
-                        <p class="privacy-text">Proses return di MyYOGYA dirancang untuk kemudahan pelanggan dengan langkah-langkah yang jelas dan sistematis:</p>
-
-                        <div class="return-process-grid">
-                            <div class="return-process-card">
-                                <div class="return-process-icon">
-                                    <i class="fas fa-phone"></i>
-                                </div>
-                                <h5>1. Hubungi CS</h5>
-                                <p class="privacy-text">Hubungi customer service melalui telepon, email, atau live chat dengan nomor order.</p>
-                            </div>
-                            <div class="return-process-card">
-                                <div class="return-process-icon">
-                                    <i class="fas fa-clipboard-list"></i>
-                                </div>
-                                <h5>2. Isi Form Return</h5>
-                                <p class="privacy-text">Lengkapi form return dengan informasi produk dan alasan return yang jelas.</p>
-                            </div>
-                            <div class="return-process-card">
-                                <div class="return-process-icon">
-                                    <i class="fas fa-shipping-fast"></i>
-                                </div>
-                                <h5>3. Kirim Barang</h5>
-                                <p class="privacy-text">Kemas barang dengan rapi dan kirim ke alamat yang telah ditentukan.</p>
-                            </div>
-                            <div class="return-process-card">
-                                <div class="return-process-icon">
-                                    <i class="fas fa-check-circle"></i>
-                                </div>
-                                <h5>4. Konfirmasi Diterima</h5>
-                                <p class="privacy-text">Tunggu konfirmasi dari tim kami bahwa barang return telah diterima dan diproses.</p>
-                            </div>
-                        </div>
-
-                        <div class="highlight-box">
-                            <h6><i class="fas fa-info-circle me-2"></i>Tips Return Mudah</h6>
-                            <p>Untuk mempercepat proses, pastikan Anda sudah menyiapkan nomor order, foto kondisi barang, dan alasan return yang jelas sebelum menghubungi customer service kami.</p>
-                        </div>
-                    </div>
-
-                    <!-- Section 4: Waktu Proses -->
-                    <div id="waktu-proses" class="privacy-section">
-                        <h2 class="section-title">4. Estimasi Waktu Proses</h2>
-                        
-                        <p class="privacy-text">Kami berkomitmen memberikan proses return yang cepat dan efisien:</p>
-
-                        <div class="return-process-grid">
-                            <div class="return-process-card">
-                                <div class="return-process-icon">
-                                    <i class="fas fa-shipping-fast"></i>
-                                </div>
-                                <h5>Pengiriman Return</h5>
-                                <p class="privacy-text"><strong>1-3 Hari Kerja</strong><br>Tergantung lokasi dan jasa pengiriman</p>
-                            </div>
-                            <div class="return-process-card">
-                                <div class="return-process-icon">
-                                    <i class="fas fa-search"></i>
-                                </div>
-                                <h5>Verifikasi QC</h5>
-                                <p class="privacy-text"><strong>1-2 Hari Kerja</strong><br>Pemeriksaan kondisi dan kelengkapan</p>
-                            </div>
-                            <div class="return-process-card">
-                                <div class="return-process-icon">
-                                    <i class="fas fa-money-bill-wave"></i>
-                                </div>
-                                <h5>Proses Refund</h5>
-                                <p class="privacy-text"><strong>1-7 Hari Kerja</strong><br>Sesuai metode pembayaran</p>
-                            </div>
-                            <div class="return-process-card">
-                                <div class="return-process-icon">
-                                    <i class="fas fa-bell"></i>
-                                </div>
-                                <h5>Notifikasi Selesai</h5>
-                                <p class="privacy-text"><strong>1 Hari Kerja</strong><br>Email konfirmasi refund berhasil</p>
-                            </div>
-                        </div>
-
-                        <div class="warning-box">
-                            <h6><i class="fas fa-clock me-2"></i>Catatan Waktu Proses</h6>
-                            <p>Estimasi waktu di atas dapat berubah tergantung kondisi tertentu seperti hari libur nasional, kondisi cuaca ekstrem, atau volume return yang tinggi pada periode tertentu.</p>
-                        </div>
-                    </div>
-
-                    <!-- Section 5: Jenis Refund -->
-                    <div id="jenis-refund" class="privacy-section">
-                        <h2 class="section-title">5. Metode Pengembalian Dana</h2>
-                        
-                        <p class="privacy-text">Dana return akan dikembalikan sesuai dengan metode pembayaran yang digunakan saat pembelian:</p>
-
-                        <div class="return-process-grid">
-                            <div class="return-process-card">
-                                <div class="return-process-icon">
-                                    <i class="fas fa-university"></i>
-                                </div>
-                                <h5>Transfer Bank</h5>
-                                <p class="privacy-text">Dana dikembalikan ke rekening bank yang sama dengan pembayaran awal dalam 3-7 hari kerja.</p>
-                            </div>
-                            <div class="return-process-card">
-                                <div class="return-process-icon">
-                                    <i class="fas fa-credit-card"></i>
-                                </div>
-                                <h5>Kartu Kredit/Debit</h5>
-                                <p class="privacy-text">Refund otomatis ke kartu yang digunakan untuk transaksi dalam 7-14 hari kerja.</p>
-                            </div>
-                            <div class="return-process-card">
-                                <div class="return-process-icon">
-                                    <i class="fas fa-mobile-alt"></i>
-                                </div>
-                                <h5>E-Wallet</h5>
-                                <p class="privacy-text">Kembali ke e-wallet yang sama (OVO, DANA, GoPay, dll) dalam 1-3 hari kerja.</p>
-                            </div>
-                            <div class="return-process-card">
-                                <div class="return-process-icon">
-                                    <i class="fas fa-coins"></i>
-                                </div>
-                                <h5>MyYOGYA Credits</h5>
-                                <p class="privacy-text">Dana dalam bentuk store credit yang bisa digunakan untuk pembelian berikutnya.</p>
-                            </div>
-                        </div>
-
-                        <div class="highlight-box">
-                            <h6><i class="fas fa-money-check-alt me-2"></i>Jaminan Refund Penuh</h6>
-                            <p>MyYOGYA menjamin pengembalian dana 100% untuk return yang disetujui, termasuk biaya pengiriman awal jika produk mengalami cacat atau tidak sesuai deskripsi.</p>
-                        </div>
-                    </div>
-
-                    <!-- Section 6: Pengecualian -->
-                    <div id="pengecualian" class="privacy-section">
-                        <h2 class="section-title">6. Produk yang Tidak Dapat Di-Return</h2>
-                        
-                        <p class="privacy-text">Untuk alasan kesehatan, keamanan, dan kebersihan, beberapa kategori produk tidak dapat di-return:</p>
-
-                        <div class="return-process-grid">
-                            <div class="return-process-card">
-                                <div class="return-process-icon">
-                                    <i class="fas fa-exclamation-triangle"></i>
-                                </div>
-                                <h5>Pakaian Dalam</h5>
-                                <p class="privacy-text">Untuk alasan kebersihan dan kesehatan personal.</p>
-                            </div>
-                            <div class="return-process-card">
-                                <div class="return-process-icon">
+                            <div class="ip-card">
+                                <div class="ip-icon">
                                     <i class="fas fa-palette"></i>
                                 </div>
-                                <h5>Kosmetik Terbuka</h5>
-                                <p class="privacy-text">Produk yang sudah dibuka atau digunakan untuk mencegah kontaminasi.</p>
+                                <h5>Desain Industri</h5>
+                                <p class="privacy-text">Desain interface, kemasan, dan elemen visual produk.</p>
                             </div>
-                            <div class="return-process-card">
-                                <div class="return-process-icon">
-                                    <i class="fas fa-apple-alt"></i>
+                            <div class="ip-card">
+                                <div class="ip-icon">
+                                    <i class="fas fa-microchip"></i>
                                 </div>
-                                <h5>Makanan & Minuman</h5>
-                                <p class="privacy-text">Produk konsumsi dan yang mudah rusak atau kadaluarsa.</p>
+                                <h5>Desain Tata Letak</h5>
+                                <p class="privacy-text">Layout website, aplikasi mobile, dan sistem digital.</p>
                             </div>
-                            <div class="return-process-card">
-                                <div class="return-process-icon">
-                                    <i class="fas fa-prescription-bottle"></i>
-                                </div>
-                                <h5>Produk Kesehatan</h5>
-                                <p class="privacy-text">Obat-obatan, suplemen, dan produk medis untuk keamanan konsumen.</p>
-                            </div>
-                        </div>
-
-                        <div class="warning-box">
-                            <h6><i class="fas fa-ban me-2"></i>Pengecualian Lainnya</h6>
-                            <p>Produk custom/pesanan khusus, voucher/gift card yang sudah digunakan, dan produk digital juga tidak dapat di-return. Namun, jika terdapat kerusakan atau cacat produksi, pelanggan tetap dapat mengajukan klaim garansi.</p>
                         </div>
                     </div>
 
-                    <!-- Section 7: Kontak Bantuan -->
-                    <div id="kontak-bantuan" class="privacy-section">
-                        <h2 class="section-title">7. Kontak Customer Service</h2>
+                    <!-- Section 3: Kepemilikan -->
+                    <div id="kepemilikan" class="privacy-section">
+                        <h2 class="section-title">3. Kepemilikan Hak Kekayaan Intelektual</h2>
                         
-                        <p class="privacy-text">Tim customer service MyYOGYA siap membantu proses return Anda:</p>
+                        <h3 class="subsection-title">3.1 Hak Milik MyYOGYA</h3>
+                        <ul class="privacy-list">
+                            <li><strong>Platform dan Teknologi:</strong> Seluruh teknologi, kode sumber, algoritma, dan sistem MyYOGYA</li>
+                            <li><strong>Identitas Brand:</strong> Logo, nama MyYOGYA, slogan, dan elemen branding</li>
+                            <li><strong>Konten Platform:</strong> Layout, desain interface, fitur-fitur unik platform</li>
+                            <li><strong>Database:</strong> Struktur data, sistem klasifikasi, dan metadata produk</li>
+                            <li><strong>Dokumentasi:</strong> Manual, panduan, dan materi edukasi platform</li>
+                        </ul>
 
-                        <div class="return-process-grid">
-                            <div class="return-process-card">
-                                <div class="return-process-icon">
-                                    <i class="fas fa-phone"></i>
-                                </div>
-                                <h5>Telepon</h5>
-                                <p class="privacy-text"><strong>(0274) 512345</strong><br>Senin-Jumat: 08:00-17:00</p>
-                            </div>
-                            <div class="return-process-card">
-                                <div class="return-process-icon">
+                        <h3 class="subsection-title">3.2 Hak Milik Penjual/Mitra</h3>
+                        <ul class="privacy-list">
+                            <li><strong>Produk dan Merek:</strong> Hak atas produk yang dijual dan merek dagang mereka</li>
+                            <li><strong>Konten Produk:</strong> Foto, deskripsi, dan materi promosi yang dibuat sendiri</li>
+                            <li><strong>Inovasi:</strong> Teknologi atau desain produk yang dikembangkan secara mandiri</li>
+                        </ul>
+
+                        <div class="warning-box">
+                            <h6><i class="fas fa-exclamation-triangle me-2"></i>Penting untuk Diketahui</h6>
+                            <p>Dengan menggunakan platform MyYOGYA, penjual memberikan lisensi terbatas kepada MyYOGYA untuk menampilkan, mendistribusikan, dan mempromosikan konten produk mereka di platform kami.</p>
+                        </div>
+                    </div>
+
+                    <!-- Section 4: Penggunaan Diizinkan -->
+                    <div id="penggunaan-diizinkan" class="privacy-section">
+                        <h2 class="section-title">4. Penggunaan yang Diizinkan</h2>
+                        
+                        <p class="privacy-text">Berikut adalah penggunaan hak kekayaan intelektual yang diizinkan di platform MyYOGYA:</p>
+
+                        <h3 class="subsection-title">4.1 Fair Use / Penggunaan Wajar</h3>
+                        <ul class="privacy-list">
+                            <li>Kutipan singkat untuk review produk yang sah</li>
+                            <li>Penggunaan logo untuk tujuan identifikasi dalam konteks bisnis resmi</li>
+                            <li>Screenshot platform untuk tujuan edukasi atau pelaporan</li>
+                            <li>Referensi nama MyYOGYA dalam konteks jurnalistik atau akademis</li>
+                        </ul>
+
+                        <h3 class="subsection-title">4.2 Penggunaan dengan Izin</h3>
+                        <ul class="privacy-list">
+                            <li>Program afiliasi dan kemitraan resmi</li>
+                            <li>Kampanye marketing bersama yang telah disetujui</li>
+                            <li>Integrasi API dengan lisensi yang valid</li>
+                            <li>Content sharing melalui fitur platform yang disediakan</li>
+                        </ul>
+
+                        <div class="highlight-box">
+                            <h6><i class="fas fa-handshake me-2"></i>Kemitraan HKI</h6>
+                            <p>MyYOGYA terbuka untuk kemitraan strategis yang saling menguntungkan dalam pemanfaatan hak kekayaan intelektual. Hubungi tim legal kami untuk informasi lebih lanjut.</p>
+                        </div>
+                    </div>
+
+                    <!-- Section 5: Pelanggaran -->
+                    <div id="pelanggaran" class="privacy-section">
+                        <h2 class="section-title">5. Pelanggaran Hak Kekayaan Intelektual</h2>
+                        
+                        <p class="privacy-text">Tindakan berikut dianggap sebagai pelanggaran hak kekayaan intelektual:</p>
+
+                        <h3 class="subsection-title">5.1 Pelanggaran Hak Cipta</h3>
+                        <ul class="privacy-list">
+                            <li>Menyalin konten, foto, atau deskripsi produk tanpa izin</li>
+                            <li>Menggunakan logo atau materi visual MyYOGYA tanpa otorisasi</li>
+                            <li>Menduplikasi layout atau desain interface platform</li>
+                            <li>Mengunggah konten yang melanggar hak cipta pihak lain</li>
+                        </ul>
+
+                        <h3 class="subsection-title">5.2 Pelanggaran Merek Dagang</h3>
+                        <ul class="privacy-list">
+                            <li>Menggunakan nama MyYOGYA atau variasi nama serupa</li>
+                            <li>Membuat website atau aplikasi yang menyerupai MyYOGYA</li>
+                            <li>Menjual produk palsu atau tiruan merek terkenal</li>
+                            <li>Menggunakan logo atau identitas visual yang menyesatkan</li>
+                        </ul>
+
+                        <div class="warning-box">
+                            <h6><i class="fas fa-ban me-2"></i>Konsekuensi Pelanggaran</h6>
+                            <p>Pelanggaran HKI dapat mengakibatkan penghapusan konten, penangguhan akun, tuntutan hukum, dan ganti rugi sesuai dengan peraturan perundang-undangan yang berlaku.</p>
+                        </div>
+                    </div>
+
+                    <!-- Section 6: DMCA -->
+                    <div id="dmca" class="privacy-section">
+                        <h2 class="section-title">6. DMCA Takedown Notice</h2>
+                        
+                        <p class="privacy-text">MyYOGYA mematuhi Digital Millennium Copyright Act (DMCA) dan menyediakan prosedur untuk pelaporan pelanggaran hak cipta:</p>
+
+                        <h3 class="subsection-title">6.1 Prosedur Pelaporan</h3>
+                        <ul class="privacy-list">
+                            <li>Identifikasi konten yang diduga melanggar hak cipta</li>
+                            <li>Berikan bukti kepemilikan hak cipta yang sah</li>
+                            <li>Sertakan informasi kontak yang valid</li>
+                            <li>Nyatakan itikad baik dalam pelaporan</li>
+                            <li>Tanda tangan digital atau fisik pemilik hak</li>
+                        </ul>
+
+                        <h3 class="subsection-title">6.2 Counter-Notice</h3>
+                        <p class="privacy-text">Pengguna yang merasa kontennya dihapus secara tidak tepat dapat mengajukan counter-notice dengan menyertakan:</p>
+                        <ul class="privacy-list">
+                            <li>Identifikasi konten yang dihapus</li>
+                            <li>Pernyataan bahwa penggunaan adalah sah</li>
+                            <li>Bukti lisensi atau izin penggunaan</li>
+                            <li>Kesediaan untuk menghadapi proses hukum</li>
+                        </ul>
+
+                        <div class="highlight-box">
+                            <h6><i class="fas fa-clock me-2"></i>Waktu Pemrosesan</h6>
+                            <p>DMCA takedown notice akan diproses dalam 24-48 jam. Counter-notice akan ditinjau dalam 7-14 hari kerja dengan melibatkan tim legal internal.</p>
+                        </div>
+                    </div>
+
+                    <!-- Section 7: Lisensi -->
+                    <div id="lisensi" class="privacy-section">
+                        <h2 class="section-title">7. Lisensi dan Penggunaan Pihak Ketiga</h2>
+                        
+                        <p class="privacy-text">MyYOGYA menggunakan berbagai teknologi dan konten dari pihak ketiga dengan lisensi yang sesuai:</p>
+
+                        <h3 class="subsection-title">7.1 Open Source Software</h3>
+                        <ul class="privacy-list">
+                            <li>Laravel Framework (MIT License)</li>
+                            <li>Bootstrap CSS Framework (MIT License)</li>
+                            <li>Font Awesome Icons (SIL OFL 1.1)</li>
+                            <li>jQuery Library (MIT License)</li>
+                        </ul>
+
+                        <h3 class="subsection-title">7.2 Paid Licenses</h3>
+                        <ul class="privacy-list">
+                            <li>Stock photos dari Shutterstock dan Unsplash</li>
+                            <li>Font commercial dari Google Fonts Pro</li>
+                            <li>API services dari payment gateways</li>
+                            <li>Security tools dan monitoring services</li>
+                        </ul>
+
+                        <div class="highlight-box">
+                            <h6><i class="fas fa-file-contract me-2"></i>Compliance</h6>
+                            <p>Semua penggunaan teknologi pihak ketiga telah melalui review legal dan compliance untuk memastikan kesesuaian dengan persyaratan lisensi masing-masing.</p>
+                        </div>
+                    </div>
+
+                    <!-- Section 8: Pelaporan -->
+                    <div id="pelaporan" class="privacy-section">
+                        <h2 class="section-title">8. Pelaporan Pelanggaran HKI</h2>
+                        
+                        <p class="privacy-text">Jika Anda menemukan pelanggaran hak kekayaan intelektual di platform MyYOGYA, segera laporkan melalui saluran berikut:</p>
+
+                        <div class="ip-grid">
+                            <div class="ip-card">
+                                <div class="ip-icon">
                                     <i class="fas fa-envelope"></i>
                                 </div>
-                                <h5>Email</h5>
-                                <p class="privacy-text"><strong>return@myyogya.com</strong><br>Respon maksimal 24 jam</p>
+                                <h5>Email Legal</h5>
+                                <p class="privacy-text"><strong>legal@myyogya.co.id</strong><br>Respon dalam 24 jam</p>
                             </div>
-                            <div class="return-process-card">
-                                <div class="return-process-icon">
-                                    <i class="fas fa-comments"></i>
+                            <div class="ip-card">
+                                <div class="ip-icon">
+                                    <i class="fas fa-phone"></i>
                                 </div>
-                                <h5>Live Chat</h5>
-                                <p class="privacy-text"><strong>Chat di Website</strong><br>Senin-Sabtu: 08:00-22:00</p>
+                                <h5>Hotline HKI</h5>
+                                <p class="privacy-text"><strong>021-1234-5678</strong><br>Senin-Jumat: 09:00-17:00</p>
                             </div>
-                            <div class="return-process-card">
-                                <div class="return-process-icon">
-                                    <i class="fab fa-whatsapp"></i>
+                            <div class="ip-card">
+                                <div class="ip-icon">
+                                    <i class="fas fa-file-alt"></i>
                                 </div>
-                                <h5>WhatsApp</h5>
-                                <p class="privacy-text"><strong>+62 821 1234 5678</strong><br>Respons cepat 24/7</p>
+                                <h5>Form Online</h5>
+                                <p class="privacy-text"><strong>Report IP Violation</strong><br>Available 24/7</p>
                             </div>
                         </div>
 
+                        <h3 class="subsection-title">8.1 Informasi yang Dibutuhkan</h3>
+                        <ul class="privacy-list">
+                            <li>Deskripsi lengkap pelanggaran yang terjadi</li>
+                            <li>URL atau lokasi konten yang melanggar</li>
+                            <li>Bukti kepemilikan hak kekayaan intelektual</li>
+                            <li>Screenshot atau dokumentasi pendukung</li>
+                            <li>Informasi kontak yang dapat dihubungi</li>
+                        </ul>
+                    </div>
+
+                    <!-- Section 9: Sanksi -->
+                    <div id="sanksi" class="privacy-section">
+                        <h2 class="section-title">9. Sanksi dan Tindakan Hukum</h2>
+                        
+                        <p class="privacy-text">MyYOGYA menerapkan sanksi tegas terhadap pelanggaran hak kekayaan intelektual:</p>
+
+                        <h3 class="subsection-title">9.1 Sanksi Administratif</h3>
+                        <ul class="privacy-list">
+                            <li><strong>Peringatan Pertama:</strong> Notifikasi dan permintaan penghapusan konten</li>
+                            <li><strong>Peringatan Kedua:</strong> Pembatasan fitur akun selama 7 hari</li>
+                            <li><strong>Peringatan Ketiga:</strong> Penangguhan akun selama 30 hari</li>
+                            <li><strong>Pelanggaran Berulang:</strong> Penutupan akun permanen</li>
+                        </ul>
+
+                        <h3 class="subsection-title">9.2 Tindakan Hukum</h3>
+                        <ul class="privacy-list">
+                            <li>Gugatan perdata untuk ganti rugi materiil dan immateriil</li>
+                            <li>Pelaporan pidana sesuai UU Hak Cipta dan UU Merek</li>
+                            <li>Injunction atau surat perintah pengadilan</li>
+                            <li>Klaim aset digital dan pemblokiran domain</li>
+                        </ul>
+
+                        <div class="warning-box">
+                            <h6><i class="fas fa-gavel me-2"></i>Penegakan Hukum</h6>
+                            <p>MyYOGYA akan mengejar tindakan hukum maksimal terhadap pelanggaran HKI yang signifikan, termasuk kerjasama dengan penegak hukum dan organisasi perlindungan HKI internasional.</p>
+                        </div>
+                    </div>
+
+                    <!-- Section 10: Kontak -->
+                    <div id="kontak" class="privacy-section">
+                        <h2 class="section-title">10. Kontak dan Informasi Lebih Lanjut</h2>
+                        
+                        <p class="privacy-text">Untuk pertanyaan, kerjasama, atau informasi lebih lanjut mengenai hak kekayaan intelektual:</p>
+
                         <div class="contact-info">
-                            <h5 class="contact-title">Butuh Bantuan Lebih Lanjut?</h5>
-                            <p class="contact-text">Tim customer service MyYOGYA siap membantu Anda 24/7 untuk semua kebutuhan return dan refund</p>
+                            <h5 class="contact-title">Tim Legal & Intellectual Property</h5>
+                            <p class="contact-text">Siap membantu Anda dalam semua hal terkait hak kekayaan intelektual</p>
                             
                             <div class="contact-methods">
-                                <div class="contact-method">
-                                    <div class="contact-icon">
-                                        <i class="fab fa-whatsapp"></i>
-                                    </div>
-                                    <div class="contact-details">
-                                        <h6>WhatsApp</h6>
-                                        <p>+62 812-3456-7890</p>
-                                    </div>
-                                </div>
-                                
                                 <div class="contact-method">
                                     <div class="contact-icon">
                                         <i class="fas fa-envelope"></i>
                                     </div>
                                     <div class="contact-details">
-                                        <h6>Email Support</h6>
-                                        <p>support@myyogya.co.id</p>
+                                        <h6>Legal Department</h6>
+                                        <p>legal@myyogya.co.id</p>
                                     </div>
                                 </div>
                                 
                                 <div class="contact-method">
                                     <div class="contact-icon">
-                                        <i class="fas fa-headset"></i>
+                                        <i class="fas fa-phone"></i>
                                     </div>
                                     <div class="contact-details">
-                                        <h6>Call Center</h6>
-                                        <p>021-1234-5678</p>
+                                        <h6>IP Hotline</h6>
+                                        <p>021-1234-5678 ext. 301</p>
+                                    </div>
+                                </div>
+                                
+                                <div class="contact-method">
+                                    <div class="contact-icon">
+                                        <i class="fas fa-map-marker-alt"></i>
+                                    </div>
+                                    <div class="contact-details">
+                                        <h6>Legal Office</h6>
+                                        <p>Jakarta, Indonesia</p>
                                     </div>
                                 </div>
                             </div>
