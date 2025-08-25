@@ -1,7 +1,7 @@
 <div class="sidebar p-3">
   <h4 class="mb-4">My<span class="fw-bold">YOGYA</span></h4>
 
-  <a href="{{ route('gudang.dahsboard') }}" class="{{ request()->routeIs('gudang.dahsboard') ? 'active' : '' }}">
+  <a href="{{ route('gudang.dashboard') }}" class="{{ request()->routeIs('gudang.dashboard') ? 'active' : '' }}">
     <i class="fa fa-chart-line me-2"></i> Dashboard
   </a>
 
@@ -9,7 +9,7 @@
     <i class="fa fa-boxes me-2"></i> Permintaan
   </a>
 
-  <a href="{{ route('gudang.stok') }}" class="{{ request()->routeIs('gudang.stok') ? 'active' : '' }}">
+  <a href="{{ route('gudang.stok.index') }}" class="{{ request()->routeIs('gudang.stok.*') ? 'active' : '' }}">
     <i class="fa fa-warehouse me-2"></i> Stok
   </a>
 

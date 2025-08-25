@@ -1,11 +1,28 @@
 @extends('layouts.appGudanng')
 
-@section('title', 'Dashboard Rantai Pasok - MyYOGYA')
+@section('title', 'Dashboard {{ $gudang->nama_gudang }} - MyYOGYA')
 
 @section('content')
   <div class="d-flex justify-content-between align-items-center mb-4">
-    <h2 class="fw-semibold">Dashboard Rantai Pasok</h2>
-    <button class="btn btn-outline-dark"><i class="fa fa-user"></i></button>
+    <div>
+      <h2 class="fw-semibold">Dashboard {{ $gudang->nama_gudang }}</h2>
+      <p class="text-muted mb-0">ID Gudang: {{ $gudang->id_gudang }} | Lokasi: {{ $gudang->lokasi }}</p>
+    </div>
+    <div class="dropdown">
+      <button class="btn btn-outline-dark dropdown-toggle" type="button" data-bs-toggle="dropdown">
+        <i class="fa fa-user"></i> {{ $gudang->nama_gudang }}
+      </button>
+      <ul class="dropdown-menu">
+        <li>
+          <form action="{{ route('gudang.logout') }}" method="POST">
+            @csrf
+            <button type="submit" class="dropdown-item">
+              <i class="fa fa-sign-out-alt me-2"></i>Logout
+            </button>
+          </form>
+        </li>
+      </ul>
+    </div>
   </div>
 
   {{-- Filter --}}
