@@ -450,7 +450,7 @@
     <!-- Sidebar -->
     <div class="sidebar">
         <div class="sidebar-header">
-            <a href="{{ route('keuangan.dashboard') }}" class="sidebar-logo">
+            <a href="{{ route('admin.keuangan') }}" class="sidebar-logo">
                 <img src="{{ asset('image/logo_yogya.png') }}" alt="MyYOGYA">
                 <div class="sidebar-brand">
                     <h4>MyYOGYA</h4>
@@ -461,25 +461,25 @@
 
         <div class="sidebar-menu">
             <div class="sidebar-menu-item">
-                <a href="{{ route('keuangan.dashboard') }}" class="sidebar-menu-link {{ request()->routeIs('keuangan.dashboard') ? 'active' : '' }}">
+                <a href="{{ route('admin.keuangan') }}" class="sidebar-menu-link {{ request()->routeIs('admin.keuangan') ? 'active' : '' }}">
                     <i class="fas fa-tachometer-alt"></i>
                     Dashboard
                 </a>
             </div>
             <div class="sidebar-menu-item">
-                <a href="{{ route('keuangan.riwayat') }}" class="sidebar-menu-link {{ request()->routeIs('keuangan.riwayat') ? 'active' : '' }}">
+                <a href="{{ route('admin.keuangan.riwayat') }}" class="sidebar-menu-link {{ request()->routeIs('admin.keuangan.riwayat') ? 'active' : '' }}">
                     <i class="fas fa-history"></i>
                     Riwayat Transaksi
                 </a>
             </div>
             <div class="sidebar-menu-item">
-                <a href="{{ route('keuangan.bukubesar') }}" class="sidebar-menu-link {{ request()->routeIs('keuangan.bukubesar') ? 'active' : '' }}">
+                <a href="{{ route('admin.keuangan.bukubesar') }}" class="sidebar-menu-link {{ request()->routeIs('admin.keuangan.bukubesar') ? 'active' : '' }}">
                     <i class="fas fa-book"></i>
                     Buku Besar
                 </a>
             </div>
             <div class="sidebar-menu-item">
-                <a href="{{ route('keuangan.laporan') }}" class="sidebar-menu-link {{ request()->routeIs('keuangan.laporan') ? 'active' : '' }}">
+                <a href="{{ route('admin.keuangan.laporan') }}" class="sidebar-menu-link {{ request()->routeIs('admin.keuangan.laporan') ? 'active' : '' }}">
                     <i class="fas fa-chart-line"></i>
                     Laporan Keuangan
                 </a>
