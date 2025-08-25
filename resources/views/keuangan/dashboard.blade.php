@@ -1,52 +1,90 @@
-@extends('layouts.app')
+@extends('layouts.atmin')
 
-@section('title', 'Dashboard - MyYOGYA')
+@section('title', 'Dashboard Keuangan - MyYOGYA')
 @section('page_title', 'Dashboard')
+
+@section('page_header')
+<h1><i class="fas fa-tachometer-alt me-3"></i>Dashboard Keuangan</h1>
+<p class="lead">Overview kinerja keuangan dan transaksi MyYOGYA</p>
+@endsection
 
 @section('content')
 
 <!-- KPI Cards -->
-<div class="row g-3 mb-4">
+<div class="row g-4 mb-4">
     <div class="col-md-3">
         <div class="kpi-card kpi-green">
-            <h5>Rp 22.000.000</h5>
-            <p>Saldo</p>
-            <small>Per Agustus 2025</small>
+            <div class="d-flex align-items-center justify-content-between">
+                <div>
+                    <h5>Rp 22.000.000</h5>
+                    <p>Saldo</p>
+                    <small>Per Agustus 2025</small>
+                </div>
+                <div class="kpi-icon">
+                    <i class="fas fa-wallet fa-2x" style="color: #28a745; opacity: 0.3;"></i>
+                </div>
+            </div>
         </div>
     </div>
     <div class="col-md-3">
         <div class="kpi-card kpi-blue">
-            <h5>Rp 22.000.000</h5>
-            <p>Laba Kotor</p>
-            <small>Per Agustus 2025</small>
+            <div class="d-flex align-items-center justify-content-between">
+                <div>
+                    <h5>Rp 22.000.000</h5>
+                    <p>Laba Kotor</p>
+                    <small>Per Agustus 2025</small>
+                </div>
+                <div class="kpi-icon">
+                    <i class="fas fa-chart-line fa-2x" style="color: #007bff; opacity: 0.3;"></i>
+                </div>
+            </div>
         </div>
     </div>
     <div class="col-md-3">
         <div class="kpi-card kpi-yellow">
-            <h5>Rp 22.000.000</h5>
-            <p>Keuntungan</p>
-            <small>Per Agustus 2025</small>
+            <div class="d-flex align-items-center justify-content-between">
+                <div>
+                    <h5>Rp 22.000.000</h5>
+                    <p>Keuntungan</p>
+                    <small>Per Agustus 2025</small>
+                </div>
+                <div class="kpi-icon">
+                    <i class="fas fa-arrow-up fa-2x" style="color: #ffc107; opacity: 0.3;"></i>
+                </div>
+            </div>
         </div>
     </div>
     <div class="col-md-3">
         <div class="kpi-card kpi-red">
-            <h5>Rp 22.000.000</h5>
-            <p>Kerugian</p>
-            <small>Per Agustus 2025</small>
+            <div class="d-flex align-items-center justify-content-between">
+                <div>
+                    <h5>Rp 22.000.000</h5>
+                    <p>Kerugian</p>
+                    <small>Per Agustus 2025</small>
+                </div>
+                <div class="kpi-icon">
+                    <i class="fas fa-arrow-down fa-2x" style="color: #dc3545; opacity: 0.3;"></i>
+                </div>
+            </div>
         </div>
     </div>
 </div>
 
 <!-- Grafik Pendapatan -->
-<div class="card mb-4">
+<div class="card-custom mb-4">
+    <div class="card-header">
+        <h5 class="card-title mb-0"><i class="fas fa-chart-area me-2"></i>Pendapatan Tahun Ini</h5>
+    </div>
     <div class="card-body">
-        <h5 class="card-title">Pendapatan Tahun Ini</h5>
         <canvas id="incomeChart" height="100"></canvas>
     </div>
 </div>
 
 <!-- Produk Terlaris -->
-<div class="card">
+<div class="card-custom">
+    <div class="card-header">
+        <h5 class="card-title mb-0"><i class="fas fa-fire me-2"></i>Produk Terlaris</h5>
+    </div>
     <div class="card-body">
         <h5 class="card-title mb-3">Produk Terlaris</h5>
         <div class="table-responsive">

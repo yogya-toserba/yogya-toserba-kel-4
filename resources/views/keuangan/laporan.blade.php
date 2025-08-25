@@ -1,19 +1,26 @@
-@extends('layouts.app')
+@extends('layouts.atmin')
 
 @section('title', 'Laporan Keuangan - MyYOGYA')
 @section('page_title', 'Laporan Keuangan')
 
+@section('page_header')
+<h1><i class="fas fa-chart-line me-3"></i>Laporan Keuangan</h1>
+<p class="lead">Generate dan analisis laporan keuangan perusahaan</p>
+@endsection
+
 @section('content')
 
-<div class="card">
+<div class="card-custom">
+    <div class="card-header">
+        <h5 class="card-title mb-0"><i class="fas fa-file-alt me-2"></i>Generator Laporan Keuangan</h5>
+    </div>
     <div class="card-body">
-        <h5 class="card-title">Laporan Keuangan</h5>
 
         <!-- Filter Laporan -->
-        <div class="row mb-4">
+        <div class="row mb-4" style="background: var(--light-bg); padding: 25px; border-radius: 12px; border: 1px solid var(--border-color);">
             <div class="col-md-3">
-                <label class="form-label">Jenis Laporan:</label>
-                <select class="form-select">
+                <label class="form-label fw-bold">Jenis Laporan:</label>
+                <select class="form-select" style="border: 2px solid #e9ecef; border-radius: 8px; padding: 12px 15px; font-weight: 500;">
                     <option value="">Pilih Laporan</option>
                     <option value="neraca">Neraca</option>
                     <option value="laba_rugi">Laporan Laba Rugi</option>

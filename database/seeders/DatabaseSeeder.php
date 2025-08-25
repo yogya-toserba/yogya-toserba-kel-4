@@ -25,5 +25,10 @@ class DatabaseSeeder extends Seeder
             'email' => 'admin@yogya.com',
             'password' => Hash::make('admin123'), // Password yang sudah di-hash
         ]);
+
+        $this->call(StokGudangPusatSeeder::class);
+        $this->call([
+            CabangSeeder::class,
+        ]);
     }
 }

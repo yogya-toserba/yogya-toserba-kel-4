@@ -5,15 +5,46 @@ use App\Http\Controllers\PelangganController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\AdminController;
-use App\Http\Controllers\AdminProductController;
-use App\Http\Controllers\AdminOrderController;
-use App\Http\Controllers\AdminUserController;
-use App\Http\Controllers\AdminReportController;
-// Add the following import if not already present
-use App\Http\Controllers\AdminPasswordResetController;
+use App\Http\Controllers\CategoryController;
 
 // Dashboard utama
 Route::get('/', [DashboardController::class, 'index'])->name('dashboard');
+
+// Tentang MyYOGYA
+Route::get('/tentang', function () {
+    return view('tentang');
+})->name('tentang');
+
+// Layanan & Bantuan
+Route::get('/layanan', function () {
+    return view('layanan');
+})->name('layanan');
+
+// Cara Belanja
+Route::get('/cara-belanja', function () {
+    return view('cara-belanja');
+})->name('cara-belanja');
+
+// Pengiriman
+Route::get('/pengiriman', function () {
+    return view('pengiriman');
+})->name('pengiriman');
+
+Route::get('/metode-pembayaran', function () {
+    return view('metode-pembayaran');
+})->name('metode-pembayaran');
+
+Route::get('/syarat-ketentuan', function () {
+    return view('syarat-ketentuan');
+})->name('syarat-ketentuan');
+
+Route::get('/kebijakan-privasi', function () {
+    return view('kebijakan-privasi');
+})->name('kebijakan-privasi');
+
+Route::get('/kebijakan-return', function () {
+    return view('kebijakan-return');
+})->name('kebijakan-return');
 
 // AJAX routes for dashboard
 Route::post('/add-to-cart', [DashboardController::class, 'addToCart'])->name('add.to.cart');
@@ -39,27 +70,49 @@ Route::prefix('gudang')->name('gudang.')->group(function () {
         return view('gudang.manual');
     })->name('manual');
 
-    Route::get('/iventory', [ProductController::class, 'index'])->name('iventory');
     Route::get('/inventory', [ProductController::class, 'index'])->name('inventory.index');
     Route::get('/inventory/create', [ProductController::class, 'create'])->name('inventory.create');
     Route::post('/inventory', [ProductController::class, 'store'])->name('inventory.store');
-    // Route::post('/login', [App\Http\Controllers\GudangController::class, 'login'])->name('login.submit');
-    // Route::get('/dashboard', [App\Http\Controllers\GudangController::class, 'dashboard'])->name('dashboard');
-
 });
+    
+// Dashboard route
+Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard.index');
 
-Route::get('/dashboard', function () {
-    return view('dashboard.index');
-})->name('dashboard.index');
+// Route kategori elektronik
+Route::get('/kategori/elektronik', [CategoryController::class, 'elektronik'])->name('kategori.elektronik');
 
-// Route::post('/pelanggan/login', [App\Http\Controllers\PelangganController::class, 'login'])->name('pelanggan.login.submit');
-// Route::post('/pelanggan/register', [App\Http\Controllers\PelangganController::class, 'register'])->name('pelanggan.register.submit');
+// Route kategori fashion
+Route::get('/kategori/fashion', [CategoryController::class, 'fashion'])->name('kategori.fashion');
+
+// Route kategori makanan & minuman
+Route::get('/kategori/makanan', [CategoryController::class, 'makanan'])->name('kategori.makanan');
+
+Route::get('/kategori/makanan-minuman', [CategoryController::class, 'makanan'])->name('kategori.makanan-minuman');
+
+// Route kategori kesehatan & kecantikan
+Route::get('/kategori/kesehatan-kecantikan', [CategoryController::class, 'kesehatan'])->name('kategori.kesehatan-kecantikan');
+
+// Route kategori rumah tangga
+Route::get('/kategori/rumah-tangga', [CategoryController::class, 'rumahTangga'])->name('kategori.rumah-tangga');
+
+// Route kategori olahraga
+Route::get('/kategori/olahraga', [CategoryController::class, 'olahraga'])->name('kategori.olahraga');
+
+// Route kategori otomotif
+Route::get('/kategori/otomotif', [CategoryController::class, 'otomotif'])->name('kategori.otomotif');
+
+// Route kategori buku & alat tulis
+Route::get('/kategori/buku', [CategoryController::class, 'buku'])->name('kategori.buku');
+
+// Route kategori perawatan pribadi
+Route::get('/kategori/perawatan', [CategoryController::class, 'perawatan'])->name('kategori.perawatan');
 
 Route::prefix('admin')->name('admin.')->group(function () {
     // Authentication Routes
     Route::get('/login', [AdminController::class, 'showLogin'])->name('login');
     Route::post('/login', [AdminController::class, 'login'])->name('login.submit');
     Route::post('/logout', [AdminController::class, 'logout'])->name('logout');
+
     Route::get('/dashboard', [AdminController::class, 'dashboard'])->name('dashboard');
     Route::get('/profile', [AdminController::class, 'profile'])->name('profile');
     route::get('penggajian', function () {
@@ -90,10 +143,26 @@ Route::prefix('admin')->name('admin.')->group(function () {
 
     // Protected Admin Routes
     Route::middleware(['auth:admin'])->group(function () {
-        // ...existing protected routes...
+        Route::get('/dashboard', [AdminController::class, 'dashboard'])->name('dashboard');
+        Route::get('/profile', [AdminController::class, 'profile'])->name('profile');
+        Route::post('/profile', [AdminController::class, 'updateProfile'])->name('profile.update');
+        route::get('penggajian', function () {
+            return view('admin.penggajian');
+        })->name('penggajian');
+        route::get('laporan', function () {
+            return view('admin.laporan');
+        })->name('laporan');
+        route::get('absensi', function () {
+            return view('admin.absensi');
+        })->name('absensi');
+        route::get('pengaturan', function () {
+            return view('admin.pengaturan');
+        })->name('pengaturan');
+        Route::get('keuangan', function () {
+            return view('keuangan.app');
+        })->name('keuangan');
     });
 });
-
 
 // Admin Keuangan dan Akuntansi
 Route::get('keuangan', function () {
@@ -119,3 +188,4 @@ Route::get('/keuangan/buku-besar', function () {
 Route::get('/keuangan/laporan', function () {
     return view('keuangan.laporan');
 })->name('keuangan.laporan');
+

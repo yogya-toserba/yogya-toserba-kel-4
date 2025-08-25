@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
-use App\Models\User;
+use App\Models\Pelanggan;
 
 class PelangganController extends Controller
 {
@@ -28,7 +28,8 @@ class PelangganController extends Controller
 
     $credentials = $request->only('email', 'password');
 
-    if (Auth::attempt($credentials)) {
+    // Try to authenticate using pelanggan guard
+    if (Auth::guard('pelanggan')->attempt($credentials)) {
       $request->session()->regenerate();
 
       return response()->json([
@@ -47,18 +48,27 @@ class PelangganController extends Controller
   public function register(Request $request)
   {
     $request->validate([
-      'name' => 'required|string|max:255',
-      'email' => 'required|string|email|max:255|unique:users',
+      'nama_pelanggan' => 'required|string|max:255',
+      'email' => 'required|string|email|max:255|unique:pelanggan',
       'password' => 'required|string|min:8|confirmed',
+      'tanggal_lahir' => 'required|date',
+      'jenis_kelamin' => 'required|in:L,P',
+      'nomer_telepon' => 'required|string|max:20',
+      'alamat' => 'required|string',
     ]);
 
-    $user = User::create([
-      'name' => $request->name,
+    $pelanggan = Pelanggan::create([
+      'nama_pelanggan' => $request->nama_pelanggan,
       'email' => $request->email,
       'password' => Hash::make($request->password),
+      'tanggal_lahir' => $request->tanggal_lahir,
+      'jenis_kelamin' => $request->jenis_kelamin,
+      'nomer_telepon' => $request->nomer_telepon,
+      'alamat' => $request->alamat,
+      'level_membership' => 'Bronze', // default membership
     ]);
 
-    Auth::login($user);
+    Auth::guard('pelanggan')->login($pelanggan);
 
     return response()->json([
       'status' => 'success',
@@ -69,7 +79,7 @@ class PelangganController extends Controller
 
   public function logout(Request $request)
   {
-    Auth::logout();
+    Auth::guard('pelanggan')->logout();
 
     $request->session()->invalidate();
     $request->session()->regenerateToken();

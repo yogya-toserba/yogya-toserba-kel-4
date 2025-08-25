@@ -1,23 +1,46 @@
-@extends('layouts.app')
+@extends('layouts.atmin')
 
 @section('title', 'Riwayat Transaksi - MyYOGYA')
 @section('page_title', 'Riwayat Transaksi')
 
+@section('page_header')
+<h1><i class="fas fa-history me-3"></i>Riwayat Transaksi</h1>
+<p class="lead">Lacak dan kelola semua transaksi yang telah terjadi</p>
+@endsection
+
 @section('content')
 
-<div class="card">
+<div class="card-custom">
+    <div class="card-header">
+        <h5 class="card-title mb-0"><i class="fas fa-search me-2"></i>Filter & Pencarian Transaksi</h5>
+    </div>
     <div class="card-body">
-        <h5 class="card-title">Riwayat Transaksi</h5>
 
         <!-- Filter Pencarian -->
-        <div class="row mb-4">
+        <div class="row mb-4" style="background: var(--light-bg); padding: 20px; border-radius: 12px;">
             <div class="col-md-3">
-                <label class="form-label">Dari Tanggal:</label>
-                <input type="date" class="form-control">
+                <label class="form-label fw-bold">Dari Tanggal:</label>
+                <input type="date" class="form-control" value="{{ date('Y-m-01') }}">
             </div>
             <div class="col-md-3">
-                <label class="form-label">Sampai Tanggal:</label>
-                <input type="date" class="form-control">
+                <label class="form-label fw-bold">Sampai Tanggal:</label>
+                <input type="date" class="form-control" value="{{ date('Y-m-d') }}">
+            </div>
+            <div class="col-md-3">
+                <label class="form-label fw-bold">Status:</label>
+                <select class="form-control">
+                    <option value="">Semua Status</option>
+                    <option value="berhasil">Berhasil</option>
+                    <option value="pending">Pending</option>
+                    <option value="gagal">Gagal</option>
+                </select>
+            </div>
+            <div class="col-md-3 d-flex align-items-end">
+                <button class="btn w-100" style="background: linear-gradient(135deg, var(--primary-color), var(--secondary-color)); color: white; font-weight: 600;">
+                    <i class="fas fa-filter me-2"></i>Filter Data
+                </button>
+            </div>
+        </div>
             </div>
             <div class="col-md-3">
                 <label class="form-label">Metode Pembayaran:</label>
