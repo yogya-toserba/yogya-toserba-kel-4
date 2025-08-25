@@ -74,9 +74,6 @@ Route::prefix('admin')->name('admin.')->group(function () {
     route::get('pengaturan', function () {
         return view('admin.pengaturan');
     })->name('pengaturan');
-    Route::get('keuangan', function () {
-        return view('keuangan.app');
-    })->name('keuangan');  
     Route::get('/testing', function(){
         return view('welcome');
     });
@@ -96,3 +93,29 @@ Route::prefix('admin')->name('admin.')->group(function () {
         // ...existing protected routes...
     });
 });
+
+
+// Admin Keuangan dan Akuntansi
+Route::get('keuangan', function () {
+    return view('keuangan.app');
+})->name('keuangan');
+
+// Halaman Dashboard Keuangan
+Route::get('/keuangan/dashboard', function () {
+    return view('keuangan.dashboard');
+})->name('keuangan.dashboard');
+
+// Halaman Riwayat Transaksi
+Route::get('/keuangan/riwayat-transaksi', function () {
+    return view('keuangan.riwayat_transaksi');
+})->name('keuangan.riwayat');
+
+// Halaman Buku Besar
+Route::get('/keuangan/buku-besar', function () {
+    return view('keuangan.bukubesar');
+})->name('keuangan.bukubesar');
+
+// Halaman Laporan Keuangan
+Route::get('/keuangan/laporan', function () {
+    return view('keuangan.laporan');
+})->name('keuangan.laporan');
