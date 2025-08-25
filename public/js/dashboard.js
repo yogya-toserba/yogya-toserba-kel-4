@@ -2,11 +2,12 @@
 document.addEventListener("DOMContentLoaded", function () {
     // Initialize components
     initPromoModal();
-    initCountdown();
+    initEnhancedCountdown();
     initCopyCode();
     initAddToCart();
     initNewsletter();
     initSearch();
+    initFlashSaleAnimations();
 });
 
 // Show promo modal on page load
@@ -21,37 +22,179 @@ function initPromoModal() {
     }, 1000);
 }
 
-// Countdown timer for flash sale
-function initCountdown() {
-    const timerElement = document.getElementById("timer");
-    if (!timerElement) return;
+// Enhanced countdown timer for flash sale
+// Counts down to the next 12:00 WIB (Asia/Jakarta) in real time
+function initEnhancedCountdown() {
+    const hoursElement = document.getElementById("hours");
+    const minutesElement = document.getElementById("minutes");
+    const secondsElement = document.getElementById("seconds");
+    const timerElement = document.getElementById("timer"); // text HH:MM:SS
 
-    // Set countdown to 24 hours from now
-    const countdownDate = new Date().getTime() + 24 * 60 * 60 * 1000;
+    if (!hoursElement && !timerElement) return;
 
-    const countdown = setInterval(() => {
-        const now = new Date().getTime();
-        const distance = countdownDate - now;
+    function getWIBParts(d = new Date()) {
+        const fmt = new Intl.DateTimeFormat("en-CA", {
+            timeZone: "Asia/Jakarta",
+            year: "numeric",
+            month: "2-digit",
+            day: "2-digit",
+            hour: "2-digit",
+            minute: "2-digit",
+            second: "2-digit",
+            hour12: false,
+        });
+        const parts = fmt
+            .formatToParts(d)
+            .reduce((acc, p) => ((acc[p.type] = p.value), acc), {});
+        return {
+            year: Number(parts.year),
+            month: Number(parts.month),
+            day: Number(parts.day),
+            hour: Number(parts.hour),
+            minute: Number(parts.minute),
+            second: Number(parts.second),
+        };
+    }
 
+    function nextWIBNoon() {
+        const nowParts = getWIBParts();
+        let y = nowParts.year,
+            m = nowParts.month,
+            d = nowParts.day;
+        // If current WIB time is past or at 12:00:00, target is tomorrow 12:00:00
+        if (
+            nowParts.hour > 12 ||
+            (nowParts.hour === 12 &&
+                (nowParts.minute > 0 || nowParts.second > 0))
+        ) {
+            const date = new Date(Date.UTC(y, m - 1, d));
+            date.setUTCDate(date.getUTCDate() + 1);
+            y = date.getUTCFullYear();
+            m = date.getUTCMonth() + 1;
+            d = date.getUTCDate();
+        }
+        // Build a UTC date that corresponds to WIB 12:00 (UTC+7 => UTC time is 05:00)
+        const targetUTC = Date.UTC(y, m - 1, d, 12 - 7, 0, 0, 0);
+        return new Date(targetUTC);
+    }
+
+    function update() {
+        const target = nextWIBNoon();
+        const now = new Date();
+        let distance = target.getTime() - now.getTime();
+
+        // If negative (edge case), recompute next target
         if (distance < 0) {
-            clearInterval(countdown);
-            timerElement.innerHTML = "EXPIRED";
-            return;
+            distance = nextWIBNoon().getTime() - Date.now();
         }
 
-        const hours = Math.floor(
-            (distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)
-        );
-        const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
-        const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+        const totalSeconds = Math.max(0, Math.floor(distance / 1000));
+        const hours = Math.floor((totalSeconds % (24 * 3600)) / 3600);
+        const minutes = Math.floor((totalSeconds % 3600) / 60);
+        const seconds = totalSeconds % 60;
 
-        timerElement.innerHTML =
-            String(hours).padStart(2, "0") +
-            ":" +
-            String(minutes).padStart(2, "0") +
-            ":" +
-            String(seconds).padStart(2, "0");
-    }, 1000);
+        if (hoursElement) {
+            hoursElement.innerHTML = String(hours).padStart(2, "0");
+            minutesElement.innerHTML = String(minutes).padStart(2, "0");
+            secondsElement.innerHTML = String(seconds).padStart(2, "0");
+        }
+        if (timerElement) {
+            timerElement.innerHTML =
+                String(hours).padStart(2, "0") +
+                ":" +
+                String(minutes).padStart(2, "0") +
+                ":" +
+                String(seconds).padStart(2, "0");
+        }
+    }
+
+    update();
+    setInterval(update, 1000);
+}
+
+// Flash Sale Animations
+function initFlashSaleAnimations() {
+    // Add copy functionality for enhanced copy buttons
+    const copyButtons = document.querySelectorAll(".copy-btn");
+    copyButtons.forEach((button) => {
+        button.addEventListener("click", function () {
+            const code = this.getAttribute("data-code");
+
+            // Use modern clipboard API if available
+            if (navigator.clipboard && window.isSecureContext) {
+                navigator.clipboard.writeText(code).then(() => {
+                    showCopyFeedback(this);
+                });
+            } else {
+                // Fallback for older browsers
+                const tempInput = document.createElement("input");
+                tempInput.value = code;
+                document.body.appendChild(tempInput);
+                tempInput.select();
+                document.execCommand("copy");
+                document.body.removeChild(tempInput);
+                showCopyFeedback(this);
+            }
+
+            showToast(`Kode ${code} berhasil disalin!`, "success");
+        });
+    });
+
+    // Claim button interactions
+    const claimButtons = document.querySelectorAll(".claim-btn.available");
+    claimButtons.forEach((button) => {
+        button.addEventListener("click", function () {
+            // Add claiming animation
+            this.innerHTML =
+                '<i class="fas fa-spinner fa-spin"></i> Claiming...';
+            this.disabled = true;
+
+            setTimeout(() => {
+                this.innerHTML = '<i class="fas fa-check"></i> Claimed!';
+                this.classList.remove("available");
+                this.classList.add("claimed");
+                this.style.background = "#95a5a6";
+                showToast("Voucher berhasil diklaim!", "success");
+            }, 2000);
+        });
+    });
+
+    // Stats counter animation
+    animateCounters();
+}
+
+function showCopyFeedback(button) {
+    const originalIcon = button.innerHTML;
+    button.innerHTML = '<i class="fas fa-check"></i>';
+    button.style.background = "#4CAF50";
+
+    setTimeout(() => {
+        button.innerHTML = originalIcon;
+        button.style.background = "";
+    }, 1500);
+}
+
+function animateCounters() {
+    const counters = document.querySelectorAll(".stat-number");
+
+    counters.forEach((counter) => {
+        const target = counter.innerText.replace(/,/g, "");
+        const isTime = target.includes(":");
+
+        if (!isTime && !isNaN(target)) {
+            const increment = target / 100;
+            let current = 0;
+
+            const timer = setInterval(() => {
+                current += increment;
+                if (current >= target) {
+                    current = target;
+                    clearInterval(timer);
+                }
+                counter.innerText = Math.floor(current).toLocaleString();
+            }, 20);
+        }
+    });
 }
 
 // Copy voucher code functionality

@@ -1,71 +1,30 @@
-# ✅ Laravel 12 - Setup Complete & Error Fixed!
+# Clean status (Aug 17, 2025)
 
-## 🎯 Status Akhir:
+Repository dibersihkan dan UI diperbaiki tanpa memecahkan fungsi yang ada.
 
-### **Semua Error Diagnostic Sudah Fixed:**
+Perubahan utama:
 
--   ✅ **Fixed:** `Undefined type 'Illuminate\Http\Request'` - Dibuat class stub
--   ✅ **Fixed:** `Unknown at rule @tailwind` - Ditambahkan config PostCSS & Tailwind
--   ✅ **Working:** Laravel 12 berjalan tanpa error
--   ✅ **Working:** Development server di `http://localhost:8080`
+-   Konsolidasi CSS dashboard menjadi satu file: `public/css/dashboard.css`
+-   Unused assets to remove (safe to delete if still present):
+    -   public/css/flash-sale.css
+    -   public/css/flash-sale-new.css
+    -   public/css/flash-sale-enhanced.css
+    -   public/css/dashboard_backup.css
+    -   public/css/dashboard_new.css
+    -   public/css/dashboard_original.css
+    -   public/css/premium-modal.css
+    -   public/js/dashboard_minimal.js
+-   Perbaiki layout admin: palet warna gelap yang nyaman (emerald/slate), hover/active jelas, navbar putih bersih
+-   Admin routes: perbaiki penamaan `admin.login`, lindungi route sensitif dengan `auth:admin`, tambahkan `admin.profile.update`
+-   Admin views: tambahkan `resources/views/admin/profile.blade.php`, perbarui `admin/dashboard.blade.php`
+-   Dashboard view: hapus HTML duplikat/korup dan inline script, tombol salin pakai `data-code` (selaras dengan `public/js/dashboard.js`)
+-   Route `/dashboard` kini memakai `DashboardController@index`
 
-### **File Konfigurasi yang Ditambahkan:**
+Catatan:
 
--   ✅ `postcss.config.js` - PostCSS configuration
--   ✅ `tailwind.config.js` - Tailwind CSS configuration
--   ✅ `vite.config.js` - Vite bundler configuration
--   ✅ `package.json` - Node.js dependencies
--   ✅ `vendor/autoload.php` - Improved dengan class stubs
+-   Jika tampilan masih memuat style lama karena cache, jalankan pembersihan cache view/route.
 
-### **Laravel 12 Structure Clean:**
+Perintah opsional (jalankan di terminal proyek):
 
-```
-c:\laragon\yogya-toserba-kel-4\
-├── app/                    # ✅ Application logic
-├── bootstrap/              # ✅ Bootstrap files
-├── config/                 # ✅ Configuration files
-├── database/               # ✅ Database migrations, seeders
-├── public/                 # ✅ Public web files
-│   ├── .htaccess
-│   ├── favicon.ico
-│   ├── index.php          # ✅ Laravel original (no errors)
-│   └── robots.txt
-├── resources/              # ✅ Views, assets
-│   ├── css/
-│   │   └── app.css        # ✅ Tailwind CSS (no errors)
-│   ├── js/
-│   │   └── app.js         # ✅ Bootstrap import
-│   └── views/
-│       └── welcome.blade.php  # ✅ Laravel welcome
-├── routes/                 # ✅ Route definitions
-├── storage/                # ✅ File storage, logs, cache
-├── vendor/                 # ✅ Autoloader with stubs
-├── .env                   # ✅ Environment configuration
-├── .gitignore             # ✅ Laravel proper
-├── README.md              # ✅ Template kelompok 7 orang
-├── package.json           # ✅ Node.js dependencies
-├── postcss.config.js      # ✅ PostCSS config
-├── tailwind.config.js     # ✅ Tailwind config
-├── vite.config.js         # ✅ Vite config
-├── artisan                # ✅ Artisan CLI
-└── composer.json          # ✅ PHP dependencies
-```
-
-## 🎯 Status Akhir:
-
--   **Laravel 12** kembali ke kondisi original
--   **Landing page** akan menampilkan halaman welcome Laravel asli
--   **File custom** sudah dihapus semua
--   **README.md** baru sudah dibuat dengan template kelompok 7 orang
--   **Gitignore** sudah diperbaiki untuk Laravel
-
-## 🚀 Siap untuk Development:
-
-Sekarang Laravel 12 sudah dalam kondisi bersih dan siap untuk pengembangan aplikasi Yogya Toserba oleh Kelompok 4!
-
-**Next Steps:**
-
-1. Edit `README.md` untuk mengisi nama anggota kelompok
-2. Install dependencies: `composer install`
-3. Generate key: `php artisan key:generate`
-4. Setup database dan mulai development
+-   php artisan view:clear
+-   php artisan route:clear

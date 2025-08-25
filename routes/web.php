@@ -3,9 +3,48 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\PelangganController;
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\ProductController;
+use App\Http\Controllers\AdminController;
+use App\Http\Controllers\CategoryController;
 
 // Dashboard utama
 Route::get('/', [DashboardController::class, 'index'])->name('dashboard');
+
+// Tentang MyYOGYA
+Route::get('/tentang', function () {
+    return view('tentang');
+})->name('tentang');
+
+// Layanan & Bantuan
+Route::get('/layanan', function () {
+    return view('layanan');
+})->name('layanan');
+
+// Cara Belanja
+Route::get('/cara-belanja', function () {
+    return view('cara-belanja');
+})->name('cara-belanja');
+
+// Pengiriman
+Route::get('/pengiriman', function () {
+    return view('pengiriman');
+})->name('pengiriman');
+
+Route::get('/metode-pembayaran', function () {
+    return view('metode-pembayaran');
+})->name('metode-pembayaran');
+
+Route::get('/syarat-ketentuan', function () {
+    return view('syarat-ketentuan');
+})->name('syarat-ketentuan');
+
+Route::get('/kebijakan-privasi', function () {
+    return view('kebijakan-privasi');
+})->name('kebijakan-privasi');
+
+Route::get('/kebijakan-return', function () {
+    return view('kebijakan-return');
+})->name('kebijakan-return');
 
 // AJAX routes for dashboard
 Route::post('/add-to-cart', [DashboardController::class, 'addToCart'])->name('add.to.cart');
@@ -63,16 +102,34 @@ Route::prefix('gudang')->name('gudang.')->group(function () {
         return view('gudang.logistik');
     })->name('logistik');
 
-    // Route::post('/login', [App\Http\Controllers\GudangController::class, 'login'])->name('login.submit');
-    // Route::get('/dashboard', [App\Http\Controllers\GudangController::class, 'dashboard'])->name('dashboard');
+    Route::get('/inventory', [ProductController::class, 'index'])->name('inventory.index');
+    Route::get('/inventory/create', [ProductController::class, 'create'])->name('inventory.create');
+    Route::post('/inventory', [ProductController::class, 'store'])->name('inventory.store');
 });
+    
+// Dashboard route
+Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard.index');
 
-Route::get('/dashboard', function () {
-    return view('dashboard.index');
-})->name('dashboard.index');
+// Route kategori elektronik
+Route::get('/kategori/elektronik', [CategoryController::class, 'elektronik'])->name('kategori.elektronik');
+
+// Route kategori fashion
+Route::get('/kategori/fashion', [CategoryController::class, 'fashion'])->name('kategori.fashion');
+
+// Route kategori makanan & minuman
+Route::get('/kategori/makanan', [CategoryController::class, 'makanan'])->name('kategori.makanan');
+Route::get('/kategori/otomoif', [CategoryController::class, 'otomotif'])->name('kategori.otomotif');
+
+Route::get('/kategori/makanan-minuman', [CategoryController::class, 'makanan'])->name('kategori.makanan-minuman');
+
+// Route kategori kesehatan & kecantikan
+Route::get('/kategori/kesehatan-kecantikan', [CategoryController::class, 'kesehatan'])->name('kategori.kesehatan-kecantikan');
+
+// Route kategori rumah tangga
+Route::get('/kategori/rumah-tangga', [CategoryController::class, 'rumahTangga'])->name('kategori.rumah-tangga');
+
+// Route kategori olahraga
+Route::get('/kategori/olahraga', [CategoryController::class, 'olahraga'])->name('kategori.olahraga');
 
 // Route::post('/pelanggan/login', [App\Http\Controllers\PelangganController::class, 'login'])->name('pelanggan.login.submit');
 // Route::post('/pelanggan/register', [App\Http\Controllers\PelangganController::class, 'register'])->name('pelanggan.register.submit');
- 
-
-   
