@@ -69,7 +69,7 @@
                 'price' => 'Rp 299.000',
                 'original_price' => 'Rp 399.000',
                 'discount' => '25%',
-                'image' => 'https://via.placeholder.com/300x300/f0f0f0/888?text=Kemeja+Formal',
+                'image' => '/image/kategori/fashion/kemeja_formal.png',
                 'rating' => 4.7,
                 'reviews' => 156
             ],
@@ -78,7 +78,7 @@
                 'price' => 'Rp 159.000',
                 'original_price' => 'Rp 219.000',
                 'discount' => '27%',
-                'image' => 'https://via.placeholder.com/300x300/f0f0f0/888?text=Dress+Elegant',
+                'image' => '/image/kategori/fashion/dress_wanita.png',
                 'rating' => 4.8,
                 'reviews' => 243
             ],
@@ -87,7 +87,7 @@
                 'price' => 'Rp 449.000',
                 'original_price' => '',
                 'discount' => '',
-                'image' => 'https://via.placeholder.com/300x300/f0f0f0/888?text=Sneakers+Sport',
+                'image' => '/image/kategori/fashion/sepatu_sneaker.png',
                 'rating' => 4.6,
                 'reviews' => 189
             ],
@@ -96,7 +96,7 @@
                 'price' => 'Rp 689.000',
                 'original_price' => 'Rp 899.000',
                 'discount' => '23%',
-                'image' => 'https://via.placeholder.com/300x300/f0f0f0/888?text=Handbag+Premium',
+                'image' => '/image/kategori/fashion/tas_handbag.png',
                 'rating' => 4.9,
                 'reviews' => 98
             ],
@@ -105,7 +105,7 @@
                 'price' => 'Rp 129.000',
                 'original_price' => 'Rp 179.000',
                 'discount' => '28%',
-                'image' => 'https://via.placeholder.com/300x300/f0f0f0/888?text=Blouse+Chiffon',
+                'image' => '/image/kategori/fashion/blouse_wanita.png',
                 'rating' => 4.5,
                 'reviews' => 167
             ],
@@ -114,7 +114,7 @@
                 'price' => 'Rp 199.000',
                 'original_price' => '',
                 'discount' => '',
-                'image' => 'https://via.placeholder.com/300x300/f0f0f0/888?text=Jeans+Slim+Fit',
+                'image' => '/image/kategori/fashion/celana_jeans.png',
                 'rating' => 4.7,
                 'reviews' => 134
             ],
@@ -123,7 +123,7 @@
                 'price' => 'Rp 349.000',
                 'original_price' => 'Rp 449.000',
                 'discount' => '22%',
-                'image' => 'https://via.placeholder.com/300x300/f0f0f0/888?text=High+Heels',
+                'image' => '/image/kategori/fashion/high_heels.png',
                 'rating' => 4.4,
                 'reviews' => 76
             ],
@@ -132,7 +132,7 @@
                 'price' => 'Rp 259.000',
                 'original_price' => 'Rp 329.000',
                 'discount' => '21%',
-                'image' => 'https://via.placeholder.com/300x300/f0f0f0/888?text=Jaket+Bomber',
+                'image' => '/image/kategori/fashion/jaket_bomber.png',
                 'rating' => 4.6,
                 'reviews' => 112
             ],
@@ -141,7 +141,7 @@
                 'price' => 'Rp 89.000',
                 'original_price' => 'Rp 119.000',
                 'discount' => '25%',
-                'image' => 'https://via.placeholder.com/300x300/f0f0f0/888?text=Rok+Mini+A-Line',
+                'image' => '/image/kategori/fashion/rok_mini.png',
                 'rating' => 4.3,
                 'reviews' => 89
             ],
@@ -150,7 +150,7 @@
                 'price' => 'Rp 179.000',
                 'original_price' => '',
                 'discount' => '',
-                'image' => 'https://via.placeholder.com/300x300/f0f0f0/888?text=Dompet+Kulit',
+                'image' => '/image/kategori/fashion/dompet_pria.png',
                 'rating' => 4.8,
                 'reviews' => 203
             ],
@@ -159,7 +159,7 @@
                 'price' => 'Rp 149.000',
                 'original_price' => 'Rp 199.000',
                 'discount' => '25%',
-                'image' => 'https://via.placeholder.com/300x300/f0f0f0/888?text=Kaos+Polo',
+                'image' => '/image/kategori/fashion/kaos_polo.png',
                 'rating' => 4.5,
                 'reviews' => 145
             ],
@@ -168,7 +168,7 @@
                 'price' => 'Rp 99.000',
                 'original_price' => 'Rp 139.000',
                 'discount' => '29%',
-                'image' => 'https://via.placeholder.com/300x300/f0f0f0/888?text=Sandal+Casual',
+                'image' => '/image/kategori/fashion/sandal_wanita.png',
                 'rating' => 4.4,
                 'reviews' => 67
             ]
