@@ -31,6 +31,38 @@ Route::prefix('gudang')->name('gudang.')->group(function () {
         return view('gudang.manual');
     })->name('manual');
 
+      Route::get('/dahsboard', function () {
+        return view('gudang.dahsboard');
+    })->name('dahsboard');
+
+      Route::get('/permintaan', function () {
+        return view('gudang.permintaan');
+    })->name('permintaan');
+
+    Route::get('/pengiriman', function () {
+        return view('gudang.pengiriman');
+    })->name('pengiriman');
+   
+   Route::get('/stok', function () {
+        return view('gudang.stok');
+    })->name('stok');
+
+        Route::get('/inventori', function () {
+        return view('gudang.inventori');
+    })->name('inventori');
+
+        Route::get('/pemasok', function () {
+        return view('gudang.pemasok');
+    })->name('pemasok');
+
+        Route::get('/resiko', function () {
+        return view('gudang.resiko');
+    })->name('resiko');
+
+        Route::get('/logistik', function () {
+        return view('gudang.logistik');
+    })->name('logistik');
+
     // Route::post('/login', [App\Http\Controllers\GudangController::class, 'login'])->name('login.submit');
     // Route::get('/dashboard', [App\Http\Controllers\GudangController::class, 'dashboard'])->name('dashboard');
 });
@@ -41,3 +73,6 @@ Route::get('/dashboard', function () {
 
 // Route::post('/pelanggan/login', [App\Http\Controllers\PelangganController::class, 'login'])->name('pelanggan.login.submit');
 // Route::post('/pelanggan/register', [App\Http\Controllers\PelangganController::class, 'register'])->name('pelanggan.register.submit');
+ 
+
+   
