@@ -70,6 +70,38 @@ Route::prefix('gudang')->name('gudang.')->group(function () {
         return view('gudang.manual');
     })->name('manual');
 
+      Route::get('/dahsboard', function () {
+        return view('gudang.dahsboard');
+    })->name('dahsboard');
+
+      Route::get('/permintaan', function () {
+        return view('gudang.permintaan');
+    })->name('permintaan');
+
+    Route::get('/pengiriman', function () {
+        return view('gudang.pengiriman');
+    })->name('pengiriman');
+   
+   Route::get('/stok', function () {
+        return view('gudang.stok');
+    })->name('stok');
+
+        Route::get('/inventori', function () {
+        return view('gudang.inventori');
+    })->name('inventori');
+
+        Route::get('/pemasok', function () {
+        return view('gudang.pemasok');
+    })->name('pemasok');
+
+        Route::get('/resiko', function () {
+        return view('gudang.resiko');
+    })->name('resiko');
+
+        Route::get('/logistik', function () {
+        return view('gudang.logistik');
+    })->name('logistik');
+
     Route::get('/inventory', [ProductController::class, 'index'])->name('inventory.index');
     Route::get('/inventory/create', [ProductController::class, 'create'])->name('inventory.create');
     Route::post('/inventory', [ProductController::class, 'store'])->name('inventory.store');
@@ -86,6 +118,7 @@ Route::get('/kategori/fashion', [CategoryController::class, 'fashion'])->name('k
 
 // Route kategori makanan & minuman
 Route::get('/kategori/makanan', [CategoryController::class, 'makanan'])->name('kategori.makanan');
+Route::get('/kategori/otomoif', [CategoryController::class, 'otomotif'])->name('kategori.otomotif');
 
 Route::get('/kategori/makanan-minuman', [CategoryController::class, 'makanan'])->name('kategori.makanan-minuman');
 
@@ -113,34 +146,6 @@ Route::prefix('admin')->name('admin.')->group(function () {
     Route::post('/login', [AdminController::class, 'login'])->name('login.submit');
     Route::post('/logout', [AdminController::class, 'logout'])->name('logout');
 
-    Route::get('/dashboard', [AdminController::class, 'dashboard'])->name('dashboard');
-    Route::get('/profile', [AdminController::class, 'profile'])->name('profile');
-    route::get('penggajian', function () {
-        return view('admin.penggajian');
-    })->name('penggajian');
-    route::get('laporan', function () {
-        return view('admin.laporan');
-    })->name('laporan');
-    route::get('absensi', function () {     
-        return view('admin.absensi');
-    })->name('absensi');
-    route::get('pengaturan', function () {
-        return view('admin.pengaturan');
-    })->name('pengaturan');
-    Route::get('/testing', function(){
-        return view('welcome');
-    });
-
-    // // Password Reset Routes
-    // Route::get('/forgot-password', [AdminPasswordResetController::class, 'showForgotForm'])
-    //     ->name('password.request');
-    // Route::post('/forgot-password', [AdminPasswordResetController::class, 'sendResetLink'])
-    //     ->name('password.email');
-    // Route::get('/reset-password/{token}', [AdminPasswordResetController::class, 'showResetForm'])
-    //     ->name('password.reset');
-    // Route::post('/reset-password', [AdminPasswordResetController::class, 'resetPassword'])
-    //     ->name('password.update');
-
     // Protected Admin Routes
     Route::middleware(['auth:admin'])->group(function () {
         Route::get('/dashboard', [AdminController::class, 'dashboard'])->name('dashboard');
@@ -163,29 +168,3 @@ Route::prefix('admin')->name('admin.')->group(function () {
         })->name('keuangan');
     });
 });
-
-// Admin Keuangan dan Akuntansi
-Route::get('keuangan', function () {
-    return view('keuangan.app');
-})->name('keuangan');
-
-// Halaman Dashboard Keuangan
-Route::get('/keuangan/dashboard', function () {
-    return view('keuangan.dashboard');
-})->name('keuangan.dashboard');
-
-// Halaman Riwayat Transaksi
-Route::get('/keuangan/riwayat-transaksi', function () {
-    return view('keuangan.riwayat_transaksi');
-})->name('keuangan.riwayat');
-
-// Halaman Buku Besar
-Route::get('/keuangan/buku-besar', function () {
-    return view('keuangan.bukubesar');
-})->name('keuangan.bukubesar');
-
-// Halaman Laporan Keuangan
-Route::get('/keuangan/laporan', function () {
-    return view('keuangan.laporan');
-})->name('keuangan.laporan');
-
