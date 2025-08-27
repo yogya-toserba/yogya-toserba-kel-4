@@ -124,8 +124,7 @@ Route::prefix('gudang')->name('gudang.')->group(function () {
     Route::get('/inventory', [ProductController::class, 'index'])->name('inventory.index');
     Route::get('/inventory/create', [ProductController::class, 'create'])->name('inventory.create');
     Route::post('/inventory', [ProductController::class, 'store'])->name('inventory.store');
-     Route::resource('produk', ProductController::class);
-
+    Route::resource('produk', ProductController::class);
 });
 
 // Dashboard route

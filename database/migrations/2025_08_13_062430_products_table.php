@@ -17,7 +17,7 @@ return new class extends Migration
             $table->integer('unit');
             $table->decimal('harga_beli', 10, 2);
             $table->decimal('harga_jual', 10, 2);
-            $table->enum('status', ['aktif', 'expire']);
+            $table->enum('status', ['aktif', 'nonaktif', 'expire'])->default('aktif');
             $table->date('tanggal');
             $table->timestamps();
             
