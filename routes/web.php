@@ -163,8 +163,24 @@ Route::prefix('admin')->name('admin.')->group(function () {
         route::get('pengaturan', function () {
             return view('admin.pengaturan');
         })->name('pengaturan');
-        Route::get('keuangan', function () {
-            return view('keuangan.app');
-        })->name('keuangan');
+        
+        // Keuangan Routes
+        Route::prefix('keuangan')->name('keuangan.')->group(function () {
+            Route::get('dashboard', function () {
+                return view('keuangan.dashboard');
+            })->name('dashboard');
+            
+            Route::get('riwayat-transaksi', function () {
+                return view('keuangan.riwayat_transaksi');
+            })->name('riwayat');
+            
+            Route::get('buku-besar', function () {
+                return view('keuangan.bukubesar');
+            })->name('bukubesar');
+            
+            Route::get('laporan', function () {
+                return view('keuangan.laporan');
+            })->name('laporan');
+        });
     });
 });
