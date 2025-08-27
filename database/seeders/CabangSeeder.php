@@ -9,6 +9,9 @@ class CabangSeeder extends Seeder
 {
     public function run(): void
     {
+        // Clear existing data first
+        DB::table('cabang')->delete();
+        
         DB::table('cabang')->insert([
             [
                 'id_cabang'   => 101,

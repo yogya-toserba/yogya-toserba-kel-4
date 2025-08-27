@@ -1,54 +1,484 @@
 @extends('layouts.navbar_admin')
 
-@section('title', 'Admin Dashboard')
+@section('title', 'Dashboard Admin - MyYOGYA')
 
 @section('content')
-    <div class="container-fluid">
-        <div class="row g-4">
-            <div class="col-12">
-                <div class="alert" style="background: rgba(34,197,94,.1); color:#065f46; border:1px solid rgba(34,197,94,.2);">
-                    <i class="fas fa-check-circle me-2"></i>Selamat datang di dashboard admin.
+<div class="container-fluid">
+    <!-- Welcome Header -->
+    <div class="row mb-4">
+        <div class="col-12">
+            <div class="d-flex justify-content-between align-items-center">
+                <div>
+                    <h1 class="h3 mb-1">Dashboard Admin</h1>
+                    <p class="text-muted mb-0">Selamat datang di panel administrasi MyYOGYA</p>
+                </div>
+                <div class="text-end">
+                    <small class="text-muted">{{ date('l, d F Y') }}</small>
                 </div>
             </div>
-            <div class="col-md-4">
-                <div class="card shadow-sm">
-                    <div class="card-body">
-                        <div class="d-flex align-items-center justify-content-between">
-                            <div>
-                                <div class="text-muted">Total Produk</div>
-                                <div class="fs-3 fw-bold">128</div>
-                            </div>
-                            <div class="text-success"><i class="fas fa-box fa-2x"></i></div>
+        </div>
+    </div>
+
+    <!-- Statistics Cards -->
+    <div class="row g-4 mb-4">
+        <!-- Total Produk -->
+        <div class="col-xl-3 col-md-6">
+            <div class="card border-0 shadow-sm h-100">
+                <div class="card-body">
+                    <div class="d-flex align-items-center justify-content-between">
+                        <div>
+                            <div class="text-muted small mb-1">Total Produk</div>
+                            <div class="h4 mb-0 text-dark">{{ number_format($totalProduk) }}</div>
+                            <small class="text-success">
+                                <i class="fas fa-box-open"></i> {{ number_format($totalStok) }} Total Stok
+                            </small>
+                        </div>
+                        <div class="text-primary opacity-75">
+                            <i class="fas fa-box fa-2x"></i>
                         </div>
                     </div>
                 </div>
             </div>
-            <div class="col-md-4">
-                <div class="card shadow-sm">
-                    <div class="card-body">
-                        <div class="d-flex align-items-center justify-content-between">
-                            <div>
-                                <div class="text-muted">Pesanan Hari Ini</div>
-                                <div class="fs-3 fw-bold">42</div>
-                            </div>
-                            <div class="text-primary"><i class="fas fa-shopping-cart fa-2x"></i></div>
+        </div>
+
+        <!-- Total Transaksi -->
+        <div class="col-xl-3 col-md-6">
+            <div class="card border-0 shadow-sm h-100">
+                <div class="card-body">
+                    <div class="d-flex align-items-center justify-content-between">
+                        <div>
+                            <div class="text-muted small mb-1">Transaksi Hari Ini</div>
+                            <div class="h4 mb-0 text-dark">{{ number_format($transaksiHariIni) }}</div>
+                            <small class="text-info">
+                                <i class="fas fa-calendar-day"></i> {{ date('d F Y') }}
+                            </small>
+                        </div>
+                        <div class="text-success opacity-75">
+                            <i class="fas fa-shopping-cart fa-2x"></i>
                         </div>
                     </div>
                 </div>
             </div>
-            <div class="col-md-4">
-                <div class="card shadow-sm">
-                    <div class="card-body">
-                        <div class="d-flex align-items-center justify-content-between">
-                            <div>
-                                <div class="text-muted">Pengguna</div>
-                                <div class="fs-3 fw-bold">1,245</div>
-                            </div>
-                            <div class="text-warning"><i class="fas fa-users fa-2x"></i></div>
+        </div>
+
+        <!-- Total Pengguna -->
+        <div class="col-xl-3 col-md-6">
+            <div class="card border-0 shadow-sm h-100">
+                <div class="card-body">
+                    <div class="d-flex align-items-center justify-content-between">
+                        <div>
+                            <div class="text-muted small mb-1">Total Pelanggan</div>
+                            <div class="h4 mb-0 text-dark">{{ number_format($totalPengguna) }}</div>
+                            <small class="text-warning">
+                                <i class="fas fa-users"></i> Registered customers
+                            </small>
+                        </div>
+                        <div class="text-warning opacity-75">
+                            <i class="fas fa-users fa-2x"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Pendapatan -->
+        <div class="col-xl-3 col-md-6">
+            <div class="card border-0 shadow-sm h-100">
+                <div class="card-body">
+                    <div class="d-flex align-items-center justify-content-between">
+                        <div>
+                            <div class="text-muted small mb-1">Pendapatan Hari Ini</div>
+                            <div class="h4 mb-0 text-dark">Rp {{ number_format($pendapatanHariIni, 0, ',', '.') }}</div>
+                            <small class="text-success">
+                                <i class="fas fa-money-bill-wave"></i> Dari {{ $transaksiHariIni }} transaksi
+                            </small>
+                        </div>
+                        <div class="text-info opacity-75">
+                            <i class="fas fa-chart-line fa-2x"></i>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
+
+    <!-- Charts and Analytics -->
+    <div class="row g-4 mb-4">
+        <!-- Sales Chart -->
+        <div class="col-xl-8">
+            <div class="card border-0 shadow-sm h-100">
+                <div class="card-header bg-white border-0">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <h5 class="mb-0">Grafik Penjualan</h5>
+                        <div class="dropdown">
+                            <button class="btn btn-outline-secondary btn-sm dropdown-toggle" type="button" data-bs-toggle="dropdown" id="periodDropdown">
+                                <span id="currentPeriod">7 Hari Terakhir</span>
+                            </button>
+                            <ul class="dropdown-menu">
+                                <li><a class="dropdown-item period-filter" href="#" data-days="7">7 Hari</a></li>
+                                <li><a class="dropdown-item period-filter" href="#" data-days="30">30 Hari</a></li>
+                                <li><a class="dropdown-item period-filter" href="#" data-days="90">90 Hari</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <div id="chartLoading" class="text-center d-none" style="padding: 60px;">
+                        <div class="spinner-border text-primary" role="status">
+                            <span class="visually-hidden">Loading...</span>
+                        </div>
+                        <p class="mt-2">Memuat data...</p>
+                    </div>
+                    <div style="position: relative; height: 300px;">
+                        <canvas id="salesChart"></canvas>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Recent Orders -->
+        <div class="col-xl-4">
+            <div class="card border-0 shadow-sm h-100">
+                <div class="card-header bg-white border-0">
+                    <h5 class="mb-0">Pesanan Terbaru</h5>
+                </div>
+                <div class="card-body">
+                    <div class="list-group list-group-flush">
+                        <div class="list-group-item px-0 border-0">
+                            <div class="d-flex align-items-center">
+                                <div class="avatar-sm me-3">
+                                    <div class="bg-primary bg-opacity-10 text-primary rounded-circle p-2 d-flex align-items-center justify-content-center">
+                                        <i class="fas fa-shopping-bag"></i>
+                                    </div>
+                                </div>
+                                <div class="flex-grow-1">
+                                    <div class="fw-semibold">Pesanan #12345</div>
+                                    <small class="text-muted">Budi Santoso - Rp 125,000</small>
+                                </div>
+                                <small class="text-muted">2 min</small>
+                            </div>
+                        </div>
+                        <div class="list-group-item px-0 border-0">
+                            <div class="d-flex align-items-center">
+                                <div class="avatar-sm me-3">
+                                    <div class="bg-success bg-opacity-10 text-success rounded-circle p-2 d-flex align-items-center justify-content-center">
+                                        <i class="fas fa-check-circle"></i>
+                                    </div>
+                                </div>
+                                <div class="flex-grow-1">
+                                    <div class="fw-semibold">Pesanan #12344</div>
+                                    <small class="text-muted">Siti Aminah - Rp 87,500</small>
+                                </div>
+                                <small class="text-muted">5 min</small>
+                            </div>
+                        </div>
+                        <div class="list-group-item px-0 border-0">
+                            <div class="d-flex align-items-center">
+                                <div class="avatar-sm me-3">
+                                    <div class="bg-warning bg-opacity-10 text-warning rounded-circle p-2 d-flex align-items-center justify-content-center">
+                                        <i class="fas fa-truck"></i>
+                                    </div>
+                                </div>
+                                <div class="flex-grow-1">
+                                    <div class="fw-semibold">Pesanan #12343</div>
+                                    <small class="text-muted">Ahmad Rizki - Rp 156,000</small>
+                                </div>
+                                <small class="text-muted">8 min</small>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="text-center mt-3">
+                        <a href="#" class="btn btn-outline-primary btn-sm">Lihat Semua Pesanan</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Data Tables -->
+    <div class="row g-4">
+        <!-- Best Selling Products -->
+        <div class="col-xl-6">
+            <div class="card border-0 shadow-sm">
+                <div class="card-header bg-white border-0">
+                    <h5 class="mb-0">Produk Terlaris</h5>
+                </div>
+                <div class="card-body">
+                    <div class="table-responsive">
+                        <table class="table table-hover align-middle">
+                            <thead class="table-light">
+                                <tr>
+                                    <th>Produk</th>
+                                    <th>Terjual</th>
+                                    <th>Pendapatan</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>
+                                        <div class="d-flex align-items-center">
+                                            <div class="bg-primary bg-opacity-10 text-primary rounded p-2 me-3">
+                                                <i class="fas fa-box-open"></i>
+                                            </div>
+                                            <div>
+                                                <div class="fw-semibold">Indomie Goreng</div>
+                                                <small class="text-muted">Makanan Instan</small>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <span class="badge bg-success">1,250</span>
+                                    </td>
+                                    <td class="fw-semibold">Rp 4,062,500</td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <div class="d-flex align-items-center">
+                                            <div class="bg-success bg-opacity-10 text-success rounded p-2 me-3">
+                                                <i class="fas fa-seedling"></i>
+                                            </div>
+                                            <div>
+                                                <div class="fw-semibold">Beras Premium 5kg</div>
+                                                <small class="text-muted">Sembako</small>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <span class="badge bg-info">892</span>
+                                    </td>
+                                    <td class="fw-semibold">Rp 66,900,000</td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <div class="d-flex align-items-center">
+                                            <div class="bg-warning bg-opacity-10 text-warning rounded p-2 me-3">
+                                                <i class="fas fa-tint"></i>
+                                            </div>
+                                            <div>
+                                                <div class="fw-semibold">Minyak Goreng 1L</div>
+                                                <small class="text-muted">Sembako</small>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <span class="badge bg-warning">756</span>
+                                    </td>
+                                    <td class="fw-semibold">Rp 13,608,000</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- System Status -->
+        <div class="col-xl-6">
+            <div class="card border-0 shadow-sm">
+                <div class="card-header bg-white border-0">
+                    <h5 class="mb-0">Status Sistem</h5>
+                </div>
+                <div class="card-body">
+                    <div class="row g-3">
+                        <div class="col-6">
+                            <div class="d-flex align-items-center">
+                                <div class="text-success me-2">
+                                    <i class="fas fa-circle fa-sm"></i>
+                                </div>
+                                <div>
+                                    <div class="fw-semibold">Server</div>
+                                    <small class="text-muted">Online</small>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-6">
+                            <div class="d-flex align-items-center">
+                                <div class="text-success me-2">
+                                    <i class="fas fa-circle fa-sm"></i>
+                                </div>
+                                <div>
+                                    <div class="fw-semibold">Database</div>
+                                    <small class="text-muted">Connected</small>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-6">
+                            <div class="d-flex align-items-center">
+                                <div class="text-warning me-2">
+                                    <i class="fas fa-circle fa-sm"></i>
+                                </div>
+                                <div>
+                                    <div class="fw-semibold">Storage</div>
+                                    <small class="text-muted">78% Used</small>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-6">
+                            <div class="d-flex align-items-center">
+                                <div class="text-success me-2">
+                                    <i class="fas fa-circle fa-sm"></i>
+                                </div>
+                                <div>
+                                    <div class="fw-semibold">Payment</div>
+                                    <small class="text-muted">Active</small>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <hr>
+                    <div class="row g-3 text-center">
+                        <div class="col-4">
+                            <div class="fw-semibold text-primary">99.9%</div>
+                            <small class="text-muted">Uptime</small>
+                        </div>
+                        <div class="col-4">
+                            <div class="fw-semibold text-success">42ms</div>
+                            <small class="text-muted">Response</small>
+                        </div>
+                        <div class="col-4">
+                            <div class="fw-semibold text-info">2.1GB</div>
+                            <small class="text-muted">Memory</small>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Chart.js Script -->
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    let salesChart;
+    
+    // Initialize chart with default data
+    function initChart(labels, data) {
+        const ctx = document.getElementById('salesChart').getContext('2d');
+        
+        if (salesChart) {
+            salesChart.destroy();
+        }
+        
+        salesChart = new Chart(ctx, {
+            type: 'line',
+            data: {
+                labels: labels,
+                datasets: [{
+                    label: 'Penjualan',
+                    data: data,
+                    fill: true,
+                    backgroundColor: 'rgba(13, 110, 253, 0.1)',
+                    borderColor: '#0d6efd',
+                    borderWidth: 2,
+                    tension: 0.4,
+                    pointBackgroundColor: '#0d6efd',
+                    pointBorderColor: '#fff',
+                    pointBorderWidth: 2,
+                    pointRadius: 4
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: {
+                        display: false
+                    }
+                },
+                scales: {
+                    x: {
+                        grid: {
+                            display: false
+                        },
+                        ticks: {
+                            color: '#6c757d'
+                        }
+                    },
+                    y: {
+                        beginAtZero: true,
+                        grid: {
+                            color: 'rgba(0,0,0,0.05)'
+                        },
+                        ticks: {
+                            color: '#6c757d',
+                            callback: function(value) {
+                                return 'Rp ' + value + 'K';
+                            }
+                        }
+                    }
+                },
+                interaction: {
+                    intersect: false
+                },
+                animation: {
+                    duration: 800,
+                    easing: 'easeInOutQuart'
+                }
+            }
+        });
+    }
+    
+    // Initialize with default data (7 days)
+    initChart(@json($chartLabels), @json($chartData));
+    
+    // Handle period filter clicks
+    document.querySelectorAll('.period-filter').forEach(function(item) {
+        item.addEventListener('click', function(e) {
+            e.preventDefault();
+            const days = this.getAttribute('data-days');
+            const periodText = this.textContent;
+            
+            // Show loading
+            document.getElementById('chartLoading').classList.remove('d-none');
+            document.getElementById('salesChart').style.opacity = '0.3';
+            
+            // Update dropdown text
+            document.getElementById('currentPeriod').textContent = periodText + ' Terakhir';
+            
+            // Fetch new data via AJAX
+            fetch('{{ route("admin.sales.data") }}?days=' + days, {
+                method: 'GET',
+                headers: {
+                    'X-Requested-With': 'XMLHttpRequest',
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json'
+                }
+            })
+            .then(response => {
+                console.log('Response status:', response.status);
+                if (!response.ok) {
+                    throw new Error('Network response was not ok: ' + response.status);
+                }
+                return response.json();
+            })
+            .then(data => {
+                console.log('Received data:', data);
+                
+                // Hide loading
+                document.getElementById('chartLoading').classList.add('d-none');
+                document.getElementById('salesChart').style.opacity = '1';
+                
+                if (data.success) {
+                    // Update chart with new data
+                    initChart(data.labels, data.data);
+                } else {
+                    console.error('Error fetching chart data:', data.message || 'Unknown error');
+                    alert('Gagal memuat data grafik: ' + (data.message || 'Unknown error'));
+                }
+            })
+            .catch(error => {
+                console.error('AJAX Error:', error);
+                
+                // Hide loading
+                document.getElementById('chartLoading').classList.add('d-none');
+                document.getElementById('salesChart').style.opacity = '1';
+                
+                alert('Terjadi kesalahan saat memuat data. Silakan periksa console untuk detail.');
+            });
+        });
+    });
+});
+</script>
+
 @endsection

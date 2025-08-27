@@ -32,17 +32,14 @@ class PelangganController extends Controller
     if (Auth::guard('pelanggan')->attempt($credentials)) {
       $request->session()->regenerate();
 
-      return response()->json([
-        'status' => 'success',
-        'message' => 'Login berhasil!',
-        'redirect' => '/'
-      ]);
+      // Redirect langsung ke dashboard dengan pesan sukses
+      return redirect()->intended(route('dashboard'))->with('success', 'Login berhasil! Selamat datang ' . Auth::guard('pelanggan')->user()->nama_pelanggan);
     }
 
-    return response()->json([
-      'status' => 'error',
-      'message' => 'Email atau password salah!'
-    ], 401);
+    // Jika login gagal, kembali ke form login dengan error
+    return back()->withErrors([
+      'email' => 'Email atau password salah!'
+    ])->onlyInput('email');
   }
 
   public function register(Request $request)
@@ -70,11 +67,8 @@ class PelangganController extends Controller
 
     Auth::guard('pelanggan')->login($pelanggan);
 
-    return response()->json([
-      'status' => 'success',
-      'message' => 'Registrasi berhasil!',
-      'redirect' => '/'
-    ]);
+    // Redirect langsung ke dashboard dengan pesan sukses setelah registrasi
+    return redirect()->route('dashboard')->with('success', 'Registrasi berhasil! Selamat datang ' . $pelanggan->nama_pelanggan);
   }
 
   public function logout(Request $request)

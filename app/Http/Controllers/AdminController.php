@@ -6,6 +6,9 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Models\Admin;
 
+
+use Illuminate\Support\Facades\DB;
+
 use Illuminate\Routing\Controller as BaseController;
 
 class AdminController extends BaseController
@@ -39,7 +42,110 @@ class AdminController extends BaseController
 
     public function dashboard()
     {
-        return view('admin.dashboard');
+        // Ambil data statistik dari tabel stok_produk saja
+        $totalProduk = DB::table('stok_produk')->count();
+        
+        // Ambil total stok dari tabel stok_produk
+        $totalStok = DB::table('stok_produk')->sum('stok') ?? 0;
+        
+        // Ambil transaksi hari ini
+        $transaksiHariIni = DB::table('transaksi')
+            ->whereDate('tanggal_transaksi', today())
+            ->count();
+            
+        // Ambil total pendapatan hari ini
+        $pendapatanHariIni = DB::table('transaksi')
+            ->whereDate('tanggal_transaksi', today())
+            ->sum('total_belanja') ?? 0;
+
+        // Ambil total pengguna dari tabel pelanggan saja
+        $totalPengguna = DB::table('pelanggan')->count() ?? 0;
+
+        // Default data grafik untuk 7 hari
+        $salesChartData = $this->getSalesChartData(7);
+        $chartLabels = $salesChartData['labels'];
+        $chartData = $salesChartData['data'];
+
+        return view('admin.dashboard', compact(
+            'totalProduk', 
+            'totalStok', 
+            'transaksiHariIni', 
+            'pendapatanHariIni',
+            'totalPengguna',
+            'chartLabels',
+            'chartData'
+        ));
+    }
+
+    public function getSalesData(Request $request)
+    {
+        try {
+            $days = $request->get('days', 7);
+            
+            // Debug: Log the request
+            \Log::info('Sales data requested for days: ' . $days);
+            
+            $chartData = $this->getSalesChartData($days);
+            
+            return response()->json([
+                'success' => true,
+                'labels' => $chartData['labels'],
+                'data' => $chartData['data'],
+                'debug' => [
+                    'days' => $days,
+                    'labels_count' => count($chartData['labels']),
+                    'data_count' => count($chartData['data'])
+                ]
+            ]);
+        } catch (\Exception $e) {
+            \Log::error('Sales data error: ' . $e->getMessage());
+            return response()->json([
+                'success' => false,
+                'message' => 'Gagal memuat data grafik: ' . $e->getMessage(),
+                'error' => $e->getMessage()
+            ], 500);
+        }
+    }
+
+    private function getSalesChartData($days)
+    {
+        // Ambil data grafik penjualan berdasarkan jumlah hari
+        $salesData = DB::table('transaksi')
+            ->select(
+                DB::raw('DATE(tanggal_transaksi) as date'),
+                DB::raw('SUM(total_belanja) as total'),
+                DB::raw('COUNT(*) as transaction_count')
+            )
+            ->whereDate('tanggal_transaksi', '>=', now()->subDays($days - 1))
+            ->groupBy('date')
+            ->orderBy('date')
+            ->get();
+
+        // Prepare data untuk grafik (pastikan ada semua hari)
+        $chartLabels = [];
+        $chartData = [];
+        
+        for ($i = $days - 1; $i >= 0; $i--) {
+            $date = now()->subDays($i);
+            $dateString = $date->format('Y-m-d');
+            
+            // Format label berdasarkan periode
+            if ($days <= 7) {
+                $chartLabels[] = $date->format('j M'); // "27 Agu"
+            } elseif ($days <= 30) {
+                $chartLabels[] = $date->format('j/n'); // "27/8"
+            } else {
+                $chartLabels[] = $date->format('j/n'); // "27/8"
+            }
+            
+            $dayData = $salesData->where('date', $dateString)->first();
+            $chartData[] = $dayData ? round($dayData->total / 1000, 1) : 0; // Convert to thousands
+        }
+
+        return [
+            'labels' => $chartLabels,
+            'data' => $chartData
+        ];
     }
 
     public function logout(Request $request)

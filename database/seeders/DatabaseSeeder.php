@@ -14,6 +14,10 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
+        // Hapus data lama
+        User::truncate();
+        Admin::truncate();
+        
         // User::factory(10)->create();
 
         User::factory()->create([
@@ -29,6 +33,9 @@ class DatabaseSeeder extends Seeder
         $this->call(StokGudangPusatSeeder::class);
         $this->call([
             CabangSeeder::class,
+            KategoriSeeder::class,
+            StokProdukSeeder::class,
+            PelangganSeeder::class,
         ]);
     }
 }

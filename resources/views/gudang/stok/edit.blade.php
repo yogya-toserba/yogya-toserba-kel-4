@@ -1,4 +1,4 @@
-@extends('layouts.appGudanng')
+z@extends('layouts.appGudanng')
 
 @section('title', 'Edit Stok - ' . $stok->nama_produk)
 

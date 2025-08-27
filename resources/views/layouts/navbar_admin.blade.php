@@ -116,11 +116,17 @@
                             class="sidebar-link {{ Request::is('admin/laporan*') ? 'active' : '' }}">
                             <i class="fas fa-file-alt me-2"></i> Laporan
                         </a>
+                    </li>           
+                    <li>
+                        <a href="{{ route('admin.keuangan.riwayat') }}"
+                            class="sidebar-link {{ Request::is('admin/keuangan/riwayat*') ? 'active' : '' }}">
+                            <i class="fas fa-history me-2"></i> Riwayat Transaksi
+                        </a>
                     </li>
                     <li>
-                        <a href="{{ route('admin.keuangan') }}"
-                            class="sidebar-link {{ Request::is('admin/keuangan*') ? 'active' : '' }}">
-                            <i class="fas fa-chart-line me-2"></i> Keuangan
+                        <a href="{{ route('admin.keuangan.bukubesar') }}"
+                            class="sidebar-link {{ Request::is('admin/keuangan/bukubesar*') ? 'active' : '' }}">
+                            <i class="fas fa-book me-2"></i> Buku Besar
                         </a>
                     </li>
                     <li>

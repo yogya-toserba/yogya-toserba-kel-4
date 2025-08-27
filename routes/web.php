@@ -6,6 +6,8 @@ use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\GudangController;
+use App\Http\Controllers\StokGudangPusatController;
 
 // Dashboard utama
 Route::get('/', [DashboardController::class, 'index'])->name('dashboard');
@@ -81,49 +83,51 @@ Route::prefix('pelanggan')->name('pelanggan.')->group(function () {
 
 // Gudang Routes
 Route::prefix('gudang')->name('gudang.')->group(function () {
-    Route::get('/login', function () {
-        return view('gudang.login');
-    })->name('login');
+    // Authentication routes
+    Route::get('/login', [GudangController::class, 'showLogin'])->name('login');
+    Route::post('/login', [GudangController::class, 'login'])->name('login.submit');
+    Route::post('/logout', [GudangController::class, 'logout'])->name('logout');
 
-    Route::get('/manual', function () {
-        return view('gudang.manual');
-    })->name('manual');
+    // Protected routes (require gudang authentication)
+    Route::middleware(['auth:gudang'])->group(function () {
+        Route::get('/dashboard', [GudangController::class, 'dashboard'])->name('dashboard');
 
-    Route::get('/dashboard', function () {
-        return view('gudang.dashboard');
-    })->name('dashboard');
+        // Stock management routes
+        Route::resource('stok', StokGudangPusatController::class);
 
-    Route::get('/permintaan', function () {
-        return view('gudang.permintaan');
-    })->name('permintaan');
+        // Other gudang routes
+        Route::get('/manual', function () {
+            return view('gudang.manual');
+        })->name('manual');
 
-    Route::get('/pengiriman', function () {
-        return view('gudang.pengiriman');
-    })->name('pengiriman');
+        Route::get('/permintaan', function () {
+            return view('gudang.permintaan');
+        })->name('permintaan');
 
-    Route::get('/stok', function () {
-        return view('gudang.stok');
-    })->name('stok');
+        Route::get('/pengiriman', function () {
+            return view('gudang.pengiriman');
+        })->name('pengiriman');
 
-    Route::get('/inventori', function () {
-        return view('gudang.inventori');
-    })->name('inventori');
+        Route::get('/inventori', function () {
+            return view('gudang.inventori');
+        })->name('inventori');
 
-    Route::get('/pemasok', function () {
-        return view('gudang.pemasok');
-    })->name('pemasok');
+        Route::get('/pemasok', function () {
+            return view('gudang.pemasok');
+        })->name('pemasok');
 
-    Route::get('/resiko', function () {
-        return view('gudang.resiko');
-    })->name('resiko');
+        Route::get('/resiko', function () {
+            return view('gudang.resiko');
+        })->name('resiko');
 
-    Route::get('/logistik', function () {
-        return view('gudang.logistik');
-    })->name('logistik');
+        Route::get('/logistik', function () {
+            return view('gudang.logistik');
+        })->name('logistik');
 
-    Route::get('/inventory', [ProductController::class, 'index'])->name('inventory.index');
-    Route::get('/inventory/create', [ProductController::class, 'create'])->name('inventory.create');
-    Route::post('/inventory', [ProductController::class, 'store'])->name('inventory.store');
+        Route::get('/inventory', [ProductController::class, 'index'])->name('inventory.index');
+        Route::get('/inventory/create', [ProductController::class, 'create'])->name('inventory.create');
+        Route::post('/inventory', [ProductController::class, 'store'])->name('inventory.store');
+    });
 });
 
 // Dashboard route
@@ -168,6 +172,7 @@ Route::prefix('admin')->name('admin.')->group(function () {
     // Protected Admin Routes
     Route::middleware(['auth:admin'])->group(function () {
         Route::get('/dashboard', [AdminController::class, 'dashboard'])->name('dashboard');
+        Route::get('/sales-data', [AdminController::class, 'getSalesData'])->name('sales.data');
         Route::get('/profile', [AdminController::class, 'profile'])->name('profile');
         Route::post('/profile', [AdminController::class, 'updateProfile'])->name('profile.update');
         route::get('penggajian', function () {
@@ -182,8 +187,22 @@ Route::prefix('admin')->name('admin.')->group(function () {
         route::get('pengaturan', function () {
             return view('admin.pengaturan');
         })->name('pengaturan');
+        
+        // Keuangan Routes
         Route::get('keuangan', function () {
-            return view('keuangan.app');
+            return view('keuangan.dashboard');
         })->name('keuangan');
+        Route::get('keuangan/riwayat', function () {
+            return view('keuangan.riwayat_transaksi');
+        })->name('keuangan.riwayat');
+        Route::get('keuangan/bukubesar', function () {
+            return view('keuangan.bukubesar');
+        })->name('keuangan.bukubesar');
+        Route::get('keuangan/laporan', function () {
+            return view('keuangan.laporan');
+        })->name('keuangan.laporan');
+        // Route::get('keuangan', function () {
+        //     return view('keuangan.dashboard');
+        // })->name('keuangan.dashboard');
     });
 });
