@@ -83,43 +83,33 @@
 
         .payment-method-card {
             background: white;
-            border-radius: 20px;
-            padding: 2.5rem;
-            box-shadow: 0 10px 40px rgba(0,0,0,0.1);
+            border-radius: 16px;
+            padding: 2rem;
+            box-shadow: 0 8px 32px rgba(0,0,0,0.1);
             text-align: center;
             height: 100%;
             transition: all 0.3s ease;
-            border: 2px solid transparent;
+            border: 1px solid #f0f0f0;
             position: relative;
             overflow: hidden;
         }
 
-        .payment-method-card::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            height: 4px;
-            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
-        }
-
         .payment-method-card:hover {
-            transform: translateY(-10px);
-            box-shadow: 0 20px 60px rgba(0,0,0,0.15);
-            border-color: var(--primary-color);
+            transform: translateY(-5px);
+            box-shadow: 0 15px 45px rgba(0,0,0,0.15);
+            border-color: #e0e0e0;
         }
 
         .payment-icon {
-            width: 80px;
-            height: 80px;
+            width: 60px;
+            height: 60px;
             background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
-            border-radius: 20px;
+            border-radius: 15px;
             display: flex;
             align-items: center;
             justify-content: center;
-            margin: 0 auto 1.5rem;
-            font-size: 2rem;
+            margin: 0 auto 1.25rem;
+            font-size: 1.5rem;
             color: white;
             position: relative;
         }
@@ -144,21 +134,18 @@
             background: linear-gradient(135deg, #ffc107, #ff8f00);
         }
 
-        .payment-icon.crypto {
-            background: linear-gradient(135deg, #ff5722, #d84315);
-        }
-
         .payment-title {
             font-weight: 700;
-            font-size: 1.3rem;
-            margin-bottom: 1rem;
+            font-size: 1.2rem;
+            margin-bottom: 0.75rem;
             color: var(--dark-color);
         }
 
         .payment-description {
             color: var(--gray-600);
-            margin-bottom: 2rem;
-            line-height: 1.6;
+            margin-bottom: 1.5rem;
+            line-height: 1.5;
+            font-size: 0.9rem;
         }
 
         .payment-options {
@@ -169,11 +156,11 @@
         }
 
         .payment-options li {
-            padding: 0.75rem 0;
+            padding: 0.5rem 0;
             border-bottom: 1px solid #f0f0f0;
             display: flex;
             align-items: center;
-            font-size: 0.95rem;
+            font-size: 0.9rem;
             color: var(--gray-700);
         }
 
@@ -255,21 +242,26 @@
 
         .security-features {
             background: white;
-            border-radius: 20px;
-            padding: 2.5rem;
-            box-shadow: 0 10px 40px rgba(0,0,0,0.1);
-            border-left: 5px solid var(--primary-color);
+            border-radius: 16px;
+            padding: 2rem;
+            box-shadow: 0 8px 32px rgba(0,0,0,0.1);
+            border: 1px solid #f0f0f0;
+            height: 100%;
         }
 
         .security-item {
             display: flex;
             align-items: center;
-            margin-bottom: 1.5rem;
+            margin-bottom: 1.25rem;
+        }
+
+        .security-item:last-child {
+            margin-bottom: 0;
         }
 
         .security-icon {
-            width: 50px;
-            height: 50px;
+            width: 45px;
+            height: 45px;
             background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
             border-radius: 50%;
             display: flex;
@@ -277,7 +269,7 @@
             justify-content: center;
             margin-right: 1rem;
             color: white;
-            font-size: 1.2rem;
+            font-size: 1.1rem;
         }
 
         .security-text {
@@ -437,41 +429,49 @@
 
         .faq-question {
             padding: 1.5rem;
-            cursor: pointer;
+            background: var(--primary-color);
+            color: white;
             font-weight: 600;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
+            cursor: pointer;
+            position: relative;
             transition: all 0.3s ease;
             border: none;
-            background: none;
             width: 100%;
             text-align: left;
-        }
-
-        .faq-question:hover {
-            background-color: #f8f9fa;
-        }
-
-        .faq-answer {
-            padding: 0 1.5rem 1.5rem;
-            color: var(--gray-600);
-            line-height: 1.6;
-            display: none;
-        }
-
-        .faq-answer.show {
             display: block;
         }
 
-        .faq-toggle {
-            font-size: 1.2rem;
-            color: var(--primary-color);
+        .faq-question:hover {
+            background: var(--secondary-color);
+        }
+
+        .faq-question::after {
+            content: '+';
+            position: absolute;
+            right: 1.5rem;
+            top: 50%;
+            transform: translateY(-50%);
+            font-size: 1.5rem;
+            color: white;
             transition: transform 0.3s ease;
         }
 
-        .faq-toggle.rotate {
-            transform: rotate(45deg);
+        .faq-question.active::after {
+            transform: translateY(-50%) rotate(45deg);
+        }
+
+        .faq-answer {
+            padding: 0 1.5rem;
+            color: var(--gray-600);
+            line-height: 1.6;
+            max-height: 0;
+            overflow: hidden;
+            transition: all 0.3s ease;
+        }
+
+        .faq-answer.show {
+            padding: 1.5rem;
+            max-height: 200px;
         }
 
         /* Responsive */
@@ -520,6 +520,112 @@
             .fee-table th,
             .fee-table td {
                 padding: 1rem 0.5rem;
+            }
+        }
+
+        /* Promo Buttons - Same as Cara Belanja */
+        .promo-section .btn {
+            border-radius: 25px;
+            padding: 12px 24px;
+            font-weight: 600;
+            font-size: 14px;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            font-family: "Montserrat", sans-serif;
+            background: rgba(255, 255, 255, 0.15);
+            color: white;
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            backdrop-filter: blur(10px);
+            margin: 0 0.5rem;
+        }
+
+        .promo-section .btn:hover {
+            background: rgba(255, 255, 255, 0.9);
+            color: var(--primary-color);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(255, 255, 255, 0.3);
+            border-color: rgba(255, 255, 255, 0.8);
+        }
+
+        .promo-section .btn:active {
+            transform: translateY(0);
+            background: rgba(255, 255, 255, 0.8);
+        }
+
+        /* Elegant Back to Top Button */
+        .back-to-top {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            width: 60px;
+            height: 60px;
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            color: white;
+            border: none;
+            border-radius: 50%;
+            cursor: pointer;
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(20px);
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            box-shadow: 0 8px 32px rgba(242, 107, 55, 0.3);
+            z-index: 1000;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+            backdrop-filter: blur(10px);
+            border: 2px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .back-to-top.show {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0);
+        }
+
+        .back-to-top:hover {
+            transform: translateY(-5px) scale(1.1);
+            box-shadow: 0 12px 40px rgba(242, 107, 55, 0.4);
+            background: linear-gradient(135deg, var(--secondary-color), var(--primary-color));
+        }
+
+        .back-to-top:active {
+            transform: translateY(-3px) scale(1.05);
+        }
+
+        /* Elegant arrow animation */
+        .back-to-top i {
+            transition: transform 0.3s ease;
+        }
+
+        .back-to-top:hover i {
+            transform: translateY(-2px);
+            animation: bounce 1s infinite;
+        }
+
+        @keyframes bounce {
+            0%, 20%, 50%, 80%, 100% {
+                transform: translateY(-2px);
+            }
+            40% {
+                transform: translateY(-6px);
+            }
+            60% {
+                transform: translateY(-4px);
+            }
+        }
+
+        /* Mobile responsive */
+        @media (max-width: 768px) {
+            .back-to-top {
+                width: 50px;
+                height: 50px;
+                bottom: 20px;
+                right: 20px;
+                font-size: 18px;
             }
         }
     </style>
@@ -576,7 +682,7 @@
             </div>
         </div>
         
-        <div class="row g-4">
+        <div class="row g-4 justify-content-center">
             <div class="col-lg-4 col-md-6">
                 <div class="payment-method-card">
                     <div class="payment-icon bank">
@@ -666,24 +772,6 @@
                     </ul>
                 </div>
             </div>
-            
-            <div class="col-lg-4 col-md-6">
-                <div class="payment-method-card">
-                    <div class="payment-icon crypto">
-                        <i class="fab fa-bitcoin"></i>
-                    </div>
-                    <h5 class="payment-title">Cryptocurrency</h5>
-                    <p class="payment-description">Pembayaran modern dengan mata uang digital untuk transaksi yang aman dan global</p>
-                    <ul class="payment-options">
-                        <li>Bitcoin (BTC)</li>
-                        <li>Ethereum (ETH)</li>
-                        <li>Tether (USDT)</li>
-                        <li>Binance Coin (BNB)</li>
-                        <li>Secure Blockchain</li>
-                        <li>Fast Transaction</li>
-                    </ul>
-                </div>
-            </div>
         </div>
     </div>
 </section>
@@ -756,8 +844,8 @@
             </div>
         </div>
         
-        <div class="row g-4">
-            <div class="col-lg-6">
+        <div class="row g-4 align-items-stretch">
+            <div class="col-lg-6 d-flex">
                 <div class="security-features">
                     <div class="security-item">
                         <div class="security-icon">
@@ -791,7 +879,7 @@
                 </div>
             </div>
             
-            <div class="col-lg-6">
+            <div class="col-lg-6 d-flex">
                 <div class="security-features">
                     <div class="security-item">
                         <div class="security-icon">
@@ -908,52 +996,47 @@
         <div class="row">
             <div class="col-lg-8 mx-auto">
                 <div class="faq-item">
-                    <button class="faq-question" onclick="toggleFAQ(this)">
-                        <span>Apakah pembayaran di MyYOGYA aman?</span>
-                        <i class="fas fa-plus faq-toggle"></i>
-                    </button>
+                    <div class="faq-question" onclick="toggleFAQ(this)">
+                        Apakah pembayaran di MyYOGYA aman?
+                    </div>
                     <div class="faq-answer">
                         Ya, sangat aman. Kami menggunakan enkripsi SSL 256-bit, sertifikasi PCI DSS, dan sistem 3D Secure untuk melindungi semua transaksi. Data kartu tidak disimpan di server kami.
                     </div>
                 </div>
                 
                 <div class="faq-item">
-                    <button class="faq-question" onclick="toggleFAQ(this)">
-                        <span>Berapa lama verifikasi pembayaran?</span>
-                        <i class="fas fa-plus faq-toggle"></i>
-                    </button>
+                    <div class="faq-question" onclick="toggleFAQ(this)">
+                        Berapa lama verifikasi pembayaran?
+                    </div>
                     <div class="faq-answer">
-                        E-wallet dan QRIS instant, transfer bank 1-3 jam kerja, kartu kredit instant, COD saat terima barang, cryptocurrency 10-30 menit tergantung network.
+                        E-wallet dan QRIS instant, transfer bank 1-3 jam kerja, kartu kredit instant, COD saat terima barang.
                     </div>
                 </div>
                 
                 <div class="faq-item">
-                    <button class="faq-question" onclick="toggleFAQ(this)">
-                        <span>Bagaimana jika pembayaran gagal?</span>
-                        <i class="fas fa-plus faq-toggle"></i>
-                    </button>
+                    <div class="faq-question" onclick="toggleFAQ(this)">
+                        Bagaimana jika pembayaran gagal?
+                    </div>
                     <div class="faq-answer">
                         Jika pembayaran gagal, pesanan akan otomatis dibatalkan. Dana akan dikembalikan ke rekening/e-wallet Anda dalam 1-7 hari kerja tergantung metode pembayaran.
                     </div>
                 </div>
                 
                 <div class="faq-item">
-                    <button class="faq-question" onclick="toggleFAQ(this)">
-                        <span>Apakah bisa refund jika barang tidak sesuai?</span>
-                        <i class="fas fa-plus faq-toggle"></i>
-                    </button>
+                    <div class="faq-question" onclick="toggleFAQ(this)">
+                        Apakah bisa refund jika barang tidak sesuai?
+                    </div>
                     <div class="faq-answer">
                         Ya, kami memiliki kebijakan refund 7 hari. Jika barang tidak sesuai deskripsi atau rusak, Anda bisa mengajukan refund dan dana akan dikembalikan setelah barang diterima kembali.
                     </div>
                 </div>
                 
                 <div class="faq-item">
-                    <button class="faq-question" onclick="toggleFAQ(this)">
-                        <span>Apakah ada batas maksimal transaksi?</span>
-                        <i class="fas fa-plus faq-toggle"></i>
-                    </button>
+                    <div class="faq-question" onclick="toggleFAQ(this)">
+                        Apakah ada batas maksimal transaksi?
+                    </div>
                     <div class="faq-answer">
-                        Transfer bank: Rp 50 juta, E-wallet: sesuai limit aplikasi, Kartu kredit: sesuai limit kartu, COD: Rp 3 juta, Cryptocurrency: tidak terbatas.
+                        Transfer bank: Rp 50 juta, E-wallet: sesuai limit aplikasi, Kartu kredit: sesuai limit kartu, COD: Rp 3 juta.
                     </div>
                 </div>
             </div>
@@ -1093,26 +1176,55 @@
 <script>
 function toggleFAQ(element) {
     const answer = element.nextElementSibling;
-    const toggle = element.querySelector('.faq-toggle');
+    const isActive = element.classList.contains('active');
     
-    // Close all other FAQ items
-    document.querySelectorAll('.faq-answer').forEach(item => {
-        if (item !== answer) {
-            item.classList.remove('show');
-        }
+    // Close all FAQ items
+    document.querySelectorAll('.faq-question').forEach(q => {
+        q.classList.remove('active');
+        q.nextElementSibling.classList.remove('show');
     });
     
-    document.querySelectorAll('.faq-toggle').forEach(item => {
-        if (item !== toggle) {
-            item.classList.remove('rotate');
-        }
-    });
-    
-    // Toggle current FAQ item
-    answer.classList.toggle('show');
-    toggle.classList.toggle('rotate');
+    // Toggle current item
+    if (!isActive) {
+        element.classList.add('active');
+        answer.classList.add('show');
+    }
 }
+
+// Elegant Back to Top Functionality
+document.addEventListener('DOMContentLoaded', function() {
+    const backToTopButton = document.getElementById('backToTop');
+    
+    // Show/hide button based on scroll position
+    function toggleBackToTop() {
+        if (window.pageYOffset > 300) {
+            backToTopButton.classList.add('show');
+        } else {
+            backToTopButton.classList.remove('show');
+        }
+    }
+    
+    // Smooth scroll to top
+    function scrollToTop() {
+        window.scrollTo({
+            top: 0,
+            behavior: 'smooth'
+        });
+    }
+    
+    // Event listeners for back to top
+    window.addEventListener('scroll', toggleBackToTop);
+    backToTopButton.addEventListener('click', scrollToTop);
+    
+    // Initial check
+    toggleBackToTop();
+});
 </script>
+
+<!-- Back to Top Button -->
+<button class="back-to-top" id="backToTop" aria-label="Kembali ke atas">
+    <i class="fas fa-chevron-up"></i>
+</button>
 
 </body>
 </html>
