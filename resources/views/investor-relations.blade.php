@@ -558,7 +558,7 @@
             right: 30px;
             width: 60px;
             height: 60px;
-            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            background: linear-gradient(135deg, #ff6b37, #f26b37);
             color: white;
             border: none;
             border-radius: 50%;
@@ -567,26 +567,26 @@
             visibility: hidden;
             transform: translateY(20px);
             transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-            box-shadow: 0 8px 32px rgba(242, 107, 55, 0.3);
-            z-index: 1000;
+            box-shadow: 0 10px 40px rgba(242, 107, 55, 0.5);
+            z-index: 99999;
             display: flex;
             align-items: center;
             justify-content: center;
             font-size: 20px;
             backdrop-filter: blur(10px);
-            border: 2px solid rgba(255, 255, 255, 0.1);
+            border: 3px solid rgba(255, 255, 255, 0.2);
         }
 
         .back-to-top.show {
-            opacity: 1;
-            visibility: visible;
-            transform: translateY(0);
+            opacity: 1 !important;
+            visibility: visible !important;
+            transform: translateY(0) !important;
         }
 
         .back-to-top:hover {
             transform: translateY(-5px) scale(1.1);
-            box-shadow: 0 12px 40px rgba(242, 107, 55, 0.4);
-            background: linear-gradient(135deg, var(--secondary-color), var(--primary-color));
+            box-shadow: 0 15px 50px rgba(242, 107, 55, 0.6);
+            background: linear-gradient(135deg, #f26b37, #ff6b37);
         }
 
         .back-to-top:active {
@@ -1199,15 +1199,19 @@ const backToTopButton = document.getElementById('backToTop');
 
 // Show/hide button based on scroll position
 function toggleBackToTop() {
+    console.log('Scroll position:', window.pageYOffset); // Debug log
     if (window.pageYOffset > 300) {
         backToTopButton.classList.add('show');
+        console.log('Back to top button shown'); // Debug log
     } else {
         backToTopButton.classList.remove('show');
+        console.log('Back to top button hidden'); // Debug log
     }
 }
 
 // Smooth scroll to top
 function scrollToTop() {
+    console.log('Back to top clicked'); // Debug log
     window.scrollTo({
         top: 0,
         behavior: 'smooth'
@@ -1215,8 +1219,13 @@ function scrollToTop() {
 }
 
 // Event listeners for back to top
-window.addEventListener('scroll', toggleBackToTop);
-backToTopButton.addEventListener('click', scrollToTop);
+if (backToTopButton) {
+    window.addEventListener('scroll', toggleBackToTop);
+    backToTopButton.addEventListener('click', scrollToTop);
+    console.log('Back to top button initialized'); // Debug log
+} else {
+    console.error('Back to top button not found!'); // Debug log
+}
 
 // Initial check
 toggleBackToTop();
