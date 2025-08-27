@@ -11,12 +11,12 @@ class ProductController extends Controller
     public function index()
     {
         $products = Product::all();
-        return view('gudang.inventory', compact('products'));
+        return view('gudang.inventori.inventory', compact('products'));
     }
 
     public function create()
     {
-        return view('gudang.create');
+        return view('gudang.inventori.create');
     }
 
     public function store(Request $request)
@@ -40,7 +40,8 @@ class ProductController extends Controller
 
     Product::create($validated);
 
-    return redirect()->route('gudang.inventory.index')->with('success', 'Produk berhasil ditambahkan');
+    return redirect()->route('gudang.produk.index')
+    ->with('success', 'Produk berhasil ditambahkan');
 }
 
 }
