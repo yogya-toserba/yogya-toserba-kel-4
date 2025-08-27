@@ -455,16 +455,16 @@
         <!-- Sidebar -->
         <div class="col-md-2 sidebar">
             <h4 class="px-3 mb-4">MyYOGYA</h4>
-            <a href="{{ route('keuangan.dashboard') }}" class="{{ request()->routeIs('keuangan.dashboard') ? 'active' : '' }}">
+            <a href="{{ route('admin.keuangan') }}" class="{{ request()->routeIs('admin.keuangan') ? 'active' : '' }}">
                 Dashboard
             </a>
-            <a href="{{ route('keuangan.riwayat') }}" class="{{ request()->routeIs('keuangan.riwayat') ? 'active' : '' }}">
+            <a href="{{ route('admin.keuangan.riwayat') }}" class="{{ request()->routeIs('admin.keuangan.riwayat') ? 'active' : '' }}">
                 Riwayat Transaksi
             </a>
-            <a href="{{ route('keuangan.bukubesar') }}" class="{{ request()->routeIs('keuangan.bukubesar') ? 'active' : '' }}">
+            <a href="{{ route('admin.keuangan.bukubesar') }}" class="{{ request()->routeIs('admin.keuangan.bukubesar') ? 'active' : '' }}">
                 Buku Besar
             </a>
-            <a href="{{ route('keuangan.laporan') }}" class="{{ request()->routeIs('keuangan.laporan') ? 'active' : '' }}">
+            <a href="{{ route('admin.keuangan.laporan') }}" class="{{ request()->routeIs('admin.keuangan.laporan') ? 'active' : '' }}">
                 Laporan
             </a>
         </div>
@@ -1312,7 +1312,7 @@
     </main>
 
     <!-- Footer -->
-    <footer class="footer-custom mt-5">
+    <footer class="footer">
         <div class="container">
             <div class="row">
                 <div class="col-lg-4 col-md-6 mb-4">
@@ -1324,43 +1324,42 @@
                 <div class="col-lg-2 col-md-6 mb-4">
                     <h6 class="footer-title">Tentang Kami</h6>
                     <ul class="footer-links">
-                        <li><a href="{{ route('tentang') }}" class="footer-link">Tentang MyYOGYA</a></li>
-                        <li><a href="#" class="footer-link">Karir</a></li>
-                        <li><a href="#" class="footer-link">Press Release</a></li>
-                        <li><a href="#" class="footer-link">Investor Relations</a></li>
+                        <li><a href="{{ route('tentang') }}">Tentang MyYOGYA</a></li>
+                        <li><a href="{{ route('karir') }}">Karir</a></li>
+                        <li><a href="{{ route('investor-relations') }}">Investor Relations</a></li>
                     </ul>
                 </div>
                 <div class="col-lg-2 col-md-6 mb-4">
                     <h6 class="footer-title">Layanan</h6>
                     <ul class="footer-links">
-                        <li><a href="{{ route('layanan') }}" class="footer-link">Bantuan</a></li>
-                        <li><a href="{{ route('cara-belanja') }}" class="footer-link">Cara Belanja</a></li>
-                        <li><a href="{{ route('pengiriman') }}" class="footer-link">Pengiriman</a></li>
-                        <li><a href="{{ route('metode-pembayaran') }}" class="footer-link">Metode Pembayaran</a></li>
+                        <li><a href="{{ route('layanan') }}">Bantuan</a></li>
+                        <li><a href="{{ route('cara-belanja') }}">Cara Belanja</a></li>
+                        <li><a href="{{ route('pengiriman') }}">Pengiriman</a></li>
+                        <li><a href="{{ route('metode-pembayaran') }}">Metode Pembayaran</a></li>
                     </ul>
                 </div>
                 <div class="col-lg-2 col-md-6 mb-4">
                     <h6 class="footer-title">Kebijakan</h6>
                     <ul class="footer-links">
-                        <li><a href="{{ route('syarat-ketentuan') }}" class="footer-link">Syarat & Ketentuan</a></li>
-                        <li><a href="{{ route('kebijakan-privasi') }}" class="footer-link">Kebijakan Privasi</a></li>
-                        <li><a href="#" class="footer-link">Kebijakan Return</a></li>
-                        <li><a href="#" class="footer-link">Hak Kekayaan Intelektual</a></li>
+                        <li><a href="{{ route('syarat-ketentuan') }}">Syarat & Ketentuan</a></li>
+                        <li><a href="{{ route('kebijakan-privasi') }}">Kebijakan Privasi</a></li>
+                        <li><a href="{{ route('kebijakan-return') }}">Kebijakan Return</a></li>
+                        <li><a href="{{ route('hak-kekayaan-intelektual') }}">Hak Kekayaan Intelektual</a></li>
                     </ul>
                 </div>
                 <div class="col-lg-2 col-md-6 mb-4">
                     <h6 class="footer-title">Ikuti Kami</h6>
-                    <div class="footer-social">
-                        <a href="https://www.facebook.com/toserbayogyaciamis57/" target="_blank" rel="noopener" title="Facebook Toserba YOGYA Ciamis" aria-label="Facebook" class="social-link me-3">
+                    <div class="social-links">
+                        <a href="https://www.facebook.com/toserbayogyaciamis57/" target="_blank" rel="noopener" title="Facebook Toserba YOGYA Ciamis" aria-label="Facebook">
                             <i class="fab fa-facebook-f"></i>
                         </a>
-                        <a href="https://www.google.com/maps?q=Jl.%20Perintis%20Kemerdekaan%20No.57%2C%20Ciamis%2C%20Kec.%20Ciamis%2C%20Kabupaten%20Ciamis%2C%20Jawa%20Barat%2046211%2C%20Indonesia" target="_blank" rel="noopener" title="Lihat lokasi di Google Maps (Jl. Perintis Kemerdekaan No.57, Ciamis · +62 265 777779)" aria-label="Lokasi" class="social-link me-3">
+                        <a href="https://www.google.com/maps?q=Jl.%20Perintis%20Kemerdekaan%20No.57%2C%20Ciamis%2C%20Kec.%20Ciamis%2C%20Kabupaten%20Ciamis%2C%20Jawa%20Barat%2046211%2C%20Indonesia" target="_blank" rel="noopener" title="Lihat lokasi di Google Maps (Jl. Perintis Kemerdekaan No.57, Ciamis · +62 265 777779)" aria-label="Lokasi">
                             <i class="fas fa-map-marker-alt"></i>
                         </a>
-                        <a href="https://www.instagram.com/yogya_ciamis/reels/" target="_blank" rel="noopener" title="Instagram YOGYA Ciamis" aria-label="Instagram" class="social-link me-3">
+                        <a href="https://www.instagram.com/yogya_ciamis/reels/" target="_blank" rel="noopener" title="Instagram YOGYA Ciamis" aria-label="Instagram">
                             <i class="fab fa-instagram"></i>
                         </a>
-                        <a href="https://www.youtube.com/ToserbaYOGYA" target="_blank" rel="noopener" title="YouTube Toserba YOGYA" aria-label="YouTube" class="social-link">
+                        <a href="https://www.youtube.com/ToserbaYOGYA" target="_blank" rel="noopener" title="YouTube Toserba YOGYA" aria-label="YouTube">
                             <i class="fab fa-youtube"></i>
                         </a>
                     </div>

@@ -15,6 +15,16 @@ Route::get('/tentang', function () {
     return view('tentang');
 })->name('tentang');
 
+// Karir
+Route::get('/karir', function () {
+    return view('karir');
+})->name('karir');
+
+// Investor Relations
+Route::get('/investor-relations', function () {
+    return view('investor-relations');
+})->name('investor-relations');
+
 // Layanan & Bantuan
 Route::get('/layanan', function () {
     return view('layanan');
@@ -46,6 +56,10 @@ Route::get('/kebijakan-return', function () {
     return view('kebijakan-return');
 })->name('kebijakan-return');
 
+Route::get('/hak-kekayaan-intelektual', function () {
+    return view('hak-kekayaan-intelektual');
+})->name('hak-kekayaan-intelektual');
+
 // AJAX routes for dashboard
 Route::post('/add-to-cart', [DashboardController::class, 'addToCart'])->name('add.to.cart');
 
@@ -70,35 +84,35 @@ Route::prefix('gudang')->name('gudang.')->group(function () {
         return view('gudang.manual');
     })->name('manual');
 
-      Route::get('/dahsboard', function () {
-        return view('gudang.dahsboard');
-    })->name('dahsboard');
+    Route::get('/dashboard', function () {
+        return view('gudang.dashboard');
+    })->name('dashboard');
 
-      Route::get('/permintaan', function () {
+    Route::get('/permintaan', function () {
         return view('gudang.permintaan');
     })->name('permintaan');
 
     Route::get('/pengiriman', function () {
         return view('gudang.pengiriman');
     })->name('pengiriman');
-   
-   Route::get('/stok', function () {
+
+    Route::get('/stok', function () {
         return view('gudang.stok');
     })->name('stok');
 
-        Route::get('/inventori', function () {
+    Route::get('/inventori', function () {
         return view('gudang.inventori');
     })->name('inventori');
 
-        Route::get('/pemasok', function () {
+    Route::get('/pemasok', function () {
         return view('gudang.pemasok');
     })->name('pemasok');
 
-        Route::get('/resiko', function () {
+    Route::get('/resiko', function () {
         return view('gudang.resiko');
     })->name('resiko');
 
-        Route::get('/logistik', function () {
+    Route::get('/logistik', function () {
         return view('gudang.logistik');
     })->name('logistik');
 
@@ -106,7 +120,7 @@ Route::prefix('gudang')->name('gudang.')->group(function () {
     Route::get('/inventory/create', [ProductController::class, 'create'])->name('inventory.create');
     Route::post('/inventory', [ProductController::class, 'store'])->name('inventory.store');
 });
-    
+
 // Dashboard route
 Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard.index');
 

@@ -386,6 +386,49 @@
             line-height: 1.6;
         }
 
+        /* Custom Promo Buttons */
+        .promo-content .btn {
+            border-radius: 25px;
+            padding: 12px 24px;
+            font-weight: 600;
+            font-size: 14px;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            font-family: "Montserrat", sans-serif;
+        }
+
+        .promo-content .btn-light {
+            background: rgba(255, 255, 255, 0.15);
+            color: white;
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            backdrop-filter: blur(10px);
+        }
+
+        .promo-content .btn-light:hover {
+            background: rgba(255, 255, 255, 0.9);
+            color: var(--primary-color);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(255, 255, 255, 0.3);
+            border-color: rgba(255, 255, 255, 0.8);
+        }
+
+        .promo-content .btn-outline-light {
+            background: rgba(255, 255, 255, 0.1);
+            color: white;
+            border: 2px solid rgba(255, 255, 255, 0.25);
+            backdrop-filter: blur(10px);
+        }
+
+        .promo-content .btn-outline-light:hover {
+            background: rgba(255, 255, 255, 0.9);
+            color: var(--primary-color);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(255, 255, 255, 0.3);
+            border-color: rgba(255, 255, 255, 0.8);
+        }
+
         /* Responsive */
         @media (max-width: 768px) {
             .hero-stats {
@@ -432,7 +475,7 @@
                         <span class="current">Cara Belanja</span>
                     </nav>
                     
-                    <h1 class="display-4 fw-bold mb-4">Cara <span class="text-primary">Belanja</span></h1>
+                    <h1 class="display-4 fw-bold mb-4">Cara <span style="color: #ffc107;">Belanja</span></h1>
                     <p class="lead mb-4">Panduan lengkap berbelanja di MyYOGYA dengan mudah, aman, dan menyenangkan. Dari pemilihan produk hingga pembayaran hanya dalam beberapa langkah sederhana.</p>
                     <div class="hero-stats">
                         <div class="stat-item">
@@ -677,9 +720,8 @@
                 <h6 class="footer-title">Tentang Kami</h6>
                 <ul class="footer-links">
                     <li><a href="{{ route('tentang') }}">Tentang MyYOGYA</a></li>
-                    <li><a href="#">Karir</a></li>
-                    <li><a href="#">Press Release</a></li>
-                    <li><a href="#">Investor Relations</a></li>
+                    <li><a href="{{ route('karir') }}">Karir</a></li>
+                    <li><a href="{{ route('investor-relations') }}">Investor Relations</a></li>
                 </ul>
             </div>
             <div class="col-lg-2 col-md-6 mb-4">
@@ -697,7 +739,7 @@
                     <li><a href="{{ route('syarat-ketentuan') }}">Syarat & Ketentuan</a></li>
                     <li><a href="{{ route('kebijakan-privasi') }}">Kebijakan Privasi</a></li>
                     <li><a href="{{ route('kebijakan-return') }}">Kebijakan Return</a></li>
-                    <li><a href="#">Hak Kekayaan Intelektual</a></li>
+                    <li><a href="{{ route('hak-kekayaan-intelektual') }}">Hak Kekayaan Intelektual</a></li>
                 </ul>
             </div>
             <div class="col-lg-2 col-md-6 mb-4">
