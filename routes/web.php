@@ -15,6 +15,21 @@ Route::get('/tentang', function () {
     return view('tentang');
 })->name('tentang');
 
+// Karir
+Route::get('/karir', function () {
+    return view('karir');
+})->name('karir');
+
+// Press Release
+Route::get('/press-release', function () {
+    return view('press-release');
+})->name('press-release');
+
+// Investor Relations
+Route::get('/investor-relations', function () {
+    return view('investor-relations');
+})->name('investor-relations');
+
 // Layanan & Bantuan
 Route::get('/layanan', function () {
     return view('layanan');
@@ -46,6 +61,10 @@ Route::get('/kebijakan-return', function () {
     return view('kebijakan-return');
 })->name('kebijakan-return');
 
+Route::get('/hak-kekayaan-intelektual', function () {
+    return view('hak-kekayaan-intelektual');
+})->name('hak-kekayaan-intelektual');
+
 // AJAX routes for dashboard
 Route::post('/add-to-cart', [DashboardController::class, 'addToCart'])->name('add.to.cart');
 
@@ -70,9 +89,42 @@ Route::prefix('gudang')->name('gudang.')->group(function () {
         return view('gudang.manual');
     })->name('manual');
 
+    Route::get('/dashboard', function () {
+        return view('gudang.dashboard');
+    })->name('dashboard');
+
+    Route::get('/permintaan', function () {
+        return view('gudang.permintaan');
+    })->name('permintaan');
+
+    Route::get('/pengiriman', function () {
+        return view('gudang.pengiriman');
+    })->name('pengiriman');
+
+    Route::get('/stok', function () {
+        return view('gudang.stok');
+    })->name('stok');
+
+    Route::get('/inventori', function () {
+        return view('gudang.inventori');
+    })->name('inventori');
+
+    Route::get('/pemasok', function () {
+        return view('gudang.pemasok');
+    })->name('pemasok');
+
+    Route::get('/resiko', function () {
+        return view('gudang.resiko');
+    })->name('resiko');
+
+    Route::get('/logistik', function () {
+        return view('gudang.logistik');
+    })->name('logistik');
+
     Route::get('/inventory', [ProductController::class, 'index'])->name('inventory.index');
     Route::get('/inventory/create', [ProductController::class, 'create'])->name('inventory.create');
     Route::post('/inventory', [ProductController::class, 'store'])->name('inventory.store');
+     Route::resource('produk', ProductController::class);
 
 });
 
@@ -87,6 +139,7 @@ Route::get('/kategori/fashion', [CategoryController::class, 'fashion'])->name('k
 
 // Route kategori makanan & minuman
 Route::get('/kategori/makanan', [CategoryController::class, 'makanan'])->name('kategori.makanan');
+Route::get('/kategori/otomoif', [CategoryController::class, 'otomotif'])->name('kategori.otomotif');
 
 Route::get('/kategori/makanan-minuman', [CategoryController::class, 'makanan'])->name('kategori.makanan-minuman');
 

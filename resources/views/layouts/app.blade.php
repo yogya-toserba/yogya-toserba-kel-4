@@ -5,6 +5,73 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>@yield('title', 'MyYOGYA - Belanja Online Terpercaya')</title>
     <meta name="csrf-token" content="{{ csrf_token() }}">
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Font Awesome -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <!-- Custom CSS -->
+    <link href="{{ asset('css/dashboard.css') }}" rel="stylesheet">
+    @stack('styles')
+    <style>
+        ...existing code...
+    </style>
+</head>
+<body>
+    <!-- Navbar (same as Dashboard) -->
+    <nav class="navbar navbar-expand-lg sticky-top">
+        <div class="container">
+            <!-- Logo -->
+            <a class="navbar-brand" href="{{ route('dashboard') }}">
+                <div class="logo-container">
+                    <img src="{{ asset('image/logo_yogya.png') }}" alt="MyYOGYA" height="45">
+                    <div class="brand-info">
+                        <span class="brand-text">MyYOGYA</span>
+                        <span class="brand-tagline">Belanja Pintar</span>
+                    </div>
+                 </div>
+            </a>
+            ...existing code...
+        </div>
+    </nav>
+
+    <!-- Category Navigation -->
+    <div class="category-nav" style="background: var(--light-bg); padding: 12px 0; border-bottom: 1px solid var(--border-color);">
+        <div class="container">
+            <div class="d-flex align-items-center">
+                <a href="{{ route('dashboard') }}" class="me-4 text-decoration-none" style="color: var(--text-dark);">
+                    <i class="fas fa-home"></i> Beranda
+                </a>
+                ...existing code...
+            </div>
+        </div>
+    </div>
+
+    <!-- Main Content -->
+    <main>
+        @yield('content')
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer-custom mt-5">
+        <div class="container">
+            ...existing code...
+        </div>
+    </footer>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    @stack('scripts')
+</body>
+</html>
+
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@yield('title', 'MyYOGYA - Belanja Online Terpercaya')</title>
+    <meta name="csrf-token" content="{{ csrf_token() }}">
     
     <!-- Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
@@ -361,11 +428,69 @@
                 opacity: 0;
                 transform: translateY(30px);
             }
+ 4498122c9bea2fb73921790095cb5a02a56bf747
             to {
                 opacity: 1;
                 transform: translateY(0);
             }
         }
+
+        /* KPI Card */
+        .kpi-card {
+            color: white;
+            padding: 1rem;
+            border-radius: 10px;
+        }
+        .kpi-green { background-color: #28a745; }
+        .kpi-blue { background-color: #007bff; }
+        .kpi-yellow { background-color: #ffc107; color: #333; }
+        .kpi-red { background-color: #dc3545; }
+    </style>
+</head>
+<body>
+
+<div class="container-fluid">
+    <div class="row">
+        
+        <!-- Sidebar -->
+        <div class="col-md-2 sidebar">
+            <h4 class="px-3 mb-4">MyYOGYA</h4>
+            <a href="{{ route('admin.keuangan') }}" class="{{ request()->routeIs('admin.keuangan') ? 'active' : '' }}">
+                Dashboard
+            </a>
+            <a href="{{ route('admin.keuangan.riwayat') }}" class="{{ request()->routeIs('admin.keuangan.riwayat') ? 'active' : '' }}">
+                Riwayat Transaksi
+            </a>
+            <a href="{{ route('admin.keuangan.bukubesar') }}" class="{{ request()->routeIs('admin.keuangan.bukubesar') ? 'active' : '' }}">
+                Buku Besar
+            </a>
+            <a href="{{ route('admin.keuangan.laporan') }}" class="{{ request()->routeIs('admin.keuangan.laporan') ? 'active' : '' }}">
+                Laporan
+            </a>
+        </div>
+
+        <!-- Main Content -->
+        <div class="col-md-10 p-0">
+            <!-- Navbar -->
+            <nav class="navbar px-4">
+                <div class="d-flex align-items-center ms-auto">
+                    <span class="me-3">Halo, {{ auth()->user()->name ?? 'Admin' }}</span>
+                    <div class="rounded-circle bg-secondary text-white d-flex align-items-center justify-content-center" style="width:35px; height:35px;">
+                        <i class="bi bi-person"></i>
+                    </div>
+                </div>
+            </nav>
+
+            <!-- Page Content -->
+            <div class="content">
+                @yield('content')
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+
         
         .product-card {
             animation: fadeInUp 0.6s ease forwards;
@@ -1187,7 +1312,7 @@
     </main>
 
     <!-- Footer -->
-    <footer class="footer-custom mt-5">
+    <footer class="footer">
         <div class="container">
             <div class="row">
                 <div class="col-lg-4 col-md-6 mb-4">
@@ -1199,43 +1324,43 @@
                 <div class="col-lg-2 col-md-6 mb-4">
                     <h6 class="footer-title">Tentang Kami</h6>
                     <ul class="footer-links">
-                        <li><a href="{{ route('tentang') }}" class="footer-link">Tentang MyYOGYA</a></li>
-                        <li><a href="#" class="footer-link">Karir</a></li>
-                        <li><a href="#" class="footer-link">Press Release</a></li>
-                        <li><a href="#" class="footer-link">Investor Relations</a></li>
+                        <li><a href="{{ route('tentang') }}">Tentang MyYOGYA</a></li>
+                        <li><a href="{{ route('karir') }}">Karir</a></li>
+                        <li><a href="{{ route('press-release') }}">Press Release</a></li>
+                        <li><a href="{{ route('investor-relations') }}">Investor Relations</a></li>
                     </ul>
                 </div>
                 <div class="col-lg-2 col-md-6 mb-4">
                     <h6 class="footer-title">Layanan</h6>
                     <ul class="footer-links">
-                        <li><a href="{{ route('layanan') }}" class="footer-link">Bantuan</a></li>
-                        <li><a href="{{ route('cara-belanja') }}" class="footer-link">Cara Belanja</a></li>
-                        <li><a href="{{ route('pengiriman') }}" class="footer-link">Pengiriman</a></li>
-                        <li><a href="{{ route('metode-pembayaran') }}" class="footer-link">Metode Pembayaran</a></li>
+                        <li><a href="{{ route('layanan') }}">Bantuan</a></li>
+                        <li><a href="{{ route('cara-belanja') }}">Cara Belanja</a></li>
+                        <li><a href="{{ route('pengiriman') }}">Pengiriman</a></li>
+                        <li><a href="{{ route('metode-pembayaran') }}">Metode Pembayaran</a></li>
                     </ul>
                 </div>
                 <div class="col-lg-2 col-md-6 mb-4">
                     <h6 class="footer-title">Kebijakan</h6>
                     <ul class="footer-links">
-                        <li><a href="{{ route('syarat-ketentuan') }}" class="footer-link">Syarat & Ketentuan</a></li>
-                        <li><a href="{{ route('kebijakan-privasi') }}" class="footer-link">Kebijakan Privasi</a></li>
-                        <li><a href="#" class="footer-link">Kebijakan Return</a></li>
-                        <li><a href="#" class="footer-link">Hak Kekayaan Intelektual</a></li>
+                        <li><a href="{{ route('syarat-ketentuan') }}">Syarat & Ketentuan</a></li>
+                        <li><a href="{{ route('kebijakan-privasi') }}">Kebijakan Privasi</a></li>
+                        <li><a href="{{ route('kebijakan-return') }}">Kebijakan Return</a></li>
+                        <li><a href="{{ route('hak-kekayaan-intelektual') }}">Hak Kekayaan Intelektual</a></li>
                     </ul>
                 </div>
                 <div class="col-lg-2 col-md-6 mb-4">
                     <h6 class="footer-title">Ikuti Kami</h6>
-                    <div class="footer-social">
-                        <a href="https://www.facebook.com/toserbayogyaciamis57/" target="_blank" rel="noopener" title="Facebook Toserba YOGYA Ciamis" aria-label="Facebook" class="social-link me-3">
+                    <div class="social-links">
+                        <a href="https://www.facebook.com/toserbayogyaciamis57/" target="_blank" rel="noopener" title="Facebook Toserba YOGYA Ciamis" aria-label="Facebook">
                             <i class="fab fa-facebook-f"></i>
                         </a>
-                        <a href="https://www.google.com/maps?q=Jl.%20Perintis%20Kemerdekaan%20No.57%2C%20Ciamis%2C%20Kec.%20Ciamis%2C%20Kabupaten%20Ciamis%2C%20Jawa%20Barat%2046211%2C%20Indonesia" target="_blank" rel="noopener" title="Lihat lokasi di Google Maps (Jl. Perintis Kemerdekaan No.57, Ciamis · +62 265 777779)" aria-label="Lokasi" class="social-link me-3">
+                        <a href="https://www.google.com/maps?q=Jl.%20Perintis%20Kemerdekaan%20No.57%2C%20Ciamis%2C%20Kec.%20Ciamis%2C%20Kabupaten%20Ciamis%2C%20Jawa%20Barat%2046211%2C%20Indonesia" target="_blank" rel="noopener" title="Lihat lokasi di Google Maps (Jl. Perintis Kemerdekaan No.57, Ciamis · +62 265 777779)" aria-label="Lokasi">
                             <i class="fas fa-map-marker-alt"></i>
                         </a>
-                        <a href="https://www.instagram.com/yogya_ciamis/reels/" target="_blank" rel="noopener" title="Instagram YOGYA Ciamis" aria-label="Instagram" class="social-link me-3">
+                        <a href="https://www.instagram.com/yogya_ciamis/reels/" target="_blank" rel="noopener" title="Instagram YOGYA Ciamis" aria-label="Instagram">
                             <i class="fab fa-instagram"></i>
                         </a>
-                        <a href="https://www.youtube.com/ToserbaYOGYA" target="_blank" rel="noopener" title="YouTube Toserba YOGYA" aria-label="YouTube" class="social-link">
+                        <a href="https://www.youtube.com/ToserbaYOGYA" target="_blank" rel="noopener" title="YouTube Toserba YOGYA" aria-label="YouTube">
                             <i class="fab fa-youtube"></i>
                         </a>
                     </div>
@@ -1255,5 +1380,6 @@
 
     <!-- Bootstrap JS -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+ 4498122c9bea2fb73921790095cb5a02a56bf747
 </body>
 </html>

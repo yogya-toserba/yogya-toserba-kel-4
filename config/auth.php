@@ -18,6 +18,10 @@ return [
             'driver' => 'session',
             'provider' => 'pelanggans',
         ],
+        'gudang' => [
+            'driver' => 'session',
+            'provider' => 'gudangs',
+        ],
     ],
 
     'providers' => [
@@ -32,6 +36,10 @@ return [
         'pelanggans' => [
             'driver' => 'eloquent',
             'model' => App\Models\Pelanggan::class,
+        ],
+        'gudangs' => [
+            'driver' => 'eloquent',
+            'model' => App\Models\Gudang::class,
         ],
     ],
 

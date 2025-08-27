@@ -545,7 +545,7 @@
                     </div>
                     <h6 class="contact-title">WhatsApp</h6>
                     <div class="contact-info">
-                        <a href="https://wa.me/6281234567890" class="contact-link">+62 812-3456-7890</a><br>
+                        <a href="https://wa.me/628989148030" class="contact-link">+62 898-9148-030</a><br>
                         <small class="text-muted">Chat langsung</small>
                     </div>
                 </div>
@@ -580,9 +580,9 @@
                 <h6 class="footer-title">Tentang Kami</h6>
                 <ul class="footer-links">
                     <li><a href="{{ route('tentang') }}">Tentang MyYOGYA</a></li>
-                    <li><a href="#">Karir</a></li>
-                    <li><a href="#">Press Release</a></li>
-                    <li><a href="#">Investor Relations</a></li>
+                    <li><a href="{{ route('karir') }}">Karir</a></li>
+                    <li><a href="{{ route('press-release') }}">Press Release</a></li>
+                    <li><a href="{{ route('investor-relations') }}">Investor Relations</a></li>
                 </ul>
             </div>
             <div class="col-lg-2 col-md-6 mb-4">
@@ -600,7 +600,7 @@
                     <li><a href="{{ route('syarat-ketentuan') }}">Syarat & Ketentuan</a></li>
                     <li><a href="{{ route('kebijakan-privasi') }}">Kebijakan Privasi</a></li>
                     <li><a href="{{ route('kebijakan-return') }}">Kebijakan Return</a></li>
-                    <li><a href="#">Hak Kekayaan Intelektual</a></li>
+                    <li><a href="{{ route('hak-kekayaan-intelektual') }}">Hak Kekayaan Intelektual</a></li>
                 </ul>
             </div>
             <div class="col-lg-2 col-md-6 mb-4">
