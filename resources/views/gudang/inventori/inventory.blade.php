@@ -27,7 +27,7 @@
                     </div>
                     <div class="inventory-actions">
                         <button class="btn" id="filterBtn">&#128269; Filters</button>
-                        <a href="{{ route('gudang.inventory.create') }}">Tambah Produk</a>
+                        <a href="{{ route('gudang.produk.create') }}">Tambah Produk</a>
                     </div>
                 </div>
                 <div class="table-container">

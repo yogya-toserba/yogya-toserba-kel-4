@@ -8,7 +8,7 @@
 
 <h1>Tambah Produk</h1>
 
-<form action="{{ route('gudang.inventory.store') }}" method="POST" enctype="multipart/form-data">
+<form action="{{ route('gudang.produk.store') }}" method="POST" enctype="multipart/form-data">
     @csrf
 
     <label>Nama Barang</label><br>

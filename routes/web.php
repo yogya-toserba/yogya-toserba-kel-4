@@ -127,11 +127,9 @@ Route::prefix('gudang')->name('gudang.')->group(function () {
         Route::get('/inventory', [ProductController::class, 'index'])->name('inventory.index');
         Route::get('/inventory/create', [ProductController::class, 'create'])->name('inventory.create');
         Route::post('/inventory', [ProductController::class, 'store'])->name('inventory.store');
+        Route::resource('produk', ProductController::class);
     });
 });
-
-// Dashboard route
-Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard.index');
 
 // Route kategori elektronik
 Route::get('/kategori/elektronik', [CategoryController::class, 'elektronik'])->name('kategori.elektronik');
@@ -141,7 +139,7 @@ Route::get('/kategori/fashion', [CategoryController::class, 'fashion'])->name('k
 
 // Route kategori makanan & minuman
 Route::get('/kategori/makanan', [CategoryController::class, 'makanan'])->name('kategori.makanan');
-Route::get('/kategori/otomoif', [CategoryController::class, 'otomotif'])->name('kategori.otomotif');
+Route::get('/kategori/otomotif', [CategoryController::class, 'otomotif'])->name('kategori.otomotif');
 
 Route::get('/kategori/makanan-minuman', [CategoryController::class, 'makanan'])->name('kategori.makanan-minuman');
 
