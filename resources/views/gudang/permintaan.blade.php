@@ -1,111 +1,49 @@
-@extends('layouts.appGudanng')
+@extends('layouts.appGudang')
 
 @section('title', 'Permintaan Cabang - MyYOGYA')
 
 @section('content')
 <style>
-/* Modern Layout */
-body {
-    background: #ffffff;
-    font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
-}
-
-/* Page Header */
-.page-header {
+/* Modern Permintaan Styles */
+.permintaan-header {
     background: linear-gradient(135deg, #f26b37 0%, #e55827 100%);
     color: white;
-    padding: 30px;
-    border-radius: 20px;
-    margin-bottom: 30px;
-    box-shadow: 0 8px 32px rgba(242, 107, 55, 0.3);
+    padding: 25px 30px;
+    border-radius: 12px;
+    margin-bottom: 25px;
+    box-shadow: 0 4px 15px rgba(242, 107, 55, 0.3);
 }
 
-.page-header h1 {
-    font-size: 2.5rem;
+.permintaan-header h2 {
+    font-size: 1.8rem;
     font-weight: 700;
     margin: 0;
-    display: flex;
-    align-items: center;
-    gap: 15px;
 }
 
-.page-header .subtitle {
-    font-size: 1.1rem;
+.permintaan-header p {
+    font-size: 1rem;
     opacity: 0.9;
-    margin-top: 8px;
+    margin: 8px 0 0 0;
 }
 
 .stats-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
     gap: 20px;
-    margin-bottom: 30px;
+    margin-bottom: 25px;
 }
 
 .stat-card {
     background: white;
-    border-radius: 16px;
-    padding: 25px;
-    box-shadow: 0 -8px 32px rgba(0,0,0,0.08);
-    border: 1px solid rgba(255,255,255,0.2);
-    transition: all 0.3s ease;
-    position: relative;
-    overflow: hidden;
-}
-
-.stat-card::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    height: 4px;
-    background: linear-gradient(135deg, #f26b37 0%, #e55827 100%);
-}
-
-.stat-card:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 -16px 48px rgba(0,0,0,0.12);
-}
-
-.stat-icon {
-    width: 60px;
-    height: 60px;
-    border-radius: 16px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 24px;
-    color: white;
-    margin-bottom: 15px;
-}
-
-.stat-number {
-    font-size: 2.5rem;
-    font-weight: 700;
-    color: #1e293b;
-    margin: 10px 0 5px 0;
-}
-
-.stat-label {
-    color: #64748b;
-    font-size: 0.95rem;
-    font-weight: 500;
+    padding: 20px;
+    border-radius: 12px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+    border-left: 4px solid #f26b37;
+    transition: transform 0.3s ease;
 }
 
 body.dark-mode .stat-card {
-    background: #252837;
-    border-color: #3a3d4a;
-    color: #e2e8f0;
-}
-
-body.dark-mode .stat-number {
-    color: #ffffff;
-}
-
-body.dark-mode .stat-label {
-    color: #94a3b8;
-}
+    background: #2a2d3f;
     border-left-color: #f26b37;
     color: #e2e8f0;
 }
@@ -198,16 +136,6 @@ body.dark-mode .modern-table td {
     border-bottom-color: #3a3d4a;
     color: #ffffff !important;
     background-color: #1e2139;
-}
-
-/* Dark Mode Support */
-body.dark-mode {
-    background: #0f172a;
-    color: #e2e8f0;
-}
-
-body.dark-mode .page-header {
-    background: linear-gradient(135deg, #f26b37 0%, #e55827 100%);
 }
 
 /* Enhanced Dark Mode Text Visibility */
@@ -521,43 +449,28 @@ body.dark-mode .action-dropdown-item:hover {
 }
 </style>
 
-<div class="content">
-    <!-- Page Header -->
-    <div class="page-header">
-        <h1>
-            <i class="fas fa-clipboard-list"></i>
-            Permintaan dari Cabang
-        </h1>
-        <p class="subtitle">Kelola permintaan stok dari seluruh cabang MyYOGYA</p>
+<div class="permintaan-container">
+    <!-- Header Section -->
+    <div class="permintaan-header">
+        <h2>Permintaan dari Cabang</h2>
+        <p>Kelola permintaan stok dari seluruh cabang MyYOGYA</p>
     </div>
 
     <!-- Stats Section -->
     <div class="stats-grid">
         <div class="stat-card">
-            <div class="stat-icon" style="background: linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%);">
-                <i class="fas fa-clipboard-list"></i>
-            </div>
             <div class="stat-number">24</div>
             <div class="stat-label">Total Permintaan</div>
         </div>
         <div class="stat-card">
-            <div class="stat-icon" style="background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);">
-                <i class="fas fa-clock"></i>
-            </div>
             <div class="stat-number">8</div>
             <div class="stat-label">Menunggu Approval</div>
         </div>
         <div class="stat-card">
-            <div class="stat-icon" style="background: linear-gradient(135deg, #10b981 0%, #047857 100%);">
-                <i class="fas fa-cog"></i>
-            </div>
             <div class="stat-number">12</div>
             <div class="stat-label">Diproses</div>
         </div>
         <div class="stat-card">
-            <div class="stat-icon" style="background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%);">
-                <i class="fas fa-check-circle"></i>
-            </div>
             <div class="stat-number">4</div>
             <div class="stat-label">Selesai Hari Ini</div>
         </div>

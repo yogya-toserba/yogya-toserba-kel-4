@@ -100,10 +100,6 @@ Route::prefix('gudang')->name('gudang.')->group(function () {
         return view('gudang.stok');
     })->name('stok');
 
-    Route::get('/inventori', function () {
-        return view('gudang.inventori');
-    })->name('inventori');
-
     Route::get('/pemasok', function () {
         return view('gudang.pemasok');
     })->name('pemasok');
@@ -122,9 +118,6 @@ Route::prefix('gudang')->name('gudang.')->group(function () {
     Route::resource('produk', ProductController::class);
 });
 
-// Dashboard route
-Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard.index');
-
 // Route kategori elektronik
 Route::get('/kategori/elektronik', [CategoryController::class, 'elektronik'])->name('kategori.elektronik');
 
@@ -133,7 +126,7 @@ Route::get('/kategori/fashion', [CategoryController::class, 'fashion'])->name('k
 
 // Route kategori makanan & minuman
 Route::get('/kategori/makanan', [CategoryController::class, 'makanan'])->name('kategori.makanan');
-Route::get('/kategori/otomoif', [CategoryController::class, 'otomotif'])->name('kategori.otomotif');
+Route::get('/kategori/otomotif', [CategoryController::class, 'otomotif'])->name('kategori.otomotif');
 
 Route::get('/kategori/makanan-minuman', [CategoryController::class, 'makanan'])->name('kategori.makanan-minuman');
 
@@ -145,9 +138,6 @@ Route::get('/kategori/rumah-tangga', [CategoryController::class, 'rumahTangga'])
 
 // Route kategori olahraga
 Route::get('/kategori/olahraga', [CategoryController::class, 'olahraga'])->name('kategori.olahraga');
-
-// Route kategori otomotif
-Route::get('/kategori/otomotif', [CategoryController::class, 'otomotif'])->name('kategori.otomotif');
 
 // Route kategori buku & alat tulis
 Route::get('/kategori/buku', [CategoryController::class, 'buku'])->name('kategori.buku');

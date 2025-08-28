@@ -1,4 +1,4 @@
-@extends('layouts.appGudanng')
+@extends('layouts.appGudang')
 
 @section('title', 'Tambah Stok - {{ $gudang->nama_gudang }}')
 

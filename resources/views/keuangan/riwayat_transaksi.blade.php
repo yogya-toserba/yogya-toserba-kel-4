@@ -1,4 +1,4 @@
-@extends('layouts.atmin')
+@extends('layouts.admin')
 
 @section('title', 'Riwayat Transaksi - MyYOGYA')
 @section('page_title', 'Riwayat Transaksi')

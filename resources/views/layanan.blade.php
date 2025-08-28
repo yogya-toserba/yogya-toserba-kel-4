@@ -620,7 +620,7 @@
                     </div>
                     <h6 class="contact-title">WhatsApp</h6>
                     <div class="contact-info">
-                        <a href="https://wa.me/628989148030" class="contact-link">+62 898-9148-030</a><br>
+                        <a href="https://wa.me/6281234567890" class="contact-link">+62 812-3456-7890</a><br>
                         <small class="text-muted">Chat langsung</small>
                     </div>
                 </div>
