@@ -66,6 +66,23 @@ class AdminController extends BaseController
         $chartLabels = $salesChartData['labels'];
         $chartData = $salesChartData['data'];
 
+        // Ambil produk terlaris berdasarkan transaksi
+        $produkTerlaris = DB::table('detail_transaksi')
+            ->join('stok_produk', 'detail_transaksi.id_produk', '=', 'stok_produk.id_produk')
+            ->join('kategori', 'stok_produk.id_kategori', '=', 'kategori.id_kategori')
+            ->select(
+                'stok_produk.nama_barang',
+                'kategori.nama_kategori',
+                'stok_produk.harga_jual',
+                DB::raw('SUM(detail_transaksi.jumlah_barang) as total_terjual'),
+                DB::raw('SUM(detail_transaksi.total_harga) as total_pendapatan'),
+                DB::raw('COUNT(DISTINCT detail_transaksi.id_transaksi) as jumlah_transaksi')
+            )
+            ->groupBy('stok_produk.id_produk', 'stok_produk.nama_barang', 'kategori.nama_kategori', 'stok_produk.harga_jual')
+            ->orderByDesc('total_terjual')
+            ->limit(5)
+            ->get();
+
         return view('admin.dashboard', compact(
             'totalProduk', 
             'totalStok', 
@@ -73,7 +90,8 @@ class AdminController extends BaseController
             'pendapatanHariIni',
             'totalPengguna',
             'chartLabels',
-            'chartData'
+            'chartData',
+            'produkTerlaris'
         ));
     }
 

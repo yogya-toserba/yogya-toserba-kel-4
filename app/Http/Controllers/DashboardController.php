@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 
 class DashboardController extends Controller
 {
@@ -57,45 +58,70 @@ class DashboardController extends Controller
       ['discount' => 'Gratis Ongkir', 'min_purchase' => 'Min. Rp 75.000', 'code' => 'FREESHIP']
     ];
 
-    // Data produk populer
-    $popularProducts = [
-      [
-        'id' => 1,
-        'name' => 'Smartphone Samsung Galaxy A54',
-        'price' => 4999000,
-        'original_price' => 5999000,
-        'image' => 'product1.jpg',
-        'rating' => 4.8,
-        'sold' => 1250
-      ],
-      [
-        'id' => 2,
-        'name' => 'Laptop ASUS VivoBook',
-        'price' => 7500000,
-        'original_price' => 8999000,
-        'image' => 'product2.jpg',
-        'rating' => 4.7,
-        'sold' => 890
-      ],
-      [
-        'id' => 3,
-        'name' => 'Headphone Sony WH-1000XM4',
-        'price' => 3299000,
-        'original_price' => 4199000,
-        'image' => 'product3.jpg',
-        'rating' => 4.9,
-        'sold' => 2150
-      ],
-      [
-        'id' => 4,
-        'name' => 'Smart TV LG 43 Inch',
-        'price' => 5999000,
-        'original_price' => 7299000,
-        'image' => 'product4.jpg',
-        'rating' => 4.6,
-        'sold' => 567
-      ]
-    ];
+    // Data produk populer berdasarkan transaksi terlaris
+    $popularProducts = DB::table('detail_transaksi')
+      ->join('stok_produk', 'detail_transaksi.id_produk', '=', 'stok_produk.id_produk')
+      ->join('kategori', 'stok_produk.id_kategori', '=', 'kategori.id_kategori')
+      ->select(
+        'stok_produk.id_produk',
+        'stok_produk.nama_barang as name',
+        'stok_produk.harga_jual as price',
+        'stok_produk.foto as image',
+        'kategori.nama_kategori',
+        DB::raw('SUM(detail_transaksi.jumlah_barang) as total_sold'),
+        DB::raw('COUNT(detail_transaksi.id_transaksi) as transaction_count'),
+        DB::raw('AVG(4.5 + (RAND() * 0.5)) as rating'), // Rating simulasi 4.5-5.0
+        DB::raw('ROUND(stok_produk.harga_jual * 1.2) as original_price') // Harga asli simulasi 20% lebih tinggi
+      )
+      ->groupBy('stok_produk.id_produk', 'stok_produk.nama_barang', 'stok_produk.harga_jual', 'stok_produk.foto', 'kategori.nama_kategori')
+      ->orderByDesc('total_sold')
+      ->limit(8)
+      ->get()
+      ->map(function ($product) {
+        return [
+          'id' => $product->id_produk,
+          'name' => $product->name,
+          'price' => (int) $product->price,
+          'original_price' => (int) $product->original_price,
+          'image' => $product->image ?: 'default-product.jpg',
+          'rating' => round($product->rating, 1),
+          'sold' => (int) $product->total_sold,
+          'category' => $product->nama_kategori
+        ];
+      })
+      ->toArray();
+
+    // Jika tidak ada data transaksi, gunakan produk dari stok_produk
+    if (empty($popularProducts)) {
+      $popularProducts = DB::table('stok_produk')
+        ->join('kategori', 'stok_produk.id_kategori', '=', 'kategori.id_kategori')
+        ->select(
+          'stok_produk.id_produk as id',
+          'stok_produk.nama_barang as name',
+          'stok_produk.harga_jual as price',
+          'stok_produk.foto as image',
+          'kategori.nama_kategori as category',
+          DB::raw('ROUND(stok_produk.harga_jual * 1.2) as original_price'),
+          DB::raw('(4.0 + (RAND() * 1.0)) as rating'),
+          DB::raw('FLOOR(10 + (RAND() * 500)) as sold')
+        )
+        ->orderBy('stok_produk.stok', 'desc')
+        ->limit(8)
+        ->get()
+        ->map(function ($product) {
+          return [
+            'id' => $product->id,
+            'name' => $product->name,
+            'price' => (int) $product->price,
+            'original_price' => (int) $product->original_price,
+            'image' => $product->image ?: 'default-product.jpg',
+            'rating' => round($product->rating, 1),
+            'sold' => (int) $product->sold,
+            'category' => $product->category
+          ];
+        })
+        ->toArray();
+    }
 
     return view('dashboard.index', compact('user', 'promoSlides', 'categories', 'flashSaleVouchers', 'popularProducts'));
   }

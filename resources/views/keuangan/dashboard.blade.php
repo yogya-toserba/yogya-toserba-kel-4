@@ -16,9 +16,9 @@
         <div class="kpi-card kpi-green">
             <div class="d-flex align-items-center justify-content-between">
                 <div>
-                    <h5>Rp 22.000.000</h5>
-                    <p>Saldo</p>
-                    <small>Per Agustus 2025</small>
+                    <h5>Rp {{ number_format($totalPendapatan, 0, ',', '.') }}</h5>
+                    <p>Total Pendapatan</p>
+                    <small>Semua waktu</small>
                 </div>
                 <div class="kpi-icon">
                     <i class="fas fa-wallet fa-2x" style="color: #28a745; opacity: 0.3;"></i>
@@ -30,9 +30,9 @@
         <div class="kpi-card kpi-blue">
             <div class="d-flex align-items-center justify-content-between">
                 <div>
-                    <h5>Rp 22.000.000</h5>
-                    <p>Laba Kotor</p>
-                    <small>Per Agustus 2025</small>
+                    <h5>Rp {{ number_format($pendapatanBulanIni, 0, ',', '.') }}</h5>
+                    <p>Pendapatan Bulan Ini</p>
+                    <small>{{ now()->format('F Y') }}</small>
                 </div>
                 <div class="kpi-icon">
                     <i class="fas fa-chart-line fa-2x" style="color: #007bff; opacity: 0.3;"></i>
@@ -44,9 +44,9 @@
         <div class="kpi-card kpi-yellow">
             <div class="d-flex align-items-center justify-content-between">
                 <div>
-                    <h5>Rp 22.000.000</h5>
-                    <p>Keuntungan</p>
-                    <small>Per Agustus 2025</small>
+                    <h5>Rp {{ number_format($pendapatanHariIni, 0, ',', '.') }}</h5>
+                    <p>Pendapatan Hari Ini</p>
+                    <small>{{ now()->format('d M Y') }}</small>
                 </div>
                 <div class="kpi-icon">
                     <i class="fas fa-arrow-up fa-2x" style="color: #ffc107; opacity: 0.3;"></i>
@@ -58,26 +58,117 @@
         <div class="kpi-card kpi-red">
             <div class="d-flex align-items-center justify-content-between">
                 <div>
-                    <h5>Rp 22.000.000</h5>
-                    <p>Kerugian</p>
-                    <small>Per Agustus 2025</small>
+                    <h5>{{ $pendapatanPerKategori->count() }}</h5>
+                    <p>Kategori Aktif</p>
+                    <small>Kategori dengan penjualan</small>
                 </div>
                 <div class="kpi-icon">
-                    <i class="fas fa-arrow-down fa-2x" style="color: #dc3545; opacity: 0.3;"></i>
+                    <i class="fas fa-tags fa-2x" style="color: #dc3545; opacity: 0.3;"></i>
                 </div>
             </div>
         </div>
     </div>
 </div>
 
-<!-- Grafik Pendapatan -->
+<!-- Row untuk Grafik dan Produk Terlaris -->
+<div class="row g-4 mb-4">
+    <!-- Grafik Pendapatan -->
+    <div class="col-lg-8">
+        <div class="card-custom">
+            <div class="card-header">
+                <h5 class="card-title mb-0"><i class="fas fa-chart-area me-2"></i>Pendapatan per Kategori</h5>
+            </div>
+            <div class="card-body">
+                @if($pendapatanPerKategori->count() > 0)
+                    <canvas id="categoryChart" height="80"></canvas>
+                @else
+                    <div class="text-center py-4">
+                        <i class="fas fa-chart-pie fa-2x text-muted mb-2"></i>
+                        <p class="text-muted">Belum ada data pendapatan</p>
+                    </div>
+                @endif
+            </div>
+        </div>
+    </div>
+    
+    <!-- Produk Terlaris (berdasarkan pendapatan) -->
+    <div class="col-lg-4">
+        @include('components.produk-terlaris-card', [
+            'produkTerlaris' => $produkTerlaris,
+            'title' => 'Produk Menguntungkan',
+            'limit' => 6,
+            'showPrice' => true,
+            'showRevenue' => true,
+            'showActions' => true,
+            'showDetailButton' => true,
+            'showRefreshButton' => false,
+            'showPeriod' => false,
+            'maxWidth' => '150px',
+            'emptyMessage' => 'Belum ada data penjualan',
+            'showSeedButton' => false,
+            'showLoading' => false,
+            'includeScript' => true
+        ])
+    </div>
+</div>
+
+<!-- Pendapatan per Kategori Table -->
 <div class="card-custom mb-4">
+    <div class="card-header">
+        <h5 class="card-title mb-0"><i class="fas fa-table me-2"></i>Breakdown Pendapatan per Kategori</h5>
+    </div>
+    <div class="card-body">
+        @if($pendapatanPerKategori->count() > 0)
+            <div class="table-responsive">
+                <table class="table table-hover">
+                    <thead class="table-light">
+                        <tr>
+                            <th>Kategori</th>
+                            <th>Total Pendapatan</th>
+                            <th>Unit Terjual</th>
+                            <th>Jumlah Produk</th>
+                            <th>Rata-rata per Unit</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach($pendapatanPerKategori as $kategori)
+                            <tr>
+                                <td>
+                                    <span class="badge bg-light text-dark">{{ $kategori->nama_kategori }}</span>
+                                </td>
+                                <td>
+                                    <span class="text-success fw-semibold">
+                                        Rp {{ number_format($kategori->total_pendapatan, 0, ',', '.') }}
+                                    </span>
+                                </td>
+                                <td>{{ number_format($kategori->total_unit) }}</td>
+                                <td>{{ $kategori->jumlah_produk }} produk</td>
+                                <td>
+                                    Rp {{ number_format($kategori->total_unit > 0 ? $kategori->total_pendapatan / $kategori->total_unit : 0, 0, ',', '.') }}
+                                </td>
+                            </tr>
+                        @endforeach
+                    </tbody>
+                </table>
+            </div>
+        @else
+            <div class="text-center py-4">
+                <i class="fas fa-table fa-2x text-muted mb-2"></i>
+                <p class="text-muted">Belum ada data kategori</p>
+            </div>
+        @endif
+    </div>
+</div>
+
+<!-- Grafik Pendapatan Lama (disembunyikan) -->
+<div class="card-custom mb-4 d-none">
     <div class="card-header">
         <h5 class="card-title mb-0"><i class="fas fa-chart-area me-2"></i>Pendapatan Tahun Ini</h5>
     </div>
     <div class="card-body">
         <canvas id="incomeChart" height="100"></canvas>
     </div>
+</div>
 </div>
 
 <!-- Produk Terlaris -->
@@ -133,8 +224,83 @@
 <!-- Script Chart.js -->
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script>
-    const ctx = document.getElementById('incomeChart').getContext('2d');
-    const incomeChart = new Chart(ctx, {
+@if($pendapatanPerKategori->count() > 0)
+    // Category Revenue Chart
+    const categoryCtx = document.getElementById('categoryChart').getContext('2d');
+    const categoryChart = new Chart(categoryCtx, {
+        type: 'doughnut',
+        data: {
+            labels: [
+                @foreach($pendapatanPerKategori as $kategori)
+                    '{{ $kategori->nama_kategori }}',
+                @endforeach
+            ],
+            datasets: [{
+                data: [
+                    @foreach($pendapatanPerKategori as $kategori)
+                        {{ $kategori->total_pendapatan }},
+                    @endforeach
+                ],
+                backgroundColor: [
+                    '#FF6384', '#36A2EB', '#FFCE56', '#4BC0C0', 
+                    '#9966FF', '#FF9F40', '#FF6384', '#C9CBCF', '#4BC0C0'
+                ],
+                borderWidth: 2,
+                borderColor: '#fff'
+            }]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: {
+                legend: {
+                    position: 'bottom',
+                    labels: {
+                        padding: 15,
+                        usePointStyle: true,
+                        font: { size: 12 },
+                        generateLabels: function(chart) {
+                            const data = chart.data;
+                            if (data.labels.length && data.datasets.length) {
+                                return data.labels.map((label, index) => {
+                                    const value = data.datasets[0].data[index];
+                                    const total = data.datasets[0].data.reduce((a, b) => a + b, 0);
+                                    const percentage = ((value / total) * 100).toFixed(1);
+                                    
+                                    return {
+                                        text: `${label} (${percentage}%)`,
+                                        fillStyle: data.datasets[0].backgroundColor[index],
+                                        strokeStyle: data.datasets[0].backgroundColor[index],
+                                        pointStyle: 'circle',
+                                        hidden: false,
+                                        index: index
+                                    };
+                                });
+                            }
+                            return [];
+                        }
+                    }
+                },
+                tooltip: {
+                    callbacks: {
+                        label: function(context) {
+                            const label = context.label || '';
+                            const value = context.parsed;
+                            const total = context.dataset.data.reduce((a, b) => a + b, 0);
+                            const percentage = ((value / total) * 100).toFixed(1);
+                            return `${label}: Rp ${value.toLocaleString('id-ID')} (${percentage}%)`;
+                        }
+                    }
+                }
+            }
+        }
+    });
+@endif
+
+// Legacy income chart (hidden but kept for compatibility)
+const incomeCtx = document.getElementById('incomeChart');
+if (incomeCtx) {
+    const incomeChart = new Chart(incomeCtx.getContext('2d'), {
         type: 'line',
         data: {
             labels: ['Jan', 'Feb', 'Mar', 'Apr', 'Mei', 'Jun', 'Jul', 'Agu', 'Sep', 'Okt', 'Nov', 'Des'],
@@ -154,6 +320,7 @@
             scales: { y: { beginAtZero: true } }
         }
     });
+}
 </script>
 
 @endsection

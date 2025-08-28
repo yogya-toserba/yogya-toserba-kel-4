@@ -137,6 +137,30 @@
         </div>
 
         <!-- Recent Orders -->
+        </div>
+
+        <!-- Produk Terlaris -->
+        <div class="col-xl-4">
+            @include('components.produk-terlaris-card', [
+                'produkTerlaris' => $produkTerlaris,
+                'title' => 'Produk Terlaris',
+                'limit' => 5,
+                'showPrice' => true,
+                'showRevenue' => true,
+                'showActions' => true,
+                'showDetailButton' => true,
+                'showRefreshButton' => true,
+                'showPeriod' => true,
+                'periode' => '30 hari terakhir',
+                'maxWidth' => '180px',
+                'emptyMessage' => 'Belum ada data transaksi. Jalankan seeder untuk generate data sample.',
+                'showSeedButton' => true,
+                'showLoading' => true,
+                'includeScript' => false // Script akan ditambahkan terpisah
+            ])
+        </div>
+
+        <!-- Pesanan Terbaru -->
         <div class="col-xl-4">
             <div class="card border-0 shadow-sm h-100">
                 <div class="card-header bg-white border-0">
@@ -421,6 +445,91 @@ document.addEventListener('DOMContentLoaded', function() {
     
     // Initialize with default data (7 days)
     initChart(@json($chartLabels), @json($chartData));
+    
+    // Function untuk load more produk terlaris
+    function loadMoreProdukTerlaris() {
+        fetch('{{ route('api.produk.terlaris') }}?limit=20')
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    // Show modal with detailed data
+                    showProdukTerlarisModal(data.data);
+                }
+            })
+            .catch(error => {
+                console.error('Error loading produk terlaris:', error);
+                alert('Gagal memuat data produk terlaris');
+            });
+    }
+    
+    // Function to show modal with produk terlaris details
+    function showProdukTerlarisModal(products) {
+        let modalContent = `
+            <div class="modal fade" id="produkTerlarisModal" tabindex="-1">
+                <div class="modal-dialog modal-lg">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title">
+                                <i class="fas fa-fire text-danger me-2"></i>
+                                Produk Terlaris Lengkap
+                            </h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                        </div>
+                        <div class="modal-body">
+                            <div class="table-responsive">
+                                <table class="table table-hover">
+                                    <thead>
+                                        <tr>
+                                            <th>Rank</th>
+                                            <th>Produk</th>
+                                            <th>Kategori</th>
+                                            <th>Harga</th>
+                                            <th>Terjual</th>
+                                            <th>Pendapatan</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>`;
+        
+        products.forEach((product, index) => {
+            modalContent += `
+                <tr>
+                    <td>
+                        <span class="badge bg-${index < 3 ? 'warning' : 'secondary'}">${index + 1}</span>
+                    </td>
+                    <td>
+                        <div class="fw-semibold">${product.nama_barang}</div>
+                    </td>
+                    <td>${product.nama_kategori}</td>
+                    <td>Rp ${parseInt(product.harga_jual).toLocaleString('id-ID')}</td>
+                    <td>
+                        <span class="badge bg-success">${product.total_terjual}</span>
+                    </td>
+                    <td>Rp ${parseInt(product.total_pendapatan).toLocaleString('id-ID')}</td>
+                </tr>`;
+        });
+        
+        modalContent += `
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>`;
+        
+        // Remove existing modal if any
+        const existingModal = document.getElementById('produkTerlarisModal');
+        if (existingModal) {
+            existingModal.remove();
+        }
+        
+        // Add modal to body
+        document.body.insertAdjacentHTML('beforeend', modalContent);
+        
+        // Show modal
+        const modal = new bootstrap.Modal(document.getElementById('produkTerlarisModal'));
+        modal.show();
+    }
     
     // Handle period filter clicks
     document.querySelectorAll('.period-filter').forEach(function(item) {

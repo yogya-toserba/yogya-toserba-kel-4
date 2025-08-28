@@ -8,6 +8,8 @@ use App\Http\Controllers\AdminController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\GudangController;
 use App\Http\Controllers\StokGudangPusatController;
+use App\Http\Controllers\ProdukTerlarisController;
+use App\Http\Controllers\KeuanganController;
 
 // Dashboard utama
 Route::get('/', [DashboardController::class, 'index'])->name('dashboard');
@@ -64,6 +66,14 @@ Route::get('/hak-kekayaan-intelektual', function () {
 
 // AJAX routes for dashboard
 Route::post('/add-to-cart', [DashboardController::class, 'addToCart'])->name('add.to.cart');
+
+// API Routes untuk Produk Terlaris
+Route::prefix('api')->group(function () {
+    Route::get('/produk-terlaris', [ProdukTerlarisController::class, 'getProdukTerlaris'])->name('api.produk.terlaris');
+    Route::get('/produk-terlaris-kategori', [ProdukTerlarisController::class, 'getProdukTerlarisPerKategori'])->name('api.produk.terlaris.kategori');
+    Route::get('/statistik-penjualan', [ProdukTerlarisController::class, 'getStatistikPenjualan'])->name('api.statistik.penjualan');
+    Route::get('/tren-penjualan', [ProdukTerlarisController::class, 'getTrenPenjualanHarian'])->name('api.tren.penjualan');
+});
 
 // Pelanggan Routes - login dan register dengan controller
 Route::prefix('pelanggan')->name('pelanggan.')->group(function () {
@@ -180,21 +190,10 @@ Route::prefix('admin')->name('admin.')->group(function () {
         
         // Keuangan Routes
         Route::prefix('keuangan')->name('keuangan.')->group(function () {
-            Route::get('dashboard', function () {
-                return view('keuangan.dashboard');
-            })->name('dashboard');
-            
-            Route::get('riwayat-transaksi', function () {
-                return view('keuangan.riwayat_transaksi');
-            })->name('riwayat');
-            
-            Route::get('buku-besar', function () {
-                return view('keuangan.bukubesar');
-            })->name('bukubesar');
-            
-            Route::get('laporan', function () {
-                return view('keuangan.laporan');
-            })->name('laporan');
+            Route::get('dashboard', [KeuanganController::class, 'dashboard'])->name('dashboard');
+            Route::get('riwayat-transaksi', [KeuanganController::class, 'riwayatTransaksi'])->name('riwayat');
+            Route::get('buku-besar', [KeuanganController::class, 'bukuBesar'])->name('bukubesar');
+            Route::get('laporan', [KeuanganController::class, 'laporan'])->name('laporan');
         });
     });
 });

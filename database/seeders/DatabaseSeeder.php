@@ -30,12 +30,13 @@ class DatabaseSeeder extends Seeder
             'password' => Hash::make('admin123'), // Password yang sudah di-hash
         ]);
 
-        $this->call(StokGudangPusatSeeder::class);
         $this->call([
+            StokGudangPusatSeeder::class,
             CabangSeeder::class,
             KategoriSeeder::class,
             StokProdukSeeder::class,
             PelangganSeeder::class,
+            TransaksiSeeder::class,     // Transaksi dan detail transaksi sekaligus
         ]);
     }
 }
