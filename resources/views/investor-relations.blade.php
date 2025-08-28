@@ -1195,40 +1195,33 @@ document.querySelectorAll('.view-btn').forEach(btn => {
 });
 
 // Elegant Back to Top Functionality
-const backToTopButton = document.getElementById('backToTop');
-
-// Show/hide button based on scroll position
-function toggleBackToTop() {
-    console.log('Scroll position:', window.pageYOffset); // Debug log
-    if (window.pageYOffset > 300) {
-        backToTopButton.classList.add('show');
-        console.log('Back to top button shown'); // Debug log
-    } else {
-        backToTopButton.classList.remove('show');
-        console.log('Back to top button hidden'); // Debug log
+document.addEventListener('DOMContentLoaded', function() {
+    const backToTopButton = document.getElementById('backToTop');
+    
+    // Show/hide button based on scroll position
+    function toggleBackToTop() {
+        if (window.pageYOffset > 300) {
+            backToTopButton.classList.add('show');
+        } else {
+            backToTopButton.classList.remove('show');
+        }
     }
-}
-
-// Smooth scroll to top
-function scrollToTop() {
-    console.log('Back to top clicked'); // Debug log
-    window.scrollTo({
-        top: 0,
-        behavior: 'smooth'
-    });
-}
-
-// Event listeners for back to top
-if (backToTopButton) {
+    
+    // Smooth scroll to top
+    function scrollToTop() {
+        window.scrollTo({
+            top: 0,
+            behavior: 'smooth'
+        });
+    }
+    
+    // Event listeners for back to top
     window.addEventListener('scroll', toggleBackToTop);
     backToTopButton.addEventListener('click', scrollToTop);
-    console.log('Back to top button initialized'); // Debug log
-} else {
-    console.error('Back to top button not found!'); // Debug log
-}
-
-// Initial check
-toggleBackToTop();
+    
+    // Initial check
+    toggleBackToTop();
+});
 </script>
 
 <!-- Back to Top Button -->

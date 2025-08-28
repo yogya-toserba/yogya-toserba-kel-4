@@ -23,7 +23,7 @@
         <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content promo-modal">
                 <div class="modal-header border-0">
-                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body text-center">
                     <!-- Welcome Icon -->
@@ -65,7 +65,7 @@
                                     <i class="fas fa-sign-in-alt me-1"></i>Login
                                 </a>
                                 <a href="{{ route('pelanggan.register') }}" class="btn btn-register">
-                                    <i class="fas fa-user-plus me-1"></i>sasasassaassa
+                                    <i class="fas fa-user-plus me-1"></i>Daftar
                                 </a>
                             </div>
                         @endguest
@@ -558,5 +558,39 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <!-- Custom JS -->
     <script src="{{ asset('js/dashboard.js') }}"></script>
+    
+    <script>
+        // Prevent modal from being scrollable and show on page load
+        document.addEventListener('DOMContentLoaded', function() {
+            const promoModal = new bootstrap.Modal(document.getElementById('promoModal'));
+            
+            // Show modal on page load for guests only
+            @guest
+                promoModal.show();
+            @endguest
+            
+            // Prevent scrolling when modal is open
+            document.getElementById('promoModal').addEventListener('show.bs.modal', function() {
+                document.body.style.overflow = 'hidden';
+                document.body.style.paddingRight = '0px';
+            });
+            
+            // Restore scrolling and remove all modal effects when modal is closed
+            document.getElementById('promoModal').addEventListener('hidden.bs.modal', function() {
+                document.body.style.overflow = '';
+                document.body.style.paddingRight = '';
+                
+                // Force remove modal backdrop and body classes
+                document.body.classList.remove('modal-open');
+                const backdrop = document.querySelector('.modal-backdrop');
+                if (backdrop) {
+                    backdrop.remove();
+                }
+                
+                // Reset body styles completely
+                document.body.removeAttribute('style');
+            });
+        });
+    </script>
 </body>
 </html>
