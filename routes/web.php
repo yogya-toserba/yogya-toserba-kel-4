@@ -22,11 +22,6 @@ Route::get('/karir', function () {
     return view('karir');
 })->name('karir');
 
-// Press Release
-Route::get('/press-release', function () {
-    return view('press-release');
-})->name('press-release');
-
 // Investor Relations
 Route::get('/investor-relations', function () {
     return view('investor-relations');
@@ -152,9 +147,6 @@ Route::get('/kategori/rumah-tangga', [CategoryController::class, 'rumahTangga'])
 // Route kategori olahraga
 Route::get('/kategori/olahraga', [CategoryController::class, 'olahraga'])->name('kategori.olahraga');
 
-// Route kategori otomotif
-Route::get('/kategori/otomotif', [CategoryController::class, 'otomotif'])->name('kategori.otomotif');
-
 // Route kategori buku & alat tulis
 Route::get('/kategori/buku', [CategoryController::class, 'buku'])->name('kategori.buku');
 
@@ -187,20 +179,22 @@ Route::prefix('admin')->name('admin.')->group(function () {
         })->name('pengaturan');
         
         // Keuangan Routes
-        Route::get('keuangan', function () {
-            return view('keuangan.dashboard');
-        })->name('keuangan');
-        Route::get('keuangan/riwayat', function () {
-            return view('keuangan.riwayat_transaksi');
-        })->name('keuangan.riwayat');
-        Route::get('keuangan/bukubesar', function () {
-            return view('keuangan.bukubesar');
-        })->name('keuangan.bukubesar');
-        Route::get('keuangan/laporan', function () {
-            return view('keuangan.laporan');
-        })->name('keuangan.laporan');
-        // Route::get('keuangan', function () {
-        //     return view('keuangan.dashboard');
-        // })->name('keuangan.dashboard');
+        Route::prefix('keuangan')->name('keuangan.')->group(function () {
+            Route::get('dashboard', function () {
+                return view('keuangan.dashboard');
+            })->name('dashboard');
+            
+            Route::get('riwayat-transaksi', function () {
+                return view('keuangan.riwayat_transaksi');
+            })->name('riwayat');
+            
+            Route::get('buku-besar', function () {
+                return view('keuangan.bukubesar');
+            })->name('bukubesar');
+            
+            Route::get('laporan', function () {
+                return view('keuangan.laporan');
+            })->name('laporan');
+        });
     });
 });

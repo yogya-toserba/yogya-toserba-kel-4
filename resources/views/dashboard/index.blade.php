@@ -503,7 +503,6 @@
                     <ul class="footer-links">
                         <li><a href="{{ route('tentang') }}">Tentang MyYOGYA</a></li>
                         <li><a href="{{ route('karir') }}">Karir</a></li>
-                        <li><a href="{{ route('press-release') }}">Press Release</a></li>
                         <li><a href="{{ route('investor-relations') }}">Investor Relations</a></li>
                     </ul>
                 </div>

@@ -1,4 +1,4 @@
-@extends('layouts.appGudanng')
+@extends('layouts.appGudang')
 
 @section('title', 'Pengiriman - MyYOGYA Dashboard')
 
