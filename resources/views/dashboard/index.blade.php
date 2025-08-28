@@ -109,7 +109,7 @@
 
             <!-- User Actions -->
             <div class="navbar-actions d-flex align-items-center">
-                @auth
+                @auth('pelanggan')
                     <!-- Logged in user -->
                     <div class="nav-item dropdown me-3">
                         <a class="nav-link notification-link" href="#" id="notificationDropdown" role="button" data-bs-toggle="dropdown">
@@ -161,7 +161,7 @@
                                     <i class="fas fa-user"></i>
                                 </div>
                                 <div class="user-details">
-                                    <span class="user-name">{{ $user->name }}</span>
+                                    <span class="user-name">{{ auth('pelanggan')->user()->nama }}</span>
                                     <span class="user-status">Premium Member</span>
                                 </div>
                                 <i class="fas fa-chevron-down ms-2"></i>
@@ -174,7 +174,7 @@
                                         <i class="fas fa-user"></i>
                                     </div>
                                     <div>
-                                        <h6 class="mb-0">{{ $user->name }}</h6>
+                                        <h6 class="mb-0">{{ auth('pelanggan')->user()->nama }}</h6>
                                         <small class="text-muted">Premium Member</small>
                                     </div>
                                 </div>

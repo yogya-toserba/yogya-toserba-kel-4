@@ -455,16 +455,16 @@
         <!-- Sidebar -->
         <div class="col-md-2 sidebar">
             <h4 class="px-3 mb-4">MyYOGYA</h4>
-            <a href="{{ route('keuangan.dashboard') }}" class="{{ request()->routeIs('keuangan.dashboard') ? 'active' : '' }}">
+            <a href="{{ route('admin.keuangan.dashboard') }}" class="{{ request()->routeIs('admin.keuangan.dashboard') ? 'active' : '' }}">
                 Dashboard
             </a>
-            <a href="{{ route('keuangan.riwayat') }}" class="{{ request()->routeIs('keuangan.riwayat') ? 'active' : '' }}">
+            <a href="{{ route('admin.keuangan.riwayat') }}" class="{{ request()->routeIs('admin.keuangan.riwayat') ? 'active' : '' }}">
                 Riwayat Transaksi
             </a>
-            <a href="{{ route('keuangan.bukubesar') }}" class="{{ request()->routeIs('keuangan.bukubesar') ? 'active' : '' }}">
+            <a href="{{ route('admin.keuangan.bukubesar') }}" class="{{ request()->routeIs('admin.keuangan.bukubesar') ? 'active' : '' }}">
                 Buku Besar
             </a>
-            <a href="{{ route('keuangan.laporan') }}" class="{{ request()->routeIs('keuangan.laporan') ? 'active' : '' }}">
+            <a href="{{ route('admin.keuangan.laporan') }}" class="{{ request()->routeIs('admin.keuangan.laporan') ? 'active' : '' }}">
                 Laporan
             </a>
         </div>
@@ -1173,7 +1173,7 @@
 
             <!-- User Actions -->
             <div class="navbar-actions d-flex align-items-center">
-                @auth
+                @auth('pelanggan')
                     <!-- Logged in user -->
                     <div class="nav-item dropdown me-3">
                         <a class="nav-link notification-link" href="#" id="notificationDropdown" role="button" data-bs-toggle="dropdown">
@@ -1225,7 +1225,7 @@
                                     <i class="fas fa-user"></i>
                                 </div>
                                 <div class="user-details">
-                                    <span class="user-name">{{ $user ? $user->name : 'User' }}</span>
+                                    <span class="user-name">{{ auth('pelanggan')->user()->nama }}</span>
                                     <span class="user-status">Premium Member</span>
                                 </div>
                                 <i class="fas fa-chevron-down ms-2"></i>
@@ -1238,7 +1238,7 @@
                                         <i class="fas fa-user"></i>
                                     </div>
                                     <div>
-                                        <h6 class="mb-0">{{ $user ? $user->name : 'User' }}</h6>
+                                        <h6 class="mb-0">{{ auth('pelanggan')->user()->nama }}</h6>
                                         <small class="text-muted">Premium Member</small>
                                     </div>
                                 </div>
