@@ -1,0 +1,10 @@
+# Ignore temporary files dan backup
+*.tmp
+*.bak
+*~
+.DS_Store
+Thumbs.db
+
+# Ignore specific development files
+*.log
+*.cache

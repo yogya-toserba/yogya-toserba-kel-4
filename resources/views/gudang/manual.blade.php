@@ -544,56 +544,6 @@
         </div>
     </main>
 
-    <!-- Footer -->
-    <footer class="manual-footer">
-        <div class="footer-container">
-            <div class="footer-content">
-                <!-- Sistem Gudang -->
-                <div class="footer-section">
-                    <h4>Sistem Gudang</h4>
-                    <ul>
-                        <li><a href="#pengenalan">Tentang Sistem</a></li>
-                        <li><a href="#login">Panduan Login</a></li>
-                        <li><a href="#manajemen-barang">Kelola Inventaris</a></li>
-                        <li><a href="#stok">Manajemen Stok</a></li>
-                        <li><a href="#laporan">Laporan</a></li>
-                        <li><a href="#pengaturan">Pengaturan</a></li>
-                    </ul>
-                </div>
-
-                <!-- Fitur Utama -->
-                <div class="footer-section">
-                    <h4>Fitur Utama</h4>
-                    <ul>
-                        <li><a href="#manajemen-barang">Input Barang</a></li>
-                        <li><a href="#stok">Tracking Stok</a></li>
-                        <li><a href="#laporan">Generate Laporan</a></li>
-                        <li><a href="#dashboard">Dashboard Real-time</a></li>
-                        <li><a href="#pengaturan">Backup Data</a></li>
-                        <li><a href="#troubleshooting">Bantuan Teknis</a></li>
-                    </ul>
-                </div>
-
-                <!-- Informasi Sistem -->
-                <div class="footer-section">
-                    <h4>Informasi Sistem</h4>
-                    <ul>
-                        <li><a href="#login">Akses Sistem</a></li>
-                        <li><a href="#fitur">Fitur Unggulan</a></li>
-                        <li><a href="#keamanan">Keamanan Data</a></li>
-                        <li><a href="#dukungan">Dukungan Teknis</a></li>
-                        <li><a href="#pembaruan">Update Sistem</a></li>
-                    </ul>
-                </div>
-            </div>
-            
-            <div class="footer-bottom">
-                <p>&copy; 2025 Yogya Toserba - Sistem Manajemen Gudang. Semua hak dilindungi.</p>
-                <p class="version-info">Versi Sistem: 1.0.0 | Build: 20250801 | Release: Agustus 2025</p>
-            </div>
-        </div>
-    </footer>
-
     <!-- Scroll to Top Button -->
     <button class="scroll-to-top" id="scrollToTop">
         <i class="fas fa-arrow-up"></i>
@@ -602,8 +552,10 @@
     <script>
         // Initialize page
         document.addEventListener('DOMContentLoaded', function() {
-            // Show first section immediately
-            document.querySelector('.manual-section').classList.add('visible');
+            // Show all sections immediately
+            document.querySelectorAll('.manual-section').forEach(section => {
+                section.classList.add('visible');
+            });
         });
 
         // Scroll to Top Button functionality
@@ -721,69 +673,40 @@
             section.style.transitionDelay = `${index * 0.1}s`;
         });
 
-        // Sidebar positioning - only prevent footer overlap
-        let scrollTimeout = null;
+        // Navigation highlighting
+        let currentActiveSection = null;
+        let isUpdating = false;
         
-        window.addEventListener('scroll', function() {
-            const sidebar = document.querySelector('.manual-sidebar');
-            const footer = document.querySelector('.manual-footer');
-            
-            if (sidebar && footer) {
-                const sidebarRect = sidebar.getBoundingClientRect();
-                const footerRect = footer.getBoundingClientRect();
-                const viewportHeight = window.innerHeight;
+        window.addEventListener('scroll', () => {
+            if (!isUpdating) {
+                const sections = document.querySelectorAll('.manual-section');
+                const headerHeight = document.querySelector('.manual-header').offsetHeight;
+                const scrollPos = window.scrollY + headerHeight + 150;
                 
-                // Only move sidebar when footer is actually overlapping
-                const footerTop = footerRect.top;
-                const sidebarBottom = sidebarRect.bottom;
-                
-                // Calculate if sidebar would overlap footer
-                const wouldOverlap = footerTop < sidebarBottom && footerTop > 0;
-                
-                if (wouldOverlap) {
-                    // Calculate minimal movement needed to avoid overlap
-                    const overlapAmount = sidebarBottom - footerTop + 20; // 20px buffer
-                    sidebar.style.transform = `translateY(-${overlapAmount}px)`;
-                } else {
-                    // Keep sidebar in normal position
-                    sidebar.style.transform = 'translateY(0)';
-                }
-            }
-
-            // Backup navigation detection for fast scrolling
-            if (scrollTimeout) {
-                clearTimeout(scrollTimeout);
-            }
-            
-            scrollTimeout = setTimeout(() => {
-                if (!isUpdating) {
-                    const sections = document.querySelectorAll('.manual-section');
-                    const headerHeight = document.querySelector('.manual-header').offsetHeight;
-                    const scrollPos = window.scrollY + headerHeight + 150;
+                let activeSection = null;
+                sections.forEach(section => {
+                    const sectionTop = section.offsetTop;
+                    const sectionBottom = sectionTop + section.offsetHeight;
                     
-                    let activeSection = null;
-                    sections.forEach(section => {
-                        const sectionTop = section.offsetTop;
-                        const sectionBottom = sectionTop + section.offsetHeight;
-                        
-                        if (scrollPos >= sectionTop && scrollPos < sectionBottom) {
-                            activeSection = section.id;
-                        }
+                    if (scrollPos >= sectionTop && scrollPos < sectionBottom) {
+                        activeSection = section.id;
+                    }
+                });
+                
+                if (activeSection && activeSection !== currentActiveSection) {
+                    currentActiveSection = activeSection;
+                    
+                    document.querySelectorAll('.nav-link').forEach(link => {
+                        link.classList.remove('active');
                     });
                     
-                    if (activeSection && activeSection !== currentActiveSection) {
-                        currentActiveSection = activeSection;
-                        
-                        document.querySelectorAll('.nav-link').forEach(link => {
-                            link.classList.remove('active');
-                        });
-                        
-                        const activeLink = document.querySelector(`.nav-link[href="#${activeSection}"]`);
-                        if (activeLink) {
-                            activeLink.classList.add('active');
-                        }
+                    const activeLink = document.querySelector(`.nav-link[href="#${activeSection}"]`);
+                    if (activeLink) {
+                        activeLink.classList.add('active');
                     }
                 }
+            }
+        });
             }, 100);
         });
 

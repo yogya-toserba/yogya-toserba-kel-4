@@ -270,18 +270,18 @@
 
                 <!-- Quick Actions -->
                 <div class="quick-actions">
-                    <div class="quick-action-item">
+                    <a href="{{ route('gudang.bantuan-it') }}" class="quick-action-item">
                         <i class="fas fa-headset"></i>
                         <span>Bantuan IT</span>
-                    </div>
+                    </a>
                     <a href="{{ route('gudang.manual') }}" class="quick-action-item">
                         <i class="fas fa-book"></i>
                         <span>Manual Sistem</span>
                     </a>
-                    <div class="quick-action-item">
+                    <a href="{{ route('gudang.kontak-admin') }}" class="quick-action-item">
                         <i class="fas fa-phone"></i>
                         <span>Kontak Admin</span>
-                    </div>
+                    </a>
                 </div>
             </div>
         </div>

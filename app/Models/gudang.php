@@ -10,14 +10,21 @@ class Gudang extends Authenticatable
     use Notifiable;
 
     protected $table = 'gudang';
-    protected $primaryKey = 'id_gudang';
+    protected $primaryKey = 'id'; // Use 'id' as primary key, not 'id_gudang'
     protected $guard = 'gudang';
+
+    // Define the username field for authentication
+    public function getAuthIdentifierName()
+    {
+        return 'id_gudang'; // Use id_gudang for login
+    }
 
     protected $fillable = [
         'id_gudang',
-        'nama_gudang', 
+        'nama_gudang',
         'password',
         'lokasi',
+        'kapasitas',
         'status',
     ];
 
@@ -28,6 +35,6 @@ class Gudang extends Authenticatable
 
     protected $casts = [
         'password' => 'hashed',
-        'status' => 'boolean',
+        'status' => 'string', // status is enum, not boolean
     ];
 }

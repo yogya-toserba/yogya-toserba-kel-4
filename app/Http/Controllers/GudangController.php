@@ -11,7 +11,8 @@ class GudangController extends BaseController
 {
     public function __construct()
     {
-        $this->middleware('auth:gudang')->except(['showLogin', 'login']);
+        // Middleware is handled in routes, not in controller
+        // $this->middleware('auth:gudang')->except(['showLogin', 'login']);
     }
 
     public function showLogin()
@@ -28,9 +29,9 @@ class GudangController extends BaseController
 
         if (Auth::guard('gudang')->attempt($credentials, $request->remember)) {
             $request->session()->regenerate();
-            
+
             $gudang = Auth::guard('gudang')->user();
-            
+
             // Return JSON response for AJAX requests
             if ($request->wantsJson() || $request->ajax()) {
                 return response()->json([
@@ -39,7 +40,7 @@ class GudangController extends BaseController
                     'redirect' => route('gudang.dashboard')
                 ]);
             }
-            
+
             return redirect()->intended(route('gudang.dashboard'));
         }
 
@@ -67,7 +68,7 @@ class GudangController extends BaseController
         Auth::guard('gudang')->logout();
         $request->session()->invalidate();
         $request->session()->regenerateToken();
-        
+
         return redirect()->route('gudang.login');
     }
 }

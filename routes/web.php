@@ -11,6 +11,44 @@ use App\Http\Controllers\StokGudangPusatController;
 use App\Http\Controllers\ProdukTerlarisController;
 use App\Http\Controllers\KeuanganController;
 
+// Route untuk testing error pages
+Route::get('/test-errors', function () {
+    return view('test-errors');
+})->name('test.errors');
+
+Route::get('/test/403', function () {
+    abort(403, 'Testing halaman 403');
+});
+
+Route::get('/test/404', function () {
+    abort(404, 'Testing halaman 404');
+});
+
+Route::get('/test/405', function () {
+    abort(405, 'Testing halaman 405');
+});
+
+Route::get('/test/500', function () {
+    abort(500, 'Testing halaman 500');
+});
+
+// Route langsung untuk error pages
+Route::get('/404', function () {
+    return response()->view('errors.404', [], 404);
+});
+
+Route::get('/403', function () {
+    return response()->view('errors.403', [], 403);
+});
+
+Route::get('/405', function () {
+    return response()->view('errors.405', [], 405);
+});
+
+Route::get('/500', function () {
+    return response()->view('errors.500', [], 500);
+});
+
 // Dashboard utama
 Route::get('/', [DashboardController::class, 'index'])->name('dashboard');
 
@@ -84,6 +122,19 @@ Route::prefix('pelanggan')->name('pelanggan.')->group(function () {
     Route::post('/register', [PelangganController::class, 'register'])->name('register.submit');
 
     Route::post('/logout', [PelangganController::class, 'logout'])->name('logout');
+
+    // Public routes for customer help
+    Route::get('/manual', function () {
+        return view('pelanggan.manual');
+    })->name('manual');
+
+    Route::get('/bantuan-it', function () {
+        return view('pelanggan.bantuan-it');
+    })->name('bantuan-it');
+
+    Route::get('/kontak-admin', function () {
+        return view('pelanggan.kontak-admin');
+    })->name('kontak-admin');
 });
 
 // Gudang Routes
@@ -93,18 +144,27 @@ Route::prefix('gudang')->name('gudang.')->group(function () {
     Route::post('/login', [GudangController::class, 'login'])->name('login.submit');
     Route::post('/logout', [GudangController::class, 'logout'])->name('logout');
 
+    // Public routes (accessible without authentication)
+    Route::get('/manual', function () {
+        return view('gudang.manual');
+    })->name('manual');
+
+    Route::get('/bantuan-it', function () {
+        return view('gudang.bantuan-it');
+    })->name('bantuan-it');
+
+    Route::get('/kontak-admin', function () {
+        return view('gudang.kontak-admin');
+    })->name('kontak-admin');
+
     // Protected routes (require gudang authentication)
-    Route::middleware(['auth:gudang'])->group(function () {
+    Route::middleware(['auth.gudang'])->group(function () {
         Route::get('/dashboard', [GudangController::class, 'dashboard'])->name('dashboard');
 
         // Stock management routes
         Route::resource('stok', StokGudangPusatController::class);
 
         // Other gudang routes
-        Route::get('/manual', function () {
-            return view('gudang.manual');
-        })->name('manual');
-
         Route::get('/permintaan', function () {
             return view('gudang.permintaan');
         })->name('permintaan');
@@ -190,7 +250,7 @@ Route::prefix('admin')->name('admin.')->group(function () {
         route::get('pengaturan', function () {
             return view('admin.pengaturan');
         })->name('pengaturan');
-        
+
         // Keuangan Routes
         Route::prefix('keuangan')->name('keuangan.')->group(function () {
             Route::get('dashboard', [KeuanganController::class, 'dashboard'])->name('dashboard');
@@ -199,4 +259,9 @@ Route::prefix('admin')->name('admin.')->group(function () {
             Route::get('laporan', [KeuanganController::class, 'laporan'])->name('laporan');
         });
     });
+});
+
+// Fallback route untuk halaman yang tidak ditemukan (404)
+Route::fallback(function () {
+    return response()->view('errors.404', [], 404);
 });

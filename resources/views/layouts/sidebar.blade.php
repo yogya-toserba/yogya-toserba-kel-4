@@ -674,7 +674,20 @@
     document.getElementById('dropdown-icon').parentElement.classList.remove('rotated');
     
     if (confirm('Apakah Anda yakin ingin logout dari sistem?')) {
-      window.location.href = '/logout';
+      // Create a form to submit logout request properly
+      const form = document.createElement('form');
+      form.method = 'POST';
+      form.action = '{{ route("gudang.logout") }}';
+      
+      // Add CSRF token
+      const csrfToken = document.createElement('input');
+      csrfToken.type = 'hidden';
+      csrfToken.name = '_token';
+      csrfToken.value = '{{ csrf_token() }}';
+      form.appendChild(csrfToken);
+      
+      document.body.appendChild(form);
+      form.submit();
     }
   }
 </script>

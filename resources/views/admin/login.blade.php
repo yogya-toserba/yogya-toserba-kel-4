@@ -48,7 +48,7 @@
         }
 
         .login-left {
-            background: linear-gradient(135deg, #00539B 0%, #003D75 100%);
+            background: linear-gradient(135deg, #F26B37 0%, #E55827 100%);
             flex: 1;
             display: flex;
             justify-content: center;
@@ -183,7 +183,7 @@
         }
 
         .welcome-title {
-            color: #00539B;
+            color: #F26B37;
             font-weight: 600;
             font-size: 1.6rem;
             margin: 0;
@@ -213,8 +213,8 @@
         }
 
         .floating-label .form-control:focus {
-            border-color: #00539B;
-            box-shadow: 0 0 0 0.1rem rgba(0, 83, 155, 0.15);
+            border-color: #F26B37;
+            box-shadow: 0 0 0 0.1rem rgba(242, 107, 55, 0.15);
             background-color: #ffffff;
             outline: none;
         }
@@ -239,7 +239,7 @@
             top: 0;
             transform: translateY(-50%);
             font-size: 0.7rem;
-            color: #00539B;
+            color: #F26B37;
             font-weight: 500;
             background-color: #ffffff;
         }
@@ -261,7 +261,7 @@
         }
 
         .password-toggle:hover {
-            color: #00539B;
+            color: #F26B37;
         }
 
         .password-toggle i {
@@ -273,7 +273,7 @@
         }
 
         .btn-login {
-            background: linear-gradient(135deg, #00539B 0%, #003D75 100%);
+            background: linear-gradient(135deg, #F26B37 0%, #E55827 100%);
             color: white;
             border-radius: 15px;
             height: 55px;
@@ -299,9 +299,9 @@
         }
 
         .btn-login:hover {
-            background: linear-gradient(135deg, #003D75 0%, #002952 100%);
+            background: linear-gradient(135deg, #E55827 0%, #D14A1F 100%);
             transform: translateY(-2px);
-            box-shadow: 0 8px 25px rgba(0, 83, 155, 0.3);
+            box-shadow: 0 8px 25px rgba(242, 107, 55, 0.3);
             color: white;
         }
 
@@ -311,20 +311,6 @@
 
         .btn-login:active {
             transform: translateY(0);
-        }
-
-        .form-check {
-            margin: 1rem 0;
-        }
-
-        .form-check-input:checked {
-            background-color: #00539B;
-            border-color: #00539B;
-        }
-
-        .form-check-label {
-            color: #6c757d;
-            font-size: 0.85rem;
         }
 
         .alert {
@@ -447,11 +433,6 @@
                         @error('password')
                             <div class="invalid-feedback">{{ $message }}</div>
                         @enderror
-                    </div>
-
-                    <div class="form-check">
-                        <input type="checkbox" class="form-check-input" id="remember" name="remember">
-                        <label class="form-check-label" for="remember">Remember me</label>
                     </div>
 
                     <button type="submit" class="btn btn-login">Login to Admin Panel</button>
