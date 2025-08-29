@@ -32,14 +32,20 @@
         }
 
         #sidebar {
-            min-height: 100vh;
+            position: fixed;
+            top: 0;
+            left: 0;
+            height: 100vh;
             width: 250px;
             transition: all 0.3s;
             background: linear-gradient(180deg, var(--admin-bg) 0%, var(--admin-surface) 100%);
             color: var(--admin-text);
+            z-index: 1000;
+            overflow-y: auto;
         }
 
         .content {
+            margin-left: 250px;
             width: calc(100% - 250px);
             min-height: 100vh;
             background: #f8fafc;
@@ -53,6 +59,7 @@
             display: block;
             border-radius: 8px;
             margin: 4px 8px;
+            position: relative;
         }
 
         .sidebar-link:hover {
@@ -65,8 +72,89 @@
             color: var(--admin-primary);
         }
 
+        .dropdown-toggle::after {
+            display: none;
+        }
+
+        .sidebar-link .fa-chevron-down {
+            position: absolute;
+            top: 18px;
+            right: 17px;
+            transition: transform 0.3s ease;
+            font-size: 0.8rem;
+        }
+
+        .sidebar-link .keuangan-arrow {
+            position: absolute;
+            top: 18px;
+            right: 17px;
+            transition: transform 0.3s ease;
+            font-size: 0.8rem;
+        }
+
+        .sidebar-link[aria-expanded="true"] .fa-chevron-down,
+        .sidebar-link[aria-expanded="true"] .keuangan-arrow {
+            transform: rotate(180deg);
+        }
+
+        /* Fix dropdown toggle */
+        .dropdown-toggle::after {
+            display: none !important;
+        }
+
+        #keuanganSubmenu .sidebar-link {
+            padding: 8px 15px;
+            font-size: 0.9rem;
+            margin: 2px 0;
+        }
+
+        #keuanganSubmenu .sidebar-link:hover {
+            background: rgba(34, 197, 94, 0.1);
+            padding-left: 20px;
+            transition: all 0.3s ease;
+        }
+
+        .collapse {
+            transition: all 0.3s ease-in-out;
+        }
+
         .navbar {
             background: #ffffff !important;
+            backdrop-filter: blur(10px);
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .card {
+            border-radius: 12px;
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+
+        .card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15) !important;
+        }
+
+        .avatar-sm {
+            width: 40px;
+            height: 40px;
+        }
+
+        .list-group-item {
+            border: none !important;
+            padding: 0.75rem 0;
+        }
+
+        .table th {
+            font-weight: 600;
+            text-transform: uppercase;
+            font-size: 0.75rem;
+            letter-spacing: 0.5px;
+            color: #6c757d;
+        }
+
+        main.p-4 {
+            background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%);
+            min-height: calc(100vh - 70px);
         }
 
         @media (max-width: 768px) {
@@ -79,6 +167,7 @@
             }
 
             .content {
+                margin-left: 0;
                 width: 100%;
             }
         }
@@ -100,6 +189,12 @@
                         </a>
                     </li>
                     <li>
+                        <a href="{{ route('admin.data-karyawan') }}"
+                            class="sidebar-link {{ Request::is('admin/data-karyawan*') ? 'active' : '' }}">
+                            <i class="fas fa-users me-2"></i> Data Karyawan
+                        </a>
+                    </li>
+                    <li>
                         <a href="{{ route('admin.penggajian') }}"
                             class="sidebar-link {{ Request::is('admin/penggajian*') ? 'active' : '' }}">
                             <i class="fas fa-money-check-alt me-2"></i> Penggajian
@@ -111,24 +206,39 @@
                             <i class="fas fa-user-check me-2"></i> Absensi
                         </a>
                     </li>
-                    <li>
-                        <a href="{{ route('admin.laporan') }}"
-                            class="sidebar-link {{ Request::is('admin/laporan*') ? 'active' : '' }}">
-                            <i class="fas fa-file-alt me-2"></i> Laporan
+                    
+                    <!-- Keuangan Dropdown -->
+                    <li class="nav-item dropdown">
+                        <a href="#" class="sidebar-link dropdown-toggle {{ Request::is('admin/laporan*') || Request::is('admin/keuangan*') ? 'active' : '' }}" 
+                           id="keuanganDropdown" role="button" data-bs-toggle="collapse" data-bs-target="#keuanganSubmenu" 
+                           aria-expanded="{{ Request::is('admin/laporan*') || Request::is('admin/keuangan*') ? 'true' : 'false' }}">
+                            <i class="fas fa-chart-pie me-2"></i> Keuangan
+                            <i class="fas fa-chevron-down keuangan-arrow"></i>
                         </a>
-                    </li>           
-                    <li>
-                        <a href="{{ route('admin.keuangan.riwayat') }}"
-                            class="sidebar-link {{ Request::is('admin/keuangan/riwayat*') ? 'active' : '' }}">
-                            <i class="fas fa-history me-2"></i> Riwayat Transaksi
-                        </a>
+                        <div class="collapse {{ Request::is('admin/laporan*') || Request::is('admin/keuangan*') ? 'show' : '' }}" id="keuanganSubmenu">
+                            <ul class="list-unstyled ps-4">
+                                <li>
+                                    <a href="{{ route('admin.laporan') }}"
+                                        class="sidebar-link {{ Request::is('admin/laporan') ? 'active' : '' }}">
+                                        <i class="fas fa-file-alt me-2"></i> Laporan
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="{{ route('admin.keuangan.riwayat') }}"
+                                        class="sidebar-link {{ Request::is('admin/keuangan/riwayat*') ? 'active' : '' }}">
+                                        <i class="fas fa-history me-2"></i> Riwayat Transaksi
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="{{ route('admin.keuangan.bukubesar') }}"
+                                        class="sidebar-link {{ Request::is('admin/keuangan/buku-besar*') ? 'active' : '' }}">
+                                        <i class="fas fa-book me-2"></i> Buku Besar
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
                     </li>
-                    <li>
-                        <a href="{{ route('admin.keuangan.bukubesar') }}"
-                            class="sidebar-link {{ Request::is('admin/keuangan/bukubesar*') ? 'active' : '' }}">
-                            <i class="fas fa-book me-2"></i> Buku Besar
-                        </a>
-                    </li>
+                    
                     <li>
                         <a href="{{ route('admin.pengaturan') }}"
                             class="sidebar-link {{ Request::is('admin/pengaturan*') ? 'active' : '' }}">

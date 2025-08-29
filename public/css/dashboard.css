@@ -429,8 +429,6 @@ body.modal-open {
 /* Calmer interaction: remove sweeping sheen */
 .btn-claim::before { content: none; }
 
-
-
 /* Hover stays subtle */
 .btn-claim:hover::before { content: none; }
 .btn-claim:hover::after { content: none; }

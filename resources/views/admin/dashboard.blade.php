@@ -102,14 +102,16 @@
         </div>
     </div>
 
-    <!-- Charts and Analytics -->
+    <!-- Analytics Dashboard -->
     <div class="row g-4 mb-4">
         <!-- Sales Chart -->
         <div class="col-xl-8">
             <div class="card border-0 shadow-sm h-100">
                 <div class="card-header bg-white border-0">
                     <div class="d-flex justify-content-between align-items-center">
-                        <h5 class="mb-0">Grafik Penjualan</h5>
+                        <h5 class="mb-0">
+                            <i class="fas fa-chart-line text-primary me-2"></i>Grafik Penjualan
+                        </h5>
                         <div class="dropdown">
                             <button class="btn btn-outline-secondary btn-sm dropdown-toggle" type="button" data-bs-toggle="dropdown" id="periodDropdown">
                                 <span id="currentPeriod">7 Hari Terakhir</span>
@@ -137,30 +139,6 @@
         </div>
 
         <!-- Recent Orders -->
-        </div>
-
-        <!-- Produk Terlaris -->
-        <div class="col-xl-4">
-            @include('components.produk-terlaris-card', [
-                'produkTerlaris' => $produkTerlaris,
-                'title' => 'Produk Terlaris',
-                'limit' => 5,
-                'showPrice' => true,
-                'showRevenue' => true,
-                'showActions' => true,
-                'showDetailButton' => true,
-                'showRefreshButton' => true,
-                'showPeriod' => true,
-                'periode' => '30 hari terakhir',
-                'maxWidth' => '180px',
-                'emptyMessage' => 'Belum ada data transaksi. Jalankan seeder untuk generate data sample.',
-                'showSeedButton' => true,
-                'showLoading' => true,
-                'includeScript' => false // Script akan ditambahkan terpisah
-            ])
-        </div>
-
-        <!-- Pesanan Terbaru -->
         <div class="col-xl-4">
             <div class="card border-0 shadow-sm h-100">
                 <div class="card-header bg-white border-0">
@@ -219,86 +197,11 @@
         </div>
     </div>
 
-    <!-- Data Tables -->
+    <!-- Data Tables & Analytics -->
     <div class="row g-4">
-        <!-- Best Selling Products -->
-        <div class="col-xl-6">
-            <div class="card border-0 shadow-sm">
-                <div class="card-header bg-white border-0">
-                    <h5 class="mb-0">Produk Terlaris</h5>
-                </div>
-                <div class="card-body">
-                    <div class="table-responsive">
-                        <table class="table table-hover align-middle">
-                            <thead class="table-light">
-                                <tr>
-                                    <th>Produk</th>
-                                    <th>Terjual</th>
-                                    <th>Pendapatan</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <td>
-                                        <div class="d-flex align-items-center">
-                                            <div class="bg-primary bg-opacity-10 text-primary rounded p-2 me-3">
-                                                <i class="fas fa-box-open"></i>
-                                            </div>
-                                            <div>
-                                                <div class="fw-semibold">Indomie Goreng</div>
-                                                <small class="text-muted">Makanan Instan</small>
-                                            </div>
-                                        </div>
-                                    </td>
-                                    <td>
-                                        <span class="badge bg-success">1,250</span>
-                                    </td>
-                                    <td class="fw-semibold">Rp 4,062,500</td>
-                                </tr>
-                                <tr>
-                                    <td>
-                                        <div class="d-flex align-items-center">
-                                            <div class="bg-success bg-opacity-10 text-success rounded p-2 me-3">
-                                                <i class="fas fa-seedling"></i>
-                                            </div>
-                                            <div>
-                                                <div class="fw-semibold">Beras Premium 5kg</div>
-                                                <small class="text-muted">Sembako</small>
-                                            </div>
-                                        </div>
-                                    </td>
-                                    <td>
-                                        <span class="badge bg-info">892</span>
-                                    </td>
-                                    <td class="fw-semibold">Rp 66,900,000</td>
-                                </tr>
-                                <tr>
-                                    <td>
-                                        <div class="d-flex align-items-center">
-                                            <div class="bg-warning bg-opacity-10 text-warning rounded p-2 me-3">
-                                                <i class="fas fa-tint"></i>
-                                            </div>
-                                            <div>
-                                                <div class="fw-semibold">Minyak Goreng 1L</div>
-                                                <small class="text-muted">Sembako</small>
-                                            </div>
-                                        </div>
-                                    </td>
-                                    <td>
-                                        <span class="badge bg-warning">756</span>
-                                    </td>
-                                    <td class="fw-semibold">Rp 13,608,000</td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <!-- System Status -->
-        <div class="col-xl-6">
-            <div class="card border-0 shadow-sm">
+        <!-- System Status & Performance -->
+        <div class="col-xl-4">
+            <div class="card border-0 shadow-sm h-100">
                 <div class="card-header bg-white border-0">
                     <h5 class="mb-0">Status Sistem</h5>
                 </div>
@@ -363,6 +266,97 @@
                             <div class="fw-semibold text-info">2.1GB</div>
                             <small class="text-muted">Memory</small>
                         </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Best Selling Products -->
+        <div class="col-xl-8">
+            <div class="card border-0 shadow-sm h-100">
+                <div class="card-header bg-white border-0 d-flex justify-content-between align-items-center">
+                    <h5 class="mb-0">Produk Terlaris</h5>
+                    <small class="text-muted">30 hari terakhir</small>
+                </div>
+                <div class="card-body">
+                    <div class="table-responsive">
+                        <table class="table table-hover align-middle">
+                            <thead class="table-light">
+                                <tr>
+                                    <th>Produk</th>
+                                    <th class="text-center">Terjual</th>
+                                    <th class="text-end">Pendapatan</th>
+                                    <th class="text-center">Trend</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>
+                                        <div class="d-flex align-items-center">
+                                            <div class="bg-primary bg-opacity-10 text-primary rounded p-2 me-3">
+                                                <i class="fas fa-box-open"></i>
+                                            </div>
+                                            <div>
+                                                <div class="fw-semibold">Indomie Goreng</div>
+                                                <small class="text-muted">Makanan Instan</small>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td class="text-center">
+                                        <span class="badge bg-success">1,250</span>
+                                    </td>
+                                    <td class="text-end fw-semibold">Rp 4,062,500</td>
+                                    <td class="text-center">
+                                        <i class="fas fa-arrow-up text-success"></i>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <div class="d-flex align-items-center">
+                                            <div class="bg-success bg-opacity-10 text-success rounded p-2 me-3">
+                                                <i class="fas fa-seedling"></i>
+                                            </div>
+                                            <div>
+                                                <div class="fw-semibold">Beras Premium 5kg</div>
+                                                <small class="text-muted">Sembako</small>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td class="text-center">
+                                        <span class="badge bg-info">892</span>
+                                    </td>
+                                    <td class="text-end fw-semibold">Rp 66,900,000</td>
+                                    <td class="text-center">
+                                        <i class="fas fa-arrow-up text-success"></i>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <div class="d-flex align-items-center">
+                                            <div class="bg-warning bg-opacity-10 text-warning rounded p-2 me-3">
+                                                <i class="fas fa-tint"></i>
+                                            </div>
+                                            <div>
+                                                <div class="fw-semibold">Minyak Goreng 1L</div>
+                                                <small class="text-muted">Sembako</small>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td class="text-center">
+                                        <span class="badge bg-warning">756</span>
+                                    </td>
+                                    <td class="text-end fw-semibold">Rp 13,608,000</td>
+                                    <td class="text-center">
+                                        <i class="fas fa-minus text-muted"></i>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="text-center mt-3">
+                        <a href="#" class="btn btn-outline-primary btn-sm">
+                            <i class="fas fa-chart-bar me-1"></i>Lihat Laporan Lengkap
+                        </a>
                     </div>
                 </div>
             </div>

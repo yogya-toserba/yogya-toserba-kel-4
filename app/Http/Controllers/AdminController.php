@@ -4,7 +4,14 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
+use App\Models\Karyawan;namespace App\Http\Controllers;
+
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use App\Models\Admin;
+use App\Models\Karyawan;
 
 
 use Illuminate\Support\Facades\DB;
@@ -202,5 +209,113 @@ class AdminController extends BaseController
         $admin->save();
 
         return back()->with('status', 'Profile updated successfully');
+    }
+
+    public function dataKaryawan()
+    {
+        $karyawan = Karyawan::orderBy('nama', 'asc')->get();
+        
+        return view('admin.data-karyawan', compact('karyawan'));
+    }
+
+    public function tambahKaryawan()
+    {
+        return view('admin.tambah-karyawan');
+    }
+
+    public function storeKaryawan(Request $request)
+    {
+        // Debug: Log the incoming request data
+        \Log::info('Attempting to create karyawan with data:', $request->all());
+
+        $validated = $request->validate([
+            'nama' => ['required', 'string', 'max:255'],
+            'divisi' => ['required', 'string', 'max:255'],
+            'alamat' => ['required', 'string', 'max:500'],
+            'email' => ['required', 'email', 'unique:karyawan,email'],
+            'tanggal_lahir' => ['required', 'date', 'before:today'],
+            'nomer_telepon' => ['required', 'string', 'max:20'],
+            'id_shift' => ['required', 'integer', 'min:1'],
+        ], [
+            'nama.required' => 'Nama karyawan wajib diisi',
+            'divisi.required' => 'Divisi wajib diisi',
+            'alamat.required' => 'Alamat wajib diisi',
+            'email.required' => 'Email wajib diisi',
+            'email.email' => 'Format email tidak valid',
+            'email.unique' => 'Email sudah terdaftar',
+            'tanggal_lahir.required' => 'Tanggal lahir wajib diisi',
+            'tanggal_lahir.before' => 'Tanggal lahir harus sebelum hari ini',
+            'nomer_telepon.required' => 'Nomor telepon wajib diisi',
+            'id_shift.required' => 'Shift kerja wajib dipilih',
+        ]);
+
+        \Log::info('Validation passed, validated data:', $validated);
+
+        try {
+            // First, let's check if the karyawan table exists
+            $tableExists = DB::select("SHOW TABLES LIKE 'karyawan'");
+            if (empty($tableExists)) {
+                \Log::error('Table karyawan does not exist');
+                return back()->withInput()
+                    ->with('error', 'Tabel karyawan tidak ditemukan. Silakan jalankan migrasi database.');
+            }
+
+            // Check if shift table exists, if not, temporarily disable foreign key checks
+            $shiftTableExists = DB::select("SHOW TABLES LIKE 'shift'");
+            
+            if (empty($shiftTableExists)) {
+                \Log::info('Shift table does not exist, creating temporary entry or disabling FK checks');
+                // Temporarily disable foreign key checks
+                DB::statement('SET FOREIGN_KEY_CHECKS=0;');
+            }
+
+            // Create the karyawan record
+            $karyawan = new Karyawan();
+            $karyawan->nama = $validated['nama'];
+            $karyawan->divisi = $validated['divisi'];
+            $karyawan->alamat = $validated['alamat'];
+            $karyawan->email = $validated['email'];
+            $karyawan->tanggal_lahir = $validated['tanggal_lahir'];
+            $karyawan->nomer_telepon = $validated['nomer_telepon'];
+            $karyawan->id_shift = $validated['id_shift'];
+            
+            $result = $karyawan->save();
+            
+            \Log::info('Karyawan save result:', ['result' => $result, 'id' => $karyawan->id_karyawan]);
+
+            // Re-enable foreign key checks if we disabled them
+            if (empty($shiftTableExists)) {
+                DB::statement('SET FOREIGN_KEY_CHECKS=1;');
+            }
+            
+            if ($result) {
+                \Log::info('Karyawan created successfully with ID: ' . $karyawan->id_karyawan);
+                return redirect()->route('admin.data-karyawan')
+                    ->with('success', 'Karyawan berhasil ditambahkan! (ID: ' . $karyawan->id_karyawan . ')');
+            } else {
+                \Log::error('Karyawan save returned false');
+                return back()->withInput()
+                    ->with('error', 'Gagal menyimpan data karyawan. Save method returned false.');
+            }
+                
+        } catch (\Illuminate\Database\QueryException $e) {
+            \Log::error('Database error when creating karyawan: ' . $e->getMessage());
+            \Log::error('SQL State: ' . $e->getCode());
+            
+            // Re-enable foreign key checks if we disabled them
+            DB::statement('SET FOREIGN_KEY_CHECKS=1;');
+            
+            return back()->withInput()
+                ->with('error', 'Gagal menambahkan karyawan. Error database: ' . $e->getMessage());
+        } catch (\Exception $e) {
+            \Log::error('General error when creating karyawan: ' . $e->getMessage());
+            \Log::error('Exception trace: ' . $e->getTraceAsString());
+            
+            // Re-enable foreign key checks if we disabled them  
+            DB::statement('SET FOREIGN_KEY_CHECKS=1;');
+            
+            return back()->withInput()
+                ->with('error', 'Gagal menambahkan karyawan. Error: ' . $e->getMessage());
+        }
     }
 }
