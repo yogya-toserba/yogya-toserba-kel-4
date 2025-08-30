@@ -13,7 +13,7 @@
         </nav>
         
         <h1 class="display-5 fw-bold mb-3">⚽ Olahraga</h1>
-        <p class="lead mb-0">Perlengkapan olahraga untuk hidup sehat dan aktif</p>
+        <p class="lead mb-0">Perlengkapan olahraga terlengkap untuk menunjang aktivitas dan gaya hidup sehat</p>
     </div>
 </div>
 
@@ -23,38 +23,50 @@
         <div class="row align-items-center">
             <div class="col-md-8">
                 <div class="row g-3">
-                    <div class="col-md-3">
-                        <select class="form-select">
-                            <option>Semua Kategori</option>
-                            <option>Sepatu Olahraga</option>
-                            <option>Pakaian Olahraga</option>
-                            <option>Peralatan Fitness</option>
-                            <option>Olahraga Air</option>
-                            <option>Bola & Raket</option>
-                        </select>
+                    <div class="col-md-4">
+                        <div class="dropdown">
+                            <button class="btn btn-outline-secondary dropdown-toggle d-flex align-items-center justify-content-between w-100 filter-dropdown" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                <span><i class="fas fa-th-large me-2"></i>Semua Kategori</span>
+                            </button>
+                            <ul class="dropdown-menu dropdown-menu-wide w-100">
+                                <li><a class="dropdown-item" href="#"><i class="fas fa-running me-2 text-primary"></i>Sepatu Olahraga</a></li>
+                                <li><a class="dropdown-item" href="#"><i class="fas fa-tshirt me-2 text-info"></i>Pakaian Olahraga</a></li>
+                                <li><a class="dropdown-item" href="#"><i class="fas fa-dumbbell me-2 text-success"></i>Alat Fitness</a></li>
+                                <li><a class="dropdown-item" href="#"><i class="fas fa-futbol me-2 text-warning"></i>Perlengkapan Sepak Bola</a></li>
+                                <li><a class="dropdown-item" href="#"><i class="fas fa-basketball-ball me-2 text-danger"></i>Perlengkapan Basket</a></li>
+                            </ul>
+                        </div>
                     </div>
-                    <div class="col-md-3">
-                        <select class="form-select">
-                            <option>Rentang Harga</option>
-                            <option>< Rp 100.000</option>
-                            <option>Rp 100.000-500.000</option>
-                            <option>Rp 500.000-1.000.000</option>
-                            <option>> Rp 1.000.000</option>
-                        </select>
+                    <div class="col-md-4">
+                        <div class="dropdown">
+                            <button class="btn btn-outline-secondary dropdown-toggle d-flex align-items-center justify-content-between w-100 filter-dropdown" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                <span><i class="fas fa-tags me-2"></i>Rentang Harga</span>
+                            </button>
+                            <ul class="dropdown-menu dropdown-menu-wide w-100">
+                                <li><a class="dropdown-item" href="#"><i class="fas fa-dollar-sign me-2 text-success"></i>< Rp 100rb</a></li>
+                                <li><a class="dropdown-item" href="#"><i class="fas fa-dollar-sign me-2 text-info"></i>Rp 100rb-500rb</a></li>
+                                <li><a class="dropdown-item" href="#"><i class="fas fa-dollar-sign me-2 text-warning"></i>Rp 500rb-1jt</a></li>
+                                <li><a class="dropdown-item" href="#"><i class="fas fa-dollar-sign me-2 text-danger"></i>> Rp 1 Juta</a></li>
+                            </ul>
+                        </div>
                     </div>
-                    <div class="col-md-3">
-                        <select class="form-select">
-                            <option>Urutkan</option>
-                            <option>Harga Terendah</option>
-                            <option>Harga Tertinggi</option>
-                            <option>Terpopuler</option>
-                            <option>Terbaru</option>
-                        </select>
+                    <div class="col-md-4">
+                        <div class="dropdown">
+                            <button class="btn btn-outline-secondary dropdown-toggle d-flex align-items-center justify-content-between w-100 filter-dropdown" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                <span><i class="fas fa-sort me-2"></i>Urutkan</span>
+                            </button>
+                            <ul class="dropdown-menu dropdown-menu-wide w-100">
+                                <li><a class="dropdown-item" href="#"><i class="fas fa-arrow-down me-2 text-success"></i>Harga Terendah</a></li>
+                                <li><a class="dropdown-item" href="#"><i class="fas fa-arrow-up me-2 text-danger"></i>Harga Tertinggi</a></li>
+                                <li><a class="dropdown-item" href="#"><i class="fas fa-fire me-2 text-warning"></i>Terpopuler</a></li>
+                                <li><a class="dropdown-item" href="#"><i class="fas fa-clock me-2 text-info"></i>Terbaru</a></li>
+                            </ul>
+                        </div>
                     </div>
                 </div>
             </div>
             <div class="col-md-4 text-end">
-                <small class="text-muted">Menampilkan 1-12 dari 156 produk</small>
+                <small class="text-muted">Menampilkan 1-12 dari 328 produk</small>
             </div>
         </div>
     </div>
@@ -63,40 +75,112 @@
     <div class="product-grid">
         @foreach([
             [
-                'name' => 'Sepatu Running Adidas Ultraboost 22',
-                'price' => 'Rp 2.499.000',
-                'original_price' => 'Rp 2.799.000',
-                'discount' => '11%',
+                'name' => 'Adidas Ultraboost 22 Running Shoes',
+                'price' => 'Rp 2.899.000',
+                'original_price' => 'Rp 3.299.000',
+                'discount' => '12%',
                 'image' => 'https://via.placeholder.com/300x300/f0f0f0/888?text=Adidas+Ultraboost',
                 'rating' => 4.8,
-                'reviews' => 324
+                'reviews' => 1234
             ],
             [
-                'name' => 'Dumbbell Set Kettler 10kg',
-                'price' => 'Rp 345.000',
+                'name' => 'Nike Dri-FIT Training T-Shirt',
+                'price' => 'Rp 459.000',
                 'original_price' => '',
                 'discount' => '',
-                'image' => 'https://via.placeholder.com/300x300/f0f0f0/888?text=Dumbbell+Kettler',
+                'image' => 'https://via.placeholder.com/300x300/f0f0f0/888?text=Nike+Training+Shirt',
                 'rating' => 4.6,
+                'reviews' => 567
+            ],
+            [
+                'name' => 'Dumbell Set 20kg Adjustable',
+                'price' => 'Rp 1.299.000',
+                'original_price' => 'Rp 1.599.000',
+                'discount' => '19%',
+                'image' => 'https://via.placeholder.com/300x300/f0f0f0/888?text=Dumbell+Set',
+                'rating' => 4.7,
+                'reviews' => 389
+            ],
+            [
+                'name' => 'Mikasa Soccer Ball FIFA Quality',
+                'price' => 'Rp 589.000',
+                'original_price' => '',
+                'discount' => '',
+                'image' => 'https://via.placeholder.com/300x300/f0f0f0/888?text=Soccer+Ball',
+                'rating' => 4.5,
+                'reviews' => 445
+            ],
+            [
+                'name' => 'Under Armour Basketball Shoes',
+                'price' => 'Rp 1.899.000',
+                'original_price' => 'Rp 2.299.000',
+                'discount' => '17%',
+                'image' => 'https://via.placeholder.com/300x300/f0f0f0/888?text=Basketball+Shoes',
+                'rating' => 4.4,
+                'reviews' => 298
+            ],
+            [
+                'name' => 'Puma Training Shorts Premium',
+                'price' => 'Rp 329.000',
+                'original_price' => '',
+                'discount' => '',
+                'image' => 'https://via.placeholder.com/300x300/f0f0f0/888?text=Training+Shorts',
+                'rating' => 4.6,
+                'reviews' => 623
+            ],
+            [
+                'name' => 'Yoga Mat Premium 6mm Anti-Slip',
+                'price' => 'Rp 189.000',
+                'original_price' => 'Rp 239.000',
+                'discount' => '21%',
+                'image' => 'https://via.placeholder.com/300x300/f0f0f0/888?text=Yoga+Mat',
+                'rating' => 4.7,
+                'reviews' => 756
+            ],
+            [
+                'name' => 'Speedo Swimming Goggles Pro',
+                'price' => 'Rp 289.000',
+                'original_price' => '',
+                'discount' => '',
+                'image' => 'https://via.placeholder.com/300x300/f0f0f0/888?text=Swimming+Goggles',
+                'rating' => 4.5,
+                'reviews' => 234
+            ],
+            [
+                'name' => 'Wilson Tennis Racket Pro Staff',
+                'price' => 'Rp 2.599.000',
+                'original_price' => 'Rp 2.999.000',
+                'discount' => '13%',
+                'image' => 'https://via.placeholder.com/300x300/f0f0f0/888?text=Tennis+Racket',
+                'rating' => 4.8,
                 'reviews' => 189
             ],
             [
-                'name' => 'Jersey Futsal Nike Dry-FIT',
-                'price' => 'Rp 189.000',
-                'original_price' => 'Rp 225.000',
-                'discount' => '16%',
-                'image' => 'https://via.placeholder.com/300x300/f0f0f0/888?text=Jersey+Nike',
-                'rating' => 4.5,
-                'reviews' => 267
-            ],
-            [
-                'name' => 'Matras Yoga Premium 6mm',
-                'price' => 'Rp 125.000',
+                'name' => 'Resistance Band Set 5 Levels',
+                'price' => 'Rp 149.000',
                 'original_price' => '',
                 'discount' => '',
-                'image' => 'https://via.placeholder.com/300x300/f0f0f0/888?text=Matras+Yoga',
+                'image' => 'https://via.placeholder.com/300x300/f0f0f0/888?text=Resistance+Band',
                 'rating' => 4.4,
-                'reviews' => 456
+                'reviews' => 567
+            ],
+            [
+                'name' => 'New Balance Running Shorts',
+                'price' => 'Rp 399.000',
+                'original_price' => 'Rp 499.000',
+                'discount' => '20%',
+                'image' => 'https://via.placeholder.com/300x300/f0f0f0/888?text=Running+Shorts',
+                'rating' => 4.6,
+                'reviews' => 445
+            ],
+            [
+                'name' => 'Kettlebell 12kg Cast Iron',
+                'price' => 'Rp 459.000',
+                'original_price' => 'Rp 589.000',
+                'discount' => '22%',
+                'image' => 'https://via.placeholder.com/300x300/f0f0f0/888?text=Kettlebell',
+                'rating' => 4.7,
+                'reviews' => 323
             ]
         ] as $product)
         <div class="product-card">
@@ -111,27 +195,31 @@
             </div>
             
             <div class="product-info">
-                <h6 class="product-title">{{ $product['name'] }}</h6>
-                
-                <div class="product-rating">
-                    <div class="stars">
-                        @for($i = 1; $i <= 5; $i++)
-                        <i class="fas fa-star{{ $i <= floor($product['rating']) ? '' : ' text-muted' }}"></i>
-                        @endfor
+                <div class="product-content">
+                    <h6 class="product-title">{{ $product['name'] }}</h6>
+                    
+                    <div class="product-rating">
+                        <div class="stars">
+                            @for($i = 1; $i <= 5; $i++)
+                            <i class="fas fa-star{{ $i <= floor($product['rating']) ? '' : ' text-muted' }}"></i>
+                            @endfor
+                        </div>
+                        <span class="review-count">({{ $product['reviews'] }})</span>
                     </div>
-                    <span class="review-count">({{ $product['reviews'] }})</span>
                 </div>
                 
-                <div class="product-price">
-                    <span class="current-price">{{ $product['price'] }}</span>
-                    @if($product['original_price'])
-                    <span class="original-price">{{ $product['original_price'] }}</span>
-                    @endif
+                <div class="product-meta">
+                    <div class="product-price">
+                        <span class="current-price">{{ $product['price'] }}</span>
+                        @if($product['original_price'])
+                        <span class="original-price">{{ $product['original_price'] }}</span>
+                        @endif
+                    </div>
+                    
+                    <button class="add-to-cart-btn">
+                        <i class="fas fa-shopping-cart me-2"></i>Tambah ke Keranjang
+                    </button>
                 </div>
-                
-                <button class="add-to-cart-btn">
-                    <i class="fas fa-shopping-cart me-2"></i>Tambah ke Keranjang
-                </button>
             </div>
         </div>
         @endforeach
@@ -147,18 +235,105 @@
                 <span class="page-link">1</span>
             </li>
             <li class="page-item">
-                <a class="page-link" href="#">2</a>
+                <a class="page-link" href="#" title="Go to page 2">2</a>
             </li>
             <li class="page-item">
-                <a class="page-link" href="#">3</a>
+                <a class="page-link" href="#" title="Go to page 3">3</a>
             </li>
             <li class="page-item">
-                <a class="page-link" href="#">4</a>
+                <a class="page-link" href="#" title="Go to page 4">4</a>
             </li>
             <li class="page-item">
-                <a class="page-link" href="#">Next</a>
+                <span class="page-link text-muted">...</span>
+            </li>
+            <li class="page-item">
+                <a class="page-link" href="#" title="Go to page 28">28</a>
+            </li>
+            <li class="page-item">
+                <a class="page-link" href="#" title="Next page">Next</a>
             </li>
         </ul>
     </nav>
 </div>
+
+@push('styles')
+<style>
+    /* Filter Dropdown Styles */
+    .filter-dropdown {
+        border: 2px solid #dee2e6;
+        border-radius: 25px;
+        padding: 8px 16px;
+        font-weight: 500;
+        transition: all 0.3s ease;
+        background: white;
+        text-align: left;
+        color: #495057;
+        position: relative;
+        z-index: 1;
+    }
+
+    .filter-dropdown * {
+        position: relative;
+        z-index: 2;
+    }
+
+    .filter-dropdown:hover {
+        border-color: #f26b37;
+        background: linear-gradient(135deg, #f26b37 0%, #e55827 100%);
+        color: white !important;
+    }
+
+    .filter-dropdown:hover,
+    .filter-dropdown:hover * {
+        color: white !important;
+    }
+
+    .filter-dropdown:hover i {
+        color: white !important;
+    }
+
+    .filter-section .dropdown-menu-wide {
+        min-width: 100%;
+        border-radius: 12px;
+        border: none;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+        padding: 10px 0;
+        margin-top: 5px;
+    }
+
+    .filter-section .dropdown-menu-wide .dropdown-item {
+        padding: 10px 16px;
+        font-weight: 500;
+        transition: all 0.3s ease;
+        border-radius: 0;
+    }
+
+    .filter-section .dropdown-menu-wide .dropdown-item:hover {
+        background: linear-gradient(135deg, #f26b37 0%, #e55827 100%);
+        color: white;
+    }
+
+    .filter-section .dropdown-menu-wide .dropdown-item i {
+        width: 18px;
+        transition: all 0.3s ease;
+    }
+
+    .filter-section .dropdown-menu-wide .dropdown-item:hover i {
+        color: white !important;
+    }
+
+    /* Responsive filter */
+    @media (max-width: 768px) {
+        .filter-section .row .col-md-4 {
+            margin-bottom: 10px;
+        }
+        
+        .filter-dropdown {
+            font-size: 0.9rem;
+            padding: 6px 12px;
+        }
+    }
+</style>
+@endpush
+
 @endsection
