@@ -13,7 +13,7 @@
         </nav>
         
         <h1 class="display-5 fw-bold mb-3">💄 Kesehatan & Kecantikan</h1>
-        <p class="lead mb-0">Produk perawatan kesehatan dan kecantikan untuk tampil percaya diri</p>
+        <p class="lead mb-0">Produk kesehatan dan kecantikan terpercaya untuk menjaga penampilan dan kesehatan Anda</p>
     </div>
 </div>
 
@@ -23,39 +23,50 @@
         <div class="row align-items-center">
             <div class="col-md-8">
                 <div class="row g-3">
-                    <div class="col-md-3">
-                        <select class="form-select">
-                            <option>Semua Kategori</option>
-                            <option>Perawatan Wajah</option>
-                            <option>Perawatan Tubuh</option>
-                            <option>Makeup</option>
-                            <option>Perawatan Rambut</option>
-                            <option>Suplemen</option>
-                        </select>
+                    <div class="col-md-4">
+                        <div class="dropdown">
+                            <button class="btn btn-outline-secondary dropdown-toggle d-flex align-items-center justify-content-between w-100 filter-dropdown" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                <span><i class="fas fa-th-large me-2"></i>Semua Kategori</span>
+                            </button>
+                            <ul class="dropdown-menu dropdown-menu-wide w-100">
+                                <li><a class="dropdown-item" href="#"><i class="fas fa-prescription-bottle-alt me-2 text-primary"></i>Obat & Vitamin</a></li>
+                                <li><a class="dropdown-item" href="#"><i class="fas fa-soap me-2 text-info"></i>Perawatan Kulit</a></li>
+                                <li><a class="dropdown-item" href="#"><i class="fas fa-palette me-2 text-success"></i>Make Up</a></li>
+                                <li><a class="dropdown-item" href="#"><i class="fas fa-cut me-2 text-warning"></i>Perawatan Rambut</a></li>
+                                <li><a class="dropdown-item" href="#"><i class="fas fa-spray-can me-2 text-danger"></i>Parfum & Fragrance</a></li>
+                            </ul>
+                        </div>
                     </div>
-                    <div class="col-md-3">
-                        <select class="form-select">
-                            <option>Merek</option>
-                            <option>Wardah</option>
-                            <option>Pigeon</option>
-                            <option>Vaseline</option>
-                            <option>L'Oreal</option>
-                            <option>Garnier</option>
-                        </select>
+                    <div class="col-md-4">
+                        <div class="dropdown">
+                            <button class="btn btn-outline-secondary dropdown-toggle d-flex align-items-center justify-content-between w-100 filter-dropdown" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                <span><i class="fas fa-tags me-2"></i>Rentang Harga</span>
+                            </button>
+                            <ul class="dropdown-menu dropdown-menu-wide w-100">
+                                <li><a class="dropdown-item" href="#"><i class="fas fa-dollar-sign me-2 text-success"></i>< Rp 75rb</a></li>
+                                <li><a class="dropdown-item" href="#"><i class="fas fa-dollar-sign me-2 text-info"></i>Rp 75rb-200rb</a></li>
+                                <li><a class="dropdown-item" href="#"><i class="fas fa-dollar-sign me-2 text-warning"></i>Rp 200rb-500rb</a></li>
+                                <li><a class="dropdown-item" href="#"><i class="fas fa-dollar-sign me-2 text-danger"></i>> Rp 500rb</a></li>
+                            </ul>
+                        </div>
                     </div>
-                    <div class="col-md-3">
-                        <select class="form-select">
-                            <option>Urutkan</option>
-                            <option>Harga Terendah</option>
-                            <option>Harga Tertinggi</option>
-                            <option>Terpopuler</option>
-                            <option>Terbaru</option>
-                        </select>
+                    <div class="col-md-4">
+                        <div class="dropdown">
+                            <button class="btn btn-outline-secondary dropdown-toggle d-flex align-items-center justify-content-between w-100 filter-dropdown" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                <span><i class="fas fa-sort me-2"></i>Urutkan</span>
+                            </button>
+                            <ul class="dropdown-menu dropdown-menu-wide w-100">
+                                <li><a class="dropdown-item" href="#"><i class="fas fa-arrow-down me-2 text-success"></i>Harga Terendah</a></li>
+                                <li><a class="dropdown-item" href="#"><i class="fas fa-arrow-up me-2 text-danger"></i>Harga Tertinggi</a></li>
+                                <li><a class="dropdown-item" href="#"><i class="fas fa-fire me-2 text-warning"></i>Terpopuler</a></li>
+                                <li><a class="dropdown-item" href="#"><i class="fas fa-clock me-2 text-info"></i>Terbaru</a></li>
+                            </ul>
+                        </div>
                     </div>
                 </div>
             </div>
             <div class="col-md-4 text-end">
-                <small class="text-muted">Menampilkan 1-12 dari 189 produk</small>
+                <small class="text-muted">Menampilkan 1-12 dari 567 produk</small>
             </div>
         </div>
     </div>
@@ -64,112 +75,112 @@
     <div class="product-grid">
         @foreach([
             [
-                'name' => 'Wardah Lightening Face Wash 60ml',
-                'price' => 'Rp 15.500',
-                'original_price' => 'Rp 18.900',
-                'discount' => '18%',
-                'image' => 'https://via.placeholder.com/300x300/f0f0f0/888?text=Wardah+Face+Wash',
+                'name' => 'Wardah Perfect Bright Micellar Water 200ml',
+                'price' => 'Rp 35.000',
+                'original_price' => 'Rp 42.000',
+                'discount' => '17%',
+                'image' => 'https://via.placeholder.com/300x300/f0f0f0/888?text=Wardah+Micellar',
                 'rating' => 4.7,
+                'reviews' => 1245
+            ],
+            [
+                'name' => 'Blackmores Vitamin C 500mg 60 Tablets',
+                'price' => 'Rp 189.000',
+                'original_price' => '',
+                'discount' => '',
+                'image' => 'https://via.placeholder.com/300x300/f0f0f0/888?text=Blackmores+Vitamin',
+                'rating' => 4.8,
+                'reviews' => 892
+            ],
+            [
+                'name' => 'Maybelline Fit Me Foundation 30ml',
+                'price' => 'Rp 129.000',
+                'original_price' => 'Rp 159.000',
+                'discount' => '19%',
+                'image' => 'https://via.placeholder.com/300x300/f0f0f0/888?text=Maybelline+Foundation',
+                'rating' => 4.6,
                 'reviews' => 567
             ],
             [
-                'name' => 'Pigeon Baby Lotion 200ml',
-                'price' => 'Rp 24.900',
+                'name' => 'Pantene Shampoo Total Damage Care 340ml',
+                'price' => 'Rp 29.000',
                 'original_price' => '',
                 'discount' => '',
-                'image' => 'https://via.placeholder.com/300x300/f0f0f0/888?text=Pigeon+Lotion',
-                'rating' => 4.8,
-                'reviews' => 432
-            ],
-            [
-                'name' => 'Vaseline Petroleum Jelly 100ml',
-                'price' => 'Rp 12.000',
-                'original_price' => 'Rp 15.000',
-                'discount' => '20%',
-                'image' => 'https://via.placeholder.com/300x300/f0f0f0/888?text=Vaseline+Jelly',
-                'rating' => 4.6,
-                'reviews' => 789
-            ],
-            [
-                'name' => 'L\'Oreal Paris Revitalift Day Cream',
-                'price' => 'Rp 89.000',
-                'original_price' => 'Rp 109.000',
-                'discount' => '18%',
-                'image' => 'https://via.placeholder.com/300x300/f0f0f0/888?text=LOreal+Cream',
+                'image' => 'https://via.placeholder.com/300x300/f0f0f0/888?text=Pantene+Shampoo',
                 'rating' => 4.5,
-                'reviews' => 234
+                'reviews' => 734
             ],
             [
-                'name' => 'Garnier Micellar Water 125ml',
-                'price' => 'Rp 28.900',
+                'name' => 'The Body Shop Tea Tree Face Wash 250ml',
+                'price' => 'Rp 159.000',
+                'original_price' => 'Rp 199.000',
+                'discount' => '20%',
+                'image' => 'https://via.placeholder.com/300x300/f0f0f0/888?text=Body+Shop+Face+Wash',
+                'rating' => 4.7,
+                'reviews' => 445
+            ],
+            [
+                'name' => 'Calvin Klein Euphoria EDP 100ml',
+                'price' => 'Rp 899.000',
                 'original_price' => '',
                 'discount' => '',
-                'image' => 'https://via.placeholder.com/300x300/f0f0f0/888?text=Garnier+Micellar',
-                'rating' => 4.7,
-                'reviews' => 345
-            ],
-            [
-                'name' => 'Wardah BB Cream Natural 15ml',
-                'price' => 'Rp 19.500',
-                'original_price' => 'Rp 24.000',
-                'discount' => '19%',
-                'image' => 'https://via.placeholder.com/300x300/f0f0f0/888?text=Wardah+BB+Cream',
-                'rating' => 4.6,
+                'image' => 'https://via.placeholder.com/300x300/f0f0f0/888?text=Calvin+Klein+Perfume',
+                'rating' => 4.8,
                 'reviews' => 298
             ],
             [
-                'name' => 'TRESemmé Shampoo Keratin 170ml',
-                'price' => 'Rp 16.900',
-                'original_price' => '',
-                'discount' => '',
-                'image' => 'https://via.placeholder.com/300x300/f0f0f0/888?text=Tresemme+Shampoo',
-                'rating' => 4.4,
-                'reviews' => 156
-            ],
-            [
-                'name' => 'Himalaya Face Wash Neem 150ml',
-                'price' => 'Rp 22.500',
-                'original_price' => 'Rp 27.000',
+                'name' => 'Cetaphil Gentle Skin Cleanser 500ml',
+                'price' => 'Rp 189.000',
+                'original_price' => 'Rp 229.000',
                 'discount' => '17%',
-                'image' => 'https://via.placeholder.com/300x300/f0f0f0/888?text=Himalaya+Neem',
-                'rating' => 4.5,
-                'reviews' => 189
-            ],
-            [
-                'name' => 'Nivea Soft Moisturizing Cream 50ml',
-                'price' => 'Rp 18.000',
-                'original_price' => '',
-                'discount' => '',
-                'image' => 'https://via.placeholder.com/300x300/f0f0f0/888?text=Nivea+Soft',
+                'image' => 'https://via.placeholder.com/300x300/f0f0f0/888?text=Cetaphil+Cleanser',
                 'rating' => 4.6,
-                'reviews' => 267
+                'reviews' => 623
             ],
             [
-                'name' => 'Pantene Shampoo Total Damage Care',
-                'price' => 'Rp 21.900',
-                'original_price' => 'Rp 25.500',
-                'discount' => '14%',
-                'image' => 'https://via.placeholder.com/300x300/f0f0f0/888?text=Pantene+Shampoo',
-                'rating' => 4.7,
-                'reviews' => 398
-            ],
-            [
-                'name' => 'Citra Hand & Body Lotion 230ml',
-                'price' => 'Rp 14.500',
-                'original_price' => 'Rp 17.900',
-                'discount' => '19%',
-                'image' => 'https://via.placeholder.com/300x300/f0f0f0/888?text=Citra+Lotion',
-                'rating' => 4.5,
-                'reviews' => 123
-            ],
-            [
-                'name' => 'Rexona Deodorant Roll On 50ml',
-                'price' => 'Rp 13.900',
+                'name' => 'Panadol Extra Paracetamol 10 Tablets',
+                'price' => 'Rp 15.000',
                 'original_price' => '',
                 'discount' => '',
-                'image' => 'https://via.placeholder.com/300x300/f0f0f0/888?text=Rexona+Deodorant',
+                'image' => 'https://via.placeholder.com/300x300/f0f0f0/888?text=Panadol+Extra',
                 'rating' => 4.4,
-                'reviews' => 201
+                'reviews' => 1534
+            ],
+            [
+                'name' => 'LOreal Paris Revitalift Eye Cream 15ml',
+                'price' => 'Rp 199.000',
+                'original_price' => 'Rp 249.000',
+                'discount' => '20%',
+                'image' => 'https://via.placeholder.com/300x300/f0f0f0/888?text=LOreal+Eye+Cream',
+                'rating' => 4.5,
+                'reviews' => 389
+            ],
+            [
+                'name' => 'Pigeon Baby Lotion 200ml Hypoallergenic',
+                'price' => 'Rp 25.000',
+                'original_price' => '',
+                'discount' => '',
+                'image' => 'https://via.placeholder.com/300x300/f0f0f0/888?text=Pigeon+Baby+Lotion',
+                'rating' => 4.7,
+                'reviews' => 856
+            ],
+            [
+                'name' => 'Vaseline Petroleum Jelly Pure 50ml',
+                'price' => 'Rp 18.000',
+                'original_price' => 'Rp 22.000',
+                'discount' => '18%',
+                'image' => 'https://via.placeholder.com/300x300/f0f0f0/888?text=Vaseline+Jelly',
+                'rating' => 4.6,
+                'reviews' => 967
+            ],
+            [
+                'name' => 'Garnier Micellar Cleansing Water 400ml',
+                'price' => 'Rp 65.000',
+                'original_price' => 'Rp 79.000',
+                'discount' => '18%',
+                'image' => 'https://via.placeholder.com/300x300/f0f0f0/888?text=Garnier+Micellar',
+                'rating' => 4.5,
+                'reviews' => 678
             ]
         ] as $product)
         <div class="product-card">
@@ -184,27 +195,31 @@
             </div>
             
             <div class="product-info">
-                <h6 class="product-title">{{ $product['name'] }}</h6>
-                
-                <div class="product-rating">
-                    <div class="stars">
-                        @for($i = 1; $i <= 5; $i++)
-                        <i class="fas fa-star{{ $i <= floor($product['rating']) ? '' : ' text-muted' }}"></i>
-                        @endfor
+                <div class="product-content">
+                    <h6 class="product-title">{{ $product['name'] }}</h6>
+                    
+                    <div class="product-rating">
+                        <div class="stars">
+                            @for($i = 1; $i <= 5; $i++)
+                            <i class="fas fa-star{{ $i <= floor($product['rating']) ? '' : ' text-muted' }}"></i>
+                            @endfor
+                        </div>
+                        <span class="review-count">({{ $product['reviews'] }})</span>
                     </div>
-                    <span class="review-count">({{ $product['reviews'] }})</span>
                 </div>
                 
-                <div class="product-price">
-                    <span class="current-price">{{ $product['price'] }}</span>
-                    @if($product['original_price'])
-                    <span class="original-price">{{ $product['original_price'] }}</span>
-                    @endif
+                <div class="product-meta">
+                    <div class="product-price">
+                        <span class="current-price">{{ $product['price'] }}</span>
+                        @if($product['original_price'])
+                        <span class="original-price">{{ $product['original_price'] }}</span>
+                        @endif
+                    </div>
+                    
+                    <button class="add-to-cart-btn">
+                        <i class="fas fa-shopping-cart me-2"></i>Tambah ke Keranjang
+                    </button>
                 </div>
-                
-                <button class="add-to-cart-btn">
-                    <i class="fas fa-shopping-cart me-2"></i>Tambah ke Keranjang
-                </button>
             </div>
         </div>
         @endforeach
@@ -220,18 +235,105 @@
                 <span class="page-link">1</span>
             </li>
             <li class="page-item">
-                <a class="page-link" href="#">2</a>
+                <a class="page-link" href="#" title="Go to page 2">2</a>
             </li>
             <li class="page-item">
-                <a class="page-link" href="#">3</a>
+                <a class="page-link" href="#" title="Go to page 3">3</a>
             </li>
             <li class="page-item">
-                <a class="page-link" href="#">4</a>
+                <a class="page-link" href="#" title="Go to page 4">4</a>
             </li>
             <li class="page-item">
-                <a class="page-link" href="#">Next</a>
+                <span class="page-link text-muted">...</span>
+            </li>
+            <li class="page-item">
+                <a class="page-link" href="#" title="Go to page 48">48</a>
+            </li>
+            <li class="page-item">
+                <a class="page-link" href="#" title="Next page">Next</a>
             </li>
         </ul>
     </nav>
 </div>
+
+@push('styles')
+<style>
+    /* Filter Dropdown Styles */
+    .filter-dropdown {
+        border: 2px solid #dee2e6;
+        border-radius: 25px;
+        padding: 8px 16px;
+        font-weight: 500;
+        transition: all 0.3s ease;
+        background: white;
+        text-align: left;
+        color: #495057;
+        position: relative;
+        z-index: 1;
+    }
+
+    .filter-dropdown * {
+        position: relative;
+        z-index: 2;
+    }
+
+    .filter-dropdown:hover {
+        border-color: #f26b37;
+        background: linear-gradient(135deg, #f26b37 0%, #e55827 100%);
+        color: white !important;
+    }
+
+    .filter-dropdown:hover,
+    .filter-dropdown:hover * {
+        color: white !important;
+    }
+
+    .filter-dropdown:hover i {
+        color: white !important;
+    }
+
+    .filter-section .dropdown-menu-wide {
+        min-width: 100%;
+        border-radius: 12px;
+        border: none;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+        padding: 10px 0;
+        margin-top: 5px;
+    }
+
+    .filter-section .dropdown-menu-wide .dropdown-item {
+        padding: 10px 16px;
+        font-weight: 500;
+        transition: all 0.3s ease;
+        border-radius: 0;
+    }
+
+    .filter-section .dropdown-menu-wide .dropdown-item:hover {
+        background: linear-gradient(135deg, #f26b37 0%, #e55827 100%);
+        color: white;
+    }
+
+    .filter-section .dropdown-menu-wide .dropdown-item i {
+        width: 18px;
+        transition: all 0.3s ease;
+    }
+
+    .filter-section .dropdown-menu-wide .dropdown-item:hover i {
+        color: white !important;
+    }
+
+    /* Responsive filter */
+    @media (max-width: 768px) {
+        .filter-section .row .col-md-4 {
+            margin-bottom: 10px;
+        }
+        
+        .filter-dropdown {
+            font-size: 0.9rem;
+            padding: 6px 12px;
+        }
+    }
+</style>
+@endpush
+
 @endsection

@@ -1,4 +1,4 @@
-@extends('layouts.app')
+﻿@extends('layouts.app')
 
 @section('title', 'Fashion - MyYOGYA')
 
@@ -23,35 +23,45 @@
         <div class="row align-items-center">
             <div class="col-md-8">
                 <div class="row g-3">
-                    <div class="col-md-3">
-                        <select class="form-select">
-                            <option>Semua Kategori</option>
-                            <option>Pakaian Pria</option>
-                            <option>Pakaian Wanita</option>
-                            <option>Sepatu</option>
-                            <option>Tas & Dompet</option>
-                            <option>Aksesoris</option>
-                        </select>
+                    <div class="col-md-4">
+                        <div class="dropdown">
+                            <button class="btn btn-outline-secondary dropdown-toggle d-flex align-items-center justify-content-between w-100 filter-dropdown" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                <span><i class="fas fa-th-large me-2"></i>Semua Kategori</span>
+                            </button>
+                            <ul class="dropdown-menu dropdown-menu-wide w-100">
+                                <li><a class="dropdown-item" href="#"><i class="fas fa-tshirt me-2 text-primary"></i>Pakaian Pria</a></li>
+                                <li><a class="dropdown-item" href="#"><i class="fas fa-female me-2 text-info"></i>Pakaian Wanita</a></li>
+                                <li><a class="dropdown-item" href="#"><i class="fas fa-shoe-prints me-2 text-success"></i>Sepatu</a></li>
+                                <li><a class="dropdown-item" href="#"><i class="fas fa-shopping-bag me-2 text-warning"></i>Tas & Dompet</a></li>
+                                <li><a class="dropdown-item" href="#"><i class="fas fa-gem me-2 text-danger"></i>Aksesoris</a></li>
+                            </ul>
+                        </div>
                     </div>
-                    <div class="col-md-3">
-                        <select class="form-select">
-                            <option>Ukuran</option>
-                            <option>XS</option>
-                            <option>S</option>
-                            <option>M</option>
-                            <option>L</option>
-                            <option>XL</option>
-                            <option>XXL</option>
-                        </select>
+                    <div class="col-md-4">
+                        <div class="dropdown">
+                            <button class="btn btn-outline-secondary dropdown-toggle d-flex align-items-center justify-content-between w-100 filter-dropdown" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                <span><i class="fas fa-tags me-2"></i>Rentang Harga</span>
+                            </button>
+                            <ul class="dropdown-menu dropdown-menu-wide w-100">
+                                <li><a class="dropdown-item" href="#"><i class="fas fa-dollar-sign me-2 text-success"></i>< Rp 100rb</a></li>
+                                <li><a class="dropdown-item" href="#"><i class="fas fa-dollar-sign me-2 text-info"></i>Rp 100rb-500rb</a></li>
+                                <li><a class="dropdown-item" href="#"><i class="fas fa-dollar-sign me-2 text-warning"></i>Rp 500rb-1jt</a></li>
+                                <li><a class="dropdown-item" href="#"><i class="fas fa-dollar-sign me-2 text-danger"></i>> Rp 1 Juta</a></li>
+                            </ul>
+                        </div>
                     </div>
-                    <div class="col-md-3">
-                        <select class="form-select">
-                            <option>Urutkan</option>
-                            <option>Harga Terendah</option>
-                            <option>Harga Tertinggi</option>
-                            <option>Terpopuler</option>
-                            <option>Terbaru</option>
-                        </select>
+                    <div class="col-md-4">
+                        <div class="dropdown">
+                            <button class="btn btn-outline-secondary dropdown-toggle d-flex align-items-center justify-content-between w-100 filter-dropdown" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                <span><i class="fas fa-sort me-2"></i>Urutkan</span>
+                            </button>
+                            <ul class="dropdown-menu dropdown-menu-wide w-100">
+                                <li><a class="dropdown-item" href="#"><i class="fas fa-arrow-down me-2 text-success"></i>Harga Terendah</a></li>
+                                <li><a class="dropdown-item" href="#"><i class="fas fa-arrow-up me-2 text-danger"></i>Harga Tertinggi</a></li>
+                                <li><a class="dropdown-item" href="#"><i class="fas fa-fire me-2 text-warning"></i>Terpopuler</a></li>
+                                <li><a class="dropdown-item" href="#"><i class="fas fa-clock me-2 text-info"></i>Terbaru</a></li>
+                            </ul>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -69,7 +79,7 @@
                 'price' => 'Rp 299.000',
                 'original_price' => 'Rp 399.000',
                 'discount' => '25%',
-                'image' => '/image/kategori/fashion/kemeja_formal.png',
+                'image' => 'https://via.placeholder.com/300x300/f0f0f0/888?text=Kemeja+Formal',
                 'rating' => 4.7,
                 'reviews' => 156
             ],
@@ -78,7 +88,7 @@
                 'price' => 'Rp 159.000',
                 'original_price' => 'Rp 219.000',
                 'discount' => '27%',
-                'image' => '/image/kategori/fashion/dress_wanita.png',
+                'image' => 'https://via.placeholder.com/300x300/f0f0f0/888?text=Dress+Wanita',
                 'rating' => 4.8,
                 'reviews' => 243
             ],
@@ -87,7 +97,7 @@
                 'price' => 'Rp 449.000',
                 'original_price' => '',
                 'discount' => '',
-                'image' => '/image/kategori/fashion/sepatu_sneaker.png',
+                'image' => 'https://via.placeholder.com/300x300/f0f0f0/888?text=Sneakers+Pria',
                 'rating' => 4.6,
                 'reviews' => 189
             ],
@@ -96,7 +106,7 @@
                 'price' => 'Rp 689.000',
                 'original_price' => 'Rp 899.000',
                 'discount' => '23%',
-                'image' => '/image/kategori/fashion/tas_handbag.png',
+                'image' => 'https://via.placeholder.com/300x300/f0f0f0/888?text=Tas+Handbag',
                 'rating' => 4.9,
                 'reviews' => 98
             ],
@@ -105,7 +115,7 @@
                 'price' => 'Rp 129.000',
                 'original_price' => 'Rp 179.000',
                 'discount' => '28%',
-                'image' => '/image/kategori/fashion/blouse_wanita.png',
+                'image' => 'https://via.placeholder.com/300x300/f0f0f0/888?text=Blouse+Wanita',
                 'rating' => 4.5,
                 'reviews' => 167
             ],
@@ -114,7 +124,7 @@
                 'price' => 'Rp 199.000',
                 'original_price' => '',
                 'discount' => '',
-                'image' => '/image/kategori/fashion/celana_jeans.png',
+                'image' => 'https://via.placeholder.com/300x300/f0f0f0/888?text=Celana+Jeans',
                 'rating' => 4.7,
                 'reviews' => 134
             ],
@@ -123,7 +133,7 @@
                 'price' => 'Rp 349.000',
                 'original_price' => 'Rp 449.000',
                 'discount' => '22%',
-                'image' => '/image/kategori/fashion/high_heels.png',
+                'image' => 'https://via.placeholder.com/300x300/f0f0f0/888?text=High+Heels',
                 'rating' => 4.4,
                 'reviews' => 76
             ],
@@ -132,7 +142,7 @@
                 'price' => 'Rp 259.000',
                 'original_price' => 'Rp 329.000',
                 'discount' => '21%',
-                'image' => '/image/kategori/fashion/jaket_bomber.png',
+                'image' => 'https://via.placeholder.com/300x300/f0f0f0/888?text=Jaket+Bomber',
                 'rating' => 4.6,
                 'reviews' => 112
             ],
@@ -141,7 +151,7 @@
                 'price' => 'Rp 89.000',
                 'original_price' => 'Rp 119.000',
                 'discount' => '25%',
-                'image' => '/image/kategori/fashion/rok_mini.png',
+                'image' => 'https://via.placeholder.com/300x300/f0f0f0/888?text=Rok+Mini',
                 'rating' => 4.3,
                 'reviews' => 89
             ],
@@ -150,7 +160,7 @@
                 'price' => 'Rp 179.000',
                 'original_price' => '',
                 'discount' => '',
-                'image' => '/image/kategori/fashion/dompet_pria.png',
+                'image' => 'https://via.placeholder.com/300x300/f0f0f0/888?text=Dompet+Pria',
                 'rating' => 4.8,
                 'reviews' => 203
             ],
@@ -159,7 +169,7 @@
                 'price' => 'Rp 149.000',
                 'original_price' => 'Rp 199.000',
                 'discount' => '25%',
-                'image' => '/image/kategori/fashion/kaos_polo.png',
+                'image' => 'https://via.placeholder.com/300x300/f0f0f0/888?text=Kaos+Polo',
                 'rating' => 4.5,
                 'reviews' => 145
             ],
@@ -168,7 +178,7 @@
                 'price' => 'Rp 99.000',
                 'original_price' => 'Rp 139.000',
                 'discount' => '29%',
-                'image' => '/image/kategori/fashion/sandal_wanita.png',
+                'image' => 'https://via.placeholder.com/300x300/f0f0f0/888?text=Sandal+Wanita',
                 'rating' => 4.4,
                 'reviews' => 67
             ]
@@ -185,27 +195,31 @@
             </div>
             
             <div class="product-info">
-                <h6 class="product-title">{{ $product['name'] }}</h6>
-                
-                <div class="product-rating">
-                    <div class="stars">
-                        @for($i = 1; $i <= 5; $i++)
-                        <i class="fas fa-star{{ $i <= floor($product['rating']) ? '' : ' text-muted' }}"></i>
-                        @endfor
+                <div class="product-content">
+                    <h6 class="product-title">{{ $product['name'] }}</h6>
+                    
+                    <div class="product-rating">
+                        <div class="stars">
+                            @for($i = 1; $i <= 5; $i++)
+                            <i class="fas fa-star{{ $i <= floor($product['rating']) ? '' : ' text-muted' }}"></i>
+                            @endfor
+                        </div>
+                        <span class="review-count">({{ $product['reviews'] }})</span>
                     </div>
-                    <span class="review-count">({{ $product['reviews'] }})</span>
                 </div>
                 
-                <div class="product-price">
-                    <span class="current-price">{{ $product['price'] }}</span>
-                    @if($product['original_price'])
-                    <span class="original-price">{{ $product['original_price'] }}</span>
-                    @endif
+                <div class="product-meta">
+                    <div class="product-price">
+                        <span class="current-price">{{ $product['price'] }}</span>
+                        @if($product['original_price'])
+                        <span class="original-price">{{ $product['original_price'] }}</span>
+                        @endif
+                    </div>
+                    
+                    <button class="add-to-cart-btn">
+                        <i class="fas fa-shopping-cart me-2"></i>Tambah ke Keranjang
+                    </button>
                 </div>
-                
-                <button class="add-to-cart-btn">
-                    <i class="fas fa-shopping-cart me-2"></i>Tambah ke Keranjang
-                </button>
             </div>
         </div>
         @endforeach
@@ -221,18 +235,105 @@
                 <span class="page-link">1</span>
             </li>
             <li class="page-item">
-                <a class="page-link" href="#">2</a>
+                <a class="page-link" href="#" title="Go to page 2">2</a>
             </li>
             <li class="page-item">
-                <a class="page-link" href="#">3</a>
+                <a class="page-link" href="#" title="Go to page 3">3</a>
             </li>
             <li class="page-item">
-                <a class="page-link" href="#">4</a>
+                <a class="page-link" href="#" title="Go to page 4">4</a>
             </li>
             <li class="page-item">
-                <a class="page-link" href="#">Next</a>
+                <span class="page-link text-muted">...</span>
+            </li>
+            <li class="page-item">
+                <a class="page-link" href="#" title="Go to page 13">13</a>
+            </li>
+            <li class="page-item">
+                <a class="page-link" href="#" title="Next page">Next</a>
             </li>
         </ul>
     </nav>
 </div>
+
+@push('styles')
+<style>
+    /* Filter Dropdown Styles */
+    .filter-dropdown {
+        border: 2px solid #dee2e6;
+        border-radius: 25px;
+        padding: 8px 16px;
+        font-weight: 500;
+        transition: all 0.3s ease;
+        background: white;
+        text-align: left;
+        color: #495057;
+        position: relative;
+        z-index: 1;
+    }
+
+    .filter-dropdown * {
+        position: relative;
+        z-index: 2;
+    }
+
+    .filter-dropdown:hover {
+        border-color: #f26b37;
+        background: linear-gradient(135deg, #f26b37 0%, #e55827 100%);
+        color: white !important;
+    }
+
+    .filter-dropdown:hover,
+    .filter-dropdown:hover * {
+        color: white !important;
+    }
+
+    .filter-dropdown:hover i {
+        color: white !important;
+    }
+
+    .filter-section .dropdown-menu-wide {
+        min-width: 100%;
+        border-radius: 12px;
+        border: none;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+        padding: 10px 0;
+        margin-top: 5px;
+    }
+
+    .filter-section .dropdown-menu-wide .dropdown-item {
+        padding: 10px 16px;
+        font-weight: 500;
+        transition: all 0.3s ease;
+        border-radius: 0;
+    }
+
+    .filter-section .dropdown-menu-wide .dropdown-item:hover {
+        background: linear-gradient(135deg, #f26b37 0%, #e55827 100%);
+        color: white;
+    }
+
+    .filter-section .dropdown-menu-wide .dropdown-item i {
+        width: 18px;
+        transition: all 0.3s ease;
+    }
+
+    .filter-section .dropdown-menu-wide .dropdown-item:hover i {
+        color: white !important;
+    }
+
+    /* Responsive filter */
+    @media (max-width: 768px) {
+        .filter-section .row .col-md-4 {
+            margin-bottom: 10px;
+        }
+        
+        .filter-dropdown {
+            font-size: 0.9rem;
+            padding: 6px 12px;
+        }
+    }
+</style>
+@endpush
+
 @endsection
