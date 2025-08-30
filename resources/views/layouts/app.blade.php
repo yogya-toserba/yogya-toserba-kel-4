@@ -620,10 +620,10 @@
 
                 <!-- Cart -->
                 <div class="nav-item">
-                    <a href="#" class="nav-link">
+                    <a href="{{ route('keranjang.index') }}" class="nav-link">
                         <div class="nav-icon-wrapper">
                             <i class="fas fa-shopping-cart"></i>
-                            <span class="cart-badge">5</span>
+                            <span class="cart-badge">0</span>
                         </div>
                     </a>
                 </div>

@@ -9,6 +9,8 @@ use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\GudangController;
 use App\Http\Controllers\StokGudangPusatController;
 use App\Http\Controllers\ProdukTerlarisController;
+use App\Http\Controllers\KeranjangController;
+use App\Http\Controllers\ProdukController;
 use App\Http\Controllers\KeuanganController;
 
 // Route untuk testing error pages
@@ -104,6 +106,23 @@ Route::get('/hak-kekayaan-intelektual', function () {
 
 // AJAX routes for dashboard
 Route::post('/add-to-cart', [DashboardController::class, 'addToCart'])->name('add.to.cart');
+
+// Keranjang Routes
+Route::prefix('keranjang')->name('keranjang.')->group(function () {
+    Route::get('/', [KeranjangController::class, 'index'])->name('index');
+    Route::post('/add', [KeranjangController::class, 'add'])->name('add');
+    Route::post('/update', [KeranjangController::class, 'update'])->name('update');
+    Route::delete('/remove', [KeranjangController::class, 'remove'])->name('remove');
+    Route::delete('/clear', [KeranjangController::class, 'clear'])->name('clear');
+    Route::get('/data', [KeranjangController::class, 'getCart'])->name('data');
+});
+
+// Product Detail Routes
+Route::prefix('produk')->name('produk.')->group(function () {
+    Route::get('/detail', [ProdukController::class, 'detail'])->name('detail');
+    Route::get('/{id}/reviews', [ProdukController::class, 'getReviews'])->name('reviews');
+    Route::post('/{id}/reviews', [ProdukController::class, 'addReview'])->name('reviews.add');
+});
 
 // API Routes untuk Produk Terlaris
 Route::prefix('api')->group(function () {

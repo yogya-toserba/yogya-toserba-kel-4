@@ -203,9 +203,14 @@
                     @endif
                 </div>
                 
-                <button class="add-to-cart-btn">
-                    <i class="fas fa-shopping-cart me-2"></i>Tambah ke Keranjang
-                </button>
+                <div class="product-actions">
+                    <button class="btn btn-outline-primary btn-detail" onclick="viewProductDetail('{{ $loop->index + 1 }}', '{{ $product['name'] }}', '{{ $product['price'] }}', '{{ $product['original_price'] ?? '' }}', '{{ $product['image'] }}', '{{ $product['rating'] }}', '{{ $product['reviews'] }}')">
+                        <i class="fas fa-eye me-2"></i>Lihat Detail
+                    </button>
+                    <button class="btn btn-primary btn-quick-add" onclick="quickAddToCart('{{ $loop->index + 1 }}', '{{ $product['name'] }}', '{{ $product['price'] }}', '{{ $product['image'] }}')">
+                        <i class="fas fa-cart-plus me-2"></i>Tambah Cepat
+                    </button>
+                </div>
             </div>
         </div>
         @endforeach
@@ -235,4 +240,187 @@
         </ul>
     </nav>
 </div>
+
 @endsection
+
+@push('styles')
+<style>
+/* Updated Product Actions */
+.product-actions {
+    display: flex;
+    gap: 8px;
+    flex-direction: column;
+}
+
+.btn-detail,
+.btn-quick-add {
+    flex: 1;
+    padding: 10px 16px;
+    border-radius: 8px;
+    font-weight: 600;
+    font-size: 0.9rem;
+    transition: all 0.3s ease;
+    text-align: center;
+}
+
+.btn-detail {
+    background: transparent;
+    color: #f26b37;
+    border: 2px solid #f26b37;
+}
+
+.btn-detail:hover {
+    background: #f26b37;
+    color: white;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(242, 107, 55, 0.3);
+}
+
+.btn-quick-add {
+    background: linear-gradient(135deg, #f26b37 0%, #e55827 100%);
+    border: none;
+    color: white;
+}
+
+.btn-quick-add:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(242, 107, 55, 0.3);
+}
+
+/* Product card adjustments */
+.product-card {
+    height: auto;
+    min-height: 420px;
+}
+
+/* Responsive adjustments */
+@media (max-width: 576px) {
+    .product-actions {
+        flex-direction: column;
+        gap: 6px;
+    }
+    
+    .btn-detail,
+    .btn-quick-add {
+        font-size: 0.85rem;
+        padding: 8px 12px;
+    }
+}
+</style>
+@endpush
+
+@push('scripts')
+<script>
+// Global cart array
+let cart = JSON.parse(localStorage.getItem('cart')) || [];
+
+// Update cart badge
+function updateCartBadge() {
+    const cartBadge = document.querySelector('.cart-badge');
+    if (cartBadge) {
+        const totalItems = cart.reduce((sum, item) => sum + item.quantity, 0);
+        cartBadge.textContent = totalItems;
+    }
+}
+
+// View product detail
+function viewProductDetail(id, name, price, originalPrice, image, rating, reviews) {
+    const detailUrl = new URL('/produk/detail', window.location.origin);
+    detailUrl.searchParams.set('id', id);
+    detailUrl.searchParams.set('name', name);
+    detailUrl.searchParams.set('price', price);
+    if (originalPrice) {
+        detailUrl.searchParams.set('originalPrice', originalPrice);
+    }
+    detailUrl.searchParams.set('image', image);
+    detailUrl.searchParams.set('rating', rating);
+    detailUrl.searchParams.set('reviews', reviews);
+    
+    window.location.href = detailUrl.toString();
+}
+
+// Quick add to cart with default options
+function quickAddToCart(id, name, price, image) {
+    const cartItem = {
+        id: id,
+        name: name,
+        price: parseInt(price.replace(/[^\d]/g, '')),
+        image: image,
+        size: 'M', // Default size
+        color: 'Putih', // Default color
+        quantity: 1,
+        addedAt: new Date().toISOString()
+    };
+    
+    // Check if item already exists with same default options
+    const existingItemIndex = cart.findIndex(item => 
+        item.id === id && 
+        item.size === 'M' && 
+        item.color === 'Putih'
+    );
+    
+    if (existingItemIndex > -1) {
+        cart[existingItemIndex].quantity += 1;
+    } else {
+        cart.push(cartItem);
+    }
+    
+    // Save to localStorage
+    localStorage.setItem('cart', JSON.stringify(cart));
+    
+    // Update cart badge
+    updateCartBadge();
+    
+    // Show success message
+    showToast(`${name} berhasil ditambahkan ke keranjang!`, 'success');
+}
+
+// Toast notification function
+function showToast(message, type = 'success') {
+    const bgClass = type === 'success' ? 'bg-success' : 'bg-danger';
+    const icon = type === 'success' ? 'fa-check-circle' : 'fa-exclamation-circle';
+    
+    const toastHtml = `
+        <div class="toast align-items-center text-white ${bgClass} border-0" role="alert" aria-live="assertive" aria-atomic="true">
+            <div class="d-flex">
+                <div class="toast-body">
+                    <i class="fas ${icon} me-2"></i>${message}
+                </div>
+                <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"></button>
+            </div>
+        </div>
+    `;
+    
+    // Create toast container if it doesn't exist
+    let toastContainer = document.getElementById('toast-container');
+    if (!toastContainer) {
+        toastContainer = document.createElement('div');
+        toastContainer.id = 'toast-container';
+        toastContainer.className = 'toast-container position-fixed top-0 end-0 p-3';
+        toastContainer.style.zIndex = '9999';
+        document.body.appendChild(toastContainer);
+    }
+    
+    // Add toast to container
+    toastContainer.insertAdjacentHTML('beforeend', toastHtml);
+    
+    // Initialize and show toast
+    const toastElement = toastContainer.lastElementChild;
+    const toast = new bootstrap.Toast(toastElement, {
+        autohide: true,
+        delay: 3000
+    });
+    toast.show();
+    
+    // Remove toast element after it's hidden
+    toastElement.addEventListener('hidden.bs.toast', function() {
+        toastElement.remove();
+    });
+}
+
+// Initialize page
+document.addEventListener('DOMContentLoaded', function() {
+    updateCartBadge();
+});
+</script>
+@endpush
