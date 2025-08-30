@@ -17,7 +17,7 @@ class StokGudangPusatSeeder extends Seeder
             'nama_produk' => 'Beras Premium 5kg',
             'satuan' => 'Karung',
             'jumlah' => 150,
-            'foto' => 'beras.jpg',
+            'foto' => 'images/produk/beras.svg',
             'expired' => Carbon::now()->addMonths(6),
         ]);
 
@@ -25,7 +25,7 @@ class StokGudangPusatSeeder extends Seeder
             'nama_produk' => 'Minyak Goreng 1L',
             'satuan' => 'Botol',
             'jumlah' => 75,
-            'foto' => 'minyak.jpg',
+            'foto' => 'images/produk/minyak.svg',
             'expired' => Carbon::now()->addMonths(12),
         ]);
 
@@ -33,7 +33,7 @@ class StokGudangPusatSeeder extends Seeder
             'nama_produk' => 'Gula Pasir 1kg',
             'satuan' => 'Bungkus',
             'jumlah' => 200,
-            'foto' => 'gula.jpg',
+            'foto' => 'images/produk/default-product.svg',
             'expired' => Carbon::now()->addMonths(18),
         ]);
 
@@ -41,7 +41,7 @@ class StokGudangPusatSeeder extends Seeder
             'nama_produk' => 'Tepung Terigu 1kg',
             'satuan' => 'Bungkus',
             'jumlah' => 100,
-            'foto' => 'tepung.jpg',
+            'foto' => 'images/produk/default-product.svg',
             'expired' => Carbon::now()->addMonths(8),
         ]);
 
@@ -49,7 +49,7 @@ class StokGudangPusatSeeder extends Seeder
             'nama_produk' => 'Garam Dapur 250g',
             'satuan' => 'Bungkus',
             'jumlah' => 300,
-            'foto' => 'garam.jpg',
+            'foto' => 'images/produk/default-product.svg',
             'expired' => Carbon::now()->addYears(2),
         ]);
 
@@ -57,7 +57,7 @@ class StokGudangPusatSeeder extends Seeder
             'nama_produk' => 'Kopi Bubuk 200g',
             'satuan' => 'Bungkus',
             'jumlah' => 80,
-            'foto' => 'kopi.jpg',
+            'foto' => 'images/produk/default-product.svg',
             'expired' => Carbon::now()->addMonths(10),
         ]);
 

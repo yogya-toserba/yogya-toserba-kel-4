@@ -162,6 +162,8 @@ Route::prefix('gudang')->name('gudang.')->group(function () {
         Route::get('/dashboard', [GudangController::class, 'dashboard'])->name('dashboard');
 
         // Stock management routes
+        Route::get('stok/{stok}/add-stock', [StokGudangPusatController::class, 'showAddStock'])->name('stok.add-stock');
+        Route::post('stok/{stok}/add-stock', [StokGudangPusatController::class, 'addStock'])->name('stok.add-stock.submit');
         Route::resource('stok', StokGudangPusatController::class);
 
         // Other gudang routes

@@ -29,6 +29,11 @@ class StokGudangPusatController extends BaseController
             $query->where('nama_produk', 'like', '%' . $request->search . '%');
         }
         
+        // Category filter
+        if ($request->filled('kategori')) {
+            $query->where('kategori', $request->kategori);
+        }
+        
         // Filter functionality
         if ($request->filled('stock_filter')) {
             switch ($request->stock_filter) {
@@ -37,6 +42,9 @@ class StokGudangPusatController extends BaseController
                     break;
                 case 'empty':
                     $query->where('jumlah', '<=', 0);
+                    break;
+                case 'normal':
+                    $query->where('jumlah', '>', 10);
                     break;
                 case 'expiring':
                     $query->whereNotNull('expired')
@@ -47,7 +55,15 @@ class StokGudangPusatController extends BaseController
         
         $stoks = $query->paginate(10);
         
-        return view('gudang.stok', compact('stoks', 'gudang'));
+        // Calculate statistics
+        $stats = [
+            'total_produk' => StokGudangPusat::count(),
+            'stok_menipis' => StokGudangPusat::where('jumlah', '<=', 10)->where('jumlah', '>', 0)->count(),
+            'stok_habis' => StokGudangPusat::where('jumlah', '<=', 0)->count(),
+            'total_nilai' => StokGudangPusat::whereNotNull('harga_jual')->sum('harga_jual') ?? 0
+        ];
+        
+        return view('gudang.stok', compact('stoks', 'gudang', 'stats'));
     }
 
     /**
@@ -56,7 +72,7 @@ class StokGudangPusatController extends BaseController
     public function create()
     {
         $gudang = Auth::guard('gudang')->user();
-        return view('gudang.stok-create', compact('gudang'));
+        return view('gudang.stok.create', compact('gudang'));
     }
 
     /**
@@ -65,15 +81,20 @@ class StokGudangPusatController extends BaseController
     public function store(Request $request)
     {
         $request->validate([
-            'nama_produk' => 'required|string|max:255',
+            'nama_produk' => 'required|string|max:255|unique:stok_gudang_pusat,nama_produk',
             'kategori' => 'required|string|max:255',
-            'deskripsi' => 'nullable|string',
-            'satuan' => 'required|string|max:255',
+            'deskripsi' => 'nullable|string|max:1000',
+            'satuan' => 'required|string|max:50',
             'jumlah' => 'required|integer|min:0',
             'harga_beli' => 'nullable|numeric|min:0',
             'harga_jual' => 'nullable|numeric|min:0',
             'expired' => 'nullable|date|after:today',
-            'foto' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+            'foto' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:2048',
+        ], [
+            'nama_produk.unique' => 'Nama produk sudah ada dalam database.',
+            'expired.after' => 'Tanggal kedaluwarsa harus lebih dari hari ini.',
+            'foto.image' => 'File harus berupa gambar.',
+            'foto.max' => 'Ukuran gambar maksimal 2MB.',
         ]);
         
         $data = $request->all();
@@ -90,13 +111,29 @@ class StokGudangPusatController extends BaseController
         
         // Handle file upload
         if ($request->hasFile('foto')) {
-            $data['foto'] = $request->file('foto')->store('produk-photos', 'public');
+            $file = $request->file('foto');
+            $filename = time() . '_' . uniqid() . '_' . preg_replace('/[^a-zA-Z0-9._-]/', '', $file->getClientOriginalName());
+            
+            // Move file to public/images/produk directory
+            $destinationPath = public_path('images/produk');
+            $file->move($destinationPath, $filename);
+            
+            // Store the URL path in database
+            $data['foto'] = 'images/produk/' . $filename;
+        } else {
+            $data['foto'] = 'images/produk/default-product.svg';
         }
         
-        StokGudangPusat::create($data);
-        
-        return redirect()->route('gudang.stok.index')
-                        ->with('success', 'Produk berhasil ditambahkan ke stok gudang.');
+        try {
+            StokGudangPusat::create($data);
+            
+            return redirect()->route('gudang.stok.index')
+                            ->with('success', 'Produk "' . $data['nama_produk'] . '" berhasil ditambahkan ke stok gudang.');
+        } catch (\Exception $e) {
+            return redirect()->back()
+                            ->withInput()
+                            ->with('error', 'Gagal menambahkan produk. Silakan coba lagi.');
+        }
     }
 
     /**
@@ -159,6 +196,72 @@ class StokGudangPusatController extends BaseController
 
         return redirect()->route('gudang.stok.index')
                         ->with('success', 'Produk berhasil dihapus dari stok gudang.');
+    }
+
+    /**
+     * Show form to add stock for existing product.
+     */
+    public function showAddStock(StokGudangPusat $stok)
+    {
+        $gudang = Auth::guard('gudang')->user();
+        return view('gudang.stok.add-stock', compact('stok', 'gudang'));
+    }
+
+    /**
+     * Add stock to existing product.
+     */
+    public function addStock(Request $request, StokGudangPusat $stok)
+    {
+        $request->validate([
+            'jumlah_tambah' => 'required|integer|min:1',
+            'keterangan' => 'nullable|string|max:500',
+            'harga_beli' => 'nullable|numeric|min:0',
+            'expired' => 'nullable|date|after:today',
+        ], [
+            'jumlah_tambah.required' => 'Jumlah stok yang ditambahkan wajib diisi.',
+            'jumlah_tambah.min' => 'Minimal tambah 1 unit stok.',
+            'expired.after' => 'Tanggal kedaluwarsa harus lebih dari hari ini.',
+        ]);
+
+        try {
+            // Calculate new stock quantity
+            $newQuantity = $stok->jumlah + $request->jumlah_tambah;
+            
+            // Update stock data
+            $updateData = [
+                'jumlah' => $newQuantity,
+                'tanggal' => now()->format('Y-m-d'),
+            ];
+            
+            // Update price if provided
+            if ($request->filled('harga_beli')) {
+                $updateData['harga_beli'] = $request->harga_beli;
+            }
+            
+            // Update expiry date if provided
+            if ($request->filled('expired')) {
+                $updateData['expired'] = $request->expired;
+            }
+            
+            // Update status based on new quantity
+            if ($newQuantity <= 0) {
+                $updateData['status'] = 'Habis';
+            } elseif ($newQuantity <= 10) {
+                $updateData['status'] = 'Stok Rendah';
+            } else {
+                $updateData['status'] = 'Tersedia';
+            }
+            
+            $stok->update($updateData);
+            
+            return redirect()->route('gudang.stok.index')
+                            ->with('success', 'Berhasil menambahkan ' . $request->jumlah_tambah . ' unit stok untuk produk "' . $stok->nama_produk . '". Stok sekarang: ' . $newQuantity . ' unit.');
+        
+        } catch (\Exception $e) {
+            return redirect()->back()
+                            ->withInput()
+                            ->with('error', 'Gagal menambahkan stok. Silakan coba lagi.');
+        }
     }
 
     /**

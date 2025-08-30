@@ -909,60 +909,82 @@ body.dark-mode .action-dropdown-item:hover {
         <p>Kelola dan pantau stok barang di gudang pusat MyYOGYA</p>
     </div>
 
+    <!-- Alert Messages -->
+    @if(session('success'))
+        <div class="alert alert-success alert-dismissible fade show" role="alert">
+            <i class="fas fa-check-circle"></i>
+            {{ session('success') }}
+            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+        </div>
+    @endif
+    
+    @if(session('error'))
+        <div class="alert alert-danger alert-dismissible fade show" role="alert">
+            <i class="fas fa-exclamation-circle"></i>
+            {{ session('error') }}
+            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+        </div>
+    @endif
+
     <!-- Stats Section -->
     <div class="stats-grid">
         <div class="stat-card">
-            <div class="stat-number">1,245</div>
+            <div class="stat-number">{{ number_format($stats['total_produk'] ?? 0) }}</div>
             <div class="stat-label">Total Item</div>
         </div>
         <div class="stat-card">
-            <div class="stat-number">156</div>
+            <div class="stat-number">{{ number_format($stats['stok_menipis'] ?? 0) }}</div>
             <div class="stat-label">Stok Menipis</div>
         </div>
         <div class="stat-card">
-            <div class="stat-number">89</div>
+            <div class="stat-number">{{ number_format($stats['stok_habis'] ?? 0) }}</div>
             <div class="stat-label">Stok Habis</div>
         </div>
         <div class="stat-card">
-            <div class="stat-number">1.2M</div>
+            <div class="stat-number">{{ number_format($stats['total_nilai'] ?? 0, 0, ',', '.') }}</div>
             <div class="stat-label">Total Nilai (Rp)</div>
         </div>
     </div>
 
     <!-- Filter Section -->
     <div class="filter-section">
-        <div class="filter-grid">
-            <div>
-                <label class="form-label-modern">Kategori</label>
-                <select class="form-control form-control-modern">
-                    <option>Semua Kategori</option>
-                    <option>Sembako</option>
-                    <option>Minuman</option>
-                    <option>Snack</option>
-                    <option>Perawatan</option>
-                </select>
+        <form method="GET" action="{{ route('gudang.stok.index') }}">
+            <div class="filter-grid">
+                <div>
+                    <label class="form-label-modern">Kategori</label>
+                    <select name="kategori" class="form-control form-control-modern">
+                        <option value="">Semua Kategori</option>
+                        <option value="Sembako" {{ request('kategori') == 'Sembako' ? 'selected' : '' }}>Sembako</option>
+                        <option value="Makanan" {{ request('kategori') == 'Makanan' ? 'selected' : '' }}>Makanan</option>
+                        <option value="Minuman" {{ request('kategori') == 'Minuman' ? 'selected' : '' }}>Minuman</option>
+                        <option value="Perawatan" {{ request('kategori') == 'Perawatan' ? 'selected' : '' }}>Perawatan</option>
+                        <option value="Rumah Tangga" {{ request('kategori') == 'Rumah Tangga' ? 'selected' : '' }}>Rumah Tangga</option>
+                    </select>
+                </div>
+                <div>
+                    <label class="form-label-modern">Status Stok</label>
+                    <select name="stock_filter" class="form-control form-control-modern">
+                        <option value="">Semua Status</option>
+                        <option value="normal" {{ request('stock_filter') == 'normal' ? 'selected' : '' }}>Stok Aman</option>
+                        <option value="low" {{ request('stock_filter') == 'low' ? 'selected' : '' }}>Stok Menipis</option>
+                        <option value="empty" {{ request('stock_filter') == 'empty' ? 'selected' : '' }}>Stok Habis</option>
+                        <option value="expiring" {{ request('stock_filter') == 'expiring' ? 'selected' : '' }}>Akan Expired</option>
+                    </select>
+                </div>
+                <div>
+                    <label class="form-label-modern">Pencarian</label>
+                    <input type="text" name="search" class="form-control form-control-modern" 
+                           placeholder="Nama barang..." value="{{ request('search') }}">
+                </div>
+                <div>
+                    <label class="form-label-modern">&nbsp;</label>
+                    <button type="submit" class="btn btn-modern w-100 form-control-modern" style="height: 48px;">
+                        <i class="fas fa-search"></i>
+                        Cari
+                    </button>
+                </div>
             </div>
-            <div>
-                <label class="form-label-modern">Status Stok</label>
-                <select class="form-control form-control-modern">
-                    <option>Semua Status</option>
-                    <option>Stok Aman</option>
-                    <option>Stok Menipis</option>
-                    <option>Stok Habis</option>
-                </select>
-            </div>
-            <div>
-                <label class="form-label-modern">Pencarian</label>
-                <input type="text" class="form-control form-control-modern" placeholder="Nama barang...">
-            </div>
-            <div>
-                <label class="form-label-modern">&nbsp;</label>
-                <button class="btn btn-modern w-100 form-control-modern" style="height: 48px;">
-                    <i class="fas fa-search"></i>
-                    Cari
-                </button>
-            </div>
-        </div>
+        </form>
     </div>
 
     <!-- Main Table -->
@@ -973,15 +995,15 @@ body.dark-mode .action-dropdown-item:hover {
                 Daftar Stok Barang
             </h5>
             <div class="d-flex gap-2">
-                <button class="btn btn-modern" data-bs-toggle="modal" data-bs-target="#modalTambahStok">
+                <a href="{{ route('gudang.stok.create') }}" class="btn btn-modern">
                     <i class="fas fa-plus"></i>
                     Tambah Stok
-                </button>
-                <button class="btn btn-outline-modern">
+                </a>
+                <button class="btn btn-outline-modern" onclick="exportData()">
                     <i class="fas fa-download"></i>
                     Export
                 </button>
-                <button class="btn btn-outline-modern">
+                <button class="btn btn-outline-modern" onclick="location.reload()">
                     <i class="fas fa-sync-alt"></i>
                     Refresh
                 </button>
@@ -992,6 +1014,7 @@ body.dark-mode .action-dropdown-item:hover {
                 <thead>
                     <tr>
                         <th>Tanggal Update</th>
+                        <th>Foto</th>
                         <th>Kode/Nama Produk</th>
                         <th>Kategori</th>
                         <th>Stok Tersedia</th>
@@ -1001,29 +1024,55 @@ body.dark-mode .action-dropdown-item:hover {
                     </tr>
                 </thead>
                 <tbody>
+                    @forelse($stoks as $stok)
                     <tr>
                         <td>
-                            <div>13 Agustus 2025</div>
-                            <small class="text-muted">09:30 WIB</small>
+                            <div>{{ $stok->created_at->format('d M Y') }}</div>
+                            <small class="text-muted">{{ $stok->created_at->format('H:i') }} WIB</small>
                         </td>
                         <td>
-                            <div class="fw-semibold">#PRD001</div>
-                            <div>Indomie Goreng</div>
-                            <small class="text-muted">Kemasan Dus (40 pcs)</small>
+                            <div class="product-image">
+                                <img src="{{ asset($stok->foto) }}" 
+                                     alt="{{ $stok->nama_produk }}" 
+                                     class="img-thumbnail"
+                                     style="width: 50px; height: 50px; object-fit: cover;"
+                                     onerror="this.src='{{ asset('images/produk/default-product.svg') }}'">
+                            </div>
                         </td>
                         <td>
-                            <span class="badge bg-info">Sembako</span>
+                            <div class="fw-semibold">#{{ str_pad($stok->id_produk, 3, '0', STR_PAD_LEFT) }}</div>
+                            <div>{{ $stok->nama_produk }}</div>
+                            <small class="text-muted">Per {{ $stok->satuan }}</small>
                         </td>
                         <td>
-                            <div class="fw-bold text-success">100 Dus</div>
-                            <small class="text-muted">= 4,000 pcs</small>
+                            <span class="badge bg-info">{{ $stok->kategori ?? 'Umum' }}</span>
                         </td>
                         <td>
-                            <div class="fw-semibold">Beli: Rp 85,000</div>
-                            <div class="text-success">Jual: Rp 120,000</div>
+                            <div class="fw-bold @if($stok->jumlah <= 10) text-danger @elseif($stok->jumlah <= 30) text-warning @else text-success @endif">
+                                {{ $stok->jumlah }} {{ $stok->satuan }}
+                            </div>
+                            @if($stok->expired)
+                                <small class="text-muted">Expired: {{ $stok->expired->format('d/m/Y') }}</small>
+                            @endif
                         </td>
                         <td>
-                            <span class="status-badge status-tinggi">Stok Aman</span>
+                            @if($stok->harga_beli && $stok->harga_jual)
+                                <div class="fw-semibold">Beli: Rp {{ number_format($stok->harga_beli, 0, ',', '.') }}</div>
+                                <div class="text-success">Jual: Rp {{ number_format($stok->harga_jual, 0, ',', '.') }}</div>
+                            @else
+                                <div class="text-muted">-</div>
+                            @endif
+                        </td>
+                        <td>
+                            @if($stok->jumlah <= 0)
+                                <span class="status-badge status-rendah">Stok Habis</span>
+                            @elseif($stok->jumlah <= 10)
+                                <span class="status-badge status-rendah">Stok Kritis</span>
+                            @elseif($stok->jumlah <= 30)
+                                <span class="status-badge status-sedang">Stok Menipis</span>
+                            @else
+                                <span class="status-badge status-tinggi">Stok Aman</span>
+                            @endif
                         </td>
                         <td>
                             <div class="action-dropdown">
@@ -1031,15 +1080,15 @@ body.dark-mode .action-dropdown-item:hover {
                                     <i class="fas fa-ellipsis-v"></i>
                                 </button>
                                 <div class="action-dropdown-menu">
-                                    <a href="#" class="action-dropdown-item">
+                                    <a href="{{ route('gudang.stok.show', $stok) }}" class="action-dropdown-item">
                                         <i class="fas fa-eye"></i>
                                         Lihat Detail
                                     </a>
-                                    <a href="#" class="action-dropdown-item">
+                                    <a href="{{ route('gudang.stok.edit', $stok) }}" class="action-dropdown-item">
                                         <i class="fas fa-edit"></i>
                                         Edit Stok
                                     </a>
-                                    <a href="#" class="action-dropdown-item">
+                                    <a href="{{ route('gudang.stok.add-stock', $stok) }}" class="action-dropdown-item">
                                         <i class="fas fa-plus"></i>
                                         Tambah Stok
                                     </a>
@@ -1055,116 +1104,36 @@ body.dark-mode .action-dropdown-item:hover {
                             </div>
                         </td>
                     </tr>
+                    @empty
                     <tr>
-                        <td>
-                            <div>13 Agustus 2025</div>
-                            <small class="text-muted">08:15 WIB</small>
-                        </td>
-                        <td>
-                            <div class="fw-semibold">#PRD002</div>
-                            <div>Sabun Lifebuoy</div>
-                            <small class="text-muted">Kemasan Dus (24 pcs)</small>
-                        </td>
-                        <td>
-                            <span class="badge bg-warning">Perawatan</span>
-                        </td>
-                        <td>
-                            <div class="fw-bold text-warning">25 Dus</div>
-                            <small class="text-muted">= 600 pcs</small>
-                        </td>
-                        <td>
-                            <div class="fw-semibold">Beli: Rp 45,000</div>
-                            <div class="text-success">Jual: Rp 65,000</div>
-                        </td>
-                        <td>
-                            <span class="status-badge status-sedang">Stok Menipis</span>
-                        </td>
-                        <td>
-                            <div class="action-dropdown">
-                                <button class="action-btn" onclick="toggleActionDropdown(this)">
-                                    <i class="fas fa-ellipsis-v"></i>
-                                </button>
-                                <div class="action-dropdown-menu">
-                                    <a href="#" class="action-dropdown-item">
-                                        <i class="fas fa-eye"></i>
-                                        Lihat Detail
-                                    </a>
-                                    <a href="#" class="action-dropdown-item">
-                                        <i class="fas fa-edit"></i>
-                                        Edit Stok
-                                    </a>
-                                    <a href="#" class="action-dropdown-item">
-                                        <i class="fas fa-plus"></i>
-                                        Tambah Stok
-                                    </a>
-                                    <a href="#" class="action-dropdown-item">
-                                        <i class="fas fa-exclamation-triangle"></i>
-                                        Set Alert
-                                    </a>
-                                    <a href="#" class="action-dropdown-item">
-                                        <i class="fas fa-shopping-cart"></i>
-                                        Pesan Ulang
-                                    </a>
-                                </div>
+                        <td colspan="8" class="text-center py-4">
+                            <div class="text-muted">
+                                <i class="fas fa-box-open fa-2x mb-2"></i>
+                                <p>Belum ada data stok</p>
+                                <a href="{{ route('gudang.stok.create') }}" class="btn btn-modern">
+                                    <i class="fas fa-plus"></i>
+                                    Tambah Stok Pertama
+                                </a>
                             </div>
                         </td>
                     </tr>
-                    <tr>
-                        <td>
-                            <div>12 Agustus 2025</div>
-                            <small class="text-muted">16:45 WIB</small>
-                        </td>
-                        <td>
-                            <div class="fw-semibold">#PRD003</div>
-                            <div>Teh Pucuk Harum</div>
-                            <small class="text-muted">Kemasan Dus (24 botol)</small>
-                        </td>
-                        <td>
-                            <span class="badge bg-success">Minuman</span>
-                        </td>
-                        <td>
-                            <div class="fw-bold text-danger">0 Dus</div>
-                            <small class="text-muted">Stok Kosong</small>
-                        </td>
-                        <td>
-                            <div class="fw-semibold">Beli: Rp 35,000</div>
-                            <div class="text-success">Jual: Rp 48,000</div>
-                        </td>
-                        <td>
-                            <span class="status-badge status-rendah">Stok Habis</span>
-                        </td>
-                        <td>
-                            <div class="action-dropdown">
-                                <button class="action-btn" onclick="toggleActionDropdown(this)">
-                                    <i class="fas fa-ellipsis-v"></i>
-                                </button>
-                                <div class="action-dropdown-menu">
-                                    <a href="#" class="action-dropdown-item">
-                                        <i class="fas fa-eye"></i>
-                                        Lihat Detail
-                                    </a>
-                                    <a href="#" class="action-dropdown-item">
-                                        <i class="fas fa-plus"></i>
-                                        Restok Urgent
-                                    </a>
-                                    <a href="#" class="action-dropdown-item">
-                                        <i class="fas fa-shopping-cart"></i>
-                                        Pesan Segera
-                                    </a>
-                                    <a href="#" class="action-dropdown-item">
-                                        <i class="fas fa-bell"></i>
-                                        Notifikasi Supplier
-                                    </a>
-                                    <a href="#" class="action-dropdown-item">
-                                        <i class="fas fa-history"></i>
-                                        Riwayat
-                                    </a>
-                                </div>
-                            </div>
-                        </td>
-                    </tr>
+                    @endforelse
                 </tbody>
             </table>
+        </div>
+    </div>
+</div>
+
+<!-- Pagination -->
+<div class="row mt-4">
+    <div class="col-12">
+        <div class="d-flex justify-content-between align-items-center">
+            <div class="text-muted">
+                Menampilkan {{ $stoks->firstItem() ?? 0 }} - {{ $stoks->lastItem() ?? 0 }} dari {{ $stoks->total() }} data
+            </div>
+            <div>
+                {{ $stoks->links() }}
+            </div>
         </div>
     </div>
 </div>
@@ -1401,6 +1370,23 @@ function calculateProfit() {
         console.log(`Keuntungan: Rp ${profit.toLocaleString('id-ID')} (${margin}%)`);
     }
 }
+
+// Export function
+function exportData() {
+    // You can implement export functionality here
+    alert('Fungsi export akan segera tersedia');
+}
+
+// Auto refresh alerts after 5 seconds
+setTimeout(function() {
+    const alerts = document.querySelectorAll('.alert');
+    alerts.forEach(function(alert) {
+        if (alert.classList.contains('show')) {
+            alert.classList.remove('show');
+            setTimeout(() => alert.remove(), 150);
+        }
+    });
+}, 5000);
 
 // Format currency inputs
 function formatCurrency(input) {

@@ -31,10 +31,11 @@
             <div class="card">
                 <div class="card-body text-center">
                     @if($stok->foto)
-                        <img src="{{ asset('storage/' . $stok->foto) }}" 
+                        <img src="{{ asset($stok->foto) }}" 
                              alt="{{ $stok->nama_produk }}" 
                              class="img-fluid rounded mb-3" 
-                             style="max-height: 300px; object-fit: cover;">
+                             style="max-height: 300px; object-fit: cover;"
+                             onerror="this.src='{{ asset('images/produk/default-product.svg') }}'">
                     @else
                         <div class="bg-light rounded d-flex align-items-center justify-content-center mb-3" 
                              style="height: 300px;">

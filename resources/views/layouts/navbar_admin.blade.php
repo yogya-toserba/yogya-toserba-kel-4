@@ -55,21 +55,79 @@
         .sidebar-link {
             color: var(--admin-text);
             text-decoration: none;
-            padding: 10px 15px;
+            padding: 12px 16px;
             display: block;
-            border-radius: 8px;
+            border-radius: 10px;
             margin: 4px 8px;
             position: relative;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            border-left: 3px solid transparent;
         }
 
         .sidebar-link:hover {
             background: var(--admin-hover);
             color: var(--admin-text);
+            transform: translateX(3px);
+            border-left-color: rgba(255, 107, 53, 0.5);
         }
 
         .sidebar-link.active {
-            background: rgba(34, 197, 94, 0.2);
-            color: var(--admin-primary);
+            background: linear-gradient(135deg, #ff6b35, #f7931e);
+            color: #ffffff;
+            box-shadow: 0 4px 15px rgba(255, 107, 53, 0.3);
+            transform: translateX(5px);
+            border-left: 4px solid #ff6b35;
+            position: relative;
+            overflow: hidden;
+            animation: activeMenuPulse 3s infinite;
+        }
+
+        @keyframes activeMenuPulse {
+            0%, 100% {
+                box-shadow: 0 4px 15px rgba(255, 107, 53, 0.3);
+            }
+            50% {
+                box-shadow: 0 4px 20px rgba(255, 107, 53, 0.5);
+            }
+        }
+
+        .sidebar-link.active::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(45deg, rgba(255, 255, 255, 0.2), transparent);
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .sidebar-link.active:hover::before {
+            opacity: 1;
+        }
+
+        .sidebar-link.active:hover {
+            background: linear-gradient(135deg, #f7931e, #ff6b35);
+            color: #ffffff;
+            box-shadow: 0 6px 20px rgba(255, 107, 53, 0.4);
+            animation: none;
+        }
+
+        .sidebar-link i {
+            transition: all 0.3s ease;
+            width: 20px;
+            text-align: center;
+        }
+
+        .sidebar-link.active i {
+            transform: scale(1.1);
+            text-shadow: 0 0 10px rgba(255, 255, 255, 0.3);
+        }
+
+        .sidebar-link:hover i {
+            transform: scale(1.05);
+            color: #ff6b35;
         }
 
         .dropdown-toggle::after {
@@ -80,21 +138,29 @@
             position: absolute;
             top: 18px;
             right: 17px;
-            transition: transform 0.3s ease;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
             font-size: 0.8rem;
+            color: #9ca3af;
         }
 
         .sidebar-link .keuangan-arrow {
             position: absolute;
             top: 18px;
             right: 17px;
-            transition: transform 0.3s ease;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
             font-size: 0.8rem;
+            color: #9ca3af;
         }
 
         .sidebar-link[aria-expanded="true"] .fa-chevron-down,
         .sidebar-link[aria-expanded="true"] .keuangan-arrow {
             transform: rotate(180deg);
+            color: #ff6b35;
+        }
+
+        .sidebar-link.active .fa-chevron-down,
+        .sidebar-link.active .keuangan-arrow {
+            color: #ffffff;
         }
 
         /* Fix dropdown toggle */
@@ -103,19 +169,41 @@
         }
 
         #keuanganSubmenu .sidebar-link {
-            padding: 8px 15px;
+            padding: 10px 18px;
             font-size: 0.9rem;
             margin: 2px 0;
-        }
-
-        #keuanganSubmenu .sidebar-link:hover {
-            background: rgba(34, 197, 94, 0.1);
-            padding-left: 20px;
             transition: all 0.3s ease;
         }
 
+        #keuanganSubmenu .sidebar-link:hover {
+            background: rgba(255, 107, 53, 0.15);
+            padding-left: 24px;
+            transition: all 0.3s ease;
+            border-radius: 8px;
+        }
+
+        #keuanganSubmenu .sidebar-link.active {
+            background: linear-gradient(135deg, #ff6b35, #f7931e);
+            color: #ffffff;
+            box-shadow: 0 2px 8px rgba(255, 107, 53, 0.3);
+            border-radius: 8px;
+        }
+
+        #keuanganSubmenu .sidebar-link.active i {
+            color: #ffffff;
+            text-shadow: 0 0 8px rgba(255, 255, 255, 0.3);
+        }
+
         .collapse {
-            transition: all 0.3s ease-in-out;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        #keuanganSubmenu {
+            background: rgba(15, 23, 42, 0.5);
+            border-radius: 8px;
+            margin: 8px 16px;
+            padding: 8px 0;
+            border: 1px solid rgba(255, 107, 53, 0.1);
         }
 
         .navbar {
@@ -160,16 +248,54 @@
         @media (max-width: 768px) {
             #sidebar {
                 margin-left: -250px;
+                transition: margin-left 0.3s ease;
             }
 
             #sidebar.active {
                 margin-left: 0;
+                box-shadow: 5px 0 15px rgba(0, 0, 0, 0.3);
             }
 
             .content {
                 margin-left: 0;
                 width: 100%;
+                transition: margin-left 0.3s ease;
             }
+
+            .content.sidebar-open {
+                margin-left: 250px;
+            }
+
+            /* Overlay for mobile */
+            #sidebar.active::after {
+                content: '';
+                position: fixed;
+                top: 0;
+                left: 250px;
+                right: 0;
+                bottom: 0;
+                background: rgba(0, 0, 0, 0.5);
+                z-index: -1;
+            }
+        }
+
+        /* Smooth scrollbar for sidebar */
+        #sidebar::-webkit-scrollbar {
+            width: 6px;
+        }
+
+        #sidebar::-webkit-scrollbar-track {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 3px;
+        }
+
+        #sidebar::-webkit-scrollbar-thumb {
+            background: rgba(255, 107, 53, 0.5);
+            border-radius: 3px;
+        }
+
+        #sidebar::-webkit-scrollbar-thumb:hover {
+            background: rgba(255, 107, 53, 0.7);
         }
     </style>
 </head>
@@ -179,8 +305,10 @@
         <!-- Sidebar -->
         <nav id="sidebar">
             <div class="p-4">
-                <h4 class="text-white">Yogya Admin</h4>
-                <hr class="bg-light">
+                <h4 class="text-white mb-3" style="background: linear-gradient(135deg, #ffffff, #ff6b35); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; font-weight: bold; text-shadow: 0 0 20px rgba(255, 107, 53, 0.3);">
+                    <i class="fas fa-store me-2" style="color: #ff6b35;"></i>Yogya Admin
+                </h4>
+                <hr style="background: linear-gradient(90deg, #ff6b35, transparent); height: 2px; border: none; border-radius: 2px;">
                 <ul class="list-unstyled">
                     <li>
                         <a href="{{ route('admin.dashboard') }}"
@@ -293,8 +421,80 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <script>
         document.getElementById('sidebarCollapse').addEventListener('click', function () {
-            document.getElementById('sidebar').classList.toggle('active');
+            const sidebar = document.getElementById('sidebar');
+            const content = document.querySelector('.content');
+            
+            sidebar.classList.toggle('active');
+            
+            // Add smooth transition for mobile
+            if (window.innerWidth <= 768) {
+                content.classList.toggle('sidebar-open');
+            }
         });
+
+        // Close sidebar when clicking outside on mobile
+        document.addEventListener('click', function(event) {
+            const sidebar = document.getElementById('sidebar');
+            const sidebarCollapse = document.getElementById('sidebarCollapse');
+            
+            if (window.innerWidth <= 768 && 
+                sidebar.classList.contains('active') && 
+                !sidebar.contains(event.target) && 
+                !sidebarCollapse.contains(event.target)) {
+                sidebar.classList.remove('active');
+                document.querySelector('.content').classList.remove('sidebar-open');
+            }
+        });
+
+        // Add ripple effect to sidebar links
+        document.querySelectorAll('.sidebar-link').forEach(link => {
+            link.addEventListener('click', function(e) {
+                if (!this.classList.contains('dropdown-toggle')) {
+                    const ripple = document.createElement('span');
+                    const rect = this.getBoundingClientRect();
+                    const size = Math.max(rect.width, rect.height);
+                    const x = e.clientX - rect.left - size / 2;
+                    const y = e.clientY - rect.top - size / 2;
+                    
+                    ripple.style.cssText = `
+                        width: ${size}px;
+                        height: ${size}px;
+                        left: ${x}px;
+                        top: ${y}px;
+                        position: absolute;
+                        border-radius: 50%;
+                        background: rgba(255, 255, 255, 0.3);
+                        transform: scale(0);
+                        animation: ripple-animation 0.6s linear;
+                        pointer-events: none;
+                    `;
+                    
+                    this.style.position = 'relative';
+                    this.style.overflow = 'hidden';
+                    this.appendChild(ripple);
+                    
+                    setTimeout(() => {
+                        ripple.remove();
+                    }, 600);
+                }
+            });
+        });
+
+        // Add CSS for ripple animation
+        const style = document.createElement('style');
+        style.textContent = `
+            @keyframes ripple-animation {
+                0% {
+                    transform: scale(0);
+                    opacity: 1;
+                }
+                100% {
+                    transform: scale(2);
+                    opacity: 0;
+                }
+            }
+        `;
+        document.head.appendChild(style);
     </script>
     @stack('scripts')
 </body>
