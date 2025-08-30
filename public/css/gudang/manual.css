@@ -695,6 +695,7 @@ body.loaded .manual-section:first-child {
     gap: 1rem;
     background: var(--light-color);
     transition: all 0.3s ease;
+    user-select: none;
 }
 
 .faq-question:hover {
@@ -710,6 +711,7 @@ body.loaded .manual-section:first-child {
 .faq-question i {
     color: var(--primary-color);
     font-size: 1.2rem;
+    transition: all 0.3s ease;
 }
 
 .faq-question:hover i {
@@ -718,17 +720,18 @@ body.loaded .manual-section:first-child {
 
 .faq-item.active .faq-question i {
     color: white;
+    transform: rotate(180deg);
 }
 
 .faq-answer {
     max-height: 0;
     overflow: hidden;
-    transition: max-height 0.3s ease;
+    transition: max-height 0.4s ease-in-out;
     background: white;
 }
 
 .faq-item.active .faq-answer {
-    padding: 1.5rem;
+    padding: 0 1.5rem 1.5rem 1.5rem;
 }
 
 .faq-answer ul {

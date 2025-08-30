@@ -248,11 +248,6 @@
                             <i class="fas fa-eye" id="password-eye"></i>
                         </span>
                     </div>
-
-                    <!-- Forgot Password Section -->
-                    <div class="form-options">
-                        <a href="#" class="forgot-link">Lupa kata sandi?</a>
-                    </div>
                     
                     <div class="form-group">
                         <button type="submit" class="btn btn-login w-100">

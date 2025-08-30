@@ -196,32 +196,19 @@ Route::prefix('gudang')->name('gudang.')->group(function () {
     });
 });
 
-// Route kategori elektronik
-Route::get('/kategori/elektronik', [CategoryController::class, 'elektronik'])->name('kategori.elektronik');
-
-// Route kategori fashion
-Route::get('/kategori/fashion', [CategoryController::class, 'fashion'])->name('kategori.fashion');
-
-// Route kategori makanan & minuman
-Route::get('/kategori/makanan', [CategoryController::class, 'makanan'])->name('kategori.makanan');
-Route::get('/kategori/otomotif', [CategoryController::class, 'otomotif'])->name('kategori.otomotif');
-
-Route::get('/kategori/makanan-minuman', [CategoryController::class, 'makanan'])->name('kategori.makanan-minuman');
-
-// Route kategori kesehatan & kecantikan
-Route::get('/kategori/kesehatan-kecantikan', [CategoryController::class, 'kesehatan'])->name('kategori.kesehatan-kecantikan');
-
-// Route kategori rumah tangga
-Route::get('/kategori/rumah-tangga', [CategoryController::class, 'rumahTangga'])->name('kategori.rumah-tangga');
-
-// Route kategori olahraga
-Route::get('/kategori/olahraga', [CategoryController::class, 'olahraga'])->name('kategori.olahraga');
-
-// Route kategori buku & alat tulis
-Route::get('/kategori/buku', [CategoryController::class, 'buku'])->name('kategori.buku');
-
-// Route kategori perawatan pribadi
-Route::get('/kategori/perawatan', [CategoryController::class, 'perawatan'])->name('kategori.perawatan');
+// Route kategori - cleaned up without duplicates
+Route::prefix('kategori')->name('kategori.')->group(function () {
+    Route::get('/elektronik', [CategoryController::class, 'elektronik'])->name('elektronik');
+    Route::get('/fashion', [CategoryController::class, 'fashion'])->name('fashion');
+    Route::get('/makanan', [CategoryController::class, 'makanan'])->name('makanan');
+    Route::get('/makanan-minuman', [CategoryController::class, 'makanan'])->name('makanan-minuman');
+    Route::get('/otomotif', [CategoryController::class, 'otomotif'])->name('otomotif');
+    Route::get('/kesehatan-kecantikan', [CategoryController::class, 'kesehatan'])->name('kesehatan-kecantikan');
+    Route::get('/rumah-tangga', [CategoryController::class, 'rumahTangga'])->name('rumah-tangga');
+    Route::get('/olahraga', [CategoryController::class, 'olahraga'])->name('olahraga');
+    Route::get('/buku', [CategoryController::class, 'buku'])->name('buku');
+    Route::get('/perawatan', [CategoryController::class, 'perawatan'])->name('perawatan');
+});
 
 Route::prefix('admin')->name('admin.')->group(function () {
     // Authentication Routes
@@ -238,16 +225,16 @@ Route::prefix('admin')->name('admin.')->group(function () {
         Route::get('/sales-data', [AdminController::class, 'getSalesData'])->name('sales.data');
         Route::get('/profile', [AdminController::class, 'profile'])->name('profile');
         Route::post('/profile', [AdminController::class, 'updateProfile'])->name('profile.update');
-        route::get('penggajian', function () {
+        Route::get('penggajian', function () {
             return view('admin.penggajian');
         })->name('penggajian');
-        route::get('laporan', function () {
+        Route::get('laporan', function () {
             return view('admin.laporan');
         })->name('laporan');
-        route::get('absensi', function () {
+        Route::get('absensi', function () {
             return view('admin.absensi');
         })->name('absensi');
-        route::get('pengaturan', function () {
+        Route::get('pengaturan', function () {
             return view('admin.pengaturan');
         })->name('pengaturan');
 

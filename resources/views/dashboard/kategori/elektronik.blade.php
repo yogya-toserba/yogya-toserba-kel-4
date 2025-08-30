@@ -23,33 +23,45 @@
         <div class="row align-items-center">
             <div class="col-md-8">
                 <div class="row g-3">
-                    <div class="col-md-3">
-                        <select class="form-select">
-                            <option>Semua Kategori</option>
-                            <option>Smartphone</option>
-                            <option>Laptop</option>
-                            <option>TV & Audio</option>
-                            <option>Gaming</option>
-                            <option>Aksesoris</option>
-                        </select>
+                    <div class="col-md-4">
+                        <div class="dropdown">
+                            <button class="btn btn-outline-secondary dropdown-toggle d-flex align-items-center justify-content-between w-100 filter-dropdown" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                <span><i class="fas fa-th-large me-2"></i>Semua Kategori</span>
+                            </button>
+                            <ul class="dropdown-menu dropdown-menu-wide w-100">
+                                <li><a class="dropdown-item" href="#"><i class="fas fa-mobile-alt me-2 text-primary"></i>Smartphone</a></li>
+                                <li><a class="dropdown-item" href="#"><i class="fas fa-laptop me-2 text-info"></i>Laptop</a></li>
+                                <li><a class="dropdown-item" href="#"><i class="fas fa-tv me-2 text-success"></i>TV & Audio</a></li>
+                                <li><a class="dropdown-item" href="#"><i class="fas fa-gamepad me-2 text-warning"></i>Gaming</a></li>
+                                <li><a class="dropdown-item" href="#"><i class="fas fa-headphones me-2 text-danger"></i>Aksesoris</a></li>
+                            </ul>
+                        </div>
                     </div>
-                    <div class="col-md-3">
-                        <select class="form-select">
-                            <option>Rentang Harga</option>
-                            <option>< Rp 1 Juta</option>
-                            <option>Rp 1-5 Juta</option>
-                            <option>Rp 5-10 Juta</option>
-                            <option>> Rp 10 Juta</option>
-                        </select>
+                    <div class="col-md-4">
+                        <div class="dropdown">
+                            <button class="btn btn-outline-secondary dropdown-toggle d-flex align-items-center justify-content-between w-100 filter-dropdown" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                <span><i class="fas fa-tags me-2"></i>Rentang Harga</span>
+                            </button>
+                            <ul class="dropdown-menu dropdown-menu-wide w-100">
+                                <li><a class="dropdown-item" href="#"><i class="fas fa-dollar-sign me-2 text-success"></i>< Rp 1 Juta</a></li>
+                                <li><a class="dropdown-item" href="#"><i class="fas fa-dollar-sign me-2 text-info"></i>Rp 1-5 Juta</a></li>
+                                <li><a class="dropdown-item" href="#"><i class="fas fa-dollar-sign me-2 text-warning"></i>Rp 5-10 Juta</a></li>
+                                <li><a class="dropdown-item" href="#"><i class="fas fa-dollar-sign me-2 text-danger"></i>> Rp 10 Juta</a></li>
+                            </ul>
+                        </div>
                     </div>
-                    <div class="col-md-3">
-                        <select class="form-select">
-                            <option>Urutkan</option>
-                            <option>Harga Terendah</option>
-                            <option>Harga Tertinggi</option>
-                            <option>Terpopuler</option>
-                            <option>Terbaru</option>
-                        </select>
+                    <div class="col-md-4">
+                        <div class="dropdown">
+                            <button class="btn btn-outline-secondary dropdown-toggle d-flex align-items-center justify-content-between w-100 filter-dropdown" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                <span><i class="fas fa-sort me-2"></i>Urutkan</span>
+                            </button>
+                            <ul class="dropdown-menu dropdown-menu-wide w-100">
+                                <li><a class="dropdown-item" href="#"><i class="fas fa-arrow-down me-2 text-success"></i>Harga Terendah</a></li>
+                                <li><a class="dropdown-item" href="#"><i class="fas fa-arrow-up me-2 text-danger"></i>Harga Tertinggi</a></li>
+                                <li><a class="dropdown-item" href="#"><i class="fas fa-fire me-2 text-warning"></i>Terpopuler</a></li>
+                                <li><a class="dropdown-item" href="#"><i class="fas fa-clock me-2 text-info"></i>Terbaru</a></li>
+                            </ul>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -183,27 +195,31 @@
             </div>
             
             <div class="product-info">
-                <h6 class="product-title">{{ $product['name'] }}</h6>
-                
-                <div class="product-rating">
-                    <div class="stars">
-                        @for($i = 1; $i <= 5; $i++)
-                        <i class="fas fa-star{{ $i <= floor($product['rating']) ? '' : ' text-muted' }}"></i>
-                        @endfor
+                <div class="product-content">
+                    <h6 class="product-title">{{ $product['name'] }}</h6>
+                    
+                    <div class="product-rating">
+                        <div class="stars">
+                            @for($i = 1; $i <= 5; $i++)
+                            <i class="fas fa-star{{ $i <= floor($product['rating']) ? '' : ' text-muted' }}"></i>
+                            @endfor
+                        </div>
+                        <span class="review-count">({{ $product['reviews'] }})</span>
                     </div>
-                    <span class="review-count">({{ $product['reviews'] }})</span>
                 </div>
                 
-                <div class="product-price">
-                    <span class="current-price">{{ $product['price'] }}</span>
-                    @if($product['original_price'])
-                    <span class="original-price">{{ $product['original_price'] }}</span>
-                    @endif
+                <div class="product-meta">
+                    <div class="product-price">
+                        <span class="current-price">{{ $product['price'] }}</span>
+                        @if($product['original_price'])
+                        <span class="original-price">{{ $product['original_price'] }}</span>
+                        @endif
+                    </div>
+                    
+                    <button class="add-to-cart-btn">
+                        <i class="fas fa-shopping-cart me-2"></i>Tambah ke Keranjang
+                    </button>
                 </div>
-                
-                <button class="add-to-cart-btn">
-                    <i class="fas fa-shopping-cart me-2"></i>Tambah ke Keranjang
-                </button>
             </div>
         </div>
         @endforeach
@@ -219,18 +235,105 @@
                 <span class="page-link">1</span>
             </li>
             <li class="page-item">
-                <a class="page-link" href="#">2</a>
+                <a class="page-link" href="#" title="Go to page 2">2</a>
             </li>
             <li class="page-item">
-                <a class="page-link" href="#">3</a>
+                <a class="page-link" href="#" title="Go to page 3">3</a>
             </li>
             <li class="page-item">
-                <a class="page-link" href="#">4</a>
+                <a class="page-link" href="#" title="Go to page 4">4</a>
             </li>
             <li class="page-item">
-                <a class="page-link" href="#">Next</a>
+                <span class="page-link text-muted">...</span>
+            </li>
+            <li class="page-item">
+                <a class="page-link" href="#" title="Go to page 13">13</a>
+            </li>
+            <li class="page-item">
+                <a class="page-link" href="#" title="Next page">Next</a>
             </li>
         </ul>
     </nav>
 </div>
+
+@push('styles')
+<style>
+    /* Filter Dropdown Styles */
+    .filter-dropdown {
+        border: 2px solid #dee2e6;
+        border-radius: 25px;
+        padding: 8px 16px;
+        font-weight: 500;
+        transition: all 0.3s ease;
+        background: white;
+        text-align: left;
+        color: #495057;
+        position: relative;
+        z-index: 1;
+    }
+
+    .filter-dropdown * {
+        position: relative;
+        z-index: 2;
+    }
+
+    .filter-dropdown:hover {
+        border-color: #f26b37;
+        background: linear-gradient(135deg, #f26b37 0%, #e55827 100%);
+        color: white !important;
+    }
+
+    .filter-dropdown:hover,
+    .filter-dropdown:hover * {
+        color: white !important;
+    }
+
+    .filter-dropdown:hover i {
+        color: white !important;
+    }
+
+    .filter-section .dropdown-menu-wide {
+        min-width: 100%;
+        border-radius: 12px;
+        border: none;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+        padding: 10px 0;
+        margin-top: 5px;
+    }
+
+    .filter-section .dropdown-menu-wide .dropdown-item {
+        padding: 10px 16px;
+        font-weight: 500;
+        transition: all 0.3s ease;
+        border-radius: 0;
+    }
+
+    .filter-section .dropdown-menu-wide .dropdown-item:hover {
+        background: linear-gradient(135deg, #f26b37 0%, #e55827 100%);
+        color: white;
+    }
+
+    .filter-section .dropdown-menu-wide .dropdown-item i {
+        width: 18px;
+        transition: all 0.3s ease;
+    }
+
+    .filter-section .dropdown-menu-wide .dropdown-item:hover i {
+        color: white !important;
+    }
+
+    /* Responsive filter */
+    @media (max-width: 768px) {
+        .filter-section .row .col-md-4 {
+            margin-bottom: 10px;
+        }
+        
+        .filter-dropdown {
+            font-size: 0.9rem;
+            padding: 6px 12px;
+        }
+    }
+</style>
+@endpush
+
 @endsection

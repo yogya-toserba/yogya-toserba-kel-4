@@ -19,7 +19,7 @@
 </head>
 <body>
     <!-- Enhanced Promo Notification Modal -->
-    <div class="modal fade" id="promoModal" tabindex="-1" aria-labelledby="promoModalLabel" aria-hidden="true">
+    <div class="modal" id="promoModal" tabindex="-1" aria-labelledby="promoModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content promo-modal">
                 <div class="modal-header border-0">
@@ -268,7 +268,7 @@
                                                 @endif
                                             </div>
                                             <div class="slide-actions">
-                                                <a href="{{ $slide['button_link'] }}" class="btn btn-hero-primary">
+                                                <a href="#produk-terlaris" class="btn btn-hero-primary" onclick="scrollToSection('produk-terlaris')">
                                                     {{ $slide['button_text'] }}
                                                     <i class="fas fa-arrow-right ms-2"></i>
                                                 </a>
@@ -408,7 +408,7 @@
 
 
     <!-- Popular Products Section -->
-    <section class="popular-products">
+    <section class="popular-products" id="produk-terlaris">
         <div class="container">
             <div class="section-header">
                 <h2 class="section-title">Produk Terlaris</h2>
@@ -591,6 +591,38 @@
                 document.body.removeAttribute('style');
             });
         });
+        
+        // Force remove all modal animations
+        document.addEventListener('DOMContentLoaded', function() {
+            const modal = document.getElementById('promoModal');
+            if (modal) {
+                // Remove fade class to prevent Bootstrap animations
+                modal.classList.remove('fade');
+                
+                // Force backdrop to be instant
+                modal.addEventListener('show.bs.modal', function() {
+                    setTimeout(function() {
+                        const backdrop = document.querySelector('.modal-backdrop');
+                        if (backdrop) {
+                            backdrop.style.opacity = '1';
+                            backdrop.style.transition = 'none';
+                            backdrop.style.background = 'rgba(0, 0, 0, 0.5)';
+                        }
+                    }, 0);
+                });
+            }
+        });
+        
+        // Smooth scroll function for navigation
+        function scrollToSection(sectionId) {
+            const element = document.getElementById(sectionId);
+            if (element) {
+                element.scrollIntoView({
+                    behavior: 'smooth',
+                    block: 'start'
+                });
+            }
+        }
     </script>
 </body>
 </html>

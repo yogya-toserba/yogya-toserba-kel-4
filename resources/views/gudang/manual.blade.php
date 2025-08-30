@@ -550,13 +550,80 @@
     </button>
 
     <script>
+        // Global variables
+        let currentActiveSection = null;
+        let isUpdating = false;
+
         // Initialize page
         document.addEventListener('DOMContentLoaded', function() {
+            console.log('DOM Content Loaded');
+            
             // Show all sections immediately
             document.querySelectorAll('.manual-section').forEach(section => {
                 section.classList.add('visible');
             });
+            
+            // Initialize FAQ items - ensure all answers are closed initially
+            document.querySelectorAll('.faq-answer').forEach(answer => {
+                answer.style.maxHeight = '0';
+            });
+            
+            // Small delay to ensure all elements are rendered
+            setTimeout(() => {
+                initializeFAQ();
+            }, 100);
         });
+
+        // FAQ functionality
+        function initializeFAQ() {
+            const faqQuestions = document.querySelectorAll('.faq-question');
+            console.log('Found FAQ questions:', faqQuestions.length);
+            
+            faqQuestions.forEach((question, index) => {
+                // Skip if already initialized
+                if (question.hasAttribute('data-initialized')) {
+                    return;
+                }
+                
+                console.log(`Initializing FAQ ${index + 1}:`, question);
+                question.setAttribute('data-initialized', 'true');
+                
+                question.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    console.log('FAQ clicked:', this);
+                    
+                    const faqItem = this.parentElement;
+                    const answer = faqItem.querySelector('.faq-answer');
+                    const isActive = faqItem.classList.contains('active');
+                    
+                    console.log('FAQ item:', faqItem);
+                    console.log('FAQ answer:', answer);
+                    console.log('Is active:', isActive);
+                    
+                    // Close all other FAQ items
+                    document.querySelectorAll('.faq-item').forEach(item => {
+                        if (item !== faqItem) {
+                            item.classList.remove('active');
+                            const otherAnswer = item.querySelector('.faq-answer');
+                            if (otherAnswer) {
+                                otherAnswer.style.maxHeight = '0';
+                            }
+                        }
+                    });
+                    
+                    // Toggle current item
+                    faqItem.classList.toggle('active');
+                    
+                    if (!isActive) {
+                        console.log('Opening FAQ, scrollHeight:', answer.scrollHeight);
+                        answer.style.maxHeight = answer.scrollHeight + 'px';
+                    } else {
+                        console.log('Closing FAQ');
+                        answer.style.maxHeight = '0';
+                    }
+                });
+            });
+        }
 
         // Scroll to Top Button functionality
         const scrollToTopBtn = document.getElementById('scrollToTop');
@@ -604,9 +671,6 @@
             threshold: [0.1, 0.3, 0.6],
             rootMargin: '-100px 0px -50% 0px'
         };
-
-        let currentActiveSection = null;
-        let isUpdating = false;
 
         const sectionObserver = new IntersectionObserver(function(entries) {
             if (isUpdating) return;
@@ -674,9 +738,6 @@
         });
 
         // Navigation highlighting
-        let currentActiveSection = null;
-        let isUpdating = false;
-        
         window.addEventListener('scroll', () => {
             if (!isUpdating) {
                 const sections = document.querySelectorAll('.manual-section');
@@ -707,8 +768,6 @@
                 }
             }
         });
-            }, 100);
-        });
 
         // Tab functionality with smooth transitions
         document.querySelectorAll('.tab-btn').forEach(btn => {
@@ -735,36 +794,15 @@
             });
         });
 
-        // Enhanced FAQ toggle functionality
-        document.querySelectorAll('.faq-question').forEach(question => {
-            question.addEventListener('click', function() {
-                const faqItem = this.parentElement;
-                const answer = faqItem.querySelector('.faq-answer');
-                const isActive = faqItem.classList.contains('active');
-                
-                // Close all other FAQ items
-                document.querySelectorAll('.faq-item').forEach(item => {
-                    if (item !== faqItem) {
-                        item.classList.remove('active');
-                        const otherAnswer = item.querySelector('.faq-answer');
-                        otherAnswer.style.maxHeight = '0';
-                    }
-                });
-                
-                // Toggle current item
-                faqItem.classList.toggle('active');
-                
-                if (!isActive) {
-                    answer.style.maxHeight = answer.scrollHeight + 'px';
-                } else {
-                    answer.style.maxHeight = '0';
-                }
-            });
-        });
-
         // Add loading animation
         window.addEventListener('load', function() {
             document.body.classList.add('loaded');
+            
+            // Fallback initialization in case DOMContentLoaded missed
+            if (document.querySelectorAll('.faq-question[data-initialized]').length === 0) {
+                console.log('Fallback FAQ initialization');
+                initializeFAQ();
+            }
         });
     </script>
 </body>
