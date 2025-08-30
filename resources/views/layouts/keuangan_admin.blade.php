@@ -351,7 +351,7 @@
                 <i class="fas fa-chart-bar"></i>
                 Laporan
             </a>
-            <a href="{{ route('admin.keuangan') }}" class="sidebar-link {{ request()->routeIs('admin.keuangan*') ? 'active' : '' }}">
+            <a href="{{ route('admin.keuangan.dashboard') }}" class="sidebar-link {{ request()->routeIs('admin.keuangan*') ? 'active' : '' }}">
                 <i class="fas fa-coins"></i>
                 Keuangan
             </a>
@@ -392,7 +392,7 @@
             </div>
 
             <div class="financial-nav-menu">
-                <a href="{{ route('admin.keuangan') }}" class="financial-nav-link {{ request()->routeIs('admin.keuangan') && !request()->routeIs('admin.keuangan.*') ? 'active' : '' }}">
+                <a href="{{ route('admin.keuangan.dashboard') }}" class="financial-nav-link {{ request()->routeIs('admin.keuangan.dashboard') ? 'active' : '' }}">
                     <i class="fas fa-tachometer-alt me-1"></i>
                     Dashboard
                 </a>

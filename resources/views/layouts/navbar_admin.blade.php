@@ -11,24 +11,15 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         :root {
-            --admin-bg: #0f172a;
-            /* slate-900 */
-            --admin-bg-soft: #111827;
-            /* gray-900 */
-            --admin-surface: #111827;
-            /* gray-900 */
-            --admin-surface-2: #1f2937;
-            /* gray-800 */
-            --admin-text: #e5e7eb;
-            /* gray-200 */
-            --admin-text-dim: #9ca3af;
-            /* gray-400 */
-            --admin-primary: #22c55e;
-            /* emerald-500 */
-            --admin-primary-600: #16a34a;
-            /* emerald-600 */
-            --admin-hover: #374151;
-            /* gray-700 */
+            --primary-color: #f26b37;
+            --secondary-color: #d7263d;
+            --text-dark: #2c3e50;
+            --text-light: #6c757d;
+            --light-bg: #f8f9fa;
+            --border-color: #e9ecef;
+            --white: #ffffff;
+            --sidebar-width: 260px;
+            --navbar-height: 70px;
         }
 
         #sidebar {
@@ -36,40 +27,73 @@
             top: 0;
             left: 0;
             height: 100vh;
-            width: 250px;
+            width: var(--sidebar-width);
             transition: all 0.3s;
-            background: linear-gradient(180deg, var(--admin-bg) 0%, var(--admin-surface) 100%);
-            color: var(--admin-text);
+            background: linear-gradient(180deg, var(--secondary-color), var(--primary-color));
+            color: white;
             z-index: 1000;
             overflow-y: auto;
+            box-shadow: 4px 0 15px rgba(0,0,0,0.1);
         }
 
         .content {
-            margin-left: 250px;
-            width: calc(100% - 250px);
+            margin-left: var(--sidebar-width);
+            width: calc(100% - var(--sidebar-width));
             min-height: 100vh;
             background: #f8fafc;
-            /* slate-50 */
         }
 
         .sidebar-link {
-            color: var(--admin-text);
-            text-decoration: none;
-            padding: 10px 15px;
+            color: rgba(255,255,255,0.9) !important;
+            text-decoration: none !important;
+            padding: 15px 20px;
             display: block;
-            border-radius: 8px;
-            margin: 4px 8px;
+            border-radius: 12px;
+            margin: 0 15px 8px;
             position: relative;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            overflow: hidden;
+        }
+
+        .sidebar-link::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.1), transparent);
+            transition: left 0.5s ease;
+        }
+
+        .sidebar-link:hover::before {
+            left: 100%;
         }
 
         .sidebar-link:hover {
-            background: var(--admin-hover);
-            color: var(--admin-text);
+            background: rgba(255,255,255,0.15) !important;
+            color: white !important;
+            text-decoration: none !important;
+            transform: translateX(5px);
         }
 
         .sidebar-link.active {
-            background: rgba(34, 197, 94, 0.2);
-            color: var(--admin-primary);
+            background: rgba(255,255,255,0.2) !important;
+            color: white !important;
+            font-weight: 600;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+        }
+
+        .sidebar-link.active::after {
+            content: '';
+            position: absolute;
+            right: 0;
+            top: 0;
+            height: 100%;
+            width: 4px;
+            background: white;
+            border-radius: 2px 0 0 2px;
         }
 
         .dropdown-toggle::after {
@@ -103,15 +127,68 @@
         }
 
         #keuanganSubmenu .sidebar-link {
-            padding: 8px 15px;
+            padding: 12px 20px;
             font-size: 0.9rem;
-            margin: 2px 0;
+            margin: 2px 15px;
+            color: rgba(255, 255, 255, 0.8) !important;
+            text-decoration: none !important;
+            border-radius: 8px;
         }
 
         #keuanganSubmenu .sidebar-link:hover {
-            background: rgba(34, 197, 94, 0.1);
-            padding-left: 20px;
+            background: rgba(255, 255, 255, 0.1);
+            padding-left: 25px;
             transition: all 0.3s ease;
+            color: white !important;
+        }
+
+        #keuanganSubmenu .sidebar-link.active {
+            background: rgba(255, 255, 255, 0.2);
+            color: white !important;
+            font-weight: 600;
+        }
+
+        /* Sidebar Header */
+        .sidebar-header {
+            padding: 20px;
+            background: rgba(0,0,0,0.1);
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+            text-align: center;
+        }
+
+        .sidebar-logo {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+            text-decoration: none;
+            color: white;
+        }
+
+        .sidebar-logo:hover {
+            color: white;
+            text-decoration: none;
+        }
+
+        .sidebar-brand h4 {
+            font-weight: 700;
+            margin: 0;
+            font-size: 1.4rem;
+        }
+
+        .sidebar-menu {
+            padding: 20px 0;
+        }
+
+        .sidebar-menu-item {
+            margin-bottom: 8px;
+        }
+
+        .sidebar-link i {
+            width: 20px;
+            margin-right: 12px;
+            font-size: 1.1rem;
+        }
         }
 
         .collapse {
@@ -178,37 +255,39 @@
     <div class="d-flex">
         <!-- Sidebar -->
         <nav id="sidebar">
-            <div class="p-4">
-                <h4 class="text-white">Yogya Admin</h4>
-                <hr class="bg-light">
+            <div class="sidebar-header">
+                <a href="{{ route('admin.dashboard') }}" class="sidebar-logo">
+                    <div class="sidebar-brand">
+                        <h4>Yogya Admin</h4>
+                    </div>
+                </a>
+            </div>
+
+            <div class="sidebar-menu">
                 <ul class="list-unstyled">
-                    <li>
-                        <a href="{{ route('admin.dashboard') }}"
-                            class="sidebar-link {{ Request::is('admin/dashboard') ? 'active' : '' }}">
+                    <li class="sidebar-menu-item">
+                        <a href="{{ route('admin.dashboard') }}" class="sidebar-link {{ Request::is('admin/dashboard') ? 'active' : '' }}">
                             <i class="fas fa-home me-2"></i> Dashboard
                         </a>
                     </li>
-                    <li>
-                        <a href="{{ route('admin.data-karyawan') }}"
-                            class="sidebar-link {{ Request::is('admin/data-karyawan*') ? 'active' : '' }}">
+                    <li class="sidebar-menu-item">
+                        <a href="{{ route('admin.data-karyawan') }}" class="sidebar-link {{ Request::is('admin/data-karyawan*') ? 'active' : '' }}">
                             <i class="fas fa-users me-2"></i> Data Karyawan
                         </a>
                     </li>
-                    <li>
-                        <a href="{{ route('admin.penggajian') }}"
-                            class="sidebar-link {{ Request::is('admin/penggajian*') ? 'active' : '' }}">
+                    <li class="sidebar-menu-item">
+                        <a href="{{ route('admin.penggajian') }}" class="sidebar-link {{ Request::is('admin/penggajian*') ? 'active' : '' }}">
                             <i class="fas fa-money-check-alt me-2"></i> Penggajian
                         </a>
                     </li>
-                    <li>
-                        <a href="{{ route('admin.absensi') }}"
-                            class="sidebar-link {{ Request::is('admin/absensi*') ? 'active' : '' }}">
+                    <li class="sidebar-menu-item">
+                        <a href="{{ route('admin.absensi') }}" class="sidebar-link {{ Request::is('admin/absensi*') ? 'active' : '' }}">
                             <i class="fas fa-user-check me-2"></i> Absensi
                         </a>
                     </li>
                     
                     <!-- Keuangan Dropdown -->
-                    <li class="nav-item dropdown">
+                    <li class="sidebar-menu-item nav-item dropdown">
                         <a href="#" class="sidebar-link dropdown-toggle {{ Request::is('admin/laporan*') || Request::is('admin/keuangan*') ? 'active' : '' }}" 
                            id="keuanganDropdown" role="button" data-bs-toggle="collapse" data-bs-target="#keuanganSubmenu" 
                            aria-expanded="{{ Request::is('admin/laporan*') || Request::is('admin/keuangan*') ? 'true' : 'false' }}">
@@ -216,22 +295,19 @@
                             <i class="fas fa-chevron-down keuangan-arrow"></i>
                         </a>
                         <div class="collapse {{ Request::is('admin/laporan*') || Request::is('admin/keuangan*') ? 'show' : '' }}" id="keuanganSubmenu">
-                            <ul class="list-unstyled ps-4">
+                            <ul class="list-unstyled">
                                 <li>
-                                    <a href="{{ route('admin.laporan') }}"
-                                        class="sidebar-link {{ Request::is('admin/laporan') ? 'active' : '' }}">
+                                    <a href="{{ route('admin.laporan') }}" class="sidebar-link {{ Request::is('admin/laporan') ? 'active' : '' }}">
                                         <i class="fas fa-file-alt me-2"></i> Laporan
                                     </a>
                                 </li>
                                 <li>
-                                    <a href="{{ route('admin.keuangan.riwayat') }}"
-                                        class="sidebar-link {{ Request::is('admin/keuangan/riwayat*') ? 'active' : '' }}">
+                                    <a href="{{ route('admin.keuangan.riwayat') }}" class="sidebar-link {{ Request::is('admin/keuangan/riwayat*') ? 'active' : '' }}">
                                         <i class="fas fa-history me-2"></i> Riwayat Transaksi
                                     </a>
                                 </li>
                                 <li>
-                                    <a href="{{ route('admin.keuangan.bukubesar') }}"
-                                        class="sidebar-link {{ Request::is('admin/keuangan/buku-besar*') ? 'active' : '' }}">
+                                    <a href="{{ route('admin.keuangan.bukubesar') }}" class="sidebar-link {{ Request::is('admin/keuangan/buku-besar*') ? 'active' : '' }}">
                                         <i class="fas fa-book me-2"></i> Buku Besar
                                     </a>
                                 </li>
@@ -239,9 +315,8 @@
                         </div>
                     </li>
                     
-                    <li>
-                        <a href="{{ route('admin.pengaturan') }}"
-                            class="sidebar-link {{ Request::is('admin/pengaturan*') ? 'active' : '' }}">
+                    <li class="sidebar-menu-item">
+                        <a href="{{ route('admin.pengaturan') }}" class="sidebar-link {{ Request::is('admin/pengaturan*') ? 'active' : '' }}">
                             <i class="fas fa-cog me-2"></i> Pengaturan
                         </a>
                     </li>
@@ -254,10 +329,6 @@
             <!-- Navbar -->
             <nav class="navbar navbar-expand-lg shadow-sm">
                 <div class="container-fluid">
-                    <button class="btn btn-link" id="sidebarCollapse">
-                        <i class="fas fa-bars"></i>
-                    </button>
-
                     <div class="ms-auto">
                         <div class="dropdown">
                             <button class="btn btn-link dropdown-toggle text-dark text-decoration-none" type="button"
@@ -292,8 +363,9 @@
     <!-- Bootstrap JS -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <script>
-        document.getElementById('sidebarCollapse').addEventListener('click', function () {
-            document.getElementById('sidebar').classList.toggle('active');
+        // Simple dropdown functionality only
+        document.addEventListener('DOMContentLoaded', function() {
+            // No minimized functionality
         });
     </script>
     @stack('scripts')

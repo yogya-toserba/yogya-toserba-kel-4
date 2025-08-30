@@ -150,8 +150,10 @@
 
         .sidebar-menu-link i {
             width: 20px;
-            margin-right: 12px;
             font-size: 1rem;
+            text-align: center;
+            display: inline-block;
+            margin-right: 8px;
         }
 
         .sidebar-user {
@@ -436,9 +438,9 @@
 </head>
 <body>
     <!-- Sidebar -->
-    <div class="sidebar">
+        <div class="sidebar">
         <div class="sidebar-header">
-            <a href="{{ route('admin.keuangan') }}" class="sidebar-logo">
+            <a href="{{ route('admin.keuangan.dashboard') }}" class="sidebar-logo">
                 <div class="sidebar-brand">
                     <h4>Yogya Admin</h4>
                     <small>Keuangan</small>
@@ -449,25 +451,25 @@
         <div class="sidebar-menu">
             <div class="sidebar-menu-item">
                 <a href="{{ route('admin.dashboard') }}" class="sidebar-menu-link {{ request()->routeIs('admin.dashboard') ? 'active' : '' }}">
-                    <i class="fas fa-home"></i>
+                    <i class="fas fa-home me-2"></i>
                     Dashboard
                 </a>
             </div>
             <div class="sidebar-menu-item">
                 <a href="{{ route('admin.data-karyawan') }}" class="sidebar-menu-link {{ request()->routeIs('admin.data-karyawan*') ? 'active' : '' }}">
-                    <i class="fas fa-users"></i>
+                    <i class="fas fa-users me-2"></i>
                     Data Karyawan
                 </a>
             </div>
             <div class="sidebar-menu-item">
                 <a href="{{ route('admin.penggajian') }}" class="sidebar-menu-link {{ request()->routeIs('admin.penggajian*') ? 'active' : '' }}">
-                    <i class="fas fa-money-check-alt"></i>
+                    <i class="fas fa-money-check-alt me-2"></i>
                     Penggajian
                 </a>
             </div>
             <div class="sidebar-menu-item">
                 <a href="{{ route('admin.absensi') }}" class="sidebar-menu-link {{ request()->routeIs('admin.absensi*') ? 'active' : '' }}">
-                    <i class="fas fa-user-check"></i>
+                    <i class="fas fa-user-check me-2"></i>
                     Absensi
                 </a>
             </div>
@@ -478,33 +480,33 @@
                 <span style="color: #9ca3af; font-size: 0.75rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px; padding: 0 15px;">KEUANGAN</span>
             </div>
             <div class="sidebar-menu-item">
-                <a href="{{ route('admin.keuangan') }}" class="sidebar-menu-link {{ request()->routeIs('admin.keuangan') && !request()->routeIs('admin.keuangan.*') ? 'active' : '' }}">
-                    <i class="fas fa-tachometer-alt"></i>
+                <a href="{{ route('admin.keuangan.dashboard') }}" class="sidebar-menu-link {{ request()->routeIs('admin.keuangan.dashboard') ? 'active' : '' }}">
+                    <i class="fas fa-tachometer-alt me-2"></i>
                     Dashboard Keuangan
                 </a>
             </div>
             <div class="sidebar-menu-item">
                 <a href="{{ route('admin.keuangan.riwayat') }}" class="sidebar-menu-link {{ request()->routeIs('admin.keuangan.riwayat') ? 'active' : '' }}">
-                    <i class="fas fa-history"></i>
+                    <i class="fas fa-history me-2"></i>
                     Riwayat Transaksi
                 </a>
             </div>
             <div class="sidebar-menu-item">
                 <a href="{{ route('admin.keuangan.bukubesar') }}" class="sidebar-menu-link {{ request()->routeIs('admin.keuangan.bukubesar') ? 'active' : '' }}">
-                    <i class="fas fa-book"></i>
+                    <i class="fas fa-book me-2"></i>
                     Buku Besar
                 </a>
             </div>
             <div class="sidebar-menu-item">
                 <a href="{{ route('admin.keuangan.laporan') }}" class="sidebar-menu-link {{ request()->routeIs('admin.keuangan.laporan') ? 'active' : '' }}">
-                    <i class="fas fa-chart-line"></i>
+                    <i class="fas fa-chart-line me-2"></i>
                     Laporan Keuangan
                 </a>
             </div>
             
             <div class="sidebar-menu-item">
                 <a href="{{ route('admin.pengaturan') }}" class="sidebar-menu-link {{ request()->routeIs('admin.pengaturan*') ? 'active' : '' }}">
-                    <i class="fas fa-cog"></i>
+                    <i class="fas fa-cog me-2"></i>
                     Pengaturan
                 </a>
             </div>

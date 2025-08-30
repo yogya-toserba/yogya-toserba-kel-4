@@ -16,57 +16,13 @@
         color: white;
     }
     
-    .btn-orange:hover {
-        background-color: var(--orange-dark);
-        border-color: var(--orange-dark);
-        color: white;
-    }
     
     .text-orange {
         color: var(--orange-primary) !important;
     }
     
     /* Dropdown Action Styles */
-    .dropdown-toggle {
-        border: none;
-        background: #f8f9fa;
-        color: #6c757d;
-        width: 32px;
-        height: 32px;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        border-radius: 6px;
-    }
     
-    .dropdown-toggle:hover {
-        background: #e9ecef;
-        color: #495057;
-    }
-    
-    .dropdown-toggle:focus {
-        box-shadow: 0 0 0 0.2rem rgba(242, 112, 61, 0.25);
-    }
-    
-    .dropdown-menu {
-        border: 1px solid #dee2e6;
-        border-radius: 8px;
-        box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);
-        min-width: 150px;
-    }
-    
-    .dropdown-item {
-        padding: 0.5rem 1rem;
-        font-size: 0.875rem;
-    }
-    
-    .dropdown-item:hover {
-        background-color: #f8f9fa;
-    }
-    
-    .dropdown-item.text-danger:hover {
-        background-color: #f8d7da;
-    }
 </style>
 
 <div class="container-fluid orange-theme">

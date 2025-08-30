@@ -247,9 +247,7 @@ Route::prefix('admin')->name('admin.')->group(function () {
         Route::get('penggajian', function () {
             return view('admin.penggajian');
         })->name('penggajian');
-        Route::get('laporan', function () {
-            return view('admin.laporan');
-        })->name('laporan');
+        Route::get('laporan', [KeuanganController::class, 'laporan'])->name('laporan');
         Route::get('absensi', function () {
             return view('admin.absensi');
         })->name('absensi');
@@ -263,7 +261,17 @@ Route::prefix('admin')->name('admin.')->group(function () {
             Route::get('riwayat-transaksi', [KeuanganController::class, 'riwayatTransaksi'])->name('riwayat');
             Route::get('buku-besar', [KeuanganController::class, 'bukuBesar'])->name('bukubesar');
             Route::get('laporan', [KeuanganController::class, 'laporan'])->name('laporan');
+            Route::get('export-pdf', [KeuanganController::class, 'exportPDF'])->name('export.pdf');
+            
+            // AJAX Routes
+            Route::get('detail-transaksi/{id}', [KeuanganController::class, 'getDetailTransaksi'])->name('detail.transaksi');
+            Route::get('export-riwayat', [KeuanganController::class, 'exportRiwayatTransaksi'])->name('export.riwayat');
         });
+        
+        // Route redirect untuk kompatibilitas layout
+        Route::get('keuangan', function () {
+            return redirect()->route('admin.keuangan.dashboard');
+        })->name('keuangan');
     });
 });
 
