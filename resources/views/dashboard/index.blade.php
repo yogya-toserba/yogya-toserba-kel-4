@@ -495,7 +495,7 @@
                 <div class="col-lg-4 col-md-6 mb-4">
                     <div class="footer-brand">
                         <h5 class="mb-2">MyYOGYA</h5>
-                        <p>Platform belanja online terpercaya #1 di Indonesia dengan berbagai produk berkualitas dan harga terjangkau.</p>
+                        <p>Platform belanja online terpercaya dengan ribuan produk berkualitas dan pelayanan terbaik untuk kepuasan Anda.</p>
                     </div>
                 </div>
                 <div class="col-lg-2 col-md-6 mb-4">

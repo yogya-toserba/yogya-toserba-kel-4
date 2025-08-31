@@ -450,7 +450,7 @@
     <!-- Sidebar -->
     <div class="sidebar">
         <div class="sidebar-header">
-            <a href="{{ route('admin.keuangan.dashboard') }}" class="sidebar-logo">
+            <a href="{{ route('admin.keuangan') }}" class="sidebar-logo">
                 <img src="{{ asset('image/logo_yogya.png') }}" alt="MyYOGYA">
                 <div class="sidebar-brand">
                     <h4>MyYOGYA</h4>
@@ -461,7 +461,7 @@
 
         <div class="sidebar-menu">
             <div class="sidebar-menu-item">
-                <a href="{{ route('admin.keuangan.dashboard') }}" class="sidebar-menu-link {{ request()->routeIs('admin.keuangan.*') ? 'active' : '' }}">
+                <a href="{{ route('admin.keuangan') }}" class="sidebar-menu-link {{ request()->routeIs('admin.keuangan') ? 'active' : '' }}">
                     <i class="fas fa-tachometer-alt"></i>
                     Dashboard
                 </a>
