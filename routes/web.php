@@ -9,6 +9,8 @@ use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\GudangController;
 use App\Http\Controllers\StokGudangPusatController;
 use App\Http\Controllers\ProdukTerlarisController;
+use App\Http\Controllers\KeranjangController;
+use App\Http\Controllers\ProdukController;
 use App\Http\Controllers\KeuanganController;
 
 // Route untuk testing error pages
@@ -104,6 +106,23 @@ Route::get('/hak-kekayaan-intelektual', function () {
 
 // AJAX routes for dashboard
 Route::post('/add-to-cart', [DashboardController::class, 'addToCart'])->name('add.to.cart');
+
+// Keranjang Routes
+Route::prefix('keranjang')->name('keranjang.')->group(function () {
+    Route::get('/', [KeranjangController::class, 'index'])->name('index');
+    Route::post('/add', [KeranjangController::class, 'add'])->name('add');
+    Route::post('/update', [KeranjangController::class, 'update'])->name('update');
+    Route::delete('/remove', [KeranjangController::class, 'remove'])->name('remove');
+    Route::delete('/clear', [KeranjangController::class, 'clear'])->name('clear');
+    Route::get('/data', [KeranjangController::class, 'getCart'])->name('data');
+});
+
+// Product Detail Routes
+Route::prefix('produk')->name('produk.')->group(function () {
+    Route::get('/detail', [ProdukController::class, 'detail'])->name('detail');
+    Route::get('/{id}/reviews', [ProdukController::class, 'getReviews'])->name('reviews');
+    Route::post('/{id}/reviews', [ProdukController::class, 'addReview'])->name('reviews.add');
+});
 
 // API Routes untuk Produk Terlaris
 Route::prefix('api')->group(function () {
@@ -221,17 +240,17 @@ Route::prefix('admin')->name('admin.')->group(function () {
         Route::get('/dashboard', [AdminController::class, 'dashboard'])->name('dashboard');
         Route::get('/chart-data', [AdminController::class, 'getChartData'])->name('chart.data');
         Route::get('/data-karyawan', [AdminController::class, 'dataKaryawan'])->name('data-karyawan');
+        Route::get('/data-karyawan/search', [AdminController::class, 'searchKaryawan'])->name('data-karyawan.search');
         Route::get('/data-karyawan/tambah', [AdminController::class, 'tambahKaryawan'])->name('data-karyawan.tambah');
         Route::post('/data-karyawan', [AdminController::class, 'storeKaryawan'])->name('data-karyawan.store');
+        Route::post('/karyawan/{id}/toggle-status', [AdminController::class, 'toggleKaryawanStatus'])->name('karyawan.toggle-status');
         Route::get('/sales-data', [AdminController::class, 'getSalesData'])->name('sales.data');
         Route::get('/profile', [AdminController::class, 'profile'])->name('profile');
         Route::post('/profile', [AdminController::class, 'updateProfile'])->name('profile.update');
         Route::get('penggajian', function () {
             return view('admin.penggajian');
         })->name('penggajian');
-        Route::get('laporan', function () {
-            return view('admin.laporan');
-        })->name('laporan');
+        Route::get('laporan', [KeuanganController::class, 'laporan'])->name('laporan');
         Route::get('absensi', function () {
             return view('admin.absensi');
         })->name('absensi');
@@ -246,12 +265,12 @@ Route::prefix('admin')->name('admin.')->group(function () {
             Route::get('buku-besar', [KeuanganController::class, 'bukuBesar'])->name('bukubesar');
             Route::get('laporan', [KeuanganController::class, 'laporan'])->name('laporan');
             Route::get('export-pdf', [KeuanganController::class, 'exportPDF'])->name('export.pdf');
-            
+
             // AJAX Routes
             Route::get('detail-transaksi/{id}', [KeuanganController::class, 'getDetailTransaksi'])->name('detail.transaksi');
             Route::get('export-riwayat', [KeuanganController::class, 'exportRiwayatTransaksi'])->name('export.riwayat');
         });
-        
+
         // Route redirect untuk kompatibilitas layout
         Route::get('keuangan', function () {
             return redirect()->route('admin.keuangan.dashboard');

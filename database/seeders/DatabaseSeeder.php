@@ -17,7 +17,7 @@ class DatabaseSeeder extends Seeder
         // Hapus data lama
         User::truncate();
         Admin::truncate();
-        
+
         // User::factory(10)->create();
 
         User::factory()->create([
@@ -31,6 +31,8 @@ class DatabaseSeeder extends Seeder
         ]);
 
         $this->call([
+            ShiftSeeder::class,
+            KaryawanSeeder::class,
             StokGudangPusatSeeder::class,
             CabangSeeder::class,
             KategoriSeeder::class,

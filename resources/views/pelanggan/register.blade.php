@@ -115,19 +115,6 @@
                     </div>
                 </form>
 
-                <!-- Divider -->
-                <div class="divider">
-                    <hr>
-                    <span>atau</span>
-                    <hr>
-                </div>
-
-                <!-- Google Register Button -->
-                <a href="" class="btn-google w-100">
-                    <img src="https://www.svgrepo.com/show/475656/google-color.svg" alt="Google" width="18">
-                    Daftar dengan Google
-                </a>
-
                 <div class="login-link">
                     <small>Sudah punya akun? <a href="{{ route('pelanggan.login') }}">Masuk sekarang!</a></small>
                 </div>

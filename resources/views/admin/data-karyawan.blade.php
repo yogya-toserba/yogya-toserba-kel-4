@@ -338,6 +338,34 @@ body.dark-mode .table small {
     transform: translateY(-1px) !important;
 }
 
+.btn-outline-secondary {
+    border: 2px solid #6c757d !important;
+    color: #6c757d !important;
+    background: transparent !important;
+    font-weight: 500 !important;
+    padding: 6px 14px !important;
+    border-radius: 8px !important;
+    transition: all 0.3s ease !important;
+}
+
+.btn-outline-secondary:hover {
+    background: #6c757d !important;
+    color: white !important;
+    transform: translateY(-1px) !important;
+    border-color: #6c757d !important;
+}
+
+body.dark-mode .btn-outline-secondary {
+    border-color: #9ca3af !important;
+    color: #9ca3af !important;
+}
+
+body.dark-mode .btn-outline-secondary:hover {
+    background: #9ca3af !important;
+    color: #1a1d29 !important;
+    border-color: #9ca3af !important;
+}
+
 /* Action Buttons */
 .btn-action {
     padding: 4px 8px !important;
@@ -591,62 +619,199 @@ body.dark-mode .action-dropdown-item:hover {
     align-items: center;
     margin-top: 20px;
     padding: 15px 0;
+    flex-wrap: wrap;
+    gap: 10px;
 }
 
 .pagination-info {
     font-size: 0.875rem;
     color: #64748b;
+    margin: 0;
 }
 
 body.dark-mode .pagination-info {
     color: #9ca3af;
 }
 
+/* Laravel Pagination Styles */
 .pagination {
-    display: flex;
-    list-style: none;
-    margin: 0;
-    padding: 0;
-    gap: 4px;
+    display: flex !important;
+    justify-content: center !important;
+    list-style: none !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    gap: 2px !important;
+    align-items: center !important;
 }
 
 .pagination .page-item {
-    margin: 0;
+    margin: 0 !important;
+    display: inline-block !important;
 }
 
 .pagination .page-link {
-    padding: 8px 12px;
-    border: 1px solid #e2e8f0;
-    background: white;
-    color: #64748b;
-    text-decoration: none;
-    border-radius: 6px;
-    font-size: 0.875rem;
-    transition: all 0.2s ease;
+    display: inline-block !important;
+    padding: 8px 12px !important;
+    margin: 0 1px !important;
+    border: 1px solid #e2e8f0 !important;
+    background: white !important;
+    color: #64748b !important;
+    text-decoration: none !important;
+    border-radius: 6px !important;
+    font-size: 0.875rem !important;
+    transition: all 0.2s ease !important;
+    line-height: 1.4 !important;
+    min-width: 36px !important;
+    text-align: center !important;
 }
 
 .pagination .page-link:hover {
-    background: #f8fafc;
-    border-color: #cbd5e1;
-    color: #1e293b;
+    background: #f8fafc !important;
+    border-color: #cbd5e1 !important;
+    color: #1e293b !important;
+    text-decoration: none !important;
+    transform: none !important;
+}
+
+.pagination .page-link:focus {
+    box-shadow: 0 0 0 0.2rem rgba(242, 107, 55, 0.25) !important;
+    border-color: #f26b37 !important;
+    outline: none !important;
 }
 
 .pagination .page-item.active .page-link {
-    background: #f26b37;
-    border-color: #f26b37;
-    color: white;
+    background: #f26b37 !important;
+    border-color: #f26b37 !important;
+    color: white !important;
+    z-index: 3 !important;
 }
 
+.pagination .page-item.disabled .page-link {
+    color: #6c757d !important;
+    pointer-events: none !important;
+    background-color: #fff !important;
+    border-color: #dee2e6 !important;
+    opacity: 0.5 !important;
+}
+
+/* Dark mode pagination */
 body.dark-mode .pagination .page-link {
-    background: #374151;
-    border-color: #4b5563;
-    color: #9ca3af;
+    background: #374151 !important;
+    border-color: #4b5563 !important;
+    color: #9ca3af !important;
 }
 
 body.dark-mode .pagination .page-link:hover {
-    background: #4b5563;
-    border-color: #6b7280;
-    color: #d1d5db;
+    background: #4b5563 !important;
+    border-color: #6b7280 !important;
+    color: #d1d5db !important;
+}
+
+body.dark-mode .pagination .page-item.active .page-link {
+    background: #f26b37 !important;
+    border-color: #f26b37 !important;
+    color: white !important;
+}
+
+body.dark-mode .pagination .page-item.disabled .page-link {
+    background: #374151 !important;
+    border-color: #4b5563 !important;
+    color: #6b7280 !important;
+}
+
+/* Responsive pagination */
+@media (max-width: 576px) {
+    .pagination-container {
+        flex-direction: column;
+        text-align: center;
+        gap: 15px;
+    }
+    
+    .pagination .page-link {
+        padding: 6px 10px !important;
+        font-size: 0.8rem !important;
+        min-width: 32px !important;
+    }
+}
+
+/* Pagination wrapper */
+.pagination-wrapper {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.pagination-wrapper nav {
+    margin: 0;
+}
+
+/* Override default Laravel pagination styles */
+.pagination-wrapper .pagination {
+    margin-bottom: 0 !important;
+}
+
+/* Loading Spinner */
+.spinner-border {
+    display: inline-block;
+    width: 1rem;
+    height: 1rem;
+    vertical-align: text-bottom;
+    border: 0.125em solid currentColor;
+    border-right-color: transparent;
+    border-radius: 50%;
+    animation: spinner-border 0.75s linear infinite;
+}
+
+.spinner-border-sm {
+    width: 0.875rem;
+    height: 0.875rem;
+    border-width: 0.125em;
+}
+
+@keyframes spinner-border {
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+.text-primary {
+    color: #f26b37 !important;
+}
+
+.visually-hidden {
+    position: absolute !important;
+    width: 1px !important;
+    height: 1px !important;
+    padding: 0 !important;
+    margin: -1px !important;
+    overflow: hidden !important;
+    clip: rect(0, 0, 0, 0) !important;
+    white-space: nowrap !important;
+    border: 0 !important;
+}
+
+/* Search Input Enhancement */
+.search-input-enhanced {
+    position: relative;
+}
+
+.search-input-enhanced::after {
+    content: '';
+    position: absolute;
+    right: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 12px;
+    height: 12px;
+    border: 2px solid #f26b37;
+    border-radius: 50%;
+    border-top-color: transparent;
+    animation: spinner-border 0.75s linear infinite;
+    display: none;
+}
+
+.search-input-enhanced.loading::after {
+    display: block;
 }
 
 /* Equal height for bottom tables */
@@ -709,6 +874,209 @@ body.dark-mode .pagination .page-link:hover {
         padding: 20px !important;
     }
 }
+
+/* Modal Dark Mode Styling */
+body.dark-mode .modal-content {
+    background: #2a2d3f !important;
+    border: 1px solid #3a3d4a !important;
+    color: #e2e8f0 !important;
+}
+
+body.dark-mode .modal-header {
+    border-bottom-color: #3a3d4a !important;
+}
+
+body.dark-mode .modal-footer {
+    border-top-color: #3a3d4a !important;
+}
+
+body.dark-mode .modal-title {
+    color: white !important;
+}
+
+/* Form Dark Mode Styling */
+body.dark-mode .form-label {
+    color: #e2e8f0 !important;
+    font-weight: 500 !important;
+}
+
+body.dark-mode .form-label i {
+    color: #f26b37 !important;
+}
+
+body.dark-mode .text-danger {
+    color: #ef4444 !important;
+}
+
+body.dark-mode .form-control {
+    background: #374151 !important;
+    border-color: #4b5563 !important;
+    color: #e2e8f0 !important;
+}
+
+body.dark-mode .form-control:focus {
+    background: #374151 !important;
+    border-color: #f26b37 !important;
+    color: #e2e8f0 !important;
+    box-shadow: 0 0 0 0.2rem rgba(242, 107, 55, 0.25) !important;
+}
+
+body.dark-mode .form-control::placeholder {
+    color: #9ca3af !important;
+}
+
+body.dark-mode .form-select {
+    background: #374151 !important;
+    border-color: #4b5563 !important;
+    color: #e2e8f0 !important;
+    background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3e%3cpath fill='none' stroke='%23ffffff' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M2 5l6 6 6-6'/%3e%3c/svg%3e") !important;
+}
+
+body.dark-mode .form-select option {
+    background: #374151 !important;
+    color: #e2e8f0 !important;
+}
+
+body.dark-mode .invalid-feedback {
+    color: #ef4444 !important;
+}
+
+body.dark-mode .form-control.is-invalid {
+    border-color: #ef4444 !important;
+    box-shadow: 0 0 0 0.2rem rgba(239, 68, 68, 0.25) !important;
+}
+
+/* Preview Section Dark Mode */
+body.dark-mode .preview-section {
+    background: #374151 !important;
+    border-color: #4b5563 !important;
+}
+
+body.dark-mode .preview-section h6 {
+    color: #f26b37 !important;
+}
+
+body.dark-mode .preview-item {
+    border-bottom-color: #4b5563 !important;
+}
+
+body.dark-mode .preview-label {
+    color: #9ca3af !important;
+}
+
+body.dark-mode .preview-value {
+    color: #e2e8f0 !important;
+}
+
+/* Tab styling for dark mode */
+body.dark-mode .nav-tabs {
+    border-bottom-color: #3a3d4a !important;
+}
+
+body.dark-mode .nav-tabs .nav-link {
+    border-color: transparent !important;
+    color: #9ca3af !important;
+    background: transparent !important;
+}
+
+body.dark-mode .nav-tabs .nav-link:hover {
+    border-color: #4b5563 #4b5563 #3a3d4a !important;
+    background: #374151 !important;
+    color: #e2e8f0 !important;
+}
+
+body.dark-mode .nav-tabs .nav-link.active {
+    background: #2a2d3f !important;
+    border-color: #3a3d4a #3a3d4a #2a2d3f !important;
+    color: #f26b37 !important;
+}
+
+body.dark-mode .tab-content {
+    border: 1px solid #3a3d4a !important;
+    border-top: none !important;
+    background: #2a2d3f !important;
+}
+
+/* Alert dark mode */
+body.dark-mode .alert-info {
+    background: #1e293b !important;
+    border-color: #334155 !important;
+    color: #cbd5e1 !important;
+}
+
+body.dark-mode .alert-warning {
+    background: #451a03 !important;
+    border-color: #92400e !important;
+    color: #fbbf24 !important;
+}
+
+/* Ensure tabs work properly */
+.tab-content {
+    border: 1px solid #dee2e6;
+    border-top: none;
+    background: white;
+    min-height: 400px;
+}
+
+.nav-tabs {
+    border-bottom: 1px solid #dee2e6;
+    background: #f8f9fa;
+    margin: 0;
+}
+
+.nav-tabs .nav-link {
+    border: 1px solid transparent;
+    border-top-left-radius: 0.375rem;
+    border-top-right-radius: 0.375rem;
+    color: #6c757d;
+    padding: 12px 20px;
+    font-weight: 500;
+}
+
+.nav-tabs .nav-link:hover {
+    border-color: #e9ecef #e9ecef #dee2e6;
+    background: #f8f9fa;
+    color: #495057;
+}
+
+.nav-tabs .nav-link.active {
+    color: #f26b37;
+    background: white;
+    border-color: #dee2e6 #dee2e6 white;
+    font-weight: 600;
+}
+
+/* Preview section styling */
+.preview-section {
+    background: #f8f9fa;
+    border: 1px solid #dee2e6;
+    border-radius: 8px;
+    padding: 20px;
+}
+
+.preview-item {
+    border-bottom: 1px solid #dee2e6;
+    padding-bottom: 10px;
+    margin-bottom: 15px;
+}
+
+.preview-item:last-child {
+    border-bottom: none;
+    margin-bottom: 0;
+}
+
+.preview-label {
+    font-size: 0.875rem;
+    color: #6c757d;
+    margin-bottom: 2px;
+    font-weight: 500;
+}
+
+.preview-value {
+    font-weight: 600;
+    color: #2c3e50;
+    word-wrap: break-word;
+}
 </style>
 
 <div class="new-karyawan">
@@ -733,7 +1101,7 @@ body.dark-mode .pagination .page-link:hover {
                 <div class="new-stat-icon">
                     <i class="fas fa-users"></i>
                 </div>
-                <div class="new-stat-number">33</div>
+                <div class="new-stat-number">{{ $totalKaryawan ?? 0 }}</div>
                 <div class="new-stat-label">Total Karyawan</div>
                 <div class="new-stat-change change-positive">
                     <i class="fas fa-arrow-up"></i> Aktif
@@ -745,7 +1113,7 @@ body.dark-mode .pagination .page-link:hover {
                 <div class="new-stat-icon">
                     <i class="fas fa-user-check"></i>
                 </div>
-                <div class="new-stat-number">30</div>
+                <div class="new-stat-number">{{ $karyawanAktif ?? 0 }}</div>
                 <div class="new-stat-label">Karyawan Aktif</div>
                 <div class="new-stat-change change-positive">
                     <i class="fas fa-check"></i> Online
@@ -757,7 +1125,7 @@ body.dark-mode .pagination .page-link:hover {
                 <div class="new-stat-icon">
                     <i class="fas fa-building"></i>
                 </div>
-                <div class="new-stat-number">5</div>
+                <div class="new-stat-number">{{ $totalDepartemen ?? 0 }}</div>
                 <div class="new-stat-label">Departemen</div>
                 <div class="new-stat-change change-neutral">
                     <i class="fas fa-layer-group"></i> Unit
@@ -769,7 +1137,7 @@ body.dark-mode .pagination .page-link:hover {
                 <div class="new-stat-icon">
                     <i class="fas fa-calendar-check"></i>
                 </div>
-                <div class="new-stat-number">28</div>
+                <div class="new-stat-number">{{ $hadirHariIni ?? 0 }}</div>
                 <div class="new-stat-label">Hadir Hari Ini</div>
                 <div class="new-stat-change change-positive">
                     <i class="fas fa-clock"></i> {{ date('H:i') }}
@@ -789,26 +1157,29 @@ body.dark-mode .pagination .page-link:hover {
                     <input type="text" class="form-control" placeholder="Cari karyawan..." id="searchKaryawan">
                 </div>
             </div>
-            <div class="col-md-3">
+            <div class="col-md-2">
                 <select class="form-control" id="filterDepartment">
                     <option value="">Semua Departemen</option>
-                    <option value="Kasir">Kasir</option>
-                    <option value="Gudang">Gudang</option>
-                    <option value="Security">Security</option>
-                    <option value="Cleaning Service">Cleaning Service</option>
-                    <option value="Manager">Manager</option>
+                    @foreach($divisiList ?? [] as $divisi)
+                        <option value="{{ $divisi }}">{{ $divisi }}</option>
+                    @endforeach
                 </select>
             </div>
-            <div class="col-md-3">
+            <div class="col-md-2">
                 <select class="form-control" id="filterStatus">
                     <option value="">Semua Status</option>
                     <option value="Aktif">Aktif</option>
                     <option value="Non-Aktif">Non-Aktif</option>
                 </select>
             </div>
-            <div class="col-md-2">
-                <button class="btn btn-primary w-100">
+            <div class="col-md-3">
+                <button class="btn btn-primary w-100" data-bs-toggle="modal" data-bs-target="#tambahKaryawanModal">
                     <i class="fas fa-plus me-2"></i>Tambah
+                </button>
+            </div>
+            <div class="col-md-1">
+                <button class="btn btn-outline-secondary w-100" id="resetFilters" title="Reset Filter">
+                    <i class="fas fa-undo"></i>
                 </button>
             </div>
         </div>
@@ -848,260 +1219,86 @@ body.dark-mode .pagination .page-link:hover {
                                 </tr>
                             </thead>
                             <tbody>
-                                <!-- Sample Data -->
+                                @forelse($karyawan ?? [] as $index => $emp)
                                 <tr>
-                                    <td style="font-size: 0.85rem; border: none; padding: 12px 0;">1</td>
+                                    <td style="font-size: 0.85rem; border: none; padding: 12px 0;">{{ $loop->iteration }}</td>
                                     <td style="font-size: 0.85rem; border: none; padding: 12px 0;">
                                         <img src="/image/default-avatar.png" alt="Foto" style="width: 35px; height: 35px; border-radius: 50%; object-fit: cover;">
                                     </td>
                                     <td style="font-size: 0.85rem; border: none; padding: 12px 0;">
                                         <div>
-                                            <strong style="color: #1e293b;">Budi Santoso</strong>
+                                            <strong style="color: #1e293b;">{{ $emp->nama }}</strong>
                                             <br>
-                                            <small style="color: #64748b;">budi.santoso@yogya.com</small>
+                                            <small style="color: #64748b;">{{ $emp->email }}</small>
                                         </div>
                                     </td>
                                     <td style="font-size: 0.85rem; border: none; padding: 12px 0;">
-                                        <strong style="color: #1e293b;">Kasir Senior</strong>
+                                        <strong style="color: #1e293b;">{{ $emp->divisi }}</strong>
                                     </td>
                                     <td style="font-size: 0.85rem; border: none; padding: 12px 0;">
-                                        <span class="badge-department">Kasir</span>
+                                        <span class="badge-department">{{ $emp->divisi }}</span>
                                     </td>
                                     <td style="font-size: 0.85rem; border: none; padding: 12px 0;">
-                                        <span class="badge-active">Aktif</span>
+                                        @if($emp->status === 'Aktif')
+                                            <span class="badge-active">{{ $emp->status }}</span>
+                                        @else
+                                            <span class="badge-inactive">{{ $emp->status }}</span>
+                                        @endif
                                     </td>
                                     <td style="font-size: 0.85rem; border: none; padding: 12px 0;">
-                                        <small style="color: #64748b;">15 Jan 2024</small>
+                                        <small style="color: #64748b;">{{ $emp->created_at ? $emp->created_at->format('d M Y') : '-' }}</small>
                                     </td>
                                     <td style="font-size: 0.85rem; border: none; padding: 12px 0; text-align: center;">
                                         <div class="action-dropdown">
-                                            <button class="action-dropdown-btn" data-employee-id="1">
+                                            <button class="action-dropdown-btn" data-employee-id="{{ $emp->id_karyawan }}">
                                                 <i class="fas fa-ellipsis-v"></i>
                                             </button>
                                             <div class="action-dropdown-menu">
-                                                <button class="action-dropdown-item view-item" onclick="viewEmployee(1)">
+                                                <button class="action-dropdown-item view-item" onclick="viewEmployee({{ $emp->id_karyawan }})">
                                                     <i class="fas fa-eye me-2"></i>Detail
                                                 </button>
-                                                <button class="action-dropdown-item edit-item" onclick="editEmployee(1)">
+                                                <button class="action-dropdown-item edit-item" onclick="editEmployee({{ $emp->id_karyawan }})">
                                                     <i class="fas fa-edit me-2"></i>Edit
                                                 </button>
-                                                <button class="action-dropdown-item delete-item" onclick="deleteEmployee(1)">
+                                                @if($emp->status === 'Aktif')
+                                                    <button class="action-dropdown-item" style="color: #f59e0b;" onclick="toggleStatus({{ $emp->id_karyawan }}, 'Non-Aktif')">
+                                                        <i class="fas fa-user-slash me-2"></i>Non-Aktifkan
+                                                    </button>
+                                                @else
+                                                    <button class="action-dropdown-item" style="color: #10b981;" onclick="toggleStatus({{ $emp->id_karyawan }}, 'Aktif')">
+                                                        <i class="fas fa-user-check me-2"></i>Aktifkan
+                                                    </button>
+                                                @endif
+                                                <button class="action-dropdown-item delete-item" onclick="deleteEmployee({{ $emp->id_karyawan }})">
                                                     <i class="fas fa-trash me-2"></i>Hapus
                                                 </button>
                                             </div>
                                         </div>
                                     </td>
                                 </tr>
+                                @empty
                                 <tr>
-                                    <td style="font-size: 0.85rem; border: none; padding: 12px 0;">2</td>
-                                    <td style="font-size: 0.85rem; border: none; padding: 12px 0;">
-                                        <img src="/image/default-avatar.png" alt="Foto" style="width: 35px; height: 35px; border-radius: 50%; object-fit: cover;">
-                                    </td>
-                                    <td style="font-size: 0.85rem; border: none; padding: 12px 0;">
-                                        <div>
-                                            <strong style="color: #1e293b;">Sari Wulandari</strong>
-                                            <br>
-                                            <small style="color: #64748b;">sari.wulan@yogya.com</small>
-                                        </div>
-                                    </td>
-                                    <td style="font-size: 0.85rem; border: none; padding: 12px 0;">
-                                        <strong style="color: #1e293b;">Staff Gudang</strong>
-                                    </td>
-                                    <td style="font-size: 0.85rem; border: none; padding: 12px 0;">
-                                        <span class="badge-department">Gudang</span>
-                                    </td>
-                                    <td style="font-size: 0.85rem; border: none; padding: 12px 0;">
-                                        <span class="badge-active">Aktif</span>
-                                    </td>
-                                    <td style="font-size: 0.85rem; border: none; padding: 12px 0;">
-                                        <small style="color: #64748b;">22 Feb 2024</small>
-                                    </td>
-                                    <td style="font-size: 0.85rem; border: none; padding: 12px 0; text-align: center;">
-                                        <div class="action-dropdown">
-                                            <button class="action-dropdown-btn" data-employee-id="2">
-                                                <i class="fas fa-ellipsis-v"></i>
-                                            </button>
-                                            <div class="action-dropdown-menu">
-                                                <button class="action-dropdown-item view-item" onclick="viewEmployee(2)">
-                                                    <i class="fas fa-eye me-2"></i>Detail
-                                                </button>
-                                                <button class="action-dropdown-item edit-item" onclick="editEmployee(2)">
-                                                    <i class="fas fa-edit me-2"></i>Edit
-                                                </button>
-                                                <button class="action-dropdown-item delete-item" onclick="deleteEmployee(2)">
-                                                    <i class="fas fa-trash me-2"></i>Hapus
-                                                </button>
-                                            </div>
-                                        </div>
+                                    <td colspan="8" style="text-align: center; padding: 40px; color: #64748b;">
+                                        <i class="fas fa-users fa-2x mb-3" style="opacity: 0.3;"></i>
+                                        <br>
+                                        Tidak ada data karyawan
                                     </td>
                                 </tr>
-                                <tr>
-                                    <td style="font-size: 0.85rem; border: none; padding: 12px 0;">3</td>
-                                    <td style="font-size: 0.85rem; border: none; padding: 12px 0;">
-                                        <img src="/image/default-avatar.png" alt="Foto" style="width: 35px; height: 35px; border-radius: 50%; object-fit: cover;">
-                                    </td>
-                                    <td style="font-size: 0.85rem; border: none; padding: 12px 0;">
-                                        <div>
-                                            <strong style="color: #1e293b;">Ahmad Rifki</strong>
-                                            <br>
-                                            <small style="color: #64748b;">ahmad.rifki@yogya.com</small>
-                                        </div>
-                                    </td>
-                                    <td style="font-size: 0.85rem; border: none; padding: 12px 0;">
-                                        <strong style="color: #1e293b;">Security</strong>
-                                    </td>
-                                    <td style="font-size: 0.85rem; border: none; padding: 12px 0;">
-                                        <span class="badge-department">Security</span>
-                                    </td>
-                                    <td style="font-size: 0.85rem; border: none; padding: 12px 0;">
-                                        <span class="badge-inactive">Non-Aktif</span>
-                                    </td>
-                                    <td style="font-size: 0.85rem; border: none; padding: 12px 0;">
-                                        <small style="color: #64748b;">05 Mar 2024</small>
-                                    </td>
-                                    <td style="font-size: 0.85rem; border: none; padding: 12px 0; text-align: center;">
-                                        <div class="action-dropdown">
-                                            <button class="action-dropdown-btn" data-employee-id="3">
-                                                <i class="fas fa-ellipsis-v"></i>
-                                            </button>
-                                            <div class="action-dropdown-menu">
-                                                <button class="action-dropdown-item view-item" onclick="viewEmployee(3)">
-                                                    <i class="fas fa-eye me-2"></i>Detail
-                                                </button>
-                                                <button class="action-dropdown-item edit-item" onclick="editEmployee(3)">
-                                                    <i class="fas fa-edit me-2"></i>Edit
-                                                </button>
-                                                <button class="action-dropdown-item delete-item" onclick="deleteEmployee(3)">
-                                                    <i class="fas fa-trash me-2"></i>Hapus
-                                                </button>
-                                            </div>
-                                        </div>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td style="font-size: 0.85rem; border: none; padding: 12px 0;">4</td>
-                                    <td style="font-size: 0.85rem; border: none; padding: 12px 0;">
-                                        <img src="/image/default-avatar.png" alt="Foto" style="width: 35px; height: 35px; border-radius: 50%; object-fit: cover;">
-                                    </td>
-                                    <td style="font-size: 0.85rem; border: none; padding: 12px 0;">
-                                        <div>
-                                            <strong style="color: #1e293b;">Dewi Sartika</strong>
-                                            <br>
-                                            <small style="color: #64748b;">dewi.sartika@yogya.com</small>
-                                        </div>
-                                    </td>
-                                    <td style="font-size: 0.85rem; border: none; padding: 12px 0;">
-                                        <strong style="color: #1e293b;">Cleaning Service</strong>
-                                    </td>
-                                    <td style="font-size: 0.85rem; border: none; padding: 12px 0;">
-                                        <span class="badge-department">Cleaning Service</span>
-                                    </td>
-                                    <td style="font-size: 0.85rem; border: none; padding: 12px 0;">
-                                        <span class="badge-active">Aktif</span>
-                                    </td>
-                                    <td style="font-size: 0.85rem; border: none; padding: 12px 0;">
-                                        <small style="color: #64748b;">18 Apr 2024</small>
-                                    </td>
-                                    <td style="font-size: 0.85rem; border: none; padding: 12px 0; text-align: center;">
-                                        <div class="action-dropdown">
-                                            <button class="action-dropdown-btn" data-employee-id="4">
-                                                <i class="fas fa-ellipsis-v"></i>
-                                            </button>
-                                            <div class="action-dropdown-menu">
-                                                <button class="action-dropdown-item view-item" onclick="viewEmployee(4)">
-                                                    <i class="fas fa-eye me-2"></i>Detail
-                                                </button>
-                                                <button class="action-dropdown-item edit-item" onclick="editEmployee(4)">
-                                                    <i class="fas fa-edit me-2"></i>Edit
-                                                </button>
-                                                <button class="action-dropdown-item delete-item" onclick="deleteEmployee(4)">
-                                                    <i class="fas fa-trash me-2"></i>Hapus
-                                                </button>
-                                            </div>
-                                        </div>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td style="font-size: 0.85rem; border: none; padding: 12px 0;">5</td>
-                                    <td style="font-size: 0.85rem; border: none; padding: 12px 0;">
-                                        <img src="/image/default-avatar.png" alt="Foto" style="width: 35px; height: 35px; border-radius: 50%; object-fit: cover;">
-                                    </td>
-                                    <td style="font-size: 0.85rem; border: none; padding: 12px 0;">
-                                        <div>
-                                            <strong style="color: #1e293b;">Rian Pratama</strong>
-                                            <br>
-                                            <small style="color: #64748b;">rian.pratama@yogya.com</small>
-                                        </div>
-                                    </td>
-                                    <td style="font-size: 0.85rem; border: none; padding: 12px 0;">
-                                        <strong style="color: #1e293b;">Manager</strong>
-                                    </td>
-                                    <td style="font-size: 0.85rem; border: none; padding: 12px 0;">
-                                        <span class="badge-department">Manager</span>
-                                    </td>
-                                    <td style="font-size: 0.85rem; border: none; padding: 12px 0;">
-                                        <span class="badge-active">Aktif</span>
-                                    </td>
-                                    <td style="font-size: 0.85rem; border: none; padding: 12px 0;">
-                                        <small style="color: #64748b;">10 May 2024</small>
-                                    </td>
-                                    <td style="font-size: 0.85rem; border: none; padding: 12px 0; text-align: center;">
-                                        <div class="action-dropdown">
-                                            <button class="action-dropdown-btn" data-employee-id="5">
-                                                <i class="fas fa-ellipsis-v"></i>
-                                            </button>
-                                            <div class="action-dropdown-menu">
-                                                <button class="action-dropdown-item view-item" onclick="viewEmployee(5)">
-                                                    <i class="fas fa-eye me-2"></i>Detail
-                                                </button>
-                                                <button class="action-dropdown-item edit-item" onclick="editEmployee(5)">
-                                                    <i class="fas fa-edit me-2"></i>Edit
-                                                </button>
-                                                <button class="action-dropdown-item delete-item" onclick="deleteEmployee(5)">
-                                                    <i class="fas fa-trash me-2"></i>Hapus
-                                                </button>
-                                            </div>
-                                        </div>
-                                    </td>
-                                </tr>
+                                @endforelse
                             </tbody>
                         </table>
 
                         <!-- Pagination -->
+                        @if(isset($karyawan) && $karyawan->hasPages())
                         <div class="pagination-container">
                             <div class="pagination-info">
-                                Menampilkan 1-5 dari 33 karyawan
+                                Menampilkan {{ $karyawan->firstItem() ?? 1 }}-{{ $karyawan->lastItem() ?? $karyawan->count() }} dari {{ $karyawan->total() ?? $karyawan->count() }} karyawan
                             </div>
-                            <nav>
-                                <ul class="pagination">
-                                    <li class="page-item">
-                                        <a class="page-link" href="#" aria-label="Previous">
-                                            <i class="fas fa-chevron-left"></i>
-                                        </a>
-                                    </li>
-                                    <li class="page-item active">
-                                        <a class="page-link" href="#">1</a>
-                                    </li>
-                                    <li class="page-item">
-                                        <a class="page-link" href="#">2</a>
-                                    </li>
-                                    <li class="page-item">
-                                        <a class="page-link" href="#">3</a>
-                                    </li>
-                                    <li class="page-item">
-                                        <a class="page-link" href="#">...</a>
-                                    </li>
-                                    <li class="page-item">
-                                        <a class="page-link" href="#">7</a>
-                                    </li>
-                                    <li class="page-item">
-                                        <a class="page-link" href="#" aria-label="Next">
-                                            <i class="fas fa-chevron-right"></i>
-                                        </a>
-                                    </li>
-                                </ul>
-                            </nav>
+                            <div class="pagination-wrapper">
+                                {{ $karyawan->links('pagination::bootstrap-4') }}
+                            </div>
                         </div>
+                        @endif
                     </div>
                 </div>
             </div>
@@ -1128,62 +1325,36 @@ body.dark-mode .pagination .page-link:hover {
                                 </tr>
                             </thead>
                             <tbody>
+                                @forelse($distribusiDepartemen ?? [] as $dept)
                                 <tr>
                                     <td style="font-size: 0.85rem; border: none; padding: 8px 0;">
-                                        <span class="badge-department">Kasir</span>
+                                        <span class="badge-department">{{ $dept->divisi }}</span>
                                     </td>
                                     <td style="font-size: 0.85rem; border: none; padding: 8px 0; text-align: right;">
-                                        <strong style="color: #1e293b;">12 orang</strong>
+                                        <strong style="color: #1e293b;">{{ $dept->jumlah }} orang</strong>
                                     </td>
                                 </tr>
+                                @empty
                                 <tr>
-                                    <td style="font-size: 0.85rem; border: none; padding: 8px 0;">
-                                        <span class="badge-department">Gudang</span>
-                                    </td>
-                                    <td style="font-size: 0.85rem; border: none; padding: 8px 0; text-align: right;">
-                                        <strong style="color: #1e293b;">8 orang</strong>
+                                    <td colspan="2" style="text-align: center; padding: 20px; color: #64748b;">
+                                        Tidak ada data departemen
                                     </td>
                                 </tr>
-                                <tr>
-                                    <td style="font-size: 0.85rem; border: none; padding: 8px 0;">
-                                        <span class="badge-department">Security</span>
-                                    </td>
-                                    <td style="font-size: 0.85rem; border: none; padding: 8px 0; text-align: right;">
-                                        <strong style="color: #1e293b;">4 orang</strong>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td style="font-size: 0.85rem; border: none; padding: 8px 0;">
-                                        <span class="badge-department">Cleaning Service</span>
-                                    </td>
-                                    <td style="font-size: 0.85rem; border: none; padding: 8px 0; text-align: right;">
-                                        <strong style="color: #1e293b;">6 orang</strong>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td style="font-size: 0.85rem; border: none; padding: 8px 0;">
-                                        <span class="badge-department">Manager</span>
-                                    </td>
-                                    <td style="font-size: 0.85rem; border: none; padding: 8px 0; text-align: right;">
-                                        <strong style="color: #1e293b;">3 orang</strong>
-                                    </td>
-                                </tr>
+                                @endforelse
                             </tbody>
                         </table>
 
                         <!-- Pagination for Distribusi Departemen -->
+                        @if(isset($distribusiDepartemen) && is_object($distribusiDepartemen) && method_exists($distribusiDepartemen, 'hasPages') && $distribusiDepartemen->hasPages())
                         <div class="pagination-container">
                             <div class="pagination-info">
-                                Menampilkan semua 5 departemen
+                                Menampilkan {{ $distribusiDepartemen->firstItem() ?? 1 }}-{{ $distribusiDepartemen->lastItem() ?? $distribusiDepartemen->count() }} dari {{ $distribusiDepartemen->total() ?? $distribusiDepartemen->count() }} departemen
                             </div>
-                            <nav>
-                                <ul class="pagination">
-                                    <li class="page-item active">
-                                        <a class="page-link" href="#">1</a>
-                                    </li>
-                                </ul>
-                            </nav>
+                            <div class="pagination-wrapper">
+                                {{ $distribusiDepartemen->links('pagination::bootstrap-4') }}
+                            </div>
                         </div>
+                        @endif
                     </div>
                 </div>
             </div>
@@ -1307,6 +1478,215 @@ body.dark-mode .pagination .page-link:hover {
     </div>
 </div>
 
+<!-- Modal Tambah Karyawan -->
+<div class="modal fade" id="tambahKaryawanModal" tabindex="-1" aria-labelledby="tambahKaryawanModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-xl">
+        <div class="modal-content">
+            <div class="modal-header" style="background: linear-gradient(135deg, #f26b37 0%, #e55827 100%); color: white;">
+                <h5 class="modal-title" id="tambahKaryawanModalLabel">
+                    <i class="fas fa-user-plus me-2"></i>Tambah Karyawan Baru
+                </h5>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body" style="padding: 0;">
+                <!-- Tab Navigation -->
+                <ul class="nav nav-tabs" id="karyawanTab" role="tablist" style="padding: 0 25px; margin: 0; background: #f8f9fa;">
+                    <li class="nav-item" role="presentation">
+                        <button class="nav-link active" id="form-tab" data-bs-toggle="tab" data-bs-target="#form-panel" type="button" role="tab" aria-controls="form-panel" aria-selected="true">
+                            <i class="fas fa-edit me-2"></i>Form Input
+                        </button>
+                    </li>
+                    <li class="nav-item" role="presentation">
+                        <button class="nav-link" id="preview-tab" data-bs-toggle="tab" data-bs-target="#preview-panel" type="button" role="tab" aria-controls="preview-panel" aria-selected="false">
+                            <i class="fas fa-eye me-2"></i>Preview Data
+                        </button>
+                    </li>
+                </ul>
+                
+                <!-- Tab Content -->
+                <div class="tab-content" id="karyawanTabContent" style="padding: 25px;">
+                    <!-- Form Panel -->
+                    <div class="tab-pane fade show active" id="form-panel" role="tabpanel" aria-labelledby="form-tab">
+                        <form id="tambahKaryawanForm">
+                            <div class="row g-3">
+                                <div class="col-md-6">
+                                    <label for="nama" class="form-label">
+                                        <i class="fas fa-user me-1"></i>Nama Lengkap <span class="text-danger">*</span>
+                                    </label>
+                                    <input type="text" class="form-control" id="nama" name="nama" required>
+                                    <div class="invalid-feedback"></div>
+                                </div>
+                                <div class="col-md-6">
+                                    <label for="email" class="form-label">
+                                        <i class="fas fa-envelope me-1"></i>Email <span class="text-danger">*</span>
+                                    </label>
+                                    <input type="email" class="form-control" id="email" name="email" required>
+                                    <div class="invalid-feedback"></div>
+                                </div>
+                                <div class="col-md-6">
+                                    <label for="divisi" class="form-label">
+                                        <i class="fas fa-building me-1"></i>Divisi <span class="text-danger">*</span>
+                                    </label>
+                                    <select class="form-control" id="divisi" name="divisi" required>
+                                        <option value="">Pilih Divisi</option>
+                                        @foreach($divisiList ?? [] as $divisi)
+                                            <option value="{{ $divisi }}">{{ $divisi }}</option>
+                                        @endforeach
+                                        <option value="other">Divisi Lainnya</option>
+                                    </select>
+                                    <div class="invalid-feedback"></div>
+                                </div>
+                                <div class="col-md-6" id="divisiLainnyaGroup" style="display: none;">
+                                    <label for="divisi_lainnya" class="form-label">
+                                        <i class="fas fa-plus me-1"></i>Nama Divisi Baru
+                                    </label>
+                                    <input type="text" class="form-control" id="divisi_lainnya" name="divisi_lainnya">
+                                </div>
+                                <div class="col-md-6">
+                                    <label for="tanggal_lahir" class="form-label">
+                                        <i class="fas fa-calendar me-1"></i>Tanggal Lahir <span class="text-danger">*</span>
+                                    </label>
+                                    <input type="date" class="form-control" id="tanggal_lahir" name="tanggal_lahir" required>
+                                    <div class="invalid-feedback"></div>
+                                </div>
+                                <div class="col-md-6">
+                                    <label for="nomer_telepon" class="form-label">
+                                        <i class="fas fa-phone me-1"></i>Nomor Telepon <span class="text-danger">*</span>
+                                    </label>
+                                    <input type="tel" class="form-control" id="nomer_telepon" name="nomer_telepon" placeholder="08xxxxxxxxxx" required>
+                                    <div class="invalid-feedback"></div>
+                                </div>
+                                <div class="col-md-6">
+                                    <label for="id_shift" class="form-label">
+                                        <i class="fas fa-clock me-1"></i>Shift <span class="text-danger">*</span>
+                                    </label>
+                                    <select class="form-control" id="id_shift" name="id_shift" required>
+                                        <option value="">Pilih Shift</option>
+                                        @foreach($shiftList ?? [] as $shift)
+                                            <option value="{{ $shift->id_shift }}">
+                                                {{ $shift->nama_shift }} ({{ date('H:i', strtotime($shift->jam_mulai)) }}-{{ date('H:i', strtotime($shift->jam_selesai)) }})
+                                            </option>
+                                        @endforeach
+                                    </select>
+                                    <div class="invalid-feedback"></div>
+                                </div>
+                                <div class="col-md-6">
+                                    <label for="status" class="form-label">
+                                        <i class="fas fa-toggle-on me-1"></i>Status <span class="text-danger">*</span>
+                                    </label>
+                                    <select class="form-control" id="status" name="status" required>
+                                        <option value="Aktif">Aktif</option>
+                                        <option value="Non-Aktif">Non-Aktif</option>
+                                    </select>
+                                    <div class="invalid-feedback"></div>
+                                </div>
+                                <div class="col-12">
+                                    <label for="alamat" class="form-label">
+                                        <i class="fas fa-map-marker-alt me-1"></i>Alamat <span class="text-danger">*</span>
+                                    </label>
+                                    <textarea class="form-control" id="alamat" name="alamat" rows="3" required></textarea>
+                                    <div class="invalid-feedback"></div>
+                                </div>
+                            </div>
+                            
+                            <div class="row mt-4">
+                                <div class="col-12">
+                                    <div class="alert alert-info">
+                                        <i class="fas fa-info-circle me-2"></i>
+                                        <strong>Petunjuk:</strong> Setelah mengisi form, klik tab "Preview Data" untuk melihat ringkasan data sebelum menyimpan.
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                    
+                    <!-- Preview Panel -->
+                    <div class="tab-pane fade" id="preview-panel" role="tabpanel" aria-labelledby="preview-tab">
+                        <div class="preview-section" style="background: #f8f9fa; border: 1px solid #dee2e6; border-radius: 8px; padding: 20px;">
+                            <h6 style="color: #f26b37; margin-bottom: 20px;">
+                                <i class="fas fa-eye me-2"></i>Preview Data Karyawan
+                            </h6>
+                            
+                            <div class="row g-3">
+                                <div class="col-md-6">
+                                    <div class="preview-item" style="border-bottom: 1px solid #dee2e6; padding-bottom: 10px; margin-bottom: 15px;">
+                                        <div class="preview-label" style="font-size: 0.875rem; color: #6c757d; margin-bottom: 2px;">Nama Lengkap</div>
+                                        <div class="preview-value" id="preview-nama" style="font-weight: 600; color: #2c3e50;">-</div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="preview-item" style="border-bottom: 1px solid #dee2e6; padding-bottom: 10px; margin-bottom: 15px;">
+                                        <div class="preview-label" style="font-size: 0.875rem; color: #6c757d; margin-bottom: 2px;">Email</div>
+                                        <div class="preview-value" id="preview-email" style="font-weight: 600; color: #2c3e50;">-</div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="preview-item" style="border-bottom: 1px solid #dee2e6; padding-bottom: 10px; margin-bottom: 15px;">
+                                        <div class="preview-label" style="font-size: 0.875rem; color: #6c757d; margin-bottom: 2px;">Divisi</div>
+                                        <div class="preview-value" id="preview-divisi" style="font-weight: 600; color: #2c3e50;">-</div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="preview-item" style="border-bottom: 1px solid #dee2e6; padding-bottom: 10px; margin-bottom: 15px;">
+                                        <div class="preview-label" style="font-size: 0.875rem; color: #6c757d; margin-bottom: 2px;">Tanggal Lahir</div>
+                                        <div class="preview-value" id="preview-tanggal-lahir" style="font-weight: 600; color: #2c3e50;">-</div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="preview-item" style="border-bottom: 1px solid #dee2e6; padding-bottom: 10px; margin-bottom: 15px;">
+                                        <div class="preview-label" style="font-size: 0.875rem; color: #6c757d; margin-bottom: 2px;">Nomor Telepon</div>
+                                        <div class="preview-value" id="preview-telepon" style="font-weight: 600; color: #2c3e50;">-</div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="preview-item" style="border-bottom: 1px solid #dee2e6; padding-bottom: 10px; margin-bottom: 15px;">
+                                        <div class="preview-label" style="font-size: 0.875rem; color: #6c757d; margin-bottom: 2px;">Shift</div>
+                                        <div class="preview-value" id="preview-shift" style="font-weight: 600; color: #2c3e50;">-</div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="preview-item" style="border-bottom: 1px solid #dee2e6; padding-bottom: 10px; margin-bottom: 15px;">
+                                        <div class="preview-label" style="font-size: 0.875rem; color: #6c757d; margin-bottom: 2px;">Status</div>
+                                        <div class="preview-value" id="preview-status" style="font-weight: 600; color: #2c3e50;">-</div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="preview-item" style="border-bottom: 1px solid #dee2e6; padding-bottom: 10px; margin-bottom: 15px;">
+                                        <div class="preview-label" style="font-size: 0.875rem; color: #6c757d; margin-bottom: 2px;">Usia</div>
+                                        <div class="preview-value" id="preview-usia" style="font-weight: 600; color: #2c3e50;">-</div>
+                                    </div>
+                                </div>
+                                <div class="col-12">
+                                    <div class="preview-item">
+                                        <div class="preview-label" style="font-size: 0.875rem; color: #6c757d; margin-bottom: 2px;">Alamat</div>
+                                        <div class="preview-value" id="preview-alamat" style="font-weight: 600; color: #2c3e50;">-</div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="alert alert-warning mt-3">
+                                <i class="fas fa-exclamation-triangle me-2"></i>
+                                <strong>Perhatian:</strong> Pastikan semua data sudah benar sebelum menyimpan. Data yang sudah disimpan tidak dapat diubah secara otomatis.
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">
+                    <i class="fas fa-times me-1"></i>Batal
+                </button>
+                <button type="button" class="btn btn-outline-primary" id="updatePreview">
+                    <i class="fas fa-sync me-1"></i>Update Preview
+                </button>
+                <button type="button" class="btn btn-primary" id="submitKaryawan">
+                    <i class="fas fa-save me-1"></i>Simpan Karyawan
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
 <script>
 // Update current time
 function updateDateTime() {
@@ -1332,19 +1712,370 @@ document.addEventListener('DOMContentLoaded', function() {
     setInterval(updateDateTime, 60000); // Update every minute
 });
 
-// Search functionality
+// Search functionality with AJAX
+let searchTimeout;
 document.getElementById('searchKaryawan').addEventListener('input', function(e) {
-    const searchTerm = e.target.value.toLowerCase();
-    const tableRows = document.querySelectorAll('tbody tr');
+    clearTimeout(searchTimeout);
+    searchTimeout = setTimeout(() => {
+        performSearch();
+    }, 300); // Debounce untuk menghindari terlalu banyak request
+});
+
+function performSearch() {
+    const searchTerm = document.getElementById('searchKaryawan').value.toLowerCase().trim();
+    const departmentFilter = document.getElementById('filterDepartment').value;
+    const statusFilter = document.getElementById('filterStatus').value;
+    
+    // Jika tidak ada filter, gunakan client-side filtering saja
+    if (!searchTerm && !departmentFilter && !statusFilter) {
+        applyClientSideFilters();
+        return;
+    }
+    
+    // Show loading indicator
+    showLoadingState();
+    
+    // Prepare search parameters
+    const params = new URLSearchParams();
+    if (searchTerm) params.append('search', searchTerm);
+    if (departmentFilter) params.append('department', departmentFilter);
+    if (statusFilter) params.append('status', statusFilter);
+    
+    // Perform AJAX search
+    fetch(`${window.location.pathname}?${params.toString()}`, {
+        method: 'GET',
+        headers: {
+            'X-Requested-With': 'XMLHttpRequest',
+            'Accept': 'application/json'
+        }
+    })
+    .then(response => response.json())
+    .then(data => {
+        updateTableContent(data);
+        hideLoadingState();
+    })
+    .catch(error => {
+        console.error('Search error:', error);
+        // Fallback to client-side filtering
+        applyClientSideFilters();
+        hideLoadingState();
+    });
+}
+
+function applyClientSideFilters() {
+    const searchTerm = document.getElementById('searchKaryawan').value.toLowerCase().trim();
+    const departmentFilter = document.getElementById('filterDepartment').value.toLowerCase();
+    const statusFilter = document.getElementById('filterStatus').value.toLowerCase();
+    
+    const tableBody = document.querySelector('.table tbody');
+    const tableRows = tableBody.querySelectorAll('tr');
+    
+    let visibleCount = 0;
     
     tableRows.forEach(row => {
-        const text = row.textContent.toLowerCase();
-        if (text.includes(searchTerm)) {
+        // Skip empty state row
+        if (row.cells.length === 1 && row.cells[0].colSpan > 1) {
+            return;
+        }
+        
+        // Get data from cells
+        const nama = row.cells[2] ? row.cells[2].textContent.toLowerCase() : '';
+        const jabatan = row.cells[3] ? row.cells[3].textContent.toLowerCase() : '';
+        const departemen = row.cells[4] ? row.cells[4].textContent.toLowerCase() : '';
+        const status = row.cells[5] ? row.cells[5].textContent.toLowerCase() : '';
+        const email = row.cells[2] ? row.cells[2].querySelector('small') ? row.cells[2].querySelector('small').textContent.toLowerCase() : '' : '';
+        
+        // Combine searchable fields
+        const searchableText = `${nama} ${jabatan} ${departemen} ${email}`;
+        
+        // Apply filters
+        let shouldShow = true;
+        
+        // Search filter
+        if (searchTerm !== '' && !searchableText.includes(searchTerm)) {
+            shouldShow = false;
+        }
+        
+        // Department filter
+        if (departmentFilter !== '' && !departemen.includes(departmentFilter)) {
+            shouldShow = false;
+        }
+        
+        // Status filter
+        if (statusFilter !== '' && !status.includes(statusFilter)) {
+            shouldShow = false;
+        }
+        
+        if (shouldShow) {
             row.style.display = '';
+            visibleCount++;
         } else {
             row.style.display = 'none';
         }
     });
+    
+    // Update pagination info
+    updateFilterInfo(visibleCount, searchTerm, departmentFilter, statusFilter);
+}
+
+function updateFilterInfo(visibleCount, searchTerm, departmentFilter, statusFilter) {
+    const paginationInfo = document.querySelector('.pagination-info');
+    if (!paginationInfo) return;
+    
+    let infoText = '';
+    const filters = [];
+    
+    if (searchTerm) filters.push(`pencarian "${searchTerm}"`);
+    if (departmentFilter) filters.push(`departemen "${departmentFilter}"`);
+    if (statusFilter) filters.push(`status "${statusFilter}"`);
+    
+    if (filters.length > 0) {
+        infoText = `Menampilkan ${visibleCount} hasil dengan filter: ${filters.join(', ')}`;
+    } else {
+        // Reset to original if no filters
+        const totalRows = document.querySelectorAll('.table tbody tr').length - 1; // -1 for empty state row
+        infoText = `Menampilkan 1-${Math.min(10, totalRows)} dari ${totalRows} karyawan`;
+    }
+    
+    paginationInfo.textContent = infoText;
+}
+
+function showLoadingState() {
+    const tableBody = document.querySelector('.table tbody');
+    const searchInput = document.getElementById('searchKaryawan');
+    
+    // Add loading class to search input
+    searchInput.parentElement.classList.add('search-input-enhanced', 'loading');
+    
+    const loadingRow = document.createElement('tr');
+    loadingRow.id = 'loading-row';
+    loadingRow.innerHTML = `
+        <td colspan="8" style="text-align: center; padding: 40px; color: #64748b;">
+            <div class="spinner-border spinner-border-sm text-primary me-2" role="status">
+                <span class="visually-hidden">Loading...</span>
+            </div>
+            Mencari data...
+        </td>
+    `;
+    
+    // Hide existing rows temporarily
+    const existingRows = tableBody.querySelectorAll('tr:not(#loading-row)');
+    existingRows.forEach(row => row.style.display = 'none');
+    
+    // Add loading row if not exists
+    if (!document.getElementById('loading-row')) {
+        tableBody.appendChild(loadingRow);
+    }
+}
+
+function hideLoadingState() {
+    const searchInput = document.getElementById('searchKaryawan');
+    const loadingRow = document.getElementById('loading-row');
+    
+    // Remove loading class from search input
+    searchInput.parentElement.classList.remove('loading');
+    
+    if (loadingRow) {
+        loadingRow.remove();
+    }
+}
+
+function updateTableContent(data) {
+    const tableBody = document.querySelector('.table tbody');
+    const paginationContainer = document.querySelector('.pagination-container');
+    
+    // Clear existing content
+    tableBody.innerHTML = '';
+    
+    if (data.karyawan && data.karyawan.length > 0) {
+        // Add employee rows
+        data.karyawan.forEach((emp, index) => {
+            const row = createEmployeeRow(emp, index + 1);
+            tableBody.appendChild(row);
+        });
+        
+        // Update pagination info
+        updateSearchPaginationInfo(data);
+    } else {
+        // Show no results message
+        const searchTerm = document.getElementById('searchKaryawan').value;
+        const departmentFilter = document.getElementById('filterDepartment').value;
+        const statusFilter = document.getElementById('filterStatus').value;
+        
+        let message = 'Tidak ada hasil yang ditemukan';
+        let subMessage = 'Coba gunakan kata kunci yang berbeda';
+        
+        if (searchTerm || departmentFilter || statusFilter) {
+            const filters = [];
+            if (searchTerm) filters.push(`"${searchTerm}"`);
+            if (departmentFilter) filters.push(`departemen "${departmentFilter}"`);
+            if (statusFilter) filters.push(`status "${statusFilter}"`);
+            
+            subMessage = `untuk filter: ${filters.join(', ')}`;
+        }
+        
+        const noResultRow = document.createElement('tr');
+        noResultRow.innerHTML = `
+            <td colspan="8" style="text-align: center; padding: 40px; color: #64748b;">
+                <i class="fas fa-search fa-2x mb-3" style="opacity: 0.3;"></i>
+                <br>
+                ${message}
+                <br>
+                <small>${subMessage}</small>
+                <br><br>
+                <button class="btn btn-outline-primary btn-sm" onclick="document.getElementById('resetFilters').click()">
+                    <i class="fas fa-undo me-1"></i>Reset Filter
+                </button>
+            </td>
+        `;
+        tableBody.appendChild(noResultRow);
+        
+        // Hide pagination
+        if (paginationContainer) {
+            paginationContainer.style.display = 'none';
+        }
+    }
+    
+    // Reinitialize dropdown events
+    initializeDropdowns();
+}
+
+function createEmployeeRow(emp, index) {
+    const searchTerm = document.getElementById('searchKaryawan').value.toLowerCase();
+    
+    // Function to highlight search terms
+    function highlightText(text, searchTerm) {
+        if (!searchTerm || !text) return text;
+        const regex = new RegExp(`(${searchTerm})`, 'gi');
+        return text.replace(regex, '<mark style="background: #fff3cd; padding: 2px 4px; border-radius: 3px;">$1</mark>');
+    }
+    
+    const row = document.createElement('tr');
+    row.innerHTML = `
+        <td style="font-size: 0.85rem; border: none; padding: 12px 0;">${index}</td>
+        <td style="font-size: 0.85rem; border: none; padding: 12px 0;">
+            <img src="/image/default-avatar.png" alt="Foto" style="width: 35px; height: 35px; border-radius: 50%; object-fit: cover;">
+        </td>
+        <td style="font-size: 0.85rem; border: none; padding: 12px 0;">
+            <div>
+                <strong style="color: #1e293b;">${highlightText(emp.nama, searchTerm)}</strong>
+                <br>
+                <small style="color: #64748b;">${highlightText(emp.email || '-', searchTerm)}</small>
+            </div>
+        </td>
+        <td style="font-size: 0.85rem; border: none; padding: 12px 0;">
+            <strong style="color: #1e293b;">${highlightText(emp.divisi, searchTerm)}</strong>
+        </td>
+        <td style="font-size: 0.85rem; border: none; padding: 12px 0;">
+            <span class="badge-department">${highlightText(emp.divisi, searchTerm)}</span>
+        </td>
+        <td style="font-size: 0.85rem; border: none; padding: 12px 0;">
+            ${emp.status === 'Aktif' ? 
+                `<span class="badge-active">${emp.status}</span>` : 
+                `<span class="badge-inactive">${emp.status}</span>`
+            }
+        </td>
+        <td style="font-size: 0.85rem; border: none; padding: 12px 0;">
+            <small style="color: #64748b;">${emp.created_at ? new Date(emp.created_at).toLocaleDateString('id-ID', {day: '2-digit', month: 'short', year: 'numeric'}) : '-'}</small>
+        </td>
+        <td style="font-size: 0.85rem; border: none; padding: 12px 0; text-align: center;">
+            <div class="action-dropdown">
+                <button class="action-dropdown-btn" data-employee-id="${emp.id_karyawan}">
+                    <i class="fas fa-ellipsis-v"></i>
+                </button>
+                <div class="action-dropdown-menu">
+                    <button class="action-dropdown-item view-item" onclick="viewEmployee(${emp.id_karyawan})">
+                        <i class="fas fa-eye me-2"></i>Detail
+                    </button>
+                    <button class="action-dropdown-item edit-item" onclick="editEmployee(${emp.id_karyawan})">
+                        <i class="fas fa-edit me-2"></i>Edit
+                    </button>
+                    ${emp.status === 'Aktif' ? 
+                        `<button class="action-dropdown-item" style="color: #f59e0b;" onclick="toggleStatus(${emp.id_karyawan}, 'Non-Aktif')">
+                            <i class="fas fa-user-slash me-2"></i>Non-Aktifkan
+                        </button>` :
+                        `<button class="action-dropdown-item" style="color: #10b981;" onclick="toggleStatus(${emp.id_karyawan}, 'Aktif')">
+                            <i class="fas fa-user-check me-2"></i>Aktifkan
+                        </button>`
+                    }
+                    <button class="action-dropdown-item delete-item" onclick="deleteEmployee(${emp.id_karyawan})">
+                        <i class="fas fa-trash me-2"></i>Hapus
+                    </button>
+                </div>
+            </div>
+        </td>
+    `;
+    return row;
+}
+
+function updateSearchPaginationInfo(data) {
+    const paginationInfo = document.querySelector('.pagination-info');
+    const paginationContainer = document.querySelector('.pagination-container');
+    
+    if (paginationInfo) {
+        const searchTerm = document.getElementById('searchKaryawan').value;
+        const departmentFilter = document.getElementById('filterDepartment').value;
+        const statusFilter = document.getElementById('filterStatus').value;
+        
+        const filters = [];
+        if (searchTerm) filters.push(`"${searchTerm}"`);
+        if (departmentFilter) filters.push(`departemen "${departmentFilter}"`);
+        if (statusFilter) filters.push(`status "${statusFilter}"`);
+        
+        if (filters.length > 0) {
+            paginationInfo.textContent = `Menampilkan ${data.karyawan.length} hasil untuk: ${filters.join(', ')}`;
+        } else {
+            paginationInfo.textContent = `Menampilkan ${data.karyawan.length} karyawan`;
+        }
+    }
+    
+    // Show pagination container
+    if (paginationContainer) {
+        paginationContainer.style.display = 'flex';
+    }
+}
+
+function initializeDropdowns() {
+    // Remove existing event listeners to avoid duplicates
+    document.querySelectorAll('.action-dropdown-btn').forEach(button => {
+        // Clone node to remove all event listeners
+        const newButton = button.cloneNode(true);
+        button.parentNode.replaceChild(newButton, button);
+        
+        // Add new event listener
+        newButton.addEventListener('click', function(e) {
+            e.preventDefault();
+            e.stopPropagation();
+            
+            const dropdown = this.nextElementSibling;
+            const allDropdowns = document.querySelectorAll('.action-dropdown-menu');
+            
+            // Close all other dropdowns
+            allDropdowns.forEach(d => {
+                if (d !== dropdown) {
+                    d.style.display = 'none';
+                }
+            });
+            
+            // Toggle current dropdown
+            dropdown.style.display = dropdown.style.display === 'block' ? 'none' : 'block';
+        });
+    });
+}
+
+// Add keyboard shortcuts
+document.addEventListener('keydown', function(e) {
+    // Ctrl + F to focus search
+    if (e.ctrlKey && e.key === 'f') {
+        e.preventDefault();
+        document.getElementById('searchKaryawan').focus();
+        document.getElementById('searchKaryawan').select();
+    }
+    
+    // Escape to clear search and filters
+    if (e.key === 'Escape') {
+        document.getElementById('resetFilters').click();
+    }
 });
 
 // Real-time clock update
@@ -1395,65 +2126,454 @@ updateDateTime();
 setInterval(updateDateTime, 60000);
 
 // Filter functionality
-document.getElementById('filterDepartment').addEventListener('change', function(e) {
-    const filterValue = e.target.value.toLowerCase();
-    const tableRows = document.querySelectorAll('tbody tr');
-    
-    tableRows.forEach(row => {
-        if (filterValue === '') {
-            row.style.display = '';
-        } else {
-            const departmentCell = row.cells[4]; // Assuming department is 5th column
-            if (departmentCell && departmentCell.textContent.toLowerCase().includes(filterValue)) {
-                row.style.display = '';
-            } else {
-                row.style.display = 'none';
-            }
-        }
-    });
-});
+document.getElementById('filterDepartment').addEventListener('change', performSearch);
+document.getElementById('filterStatus').addEventListener('change', performSearch);
 
-document.getElementById('filterStatus').addEventListener('change', function(e) {
-    const filterValue = e.target.value.toLowerCase();
-    const tableRows = document.querySelectorAll('tbody tr');
+// Reset filters functionality
+document.getElementById('resetFilters').addEventListener('click', function() {
+    // Clear all filter inputs
+    document.getElementById('searchKaryawan').value = '';
+    document.getElementById('filterDepartment').value = '';
+    document.getElementById('filterStatus').value = '';
     
-    tableRows.forEach(row => {
-        if (filterValue === '') {
-            row.style.display = '';
-        } else {
-            const statusCell = row.cells[5]; // Assuming status is 6th column
-            if (statusCell && statusCell.textContent.toLowerCase().includes(filterValue)) {
-                row.style.display = '';
-            } else {
-                row.style.display = 'none';
-            }
-        }
-    });
+    // Reload page to show all data
+    window.location.href = window.location.pathname;
 });
 
 // Dropdown functionality with proper event handling
 document.addEventListener('DOMContentLoaded', function() {
-    // Add event listeners to all dropdown buttons
-    document.querySelectorAll('.action-dropdown-btn').forEach(button => {
-        button.addEventListener('click', function(e) {
-            e.preventDefault();
-            e.stopPropagation();
-            
-            const dropdown = this.nextElementSibling;
-            const allDropdowns = document.querySelectorAll('.action-dropdown-menu');
-            
-            // Close all other dropdowns
-            allDropdowns.forEach(d => {
-                if (d !== dropdown) {
-                    d.style.display = 'none';
-                }
-            });
-            
-            // Toggle current dropdown
-            dropdown.style.display = dropdown.style.display === 'block' ? 'none' : 'block';
-        });
-    });
+    // Initialize dropdowns
+    initializeDropdowns();
+    
+    // Initialize form handlers
+    initializeFormHandlers();
 });
+
+// Initialize form handlers
+function initializeFormHandlers() {
+    // Handle divisi selection
+    const divisiSelect = document.getElementById('divisi');
+    const divisiLainnyaGroup = document.getElementById('divisiLainnyaGroup');
+    
+    if (divisiSelect && divisiLainnyaGroup) {
+        divisiSelect.addEventListener('change', function() {
+            if (this.value === 'other') {
+                divisiLainnyaGroup.style.display = 'block';
+                document.getElementById('divisi_lainnya').required = true;
+            } else {
+                divisiLainnyaGroup.style.display = 'none';
+                document.getElementById('divisi_lainnya').required = false;
+                document.getElementById('divisi_lainnya').value = '';
+            }
+            updatePreviewData();
+        });
+    }
+    
+    // Handle form submission
+    const submitButton = document.getElementById('submitKaryawan');
+    if (submitButton) {
+        submitButton.addEventListener('click', handleSubmitKaryawan);
+    }
+    
+    // Handle update preview button
+    const updatePreviewButton = document.getElementById('updatePreview');
+    if (updatePreviewButton) {
+        updatePreviewButton.addEventListener('click', updatePreviewData);
+    }
+    
+    // Handle phone number formatting
+    const phoneInput = document.getElementById('nomer_telepon');
+    if (phoneInput) {
+        phoneInput.addEventListener('input', function(e) {
+            let value = e.target.value.replace(/\D/g, ''); // Remove non-digits
+            
+            // Ensure it starts with 08
+            if (value.length > 0 && !value.startsWith('08')) {
+                if (value.startsWith('8')) {
+                    value = '0' + value;
+                } else if (value.startsWith('62')) {
+                    value = '0' + value.substring(2);
+                } else {
+                    value = '08' + value;
+                }
+            }
+            
+            // Limit length
+            if (value.length > 13) {
+                value = value.substring(0, 13);
+            }
+            
+            e.target.value = value;
+            updatePreviewData();
+        });
+    }
+    
+    // Add event listeners for real-time preview updates
+    const formInputs = ['nama', 'email', 'tanggal_lahir', 'alamat', 'id_shift', 'status'];
+    formInputs.forEach(inputId => {
+        const input = document.getElementById(inputId);
+        if (input) {
+            input.addEventListener('input', updatePreviewData);
+            input.addEventListener('change', updatePreviewData);
+        }
+    });
+    
+    // Handle tab switching
+    const previewTab = document.getElementById('preview-tab');
+    if (previewTab) {
+        previewTab.addEventListener('shown.bs.tab', function(e) {
+            updatePreviewData();
+        });
+    }
+    
+    // Auto-update preview when modal is shown
+    const modal = document.getElementById('tambahKaryawanModal');
+    if (modal) {
+        modal.addEventListener('shown.bs.modal', function() {
+            updatePreviewData();
+        });
+        
+        modal.addEventListener('hidden.bs.modal', function() {
+            resetForm();
+        });
+    }
+}
+
+// Update preview data
+function updatePreviewData() {
+    const form = document.getElementById('tambahKaryawanForm');
+    if (!form) return;
+    
+    const formData = new FormData(form);
+    
+    // Get form values
+    const nama = formData.get('nama') || '-';
+    const email = formData.get('email') || '-';
+    const divisi = formData.get('divisi') === 'other' ? (formData.get('divisi_lainnya') || '-') : (formData.get('divisi') || '-');
+    const tanggalLahir = formData.get('tanggal_lahir') || '-';
+    const nomerTelepon = formData.get('nomer_telepon') || '-';
+    const idShift = formData.get('id_shift');
+    const status = formData.get('status') || '-';
+    const alamat = formData.get('alamat') || '-';
+    
+    // Calculate age
+    let usia = '-';
+    if (tanggalLahir && tanggalLahir !== '-') {
+        const birthDate = new Date(tanggalLahir);
+        const today = new Date();
+        let age = today.getFullYear() - birthDate.getFullYear();
+        const monthDiff = today.getMonth() - birthDate.getMonth();
+        
+        if (monthDiff < 0 || (monthDiff === 0 && today.getDate() < birthDate.getDate())) {
+            age--;
+        }
+        usia = age + ' tahun';
+    }
+    
+    // Get shift name
+    let shiftText = '-';
+    if (idShift) {
+        const shiftSelect = document.getElementById('id_shift');
+        const selectedOption = shiftSelect.querySelector(`option[value="${idShift}"]`);
+        if (selectedOption) {
+            shiftText = selectedOption.textContent;
+        }
+    }
+    
+    // Format tanggal lahir
+    let tanggalLahirFormatted = tanggalLahir;
+    if (tanggalLahir && tanggalLahir !== '-') {
+        const date = new Date(tanggalLahir);
+        tanggalLahirFormatted = date.toLocaleDateString('id-ID', {
+            weekday: 'long',
+            year: 'numeric',
+            month: 'long',
+            day: 'numeric'
+        });
+    }
+    
+    // Update preview elements
+    updatePreviewElement('preview-nama', nama);
+    updatePreviewElement('preview-email', email);
+    updatePreviewElement('preview-divisi', divisi);
+    updatePreviewElement('preview-tanggal-lahir', tanggalLahirFormatted);
+    updatePreviewElement('preview-telepon', nomerTelepon);
+    updatePreviewElement('preview-shift', shiftText);
+    updatePreviewElement('preview-status', status);
+    updatePreviewElement('preview-usia', usia);
+    updatePreviewElement('preview-alamat', alamat);
+    
+    // Add status badge styling
+    const statusElement = document.getElementById('preview-status');
+    if (statusElement) {
+        statusElement.className = 'preview-value';
+        if (status === 'Aktif') {
+            statusElement.style.color = '#15803d';
+            statusElement.innerHTML = '<i class="fas fa-check-circle me-1"></i>' + status;
+        } else if (status === 'Non-Aktif') {
+            statusElement.style.color = '#dc2626';
+            statusElement.innerHTML = '<i class="fas fa-times-circle me-1"></i>' + status;
+        } else {
+            statusElement.style.color = '#6c757d';
+            statusElement.textContent = status;
+        }
+    }
+    
+    // Add age validation warning
+    const usiaElement = document.getElementById('preview-usia');
+    if (usiaElement && tanggalLahir && tanggalLahir !== '-') {
+        const birthDate = new Date(tanggalLahir);
+        const today = new Date();
+        let age = today.getFullYear() - birthDate.getFullYear();
+        const monthDiff = today.getMonth() - birthDate.getMonth();
+        
+        if (monthDiff < 0 || (monthDiff === 0 && today.getDate() < birthDate.getDate())) {
+            age--;
+        }
+        
+        if (age < 17) {
+            usiaElement.style.color = '#dc2626';
+            usiaElement.innerHTML = '<i class="fas fa-exclamation-triangle me-1"></i>' + age + ' tahun (Minimal 17 tahun)';
+        } else {
+            usiaElement.style.color = '#15803d';
+            usiaElement.innerHTML = '<i class="fas fa-check-circle me-1"></i>' + age + ' tahun';
+        }
+    }
+}
+
+// Helper function to update preview elements
+function updatePreviewElement(elementId, value) {
+    const element = document.getElementById(elementId);
+    if (element) {
+        element.textContent = value || '-';
+    }
+}
+
+// Reset form and preview
+function resetForm() {
+    const form = document.getElementById('tambahKaryawanForm');
+    if (form) {
+        form.reset();
+    }
+    
+    // Reset divisi lainnya
+    const divisiLainnyaGroup = document.getElementById('divisiLainnyaGroup');
+    if (divisiLainnyaGroup) {
+        divisiLainnyaGroup.style.display = 'none';
+        document.getElementById('divisi_lainnya').required = false;
+    }
+    
+    // Clear validation errors
+    clearValidationErrors();
+    
+    // Reset to form tab
+    const formTab = document.getElementById('form-tab');
+    if (formTab) {
+        const tab = new bootstrap.Tab(formTab);
+        tab.show();
+    }
+    
+    // Clear preview
+    updatePreviewData();
+}
+
+// Handle form submission
+function handleSubmitKaryawan() {
+    const form = document.getElementById('tambahKaryawanForm');
+    const submitButton = document.getElementById('submitKaryawan');
+    const formData = new FormData(form);
+    
+    // Clear previous validation errors
+    clearValidationErrors();
+    
+    // Get form data
+    const data = {
+        nama: formData.get('nama'),
+        email: formData.get('email'),
+        divisi: formData.get('divisi') === 'other' ? formData.get('divisi_lainnya') : formData.get('divisi'),
+        tanggal_lahir: formData.get('tanggal_lahir'),
+        nomer_telepon: formData.get('nomer_telepon'),
+        alamat: formData.get('alamat'),
+        id_shift: formData.get('id_shift'),
+        status: formData.get('status')
+    };
+    
+    // Client-side validation
+    if (!validateForm(data)) {
+        // Switch to form tab if validation fails
+        const formTab = document.getElementById('form-tab');
+        if (formTab) {
+            const tab = new bootstrap.Tab(formTab);
+            tab.show();
+        }
+        return;
+    }
+    
+    // Show loading state
+    submitButton.disabled = true;
+    submitButton.innerHTML = '<div class="spinner-border spinner-border-sm me-2" role="status"></div>Menyimpan...';
+    
+    // Submit to server
+    fetch('/admin/data-karyawan', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]')?.getAttribute('content') || '',
+            'Accept': 'application/json'
+        },
+        body: JSON.stringify(data)
+    })
+    .then(response => response.json())
+    .then(result => {
+        if (result.success) {
+            // Show success message
+            showNotification('Karyawan berhasil ditambahkan!', 'success');
+            
+            // Close modal
+            const modal = bootstrap.Modal.getInstance(document.getElementById('tambahKaryawanModal'));
+            modal.hide();
+            
+            // Reset form
+            resetForm();
+            
+            // Refresh table data
+            setTimeout(() => {
+                performSearch();
+            }, 500);
+            
+        } else {
+            // Show validation errors
+            if (result.errors) {
+                showValidationErrors(result.errors);
+                // Switch to form tab to show errors
+                const formTab = document.getElementById('form-tab');
+                if (formTab) {
+                    const tab = new bootstrap.Tab(formTab);
+                    tab.show();
+                }
+            } else {
+                showNotification(result.message || 'Terjadi kesalahan saat menyimpan data', 'error');
+            }
+        }
+    })
+    .catch(error => {
+        console.error('Submit error:', error);
+        showNotification('Terjadi kesalahan saat menyimpan data', 'error');
+        
+        // Switch to form tab
+        const formTab = document.getElementById('form-tab');
+        if (formTab) {
+            const tab = new bootstrap.Tab(formTab);
+            tab.show();
+        }
+    })
+    .finally(() => {
+        // Reset button state
+        submitButton.disabled = false;
+        submitButton.innerHTML = '<i class="fas fa-save me-1"></i>Simpan Karyawan';
+    });
+}
+
+// Validate form data
+function validateForm(data) {
+    let isValid = true;
+    
+    // Required field validation
+    const requiredFields = {
+        nama: 'Nama lengkap',
+        email: 'Email',
+        divisi: 'Divisi',
+        tanggal_lahir: 'Tanggal lahir',
+        nomer_telepon: 'Nomor telepon',
+        alamat: 'Alamat',
+        id_shift: 'Shift',
+        status: 'Status'
+    };
+    
+    for (const [field, label] of Object.entries(requiredFields)) {
+        if (!data[field] || data[field].trim() === '') {
+            showFieldError(field, `${label} harus diisi`);
+            isValid = false;
+        }
+    }
+    
+    // Email validation
+    if (data.email && !isValidEmail(data.email)) {
+        showFieldError('email', 'Format email tidak valid');
+        isValid = false;
+    }
+    
+    // Phone validation
+    if (data.nomer_telepon && !isValidPhone(data.nomer_telepon)) {
+        showFieldError('nomer_telepon', 'Nomor telepon harus dimulai dengan 08 dan terdiri dari 10-13 digit');
+        isValid = false;
+    }
+    
+    // Age validation (minimum 17 years old)
+    if (data.tanggal_lahir && !isValidAge(data.tanggal_lahir)) {
+        showFieldError('tanggal_lahir', 'Karyawan harus berusia minimal 17 tahun');
+        isValid = false;
+    }
+    
+    return isValid;
+}
+
+// Helper validation functions
+function isValidEmail(email) {
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    return emailRegex.test(email);
+}
+
+function isValidPhone(phone) {
+    const phoneRegex = /^08\d{8,11}$/;
+    return phoneRegex.test(phone);
+}
+
+function isValidAge(birthDate) {
+    const today = new Date();
+    const birth = new Date(birthDate);
+    const age = today.getFullYear() - birth.getFullYear();
+    const monthDiff = today.getMonth() - birth.getMonth();
+    
+    if (monthDiff < 0 || (monthDiff === 0 && today.getDate() < birth.getDate())) {
+        return (age - 1) >= 17;
+    }
+    return age >= 17;
+}
+
+// Show field error
+function showFieldError(fieldName, message) {
+    const field = document.getElementById(fieldName);
+    if (field) {
+        field.classList.add('is-invalid');
+        const feedback = field.parentNode.querySelector('.invalid-feedback');
+        if (feedback) {
+            feedback.textContent = message;
+        }
+    }
+}
+
+// Show validation errors from server
+function showValidationErrors(errors) {
+    for (const [field, messages] of Object.entries(errors)) {
+        if (Array.isArray(messages) && messages.length > 0) {
+            showFieldError(field, messages[0]);
+        }
+    }
+}
+
+// Clear validation errors
+function clearValidationErrors() {
+    const invalidFields = document.querySelectorAll('.is-invalid');
+    invalidFields.forEach(field => {
+        field.classList.remove('is-invalid');
+    });
+    
+    const feedbacks = document.querySelectorAll('.invalid-feedback');
+    feedbacks.forEach(feedback => {
+        feedback.textContent = '';
+    });
+}
 
 // Remove the old function
 function toggleDropdown(button) {
@@ -1486,6 +2606,50 @@ function editEmployee(id) {
     });
 }
 
+function toggleStatus(id, newStatus) {
+    const actionText = newStatus === 'Aktif' ? 'mengaktifkan' : 'menonaktifkan';
+    
+    if (confirm(`Apakah Anda yakin ingin ${actionText} karyawan ini?`)) {
+        // Show loading state
+        showLoadingState();
+        
+        fetch(`/admin/karyawan/${id}/toggle-status`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]')?.getAttribute('content') || '',
+                'Accept': 'application/json'
+            },
+            body: JSON.stringify({
+                status: newStatus
+            })
+        })
+        .then(response => response.json())
+        .then(data => {
+            hideLoadingState();
+            if (data.success) {
+                // Refresh current page data
+                performSearch();
+                
+                // Show success message
+                showNotification(`Karyawan berhasil ${newStatus === 'Aktif' ? 'diaktifkan' : 'dinonaktifkan'}`, 'success');
+            } else {
+                showNotification(data.message || 'Terjadi kesalahan', 'error');
+            }
+        })
+        .catch(error => {
+            hideLoadingState();
+            console.error('Toggle status error:', error);
+            showNotification('Terjadi kesalahan saat mengubah status', 'error');
+        });
+    }
+    
+    // Close dropdown
+    document.querySelectorAll('.action-dropdown-menu').forEach(dropdown => {
+        dropdown.style.display = 'none';
+    });
+}
+
 function deleteEmployee(id) {
     if (confirm('Apakah Anda yakin ingin menghapus karyawan ini?')) {
         alert('Delete employee with ID: ' + id);
@@ -1494,6 +2658,35 @@ function deleteEmployee(id) {
     document.querySelectorAll('.action-dropdown-menu').forEach(dropdown => {
         dropdown.style.display = 'none';
     });
+}
+
+// Helper function to show notifications
+function showNotification(message, type = 'info') {
+    // Create notification element
+    const notification = document.createElement('div');
+    notification.className = `alert alert-${type === 'success' ? 'success' : type === 'error' ? 'danger' : 'info'} alert-dismissible fade show`;
+    notification.style.cssText = `
+        position: fixed;
+        top: 20px;
+        right: 20px;
+        z-index: 10000;
+        min-width: 300px;
+        box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+    `;
+    notification.innerHTML = `
+        <strong>${type === 'success' ? 'Berhasil!' : type === 'error' ? 'Error!' : 'Info'}</strong> ${message}
+        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+    `;
+    
+    // Add to body
+    document.body.appendChild(notification);
+    
+    // Auto remove after 3 seconds
+    setTimeout(() => {
+        if (notification.parentNode) {
+            notification.remove();
+        }
+    }, 3000);
 }
 </script>
 @endsection

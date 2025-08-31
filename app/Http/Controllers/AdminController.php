@@ -387,11 +387,130 @@ class AdminController extends BaseController
         return back()->with('status', 'Profile updated successfully');
     }
 
-    public function dataKaryawan()
+    public function dataKaryawan(Request $request)
     {
-        $karyawan = Karyawan::orderBy('nama', 'asc')->get();
+        $query = Karyawan::query();
 
-        return view('admin.data-karyawan', compact('karyawan'));
+        // Filter berdasarkan search
+        if ($request->has('search') && $request->search) {
+            $search = $request->search;
+            $query->where(function ($q) use ($search) {
+                $q->where('nama', 'like', '%' . $search . '%')
+                    ->orWhere('divisi', 'like', '%' . $search . '%')
+                    ->orWhere('email', 'like', '%' . $search . '%');
+            });
+        }
+
+        // Filter berdasarkan department
+        if ($request->has('department') && $request->department) {
+            $query->where('divisi', $request->department);
+        }
+
+        // Filter berdasarkan status
+        if ($request->has('status') && $request->status) {
+            $query->where('status', $request->status);
+        }
+
+        // Pagination dengan 10 data per halaman
+        $karyawan = $query->orderBy('nama', 'asc')->paginate(10);
+
+        // Jika AJAX request, return JSON response
+        if ($request->ajax()) {
+            return response()->json([
+                'karyawan' => $karyawan->items(),
+                'pagination' => [
+                    'current_page' => $karyawan->currentPage(),
+                    'last_page' => $karyawan->lastPage(),
+                    'per_page' => $karyawan->perPage(),
+                    'total' => $karyawan->total(),
+                    'from' => $karyawan->firstItem(),
+                    'to' => $karyawan->lastItem()
+                ]
+            ]);
+        }
+
+        // Ambil daftar divisi untuk filter
+        $divisiList = Karyawan::distinct('divisi')->pluck('divisi')->sort();
+
+        // Ambil data shift untuk form
+        $shiftList = DB::table('shift')->select('id_shift', 'nama_shift', 'jam_mulai', 'jam_selesai')->get();
+
+        // Statistik untuk cards
+        $totalKaryawan = Karyawan::count();
+        $karyawanAktif = Karyawan::where('status', 'Aktif')->count();
+        $totalDepartemen = Karyawan::distinct('divisi')->count();
+        $hadirHariIni = $karyawanAktif; // Simulasi hadir hari ini
+
+        // Distribusi departemen real dengan pagination
+        $distribusiDepartemen = Karyawan::select('divisi', DB::raw('count(*) as jumlah'))
+            ->groupBy('divisi')
+            ->orderBy('jumlah', 'desc')
+            ->paginate(5, ['*'], 'dept_page');
+
+        return view('admin.data-karyawan', compact(
+            'karyawan',
+            'divisiList',
+            'shiftList',
+            'totalKaryawan',
+            'karyawanAktif',
+            'totalDepartemen',
+            'hadirHariIni',
+            'distribusiDepartemen'
+        ));
+    }
+
+    public function toggleKaryawanStatus(Request $request, $id)
+    {
+        $request->validate([
+            'status' => 'required|in:Aktif,Non-Aktif'
+        ]);
+
+        $karyawan = Karyawan::findOrFail($id);
+        $karyawan->status = $request->status;
+        $karyawan->save();
+
+        return response()->json([
+            'success' => true,
+            'message' => "Status karyawan berhasil diubah menjadi {$request->status}",
+            'data' => [
+                'id_karyawan' => $karyawan->id_karyawan,
+                'nama' => $karyawan->nama,
+                'status' => $karyawan->status
+            ]
+        ]);
+    }
+
+    public function searchKaryawan(Request $request)
+    {
+        $query = Karyawan::query();
+
+        // Filter berdasarkan search
+        if ($request->has('search') && $request->search) {
+            $search = $request->search;
+            $query->where(function ($q) use ($search) {
+                $q->where('nama', 'like', '%' . $search . '%')
+                    ->orWhere('divisi', 'like', '%' . $search . '%')
+                    ->orWhere('email', 'like', '%' . $search . '%');
+            });
+        }
+
+        // Filter berdasarkan divisi
+        if ($request->has('divisi') && $request->divisi) {
+            $query->where('divisi', $request->divisi);
+        }
+
+        // Pagination dengan 10 data per halaman
+        $karyawan = $query->orderBy('nama', 'asc')->paginate(10);
+
+        // Return partial view untuk AJAX
+        if ($request->ajax()) {
+            return response()->json([
+                'html' => view('admin.partials.karyawan-table', compact('karyawan'))->render(),
+                'pagination' => view('admin.partials.karyawan-pagination', compact('karyawan'))->render()
+            ]);
+        }
+
+        return redirect()->route('admin.data-karyawan');
     }
 
     public function tambahKaryawan()
@@ -401,96 +520,109 @@ class AdminController extends BaseController
 
     public function storeKaryawan(Request $request)
     {
-        // Debug: Log the incoming request data
-        Log::info('Attempting to create karyawan with data:', $request->all());
-
-        $validated = $request->validate([
-            'nama' => ['required', 'string', 'max:255'],
-            'divisi' => ['required', 'string', 'max:255'],
-            'alamat' => ['required', 'string', 'max:500'],
-            'email' => ['required', 'email', 'unique:karyawan,email'],
-            'tanggal_lahir' => ['required', 'date', 'before:today'],
-            'nomer_telepon' => ['required', 'string', 'max:20'],
-            'id_shift' => ['required', 'integer', 'min:1'],
-        ], [
-            'nama.required' => 'Nama karyawan wajib diisi',
-            'divisi.required' => 'Divisi wajib diisi',
-            'alamat.required' => 'Alamat wajib diisi',
-            'email.required' => 'Email wajib diisi',
-            'email.email' => 'Format email tidak valid',
-            'email.unique' => 'Email sudah terdaftar',
-            'tanggal_lahir.required' => 'Tanggal lahir wajib diisi',
-            'tanggal_lahir.before' => 'Tanggal lahir harus sebelum hari ini',
-            'nomer_telepon.required' => 'Nomor telepon wajib diisi',
-            'id_shift.required' => 'Shift kerja wajib dipilih',
-        ]);
-
-        Log::info('Validation passed, validated data:', $validated);
-
         try {
-            // First, let's check if the karyawan table exists
-            $tableExists = DB::select("SHOW TABLES LIKE 'karyawan'");
-            if (empty($tableExists)) {
-                Log::error('Table karyawan does not exist');
-                return back()->withInput()
-                    ->with('error', 'Tabel karyawan tidak ditemukan. Silakan jalankan migrasi database.');
-            }
+            // Validate request data
+            $validated = $request->validate([
+                'nama' => ['required', 'string', 'max:255'],
+                'divisi' => ['required', 'string', 'max:255'],
+                'alamat' => ['required', 'string', 'max:500'],
+                'email' => ['required', 'email', 'unique:karyawan,email'],
+                'tanggal_lahir' => ['required', 'date', 'before:today'],
+                'nomer_telepon' => ['required', 'string', 'regex:/^08\d{8,11}$/'],
+                'id_shift' => ['required', 'integer', 'exists:shift,id_shift'],
+                'status' => ['required', 'in:Aktif,Non-Aktif']
+            ], [
+                'nama.required' => 'Nama karyawan wajib diisi',
+                'nama.max' => 'Nama karyawan maksimal 255 karakter',
+                'divisi.required' => 'Divisi wajib diisi',
+                'divisi.max' => 'Divisi maksimal 255 karakter',
+                'alamat.required' => 'Alamat wajib diisi',
+                'alamat.max' => 'Alamat maksimal 500 karakter',
+                'email.required' => 'Email wajib diisi',
+                'email.email' => 'Format email tidak valid',
+                'email.unique' => 'Email sudah terdaftar, gunakan email lain',
+                'tanggal_lahir.required' => 'Tanggal lahir wajib diisi',
+                'tanggal_lahir.before' => 'Tanggal lahir harus sebelum hari ini',
+                'nomer_telepon.required' => 'Nomor telepon wajib diisi',
+                'nomer_telepon.regex' => 'Nomor telepon harus dimulai dengan 08 dan terdiri dari 10-13 digit',
+                'id_shift.required' => 'Shift kerja wajib dipilih',
+                'id_shift.integer' => 'Shift kerja tidak valid',
+                'id_shift.exists' => 'Shift yang dipilih tidak tersedia',
+                'status.required' => 'Status karyawan wajib dipilih',
+                'status.in' => 'Status harus Aktif atau Non-Aktif'
+            ]);
 
-            // Check if shift table exists, if not, temporarily disable foreign key checks
-            $shiftTableExists = DB::select("SHOW TABLES LIKE 'shift'");
+            // Additional age validation (minimum 17 years old)
+            $birthDate = new \DateTime($validated['tanggal_lahir']);
+            $today = new \DateTime();
+            $age = $today->diff($birthDate)->y;
 
-            if (empty($shiftTableExists)) {
-                Log::info('Shift table does not exist, creating temporary entry or disabling FK checks');
-                // Temporarily disable foreign key checks
-                DB::statement('SET FOREIGN_KEY_CHECKS=0;');
+            if ($age < 17) {
+                if ($request->expectsJson()) {
+                    return response()->json([
+                        'success' => false,
+                        'message' => 'Karyawan harus berusia minimal 17 tahun',
+                        'errors' => [
+                            'tanggal_lahir' => ['Karyawan harus berusia minimal 17 tahun']
+                        ]
+                    ], 422);
+                }
+                return back()->withInput()->withErrors([
+                    'tanggal_lahir' => 'Karyawan harus berusia minimal 17 tahun'
+                ]);
             }
 
             // Create the karyawan record
-            $karyawan = new Karyawan();
-            $karyawan->nama = $validated['nama'];
-            $karyawan->divisi = $validated['divisi'];
-            $karyawan->alamat = $validated['alamat'];
-            $karyawan->email = $validated['email'];
-            $karyawan->tanggal_lahir = $validated['tanggal_lahir'];
-            $karyawan->nomer_telepon = $validated['nomer_telepon'];
-            $karyawan->id_shift = $validated['id_shift'];
+            $karyawan = Karyawan::create([
+                'nama' => $validated['nama'],
+                'divisi' => $validated['divisi'],
+                'alamat' => $validated['alamat'],
+                'email' => $validated['email'],
+                'tanggal_lahir' => $validated['tanggal_lahir'],
+                'nomer_telepon' => $validated['nomer_telepon'],
+                'id_shift' => $validated['id_shift'],
+                'status' => $validated['status']
+            ]);
 
-            $result = $karyawan->save();
-
-            Log::info('Karyawan save result:', ['result' => $result, 'id' => $karyawan->id_karyawan]);
-
-            // Re-enable foreign key checks if we disabled them
-            if (empty($shiftTableExists)) {
-                DB::statement('SET FOREIGN_KEY_CHECKS=1;');
+            // Return appropriate response based on request type
+            if ($request->expectsJson()) {
+                return response()->json([
+                    'success' => true,
+                    'message' => 'Karyawan berhasil ditambahkan',
+                    'data' => [
+                        'id_karyawan' => $karyawan->id_karyawan,
+                        'nama' => $karyawan->nama,
+                        'divisi' => $karyawan->divisi,
+                        'email' => $karyawan->email,
+                        'status' => $karyawan->status,
+                        'created_at' => $karyawan->created_at
+                    ]
+                ], 201);
             }
 
-            if ($result) {
-                Log::info('Karyawan created successfully with ID: ' . $karyawan->id_karyawan);
-                return redirect()->route('admin.data-karyawan')
-                    ->with('success', 'Karyawan berhasil ditambahkan! (ID: ' . $karyawan->id_karyawan . ')');
-            } else {
-                Log::error('Karyawan save returned false');
-                return back()->withInput()
-                    ->with('error', 'Gagal menyimpan data karyawan. Save method returned false.');
+            return redirect()->route('admin.data-karyawan')
+                ->with('success', 'Karyawan berhasil ditambahkan!');
+        } catch (\Illuminate\Validation\ValidationException $e) {
+            if ($request->expectsJson()) {
+                return response()->json([
+                    'success' => false,
+                    'message' => 'Data tidak valid',
+                    'errors' => $e->errors()
+                ], 422);
             }
-        } catch (\Illuminate\Database\QueryException $e) {
-            Log::error('Database error when creating karyawan: ' . $e->getMessage());
-            Log::error('SQL State: ' . $e->getCode());
-
-            // Re-enable foreign key checks if we disabled them
-            DB::statement('SET FOREIGN_KEY_CHECKS=1;');
-
-            return back()->withInput()
-                ->with('error', 'Gagal menambahkan karyawan. Error database: ' . $e->getMessage());
+            throw $e;
         } catch (\Exception $e) {
-            Log::error('General error when creating karyawan: ' . $e->getMessage());
-            Log::error('Exception trace: ' . $e->getTraceAsString());
+            Log::error('Error creating karyawan: ' . $e->getMessage());
 
-            // Re-enable foreign key checks if we disabled them  
-            DB::statement('SET FOREIGN_KEY_CHECKS=1;');
+            if ($request->expectsJson()) {
+                return response()->json([
+                    'success' => false,
+                    'message' => 'Terjadi kesalahan saat menyimpan data'
+                ], 500);
+            }
 
             return back()->withInput()
-                ->with('error', 'Gagal menambahkan karyawan. Error: ' . $e->getMessage());
+                ->with('error', 'Gagal menambahkan karyawan: ' . $e->getMessage());
         }
     }
 }

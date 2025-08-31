@@ -20,7 +20,8 @@ class Karyawan extends Model
         'email',
         'tanggal_lahir',
         'nomer_telepon',
-        'id_shift'
+        'id_shift',
+        'status'
     ];
 
     protected $casts = [

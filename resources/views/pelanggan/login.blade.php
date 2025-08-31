@@ -497,61 +497,6 @@
             transform: translateY(0);
         }
 
-        .divider {
-            display: flex;
-            align-items: center;
-            margin: 0.6rem 0;
-        }
-
-        .divider hr {
-            flex: 1;
-            border: none;
-            height: 1px;
-            background-color: #e9ecef;
-        }
-
-        .divider span {
-            padding: 0 1rem;
-            color: #495057;
-            font-weight: 600;
-            font-size: 0.95rem;
-            background-color: #ffffff;
-            position: relative;
-            z-index: 1;
-        }
-
-        .btn-google {
-            border: 2px solid #e9ecef;
-            background-color: #ffffff;
-            color: #495057;
-            border-radius: 10px;
-            height: 45px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            text-decoration: none;
-            font-weight: 500;
-            transition: border-color 0.2s ease, background-color 0.2s ease;
-            margin-bottom: 0.8rem;
-            width: 100%;
-            font-size: 0.85rem;
-        }
-
-        .btn-google:hover {
-            border-color: #db4437;
-            color: #db4437;
-            background-color: #fff5f5;
-            text-decoration: none;
-        }
-
-        .btn-google img {
-            margin-right: 0.5rem;
-            width: 18px;
-            height: 18px;
-            object-fit: contain;
-            flex-shrink: 0;
-        }
-
         .register-link {
             text-align: center;
             margin-top: 0.5rem;
@@ -702,19 +647,6 @@
                         <button type="submit" class="btn btn-login w-100">Masuk Sekarang</button>
                     </div>
                 </form>
-
-                <!-- Divider -->
-                <div class="divider">
-                    <hr>
-                    <span>atau</span>
-                    <hr>
-                </div>
-
-                <!-- Google Login Button -->
-                <a href="" class="btn-google w-100">
-                    <img src="https://www.svgrepo.com/show/475656/google-color.svg" alt="Google" width="18">
-                    Masuk dengan Google
-                </a>
 
                 <div class="register-link">
                     <small>Belum punya akun? <a href="{{ route('pelanggan.register') }}">Daftar sekarang juga!</a></small>
