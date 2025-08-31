@@ -10,6 +10,7 @@ use App\Http\Controllers\GudangController;
 use App\Http\Controllers\StokGudangPusatController;
 use App\Http\Controllers\ProdukTerlarisController;
 use App\Http\Controllers\KeuanganController;
+use App\Http\Controllers\PemasokController;
 
 // Route untuk testing error pages
 Route::get('/test-errors', function () {
@@ -179,9 +180,17 @@ Route::prefix('gudang')->name('gudang.')->group(function () {
             return view('gudang.inventori');
         })->name('inventori');
 
-        Route::get('/pemasok', function () {
-            return view('gudang.pemasok');
-        })->name('pemasok');
+        // Routes untuk Pemasok
+        Route::resource('pemasok', PemasokController::class)->names([
+            'index' => 'pemasok.index',
+            'create' => 'pemasok.create',
+            'store' => 'pemasok.store',
+            'show' => 'pemasok.show',
+            'edit' => 'pemasok.edit',
+            'update' => 'pemasok.update',
+            'destroy' => 'pemasok.destroy'
+        ]);
+        Route::get('/pemasok-data', [PemasokController::class, 'getData'])->name('pemasok.data');
 
         Route::get('/resiko', function () {
             return view('gudang.resiko');

@@ -1,6 +1,13 @@
 <div class="sidebar" id="sidebar">
-  <!-- LOGO & BRAND SECTION -->
-  <div class="sidebar-brand">
+  <!-- LOGO & BRAND SECTION -    <a href="{{ route('gudang.pemasok.index') }}" class="nav-item {{ request()->routeIs('gudang.pemasok*') ? 'active' : '' }}">
+      <div class="nav-icon">
+        <i class="fas fa-truck-loading"></i>
+      </div>
+      <span class="nav-text">Pemasok</span>
+      @if(request()->routeIs('gudang.pemasok*'))
+        <div class="nav-indicator"></div>
+      @endif
+    </a> class="sidebar-brand">
     <div class="brand-logo">
       <img src="{{ asset('image/logo_yogya.png') }}" alt="YOGYA Logo" class="yogya-logo">
     </div>
@@ -62,12 +69,12 @@
       @endif
     </a>
 
-    <a href="{{ route('gudang.pemasok') }}" class="nav-item {{ request()->routeIs('gudang.pemasok') ? 'active' : '' }}">
+    <a href="{{ route('gudang.pemasok.index') }}" class="nav-item {{ request()->routeIs('gudang.pemasok.*') ? 'active' : '' }}">
       <div class="nav-icon">
         <i class="fas fa-handshake"></i>
       </div>
       <span class="nav-text">Pemasok</span>
-      @if(request()->routeIs('gudang.pemasok'))
+      @if(request()->routeIs('gudang.pemasok.*'))
         <div class="nav-indicator"></div>
       @endif
     </a>
