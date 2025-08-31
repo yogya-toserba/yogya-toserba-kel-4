@@ -220,18 +220,6 @@
                         <i class="fas fa-shopping-cart me-2"></i>Tambah ke Keranjang
                     </button>
                 </div>
-<<<<<<< HEAD
-                
-                <div class="product-actions">
-                    <button class="btn btn-outline-primary btn-detail" onclick="viewProductDetail('{{ $loop->index + 1 }}', '{{ $product['name'] }}', '{{ $product['price'] }}', '{{ $product['original_price'] ?? '' }}', '{{ $product['image'] }}', '{{ $product['rating'] }}', '{{ $product['reviews'] }}')">
-                        <i class="fas fa-eye me-2"></i>Lihat Detail
-                    </button>
-                    <button class="btn btn-primary btn-quick-add" onclick="quickAddToCart('{{ $loop->index + 1 }}', '{{ $product['name'] }}', '{{ $product['price'] }}', '{{ $product['image'] }}')">
-                        <i class="fas fa-cart-plus me-2"></i>Tambah Cepat
-                    </button>
-                </div>
-=======
->>>>>>> origin/main
             </div>
         </div>
         @endforeach
@@ -268,8 +256,6 @@
     </nav>
 </div>
 
-<<<<<<< HEAD
-=======
 @push('styles')
 <style>
     /* Filter Dropdown Styles */
@@ -350,7 +336,6 @@
 </style>
 @endpush
 
->>>>>>> origin/main
 @endsection
 
 @push('styles')
