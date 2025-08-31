@@ -219,6 +219,7 @@ Route::prefix('admin')->name('admin.')->group(function () {
     // Protected Admin Routes
     Route::middleware(['auth:admin'])->group(function () {
         Route::get('/dashboard', [AdminController::class, 'dashboard'])->name('dashboard');
+        Route::get('/chart-data', [AdminController::class, 'getChartData'])->name('chart.data');
         Route::get('/data-karyawan', [AdminController::class, 'dataKaryawan'])->name('data-karyawan');
         Route::get('/data-karyawan/tambah', [AdminController::class, 'tambahKaryawan'])->name('data-karyawan.tambah');
         Route::post('/data-karyawan', [AdminController::class, 'storeKaryawan'])->name('data-karyawan.store');
@@ -244,7 +245,17 @@ Route::prefix('admin')->name('admin.')->group(function () {
             Route::get('riwayat-transaksi', [KeuanganController::class, 'riwayatTransaksi'])->name('riwayat');
             Route::get('buku-besar', [KeuanganController::class, 'bukuBesar'])->name('bukubesar');
             Route::get('laporan', [KeuanganController::class, 'laporan'])->name('laporan');
+            Route::get('export-pdf', [KeuanganController::class, 'exportPDF'])->name('export.pdf');
+            
+            // AJAX Routes
+            Route::get('detail-transaksi/{id}', [KeuanganController::class, 'getDetailTransaksi'])->name('detail.transaksi');
+            Route::get('export-riwayat', [KeuanganController::class, 'exportRiwayatTransaksi'])->name('export.riwayat');
         });
+        
+        // Route redirect untuk kompatibilitas layout
+        Route::get('keuangan', function () {
+            return redirect()->route('admin.keuangan.dashboard');
+        })->name('keuangan');
     });
 });
 

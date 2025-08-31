@@ -51,7 +51,7 @@ class KeuanganController extends Controller
             ->orderByDesc('total_pendapatan')
             ->get();
 
-        return view('keuangan.dashboard', compact(
+        return view('admin.dashboard', compact(
             'produkTerlaris',
             'totalPendapatan',
             'pendapatanHariIni',
@@ -73,7 +73,7 @@ class KeuanganController extends Controller
             ->orderByDesc('tanggal_transaksi')
             ->paginate(20);
 
-        return view('keuangan.riwayat_transaksi', compact('transaksi'));
+        return view('admin.riwayat_transaksi', compact('transaksi'));
     }
 
     public function bukuBesar()
@@ -90,7 +90,7 @@ class KeuanganController extends Controller
             ->orderByDesc('kas.created_at')
             ->paginate(15);
 
-        return view('keuangan.bukubesar', compact('kasRecords'));
+        return view('admin.bukubesar', compact('kasRecords'));
     }
 
     public function laporan(Request $request)
@@ -144,6 +144,70 @@ class KeuanganController extends Controller
         // Data untuk dropdown kategori
         $kategoriList = DB::table('kategori')->pluck('nama_kategori');
 
-        return view('keuangan.laporan', compact('laporan', 'kategoriList', 'periode', 'kategori'));
+        return view('admin.laporan', compact('laporan', 'kategoriList', 'periode', 'kategori'));
+    }
+    
+    public function exportPDF(Request $request)
+    {
+        $jenisLaporan = $request->get('jenis_laporan', 'Laporan Keseluruhan');
+        $periode = $request->get('periode', date('Y-m'));
+        $format = $request->get('format', 'pdf');
+        
+        // Convert periode to readable format
+        $periodeText = date('F Y', strtotime($periode . '-01'));
+        
+        // Generate sample data based on report type
+        $data = [];
+        
+        switch ($jenisLaporan) {
+            case 'neraca':
+                $data = [
+                    ['keterangan' => 'Kas', 'debit' => 50000000, 'kredit' => 0, 'saldo' => 50000000],
+                    ['keterangan' => 'Piutang Usaha', 'debit' => 20000000, 'kredit' => 0, 'saldo' => 70000000],
+                    ['keterangan' => 'Persediaan Barang', 'debit' => 30000000, 'kredit' => 0, 'saldo' => 100000000],
+                    ['keterangan' => 'Utang Usaha', 'debit' => 0, 'kredit' => 15000000, 'saldo' => 85000000],
+                    ['keterangan' => 'Modal', 'debit' => 0, 'kredit' => 25000000, 'saldo' => 60000000],
+                ];
+                break;
+                
+            case 'laba_rugi':
+                $data = [
+                    ['keterangan' => 'Pendapatan Penjualan', 'debit' => 0, 'kredit' => 80000000, 'saldo' => -80000000],
+                    ['keterangan' => 'Harga Pokok Penjualan', 'debit' => 45000000, 'kredit' => 0, 'saldo' => -35000000],
+                    ['keterangan' => 'Beban Operasional', 'debit' => 15000000, 'kredit' => 0, 'saldo' => -20000000],
+                    ['keterangan' => 'Beban Administrasi', 'debit' => 8000000, 'kredit' => 0, 'saldo' => -12000000],
+                    ['keterangan' => 'Laba Bersih', 'debit' => 0, 'kredit' => 12000000, 'saldo' => 12000000],
+                ];
+                break;
+                
+            case 'arus_kas':
+                $data = [
+                    ['keterangan' => 'Kas Awal Periode', 'debit' => 25000000, 'kredit' => 0, 'saldo' => 25000000],
+                    ['keterangan' => 'Penerimaan dari Penjualan', 'debit' => 75000000, 'kredit' => 0, 'saldo' => 100000000],
+                    ['keterangan' => 'Pembayaran Supplier', 'debit' => 0, 'kredit' => 40000000, 'saldo' => 60000000],
+                    ['keterangan' => 'Pembayaran Beban Operasional', 'debit' => 0, 'kredit' => 10000000, 'saldo' => 50000000],
+                    ['keterangan' => 'Kas Akhir Periode', 'debit' => 50000000, 'kredit' => 0, 'saldo' => 50000000],
+                ];
+                break;
+                
+            default:
+                $data = [
+                    ['keterangan' => 'Kas', 'debit' => 50000000, 'kredit' => 0, 'saldo' => 50000000],
+                    ['keterangan' => 'Piutang Usaha', 'debit' => 20000000, 'kredit' => 0, 'saldo' => 70000000],
+                    ['keterangan' => 'Pendapatan Penjualan', 'debit' => 0, 'kredit' => 80000000, 'saldo' => -10000000],
+                    ['keterangan' => 'Beban Operasional', 'debit' => 5000000, 'kredit' => 0, 'saldo' => -15000000],
+                ];
+        }
+        
+        if ($format === 'excel') {
+            // For future Excel export implementation
+            return response()->json([
+                'message' => 'Excel export feature coming soon',
+                'data' => $data
+            ]);
+        }
+        
+        // Generate PDF
+        return view('admin.laporan_pdf', compact('data', 'jenisLaporan', 'periodeText'));
     }
 }
