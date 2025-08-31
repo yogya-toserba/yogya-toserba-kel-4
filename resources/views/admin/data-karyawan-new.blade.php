@@ -4,59 +4,20 @@
 
 @section('content')
 <style>
-/* GLOBAL OVERRIDE - FORCE EXACT DASHBOARD LAYOUT */
+/* GLOBAL OVERFLOW CONTROL */
 * {
     box-sizing: border-box !important;
 }
 
-/* RESET ALL CONFLICTS - EXACT MATCH WITH DASHBOARD */
+/* RESET ALL CONFLICTS */
 .main-content {
-    margin-left: 250px !important;
+    margin-left: 280px !important;
     padding: 25px 35px !important;
     background: #f8fafc !important;
-    min-height: 100vh !important;
-    width: calc(100% - 250px) !important;
-    box-sizing: border-box !important;
-    position: relative !important;
     overflow-x: hidden !important;
-}
-
-/* Ensure no parent container interferes */
-@media (min-width: 769px) {
-    .main-content {
-        margin-left: 250px !important;
-        width: calc(100% - 250px) !important;
-    }
-}
-
-/* Remove any extra padding or margin that might conflict */
-.main-content > * {
-    max-width: 100% !important;
-}
-
-/* DISABLE ALL BOOTSTRAP INTERFERENCE */
-.container,
-.container-fluid,
-.container-sm,
-.container-md,
-.container-lg,
-.container-xl,
-.container-xxl {
-    padding: 0 !important;
-    margin: 0 !important;
-    max-width: 100% !important;
-    width: 100% !important;
-}
-
-/* RESET BOOTSTRAP GRID SYSTEM */
-.row {
-    margin-left: 0 !important;
-    margin-right: 0 !important;
-}
-
-.row > * {
-    padding-left: 12px !important;
-    padding-right: 12px !important;
+    position: relative !important;
+    width: calc(100% - 280px) !important;
+    box-sizing: border-box !important;
 }
 
 /* Dark Mode Support */
@@ -64,7 +25,7 @@ body.dark-mode .main-content {
     background: #1a1d29 !important;
 }
 
-/* FORCE NEW DASHBOARD STYLES - EXACT COPY */
+/* FORCE NEW DASHBOARD STYLES */
 .new-karyawan {
     background: #f8fafc !important;
     min-height: 100vh !important;
@@ -72,7 +33,6 @@ body.dark-mode .main-content {
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif !important;
     overflow-x: hidden !important;
     width: 100% !important;
-    margin: 0 !important;
 }
 
 body.dark-mode .new-karyawan {
@@ -89,36 +49,37 @@ body.dark-mode .new-karyawan {
     position: relative !important;
 }
 
-.new-header h1 {
-    font-size: 2.5rem !important;
-    font-weight: bold !important;
+.header-icon {
+    background: rgba(255,255,255,0.2) !important;
+    border-radius: 50% !important;
+    width: 60px !important;
+    height: 60px !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    margin-right: 20px !important;
+    font-size: 24px !important;
+}
+
+.header-content h1 {
+    font-size: 2rem !important;
+    font-weight: 600 !important;
     margin: 0 !important;
-    color: white !important;
+    text-shadow: 0 2px 4px rgba(0,0,0,0.1) !important;
 }
 
-.new-header p {
-    font-size: 1.1rem !important;
+.header-content p {
     opacity: 0.9 !important;
-    margin: 10px 0 0 0 !important;
-    color: white !important;
+    margin: 8px 0 0 0 !important;
+    font-size: 1rem !important;
 }
 
-/* Real-time clock styling */
-#realTimeClock {
-    background: rgba(255, 255, 255, 0.2) !important;
+.header-time {
+    background: rgba(255,255,255,0.15) !important;
     padding: 8px 16px !important;
     border-radius: 20px !important;
-    border: 1px solid rgba(255, 255, 255, 0.3) !important;
-    backdrop-filter: blur(10px) !important;
-    font-family: 'Courier New', monospace !important;
-    letter-spacing: 1px !important;
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1) !important;
-    transition: all 0.2s ease !important;
-}
-
-#realTimeClock:hover {
-    background: rgba(255, 255, 255, 0.25) !important;
-    transform: translateY(-1px) !important;
+    font-size: 0.9rem !important;
+    font-weight: 500 !important;
 }
 
 /* Stats Cards */
@@ -145,7 +106,7 @@ body.dark-mode .new-stat-card {
 }
 
 .new-stat-card:hover {
-    transform: translateY(-2px) !important;
+    transform: translateY(-3px) scale(1.02) !important;
     box-shadow: 0 8px 25px rgba(242, 107, 55, 0.15) !important;
 }
 
@@ -355,7 +316,7 @@ body.dark-mode .table small {
 
 .btn-edit:hover {
     background: #2563eb !important;
-    transform: translateY(-1px) !important;
+    transform: scale(1.05) !important;
 }
 
 .btn-delete {
@@ -366,7 +327,7 @@ body.dark-mode .table small {
 
 .btn-delete:hover {
     background: #dc2626 !important;
-    transform: translateY(-1px) !important;
+    transform: scale(1.05) !important;
 }
 
 /* Badge Styles */
@@ -423,18 +384,12 @@ body.dark-mode .search-filter-bar {
     border-radius: 8px !important;
     padding: 8px 12px !important;
     font-size: 0.9rem !important;
-    transition: all 0.2s ease !important;
-}
-
-.form-control:hover {
-    border-color: #cbd5e1 !important;
-    transform: none !important;
+    transition: all 0.3s ease !important;
 }
 
 .form-control:focus {
     border-color: #f26b37 !important;
     box-shadow: 0 0 0 0.2rem rgba(242, 107, 55, 0.25) !important;
-    transform: none !important;
 }
 
 body.dark-mode .form-control {
@@ -443,239 +398,14 @@ body.dark-mode .form-control {
     color: #e2e8f0 !important;
 }
 
-body.dark-mode .form-control:hover {
-    border-color: #6b7280 !important;
-    transform: none !important;
-}
-
 body.dark-mode .form-control:focus {
     background: #374151 !important;
     border-color: #f26b37 !important;
-    transform: none !important;
-}
-
-body.dark-mode .form-control::placeholder {
-    color: #9ca3af !important;
-}
-
-body.dark-mode .form-select {
-    background: #374151 !important;
-    border-color: #4b5563 !important;
-    color: #e2e8f0 !important;
-}
-
-body.dark-mode .form-select option {
-    background: #374151 !important;
-    color: #e2e8f0 !important;
-}
-
-/* Ensure no transform interference on search area */
-.search-filter-section * {
-    transform: none !important;
-}
-
-.search-filter-section .form-control:hover {
-    border-color: #cbd5e1 !important;
-    transform: none !important;
-}
-
-body.dark-mode .search-filter-section .form-control:hover {
-    border-color: #6b7280 !important;
-    transform: none !important;
-}
-
-/* Dropdown Action Button */
-.action-dropdown {
-    position: relative;
-    display: inline-block;
-}
-
-.action-dropdown-btn {
-    background: #f8fafc !important;
-    border: 1px solid #e2e8f0 !important;
-    border-radius: 6px !important;
-    padding: 6px 8px !important;
-    color: #64748b !important;
-    font-size: 14px !important;
-    cursor: pointer !important;
-    transition: all 0.2s ease !important;
-    position: relative !important;
-    z-index: 10 !important;
-}
-
-.action-dropdown-btn:hover {
-    background: #f1f5f9 !important;
-    border-color: #cbd5e1 !important;
-    color: #475569 !important;
-}
-
-.action-dropdown-btn:focus {
-    outline: none !important;
-    box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.5) !important;
-}
-
-body.dark-mode .action-dropdown-btn {
-    background: #374151 !important;
-    border-color: #4b5563 !important;
-    color: #9ca3af !important;
-}
-
-body.dark-mode .action-dropdown-btn:hover {
-    background: #4b5563 !important;
-    border-color: #6b7280 !important;
-    color: #d1d5db !important;
-}
-
-.action-dropdown-menu {
-    position: absolute;
-    top: 100%;
-    right: 0;
-    background: white;
-    border: 1px solid #e2e8f0;
-    border-radius: 8px;
-    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
-    min-width: 120px;
-    z-index: 9999 !important;
-    display: none;
-}
-
-body.dark-mode .action-dropdown-menu {
-    background: #374151;
-    border-color: #4b5563;
-}
-
-.action-dropdown-item {
-    display: block;
-    padding: 8px 12px;
-    color: #374151;
-    text-decoration: none;
-    font-size: 0.875rem;
-    transition: background-color 0.2s ease;
-    border: none;
-    background: none;
-    width: 100%;
-    text-align: left;
-    cursor: pointer;
-}
-
-.action-dropdown-item:hover {
-    background: #f8fafc;
-    color: #1e293b;
-}
-
-body.dark-mode .action-dropdown-item {
-    color: #d1d5db;
-}
-
-body.dark-mode .action-dropdown-item:hover {
-    background: #4b5563;
-    color: #f3f4f6;
-}
-
-.action-dropdown-item.edit-item {
-    color: #2563eb;
-}
-
-.action-dropdown-item.delete-item {
-    color: #dc2626;
-}
-
-.action-dropdown-item.view-item {
-    color: #059669;
-}
-
-/* Pagination Styles */
-.pagination-container {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-top: 20px;
-    padding: 15px 0;
-}
-
-.pagination-info {
-    font-size: 0.875rem;
-    color: #64748b;
-}
-
-body.dark-mode .pagination-info {
-    color: #9ca3af;
-}
-
-.pagination {
-    display: flex;
-    list-style: none;
-    margin: 0;
-    padding: 0;
-    gap: 4px;
-}
-
-.pagination .page-item {
-    margin: 0;
-}
-
-.pagination .page-link {
-    padding: 8px 12px;
-    border: 1px solid #e2e8f0;
-    background: white;
-    color: #64748b;
-    text-decoration: none;
-    border-radius: 6px;
-    font-size: 0.875rem;
-    transition: all 0.2s ease;
-}
-
-.pagination .page-link:hover {
-    background: #f8fafc;
-    border-color: #cbd5e1;
-    color: #1e293b;
-}
-
-.pagination .page-item.active .page-link {
-    background: #f26b37;
-    border-color: #f26b37;
-    color: white;
-}
-
-body.dark-mode .pagination .page-link {
-    background: #374151;
-    border-color: #4b5563;
-    color: #9ca3af;
-}
-
-body.dark-mode .pagination .page-link:hover {
-    background: #4b5563;
-    border-color: #6b7280;
-    color: #d1d5db;
-}
-
-/* Equal height for bottom tables */
-.equal-height-cards {
-    display: flex;
-    align-items: stretch;
-}
-
-.equal-height-cards .new-card {
-    display: flex;
-    flex-direction: column;
-    height: 100%;
-}
-
-.equal-height-cards .new-card-body {
-    flex: 1;
-    display: flex;
-    flex-direction: column;
-}
-
-.equal-height-cards .table-responsive {
-    flex: 1;
 }
 
 @media (max-width: 1200px) {
     .main-content {
         margin-left: 0 !important;
-        width: 100% !important;
-        padding: 20px 15px !important;
     }
     
     .col-lg-6 {
@@ -684,10 +414,6 @@ body.dark-mode .pagination .page-link:hover {
 }
 
 @media (max-width: 768px) {
-    .main-content {
-        padding: 15px 10px !important;
-    }
-    
     .new-header {
         padding: 25px 20px !important;
         text-align: center !important;
@@ -714,26 +440,31 @@ body.dark-mode .pagination .page-link:hover {
 <div class="new-karyawan">
     <!-- Header Section -->
     <div class="new-header">
-        <div style="display: flex; justify-content: space-between; align-items: center;">
-            <div>
-                <h1><i class="fas fa-users me-3"></i>Data Karyawan</h1>
-                <p>Kelola informasi karyawan MyYOGYA dengan mudah</p>
+        <div class="d-flex align-items-center justify-content-between">
+            <div class="d-flex align-items-center">
+                <div class="header-icon">
+                    <i class="fas fa-users"></i>
+                </div>
+                <div class="header-content">
+                    <h1>Data Karyawan</h1>
+                    <p>Kelola informasi karyawan MyYOGYA dengan mudah</p>
+                </div>
             </div>
-            <div style="text-align: right;">
-                <div id="realTimeClock" style="font-weight: 600; color: white; font-size: 1rem; margin-bottom: 5px;"></div>
-                <small style="opacity: 0.8;" id="current-day">{{ date('l, d F Y') }}</small>
+            <div class="header-time">
+                <i class="fas fa-calendar-alt me-2"></i>
+                <span id="current-date">{{ date('l, d F Y') }}</span>
             </div>
         </div>
     </div>
 
     <!-- Statistics Cards -->
-    <div class="row g-4 mb-5">
+    <div class="row g-4 mb-4">
         <div class="col-lg-3 col-md-6">
             <div class="new-stat-card">
                 <div class="new-stat-icon">
                     <i class="fas fa-users"></i>
                 </div>
-                <div class="new-stat-number">33</div>
+                <div class="new-stat-number">{{ $totalKaryawan ?? 0 }}</div>
                 <div class="new-stat-label">Total Karyawan</div>
                 <div class="new-stat-change change-positive">
                     <i class="fas fa-arrow-up"></i> Aktif
@@ -745,7 +476,7 @@ body.dark-mode .pagination .page-link:hover {
                 <div class="new-stat-icon">
                     <i class="fas fa-user-check"></i>
                 </div>
-                <div class="new-stat-number">30</div>
+                <div class="new-stat-number">{{ $karyawanAktif ?? 0 }}</div>
                 <div class="new-stat-label">Karyawan Aktif</div>
                 <div class="new-stat-change change-positive">
                     <i class="fas fa-check"></i> Online
@@ -757,7 +488,7 @@ body.dark-mode .pagination .page-link:hover {
                 <div class="new-stat-icon">
                     <i class="fas fa-building"></i>
                 </div>
-                <div class="new-stat-number">5</div>
+                <div class="new-stat-number">{{ $totalDepartment ?? 5 }}</div>
                 <div class="new-stat-label">Departemen</div>
                 <div class="new-stat-change change-neutral">
                     <i class="fas fa-layer-group"></i> Unit
@@ -769,7 +500,7 @@ body.dark-mode .pagination .page-link:hover {
                 <div class="new-stat-icon">
                     <i class="fas fa-calendar-check"></i>
                 </div>
-                <div class="new-stat-number">28</div>
+                <div class="new-stat-number">{{ $hadiranHari ?? 0 }}</div>
                 <div class="new-stat-label">Hadir Hari Ini</div>
                 <div class="new-stat-change change-positive">
                     <i class="fas fa-clock"></i> {{ date('H:i') }}
@@ -848,6 +579,52 @@ body.dark-mode .pagination .page-link:hover {
                                 </tr>
                             </thead>
                             <tbody>
+                                @forelse($karyawanList ?? [] as $index => $karyawan)
+                                <tr>
+                                    <td style="font-size: 0.85rem; border: none; padding: 12px 0;">{{ $index + 1 }}</td>
+                                    <td style="font-size: 0.85rem; border: none; padding: 12px 0;">
+                                        <div class="d-flex align-items-center">
+                                            <img src="{{ $karyawan->foto ?? '/image/default-avatar.png' }}" 
+                                                 alt="Foto" 
+                                                 style="width: 35px; height: 35px; border-radius: 50%; object-fit: cover;">
+                                        </div>
+                                    </td>
+                                    <td style="font-size: 0.85rem; border: none; padding: 12px 0;">
+                                        <div>
+                                            <strong style="color: #1e293b;">{{ $karyawan->nama ?? 'Nama Karyawan' }}</strong>
+                                            <br>
+                                            <small style="color: #64748b;">{{ $karyawan->email ?? 'email@example.com' }}</small>
+                                        </div>
+                                    </td>
+                                    <td style="font-size: 0.85rem; border: none; padding: 12px 0;">
+                                        <strong style="color: #1e293b;">{{ $karyawan->jabatan ?? 'Staff' }}</strong>
+                                    </td>
+                                    <td style="font-size: 0.85rem; border: none; padding: 12px 0;">
+                                        <span class="badge-department">{{ $karyawan->departemen ?? 'Kasir' }}</span>
+                                    </td>
+                                    <td style="font-size: 0.85rem; border: none; padding: 12px 0;">
+                                        @if(($karyawan->status ?? 'Aktif') == 'Aktif')
+                                            <span class="badge-active">Aktif</span>
+                                        @else
+                                            <span class="badge-inactive">Non-Aktif</span>
+                                        @endif
+                                    </td>
+                                    <td style="font-size: 0.85rem; border: none; padding: 12px 0;">
+                                        <small style="color: #64748b;">{{ $karyawan->created_at ? $karyawan->created_at->format('d M Y') : date('d M Y') }}</small>
+                                    </td>
+                                    <td style="font-size: 0.85rem; border: none; padding: 12px 0; text-align: center;">
+                                        <button class="btn btn-action btn-edit" title="Edit">
+                                            <i class="fas fa-edit"></i>
+                                        </button>
+                                        <button class="btn btn-action btn-primary" title="Detail" style="background: #10b981 !important;">
+                                            <i class="fas fa-eye"></i>
+                                        </button>
+                                        <button class="btn btn-action btn-delete" title="Hapus">
+                                            <i class="fas fa-trash"></i>
+                                        </button>
+                                    </td>
+                                </tr>
+                                @empty
                                 <!-- Sample Data -->
                                 <tr>
                                     <td style="font-size: 0.85rem; border: none; padding: 12px 0;">1</td>
@@ -874,22 +651,15 @@ body.dark-mode .pagination .page-link:hover {
                                         <small style="color: #64748b;">15 Jan 2024</small>
                                     </td>
                                     <td style="font-size: 0.85rem; border: none; padding: 12px 0; text-align: center;">
-                                        <div class="action-dropdown">
-                                            <button class="action-dropdown-btn" data-employee-id="1">
-                                                <i class="fas fa-ellipsis-v"></i>
-                                            </button>
-                                            <div class="action-dropdown-menu">
-                                                <button class="action-dropdown-item view-item" onclick="viewEmployee(1)">
-                                                    <i class="fas fa-eye me-2"></i>Detail
-                                                </button>
-                                                <button class="action-dropdown-item edit-item" onclick="editEmployee(1)">
-                                                    <i class="fas fa-edit me-2"></i>Edit
-                                                </button>
-                                                <button class="action-dropdown-item delete-item" onclick="deleteEmployee(1)">
-                                                    <i class="fas fa-trash me-2"></i>Hapus
-                                                </button>
-                                            </div>
-                                        </div>
+                                        <button class="btn btn-action btn-edit" title="Edit">
+                                            <i class="fas fa-edit"></i>
+                                        </button>
+                                        <button class="btn btn-action btn-primary" title="Detail" style="background: #10b981 !important;">
+                                            <i class="fas fa-eye"></i>
+                                        </button>
+                                        <button class="btn btn-action btn-delete" title="Hapus">
+                                            <i class="fas fa-trash"></i>
+                                        </button>
                                     </td>
                                 </tr>
                                 <tr>
@@ -917,22 +687,15 @@ body.dark-mode .pagination .page-link:hover {
                                         <small style="color: #64748b;">22 Feb 2024</small>
                                     </td>
                                     <td style="font-size: 0.85rem; border: none; padding: 12px 0; text-align: center;">
-                                        <div class="action-dropdown">
-                                            <button class="action-dropdown-btn" data-employee-id="2">
-                                                <i class="fas fa-ellipsis-v"></i>
-                                            </button>
-                                            <div class="action-dropdown-menu">
-                                                <button class="action-dropdown-item view-item" onclick="viewEmployee(2)">
-                                                    <i class="fas fa-eye me-2"></i>Detail
-                                                </button>
-                                                <button class="action-dropdown-item edit-item" onclick="editEmployee(2)">
-                                                    <i class="fas fa-edit me-2"></i>Edit
-                                                </button>
-                                                <button class="action-dropdown-item delete-item" onclick="deleteEmployee(2)">
-                                                    <i class="fas fa-trash me-2"></i>Hapus
-                                                </button>
-                                            </div>
-                                        </div>
+                                        <button class="btn btn-action btn-edit" title="Edit">
+                                            <i class="fas fa-edit"></i>
+                                        </button>
+                                        <button class="btn btn-action btn-primary" title="Detail" style="background: #10b981 !important;">
+                                            <i class="fas fa-eye"></i>
+                                        </button>
+                                        <button class="btn btn-action btn-delete" title="Hapus">
+                                            <i class="fas fa-trash"></i>
+                                        </button>
                                     </td>
                                 </tr>
                                 <tr>
@@ -960,148 +723,20 @@ body.dark-mode .pagination .page-link:hover {
                                         <small style="color: #64748b;">05 Mar 2024</small>
                                     </td>
                                     <td style="font-size: 0.85rem; border: none; padding: 12px 0; text-align: center;">
-                                        <div class="action-dropdown">
-                                            <button class="action-dropdown-btn" data-employee-id="3">
-                                                <i class="fas fa-ellipsis-v"></i>
-                                            </button>
-                                            <div class="action-dropdown-menu">
-                                                <button class="action-dropdown-item view-item" onclick="viewEmployee(3)">
-                                                    <i class="fas fa-eye me-2"></i>Detail
-                                                </button>
-                                                <button class="action-dropdown-item edit-item" onclick="editEmployee(3)">
-                                                    <i class="fas fa-edit me-2"></i>Edit
-                                                </button>
-                                                <button class="action-dropdown-item delete-item" onclick="deleteEmployee(3)">
-                                                    <i class="fas fa-trash me-2"></i>Hapus
-                                                </button>
-                                            </div>
-                                        </div>
+                                        <button class="btn btn-action btn-edit" title="Edit">
+                                            <i class="fas fa-edit"></i>
+                                        </button>
+                                        <button class="btn btn-action btn-primary" title="Detail" style="background: #10b981 !important;">
+                                            <i class="fas fa-eye"></i>
+                                        </button>
+                                        <button class="btn btn-action btn-delete" title="Hapus">
+                                            <i class="fas fa-trash"></i>
+                                        </button>
                                     </td>
                                 </tr>
-                                <tr>
-                                    <td style="font-size: 0.85rem; border: none; padding: 12px 0;">4</td>
-                                    <td style="font-size: 0.85rem; border: none; padding: 12px 0;">
-                                        <img src="/image/default-avatar.png" alt="Foto" style="width: 35px; height: 35px; border-radius: 50%; object-fit: cover;">
-                                    </td>
-                                    <td style="font-size: 0.85rem; border: none; padding: 12px 0;">
-                                        <div>
-                                            <strong style="color: #1e293b;">Dewi Sartika</strong>
-                                            <br>
-                                            <small style="color: #64748b;">dewi.sartika@yogya.com</small>
-                                        </div>
-                                    </td>
-                                    <td style="font-size: 0.85rem; border: none; padding: 12px 0;">
-                                        <strong style="color: #1e293b;">Cleaning Service</strong>
-                                    </td>
-                                    <td style="font-size: 0.85rem; border: none; padding: 12px 0;">
-                                        <span class="badge-department">Cleaning Service</span>
-                                    </td>
-                                    <td style="font-size: 0.85rem; border: none; padding: 12px 0;">
-                                        <span class="badge-active">Aktif</span>
-                                    </td>
-                                    <td style="font-size: 0.85rem; border: none; padding: 12px 0;">
-                                        <small style="color: #64748b;">18 Apr 2024</small>
-                                    </td>
-                                    <td style="font-size: 0.85rem; border: none; padding: 12px 0; text-align: center;">
-                                        <div class="action-dropdown">
-                                            <button class="action-dropdown-btn" data-employee-id="4">
-                                                <i class="fas fa-ellipsis-v"></i>
-                                            </button>
-                                            <div class="action-dropdown-menu">
-                                                <button class="action-dropdown-item view-item" onclick="viewEmployee(4)">
-                                                    <i class="fas fa-eye me-2"></i>Detail
-                                                </button>
-                                                <button class="action-dropdown-item edit-item" onclick="editEmployee(4)">
-                                                    <i class="fas fa-edit me-2"></i>Edit
-                                                </button>
-                                                <button class="action-dropdown-item delete-item" onclick="deleteEmployee(4)">
-                                                    <i class="fas fa-trash me-2"></i>Hapus
-                                                </button>
-                                            </div>
-                                        </div>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td style="font-size: 0.85rem; border: none; padding: 12px 0;">5</td>
-                                    <td style="font-size: 0.85rem; border: none; padding: 12px 0;">
-                                        <img src="/image/default-avatar.png" alt="Foto" style="width: 35px; height: 35px; border-radius: 50%; object-fit: cover;">
-                                    </td>
-                                    <td style="font-size: 0.85rem; border: none; padding: 12px 0;">
-                                        <div>
-                                            <strong style="color: #1e293b;">Rian Pratama</strong>
-                                            <br>
-                                            <small style="color: #64748b;">rian.pratama@yogya.com</small>
-                                        </div>
-                                    </td>
-                                    <td style="font-size: 0.85rem; border: none; padding: 12px 0;">
-                                        <strong style="color: #1e293b;">Manager</strong>
-                                    </td>
-                                    <td style="font-size: 0.85rem; border: none; padding: 12px 0;">
-                                        <span class="badge-department">Manager</span>
-                                    </td>
-                                    <td style="font-size: 0.85rem; border: none; padding: 12px 0;">
-                                        <span class="badge-active">Aktif</span>
-                                    </td>
-                                    <td style="font-size: 0.85rem; border: none; padding: 12px 0;">
-                                        <small style="color: #64748b;">10 May 2024</small>
-                                    </td>
-                                    <td style="font-size: 0.85rem; border: none; padding: 12px 0; text-align: center;">
-                                        <div class="action-dropdown">
-                                            <button class="action-dropdown-btn" data-employee-id="5">
-                                                <i class="fas fa-ellipsis-v"></i>
-                                            </button>
-                                            <div class="action-dropdown-menu">
-                                                <button class="action-dropdown-item view-item" onclick="viewEmployee(5)">
-                                                    <i class="fas fa-eye me-2"></i>Detail
-                                                </button>
-                                                <button class="action-dropdown-item edit-item" onclick="editEmployee(5)">
-                                                    <i class="fas fa-edit me-2"></i>Edit
-                                                </button>
-                                                <button class="action-dropdown-item delete-item" onclick="deleteEmployee(5)">
-                                                    <i class="fas fa-trash me-2"></i>Hapus
-                                                </button>
-                                            </div>
-                                        </div>
-                                    </td>
-                                </tr>
+                                @endforelse
                             </tbody>
                         </table>
-
-                        <!-- Pagination -->
-                        <div class="pagination-container">
-                            <div class="pagination-info">
-                                Menampilkan 1-5 dari 33 karyawan
-                            </div>
-                            <nav>
-                                <ul class="pagination">
-                                    <li class="page-item">
-                                        <a class="page-link" href="#" aria-label="Previous">
-                                            <i class="fas fa-chevron-left"></i>
-                                        </a>
-                                    </li>
-                                    <li class="page-item active">
-                                        <a class="page-link" href="#">1</a>
-                                    </li>
-                                    <li class="page-item">
-                                        <a class="page-link" href="#">2</a>
-                                    </li>
-                                    <li class="page-item">
-                                        <a class="page-link" href="#">3</a>
-                                    </li>
-                                    <li class="page-item">
-                                        <a class="page-link" href="#">...</a>
-                                    </li>
-                                    <li class="page-item">
-                                        <a class="page-link" href="#">7</a>
-                                    </li>
-                                    <li class="page-item">
-                                        <a class="page-link" href="#" aria-label="Next">
-                                            <i class="fas fa-chevron-right"></i>
-                                        </a>
-                                    </li>
-                                </ul>
-                            </nav>
-                        </div>
                     </div>
                 </div>
             </div>
@@ -1109,7 +744,7 @@ body.dark-mode .pagination .page-link:hover {
     </div>
 
     <!-- Department Overview Cards -->
-    <div class="row g-4 mt-4 equal-height-cards">
+    <div class="row g-4 mt-4">
         <div class="col-lg-6">
             <div class="new-card">
                 <div class="new-card-header">
@@ -1170,20 +805,6 @@ body.dark-mode .pagination .page-link:hover {
                                 </tr>
                             </tbody>
                         </table>
-
-                        <!-- Pagination for Distribusi Departemen -->
-                        <div class="pagination-container">
-                            <div class="pagination-info">
-                                Menampilkan semua 5 departemen
-                            </div>
-                            <nav>
-                                <ul class="pagination">
-                                    <li class="page-item active">
-                                        <a class="page-link" href="#">1</a>
-                                    </li>
-                                </ul>
-                            </nav>
-                        </div>
                     </div>
                 </div>
             </div>
@@ -1240,66 +861,8 @@ body.dark-mode .pagination .page-link:hover {
                                         <span class="badge-inactive">Tidak Hadir</span>
                                     </td>
                                 </tr>
-                                <tr>
-                                    <td style="font-size: 0.85rem; border: none; padding: 8px 0;">
-                                        <strong style="color: #1e293b;">Dewi Sartika</strong>
-                                    </td>
-                                    <td style="font-size: 0.85rem; border: none; padding: 8px 0;">
-                                        <small style="color: #64748b;">08:05</small>
-                                    </td>
-                                    <td style="font-size: 0.85rem; border: none; padding: 8px 0; text-align: center;">
-                                        <span class="badge-active">Hadir</span>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td style="font-size: 0.85rem; border: none; padding: 8px 0;">
-                                        <strong style="color: #1e293b;">Rian Pratama</strong>
-                                    </td>
-                                    <td style="font-size: 0.85rem; border: none; padding: 8px 0;">
-                                        <small style="color: #64748b;">08:20</small>
-                                    </td>
-                                    <td style="font-size: 0.85rem; border: none; padding: 8px 0; text-align: center;">
-                                        <span class="badge-active">Hadir</span>
-                                    </td>
-                                </tr>
                             </tbody>
                         </table>
-
-                        <!-- Pagination for Kehadiran -->
-                        <div class="pagination-container">
-                            <div class="pagination-info">
-                                Menampilkan 1-5 dari 28 karyawan hadir
-                            </div>
-                            <nav>
-                                <ul class="pagination">
-                                    <li class="page-item">
-                                        <a class="page-link" href="#" aria-label="Previous">
-                                            <i class="fas fa-chevron-left"></i>
-                                        </a>
-                                    </li>
-                                    <li class="page-item active">
-                                        <a class="page-link" href="#">1</a>
-                                    </li>
-                                    <li class="page-item">
-                                        <a class="page-link" href="#">2</a>
-                                    </li>
-                                    <li class="page-item">
-                                        <a class="page-link" href="#">3</a>
-                                    </li>
-                                    <li class="page-item">
-                                        <a class="page-link" href="#">...</a>
-                                    </li>
-                                    <li class="page-item">
-                                        <a class="page-link" href="#">6</a>
-                                    </li>
-                                    <li class="page-item">
-                                        <a class="page-link" href="#" aria-label="Next">
-                                            <i class="fas fa-chevron-right"></i>
-                                        </a>
-                                    </li>
-                                </ul>
-                            </nav>
-                        </div>
                     </div>
                 </div>
             </div>
@@ -1347,53 +910,6 @@ document.getElementById('searchKaryawan').addEventListener('input', function(e) 
     });
 });
 
-// Real-time clock update
-function updateRealTimeClock() {
-    const now = new Date();
-    
-    // Format jam dengan timezone WIB (UTC+7)
-    const options = {
-        timeZone: 'Asia/Jakarta',
-        hour12: false,
-        hour: '2-digit',
-        minute: '2-digit',
-        second: '2-digit'
-    };
-    
-    const timeString = now.toLocaleTimeString('id-ID', options);
-    const realTimeClockElement = document.getElementById('realTimeClock');
-    if (realTimeClockElement) {
-        realTimeClockElement.textContent = timeString + ' WIB';
-    }
-}
-
-// Update real-time clock
-updateRealTimeClock();
-setInterval(updateRealTimeClock, 1000);
-
-// Update current day
-function updateDateTime() {
-    const now = new Date();
-    const dayElement = document.getElementById('current-day');
-    
-    if (dayElement) {
-        const dayOptions = {
-            weekday: 'long',
-            day: 'numeric',
-            month: 'long',
-            year: 'numeric',
-            timeZone: 'Asia/Jakarta'
-        };
-        
-        const dayFormatter = new Intl.DateTimeFormat('id-ID', dayOptions);
-        dayElement.textContent = dayFormatter.format(now);
-    }
-}
-
-// Update day immediately and then every minute
-updateDateTime();
-setInterval(updateDateTime, 60000);
-
 // Filter functionality
 document.getElementById('filterDepartment').addEventListener('change', function(e) {
     const filterValue = e.target.value.toLowerCase();
@@ -1430,70 +946,5 @@ document.getElementById('filterStatus').addEventListener('change', function(e) {
         }
     });
 });
-
-// Dropdown functionality with proper event handling
-document.addEventListener('DOMContentLoaded', function() {
-    // Add event listeners to all dropdown buttons
-    document.querySelectorAll('.action-dropdown-btn').forEach(button => {
-        button.addEventListener('click', function(e) {
-            e.preventDefault();
-            e.stopPropagation();
-            
-            const dropdown = this.nextElementSibling;
-            const allDropdowns = document.querySelectorAll('.action-dropdown-menu');
-            
-            // Close all other dropdowns
-            allDropdowns.forEach(d => {
-                if (d !== dropdown) {
-                    d.style.display = 'none';
-                }
-            });
-            
-            // Toggle current dropdown
-            dropdown.style.display = dropdown.style.display === 'block' ? 'none' : 'block';
-        });
-    });
-});
-
-// Remove the old function
-function toggleDropdown(button) {
-    // This function is no longer used
-}
-
-// Close dropdown when clicking outside
-document.addEventListener('click', function(e) {
-    if (!e.target.closest('.action-dropdown')) {
-        document.querySelectorAll('.action-dropdown-menu').forEach(dropdown => {
-            dropdown.style.display = 'none';
-        });
-    }
-});
-
-// Employee action functions
-function viewEmployee(id) {
-    alert('View employee with ID: ' + id);
-    // Close dropdown
-    document.querySelectorAll('.action-dropdown-menu').forEach(dropdown => {
-        dropdown.style.display = 'none';
-    });
-}
-
-function editEmployee(id) {
-    alert('Edit employee with ID: ' + id);
-    // Close dropdown
-    document.querySelectorAll('.action-dropdown-menu').forEach(dropdown => {
-        dropdown.style.display = 'none';
-    });
-}
-
-function deleteEmployee(id) {
-    if (confirm('Apakah Anda yakin ingin menghapus karyawan ini?')) {
-        alert('Delete employee with ID: ' + id);
-    }
-    // Close dropdown
-    document.querySelectorAll('.action-dropdown-menu').forEach(dropdown => {
-        dropdown.style.display = 'none';
-    });
-}
 </script>
 @endsection
