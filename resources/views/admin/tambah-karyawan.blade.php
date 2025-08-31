@@ -260,10 +260,10 @@
                             <div class="row mt-4 pt-3 border-top">
                                 <div class="col-12">
                                     <div class="d-flex justify-content-end gap-2">
-                                        <a href="{{ route('admin.data-karyawan') }}" class="btn btn-outline-secondary btn-lg">
+                                        <a href="{{ route('admin.data-karyawan') }}" class="btn btn-outline-secondary">
                                             <i class="fas fa-times me-2"></i>Batal
                                         </a>
-                                        <button type="submit" class="btn btn-orange btn-lg">
+                                        <button type="submit" class="btn btn-orange">
                                             <i class="fas fa-save me-2"></i>Simpan Karyawan
                                         </button>
                                     </div>

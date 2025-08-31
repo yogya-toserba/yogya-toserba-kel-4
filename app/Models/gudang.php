@@ -35,6 +35,6 @@ class Gudang extends Authenticatable
 
     protected $casts = [
         'password' => 'hashed',
-        'status' => 'string', // status is enum, not boolean
+        'status' => 'boolean',
     ];
 }

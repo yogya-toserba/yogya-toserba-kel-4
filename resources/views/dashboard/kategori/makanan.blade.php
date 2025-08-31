@@ -23,39 +23,50 @@
         <div class="row align-items-center">
             <div class="col-md-8">
                 <div class="row g-3">
-                    <div class="col-md-3">
-                        <select class="form-select">
-                            <option>Semua Kategori</option>
-                            <option>Makanan Instan</option>
-                            <option>Minuman</option>
-                            <option>Snack & Cemilan</option>
-                            <option>Roti & Kue</option>
-                            <option>Bumbu & Masakan</option>
-                        </select>
+                    <div class="col-md-4">
+                        <div class="dropdown">
+                            <button class="btn btn-outline-secondary dropdown-toggle d-flex align-items-center justify-content-between w-100 filter-dropdown" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                <span><i class="fas fa-th-large me-2"></i>Semua Kategori</span>
+                            </button>
+                            <ul class="dropdown-menu dropdown-menu-wide w-100">
+                                <li><a class="dropdown-item" href="#"><i class="fas fa-utensils me-2 text-primary"></i>Makanan Instan</a></li>
+                                <li><a class="dropdown-item" href="#"><i class="fas fa-coffee me-2 text-info"></i>Minuman</a></li>
+                                <li><a class="dropdown-item" href="#"><i class="fas fa-cookie-bite me-2 text-success"></i>Snack & Cemilan</a></li>
+                                <li><a class="dropdown-item" href="#"><i class="fas fa-bread-slice me-2 text-warning"></i>Roti & Kue</a></li>
+                                <li><a class="dropdown-item" href="#"><i class="fas fa-pepper-hot me-2 text-danger"></i>Bumbu & Masakan</a></li>
+                            </ul>
+                        </div>
                     </div>
-                    <div class="col-md-3">
-                        <select class="form-select">
-                            <option>Merek</option>
-                            <option>Indomie</option>
-                            <option>Coca-Cola</option>
-                            <option>Chitato</option>
-                            <option>Pepsi</option>
-                            <option>Teh Botol</option>
-                        </select>
+                    <div class="col-md-4">
+                        <div class="dropdown">
+                            <button class="btn btn-outline-secondary dropdown-toggle d-flex align-items-center justify-content-between w-100 filter-dropdown" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                <span><i class="fas fa-tags me-2"></i>Rentang Harga</span>
+                            </button>
+                            <ul class="dropdown-menu dropdown-menu-wide w-100">
+                                <li><a class="dropdown-item" href="#"><i class="fas fa-dollar-sign me-2 text-success"></i>< Rp 50rb</a></li>
+                                <li><a class="dropdown-item" href="#"><i class="fas fa-dollar-sign me-2 text-info"></i>Rp 50rb-100rb</a></li>
+                                <li><a class="dropdown-item" href="#"><i class="fas fa-dollar-sign me-2 text-warning"></i>Rp 100rb-200rb</a></li>
+                                <li><a class="dropdown-item" href="#"><i class="fas fa-dollar-sign me-2 text-danger"></i>> Rp 200rb</a></li>
+                            </ul>
+                        </div>
                     </div>
-                    <div class="col-md-3">
-                        <select class="form-select">
-                            <option>Urutkan</option>
-                            <option>Harga Terendah</option>
-                            <option>Harga Tertinggi</option>
-                            <option>Terpopuler</option>
-                            <option>Terbaru</option>
-                        </select>
+                    <div class="col-md-4">
+                        <div class="dropdown">
+                            <button class="btn btn-outline-secondary dropdown-toggle d-flex align-items-center justify-content-between w-100 filter-dropdown" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                <span><i class="fas fa-sort me-2"></i>Urutkan</span>
+                            </button>
+                            <ul class="dropdown-menu dropdown-menu-wide w-100">
+                                <li><a class="dropdown-item" href="#"><i class="fas fa-arrow-down me-2 text-success"></i>Harga Terendah</a></li>
+                                <li><a class="dropdown-item" href="#"><i class="fas fa-arrow-up me-2 text-danger"></i>Harga Tertinggi</a></li>
+                                <li><a class="dropdown-item" href="#"><i class="fas fa-fire me-2 text-warning"></i>Terpopuler</a></li>
+                                <li><a class="dropdown-item" href="#"><i class="fas fa-clock me-2 text-info"></i>Terbaru</a></li>
+                            </ul>
+                        </div>
                     </div>
                 </div>
             </div>
             <div class="col-md-4 text-end">
-                <small class="text-muted">Menampilkan 1-12 dari 467 produk</small>
+                <small class="text-muted">Menampilkan 1-12 dari 178 produk</small>
             </div>
         </div>
     </div>
@@ -64,112 +75,112 @@
     <div class="product-grid">
         @foreach([
             [
-                'name' => 'Indomie Goreng Rendang 5 Pcs',
-                'price' => 'Rp 12.500',
-                'original_price' => 'Rp 15.000',
-                'discount' => '17%',
-                'image' => 'https://via.placeholder.com/300x300/f0f0f0/888?text=Indomie+Rendang',
+                'name' => 'Indomie Mi Goreng 85g',
+                'price' => 'Rp 3.500',
+                'original_price' => 'Rp 4.000',
+                'discount' => '12%',
+                'image' => 'https://via.placeholder.com/300x300/f0f0f0/888?text=Indomie+Goreng',
                 'rating' => 4.8,
-                'reviews' => 1254
+                'reviews' => 1245
             ],
             [
-                'name' => 'Coca-Cola Original 330ml x 6',
-                'price' => 'Rp 18.000',
+                'name' => 'Coca Cola 330ml Kaleng',
+                'price' => 'Rp 6.500',
                 'original_price' => '',
                 'discount' => '',
                 'image' => 'https://via.placeholder.com/300x300/f0f0f0/888?text=Coca+Cola',
-                'rating' => 4.6,
-                'reviews' => 789
-            ],
-            [
-                'name' => 'Chitato Rasa BBQ 68g x 3',
-                'price' => 'Rp 22.500',
-                'original_price' => 'Rp 27.000',
-                'discount' => '17%',
-                'image' => 'https://via.placeholder.com/300x300/f0f0f0/888?text=Chitato+BBQ',
                 'rating' => 4.7,
-                'reviews' => 456
+                'reviews' => 876
             ],
             [
-                'name' => 'Oreo Original Biskuit 137g',
+                'name' => 'Chitato Rasa BBQ 68g',
+                'price' => 'Rp 9.500',
+                'original_price' => 'Rp 11.000',
+                'discount' => '14%',
+                'image' => 'https://via.placeholder.com/300x300/f0f0f0/888?text=Chitato+BBQ',
+                'rating' => 4.6,
+                'reviews' => 567
+            ],
+            [
+                'name' => 'Roti Tawar Sari Roti 400g',
+                'price' => 'Rp 12.500',
+                'original_price' => '',
+                'discount' => '',
+                'image' => 'https://via.placeholder.com/300x300/f0f0f0/888?text=Roti+Tawar',
+                'rating' => 4.5,
+                'reviews' => 234
+            ],
+            [
+                'name' => 'Teh Botol Sosro 450ml',
+                'price' => 'Rp 4.500',
+                'original_price' => 'Rp 5.500',
+                'discount' => '18%',
+                'image' => 'https://via.placeholder.com/300x300/f0f0f0/888?text=Teh+Botol',
+                'rating' => 4.8,
+                'reviews' => 1134
+            ],
+            [
+                'name' => 'Oreo Original 137g',
                 'price' => 'Rp 8.900',
                 'original_price' => '',
                 'discount' => '',
                 'image' => 'https://via.placeholder.com/300x300/f0f0f0/888?text=Oreo+Original',
                 'rating' => 4.9,
-                'reviews' => 623
+                'reviews' => 789
             ],
             [
-                'name' => 'Teh Botol Sosro 450ml x 12',
-                'price' => 'Rp 36.000',
-                'original_price' => 'Rp 42.000',
+                'name' => 'Kopi Kapal Api 165g',
+                'price' => 'Rp 15.500',
+                'original_price' => 'Rp 18.000',
                 'discount' => '14%',
-                'image' => 'https://via.placeholder.com/300x300/f0f0f0/888?text=Teh+Botol',
-                'rating' => 4.5,
-                'reviews' => 234
-            ],
-            [
-                'name' => 'Kopi Kapal Api Special Mix 25 Sachet',
-                'price' => 'Rp 24.900',
-                'original_price' => '',
-                'discount' => '',
                 'image' => 'https://via.placeholder.com/300x300/f0f0f0/888?text=Kopi+Kapal+Api',
-                'rating' => 4.6,
-                'reviews' => 345
-            ],
-            [
-                'name' => 'Beng-beng Wafer Coklat 20 Pcs',
-                'price' => 'Rp 31.000',
-                'original_price' => 'Rp 36.000',
-                'discount' => '14%',
-                'image' => 'https://via.placeholder.com/300x300/f0f0f0/888?text=Beng+Beng',
                 'rating' => 4.7,
-                'reviews' => 189
+                'reviews' => 456
             ],
             [
-                'name' => 'Aqua Botol 600ml x 12',
-                'price' => 'Rp 18.500',
+                'name' => 'Aqua 600ml Botol',
+                'price' => 'Rp 3.000',
                 'original_price' => '',
                 'discount' => '',
                 'image' => 'https://via.placeholder.com/300x300/f0f0f0/888?text=Aqua+600ml',
+                'rating' => 4.6,
+                'reviews' => 923
+            ],
+            [
+                'name' => 'Biskuit Roma Kelapa 300g',
+                'price' => 'Rp 7.500',
+                'original_price' => 'Rp 9.000',
+                'discount' => '17%',
+                'image' => 'https://via.placeholder.com/300x300/f0f0f0/888?text=Roma+Kelapa',
                 'rating' => 4.4,
-                'reviews' => 567
+                'reviews' => 345
             ],
             [
-                'name' => 'Richeese Nabati Ahh Keju 50g',
-                'price' => 'Rp 6.500',
-                'original_price' => 'Rp 7.500',
-                'discount' => '13%',
-                'image' => 'https://via.placeholder.com/300x300/f0f0f0/888?text=Richeese+Keju',
-                'rating' => 4.8,
-                'reviews' => 432
-            ],
-            [
-                'name' => 'Nescafe 3in1 Original 20 Sachet',
-                'price' => 'Rp 28.900',
-                'original_price' => 'Rp 32.000',
-                'discount' => '10%',
-                'image' => 'https://via.placeholder.com/300x300/f0f0f0/888?text=Nescafe+3in1',
-                'rating' => 4.5,
-                'reviews' => 298
-            ],
-            [
-                'name' => 'Lay\'s Potato Chips Rumput Laut 68g',
-                'price' => 'Rp 9.900',
+                'name' => 'Mie Sedaap Goreng 91g',
+                'price' => 'Rp 3.200',
                 'original_price' => '',
                 'discount' => '',
-                'image' => 'https://via.placeholder.com/300x300/f0f0f0/888?text=Lays+Rumput+Laut',
-                'rating' => 4.6,
-                'reviews' => 156
+                'image' => 'https://via.placeholder.com/300x300/f0f0f0/888?text=Mie+Sedaap',
+                'rating' => 4.5,
+                'reviews' => 678
             ],
             [
-                'name' => 'Ultra Milk Coklat 250ml x 6',
-                'price' => 'Rp 21.000',
-                'original_price' => 'Rp 24.000',
-                'discount' => '13%',
+                'name' => 'Susu Ultra Milk 250ml',
+                'price' => 'Rp 6.000',
+                'original_price' => 'Rp 7.000',
+                'discount' => '14%',
                 'image' => 'https://via.placeholder.com/300x300/f0f0f0/888?text=Ultra+Milk',
                 'rating' => 4.7,
-                'reviews' => 312
+                'reviews' => 412
+            ],
+            [
+                'name' => 'Permen Mentos Roll 37g',
+                'price' => 'Rp 5.500',
+                'original_price' => '',
+                'discount' => '',
+                'image' => 'https://via.placeholder.com/300x300/f0f0f0/888?text=Mentos+Roll',
+                'rating' => 4.6,
+                'reviews' => 289
             ]
         ] as $product)
         <div class="product-card">
@@ -184,27 +195,31 @@
             </div>
             
             <div class="product-info">
-                <h6 class="product-title">{{ $product['name'] }}</h6>
-                
-                <div class="product-rating">
-                    <div class="stars">
-                        @for($i = 1; $i <= 5; $i++)
-                        <i class="fas fa-star{{ $i <= floor($product['rating']) ? '' : ' text-muted' }}"></i>
-                        @endfor
+                <div class="product-content">
+                    <h6 class="product-title">{{ $product['name'] }}</h6>
+                    
+                    <div class="product-rating">
+                        <div class="stars">
+                            @for($i = 1; $i <= 5; $i++)
+                            <i class="fas fa-star{{ $i <= floor($product['rating']) ? '' : ' text-muted' }}"></i>
+                            @endfor
+                        </div>
+                        <span class="review-count">({{ $product['reviews'] }})</span>
                     </div>
-                    <span class="review-count">({{ $product['reviews'] }})</span>
                 </div>
                 
-                <div class="product-price">
-                    <span class="current-price">{{ $product['price'] }}</span>
-                    @if($product['original_price'])
-                    <span class="original-price">{{ $product['original_price'] }}</span>
-                    @endif
+                <div class="product-meta">
+                    <div class="product-price">
+                        <span class="current-price">{{ $product['price'] }}</span>
+                        @if($product['original_price'])
+                        <span class="original-price">{{ $product['original_price'] }}</span>
+                        @endif
+                    </div>
+                    
+                    <button class="add-to-cart-btn">
+                        <i class="fas fa-shopping-cart me-2"></i>Tambah ke Keranjang
+                    </button>
                 </div>
-                
-                <button class="add-to-cart-btn">
-                    <i class="fas fa-shopping-cart me-2"></i>Tambah ke Keranjang
-                </button>
             </div>
         </div>
         @endforeach
@@ -220,18 +235,105 @@
                 <span class="page-link">1</span>
             </li>
             <li class="page-item">
-                <a class="page-link" href="#">2</a>
+                <a class="page-link" href="#" title="Go to page 2">2</a>
             </li>
             <li class="page-item">
-                <a class="page-link" href="#">3</a>
+                <a class="page-link" href="#" title="Go to page 3">3</a>
             </li>
             <li class="page-item">
-                <a class="page-link" href="#">4</a>
+                <a class="page-link" href="#" title="Go to page 4">4</a>
             </li>
             <li class="page-item">
-                <a class="page-link" href="#">Next</a>
+                <span class="page-link text-muted">...</span>
+            </li>
+            <li class="page-item">
+                <a class="page-link" href="#" title="Go to page 15">15</a>
+            </li>
+            <li class="page-item">
+                <a class="page-link" href="#" title="Next page">Next</a>
             </li>
         </ul>
     </nav>
 </div>
+
+@push('styles')
+<style>
+    /* Filter Dropdown Styles */
+    .filter-dropdown {
+        border: 2px solid #dee2e6;
+        border-radius: 25px;
+        padding: 8px 16px;
+        font-weight: 500;
+        transition: all 0.3s ease;
+        background: white;
+        text-align: left;
+        color: #495057;
+        position: relative;
+        z-index: 1;
+    }
+
+    .filter-dropdown * {
+        position: relative;
+        z-index: 2;
+    }
+
+    .filter-dropdown:hover {
+        border-color: #f26b37;
+        background: linear-gradient(135deg, #f26b37 0%, #e55827 100%);
+        color: white !important;
+    }
+
+    .filter-dropdown:hover,
+    .filter-dropdown:hover * {
+        color: white !important;
+    }
+
+    .filter-dropdown:hover i {
+        color: white !important;
+    }
+
+    .filter-section .dropdown-menu-wide {
+        min-width: 100%;
+        border-radius: 12px;
+        border: none;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+        padding: 10px 0;
+        margin-top: 5px;
+    }
+
+    .filter-section .dropdown-menu-wide .dropdown-item {
+        padding: 10px 16px;
+        font-weight: 500;
+        transition: all 0.3s ease;
+        border-radius: 0;
+    }
+
+    .filter-section .dropdown-menu-wide .dropdown-item:hover {
+        background: linear-gradient(135deg, #f26b37 0%, #e55827 100%);
+        color: white;
+    }
+
+    .filter-section .dropdown-menu-wide .dropdown-item i {
+        width: 18px;
+        transition: all 0.3s ease;
+    }
+
+    .filter-section .dropdown-menu-wide .dropdown-item:hover i {
+        color: white !important;
+    }
+
+    /* Responsive filter */
+    @media (max-width: 768px) {
+        .filter-section .row .col-md-4 {
+            margin-bottom: 10px;
+        }
+        
+        .filter-dropdown {
+            font-size: 0.9rem;
+            padding: 6px 12px;
+        }
+    }
+</style>
+@endpush
+
 @endsection

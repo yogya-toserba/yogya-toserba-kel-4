@@ -13,7 +13,7 @@
         </nav>
         
         <h1 class="display-5 fw-bold mb-3">🚗 Otomotif</h1>
-        <p class="lead mb-0">Aksesoris dan spare part untuk kendaraan Anda</p>
+        <p class="lead mb-0">Perlengkapan otomotif terlengkap untuk perawatan dan aksesoris kendaraan Anda</p>
     </div>
 </div>
 
@@ -23,38 +23,50 @@
         <div class="row align-items-center">
             <div class="col-md-8">
                 <div class="row g-3">
-                    <div class="col-md-3">
-                        <select class="form-select">
-                            <option>Semua Kategori</option>
-                            <option>Aksesoris Mobil</option>
-                            <option>Aksesoris Motor</option>
-                            <option>Spare Part</option>
-                            <option>Tools & Equipment</option>
-                            <option>Ban & Velg</option>
-                        </select>
+                    <div class="col-md-4">
+                        <div class="dropdown">
+                            <button class="btn btn-outline-secondary dropdown-toggle d-flex align-items-center justify-content-between w-100 filter-dropdown" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                <span><i class="fas fa-th-large me-2"></i>Semua Kategori</span>
+                            </button>
+                            <ul class="dropdown-menu dropdown-menu-wide w-100">
+                                <li><a class="dropdown-item" href="#"><i class="fas fa-oil-can me-2 text-primary"></i>Oli & Pelumas</a></li>
+                                <li><a class="dropdown-item" href="#"><i class="fas fa-cog me-2 text-info"></i>Spare Parts</a></li>
+                                <li><a class="dropdown-item" href="#"><i class="fas fa-car me-2 text-success"></i>Aksesoris Interior</a></li>
+                                <li><a class="dropdown-item" href="#"><i class="fas fa-wrench me-2 text-warning"></i>Alat Service</a></li>
+                                <li><a class="dropdown-item" href="#"><i class="fas fa-compact-disc me-2 text-danger"></i>Audio & Elektronik</a></li>
+                            </ul>
+                        </div>
                     </div>
-                    <div class="col-md-3">
-                        <select class="form-select">
-                            <option>Rentang Harga</option>
-                            <option>< Rp 100.000</option>
-                            <option>Rp 100.000-500.000</option>
-                            <option>Rp 500.000-1.000.000</option>
-                            <option>> Rp 1.000.000</option>
-                        </select>
+                    <div class="col-md-4">
+                        <div class="dropdown">
+                            <button class="btn btn-outline-secondary dropdown-toggle d-flex align-items-center justify-content-between w-100 filter-dropdown" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                <span><i class="fas fa-tags me-2"></i>Rentang Harga</span>
+                            </button>
+                            <ul class="dropdown-menu dropdown-menu-wide w-100">
+                                <li><a class="dropdown-item" href="#"><i class="fas fa-dollar-sign me-2 text-success"></i>< Rp 100rb</a></li>
+                                <li><a class="dropdown-item" href="#"><i class="fas fa-dollar-sign me-2 text-info"></i>Rp 100rb-500rb</a></li>
+                                <li><a class="dropdown-item" href="#"><i class="fas fa-dollar-sign me-2 text-warning"></i>Rp 500rb-1jt</a></li>
+                                <li><a class="dropdown-item" href="#"><i class="fas fa-dollar-sign me-2 text-danger"></i>> Rp 1 Juta</a></li>
+                            </ul>
+                        </div>
                     </div>
-                    <div class="col-md-3">
-                        <select class="form-select">
-                            <option>Urutkan</option>
-                            <option>Harga Terendah</option>
-                            <option>Harga Tertinggi</option>
-                            <option>Terpopuler</option>
-                            <option>Terbaru</option>
-                        </select>
+                    <div class="col-md-4">
+                        <div class="dropdown">
+                            <button class="btn btn-outline-secondary dropdown-toggle d-flex align-items-center justify-content-between w-100 filter-dropdown" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                <span><i class="fas fa-sort me-2"></i>Urutkan</span>
+                            </button>
+                            <ul class="dropdown-menu dropdown-menu-wide w-100">
+                                <li><a class="dropdown-item" href="#"><i class="fas fa-arrow-down me-2 text-success"></i>Harga Terendah</a></li>
+                                <li><a class="dropdown-item" href="#"><i class="fas fa-arrow-up me-2 text-danger"></i>Harga Tertinggi</a></li>
+                                <li><a class="dropdown-item" href="#"><i class="fas fa-fire me-2 text-warning"></i>Terpopuler</a></li>
+                                <li><a class="dropdown-item" href="#"><i class="fas fa-clock me-2 text-info"></i>Terbaru</a></li>
+                            </ul>
+                        </div>
                     </div>
                 </div>
             </div>
             <div class="col-md-4 text-end">
-                <small class="text-muted">Menampilkan 1-12 dari 98 produk</small>
+                <small class="text-muted">Menampilkan 1-12 dari 452 produk</small>
             </div>
         </div>
     </div>
@@ -63,112 +75,112 @@
     <div class="product-grid">
         @foreach([
             [
-                'name' => 'Karpet Mobil Universal 5 Pcs',
-                'price' => 'Rp 125.000',
-                'original_price' => 'Rp 150.000',
-                'discount' => '17%',
-                'image' => 'https://via.placeholder.com/300x300/f0f0f0/888?text=Karpet+Mobil',
-                'rating' => 4.5,
-                'reviews' => 298
+                'name' => 'Castrol GTX Ultraclean 10W-40 4L',
+                'price' => 'Rp 189.000',
+                'original_price' => 'Rp 225.000',
+                'discount' => '16%',
+                'image' => 'https://via.placeholder.com/300x300/f0f0f0/888?text=Castrol+GTX+Oil',
+                'rating' => 4.8,
+                'reviews' => 892
             ],
             [
-                'name' => 'Car Holder HP Magnetik Dashboard',
+                'name' => 'Bosch Spark Plug Platinum Plus',
                 'price' => 'Rp 45.000',
                 'original_price' => '',
                 'discount' => '',
-                'image' => 'https://via.placeholder.com/300x300/f0f0f0/888?text=Car+Holder',
-                'rating' => 4.3,
-                'reviews' => 456
-            ],
-            [
-                'name' => 'Oli Mesin Shell Helix Ultra 1L',
-                'price' => 'Rp 189.000',
-                'original_price' => 'Rp 210.000',
-                'discount' => '10%',
-                'image' => 'https://via.placeholder.com/300x300/f0f0f0/888?text=Shell+Helix',
+                'image' => 'https://via.placeholder.com/300x300/f0f0f0/888?text=Bosch+Spark+Plug',
                 'rating' => 4.7,
-                'reviews' => 234
+                'reviews' => 567
             ],
             [
-                'name' => 'Sarung Jok Mobil Universal',
-                'price' => 'Rp 285.000',
+                'name' => 'Car Dashboard Camera HD 1080P',
+                'price' => 'Rp 599.000',
+                'original_price' => 'Rp 799.000',
+                'discount' => '25%',
+                'image' => 'https://via.placeholder.com/300x300/f0f0f0/888?text=Dashboard+Camera',
+                'rating' => 4.5,
+                'reviews' => 334
+            ],
+            [
+                'name' => 'Michelin Tire Pressure Gauge Digital',
+                'price' => 'Rp 125.000',
                 'original_price' => '',
                 'discount' => '',
-                'image' => 'https://via.placeholder.com/300x300/f0f0f0/888?text=Sarung+Jok',
-                'rating' => 4.4,
-                'reviews' => 167
-            ],
-            [
-                'name' => 'Dashcam 70mai A800 4K',
-                'price' => 'Rp 1.250.000',
-                'original_price' => 'Rp 1.450.000',
-                'discount' => '14%',
-                'image' => 'https://via.placeholder.com/300x300/f0f0f0/888?text=Dashcam+70mai',
-                'rating' => 4.8,
-                'reviews' => 89
-            ],
-            [
-                'name' => 'Ban Mobil Bridgestone Turanza 185/65R15',
-                'price' => 'Rp 650.000',
-                'original_price' => '',
-                'discount' => '',
-                'image' => 'https://via.placeholder.com/300x300/f0f0f0/888?text=Ban+Bridgestone',
+                'image' => 'https://via.placeholder.com/300x300/f0f0f0/888?text=Tire+Pressure+Gauge',
                 'rating' => 4.6,
-                'reviews' => 145
+                'reviews' => 445
             ],
             [
-                'name' => 'Helm Half Face KYT DJ Maru',
-                'price' => 'Rp 285.000',
-                'original_price' => 'Rp 325.000',
-                'discount' => '12%',
-                'image' => 'https://via.placeholder.com/300x300/f0f0f0/888?text=Helm+KYT',
-                'rating' => 4.7,
-                'reviews' => 378
-            ],
-            [
-                'name' => 'Kunci Pas Set 8-24mm 10 Pcs',
-                'price' => 'Rp 85.000',
-                'original_price' => 'Rp 105.000',
+                'name' => 'Pioneer Car Audio System DEH-S1200UB',
+                'price' => 'Rp 1.299.000',
+                'original_price' => 'Rp 1.599.000',
                 'discount' => '19%',
-                'image' => 'https://via.placeholder.com/300x300/f0f0f0/888?text=Kunci+Pas+Set',
+                'image' => 'https://via.placeholder.com/300x300/f0f0f0/888?text=Pioneer+Audio',
                 'rating' => 4.4,
-                'reviews' => 267
+                'reviews' => 298
             ],
             [
-                'name' => 'Air Freshener Glade Car Gel',
+                'name' => 'Car Air Freshener Organic Lavender',
                 'price' => 'Rp 35.000',
                 'original_price' => '',
                 'discount' => '',
                 'image' => 'https://via.placeholder.com/300x300/f0f0f0/888?text=Air+Freshener',
-                'rating' => 4.2,
-                'reviews' => 567
+                'rating' => 4.3,
+                'reviews' => 723
             ],
             [
-                'name' => 'Velg Racing HSR Ring 15" PCD 4x100',
-                'price' => 'Rp 1.850.000',
-                'original_price' => 'Rp 2.100.000',
-                'discount' => '12%',
-                'image' => 'https://via.placeholder.com/300x300/f0f0f0/888?text=Velg+HSR',
-                'rating' => 4.6,
-                'reviews' => 67
+                'name' => 'Toolkit Set 100pcs Professional',
+                'price' => 'Rp 459.000',
+                'original_price' => 'Rp 589.000',
+                'discount' => '22%',
+                'image' => 'https://via.placeholder.com/300x300/f0f0f0/888?text=Toolkit+Set',
+                'rating' => 4.7,
+                'reviews' => 156
             ],
             [
-                'name' => 'Charger Mobil Fast Charging 3.0A',
-                'price' => 'Rp 75.000',
+                'name' => 'Wiper Blade Bosch Aerofit 22inch',
+                'price' => 'Rp 89.000',
                 'original_price' => '',
                 'discount' => '',
-                'image' => 'https://via.placeholder.com/300x300/f0f0f0/888?text=Charger+Mobil',
+                'image' => 'https://via.placeholder.com/300x300/f0f0f0/888?text=Wiper+Blade',
                 'rating' => 4.5,
-                'reviews' => 234
+                'reviews' => 634
             ],
             [
-                'name' => 'Wiper Blade Bosch Advantage 22"',
-                'price' => 'Rp 125.000',
-                'original_price' => 'Rp 145.000',
-                'discount' => '14%',
-                'image' => 'https://via.placeholder.com/300x300/f0f0f0/888?text=Wiper+Bosch',
+                'name' => 'Car Phone Holder Magnetic 360°',
+                'price' => 'Rp 75.000',
+                'original_price' => 'Rp 95.000',
+                'discount' => '21%',
+                'image' => 'https://via.placeholder.com/300x300/f0f0f0/888?text=Phone+Holder',
+                'rating' => 4.4,
+                'reviews' => 389
+            ],
+            [
+                'name' => 'Car Vacuum Cleaner 12V Portable',
+                'price' => 'Rp 229.000',
+                'original_price' => '',
+                'discount' => '',
+                'image' => 'https://via.placeholder.com/300x300/f0f0f0/888?text=Car+Vacuum',
+                'rating' => 4.6,
+                'reviews' => 456
+            ],
+            [
+                'name' => 'LED Headlight Bulb H4 6000K',
+                'price' => 'Rp 199.000',
+                'original_price' => 'Rp 259.000',
+                'discount' => '23%',
+                'image' => 'https://via.placeholder.com/300x300/f0f0f0/888?text=LED+Headlight',
                 'rating' => 4.7,
-                'reviews' => 189
+                'reviews' => 267
+            ],
+            [
+                'name' => 'Car Battery Yuasa NS40ZL 12V 35Ah',
+                'price' => 'Rp 449.000',
+                'original_price' => 'Rp 529.000',
+                'discount' => '15%',
+                'image' => 'https://via.placeholder.com/300x300/f0f0f0/888?text=Car+Battery',
+                'rating' => 4.8,
+                'reviews' => 198
             ]
         ] as $product)
         <div class="product-card">
@@ -183,27 +195,31 @@
             </div>
             
             <div class="product-info">
-                <h6 class="product-title">{{ $product['name'] }}</h6>
-                
-                <div class="product-rating">
-                    <div class="stars">
-                        @for($i = 1; $i <= 5; $i++)
-                        <i class="fas fa-star{{ $i <= floor($product['rating']) ? '' : ' text-muted' }}"></i>
-                        @endfor
+                <div class="product-content">
+                    <h6 class="product-title">{{ $product['name'] }}</h6>
+                    
+                    <div class="product-rating">
+                        <div class="stars">
+                            @for($i = 1; $i <= 5; $i++)
+                            <i class="fas fa-star{{ $i <= floor($product['rating']) ? '' : ' text-muted' }}"></i>
+                            @endfor
+                        </div>
+                        <span class="review-count">({{ $product['reviews'] }})</span>
                     </div>
-                    <span class="review-count">({{ $product['reviews'] }})</span>
                 </div>
                 
-                <div class="product-price">
-                    <span class="current-price">{{ $product['price'] }}</span>
-                    @if($product['original_price'])
-                    <span class="original-price">{{ $product['original_price'] }}</span>
-                    @endif
+                <div class="product-meta">
+                    <div class="product-price">
+                        <span class="current-price">{{ $product['price'] }}</span>
+                        @if($product['original_price'])
+                        <span class="original-price">{{ $product['original_price'] }}</span>
+                        @endif
+                    </div>
+                    
+                    <button class="add-to-cart-btn">
+                        <i class="fas fa-shopping-cart me-2"></i>Tambah ke Keranjang
+                    </button>
                 </div>
-                
-                <button class="add-to-cart-btn">
-                    <i class="fas fa-shopping-cart me-2"></i>Tambah ke Keranjang
-                </button>
             </div>
         </div>
         @endforeach
@@ -219,18 +235,105 @@
                 <span class="page-link">1</span>
             </li>
             <li class="page-item">
-                <a class="page-link" href="#">2</a>
+                <a class="page-link" href="#" title="Go to page 2">2</a>
             </li>
             <li class="page-item">
-                <a class="page-link" href="#">3</a>
+                <a class="page-link" href="#" title="Go to page 3">3</a>
             </li>
             <li class="page-item">
-                <a class="page-link" href="#">4</a>
+                <a class="page-link" href="#" title="Go to page 4">4</a>
             </li>
             <li class="page-item">
-                <a class="page-link" href="#">Next</a>
+                <span class="page-link text-muted">...</span>
+            </li>
+            <li class="page-item">
+                <a class="page-link" href="#" title="Go to page 38">38</a>
+            </li>
+            <li class="page-item">
+                <a class="page-link" href="#" title="Next page">Next</a>
             </li>
         </ul>
     </nav>
 </div>
+
+@push('styles')
+<style>
+    /* Filter Dropdown Styles */
+    .filter-dropdown {
+        border: 2px solid #dee2e6;
+        border-radius: 25px;
+        padding: 8px 16px;
+        font-weight: 500;
+        transition: all 0.3s ease;
+        background: white;
+        text-align: left;
+        color: #495057;
+        position: relative;
+        z-index: 1;
+    }
+
+    .filter-dropdown * {
+        position: relative;
+        z-index: 2;
+    }
+
+    .filter-dropdown:hover {
+        border-color: #f26b37;
+        background: linear-gradient(135deg, #f26b37 0%, #e55827 100%);
+        color: white !important;
+    }
+
+    .filter-dropdown:hover,
+    .filter-dropdown:hover * {
+        color: white !important;
+    }
+
+    .filter-dropdown:hover i {
+        color: white !important;
+    }
+
+    .filter-section .dropdown-menu-wide {
+        min-width: 100%;
+        border-radius: 12px;
+        border: none;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+        padding: 10px 0;
+        margin-top: 5px;
+    }
+
+    .filter-section .dropdown-menu-wide .dropdown-item {
+        padding: 10px 16px;
+        font-weight: 500;
+        transition: all 0.3s ease;
+        border-radius: 0;
+    }
+
+    .filter-section .dropdown-menu-wide .dropdown-item:hover {
+        background: linear-gradient(135deg, #f26b37 0%, #e55827 100%);
+        color: white;
+    }
+
+    .filter-section .dropdown-menu-wide .dropdown-item i {
+        width: 18px;
+        transition: all 0.3s ease;
+    }
+
+    .filter-section .dropdown-menu-wide .dropdown-item:hover i {
+        color: white !important;
+    }
+
+    /* Responsive filter */
+    @media (max-width: 768px) {
+        .filter-section .row .col-md-4 {
+            margin-bottom: 10px;
+        }
+        
+        .filter-dropdown {
+            font-size: 0.9rem;
+            padding: 6px 12px;
+        }
+    }
+</style>
+@endpush
+
 @endsection

@@ -4,342 +4,2689 @@
 
 @section('content')
 <style>
-    .orange-theme {
-        --orange-primary: rgb(242, 112, 61);
-        --orange-light: rgba(242, 112, 61, 0.1);
-        --orange-dark: rgb(220, 95, 50);
+/* GLOBAL OVERRIDE - FORCE EXACT DASHBOARD LAYOUT */
+* {
+    box-sizing: border-box !important;
+}
+
+/* RESET ALL CONFLICTS - EXACT MATCH WITH DASHBOARD */
+.main-content {
+    margin-left: 250px !important;
+    padding: 25px 35px !important;
+    background: #f8fafc !important;
+    min-height: 100vh !important;
+    width: calc(100% - 250px) !important;
+    box-sizing: border-box !important;
+    position: relative !important;
+    overflow-x: hidden !important;
+}
+
+/* Ensure no parent container interferes */
+@media (min-width: 769px) {
+    .main-content {
+        margin-left: 250px !important;
+        width: calc(100% - 250px) !important;
+    }
+}
+
+/* Remove any extra padding or margin that might conflict */
+.main-content > * {
+    max-width: 100% !important;
+}
+
+/* DISABLE ALL BOOTSTRAP INTERFERENCE */
+.container,
+.container-fluid,
+.container-sm,
+.container-md,
+.container-lg,
+.container-xl,
+.container-xxl {
+    padding: 0 !important;
+    margin: 0 !important;
+    max-width: 100% !important;
+    width: 100% !important;
+}
+
+/* RESET BOOTSTRAP GRID SYSTEM */
+.row {
+    margin-left: 0 !important;
+    margin-right: 0 !important;
+}
+
+.row > * {
+    padding-left: 12px !important;
+    padding-right: 12px !important;
+}
+
+/* Dark Mode Support */
+body.dark-mode .main-content {
+    background: #1a1d29 !important;
+}
+
+/* FORCE NEW DASHBOARD STYLES - EXACT COPY */
+.new-karyawan {
+    background: #f8fafc !important;
+    min-height: 100vh !important;
+    padding: 0 !important;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif !important;
+    overflow-x: hidden !important;
+    width: 100% !important;
+    margin: 0 !important;
+}
+
+body.dark-mode .new-karyawan {
+    background: #1a1d29 !important;
+}
+
+.new-header {
+    background: linear-gradient(135deg, #f26b37 0%, #e55827 100%) !important;
+    color: white !important;
+    padding: 35px 40px !important;
+    border-radius: 15px !important;
+    margin-bottom: 35px !important;
+    box-shadow: 0 4px 15px rgba(242, 107, 55, 0.3) !important;
+    position: relative !important;
+}
+
+.new-header h1 {
+    font-size: 2.5rem !important;
+    font-weight: bold !important;
+    margin: 0 !important;
+    color: white !important;
+}
+
+.new-header p {
+    font-size: 1.1rem !important;
+    opacity: 0.9 !important;
+    margin: 10px 0 0 0 !important;
+    color: white !important;
+}
+
+/* Real-time clock styling */
+#realTimeClock {
+    background: rgba(255, 255, 255, 0.2) !important;
+    padding: 8px 16px !important;
+    border-radius: 20px !important;
+    border: 1px solid rgba(255, 255, 255, 0.3) !important;
+    backdrop-filter: blur(10px) !important;
+    font-family: 'Courier New', monospace !important;
+    letter-spacing: 1px !important;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1) !important;
+    transition: all 0.2s ease !important;
+}
+
+#realTimeClock:hover {
+    background: rgba(255, 255, 255, 0.25) !important;
+    transform: translateY(-1px) !important;
+}
+
+/* Stats Cards */
+.new-stat-card {
+    background: white !important;
+    padding: 25px 20px !important;
+    border-radius: 15px !important;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.1) !important;
+    border: 1px solid #e2e8f0 !important;
+    position: relative !important;
+    transition: all 0.3s ease !important;
+    min-height: 140px !important;
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: center !important;
+    text-align: center !important;
+    overflow: hidden !important;
+}
+
+body.dark-mode .new-stat-card {
+    background: #2a2d3f !important;
+    border-color: #3a3d4a !important;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.3) !important;
+}
+
+.new-stat-card:hover {
+    transform: translateY(-2px) !important;
+    box-shadow: 0 8px 25px rgba(242, 107, 55, 0.15) !important;
+}
+
+.new-stat-icon {
+    background: linear-gradient(135deg, #f26b37, #e55827) !important;
+    color: white !important;
+    border-radius: 15px !important;
+    width: 55px !important;
+    height: 55px !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    font-size: 20px !important;
+    margin-bottom: 15px !important;
+    box-shadow: 0 4px 12px rgba(242, 107, 55, 0.3) !important;
+}
+
+.new-stat-number {
+    font-size: 2.3rem !important;
+    font-weight: bold !important;
+    color: #1e293b !important;
+    margin: 12px 0 8px 0 !important;
+    line-height: 1.2 !important;
+}
+
+body.dark-mode .new-stat-number {
+    color: #e2e8f0 !important;
+}
+
+.new-stat-label {
+    color: #64748b !important;
+    font-weight: 500 !important;
+    font-size: 0.9rem !important;
+    line-height: 1.3 !important;
+}
+
+body.dark-mode .new-stat-label {
+    color: #94a3b8 !important;
+}
+
+.new-stat-change {
+    font-size: 0.75rem !important;
+    font-weight: 600 !important;
+    margin-top: 8px !important;
+    padding: 4px 8px !important;
+    border-radius: 12px !important;
+}
+
+.change-positive {
+    background: #dcfce7 !important;
+    color: #15803d !important;
+}
+
+.change-neutral {
+    background: #e0f2fe !important;
+    color: #0277bd !important;
+}
+
+/* Cards */
+.new-card {
+    background: white !important;
+    border-radius: 15px !important;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.1) !important;
+    border: 1px solid #e2e8f0 !important;
+    overflow: hidden !important;
+    transition: all 0.3s ease !important;
+}
+
+body.dark-mode .new-card {
+    background: #2a2d3f !important;
+    border-color: #3a3d4a !important;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.3) !important;
+}
+
+.new-card:hover {
+    transform: translateY(-2px) !important;
+    box-shadow: 0 8px 25px rgba(0,0,0,0.15) !important;
+}
+
+.new-card-header {
+    background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%) !important;
+    padding: 20px 25px !important;
+    border-bottom: 1px solid #e2e8f0 !important;
+    display: flex !important;
+    justify-content: space-between !important;
+    align-items: center !important;
+}
+
+body.dark-mode .new-card-header {
+    background: linear-gradient(135deg, #374151 0%, #4b5563 100%) !important;
+    border-bottom-color: #3a3d4a !important;
+}
+
+.new-card-title {
+    font-size: 1.1rem !important;
+    font-weight: 600 !important;
+    color: #1e293b !important;
+    margin: 0 !important;
+    display: flex !important;
+    align-items: center !important;
+    gap: 10px !important;
+}
+
+body.dark-mode .new-card-title {
+    color: #e2e8f0 !important;
+}
+
+.new-card-body {
+    padding: 25px !important;
+}
+
+/* Table Styling */
+.table-responsive {
+    border-radius: 8px !important;
+    background: white !important;
+}
+
+body.dark-mode .table-responsive {
+    background: #2a2d3f !important;
+}
+
+/* TABLE DARK MODE STYLING */
+body.dark-mode .table {
+    background: #2a2d3f !important;
+    color: #e2e8f0 !important;
+}
+
+body.dark-mode .table thead {
+    background: #2a2d3f !important;
+}
+
+body.dark-mode .table th {
+    color: #94a3b8 !important;
+    background: #2a2d3f !important;
+    border-color: #3a3d4a !important;
+}
+
+body.dark-mode .table td {
+    color: #e2e8f0 !important;
+    background: #2a2d3f !important;
+    border-color: #3a3d4a !important;
+}
+
+body.dark-mode .table tbody tr {
+    background: #2a2d3f !important;
+}
+
+body.dark-mode .table tbody tr:hover {
+    background: #3a3d4a !important;
+}
+
+/* TABLE TEXT COLORS DARK MODE */
+body.dark-mode .table strong {
+    color: #e2e8f0 !important;
+}
+
+body.dark-mode .table small {
+    color: #94a3b8 !important;
+}
+
+/* Buttons */
+.btn-primary {
+    background: linear-gradient(135deg, #f26b37, #e55827) !important;
+    border: none !important;
+    color: white !important;
+    font-weight: 500 !important;
+    padding: 8px 16px !important;
+    border-radius: 8px !important;
+    transition: all 0.3s ease !important;
+}
+
+.btn-primary:hover {
+    background: linear-gradient(135deg, #e55827, #d44a1a) !important;
+    transform: translateY(-1px) !important;
+}
+
+.btn-outline-primary {
+    border: 2px solid #f26b37 !important;
+    color: #f26b37 !important;
+    background: transparent !important;
+    font-weight: 500 !important;
+    padding: 6px 14px !important;
+    border-radius: 8px !important;
+    transition: all 0.3s ease !important;
+}
+
+.btn-outline-primary:hover {
+    background: #f26b37 !important;
+    color: white !important;
+    transform: translateY(-1px) !important;
+}
+
+.btn-outline-secondary {
+    border: 2px solid #6c757d !important;
+    color: #6c757d !important;
+    background: transparent !important;
+    font-weight: 500 !important;
+    padding: 6px 14px !important;
+    border-radius: 8px !important;
+    transition: all 0.3s ease !important;
+}
+
+.btn-outline-secondary:hover {
+    background: #6c757d !important;
+    color: white !important;
+    transform: translateY(-1px) !important;
+    border-color: #6c757d !important;
+}
+
+body.dark-mode .btn-outline-secondary {
+    border-color: #9ca3af !important;
+    color: #9ca3af !important;
+}
+
+body.dark-mode .btn-outline-secondary:hover {
+    background: #9ca3af !important;
+    color: #1a1d29 !important;
+    border-color: #9ca3af !important;
+}
+
+/* Action Buttons */
+.btn-action {
+    padding: 4px 8px !important;
+    font-size: 0.75rem !important;
+    border-radius: 6px !important;
+    margin: 0 2px !important;
+    transition: all 0.2s ease !important;
+}
+
+.btn-edit {
+    background: #3b82f6 !important;
+    color: white !important;
+    border: none !important;
+}
+
+.btn-edit:hover {
+    background: #2563eb !important;
+    transform: translateY(-1px) !important;
+}
+
+.btn-delete {
+    background: #ef4444 !important;
+    color: white !important;
+    border: none !important;
+}
+
+.btn-delete:hover {
+    background: #dc2626 !important;
+    transform: translateY(-1px) !important;
+}
+
+/* Badge Styles */
+.badge-active {
+    background: #dcfce7 !important;
+    color: #15803d !important;
+    font-weight: 500 !important;
+    padding: 6px 12px !important;
+    border-radius: 20px !important;
+    font-size: 0.75rem !important;
+}
+
+.badge-inactive {
+    background: #fee2e2 !important;
+    color: #dc2626 !important;
+    font-weight: 500 !important;
+    padding: 6px 12px !important;
+    border-radius: 20px !important;
+    font-size: 0.75rem !important;
+}
+
+.badge-department {
+    background: #dbeafe !important;
+    color: #1d4ed8 !important;
+    font-weight: 500 !important;
+    padding: 4px 10px !important;
+    border-radius: 15px !important;
+    font-size: 0.7rem !important;
+}
+
+/* Grid Layout for responsive */
+.row.g-4 {
+    margin-bottom: 30px !important;
+}
+
+/* Search and Filter */
+.search-filter-bar {
+    background: white !important;
+    padding: 20px !important;
+    border-radius: 15px !important;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.1) !important;
+    border: 1px solid #e2e8f0 !important;
+    margin-bottom: 25px !important;
+}
+
+body.dark-mode .search-filter-bar {
+    background: #2a2d3f !important;
+    border-color: #3a3d4a !important;
+}
+
+/* Form Controls */
+.form-control {
+    border: 2px solid #e2e8f0 !important;
+    border-radius: 8px !important;
+    padding: 8px 12px !important;
+    font-size: 0.9rem !important;
+    transition: all 0.2s ease !important;
+}
+
+.form-control:hover {
+    border-color: #cbd5e1 !important;
+    transform: none !important;
+}
+
+.form-control:focus {
+    border-color: #f26b37 !important;
+    box-shadow: 0 0 0 0.2rem rgba(242, 107, 55, 0.25) !important;
+    transform: none !important;
+}
+
+body.dark-mode .form-control {
+    background: #374151 !important;
+    border-color: #4b5563 !important;
+    color: #e2e8f0 !important;
+}
+
+body.dark-mode .form-control:hover {
+    border-color: #6b7280 !important;
+    transform: none !important;
+}
+
+body.dark-mode .form-control:focus {
+    background: #374151 !important;
+    border-color: #f26b37 !important;
+    transform: none !important;
+}
+
+body.dark-mode .form-control::placeholder {
+    color: #9ca3af !important;
+}
+
+body.dark-mode .form-select {
+    background: #374151 !important;
+    border-color: #4b5563 !important;
+    color: #e2e8f0 !important;
+}
+
+body.dark-mode .form-select option {
+    background: #374151 !important;
+    color: #e2e8f0 !important;
+}
+
+/* Ensure no transform interference on search area */
+.search-filter-section * {
+    transform: none !important;
+}
+
+.search-filter-section .form-control:hover {
+    border-color: #cbd5e1 !important;
+    transform: none !important;
+}
+
+body.dark-mode .search-filter-section .form-control:hover {
+    border-color: #6b7280 !important;
+    transform: none !important;
+}
+
+/* Dropdown Action Button */
+.action-dropdown {
+    position: relative;
+    display: inline-block;
+}
+
+.action-dropdown-btn {
+    background: #f8fafc !important;
+    border: 1px solid #e2e8f0 !important;
+    border-radius: 6px !important;
+    padding: 6px 8px !important;
+    color: #64748b !important;
+    font-size: 14px !important;
+    cursor: pointer !important;
+    transition: all 0.2s ease !important;
+    position: relative !important;
+    z-index: 10 !important;
+}
+
+.action-dropdown-btn:hover {
+    background: #f1f5f9 !important;
+    border-color: #cbd5e1 !important;
+    color: #475569 !important;
+}
+
+.action-dropdown-btn:focus {
+    outline: none !important;
+    box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.5) !important;
+}
+
+body.dark-mode .action-dropdown-btn {
+    background: #374151 !important;
+    border-color: #4b5563 !important;
+    color: #9ca3af !important;
+}
+
+body.dark-mode .action-dropdown-btn:hover {
+    background: #4b5563 !important;
+    border-color: #6b7280 !important;
+    color: #d1d5db !important;
+}
+
+.action-dropdown-menu {
+    position: absolute;
+    top: 100%;
+    right: 0;
+    background: white;
+    border: 1px solid #e2e8f0;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+    min-width: 120px;
+    z-index: 9999 !important;
+    display: none;
+}
+
+body.dark-mode .action-dropdown-menu {
+    background: #374151;
+    border-color: #4b5563;
+}
+
+.action-dropdown-item {
+    display: block;
+    padding: 8px 12px;
+    color: #374151;
+    text-decoration: none;
+    font-size: 0.875rem;
+    transition: background-color 0.2s ease;
+    border: none;
+    background: none;
+    width: 100%;
+    text-align: left;
+    cursor: pointer;
+}
+
+.action-dropdown-item:hover {
+    background: #f8fafc;
+    color: #1e293b;
+}
+
+body.dark-mode .action-dropdown-item {
+    color: #d1d5db;
+}
+
+body.dark-mode .action-dropdown-item:hover {
+    background: #4b5563;
+    color: #f3f4f6;
+}
+
+.action-dropdown-item.edit-item {
+    color: #2563eb;
+}
+
+.action-dropdown-item.delete-item {
+    color: #dc2626;
+}
+
+.action-dropdown-item.view-item {
+    color: #059669;
+}
+
+/* Pagination Styles */
+.pagination-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 20px;
+    padding: 15px 0;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+.pagination-info {
+    font-size: 0.875rem;
+    color: #64748b;
+    margin: 0;
+}
+
+body.dark-mode .pagination-info {
+    color: #9ca3af;
+}
+
+/* Laravel Pagination Styles */
+.pagination {
+    display: flex !important;
+    justify-content: center !important;
+    list-style: none !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    gap: 2px !important;
+    align-items: center !important;
+}
+
+.pagination .page-item {
+    margin: 0 !important;
+    display: inline-block !important;
+}
+
+.pagination .page-link {
+    display: inline-block !important;
+    padding: 8px 12px !important;
+    margin: 0 1px !important;
+    border: 1px solid #e2e8f0 !important;
+    background: white !important;
+    color: #64748b !important;
+    text-decoration: none !important;
+    border-radius: 6px !important;
+    font-size: 0.875rem !important;
+    transition: all 0.2s ease !important;
+    line-height: 1.4 !important;
+    min-width: 36px !important;
+    text-align: center !important;
+}
+
+.pagination .page-link:hover {
+    background: #f8fafc !important;
+    border-color: #cbd5e1 !important;
+    color: #1e293b !important;
+    text-decoration: none !important;
+    transform: none !important;
+}
+
+.pagination .page-link:focus {
+    box-shadow: 0 0 0 0.2rem rgba(242, 107, 55, 0.25) !important;
+    border-color: #f26b37 !important;
+    outline: none !important;
+}
+
+.pagination .page-item.active .page-link {
+    background: #f26b37 !important;
+    border-color: #f26b37 !important;
+    color: white !important;
+    z-index: 3 !important;
+}
+
+.pagination .page-item.disabled .page-link {
+    color: #6c757d !important;
+    pointer-events: none !important;
+    background-color: #fff !important;
+    border-color: #dee2e6 !important;
+    opacity: 0.5 !important;
+}
+
+/* Dark mode pagination */
+body.dark-mode .pagination .page-link {
+    background: #374151 !important;
+    border-color: #4b5563 !important;
+    color: #9ca3af !important;
+}
+
+body.dark-mode .pagination .page-link:hover {
+    background: #4b5563 !important;
+    border-color: #6b7280 !important;
+    color: #d1d5db !important;
+}
+
+body.dark-mode .pagination .page-item.active .page-link {
+    background: #f26b37 !important;
+    border-color: #f26b37 !important;
+    color: white !important;
+}
+
+body.dark-mode .pagination .page-item.disabled .page-link {
+    background: #374151 !important;
+    border-color: #4b5563 !important;
+    color: #6b7280 !important;
+}
+
+/* Responsive pagination */
+@media (max-width: 576px) {
+    .pagination-container {
+        flex-direction: column;
+        text-align: center;
+        gap: 15px;
     }
     
-    .btn-orange {
-        background-color: var(--orange-primary);
-        border-color: var(--orange-primary);
-        color: white;
+    .pagination .page-link {
+        padding: 6px 10px !important;
+        font-size: 0.8rem !important;
+        min-width: 32px !important;
+    }
+}
+
+/* Pagination wrapper */
+.pagination-wrapper {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.pagination-wrapper nav {
+    margin: 0;
+}
+
+/* Override default Laravel pagination styles */
+.pagination-wrapper .pagination {
+    margin-bottom: 0 !important;
+}
+
+/* Loading Spinner */
+.spinner-border {
+    display: inline-block;
+    width: 1rem;
+    height: 1rem;
+    vertical-align: text-bottom;
+    border: 0.125em solid currentColor;
+    border-right-color: transparent;
+    border-radius: 50%;
+    animation: spinner-border 0.75s linear infinite;
+}
+
+.spinner-border-sm {
+    width: 0.875rem;
+    height: 0.875rem;
+    border-width: 0.125em;
+}
+
+@keyframes spinner-border {
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+.text-primary {
+    color: #f26b37 !important;
+}
+
+.visually-hidden {
+    position: absolute !important;
+    width: 1px !important;
+    height: 1px !important;
+    padding: 0 !important;
+    margin: -1px !important;
+    overflow: hidden !important;
+    clip: rect(0, 0, 0, 0) !important;
+    white-space: nowrap !important;
+    border: 0 !important;
+}
+
+/* Search Input Enhancement */
+.search-input-enhanced {
+    position: relative;
+}
+
+.search-input-enhanced::after {
+    content: '';
+    position: absolute;
+    right: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 12px;
+    height: 12px;
+    border: 2px solid #f26b37;
+    border-radius: 50%;
+    border-top-color: transparent;
+    animation: spinner-border 0.75s linear infinite;
+    display: none;
+}
+
+.search-input-enhanced.loading::after {
+    display: block;
+}
+
+/* Equal height for bottom tables */
+.equal-height-cards {
+    display: flex;
+    align-items: stretch;
+}
+
+.equal-height-cards .new-card {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+}
+
+.equal-height-cards .new-card-body {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+}
+
+.equal-height-cards .table-responsive {
+    flex: 1;
+}
+
+@media (max-width: 1200px) {
+    .main-content {
+        margin-left: 0 !important;
+        width: 100% !important;
+        padding: 20px 15px !important;
     }
     
-    .btn-orange:hover {
-        background-color: var(--orange-dark);
-        border-color: var(--orange-dark);
-        color: white;
+    .col-lg-6 {
+        margin-bottom: 20px !important;
+    }
+}
+
+@media (max-width: 768px) {
+    .main-content {
+        padding: 15px 10px !important;
     }
     
-    .text-orange {
-        color: var(--orange-primary) !important;
+    .new-header {
+        padding: 25px 20px !important;
+        text-align: center !important;
     }
     
-    /* Dropdown Action Styles */
-    .dropdown-toggle {
-        border: none;
-        background: #f8f9fa;
-        color: #6c757d;
-        width: 32px;
-        height: 32px;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        border-radius: 6px;
+    .header-icon {
+        margin: 0 auto 15px auto !important;
     }
     
-    .dropdown-toggle:hover {
-        background: #e9ecef;
-        color: #495057;
+    .new-stat-card {
+        margin-bottom: 20px !important;
     }
     
-    .dropdown-toggle:focus {
-        box-shadow: 0 0 0 0.2rem rgba(242, 112, 61, 0.25);
+    .new-card-header {
+        padding: 15px 20px !important;
     }
     
-    .dropdown-menu {
-        border: 1px solid #dee2e6;
-        border-radius: 8px;
-        box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);
-        min-width: 150px;
+    .new-card-body {
+        padding: 20px !important;
     }
-    
-    .dropdown-item {
-        padding: 0.5rem 1rem;
-        font-size: 0.875rem;
-    }
-    
-    .dropdown-item:hover {
-        background-color: #f8f9fa;
-    }
-    
-    .dropdown-item.text-danger:hover {
-        background-color: #f8d7da;
-    }
+}
+
+/* Modal Dark Mode Styling */
+body.dark-mode .modal-content {
+    background: #2a2d3f !important;
+    border: 1px solid #3a3d4a !important;
+    color: #e2e8f0 !important;
+}
+
+body.dark-mode .modal-header {
+    border-bottom-color: #3a3d4a !important;
+}
+
+body.dark-mode .modal-footer {
+    border-top-color: #3a3d4a !important;
+}
+
+body.dark-mode .modal-title {
+    color: white !important;
+}
+
+/* Form Dark Mode Styling */
+body.dark-mode .form-label {
+    color: #e2e8f0 !important;
+    font-weight: 500 !important;
+}
+
+body.dark-mode .form-label i {
+    color: #f26b37 !important;
+}
+
+body.dark-mode .text-danger {
+    color: #ef4444 !important;
+}
+
+body.dark-mode .form-control {
+    background: #374151 !important;
+    border-color: #4b5563 !important;
+    color: #e2e8f0 !important;
+}
+
+body.dark-mode .form-control:focus {
+    background: #374151 !important;
+    border-color: #f26b37 !important;
+    color: #e2e8f0 !important;
+    box-shadow: 0 0 0 0.2rem rgba(242, 107, 55, 0.25) !important;
+}
+
+body.dark-mode .form-control::placeholder {
+    color: #9ca3af !important;
+}
+
+body.dark-mode .form-select {
+    background: #374151 !important;
+    border-color: #4b5563 !important;
+    color: #e2e8f0 !important;
+    background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3e%3cpath fill='none' stroke='%23ffffff' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M2 5l6 6 6-6'/%3e%3c/svg%3e") !important;
+}
+
+body.dark-mode .form-select option {
+    background: #374151 !important;
+    color: #e2e8f0 !important;
+}
+
+body.dark-mode .invalid-feedback {
+    color: #ef4444 !important;
+}
+
+body.dark-mode .form-control.is-invalid {
+    border-color: #ef4444 !important;
+    box-shadow: 0 0 0 0.2rem rgba(239, 68, 68, 0.25) !important;
+}
+
+/* Preview Section Dark Mode */
+body.dark-mode .preview-section {
+    background: #374151 !important;
+    border-color: #4b5563 !important;
+}
+
+body.dark-mode .preview-section h6 {
+    color: #f26b37 !important;
+}
+
+body.dark-mode .preview-item {
+    border-bottom-color: #4b5563 !important;
+}
+
+body.dark-mode .preview-label {
+    color: #9ca3af !important;
+}
+
+body.dark-mode .preview-value {
+    color: #e2e8f0 !important;
+}
+
+/* Tab styling for dark mode */
+body.dark-mode .nav-tabs {
+    border-bottom-color: #3a3d4a !important;
+}
+
+body.dark-mode .nav-tabs .nav-link {
+    border-color: transparent !important;
+    color: #9ca3af !important;
+    background: transparent !important;
+}
+
+body.dark-mode .nav-tabs .nav-link:hover {
+    border-color: #4b5563 #4b5563 #3a3d4a !important;
+    background: #374151 !important;
+    color: #e2e8f0 !important;
+}
+
+body.dark-mode .nav-tabs .nav-link.active {
+    background: #2a2d3f !important;
+    border-color: #3a3d4a #3a3d4a #2a2d3f !important;
+    color: #f26b37 !important;
+}
+
+body.dark-mode .tab-content {
+    border: 1px solid #3a3d4a !important;
+    border-top: none !important;
+    background: #2a2d3f !important;
+}
+
+/* Alert dark mode */
+body.dark-mode .alert-info {
+    background: #1e293b !important;
+    border-color: #334155 !important;
+    color: #cbd5e1 !important;
+}
+
+body.dark-mode .alert-warning {
+    background: #451a03 !important;
+    border-color: #92400e !important;
+    color: #fbbf24 !important;
+}
+
+/* Ensure tabs work properly */
+.tab-content {
+    border: 1px solid #dee2e6;
+    border-top: none;
+    background: white;
+    min-height: 400px;
+}
+
+.nav-tabs {
+    border-bottom: 1px solid #dee2e6;
+    background: #f8f9fa;
+    margin: 0;
+}
+
+.nav-tabs .nav-link {
+    border: 1px solid transparent;
+    border-top-left-radius: 0.375rem;
+    border-top-right-radius: 0.375rem;
+    color: #6c757d;
+    padding: 12px 20px;
+    font-weight: 500;
+}
+
+.nav-tabs .nav-link:hover {
+    border-color: #e9ecef #e9ecef #dee2e6;
+    background: #f8f9fa;
+    color: #495057;
+}
+
+.nav-tabs .nav-link.active {
+    color: #f26b37;
+    background: white;
+    border-color: #dee2e6 #dee2e6 white;
+    font-weight: 600;
+}
+
+/* Preview section styling */
+.preview-section {
+    background: #f8f9fa;
+    border: 1px solid #dee2e6;
+    border-radius: 8px;
+    padding: 20px;
+}
+
+.preview-item {
+    border-bottom: 1px solid #dee2e6;
+    padding-bottom: 10px;
+    margin-bottom: 15px;
+}
+
+.preview-item:last-child {
+    border-bottom: none;
+    margin-bottom: 0;
+}
+
+.preview-label {
+    font-size: 0.875rem;
+    color: #6c757d;
+    margin-bottom: 2px;
+    font-weight: 500;
+}
+
+.preview-value {
+    font-weight: 600;
+    color: #2c3e50;
+    word-wrap: break-word;
+}
 </style>
 
-<div class="container-fluid orange-theme">
-    <!-- Welcome Header -->
-    <div class="row mb-4">
-        <div class="col-12">
-            <div class="d-flex justify-content-between align-items-center">
-                <div>
-                    <h1 class="h3 mb-1 text-orange">Data Karyawan</h1>
-                    <p class="text-muted mb-0">Kelola data karyawan MyYOGYA</p>
+<div class="new-karyawan">
+    <!-- Header Section -->
+    <div class="new-header">
+        <div style="display: flex; justify-content: space-between; align-items: center;">
+            <div>
+                <h1><i class="fas fa-users me-3"></i>Data Karyawan</h1>
+                <p>Kelola informasi karyawan MyYOGYA dengan mudah</p>
+            </div>
+            <div style="text-align: right;">
+                <div id="realTimeClock" style="font-weight: 600; color: white; font-size: 1rem; margin-bottom: 5px;"></div>
+                <small style="opacity: 0.8;" id="current-day">{{ date('l, d F Y') }}</small>
+            </div>
+        </div>
+    </div>
+
+    <!-- Statistics Cards -->
+    <div class="row g-4 mb-5">
+        <div class="col-lg-3 col-md-6">
+            <div class="new-stat-card">
+                <div class="new-stat-icon">
+                    <i class="fas fa-users"></i>
                 </div>
-                <div class="text-end">
-                    <small class="text-muted">{{ date('l, d F Y') }}</small>
+                <div class="new-stat-number">{{ $totalKaryawan ?? 0 }}</div>
+                <div class="new-stat-label">Total Karyawan</div>
+                <div class="new-stat-change change-positive">
+                    <i class="fas fa-arrow-up"></i> Aktif
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-3 col-md-6">
+            <div class="new-stat-card">
+                <div class="new-stat-icon">
+                    <i class="fas fa-user-check"></i>
+                </div>
+                <div class="new-stat-number">{{ $karyawanAktif ?? 0 }}</div>
+                <div class="new-stat-label">Karyawan Aktif</div>
+                <div class="new-stat-change change-positive">
+                    <i class="fas fa-check"></i> Online
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-3 col-md-6">
+            <div class="new-stat-card">
+                <div class="new-stat-icon">
+                    <i class="fas fa-building"></i>
+                </div>
+                <div class="new-stat-number">{{ $totalDepartemen ?? 0 }}</div>
+                <div class="new-stat-label">Departemen</div>
+                <div class="new-stat-change change-neutral">
+                    <i class="fas fa-layer-group"></i> Unit
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-3 col-md-6">
+            <div class="new-stat-card">
+                <div class="new-stat-icon">
+                    <i class="fas fa-calendar-check"></i>
+                </div>
+                <div class="new-stat-number">{{ $hadirHariIni ?? 0 }}</div>
+                <div class="new-stat-label">Hadir Hari Ini</div>
+                <div class="new-stat-change change-positive">
+                    <i class="fas fa-clock"></i> {{ date('H:i') }}
                 </div>
             </div>
         </div>
     </div>
 
-    <!-- Success/Error Messages -->
-    @if(session('success'))
-        <div class="row mb-4">
-            <div class="col-12">
-                <div class="alert alert-success alert-dismissible fade show" role="alert">
-                    <i class="fas fa-check-circle me-2"></i>{{ session('success') }}
-                    <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+    <!-- Search and Filter Bar -->
+    <div class="search-filter-bar">
+        <div class="row g-3 align-items-center">
+            <div class="col-md-4">
+                <div class="input-group">
+                    <span class="input-group-text">
+                        <i class="fas fa-search"></i>
+                    </span>
+                    <input type="text" class="form-control" placeholder="Cari karyawan..." id="searchKaryawan">
                 </div>
             </div>
-        </div>
-    @endif
-
-    @if(session('error'))
-        <div class="row mb-4">
-            <div class="col-12">
-                <div class="alert alert-danger alert-dismissible fade show" role="alert">
-                    <i class="fas fa-exclamation-circle me-2"></i>{{ session('error') }}
-                    <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
-                </div>
+            <div class="col-md-2">
+                <select class="form-control" id="filterDepartment">
+                    <option value="">Semua Departemen</option>
+                    @foreach($divisiList ?? [] as $divisi)
+                        <option value="{{ $divisi }}">{{ $divisi }}</option>
+                    @endforeach
+                </select>
+            </div>
+            <div class="col-md-2">
+                <select class="form-control" id="filterStatus">
+                    <option value="">Semua Status</option>
+                    <option value="Aktif">Aktif</option>
+                    <option value="Non-Aktif">Non-Aktif</option>
+                </select>
+            </div>
+            <div class="col-md-3">
+                <button class="btn btn-primary w-100" data-bs-toggle="modal" data-bs-target="#tambahKaryawanModal">
+                    <i class="fas fa-plus me-2"></i>Tambah
+                </button>
+            </div>
+            <div class="col-md-1">
+                <button class="btn btn-outline-secondary w-100" id="resetFilters" title="Reset Filter">
+                    <i class="fas fa-undo"></i>
+                </button>
             </div>
         </div>
-    @endif
+    </div>
 
-    <!-- Main Content Card -->
+    <!-- Karyawan Table -->
     <div class="row">
         <div class="col-12">
-            <div class="card border-0 shadow-sm">
-                <div class="card-header bg-white border-0">
-                    <div class="d-flex justify-content-between align-items-center">
-                        <h5 class="mb-0">
-                            <i class="fas fa-users text-orange me-2"></i>Daftar Karyawan
-                        </h5>
-                        <a href="{{ route('admin.data-karyawan.tambah') }}" class="btn btn-orange">
-                            <i class="fas fa-plus me-2"></i>Tambah Karyawan
-                        </a>
+            <div class="new-card">
+                <div class="new-card-header">
+                    <div class="new-card-title">
+                        <i class="fas fa-table"></i>
+                        Daftar Karyawan
+                    </div>
+                    <div class="d-flex gap-2">
+                        <button class="btn btn-outline-primary btn-sm">
+                            <i class="fas fa-download me-1"></i>Export
+                        </button>
+                        <button class="btn btn-outline-primary btn-sm">
+                            <i class="fas fa-filter me-1"></i>Filter
+                        </button>
                     </div>
                 </div>
-                <div class="card-body">
-                    @if($karyawan->count() > 0)
-                        <!-- Search and Filter Bar -->
-                        <div class="row mb-3">
-                            <div class="col-md-6">
-                                <div class="input-group">
-                                    <span class="input-group-text">
-                                        <i class="fas fa-search"></i>
-                                    </span>
-                                    <input type="text" class="form-control" placeholder="Cari karyawan..." id="searchKaryawan">
-                                </div>
-                            </div>
-                            <div class="col-md-6">
-                                <select class="form-select" id="filterDivisi">
-                                    <option value="">Semua Divisi</option>
-                                    @foreach($karyawan->unique('divisi') as $k)
-                                        <option value="{{ $k->divisi }}">{{ $k->divisi }}</option>
-                                    @endforeach
-                                </select>
-                            </div>
-                        </div>
-
-                        <!-- Statistics Cards -->
-                        <div class="row mb-4">
-                            <div class="col-md-3">
-                                <div class="card bg-primary text-white">
-                                    <div class="card-body text-center">
-                                        <i class="fas fa-users fa-2x mb-2"></i>
-                                        <h4>{{ $karyawan->count() }}</h4>
-                                        <small>Total Karyawan</small>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-md-3">
-                                <div class="card bg-success text-white">
-                                    <div class="card-body text-center">
-                                        <i class="fas fa-building fa-2x mb-2"></i>
-                                        <h4>{{ $karyawan->unique('divisi')->count() }}</h4>
-                                        <small>Total Divisi</small>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-md-3">
-                                <div class="card bg-info text-white">
-                                    <div class="card-body text-center">
-                                        <i class="fas fa-user-tie fa-2x mb-2"></i>
-                                        <h4>{{ $karyawan->where('divisi', 'Manager')->count() }}</h4>
-                                        <small>Manager</small>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-md-3">
-                                <div class="card bg-warning text-white">
-                                    <div class="card-body text-center">
-                                        <i class="fas fa-birthday-cake fa-2x mb-2"></i>
-                                        <h4>{{ $karyawan->filter(function($k) { return $k->tanggal_lahir->month == now()->month; })->count() }}</h4>
-                                        <small>Ulang Tahun Bulan Ini</small>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- Karyawan Table -->
-                        <div class="table-responsive">
-                            <table class="table table-hover align-middle" id="karyawanTable">
-                                <thead class="table-light">
-                                    <tr>
-                                        <th>No</th>
-                                        <th>Nama</th>
-                                        <th>Divisi</th>
-                                        <th>Email</th>
-                                        <th>No. Telepon</th>
-                                        <th>Umur</th>
-                                        <th>Alamat</th>
-                                        <th>Aksi</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    @foreach($karyawan as $index => $k)
-                                        <tr>
-                                            <td>{{ $index + 1 }}</td>
-                                            <td>
-                                                <div class="d-flex align-items-center">
-                                                    <div class="avatar-sm me-3">
-                                                        <div class="bg-primary bg-opacity-10 text-primary rounded-circle p-2 d-flex align-items-center justify-content-center">
-                                                            <i class="fas fa-user"></i>
-                                                        </div>
-                                                    </div>
-                                                    <div>
-                                                        <div class="fw-semibold">{{ $k->nama }}</div>
-                                                        <small class="text-muted">ID: {{ $k->id_karyawan }}</small>
-                                                    </div>
-                                                </div>
-                                            </td>
-                                            <td>
-                                                <span class="badge bg-secondary">{{ $k->divisi }}</span>
-                                            </td>
-                                            <td>{{ $k->email }}</td>
-                                            <td>{{ $k->formatted_phone }}</td>
-                                            <td>{{ $k->age }} tahun</td>
-                                            <td>{{ Str::limit($k->alamat, 30) }}</td>
-                                            <td>
-                                                <div class="dropdown">
-                                                    <button class="btn btn-sm btn-light dropdown-toggle" type="button" id="dropdownMenuButton{{ $k->id_karyawan }}" data-bs-toggle="dropdown" aria-expanded="false">
-                                                        <i class="fas fa-ellipsis-v"></i>
+                <div class="new-card-body">
+                    <div class="table-responsive">
+                        <table class="table table-sm">
+                            <thead style="background: white;">
+                                <tr>
+                                    <th style="font-size: 0.8rem; font-weight: 600; color: #64748b; border: none;">#</th>
+                                    <th style="font-size: 0.8rem; font-weight: 600; color: #64748b; border: none;">Foto</th>
+                                    <th style="font-size: 0.8rem; font-weight: 600; color: #64748b; border: none;">Nama Karyawan</th>
+                                    <th style="font-size: 0.8rem; font-weight: 600; color: #64748b; border: none;">Jabatan</th>
+                                    <th style="font-size: 0.8rem; font-weight: 600; color: #64748b; border: none;">Departemen</th>
+                                    <th style="font-size: 0.8rem; font-weight: 600; color: #64748b; border: none;">Status</th>
+                                    <th style="font-size: 0.8rem; font-weight: 600; color: #64748b; border: none;">Bergabung</th>
+                                    <th style="font-size: 0.8rem; font-weight: 600; color: #64748b; border: none; text-align: center;">Aksi</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @forelse($karyawan ?? [] as $index => $emp)
+                                <tr>
+                                    <td style="font-size: 0.85rem; border: none; padding: 12px 0;">{{ $loop->iteration }}</td>
+                                    <td style="font-size: 0.85rem; border: none; padding: 12px 0;">
+                                        <img src="/image/default-avatar.png" alt="Foto" style="width: 35px; height: 35px; border-radius: 50%; object-fit: cover;">
+                                    </td>
+                                    <td style="font-size: 0.85rem; border: none; padding: 12px 0;">
+                                        <div>
+                                            <strong style="color: #1e293b;">{{ $emp->nama }}</strong>
+                                            <br>
+                                            <small style="color: #64748b;">{{ $emp->email }}</small>
+                                        </div>
+                                    </td>
+                                    <td style="font-size: 0.85rem; border: none; padding: 12px 0;">
+                                        <strong style="color: #1e293b;">{{ $emp->divisi }}</strong>
+                                    </td>
+                                    <td style="font-size: 0.85rem; border: none; padding: 12px 0;">
+                                        <span class="badge-department">{{ $emp->divisi }}</span>
+                                    </td>
+                                    <td style="font-size: 0.85rem; border: none; padding: 12px 0;">
+                                        @if($emp->status === 'Aktif')
+                                            <span class="badge-active">{{ $emp->status }}</span>
+                                        @else
+                                            <span class="badge-inactive">{{ $emp->status }}</span>
+                                        @endif
+                                    </td>
+                                    <td style="font-size: 0.85rem; border: none; padding: 12px 0;">
+                                        <small style="color: #64748b;">{{ $emp->created_at ? $emp->created_at->format('d M Y') : '-' }}</small>
+                                    </td>
+                                    <td style="font-size: 0.85rem; border: none; padding: 12px 0; text-align: center;">
+                                        <div class="action-dropdown">
+                                            <button class="action-dropdown-btn" data-employee-id="{{ $emp->id_karyawan }}">
+                                                <i class="fas fa-ellipsis-v"></i>
+                                            </button>
+                                            <div class="action-dropdown-menu">
+                                                <button class="action-dropdown-item view-item" onclick="viewEmployee({{ $emp->id_karyawan }})">
+                                                    <i class="fas fa-eye me-2"></i>Detail
+                                                </button>
+                                                <button class="action-dropdown-item edit-item" onclick="editEmployee({{ $emp->id_karyawan }})">
+                                                    <i class="fas fa-edit me-2"></i>Edit
+                                                </button>
+                                                @if($emp->status === 'Aktif')
+                                                    <button class="action-dropdown-item" style="color: #f59e0b;" onclick="toggleStatus({{ $emp->id_karyawan }}, 'Non-Aktif')">
+                                                        <i class="fas fa-user-slash me-2"></i>Non-Aktifkan
                                                     </button>
-                                                    <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton{{ $k->id_karyawan }}">
-                                                        <li>
-                                                            <a class="dropdown-item" href="#" onclick="viewEmployee({{ $k->id_karyawan }})">
-                                                                <i class="fas fa-eye me-2 text-primary"></i>
-                                                                Lihat Detail
-                                                            </a>
-                                                        </li>
-                                                        <li>
-                                                            <a class="dropdown-item" href="#" onclick="editEmployee({{ $k->id_karyawan }})">
-                                                                <i class="fas fa-edit me-2 text-warning"></i>
-                                                                Edit
-                                                            </a>
-                                                        </li>
-                                                        <li><hr class="dropdown-divider"></li>
-                                                        <li>
-                                                            <a class="dropdown-item text-danger" href="#" onclick="deleteEmployee({{ $k->id_karyawan }}, '{{ $k->nama }}')">
-                                                                <i class="fas fa-trash me-2"></i>
-                                                                Hapus
-                                                            </a>
-                                                        </li>
-                                                    </ul>
-                                                </div>
-                                            </td>
-                                        </tr>
-                                    @endforeach
-                                </tbody>
-                            </table>
-                        </div>
-                    @else
-                        <!-- Empty State -->
-                        <div class="text-center py-5">
-                            <div class="mb-4">
-                                <i class="fas fa-users fa-5x text-muted opacity-50"></i>
+                                                @else
+                                                    <button class="action-dropdown-item" style="color: #10b981;" onclick="toggleStatus({{ $emp->id_karyawan }}, 'Aktif')">
+                                                        <i class="fas fa-user-check me-2"></i>Aktifkan
+                                                    </button>
+                                                @endif
+                                                <button class="action-dropdown-item delete-item" onclick="deleteEmployee({{ $emp->id_karyawan }})">
+                                                    <i class="fas fa-trash me-2"></i>Hapus
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </td>
+                                </tr>
+                                @empty
+                                <tr>
+                                    <td colspan="8" style="text-align: center; padding: 40px; color: #64748b;">
+                                        <i class="fas fa-users fa-2x mb-3" style="opacity: 0.3;"></i>
+                                        <br>
+                                        Tidak ada data karyawan
+                                    </td>
+                                </tr>
+                                @endforelse
+                            </tbody>
+                        </table>
+
+                        <!-- Pagination -->
+                        @if(isset($karyawan) && $karyawan->hasPages())
+                        <div class="pagination-container">
+                            <div class="pagination-info">
+                                Menampilkan {{ $karyawan->firstItem() ?? 1 }}-{{ $karyawan->lastItem() ?? $karyawan->count() }} dari {{ $karyawan->total() ?? $karyawan->count() }} karyawan
                             </div>
-                            <h4 class="text-muted">Belum Ada Data Karyawan</h4>
-                            <p class="text-muted">Tambahkan karyawan pertama untuk memulai</p>
-                            <a href="{{ route('admin.data-karyawan.tambah') }}" class="btn btn-orange">
-                                <i class="fas fa-plus me-2"></i>Tambah Karyawan Pertama
-                            </a>
+                            <div class="pagination-wrapper">
+                                {{ $karyawan->links('pagination::bootstrap-4') }}
+                            </div>
                         </div>
-                    @endif
+                        @endif
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Department Overview Cards -->
+    <div class="row g-4 mt-4 equal-height-cards">
+        <div class="col-lg-6">
+            <div class="new-card">
+                <div class="new-card-header">
+                    <div class="new-card-title">
+                        <i class="fas fa-chart-pie"></i>
+                        Distribusi Departemen
+                    </div>
+                </div>
+                <div class="new-card-body">
+                    <div class="table-responsive">
+                        <table class="table table-sm">
+                            <thead style="background: white;">
+                                <tr>
+                                    <th style="font-size: 0.8rem; font-weight: 600; color: #64748b; border: none;">Departemen</th>
+                                    <th style="font-size: 0.8rem; font-weight: 600; color: #64748b; border: none; text-align: right;">Jumlah</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @forelse($distribusiDepartemen ?? [] as $dept)
+                                <tr>
+                                    <td style="font-size: 0.85rem; border: none; padding: 8px 0;">
+                                        <span class="badge-department">{{ $dept->divisi }}</span>
+                                    </td>
+                                    <td style="font-size: 0.85rem; border: none; padding: 8px 0; text-align: right;">
+                                        <strong style="color: #1e293b;">{{ $dept->jumlah }} orang</strong>
+                                    </td>
+                                </tr>
+                                @empty
+                                <tr>
+                                    <td colspan="2" style="text-align: center; padding: 20px; color: #64748b;">
+                                        Tidak ada data departemen
+                                    </td>
+                                </tr>
+                                @endforelse
+                            </tbody>
+                        </table>
+
+                        <!-- Pagination for Distribusi Departemen -->
+                        @if(isset($distribusiDepartemen) && is_object($distribusiDepartemen) && method_exists($distribusiDepartemen, 'hasPages') && $distribusiDepartemen->hasPages())
+                        <div class="pagination-container">
+                            <div class="pagination-info">
+                                Menampilkan {{ $distribusiDepartemen->firstItem() ?? 1 }}-{{ $distribusiDepartemen->lastItem() ?? $distribusiDepartemen->count() }} dari {{ $distribusiDepartemen->total() ?? $distribusiDepartemen->count() }} departemen
+                            </div>
+                            <div class="pagination-wrapper">
+                                {{ $distribusiDepartemen->links('pagination::bootstrap-4') }}
+                            </div>
+                        </div>
+                        @endif
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-6">
+            <div class="new-card">
+                <div class="new-card-header">
+                    <div class="new-card-title">
+                        <i class="fas fa-clock"></i>
+                        Kehadiran Hari Ini
+                    </div>
+                </div>
+                <div class="new-card-body">
+                    <div class="table-responsive">
+                        <table class="table table-sm">
+                            <thead style="background: white;">
+                                <tr>
+                                    <th style="font-size: 0.8rem; font-weight: 600; color: #64748b; border: none;">Nama</th>
+                                    <th style="font-size: 0.8rem; font-weight: 600; color: #64748b; border: none;">Waktu Masuk</th>
+                                    <th style="font-size: 0.8rem; font-weight: 600; color: #64748b; border: none; text-align: center;">Status</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td style="font-size: 0.85rem; border: none; padding: 8px 0;">
+                                        <strong style="color: #1e293b;">Budi Santoso</strong>
+                                    </td>
+                                    <td style="font-size: 0.85rem; border: none; padding: 8px 0;">
+                                        <small style="color: #64748b;">08:00</small>
+                                    </td>
+                                    <td style="font-size: 0.85rem; border: none; padding: 8px 0; text-align: center;">
+                                        <span class="badge-active">Hadir</span>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td style="font-size: 0.85rem; border: none; padding: 8px 0;">
+                                        <strong style="color: #1e293b;">Sari Wulandari</strong>
+                                    </td>
+                                    <td style="font-size: 0.85rem; border: none; padding: 8px 0;">
+                                        <small style="color: #64748b;">08:15</small>
+                                    </td>
+                                    <td style="font-size: 0.85rem; border: none; padding: 8px 0; text-align: center;">
+                                        <span class="badge-active">Hadir</span>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td style="font-size: 0.85rem; border: none; padding: 8px 0;">
+                                        <strong style="color: #1e293b;">Ahmad Rifki</strong>
+                                    </td>
+                                    <td style="font-size: 0.85rem; border: none; padding: 8px 0;">
+                                        <small style="color: #64748b;">-</small>
+                                    </td>
+                                    <td style="font-size: 0.85rem; border: none; padding: 8px 0; text-align: center;">
+                                        <span class="badge-inactive">Tidak Hadir</span>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td style="font-size: 0.85rem; border: none; padding: 8px 0;">
+                                        <strong style="color: #1e293b;">Dewi Sartika</strong>
+                                    </td>
+                                    <td style="font-size: 0.85rem; border: none; padding: 8px 0;">
+                                        <small style="color: #64748b;">08:05</small>
+                                    </td>
+                                    <td style="font-size: 0.85rem; border: none; padding: 8px 0; text-align: center;">
+                                        <span class="badge-active">Hadir</span>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td style="font-size: 0.85rem; border: none; padding: 8px 0;">
+                                        <strong style="color: #1e293b;">Rian Pratama</strong>
+                                    </td>
+                                    <td style="font-size: 0.85rem; border: none; padding: 8px 0;">
+                                        <small style="color: #64748b;">08:20</small>
+                                    </td>
+                                    <td style="font-size: 0.85rem; border: none; padding: 8px 0; text-align: center;">
+                                        <span class="badge-active">Hadir</span>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+
+                        <!-- Pagination for Kehadiran -->
+                        <div class="pagination-container">
+                            <div class="pagination-info">
+                                Menampilkan 1-5 dari 28 karyawan hadir
+                            </div>
+                            <nav>
+                                <ul class="pagination">
+                                    <li class="page-item">
+                                        <a class="page-link" href="#" aria-label="Previous">
+                                            <i class="fas fa-chevron-left"></i>
+                                        </a>
+                                    </li>
+                                    <li class="page-item active">
+                                        <a class="page-link" href="#">1</a>
+                                    </li>
+                                    <li class="page-item">
+                                        <a class="page-link" href="#">2</a>
+                                    </li>
+                                    <li class="page-item">
+                                        <a class="page-link" href="#">3</a>
+                                    </li>
+                                    <li class="page-item">
+                                        <a class="page-link" href="#">...</a>
+                                    </li>
+                                    <li class="page-item">
+                                        <a class="page-link" href="#">6</a>
+                                    </li>
+                                    <li class="page-item">
+                                        <a class="page-link" href="#" aria-label="Next">
+                                            <i class="fas fa-chevron-right"></i>
+                                        </a>
+                                    </li>
+                                </ul>
+                            </nav>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
 </div>
 
-<!-- JavaScript for Search and Filter -->
+<!-- Modal Tambah Karyawan -->
+<div class="modal fade" id="tambahKaryawanModal" tabindex="-1" aria-labelledby="tambahKaryawanModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-xl">
+        <div class="modal-content">
+            <div class="modal-header" style="background: linear-gradient(135deg, #f26b37 0%, #e55827 100%); color: white;">
+                <h5 class="modal-title" id="tambahKaryawanModalLabel">
+                    <i class="fas fa-user-plus me-2"></i>Tambah Karyawan Baru
+                </h5>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body" style="padding: 0;">
+                <!-- Tab Navigation -->
+                <ul class="nav nav-tabs" id="karyawanTab" role="tablist" style="padding: 0 25px; margin: 0; background: #f8f9fa;">
+                    <li class="nav-item" role="presentation">
+                        <button class="nav-link active" id="form-tab" data-bs-toggle="tab" data-bs-target="#form-panel" type="button" role="tab" aria-controls="form-panel" aria-selected="true">
+                            <i class="fas fa-edit me-2"></i>Form Input
+                        </button>
+                    </li>
+                    <li class="nav-item" role="presentation">
+                        <button class="nav-link" id="preview-tab" data-bs-toggle="tab" data-bs-target="#preview-panel" type="button" role="tab" aria-controls="preview-panel" aria-selected="false">
+                            <i class="fas fa-eye me-2"></i>Preview Data
+                        </button>
+                    </li>
+                </ul>
+                
+                <!-- Tab Content -->
+                <div class="tab-content" id="karyawanTabContent" style="padding: 25px;">
+                    <!-- Form Panel -->
+                    <div class="tab-pane fade show active" id="form-panel" role="tabpanel" aria-labelledby="form-tab">
+                        <form id="tambahKaryawanForm">
+                            <div class="row g-3">
+                                <div class="col-md-6">
+                                    <label for="nama" class="form-label">
+                                        <i class="fas fa-user me-1"></i>Nama Lengkap <span class="text-danger">*</span>
+                                    </label>
+                                    <input type="text" class="form-control" id="nama" name="nama" required>
+                                    <div class="invalid-feedback"></div>
+                                </div>
+                                <div class="col-md-6">
+                                    <label for="email" class="form-label">
+                                        <i class="fas fa-envelope me-1"></i>Email <span class="text-danger">*</span>
+                                    </label>
+                                    <input type="email" class="form-control" id="email" name="email" required>
+                                    <div class="invalid-feedback"></div>
+                                </div>
+                                <div class="col-md-6">
+                                    <label for="divisi" class="form-label">
+                                        <i class="fas fa-building me-1"></i>Divisi <span class="text-danger">*</span>
+                                    </label>
+                                    <select class="form-control" id="divisi" name="divisi" required>
+                                        <option value="">Pilih Divisi</option>
+                                        @foreach($divisiList ?? [] as $divisi)
+                                            <option value="{{ $divisi }}">{{ $divisi }}</option>
+                                        @endforeach
+                                        <option value="other">Divisi Lainnya</option>
+                                    </select>
+                                    <div class="invalid-feedback"></div>
+                                </div>
+                                <div class="col-md-6" id="divisiLainnyaGroup" style="display: none;">
+                                    <label for="divisi_lainnya" class="form-label">
+                                        <i class="fas fa-plus me-1"></i>Nama Divisi Baru
+                                    </label>
+                                    <input type="text" class="form-control" id="divisi_lainnya" name="divisi_lainnya">
+                                </div>
+                                <div class="col-md-6">
+                                    <label for="tanggal_lahir" class="form-label">
+                                        <i class="fas fa-calendar me-1"></i>Tanggal Lahir <span class="text-danger">*</span>
+                                    </label>
+                                    <input type="date" class="form-control" id="tanggal_lahir" name="tanggal_lahir" required>
+                                    <div class="invalid-feedback"></div>
+                                </div>
+                                <div class="col-md-6">
+                                    <label for="nomer_telepon" class="form-label">
+                                        <i class="fas fa-phone me-1"></i>Nomor Telepon <span class="text-danger">*</span>
+                                    </label>
+                                    <input type="tel" class="form-control" id="nomer_telepon" name="nomer_telepon" placeholder="08xxxxxxxxxx" required>
+                                    <div class="invalid-feedback"></div>
+                                </div>
+                                <div class="col-md-6">
+                                    <label for="id_shift" class="form-label">
+                                        <i class="fas fa-clock me-1"></i>Shift <span class="text-danger">*</span>
+                                    </label>
+                                    <select class="form-control" id="id_shift" name="id_shift" required>
+                                        <option value="">Pilih Shift</option>
+                                        @foreach($shiftList ?? [] as $shift)
+                                            <option value="{{ $shift->id_shift }}">
+                                                {{ $shift->nama_shift }} ({{ date('H:i', strtotime($shift->jam_mulai)) }}-{{ date('H:i', strtotime($shift->jam_selesai)) }})
+                                            </option>
+                                        @endforeach
+                                    </select>
+                                    <div class="invalid-feedback"></div>
+                                </div>
+                                <div class="col-md-6">
+                                    <label for="status" class="form-label">
+                                        <i class="fas fa-toggle-on me-1"></i>Status <span class="text-danger">*</span>
+                                    </label>
+                                    <select class="form-control" id="status" name="status" required>
+                                        <option value="Aktif">Aktif</option>
+                                        <option value="Non-Aktif">Non-Aktif</option>
+                                    </select>
+                                    <div class="invalid-feedback"></div>
+                                </div>
+                                <div class="col-12">
+                                    <label for="alamat" class="form-label">
+                                        <i class="fas fa-map-marker-alt me-1"></i>Alamat <span class="text-danger">*</span>
+                                    </label>
+                                    <textarea class="form-control" id="alamat" name="alamat" rows="3" required></textarea>
+                                    <div class="invalid-feedback"></div>
+                                </div>
+                            </div>
+                            
+                            <div class="row mt-4">
+                                <div class="col-12">
+                                    <div class="alert alert-info">
+                                        <i class="fas fa-info-circle me-2"></i>
+                                        <strong>Petunjuk:</strong> Setelah mengisi form, klik tab "Preview Data" untuk melihat ringkasan data sebelum menyimpan.
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                    
+                    <!-- Preview Panel -->
+                    <div class="tab-pane fade" id="preview-panel" role="tabpanel" aria-labelledby="preview-tab">
+                        <div class="preview-section" style="background: #f8f9fa; border: 1px solid #dee2e6; border-radius: 8px; padding: 20px;">
+                            <h6 style="color: #f26b37; margin-bottom: 20px;">
+                                <i class="fas fa-eye me-2"></i>Preview Data Karyawan
+                            </h6>
+                            
+                            <div class="row g-3">
+                                <div class="col-md-6">
+                                    <div class="preview-item" style="border-bottom: 1px solid #dee2e6; padding-bottom: 10px; margin-bottom: 15px;">
+                                        <div class="preview-label" style="font-size: 0.875rem; color: #6c757d; margin-bottom: 2px;">Nama Lengkap</div>
+                                        <div class="preview-value" id="preview-nama" style="font-weight: 600; color: #2c3e50;">-</div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="preview-item" style="border-bottom: 1px solid #dee2e6; padding-bottom: 10px; margin-bottom: 15px;">
+                                        <div class="preview-label" style="font-size: 0.875rem; color: #6c757d; margin-bottom: 2px;">Email</div>
+                                        <div class="preview-value" id="preview-email" style="font-weight: 600; color: #2c3e50;">-</div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="preview-item" style="border-bottom: 1px solid #dee2e6; padding-bottom: 10px; margin-bottom: 15px;">
+                                        <div class="preview-label" style="font-size: 0.875rem; color: #6c757d; margin-bottom: 2px;">Divisi</div>
+                                        <div class="preview-value" id="preview-divisi" style="font-weight: 600; color: #2c3e50;">-</div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="preview-item" style="border-bottom: 1px solid #dee2e6; padding-bottom: 10px; margin-bottom: 15px;">
+                                        <div class="preview-label" style="font-size: 0.875rem; color: #6c757d; margin-bottom: 2px;">Tanggal Lahir</div>
+                                        <div class="preview-value" id="preview-tanggal-lahir" style="font-weight: 600; color: #2c3e50;">-</div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="preview-item" style="border-bottom: 1px solid #dee2e6; padding-bottom: 10px; margin-bottom: 15px;">
+                                        <div class="preview-label" style="font-size: 0.875rem; color: #6c757d; margin-bottom: 2px;">Nomor Telepon</div>
+                                        <div class="preview-value" id="preview-telepon" style="font-weight: 600; color: #2c3e50;">-</div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="preview-item" style="border-bottom: 1px solid #dee2e6; padding-bottom: 10px; margin-bottom: 15px;">
+                                        <div class="preview-label" style="font-size: 0.875rem; color: #6c757d; margin-bottom: 2px;">Shift</div>
+                                        <div class="preview-value" id="preview-shift" style="font-weight: 600; color: #2c3e50;">-</div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="preview-item" style="border-bottom: 1px solid #dee2e6; padding-bottom: 10px; margin-bottom: 15px;">
+                                        <div class="preview-label" style="font-size: 0.875rem; color: #6c757d; margin-bottom: 2px;">Status</div>
+                                        <div class="preview-value" id="preview-status" style="font-weight: 600; color: #2c3e50;">-</div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="preview-item" style="border-bottom: 1px solid #dee2e6; padding-bottom: 10px; margin-bottom: 15px;">
+                                        <div class="preview-label" style="font-size: 0.875rem; color: #6c757d; margin-bottom: 2px;">Usia</div>
+                                        <div class="preview-value" id="preview-usia" style="font-weight: 600; color: #2c3e50;">-</div>
+                                    </div>
+                                </div>
+                                <div class="col-12">
+                                    <div class="preview-item">
+                                        <div class="preview-label" style="font-size: 0.875rem; color: #6c757d; margin-bottom: 2px;">Alamat</div>
+                                        <div class="preview-value" id="preview-alamat" style="font-weight: 600; color: #2c3e50;">-</div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="alert alert-warning mt-3">
+                                <i class="fas fa-exclamation-triangle me-2"></i>
+                                <strong>Perhatian:</strong> Pastikan semua data sudah benar sebelum menyimpan. Data yang sudah disimpan tidak dapat diubah secara otomatis.
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">
+                    <i class="fas fa-times me-1"></i>Batal
+                </button>
+                <button type="button" class="btn btn-outline-primary" id="updatePreview">
+                    <i class="fas fa-sync me-1"></i>Update Preview
+                </button>
+                <button type="button" class="btn btn-primary" id="submitKaryawan">
+                    <i class="fas fa-save me-1"></i>Simpan Karyawan
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
 <script>
-document.addEventListener('DOMContentLoaded', function() {
-    const searchInput = document.getElementById('searchKaryawan');
-    const filterDivisi = document.getElementById('filterDivisi');
-    const table = document.getElementById('karyawanTable');
+// Update current time
+function updateDateTime() {
+    const now = new Date();
+    const options = {
+        timeZone: 'Asia/Jakarta',
+        weekday: 'long',
+        year: 'numeric',
+        month: 'long',
+        day: 'numeric'
+    };
+    const dateString = now.toLocaleDateString('id-ID', options);
     
-    if (searchInput && filterDivisi && table) {
-        function filterTable() {
-            const searchTerm = searchInput.value.toLowerCase();
-            const selectedDivisi = filterDivisi.value.toLowerCase();
-            const rows = table.getElementsByTagName('tbody')[0].getElementsByTagName('tr');
-            
-            Array.from(rows).forEach(row => {
-                const nama = row.cells[1].textContent.toLowerCase();
-                const email = row.cells[3].textContent.toLowerCase();
-                const divisi = row.cells[2].textContent.toLowerCase();
-                
-                const matchesSearch = nama.includes(searchTerm) || email.includes(searchTerm);
-                const matchesDivisi = selectedDivisi === '' || divisi.includes(selectedDivisi);
-                
-                if (matchesSearch && matchesDivisi) {
-                    row.style.display = '';
-                } else {
-                    row.style.display = 'none';
-                }
-            });
-        }
-        
-        searchInput.addEventListener('keyup', filterTable);
-        filterDivisi.addEventListener('change', filterTable);
+    const dateElement = document.getElementById('current-date');
+    if (dateElement) {
+        dateElement.textContent = dateString;
+    }
+}
+
+// Initialize
+document.addEventListener('DOMContentLoaded', function() {
+    updateDateTime();
+    setInterval(updateDateTime, 60000); // Update every minute
+});
+
+// Search functionality with AJAX
+let searchTimeout;
+document.getElementById('searchKaryawan').addEventListener('input', function(e) {
+    clearTimeout(searchTimeout);
+    searchTimeout = setTimeout(() => {
+        performSearch();
+    }, 300); // Debounce untuk menghindari terlalu banyak request
+});
+
+function performSearch() {
+    const searchTerm = document.getElementById('searchKaryawan').value.toLowerCase().trim();
+    const departmentFilter = document.getElementById('filterDepartment').value;
+    const statusFilter = document.getElementById('filterStatus').value;
+    
+    // Jika tidak ada filter, gunakan client-side filtering saja
+    if (!searchTerm && !departmentFilter && !statusFilter) {
+        applyClientSideFilters();
+        return;
     }
     
-    // Dropdown Action Functions
-    window.viewEmployee = function(id) {
-        // For now, show an alert. In the future, this could open a modal or redirect to detail page
-        alert('Melihat detail karyawan dengan ID: ' + id);
-        // Future implementation:
-        // window.location.href = '/admin/karyawan/' + id;
-    };
+    // Show loading indicator
+    showLoadingState();
     
-    window.editEmployee = function(id) {
-        // For now, show an alert. In the future, this could redirect to edit page
-        alert('Edit karyawan dengan ID: ' + id);
-        // Future implementation:
-        // window.location.href = '/admin/karyawan/' + id + '/edit';
-    };
+    // Prepare search parameters
+    const params = new URLSearchParams();
+    if (searchTerm) params.append('search', searchTerm);
+    if (departmentFilter) params.append('department', departmentFilter);
+    if (statusFilter) params.append('status', statusFilter);
     
-    window.deleteEmployee = function(id, nama) {
-        if (confirm('Apakah Anda yakin ingin menghapus karyawan "' + nama + '"?\n\nTindakan ini tidak dapat dibatalkan.')) {
-            // For now, show an alert. In the future, this could send DELETE request
-            alert('Menghapus karyawan: ' + nama + ' (ID: ' + id + ')');
-            // Future implementation:
-            // fetch('/admin/karyawan/' + id, {
-            //     method: 'DELETE',
-            //     headers: {
-            //         'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
-            //     }
-            // }).then(response => {
-            //     if (response.ok) {
-            //         location.reload();
-            //     }
-            // });
+    // Perform AJAX search
+    fetch(`${window.location.pathname}?${params.toString()}`, {
+        method: 'GET',
+        headers: {
+            'X-Requested-With': 'XMLHttpRequest',
+            'Accept': 'application/json'
         }
-    };
+    })
+    .then(response => response.json())
+    .then(data => {
+        updateTableContent(data);
+        hideLoadingState();
+    })
+    .catch(error => {
+        console.error('Search error:', error);
+        // Fallback to client-side filtering
+        applyClientSideFilters();
+        hideLoadingState();
+    });
+}
+
+function applyClientSideFilters() {
+    const searchTerm = document.getElementById('searchKaryawan').value.toLowerCase().trim();
+    const departmentFilter = document.getElementById('filterDepartment').value.toLowerCase();
+    const statusFilter = document.getElementById('filterStatus').value.toLowerCase();
+    
+    const tableBody = document.querySelector('.table tbody');
+    const tableRows = tableBody.querySelectorAll('tr');
+    
+    let visibleCount = 0;
+    
+    tableRows.forEach(row => {
+        // Skip empty state row
+        if (row.cells.length === 1 && row.cells[0].colSpan > 1) {
+            return;
+        }
+        
+        // Get data from cells
+        const nama = row.cells[2] ? row.cells[2].textContent.toLowerCase() : '';
+        const jabatan = row.cells[3] ? row.cells[3].textContent.toLowerCase() : '';
+        const departemen = row.cells[4] ? row.cells[4].textContent.toLowerCase() : '';
+        const status = row.cells[5] ? row.cells[5].textContent.toLowerCase() : '';
+        const email = row.cells[2] ? row.cells[2].querySelector('small') ? row.cells[2].querySelector('small').textContent.toLowerCase() : '' : '';
+        
+        // Combine searchable fields
+        const searchableText = `${nama} ${jabatan} ${departemen} ${email}`;
+        
+        // Apply filters
+        let shouldShow = true;
+        
+        // Search filter
+        if (searchTerm !== '' && !searchableText.includes(searchTerm)) {
+            shouldShow = false;
+        }
+        
+        // Department filter
+        if (departmentFilter !== '' && !departemen.includes(departmentFilter)) {
+            shouldShow = false;
+        }
+        
+        // Status filter
+        if (statusFilter !== '' && !status.includes(statusFilter)) {
+            shouldShow = false;
+        }
+        
+        if (shouldShow) {
+            row.style.display = '';
+            visibleCount++;
+        } else {
+            row.style.display = 'none';
+        }
+    });
+    
+    // Update pagination info
+    updateFilterInfo(visibleCount, searchTerm, departmentFilter, statusFilter);
+}
+
+function updateFilterInfo(visibleCount, searchTerm, departmentFilter, statusFilter) {
+    const paginationInfo = document.querySelector('.pagination-info');
+    if (!paginationInfo) return;
+    
+    let infoText = '';
+    const filters = [];
+    
+    if (searchTerm) filters.push(`pencarian "${searchTerm}"`);
+    if (departmentFilter) filters.push(`departemen "${departmentFilter}"`);
+    if (statusFilter) filters.push(`status "${statusFilter}"`);
+    
+    if (filters.length > 0) {
+        infoText = `Menampilkan ${visibleCount} hasil dengan filter: ${filters.join(', ')}`;
+    } else {
+        // Reset to original if no filters
+        const totalRows = document.querySelectorAll('.table tbody tr').length - 1; // -1 for empty state row
+        infoText = `Menampilkan 1-${Math.min(10, totalRows)} dari ${totalRows} karyawan`;
+    }
+    
+    paginationInfo.textContent = infoText;
+}
+
+function showLoadingState() {
+    const tableBody = document.querySelector('.table tbody');
+    const searchInput = document.getElementById('searchKaryawan');
+    
+    // Add loading class to search input
+    searchInput.parentElement.classList.add('search-input-enhanced', 'loading');
+    
+    const loadingRow = document.createElement('tr');
+    loadingRow.id = 'loading-row';
+    loadingRow.innerHTML = `
+        <td colspan="8" style="text-align: center; padding: 40px; color: #64748b;">
+            <div class="spinner-border spinner-border-sm text-primary me-2" role="status">
+                <span class="visually-hidden">Loading...</span>
+            </div>
+            Mencari data...
+        </td>
+    `;
+    
+    // Hide existing rows temporarily
+    const existingRows = tableBody.querySelectorAll('tr:not(#loading-row)');
+    existingRows.forEach(row => row.style.display = 'none');
+    
+    // Add loading row if not exists
+    if (!document.getElementById('loading-row')) {
+        tableBody.appendChild(loadingRow);
+    }
+}
+
+function hideLoadingState() {
+    const searchInput = document.getElementById('searchKaryawan');
+    const loadingRow = document.getElementById('loading-row');
+    
+    // Remove loading class from search input
+    searchInput.parentElement.classList.remove('loading');
+    
+    if (loadingRow) {
+        loadingRow.remove();
+    }
+}
+
+function updateTableContent(data) {
+    const tableBody = document.querySelector('.table tbody');
+    const paginationContainer = document.querySelector('.pagination-container');
+    
+    // Clear existing content
+    tableBody.innerHTML = '';
+    
+    if (data.karyawan && data.karyawan.length > 0) {
+        // Add employee rows
+        data.karyawan.forEach((emp, index) => {
+            const row = createEmployeeRow(emp, index + 1);
+            tableBody.appendChild(row);
+        });
+        
+        // Update pagination info
+        updateSearchPaginationInfo(data);
+    } else {
+        // Show no results message
+        const searchTerm = document.getElementById('searchKaryawan').value;
+        const departmentFilter = document.getElementById('filterDepartment').value;
+        const statusFilter = document.getElementById('filterStatus').value;
+        
+        let message = 'Tidak ada hasil yang ditemukan';
+        let subMessage = 'Coba gunakan kata kunci yang berbeda';
+        
+        if (searchTerm || departmentFilter || statusFilter) {
+            const filters = [];
+            if (searchTerm) filters.push(`"${searchTerm}"`);
+            if (departmentFilter) filters.push(`departemen "${departmentFilter}"`);
+            if (statusFilter) filters.push(`status "${statusFilter}"`);
+            
+            subMessage = `untuk filter: ${filters.join(', ')}`;
+        }
+        
+        const noResultRow = document.createElement('tr');
+        noResultRow.innerHTML = `
+            <td colspan="8" style="text-align: center; padding: 40px; color: #64748b;">
+                <i class="fas fa-search fa-2x mb-3" style="opacity: 0.3;"></i>
+                <br>
+                ${message}
+                <br>
+                <small>${subMessage}</small>
+                <br><br>
+                <button class="btn btn-outline-primary btn-sm" onclick="document.getElementById('resetFilters').click()">
+                    <i class="fas fa-undo me-1"></i>Reset Filter
+                </button>
+            </td>
+        `;
+        tableBody.appendChild(noResultRow);
+        
+        // Hide pagination
+        if (paginationContainer) {
+            paginationContainer.style.display = 'none';
+        }
+    }
+    
+    // Reinitialize dropdown events
+    initializeDropdowns();
+}
+
+function createEmployeeRow(emp, index) {
+    const searchTerm = document.getElementById('searchKaryawan').value.toLowerCase();
+    
+    // Function to highlight search terms
+    function highlightText(text, searchTerm) {
+        if (!searchTerm || !text) return text;
+        const regex = new RegExp(`(${searchTerm})`, 'gi');
+        return text.replace(regex, '<mark style="background: #fff3cd; padding: 2px 4px; border-radius: 3px;">$1</mark>');
+    }
+    
+    const row = document.createElement('tr');
+    row.innerHTML = `
+        <td style="font-size: 0.85rem; border: none; padding: 12px 0;">${index}</td>
+        <td style="font-size: 0.85rem; border: none; padding: 12px 0;">
+            <img src="/image/default-avatar.png" alt="Foto" style="width: 35px; height: 35px; border-radius: 50%; object-fit: cover;">
+        </td>
+        <td style="font-size: 0.85rem; border: none; padding: 12px 0;">
+            <div>
+                <strong style="color: #1e293b;">${highlightText(emp.nama, searchTerm)}</strong>
+                <br>
+                <small style="color: #64748b;">${highlightText(emp.email || '-', searchTerm)}</small>
+            </div>
+        </td>
+        <td style="font-size: 0.85rem; border: none; padding: 12px 0;">
+            <strong style="color: #1e293b;">${highlightText(emp.divisi, searchTerm)}</strong>
+        </td>
+        <td style="font-size: 0.85rem; border: none; padding: 12px 0;">
+            <span class="badge-department">${highlightText(emp.divisi, searchTerm)}</span>
+        </td>
+        <td style="font-size: 0.85rem; border: none; padding: 12px 0;">
+            ${emp.status === 'Aktif' ? 
+                `<span class="badge-active">${emp.status}</span>` : 
+                `<span class="badge-inactive">${emp.status}</span>`
+            }
+        </td>
+        <td style="font-size: 0.85rem; border: none; padding: 12px 0;">
+            <small style="color: #64748b;">${emp.created_at ? new Date(emp.created_at).toLocaleDateString('id-ID', {day: '2-digit', month: 'short', year: 'numeric'}) : '-'}</small>
+        </td>
+        <td style="font-size: 0.85rem; border: none; padding: 12px 0; text-align: center;">
+            <div class="action-dropdown">
+                <button class="action-dropdown-btn" data-employee-id="${emp.id_karyawan}">
+                    <i class="fas fa-ellipsis-v"></i>
+                </button>
+                <div class="action-dropdown-menu">
+                    <button class="action-dropdown-item view-item" onclick="viewEmployee(${emp.id_karyawan})">
+                        <i class="fas fa-eye me-2"></i>Detail
+                    </button>
+                    <button class="action-dropdown-item edit-item" onclick="editEmployee(${emp.id_karyawan})">
+                        <i class="fas fa-edit me-2"></i>Edit
+                    </button>
+                    ${emp.status === 'Aktif' ? 
+                        `<button class="action-dropdown-item" style="color: #f59e0b;" onclick="toggleStatus(${emp.id_karyawan}, 'Non-Aktif')">
+                            <i class="fas fa-user-slash me-2"></i>Non-Aktifkan
+                        </button>` :
+                        `<button class="action-dropdown-item" style="color: #10b981;" onclick="toggleStatus(${emp.id_karyawan}, 'Aktif')">
+                            <i class="fas fa-user-check me-2"></i>Aktifkan
+                        </button>`
+                    }
+                    <button class="action-dropdown-item delete-item" onclick="deleteEmployee(${emp.id_karyawan})">
+                        <i class="fas fa-trash me-2"></i>Hapus
+                    </button>
+                </div>
+            </div>
+        </td>
+    `;
+    return row;
+}
+
+function updateSearchPaginationInfo(data) {
+    const paginationInfo = document.querySelector('.pagination-info');
+    const paginationContainer = document.querySelector('.pagination-container');
+    
+    if (paginationInfo) {
+        const searchTerm = document.getElementById('searchKaryawan').value;
+        const departmentFilter = document.getElementById('filterDepartment').value;
+        const statusFilter = document.getElementById('filterStatus').value;
+        
+        const filters = [];
+        if (searchTerm) filters.push(`"${searchTerm}"`);
+        if (departmentFilter) filters.push(`departemen "${departmentFilter}"`);
+        if (statusFilter) filters.push(`status "${statusFilter}"`);
+        
+        if (filters.length > 0) {
+            paginationInfo.textContent = `Menampilkan ${data.karyawan.length} hasil untuk: ${filters.join(', ')}`;
+        } else {
+            paginationInfo.textContent = `Menampilkan ${data.karyawan.length} karyawan`;
+        }
+    }
+    
+    // Show pagination container
+    if (paginationContainer) {
+        paginationContainer.style.display = 'flex';
+    }
+}
+
+function initializeDropdowns() {
+    // Remove existing event listeners to avoid duplicates
+    document.querySelectorAll('.action-dropdown-btn').forEach(button => {
+        // Clone node to remove all event listeners
+        const newButton = button.cloneNode(true);
+        button.parentNode.replaceChild(newButton, button);
+        
+        // Add new event listener
+        newButton.addEventListener('click', function(e) {
+            e.preventDefault();
+            e.stopPropagation();
+            
+            const dropdown = this.nextElementSibling;
+            const allDropdowns = document.querySelectorAll('.action-dropdown-menu');
+            
+            // Close all other dropdowns
+            allDropdowns.forEach(d => {
+                if (d !== dropdown) {
+                    d.style.display = 'none';
+                }
+            });
+            
+            // Toggle current dropdown
+            dropdown.style.display = dropdown.style.display === 'block' ? 'none' : 'block';
+        });
+    });
+}
+
+// Add keyboard shortcuts
+document.addEventListener('keydown', function(e) {
+    // Ctrl + F to focus search
+    if (e.ctrlKey && e.key === 'f') {
+        e.preventDefault();
+        document.getElementById('searchKaryawan').focus();
+        document.getElementById('searchKaryawan').select();
+    }
+    
+    // Escape to clear search and filters
+    if (e.key === 'Escape') {
+        document.getElementById('resetFilters').click();
+    }
 });
+
+// Real-time clock update
+function updateRealTimeClock() {
+    const now = new Date();
+    
+    // Format jam dengan timezone WIB (UTC+7)
+    const options = {
+        timeZone: 'Asia/Jakarta',
+        hour12: false,
+        hour: '2-digit',
+        minute: '2-digit',
+        second: '2-digit'
+    };
+    
+    const timeString = now.toLocaleTimeString('id-ID', options);
+    const realTimeClockElement = document.getElementById('realTimeClock');
+    if (realTimeClockElement) {
+        realTimeClockElement.textContent = timeString + ' WIB';
+    }
+}
+
+// Update real-time clock
+updateRealTimeClock();
+setInterval(updateRealTimeClock, 1000);
+
+// Update current day
+function updateDateTime() {
+    const now = new Date();
+    const dayElement = document.getElementById('current-day');
+    
+    if (dayElement) {
+        const dayOptions = {
+            weekday: 'long',
+            day: 'numeric',
+            month: 'long',
+            year: 'numeric',
+            timeZone: 'Asia/Jakarta'
+        };
+        
+        const dayFormatter = new Intl.DateTimeFormat('id-ID', dayOptions);
+        dayElement.textContent = dayFormatter.format(now);
+    }
+}
+
+// Update day immediately and then every minute
+updateDateTime();
+setInterval(updateDateTime, 60000);
+
+// Filter functionality
+document.getElementById('filterDepartment').addEventListener('change', performSearch);
+document.getElementById('filterStatus').addEventListener('change', performSearch);
+
+// Reset filters functionality
+document.getElementById('resetFilters').addEventListener('click', function() {
+    // Clear all filter inputs
+    document.getElementById('searchKaryawan').value = '';
+    document.getElementById('filterDepartment').value = '';
+    document.getElementById('filterStatus').value = '';
+    
+    // Reload page to show all data
+    window.location.href = window.location.pathname;
+});
+
+// Dropdown functionality with proper event handling
+document.addEventListener('DOMContentLoaded', function() {
+    // Initialize dropdowns
+    initializeDropdowns();
+    
+    // Initialize form handlers
+    initializeFormHandlers();
+});
+
+// Initialize form handlers
+function initializeFormHandlers() {
+    // Handle divisi selection
+    const divisiSelect = document.getElementById('divisi');
+    const divisiLainnyaGroup = document.getElementById('divisiLainnyaGroup');
+    
+    if (divisiSelect && divisiLainnyaGroup) {
+        divisiSelect.addEventListener('change', function() {
+            if (this.value === 'other') {
+                divisiLainnyaGroup.style.display = 'block';
+                document.getElementById('divisi_lainnya').required = true;
+            } else {
+                divisiLainnyaGroup.style.display = 'none';
+                document.getElementById('divisi_lainnya').required = false;
+                document.getElementById('divisi_lainnya').value = '';
+            }
+            updatePreviewData();
+        });
+    }
+    
+    // Handle form submission
+    const submitButton = document.getElementById('submitKaryawan');
+    if (submitButton) {
+        submitButton.addEventListener('click', handleSubmitKaryawan);
+    }
+    
+    // Handle update preview button
+    const updatePreviewButton = document.getElementById('updatePreview');
+    if (updatePreviewButton) {
+        updatePreviewButton.addEventListener('click', updatePreviewData);
+    }
+    
+    // Handle phone number formatting
+    const phoneInput = document.getElementById('nomer_telepon');
+    if (phoneInput) {
+        phoneInput.addEventListener('input', function(e) {
+            let value = e.target.value.replace(/\D/g, ''); // Remove non-digits
+            
+            // Ensure it starts with 08
+            if (value.length > 0 && !value.startsWith('08')) {
+                if (value.startsWith('8')) {
+                    value = '0' + value;
+                } else if (value.startsWith('62')) {
+                    value = '0' + value.substring(2);
+                } else {
+                    value = '08' + value;
+                }
+            }
+            
+            // Limit length
+            if (value.length > 13) {
+                value = value.substring(0, 13);
+            }
+            
+            e.target.value = value;
+            updatePreviewData();
+        });
+    }
+    
+    // Add event listeners for real-time preview updates
+    const formInputs = ['nama', 'email', 'tanggal_lahir', 'alamat', 'id_shift', 'status'];
+    formInputs.forEach(inputId => {
+        const input = document.getElementById(inputId);
+        if (input) {
+            input.addEventListener('input', updatePreviewData);
+            input.addEventListener('change', updatePreviewData);
+        }
+    });
+    
+    // Handle tab switching
+    const previewTab = document.getElementById('preview-tab');
+    if (previewTab) {
+        previewTab.addEventListener('shown.bs.tab', function(e) {
+            updatePreviewData();
+        });
+    }
+    
+    // Auto-update preview when modal is shown
+    const modal = document.getElementById('tambahKaryawanModal');
+    if (modal) {
+        modal.addEventListener('shown.bs.modal', function() {
+            updatePreviewData();
+        });
+        
+        modal.addEventListener('hidden.bs.modal', function() {
+            resetForm();
+        });
+    }
+}
+
+// Update preview data
+function updatePreviewData() {
+    const form = document.getElementById('tambahKaryawanForm');
+    if (!form) return;
+    
+    const formData = new FormData(form);
+    
+    // Get form values
+    const nama = formData.get('nama') || '-';
+    const email = formData.get('email') || '-';
+    const divisi = formData.get('divisi') === 'other' ? (formData.get('divisi_lainnya') || '-') : (formData.get('divisi') || '-');
+    const tanggalLahir = formData.get('tanggal_lahir') || '-';
+    const nomerTelepon = formData.get('nomer_telepon') || '-';
+    const idShift = formData.get('id_shift');
+    const status = formData.get('status') || '-';
+    const alamat = formData.get('alamat') || '-';
+    
+    // Calculate age
+    let usia = '-';
+    if (tanggalLahir && tanggalLahir !== '-') {
+        const birthDate = new Date(tanggalLahir);
+        const today = new Date();
+        let age = today.getFullYear() - birthDate.getFullYear();
+        const monthDiff = today.getMonth() - birthDate.getMonth();
+        
+        if (monthDiff < 0 || (monthDiff === 0 && today.getDate() < birthDate.getDate())) {
+            age--;
+        }
+        usia = age + ' tahun';
+    }
+    
+    // Get shift name
+    let shiftText = '-';
+    if (idShift) {
+        const shiftSelect = document.getElementById('id_shift');
+        const selectedOption = shiftSelect.querySelector(`option[value="${idShift}"]`);
+        if (selectedOption) {
+            shiftText = selectedOption.textContent;
+        }
+    }
+    
+    // Format tanggal lahir
+    let tanggalLahirFormatted = tanggalLahir;
+    if (tanggalLahir && tanggalLahir !== '-') {
+        const date = new Date(tanggalLahir);
+        tanggalLahirFormatted = date.toLocaleDateString('id-ID', {
+            weekday: 'long',
+            year: 'numeric',
+            month: 'long',
+            day: 'numeric'
+        });
+    }
+    
+    // Update preview elements
+    updatePreviewElement('preview-nama', nama);
+    updatePreviewElement('preview-email', email);
+    updatePreviewElement('preview-divisi', divisi);
+    updatePreviewElement('preview-tanggal-lahir', tanggalLahirFormatted);
+    updatePreviewElement('preview-telepon', nomerTelepon);
+    updatePreviewElement('preview-shift', shiftText);
+    updatePreviewElement('preview-status', status);
+    updatePreviewElement('preview-usia', usia);
+    updatePreviewElement('preview-alamat', alamat);
+    
+    // Add status badge styling
+    const statusElement = document.getElementById('preview-status');
+    if (statusElement) {
+        statusElement.className = 'preview-value';
+        if (status === 'Aktif') {
+            statusElement.style.color = '#15803d';
+            statusElement.innerHTML = '<i class="fas fa-check-circle me-1"></i>' + status;
+        } else if (status === 'Non-Aktif') {
+            statusElement.style.color = '#dc2626';
+            statusElement.innerHTML = '<i class="fas fa-times-circle me-1"></i>' + status;
+        } else {
+            statusElement.style.color = '#6c757d';
+            statusElement.textContent = status;
+        }
+    }
+    
+    // Add age validation warning
+    const usiaElement = document.getElementById('preview-usia');
+    if (usiaElement && tanggalLahir && tanggalLahir !== '-') {
+        const birthDate = new Date(tanggalLahir);
+        const today = new Date();
+        let age = today.getFullYear() - birthDate.getFullYear();
+        const monthDiff = today.getMonth() - birthDate.getMonth();
+        
+        if (monthDiff < 0 || (monthDiff === 0 && today.getDate() < birthDate.getDate())) {
+            age--;
+        }
+        
+        if (age < 17) {
+            usiaElement.style.color = '#dc2626';
+            usiaElement.innerHTML = '<i class="fas fa-exclamation-triangle me-1"></i>' + age + ' tahun (Minimal 17 tahun)';
+        } else {
+            usiaElement.style.color = '#15803d';
+            usiaElement.innerHTML = '<i class="fas fa-check-circle me-1"></i>' + age + ' tahun';
+        }
+    }
+}
+
+// Helper function to update preview elements
+function updatePreviewElement(elementId, value) {
+    const element = document.getElementById(elementId);
+    if (element) {
+        element.textContent = value || '-';
+    }
+}
+
+// Reset form and preview
+function resetForm() {
+    const form = document.getElementById('tambahKaryawanForm');
+    if (form) {
+        form.reset();
+    }
+    
+    // Reset divisi lainnya
+    const divisiLainnyaGroup = document.getElementById('divisiLainnyaGroup');
+    if (divisiLainnyaGroup) {
+        divisiLainnyaGroup.style.display = 'none';
+        document.getElementById('divisi_lainnya').required = false;
+    }
+    
+    // Clear validation errors
+    clearValidationErrors();
+    
+    // Reset to form tab
+    const formTab = document.getElementById('form-tab');
+    if (formTab) {
+        const tab = new bootstrap.Tab(formTab);
+        tab.show();
+    }
+    
+    // Clear preview
+    updatePreviewData();
+}
+
+// Handle form submission
+function handleSubmitKaryawan() {
+    const form = document.getElementById('tambahKaryawanForm');
+    const submitButton = document.getElementById('submitKaryawan');
+    const formData = new FormData(form);
+    
+    // Clear previous validation errors
+    clearValidationErrors();
+    
+    // Get form data
+    const data = {
+        nama: formData.get('nama'),
+        email: formData.get('email'),
+        divisi: formData.get('divisi') === 'other' ? formData.get('divisi_lainnya') : formData.get('divisi'),
+        tanggal_lahir: formData.get('tanggal_lahir'),
+        nomer_telepon: formData.get('nomer_telepon'),
+        alamat: formData.get('alamat'),
+        id_shift: formData.get('id_shift'),
+        status: formData.get('status')
+    };
+    
+    // Client-side validation
+    if (!validateForm(data)) {
+        // Switch to form tab if validation fails
+        const formTab = document.getElementById('form-tab');
+        if (formTab) {
+            const tab = new bootstrap.Tab(formTab);
+            tab.show();
+        }
+        return;
+    }
+    
+    // Show loading state
+    submitButton.disabled = true;
+    submitButton.innerHTML = '<div class="spinner-border spinner-border-sm me-2" role="status"></div>Menyimpan...';
+    
+    // Submit to server
+    fetch('/admin/data-karyawan', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]')?.getAttribute('content') || '',
+            'Accept': 'application/json'
+        },
+        body: JSON.stringify(data)
+    })
+    .then(response => response.json())
+    .then(result => {
+        if (result.success) {
+            // Show success message
+            showNotification('Karyawan berhasil ditambahkan!', 'success');
+            
+            // Close modal
+            const modal = bootstrap.Modal.getInstance(document.getElementById('tambahKaryawanModal'));
+            modal.hide();
+            
+            // Reset form
+            resetForm();
+            
+            // Refresh table data
+            setTimeout(() => {
+                performSearch();
+            }, 500);
+            
+        } else {
+            // Show validation errors
+            if (result.errors) {
+                showValidationErrors(result.errors);
+                // Switch to form tab to show errors
+                const formTab = document.getElementById('form-tab');
+                if (formTab) {
+                    const tab = new bootstrap.Tab(formTab);
+                    tab.show();
+                }
+            } else {
+                showNotification(result.message || 'Terjadi kesalahan saat menyimpan data', 'error');
+            }
+        }
+    })
+    .catch(error => {
+        console.error('Submit error:', error);
+        showNotification('Terjadi kesalahan saat menyimpan data', 'error');
+        
+        // Switch to form tab
+        const formTab = document.getElementById('form-tab');
+        if (formTab) {
+            const tab = new bootstrap.Tab(formTab);
+            tab.show();
+        }
+    })
+    .finally(() => {
+        // Reset button state
+        submitButton.disabled = false;
+        submitButton.innerHTML = '<i class="fas fa-save me-1"></i>Simpan Karyawan';
+    });
+}
+
+// Validate form data
+function validateForm(data) {
+    let isValid = true;
+    
+    // Required field validation
+    const requiredFields = {
+        nama: 'Nama lengkap',
+        email: 'Email',
+        divisi: 'Divisi',
+        tanggal_lahir: 'Tanggal lahir',
+        nomer_telepon: 'Nomor telepon',
+        alamat: 'Alamat',
+        id_shift: 'Shift',
+        status: 'Status'
+    };
+    
+    for (const [field, label] of Object.entries(requiredFields)) {
+        if (!data[field] || data[field].trim() === '') {
+            showFieldError(field, `${label} harus diisi`);
+            isValid = false;
+        }
+    }
+    
+    // Email validation
+    if (data.email && !isValidEmail(data.email)) {
+        showFieldError('email', 'Format email tidak valid');
+        isValid = false;
+    }
+    
+    // Phone validation
+    if (data.nomer_telepon && !isValidPhone(data.nomer_telepon)) {
+        showFieldError('nomer_telepon', 'Nomor telepon harus dimulai dengan 08 dan terdiri dari 10-13 digit');
+        isValid = false;
+    }
+    
+    // Age validation (minimum 17 years old)
+    if (data.tanggal_lahir && !isValidAge(data.tanggal_lahir)) {
+        showFieldError('tanggal_lahir', 'Karyawan harus berusia minimal 17 tahun');
+        isValid = false;
+    }
+    
+    return isValid;
+}
+
+// Helper validation functions
+function isValidEmail(email) {
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    return emailRegex.test(email);
+}
+
+function isValidPhone(phone) {
+    const phoneRegex = /^08\d{8,11}$/;
+    return phoneRegex.test(phone);
+}
+
+function isValidAge(birthDate) {
+    const today = new Date();
+    const birth = new Date(birthDate);
+    const age = today.getFullYear() - birth.getFullYear();
+    const monthDiff = today.getMonth() - birth.getMonth();
+    
+    if (monthDiff < 0 || (monthDiff === 0 && today.getDate() < birth.getDate())) {
+        return (age - 1) >= 17;
+    }
+    return age >= 17;
+}
+
+// Show field error
+function showFieldError(fieldName, message) {
+    const field = document.getElementById(fieldName);
+    if (field) {
+        field.classList.add('is-invalid');
+        const feedback = field.parentNode.querySelector('.invalid-feedback');
+        if (feedback) {
+            feedback.textContent = message;
+        }
+    }
+}
+
+// Show validation errors from server
+function showValidationErrors(errors) {
+    for (const [field, messages] of Object.entries(errors)) {
+        if (Array.isArray(messages) && messages.length > 0) {
+            showFieldError(field, messages[0]);
+        }
+    }
+}
+
+// Clear validation errors
+function clearValidationErrors() {
+    const invalidFields = document.querySelectorAll('.is-invalid');
+    invalidFields.forEach(field => {
+        field.classList.remove('is-invalid');
+    });
+    
+    const feedbacks = document.querySelectorAll('.invalid-feedback');
+    feedbacks.forEach(feedback => {
+        feedback.textContent = '';
+    });
+}
+
+// Remove the old function
+function toggleDropdown(button) {
+    // This function is no longer used
+}
+
+// Close dropdown when clicking outside
+document.addEventListener('click', function(e) {
+    if (!e.target.closest('.action-dropdown')) {
+        document.querySelectorAll('.action-dropdown-menu').forEach(dropdown => {
+            dropdown.style.display = 'none';
+        });
+    }
+});
+
+// Employee action functions
+function viewEmployee(id) {
+    alert('View employee with ID: ' + id);
+    // Close dropdown
+    document.querySelectorAll('.action-dropdown-menu').forEach(dropdown => {
+        dropdown.style.display = 'none';
+    });
+}
+
+function editEmployee(id) {
+    alert('Edit employee with ID: ' + id);
+    // Close dropdown
+    document.querySelectorAll('.action-dropdown-menu').forEach(dropdown => {
+        dropdown.style.display = 'none';
+    });
+}
+
+function toggleStatus(id, newStatus) {
+    const actionText = newStatus === 'Aktif' ? 'mengaktifkan' : 'menonaktifkan';
+    
+    if (confirm(`Apakah Anda yakin ingin ${actionText} karyawan ini?`)) {
+        // Show loading state
+        showLoadingState();
+        
+        fetch(`/admin/karyawan/${id}/toggle-status`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]')?.getAttribute('content') || '',
+                'Accept': 'application/json'
+            },
+            body: JSON.stringify({
+                status: newStatus
+            })
+        })
+        .then(response => response.json())
+        .then(data => {
+            hideLoadingState();
+            if (data.success) {
+                // Refresh current page data
+                performSearch();
+                
+                // Show success message
+                showNotification(`Karyawan berhasil ${newStatus === 'Aktif' ? 'diaktifkan' : 'dinonaktifkan'}`, 'success');
+            } else {
+                showNotification(data.message || 'Terjadi kesalahan', 'error');
+            }
+        })
+        .catch(error => {
+            hideLoadingState();
+            console.error('Toggle status error:', error);
+            showNotification('Terjadi kesalahan saat mengubah status', 'error');
+        });
+    }
+    
+    // Close dropdown
+    document.querySelectorAll('.action-dropdown-menu').forEach(dropdown => {
+        dropdown.style.display = 'none';
+    });
+}
+
+function deleteEmployee(id) {
+    if (confirm('Apakah Anda yakin ingin menghapus karyawan ini?')) {
+        alert('Delete employee with ID: ' + id);
+    }
+    // Close dropdown
+    document.querySelectorAll('.action-dropdown-menu').forEach(dropdown => {
+        dropdown.style.display = 'none';
+    });
+}
+
+// Helper function to show notifications
+function showNotification(message, type = 'info') {
+    // Create notification element
+    const notification = document.createElement('div');
+    notification.className = `alert alert-${type === 'success' ? 'success' : type === 'error' ? 'danger' : 'info'} alert-dismissible fade show`;
+    notification.style.cssText = `
+        position: fixed;
+        top: 20px;
+        right: 20px;
+        z-index: 10000;
+        min-width: 300px;
+        box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+    `;
+    notification.innerHTML = `
+        <strong>${type === 'success' ? 'Berhasil!' : type === 'error' ? 'Error!' : 'Info'}</strong> ${message}
+        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+    `;
+    
+    // Add to body
+    document.body.appendChild(notification);
+    
+    // Auto remove after 3 seconds
+    setTimeout(() => {
+        if (notification.parentNode) {
+            notification.remove();
+        }
+    }, 3000);
+}
 </script>
 @endsection
