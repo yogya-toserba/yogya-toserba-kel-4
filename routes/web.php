@@ -13,6 +13,7 @@ use App\Http\Controllers\KeranjangController;
 use App\Http\Controllers\ProdukController;
 use App\Http\Controllers\KeuanganController;
 use App\Http\Controllers\PemasokController;
+use App\Http\Controllers\InventoriDashboardController;
 
 // Route untuk testing error pages
 Route::get('/test-errors', function () {
@@ -177,6 +178,23 @@ Route::prefix('gudang')->name('gudang.')->group(function () {
         return view('gudang.kontak-admin');
     })->name('kontak-admin');
 
+    // Public Inventori Routes (no authentication required)
+    Route::get('/inventori', function () {
+        return view('gudang.inventori');
+    })->name('inventori');
+    
+    Route::get('/inventori/dashboard', [InventoriDashboardController::class, 'index'])->name('inventori.dashboard');
+    Route::get('/inventori/statistics', [InventoriDashboardController::class, 'getStatistics'])->name('inventori.statistics');
+    
+    // Public Inventory Management Routes (no authentication required)
+    Route::get('/inventory', [ProductController::class, 'index'])->name('inventory.index');
+    Route::get('/inventory/create', [ProductController::class, 'create'])->name('inventory.create');
+    Route::post('/inventory', [ProductController::class, 'store'])->name('inventory.store');
+    Route::get('/inventory/{id}/edit', [ProductController::class, 'edit'])->name('inventory.edit');
+    Route::put('/inventory/{id}', [ProductController::class, 'update'])->name('inventory.update');
+    Route::delete('/inventory/{id}', [ProductController::class, 'destroy'])->name('inventory.destroy');
+    Route::resource('produk', ProductController::class);
+
     // Protected routes (require gudang authentication)
     Route::middleware(['auth.gudang'])->group(function () {
         Route::get('/dashboard', [GudangController::class, 'dashboard'])->name('dashboard');
@@ -194,10 +212,6 @@ Route::prefix('gudang')->name('gudang.')->group(function () {
         Route::get('/pengiriman', function () {
             return view('gudang.pengiriman');
         })->name('pengiriman');
-
-        Route::get('/inventori', function () {
-            return view('gudang.inventori');
-        })->name('inventori');
 
         // Routes untuk Pemasok
         Route::resource('pemasok', PemasokController::class)->names([
@@ -218,11 +232,6 @@ Route::prefix('gudang')->name('gudang.')->group(function () {
         Route::get('/logistik', function () {
             return view('gudang.logistik');
         })->name('logistik');
-
-        Route::get('/inventory', [ProductController::class, 'index'])->name('inventory.index');
-        Route::get('/inventory/create', [ProductController::class, 'create'])->name('inventory.create');
-        Route::post('/inventory', [ProductController::class, 'store'])->name('inventory.store');
-        Route::resource('produk', ProductController::class);
     });
 });
 
