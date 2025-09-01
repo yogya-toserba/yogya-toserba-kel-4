@@ -240,7 +240,11 @@ Route::prefix('admin')->name('admin.')->group(function () {
 
     // Protected Admin Routes
     Route::middleware(['auth:admin'])->group(function () {
-        Route::get('/dashboard', [AdminController::class, 'dashboard'])->name('dashboard');
+        Route::get('/analisis', [AdminController::class, 'dashboard'])->name('analisis');
+        Route::get('/analisis/keuangan', [AdminController::class, 'dashboardKeuangan'])->name('analisis.keuangan');
+        Route::get('/analisis/pelanggan', [AdminController::class, 'dashboardPelanggan'])->name('analisis.pelanggan');
+        Route::get('/analisis/barang', [AdminController::class, 'dashboardBarang'])->name('analisis.barang');
+        Route::get('/analisis/penjualan', [AdminController::class, 'dashboardPenjualan'])->name('analisis.penjualan');
         Route::get('/chart-data', [AdminController::class, 'getChartData'])->name('chart.data');
         Route::get('/data-karyawan', [AdminController::class, 'dataKaryawan'])->name('data-karyawan');
         Route::get('/data-karyawan/search', [AdminController::class, 'searchKaryawan'])->name('data-karyawan.search');

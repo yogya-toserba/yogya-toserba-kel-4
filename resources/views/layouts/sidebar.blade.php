@@ -32,12 +32,12 @@
       @endif
     </a>
 
-    <a href="{{ route('gudang.stok.index') }}" class="nav-item {{ request()->routeIs('gudang.stok*') ? 'active' : '' }}">
+    <a href="{{ route('gudang.stok') }}" class="nav-item {{ request()->routeIs('gudang.stok') ? 'active' : '' }}">
       <div class="nav-icon">
         <i class="fas fa-warehouse"></i>
       </div>
       <span class="nav-text">Stok</span>
-      @if(request()->routeIs('gudang.stok*'))
+      @if(request()->routeIs('gudang.stok'))
         <div class="nav-indicator"></div>
       @endif
     </a>
@@ -62,7 +62,7 @@
       @endif
     </a>
 
-    <a href="{{ route('gudang.pemasok.index') }}" class="nav-item {{ request()->routeIs('gudang.pemasok') ? 'active' : '' }}">
+    <a href="{{ route('gudang.pemasok') }}" class="nav-item {{ request()->routeIs('gudang.pemasok') ? 'active' : '' }}">
       <div class="nav-icon">
         <i class="fas fa-handshake"></i>
       </div>
@@ -674,20 +674,7 @@
     document.getElementById('dropdown-icon').parentElement.classList.remove('rotated');
     
     if (confirm('Apakah Anda yakin ingin logout dari sistem?')) {
-      // Create a form to submit logout request properly
-      const form = document.createElement('form');
-      form.method = 'POST';
-      form.action = '{{ route("gudang.logout") }}';
-      
-      // Add CSRF token
-      const csrfToken = document.createElement('input');
-      csrfToken.type = 'hidden';
-      csrfToken.name = '_token';
-      csrfToken.value = '{{ csrf_token() }}';
-      form.appendChild(csrfToken);
-      
-      document.body.appendChild(form);
-      form.submit();
+      window.location.href = '/logout';
     }
   }
 </script>

@@ -38,7 +38,7 @@ class DatabaseSeeder extends Seeder
             KategoriSeeder::class,
             StokProdukSeeder::class,
             PelangganSeeder::class,
-            TransaksiSeeder::class,     // Transaksi dan detail transaksi sekaligus
+            TransaksiKecilSeeder::class,     // Transaksi dengan nominal kecil
         ]);
     }
 }

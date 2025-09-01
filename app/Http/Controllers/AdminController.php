@@ -132,6 +132,183 @@ class AdminController extends BaseController
         ));
     }
 
+    public function dashboardKeuangan()
+    {
+        // Data keuangan dan transaksi
+        $pendapatanHariIni = DB::table('transaksi')
+            ->whereDate('tanggal_transaksi', today())
+            ->sum('total_belanja') ?? 0;
+        
+        $pendapatanBulanIni = DB::table('transaksi')
+            ->whereMonth('tanggal_transaksi', now()->month)
+            ->whereYear('tanggal_transaksi', now()->year)
+            ->sum('total_belanja') ?? 0;
+        
+        $pendapatanTahunIni = DB::table('transaksi')
+            ->whereYear('tanggal_transaksi', now()->year)
+            ->sum('total_belanja') ?? 0;
+        
+        $transaksiHariIni = DB::table('transaksi')
+            ->whereDate('tanggal_transaksi', today())
+            ->count();
+
+        // Chart data untuk keuangan  
+        $salesChartData = $this->getSalesChartData(7);
+        $chartLabels = $salesChartData['labels'];
+        $chartData = $salesChartData['data'];
+
+        // Transaksi terbaru
+        $transaksiTerbaru = DB::table('transaksi')
+            ->join('pelanggan', 'transaksi.id_pelanggan', '=', 'pelanggan.id_pelanggan')
+            ->select('transaksi.*', 'pelanggan.nama_pelanggan')
+            ->orderByDesc('transaksi.tanggal_transaksi')
+            ->limit(10)
+            ->get();
+
+        // Pendapatan per kategori
+        $pendapatanKategori = DB::table('kategori')
+            ->join('stok_produk', 'kategori.id_kategori', '=', 'stok_produk.id_kategori')
+            ->join('detail_transaksi', 'stok_produk.id_produk', '=', 'detail_transaksi.id_produk')
+            ->select(
+                'kategori.nama_kategori',
+                DB::raw('SUM(detail_transaksi.total_harga) as total_pendapatan'),
+                DB::raw('COUNT(DISTINCT detail_transaksi.id_transaksi) as jumlah_transaksi')
+            )
+            ->groupBy('kategori.nama_kategori')
+            ->orderByDesc('total_pendapatan')
+            ->get();
+
+        return view('admin.dashboard-keuangan', compact(
+            'pendapatanHariIni',
+            'pendapatanBulanIni', 
+            'pendapatanTahunIni',
+            'transaksiHariIni',
+            'chartLabels',
+            'chartData',
+            'transaksiTerbaru',
+            'pendapatanKategori'
+        ));
+    }
+
+    public function dashboardPelanggan()
+    {
+        // Data pelanggan
+        $totalPelanggan = DB::table('pelanggan')->count();
+        $pelangganBulanIni = DB::table('pelanggan')
+            ->whereMonth('created_at', now()->month)
+            ->whereYear('created_at', now()->year)
+            ->count();
+        
+        $pelangganAktif = DB::table('pelanggan')
+            ->join('transaksi', 'pelanggan.id_pelanggan', '=', 'transaksi.id_pelanggan')
+            ->whereDate('transaksi.tanggal_transaksi', '>=', now()->subDays(30))
+            ->distinct('pelanggan.id_pelanggan')
+            ->count();
+
+        // Pelanggan terbaru
+        $pelangganTerbaru = DB::table('pelanggan')
+            ->orderByDesc('created_at')
+            ->limit(10)
+            ->get();
+
+        return view('admin.dashboard-pelanggan', compact(
+            'totalPelanggan',
+            'pelangganBulanIni',
+            'pelangganAktif',
+            'pelangganTerbaru'
+        ));
+    }
+
+    public function dashboardBarang()
+    {
+        // Data barang dan stok
+        $totalProduk = DB::table('stok_produk')->count();
+        $totalStok = DB::table('stok_produk')->sum('stok') ?? 0;
+        $stokMenipis = DB::table('stok_produk')->where('stok', '<', 10)->count();
+        
+        // Kategori dengan produk terbanyak
+        $kategoriTerbanyak = DB::table('kategori')
+            ->join('stok_produk', 'kategori.id_kategori', '=', 'stok_produk.id_kategori')
+            ->groupBy('kategori.nama_kategori')
+            ->orderByRaw('COUNT(*) DESC')
+            ->value('kategori.nama_kategori');
+
+        // Produk dengan stok menipis
+        $produkStokMenipis = DB::table('stok_produk')
+            ->join('kategori', 'stok_produk.id_kategori', '=', 'kategori.id_kategori')
+            ->select('stok_produk.*', 'kategori.nama_kategori')
+            ->where('stok_produk.stok', '<', 10)
+            ->orderBy('stok_produk.stok', 'asc')
+            ->get();
+
+        return view('admin.dashboard-barang', compact(
+            'totalProduk',
+            'totalStok',
+            'stokMenipis',
+            'kategoriTerbanyak',
+            'produkStokMenipis'
+        ));
+    }
+
+    public function dashboardPenjualan()
+    {
+        // Total transaksi
+        $totalTransaksi = DB::table('transaksi')->count();
+        
+        // Total pendapatan
+        $pendapatan = DB::table('transaksi')
+            ->sum('total_belanja') ?? 0;
+        
+        // Rata-rata transaksi
+        $rataRataTransaksi = $totalTransaksi > 0 ? ($pendapatan / $totalTransaksi) : 0;
+        
+        // Barang terlaris (nama saja)
+        $barangTerlaris = DB::table('detail_transaksi')
+            ->join('stok_produk', 'detail_transaksi.id_produk', '=', 'stok_produk.id_produk')
+            ->select('stok_produk.nama_barang', DB::raw('SUM(detail_transaksi.jumlah_barang) as total_terjual'))
+            ->groupBy('stok_produk.nama_barang')
+            ->orderByDesc('total_terjual')
+            ->value('stok_produk.nama_barang');
+
+        // Data barang terlaris untuk table
+        $barangTerlarisData = DB::table('detail_transaksi')
+            ->join('stok_produk', 'detail_transaksi.id_produk', '=', 'stok_produk.id_produk')
+            ->join('kategori', 'stok_produk.id_kategori', '=', 'kategori.id_kategori')
+            ->select(
+                'stok_produk.nama_barang', 
+                'kategori.nama_kategori',
+                DB::raw('SUM(detail_transaksi.jumlah_barang) as total_terjual'),
+                DB::raw('SUM(detail_transaksi.total_harga) as total_pendapatan')
+            )
+            ->groupBy('stok_produk.nama_barang', 'kategori.nama_kategori')
+            ->orderByDesc('total_terjual')
+            ->limit(10)
+            ->get();
+
+        // Data penjualan harian (7 hari terakhir)
+        $penjualanHarian = [];
+        for ($i = 6; $i >= 0; $i--) {
+            $date = now()->subDays($i);
+            $total = DB::table('transaksi')
+                ->whereDate('tanggal_transaksi', $date->format('Y-m-d'))
+                ->sum('total_belanja') ?? 0;
+            
+            $penjualanHarian[] = [
+                'tanggal' => $date->format('d M'),
+                'total' => (float) $total
+            ];
+        }
+
+        return view('admin.dashboard-penjualan', compact(
+            'totalTransaksi',
+            'pendapatan',
+            'rataRataTransaksi',
+            'barangTerlaris',
+            'barangTerlarisData',
+            'penjualanHarian'
+        ));
+    }
+
     public function getChartData(Request $request)
     {
         try {
@@ -199,26 +376,29 @@ class AdminController extends BaseController
     {
         $data = DB::table('transaksi')
             ->select(
-                DB::raw('WEEK(tanggal_transaksi, 1) as week'),
-                DB::raw('YEAR(tanggal_transaksi) as year'),
+                DB::raw('DATE(tanggal_transaksi) as date'),
                 DB::raw('SUM(total_belanja) as total')
             )
             ->whereDate('tanggal_transaksi', '>=', now()->subDays(29))
-            ->groupBy('year', 'week')
-            ->orderBy('year')
-            ->orderBy('week')
+            ->groupBy('date')
+            ->orderBy('date')
             ->get();
 
-        $labels = ['Week 1', 'Week 2', 'Week 3', 'Week 4'];
+        $labels = [];
         $values = [];
 
-        for ($i = 0; $i < 4; $i++) {
-            $weekStart = now()->subDays(29)->addWeeks($i);
-            $weekNumber = $weekStart->week;
-            $year = $weekStart->year;
+        for ($i = 29; $i >= 0; $i--) {
+            $date = now()->subDays($i);
+            $dateString = $date->format('Y-m-d');
+            
+            if ($i % 3 == 0) { // Show every 3rd day to avoid crowding
+                $labels[] = $date->format('j M');
+            } else {
+                $labels[] = '';
+            }
 
-            $weekData = $data->where('week', $weekNumber)->where('year', $year)->first();
-            $values[] = $weekData ? (float) $weekData->total : 0;
+            $dayData = $data->where('date', $dateString)->first();
+            $values[] = $dayData ? (float) $dayData->total : 0;
         }
 
         return ['labels' => $labels, 'data' => $values];
@@ -228,25 +408,29 @@ class AdminController extends BaseController
     {
         $data = DB::table('transaksi')
             ->select(
-                DB::raw('MONTH(tanggal_transaksi) as month'),
-                DB::raw('YEAR(tanggal_transaksi) as year'),
+                DB::raw('DATE(tanggal_transaksi) as date'),
                 DB::raw('SUM(total_belanja) as total')
             )
             ->whereDate('tanggal_transaksi', '>=', now()->subDays(89))
-            ->groupBy('year', 'month')
-            ->orderBy('year')
-            ->orderBy('month')
+            ->groupBy('date')
+            ->orderBy('date')
             ->get();
 
         $labels = [];
         $values = [];
 
-        for ($i = 2; $i >= 0; $i--) {
-            $monthDate = now()->subMonths($i);
-            $labels[] = $monthDate->format('M Y');
+        for ($i = 89; $i >= 0; $i--) {
+            $date = now()->subDays($i);
+            $dateString = $date->format('Y-m-d');
+            
+            if ($i % 7 == 0) { // Show every week to avoid crowding
+                $labels[] = $date->format('j M');
+            } else {
+                $labels[] = '';
+            }
 
-            $monthData = $data->where('month', $monthDate->month)->where('year', $monthDate->year)->first();
-            $values[] = $monthData ? (float) $monthData->total : 0;
+            $dayData = $data->where('date', $dateString)->first();
+            $values[] = $dayData ? (float) $dayData->total : 0;
         }
 
         return ['labels' => $labels, 'data' => $values];
