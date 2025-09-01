@@ -10,7 +10,6 @@ use App\Http\Controllers\GudangController;
 use App\Http\Controllers\StokGudangPusatController;
 use App\Http\Controllers\ProdukTerlarisController;
 use App\Http\Controllers\KeranjangController;
-use App\Http\Controllers\ProdukController;
 use App\Http\Controllers\KeuanganController;
 use App\Http\Controllers\PemasokController;
 use App\Http\Controllers\InventoriDashboardController;
@@ -117,13 +116,6 @@ Route::prefix('keranjang')->name('keranjang.')->group(function () {
     Route::delete('/remove', [KeranjangController::class, 'remove'])->name('remove');
     Route::delete('/clear', [KeranjangController::class, 'clear'])->name('clear');
     Route::get('/data', [KeranjangController::class, 'getCart'])->name('data');
-});
-
-// Product Detail Routes
-Route::prefix('produk')->name('produk.')->group(function () {
-    Route::get('/detail', [ProdukController::class, 'detail'])->name('detail');
-    Route::get('/{id}/reviews', [ProdukController::class, 'getReviews'])->name('reviews');
-    Route::post('/{id}/reviews', [ProdukController::class, 'addReview'])->name('reviews.add');
 });
 
 // API Routes untuk Produk Terlaris
