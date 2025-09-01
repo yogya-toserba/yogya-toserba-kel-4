@@ -21,7 +21,7 @@
     <!-- Filter Section -->
     <div class="filter-section">
         <div class="row align-items-center">
-            <div class="col-md-8">
+            <div class="col-md-9">
                 <div class="row g-3">
                     <div class="col-md-4">
                         <div class="dropdown">
@@ -65,7 +65,7 @@
                     </div>
                 </div>
             </div>
-            <div class="col-md-4 text-end">
+            <div class="col-md-3 text-end">
                 <small class="text-muted">Menampilkan 1-12 dari 192 produk</small>
             </div>
         </div>
