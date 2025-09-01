@@ -601,7 +601,7 @@ body.dark-mode .text-secondary {
             </div>
             <div style="text-align: right;">
                 <div id="realTimeClock" style="font-weight: 600; color: white; font-size: 1rem; margin-bottom: 5px;"></div>
-                <small style="opacity: 0.8;">{{ date('l, d F Y') }}</small>
+                <small style="opacity: 0.8;">Senin, 1 September 2025</small>
             </div>
         </div>
     </div>

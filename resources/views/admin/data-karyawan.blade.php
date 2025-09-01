@@ -103,6 +103,56 @@ body.dark-mode .new-karyawan {
     color: white !important;
 }
 
+/* Real-time clock styling (same as dashboard) */
+#realTimeClock {
+    background: rgba(255, 255, 255, 0.2) !important;
+    padding: 8px 16px !important;
+    border-radius: 20px !important;
+    border: 1px solid rgba(255, 255, 255, 0.3) !important;
+    backdrop-filter: blur(10px) !important;
+    font-family: 'Courier New', monospace !important;
+    letter-spacing: 1px !important;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1) !important;
+    transition: all 0.3s ease !important;
+}
+
+#realTimeClock:hover {
+    background: rgba(255, 255, 255, 0.3) !important;
+    transform: scale(1.05) !important;
+}
+
+/* Responsive styling for header */
+@media (max-width: 992px) {
+    .new-header div[style*="display: flex"] {
+        flex-direction: column !important;
+        text-align: center !important;
+    }
+    
+    .new-header div[style*="text-align: right"] {
+        text-align: center !important;
+        margin-top: 15px !important;
+    }
+    
+    #realTimeClock {
+        font-size: 0.9rem !important;
+        padding: 6px 12px !important;
+    }
+}
+
+@media (max-width: 768px) {
+    .new-header h1 {
+        font-size: 2rem !important;
+    }
+    
+    .new-header p {
+        font-size: 1rem !important;
+    }
+    
+    #realTimeClock {
+        font-size: 0.95rem !important;
+    }
+}
+
 /* Real-time clock styling */
 #realTimeClock {
     background: rgba(255, 255, 255, 0.2) !important;
@@ -261,6 +311,139 @@ body.dark-mode .new-card-title {
 .table-responsive {
     border-radius: 8px !important;
     background: white !important;
+    overflow-x: hidden !important;
+    overflow-y: visible !important;
+    max-width: 100% !important;
+    width: 100% !important;
+}
+
+/* CRITICAL: Prevent pagination scrolling */
+.table-responsive .pagination-container {
+    overflow-x: visible !important;
+    overflow-y: visible !important;
+}
+
+.table-responsive .pagination-wrapper {
+    overflow: visible !important;
+}
+
+/* Ensure table fits in container */
+.table-responsive .table {
+    table-layout: fixed !important;
+    width: 100% !important;
+    margin-bottom: 0 !important;
+}
+
+.table-responsive .table-fixed {
+    table-layout: fixed !important;
+    width: 100% !important;
+}
+
+.table-responsive .table td,
+.table-responsive .table th {
+    word-wrap: break-word !important;
+    overflow: hidden !important;
+    text-overflow: ellipsis !important;
+    padding: 8px 6px !important;
+    vertical-align: middle !important;
+}
+
+/* Better table borders */
+.table-responsive .table tbody tr {
+    border-bottom: 1px solid #f1f5f9 !important;
+}
+
+.table-responsive .table tbody tr:hover {
+    background-color: #f8fafc !important;
+}
+
+/* Column specific styling */
+.table-responsive .table td:first-child,
+.table-responsive .table th:first-child {
+    text-align: center !important;
+    padding-left: 8px !important;
+}
+
+.table-responsive .table td:last-child,
+.table-responsive .table th:last-child {
+    text-align: center !important;
+    padding-right: 8px !important;
+}
+
+/* Responsive table behavior */
+@media (max-width: 992px) {
+    .table-responsive .table th,
+    .table-responsive .table td {
+        font-size: 0.75rem !important;
+        padding: 6px 4px !important;
+    }
+    
+    .table-responsive .table img {
+        width: 30px !important;
+        height: 30px !important;
+    }
+    
+    .badge-department,
+    .badge-active,
+    .badge-inactive {
+        font-size: 0.65rem !important;
+        padding: 2px 6px !important;
+    }
+}
+
+@media (max-width: 768px) {
+    .table-responsive .table th:nth-child(4),
+    .table-responsive .table td:nth-child(4) {
+        display: none !important;
+    }
+}
+
+/* CRITICAL: Force dropdown to show */
+.table-responsive .action-dropdown {
+    position: relative !important;
+    z-index: 9999 !important;
+}
+
+.table-responsive .action-dropdown-menu {
+    z-index: 10000 !important;
+    position: absolute !important;
+    display: block !important;
+}
+
+/* Table Borders */
+.table td {
+    border-bottom: 1px solid #e2e8f0 !important;
+    vertical-align: middle !important;
+}
+
+.table th {
+    border-bottom: 2px solid #e2e8f0 !important;
+    font-weight: 600 !important;
+}
+
+.table tr:last-child td {
+    border-bottom: none !important;
+}
+
+.table tbody tr:hover {
+    background-color: #f8fafc !important;
+    transition: background-color 0.2s ease !important;
+}
+
+body.dark-mode .table-responsive {
+    background: #2a2d3f !important;
+}
+
+body.dark-mode .table td {
+    border-bottom: 1px solid #374151 !important;
+}
+
+body.dark-mode .table th {
+    border-bottom: 2px solid #374151 !important;
+}
+
+body.dark-mode .table tbody tr:hover {
+    background-color: #374151 !important;
 }
 
 body.dark-mode .table-responsive {
@@ -420,9 +603,14 @@ body.dark-mode .btn-outline-secondary:hover {
     background: #dbeafe !important;
     color: #1d4ed8 !important;
     font-weight: 500 !important;
-    padding: 4px 10px !important;
-    border-radius: 15px !important;
+    padding: 4px 8px !important;
+    border-radius: 12px !important;
     font-size: 0.7rem !important;
+    display: inline-block !important;
+    white-space: nowrap !important;
+    overflow: hidden !important;
+    text-overflow: ellipsis !important;
+    max-width: 100% !important;
 }
 
 /* Grid Layout for responsive */
@@ -473,13 +661,14 @@ body.dark-mode .form-control {
 
 body.dark-mode .form-control:hover {
     border-color: #6b7280 !important;
-    transform: none !important;
+    background: #374151 !important;
 }
 
 body.dark-mode .form-control:focus {
     background: #374151 !important;
     border-color: #f26b37 !important;
-    transform: none !important;
+    color: #e2e8f0 !important;
+    box-shadow: 0 0 0 0.2rem rgba(242, 107, 55, 0.25) !important;
 }
 
 body.dark-mode .form-control::placeholder {
@@ -488,6 +677,15 @@ body.dark-mode .form-control::placeholder {
 
 body.dark-mode .form-select {
     background: #374151 !important;
+    border-color: #4b5563 !important;
+    color: #e2e8f0 !important;
+}
+
+body.dark-mode .form-select:focus {
+    background: #374151 !important;
+    border-color: #f26b37 !important;
+    color: #e2e8f0 !important;
+}
     border-color: #4b5563 !important;
     color: #e2e8f0 !important;
 }
@@ -512,104 +710,141 @@ body.dark-mode .search-filter-section .form-control:hover {
     transform: none !important;
 }
 
-/* Dropdown Action Button */
-.action-dropdown {
+/* Dropdown Action Button - Specific for table */
+.table-responsive .action-dropdown {
     position: relative;
     display: inline-block;
+    z-index: 100 !important;
 }
 
-.action-dropdown-btn {
-    background: #f8fafc !important;
-    border: 1px solid #e2e8f0 !important;
-    border-radius: 6px !important;
-    padding: 6px 8px !important;
+.table-responsive .action-dropdown-btn {
+    background: transparent !important;
+    border: none !important;
+    border-radius: 50% !important;
+    padding: 8px !important;
     color: #64748b !important;
-    font-size: 14px !important;
+    font-size: 16px !important;
     cursor: pointer !important;
-    transition: all 0.2s ease !important;
+    transition: all 0.3s ease !important;
     position: relative !important;
-    z-index: 10 !important;
+    z-index: 101 !important;
+    width: 32px !important;
+    height: 32px !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    pointer-events: auto !important;
 }
 
-.action-dropdown-btn:hover {
-    background: #f1f5f9 !important;
-    border-color: #cbd5e1 !important;
-    color: #475569 !important;
+.table-responsive .action-dropdown-btn:hover {
+    background: rgba(99, 102, 241, 0.1) !important;
+    color: #6366f1 !important;
+    transform: scale(1.1) !important;
 }
 
-.action-dropdown-btn:focus {
+.table-responsive .action-dropdown-btn:focus {
     outline: none !important;
-    box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.5) !important;
+    box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.2) !important;
 }
 
-body.dark-mode .action-dropdown-btn {
-    background: #374151 !important;
-    border-color: #4b5563 !important;
+body.dark-mode .table-responsive .action-dropdown-btn {
     color: #9ca3af !important;
 }
 
-body.dark-mode .action-dropdown-btn:hover {
-    background: #4b5563 !important;
-    border-color: #6b7280 !important;
-    color: #d1d5db !important;
+body.dark-mode .table-responsive .action-dropdown-btn:hover {
+    background: rgba(99, 102, 241, 0.2) !important;
+    color: #a5b4fc !important;
 }
 
-.action-dropdown-menu {
-    position: absolute;
-    top: 100%;
-    right: 0;
-    background: white;
-    border: 1px solid #e2e8f0;
-    border-radius: 8px;
-    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
-    min-width: 120px;
+.table-responsive .action-dropdown-menu {
+    position: absolute !important;
+    top: 100% !important;
+    right: 0 !important;
+    background: white !important;
+    border: none !important;
+    border-radius: 12px !important;
+    box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04) !important;
+    min-width: 160px !important;
     z-index: 9999 !important;
-    display: none;
+    opacity: 0 !important;
+    visibility: hidden !important;
+    transform: translateY(-10px) scale(0.95) !important;
+    transition: all 0.2s ease-out !important;
+    padding: 8px 0 !important;
+    margin-top: 4px !important;
+    pointer-events: none !important;
 }
 
-body.dark-mode .action-dropdown-menu {
-    background: #374151;
-    border-color: #4b5563;
+.table-responsive .action-dropdown.show .action-dropdown-menu {
+    opacity: 1 !important;
+    visibility: visible !important;
+    transform: translateY(0) scale(1) !important;
+    pointer-events: auto !important;
+}
+
+body.dark-mode .table-responsive .action-dropdown-menu {
+    background: #1f2937 !important;
+    border: 1px solid #374151 !important;
 }
 
 .action-dropdown-item {
-    display: block;
-    padding: 8px 12px;
-    color: #374151;
-    text-decoration: none;
-    font-size: 0.875rem;
-    transition: background-color 0.2s ease;
-    border: none;
-    background: none;
-    width: 100%;
-    text-align: left;
-    cursor: pointer;
+    display: flex !important;
+    align-items: center !important;
+    padding: 12px 16px !important;
+    color: #374151 !important;
+    text-decoration: none !important;
+    font-size: 0.875rem !important;
+    font-weight: 500 !important;
+    transition: all 0.2s ease !important;
+    border: none !important;
+    background: none !important;
+    width: 100% !important;
+    text-align: left !important;
+    cursor: pointer !important;
+    border-radius: 8px !important;
+    margin: 0 4px !important;
+    width: calc(100% - 8px) !important;
+}
+
+.action-dropdown-item i {
+    width: 16px !important;
+    margin-right: 12px !important;
+    font-size: 14px !important;
 }
 
 .action-dropdown-item:hover {
-    background: #f8fafc;
-    color: #1e293b;
+    background: #f8fafc !important;
+    color: #1e293b !important;
+    transform: translateX(2px) !important;
 }
 
 body.dark-mode .action-dropdown-item {
-    color: #d1d5db;
+    color: #d1d5db !important;
 }
 
 body.dark-mode .action-dropdown-item:hover {
-    background: #4b5563;
-    color: #f3f4f6;
+    background: #374151 !important;
+    color: #f9fafb !important;
 }
 
-.action-dropdown-item.edit-item {
-    color: #2563eb;
+.action-dropdown-item.edit-item:hover {
+    background: #dbeafe !important;
+    color: #1d4ed8 !important;
 }
 
-.action-dropdown-item.delete-item {
-    color: #dc2626;
+.action-dropdown-item.delete-item:hover {
+    background: #fee2e2 !important;
+    color: #dc2626 !important;
 }
 
-.action-dropdown-item.view-item {
-    color: #059669;
+.action-dropdown-item.view-item:hover {
+    background: #dcfce7 !important;
+    color: #16a34a !important;
+}
+
+.action-dropdown-item.warning-item:hover {
+    background: #fef3c7 !important;
+    color: #d97706 !important;
 }
 
 /* Pagination Styles */
@@ -619,8 +854,10 @@ body.dark-mode .action-dropdown-item:hover {
     align-items: center;
     margin-top: 20px;
     padding: 15px 0;
-    flex-wrap: wrap;
+    flex-wrap: nowrap;
     gap: 10px;
+    overflow: hidden;
+    max-width: 100%;
 }
 
 .pagination-info {
@@ -640,29 +877,34 @@ body.dark-mode .pagination-info {
     list-style: none !important;
     margin: 0 !important;
     padding: 0 !important;
-    gap: 2px !important;
+    gap: 1px !important;
     align-items: center !important;
+    flex-wrap: nowrap !important;
+    overflow: hidden !important;
+    max-width: 100% !important;
 }
 
 .pagination .page-item {
     margin: 0 !important;
     display: inline-block !important;
+    flex-shrink: 0 !important;
 }
 
 .pagination .page-link {
     display: inline-block !important;
-    padding: 8px 12px !important;
-    margin: 0 1px !important;
+    padding: 6px 8px !important;
+    margin: 0 !important;
     border: 1px solid #e2e8f0 !important;
     background: white !important;
     color: #64748b !important;
     text-decoration: none !important;
-    border-radius: 6px !important;
-    font-size: 0.875rem !important;
+    border-radius: 4px !important;
+    font-size: 0.8rem !important;
     transition: all 0.2s ease !important;
-    line-height: 1.4 !important;
-    min-width: 36px !important;
+    line-height: 1.2 !important;
+    min-width: 28px !important;
     text-align: center !important;
+    white-space: nowrap !important;
 }
 
 .pagination .page-link:hover {
@@ -728,10 +970,36 @@ body.dark-mode .pagination .page-item.disabled .page-link {
     }
     
     .pagination .page-link {
-        padding: 6px 10px !important;
-        font-size: 0.8rem !important;
-        min-width: 32px !important;
+        padding: 4px 6px !important;
+        font-size: 0.75rem !important;
+        min-width: 24px !important;
     }
+}
+
+/* Hide middle pagination items when there are too many pages */
+@media (max-width: 768px) {
+    .pagination .page-item:nth-child(n+5):nth-last-child(n+5) {
+        display: none !important;
+    }
+    
+    .pagination .page-item:first-child,
+    .pagination .page-item:nth-child(2),
+    .pagination .page-item.active,
+    .pagination .page-item:nth-last-child(2),
+    .pagination .page-item:last-child {
+        display: inline-block !important;
+    }
+}
+
+/* Limit pagination width */
+.pagination-wrapper {
+    max-width: 100%;
+    overflow: hidden;
+}
+
+.pagination-wrapper .pagination {
+    max-width: 100%;
+    justify-content: center;
 }
 
 /* Pagination wrapper */
@@ -739,15 +1007,65 @@ body.dark-mode .pagination .page-item.disabled .page-link {
     display: flex;
     justify-content: center;
     align-items: center;
+    overflow: hidden;
 }
 
 .pagination-wrapper nav {
     margin: 0;
+    max-width: 100%;
 }
 
 /* Override default Laravel pagination styles */
 .pagination-wrapper .pagination {
     margin-bottom: 0 !important;
+    flex-wrap: nowrap !important;
+    overflow: hidden !important;
+    justify-content: center !important;
+}
+
+/* Hide excessive pagination items on smaller screens */
+@media (max-width: 768px) {
+    .pagination .page-item:nth-child(n+6):nth-last-child(n+6) {
+        display: none !important;
+    }
+    
+    .pagination .page-item:first-child,
+    .pagination .page-item:nth-child(2),
+    .pagination .page-item.active,
+    .pagination .page-item:nth-last-child(2),
+    .pagination .page-item:last-child {
+        display: inline-block !important;
+    }
+}
+
+/* Ensure pagination doesn't scroll horizontally */
+.pagination-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 20px;
+    padding: 15px 0;
+    flex-wrap: nowrap;
+    gap: 10px;
+    overflow: hidden;
+    max-width: 100% !important;
+}
+
+/* CRITICAL: Force pagination to not scroll */
+.new-card-body {
+    overflow: visible !important;
+}
+
+.table-responsive {
+    overflow-x: auto;
+    overflow-y: visible !important;
+}
+
+.table-responsive .pagination-container,
+.table-responsive .pagination-wrapper,
+.table-responsive .pagination {
+    overflow: visible !important;
+    max-width: none !important;
 }
 
 /* Loading Spinner */
@@ -874,6 +1192,374 @@ body.dark-mode .pagination .page-item.disabled .page-link {
         padding: 20px !important;
     }
 }
+
+/* Modal Dark Mode Styling */
+body.dark-mode .modal-content {
+    background: #2a2d3f !important;
+    border: 1px solid #3a3d4a !important;
+    color: #e2e8f0 !important;
+}
+
+body.dark-mode .modal-header {
+    border-bottom-color: #3a3d4a !important;
+}
+
+body.dark-mode .modal-footer {
+    border-top-color: #3a3d4a !important;
+}
+
+body.dark-mode .modal-title {
+    color: white !important;
+}
+
+/* Form Dark Mode Styling */
+body.dark-mode .form-label {
+    color: #e2e8f0 !important;
+    font-weight: 500 !important;
+}
+
+body.dark-mode .form-label i {
+    color: #f26b37 !important;
+}
+
+body.dark-mode .text-danger {
+    color: #ef4444 !important;
+}
+
+body.dark-mode .form-control {
+    background: #374151 !important;
+    border-color: #4b5563 !important;
+    color: #e2e8f0 !important;
+}
+
+body.dark-mode .form-control:focus {
+    background: #374151 !important;
+    border-color: #f26b37 !important;
+    color: #e2e8f0 !important;
+    box-shadow: 0 0 0 0.2rem rgba(242, 107, 55, 0.25) !important;
+}
+
+body.dark-mode .form-control::placeholder {
+    color: #9ca3af !important;
+}
+
+body.dark-mode .form-select {
+    background: #374151 !important;
+    border-color: #4b5563 !important;
+    color: #e2e8f0 !important;
+    background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3e%3cpath fill='none' stroke='%23ffffff' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M2 5l6 6 6-6'/%3e%3c/svg%3e") !important;
+}
+
+body.dark-mode .form-select option {
+    background: #374151 !important;
+    color: #e2e8f0 !important;
+}
+
+body.dark-mode .invalid-feedback {
+    color: #ef4444 !important;
+}
+
+body.dark-mode .form-control.is-invalid {
+    border-color: #ef4444 !important;
+    box-shadow: 0 0 0 0.2rem rgba(239, 68, 68, 0.25) !important;
+}
+
+/* Preview Section Dark Mode */
+body.dark-mode .preview-section {
+    background: #374151 !important;
+    border-color: #4b5563 !important;
+}
+
+body.dark-mode .preview-section h6 {
+    color: #f26b37 !important;
+}
+
+body.dark-mode .preview-item {
+    border-bottom-color: #4b5563 !important;
+}
+
+body.dark-mode .preview-label {
+    color: #9ca3af !important;
+}
+
+body.dark-mode .preview-value {
+    color: #e2e8f0 !important;
+}
+
+/* Tab styling for dark mode */
+body.dark-mode .nav-tabs {
+    border-bottom: 2px solid #3a3d4a !important;
+    background: linear-gradient(135deg, #1f2937 0%, #111827 100%) !important;
+}
+
+body.dark-mode .nav-tabs .nav-link {
+    color: #9ca3af !important;
+    background: transparent !important;
+}
+
+body.dark-mode .nav-tabs .nav-link:hover {
+    background: rgba(242, 107, 55, 0.2) !important;
+    color: #f26b37 !important;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.3) !important;
+}
+
+body.dark-mode .nav-tabs .nav-link.active {
+    background: #2a2d3f !important;
+    color: #f26b37 !important;
+    box-shadow: 0 -1px 4px rgba(0,0,0,0.3) !important;
+}
+
+body.dark-mode .nav-tabs .nav-link.active::after {
+    background: #f26b37 !important;
+}
+
+body.dark-mode .tab-content {
+    border: 2px solid #3a3d4a !important;
+    border-top: none !important;
+    background: #2a2d3f !important;
+}
+
+/* Alert dark mode */
+body.dark-mode .alert-info {
+    background: #1e293b !important;
+    border-color: #334155 !important;
+    color: #cbd5e1 !important;
+}
+
+body.dark-mode .alert-warning {
+    background: #451a03 !important;
+    border-color: #92400e !important;
+    color: #fbbf24 !important;
+}
+
+/* Ensure tabs work properly */
+.tab-content {
+    border: 2px solid #e2e8f0;
+    border-top: none;
+    background: white;
+    height: 450px;
+    border-radius: 0 0 8px 8px;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+}
+
+.tab-pane {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 15px;
+}
+
+.tab-pane.active {
+    display: flex !important;
+}
+
+.form-container, .preview-container {
+    width: 100%;
+    max-width: 100%;
+    height: 100%;
+    overflow-y: auto;
+    padding-right: 10px;
+}
+
+.form-container::-webkit-scrollbar, .preview-container::-webkit-scrollbar {
+    width: 6px;
+}
+
+.form-container::-webkit-scrollbar-track, .preview-container::-webkit-scrollbar-track {
+    background: #f1f1f1;
+    border-radius: 3px;
+}
+
+.form-container::-webkit-scrollbar-thumb, .preview-container::-webkit-scrollbar-thumb {
+    background: #c1c1c1;
+    border-radius: 3px;
+}
+
+.form-container::-webkit-scrollbar-thumb:hover, .preview-container::-webkit-scrollbar-thumb:hover {
+    background: #a8a8a8;
+}
+
+/* Dark mode scrollbar */
+body.dark-mode .form-container::-webkit-scrollbar-track, 
+body.dark-mode .preview-container::-webkit-scrollbar-track {
+    background: #374151;
+}
+
+body.dark-mode .form-container::-webkit-scrollbar-thumb, 
+body.dark-mode .preview-container::-webkit-scrollbar-thumb {
+    background: #6b7280;
+}
+
+body.dark-mode .form-container::-webkit-scrollbar-thumb:hover, 
+body.dark-mode .preview-container::-webkit-scrollbar-thumb:hover {
+    background: #9ca3af;
+}
+
+/* Modal content styling */
+.modal-content {
+    border-radius: 12px;
+    overflow: hidden;
+}
+
+/* Form label styling */
+.form-label {
+    font-weight: 600;
+    color: #374151;
+    margin-bottom: 8px;
+    font-size: 0.9rem;
+}
+
+.compact-label {
+    font-weight: 600;
+    color: #374151;
+    margin-bottom: 4px;
+    font-size: 0.8rem;
+}
+
+.compact-input {
+    padding: 6px 10px !important;
+    font-size: 0.85rem !important;
+    height: 35px !important;
+}
+
+textarea.compact-input {
+    height: auto !important;
+    min-height: 60px !important;
+    resize: vertical;
+}
+
+.compact-alert {
+    padding: 8px 12px !important;
+    margin-bottom: 0 !important;
+    font-size: 0.8rem !important;
+}
+
+body.dark-mode .form-label {
+    color: #e2e8f0 !important;
+}
+
+body.dark-mode .compact-label {
+    color: #e2e8f0 !important;
+}
+
+/* Alert styling */
+.alert-info {
+    background: linear-gradient(135deg, #dbeafe 0%, #bfdbfe 100%);
+    border: 2px solid #93c5fd;
+    color: #1e40af;
+    border-radius: 8px;
+}
+
+body.dark-mode .alert-info {
+    background: linear-gradient(135deg, #1e3a8a 0%, #1e40af 100%) !important;
+    border: 2px solid #3b82f6 !important;
+    color: #dbeafe !important;
+}
+
+.nav-tabs {
+    border-bottom: 2px solid #e2e8f0;
+    background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+    margin: 0;
+    padding: 0 25px;
+    position: relative;
+}
+
+.nav-tabs .nav-link {
+    border: none !important;
+    border-radius: 8px 8px 0 0 !important;
+    color: #6c757d;
+    padding: 15px 25px;
+    font-weight: 600;
+    font-size: 0.95rem;
+    margin-right: 5px;
+    transition: all 0.3s ease;
+    background: transparent;
+    position: relative;
+    z-index: 2;
+}
+
+.nav-tabs .nav-link:hover {
+    border: none !important;
+    background: rgba(242, 107, 55, 0.1) !important;
+    color: #f26b37 !important;
+    transform: translateY(-1px);
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.nav-tabs .nav-link.active {
+    color: #f26b37 !important;
+    background: white !important;
+    border: none !important;
+    font-weight: 700;
+    box-shadow: 0 -1px 4px rgba(0,0,0,0.1);
+    position: relative;
+    z-index: 3;
+}
+
+.nav-tabs .nav-link.active::after {
+    content: '';
+    position: absolute;
+    bottom: -2px;
+    left: 0;
+    right: 0;
+    height: 2px;
+    background: #f26b37;
+    z-index: 4;
+}
+
+/* Preview section styling */
+.preview-section {
+    background: #f8f9fa;
+    border: 1px solid #dee2e6;
+    border-radius: 8px;
+    padding: 20px;
+}
+
+.preview-item {
+    border-bottom: 1px solid #dee2e6;
+    padding-bottom: 10px;
+    margin-bottom: 15px;
+}
+
+.preview-item:last-child {
+    border-bottom: none;
+    margin-bottom: 0;
+}
+
+.preview-label {
+    font-size: 0.875rem;
+    color: #6c757d;
+    margin-bottom: 2px;
+    font-weight: 500;
+}
+
+.preview-value {
+    font-weight: 600;
+    color: #2c3e50;
+    word-wrap: break-word;
+}
+
+/* Dark mode preview styling */
+body.dark-mode .preview-section {
+    background: #374151 !important;
+    border: 1px solid #4b5563 !important;
+}
+
+body.dark-mode .preview-item {
+    border-bottom: 1px solid #4b5563 !important;
+}
+
+body.dark-mode .preview-label {
+    color: #9ca3af !important;
+}
+
+body.dark-mode .preview-value {
+    color: #e2e8f0 !important;
+}
 </style>
 
 <div class="new-karyawan">
@@ -886,7 +1572,7 @@ body.dark-mode .pagination .page-item.disabled .page-link {
             </div>
             <div style="text-align: right;">
                 <div id="realTimeClock" style="font-weight: 600; color: white; font-size: 1rem; margin-bottom: 5px;"></div>
-                <small style="opacity: 0.8;" id="current-day">{{ date('l, d F Y') }}</small>
+                <small style="opacity: 0.8;">Senin, 1 September 2025</small>
             </div>
         </div>
     </div>
@@ -1001,73 +1687,138 @@ body.dark-mode .pagination .page-item.disabled .page-link {
                     </div>
                 </div>
                 <div class="new-card-body">
-                    <div class="table-responsive">
-                        <table class="table table-sm">
+                    <div class="table-responsive" id="karyawan-table-container">
+                        <table class="table table-sm table-fixed">
                             <thead style="background: white;">
                                 <tr>
-                                    <th style="font-size: 0.8rem; font-weight: 600; color: #64748b; border: none;">#</th>
-                                    <th style="font-size: 0.8rem; font-weight: 600; color: #64748b; border: none;">Foto</th>
-                                    <th style="font-size: 0.8rem; font-weight: 600; color: #64748b; border: none;">Nama Karyawan</th>
-                                    <th style="font-size: 0.8rem; font-weight: 600; color: #64748b; border: none;">Jabatan</th>
-                                    <th style="font-size: 0.8rem; font-weight: 600; color: #64748b; border: none;">Departemen</th>
-                                    <th style="font-size: 0.8rem; font-weight: 600; color: #64748b; border: none;">Status</th>
-                                    <th style="font-size: 0.8rem; font-weight: 600; color: #64748b; border: none;">Bergabung</th>
-                                    <th style="font-size: 0.8rem; font-weight: 600; color: #64748b; border: none; text-align: center;">Aksi</th>
+                                    <th style="font-size: 0.8rem; font-weight: 600; color: #64748b; border: none; width: 5%;">#</th>
+                                    <th style="font-size: 0.8rem; font-weight: 600; color: #64748b; border: none; width: 8%;">Foto</th>
+                                    <th style="font-size: 0.8rem; font-weight: 600; color: #64748b; border: none; width: 25%;">Nama Karyawan</th>
+                                    <th style="font-size: 0.8rem; font-weight: 600; color: #64748b; border: none; width: 15%;">Jabatan</th>
+                                    <th style="font-size: 0.8rem; font-weight: 600; color: #64748b; border: none; width: 15%;">Departemen</th>
+                                    <th style="font-size: 0.8rem; font-weight: 600; color: #64748b; border: none; width: 12%;">Status</th>
+                                    <th style="font-size: 0.8rem; font-weight: 600; color: #64748b; border: none; width: 12%;">Bergabung</th>
+                                    <th style="font-size: 0.8rem; font-weight: 600; color: #64748b; border: none; text-align: center; width: 8%;">Aksi</th>
                                 </tr>
                             </thead>
-                            <tbody>
+                            <tbody id="karyawan-table-body">
                                 @forelse($karyawan ?? [] as $index => $emp)
                                 <tr>
-                                    <td style="font-size: 0.85rem; border: none; padding: 12px 0;">{{ $loop->iteration }}</td>
-                                    <td style="font-size: 0.85rem; border: none; padding: 12px 0;">
+                                    <td style="font-size: 0.85rem; padding: 12px 8px; width: 5%;">{{ $loop->iteration }}</td>
+                                    <td style="font-size: 0.85rem; padding: 12px 8px; width: 8%;">
                                         <img src="/image/default-avatar.png" alt="Foto" style="width: 35px; height: 35px; border-radius: 50%; object-fit: cover;">
                                     </td>
-                                    <td style="font-size: 0.85rem; border: none; padding: 12px 0;">
-                                        <div>
-                                            <strong style="color: #1e293b;">{{ $emp->nama }}</strong>
-                                            <br>
-                                            <small style="color: #64748b;">{{ $emp->email }}</small>
+                                    <td style="font-size: 0.85rem; padding: 12px 8px; width: 25%;">
+                                        <div style="max-width: 200px;">
+                                            <strong style="color: #1e293b; display: block; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">{{ $emp->nama }}</strong>
+                                            <small style="color: #64748b; display: block; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">{{ $emp->email }}</small>
                                         </div>
                                     </td>
-                                    <td style="font-size: 0.85rem; border: none; padding: 12px 0;">
-                                        <strong style="color: #1e293b;">{{ $emp->divisi }}</strong>
+                                    <td style="font-size: 0.85rem; padding: 12px 8px; width: 15%;">
+                                        <strong style="color: #1e293b; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; display: block;">{{ $emp->divisi }}</strong>
                                     </td>
-                                    <td style="font-size: 0.85rem; border: none; padding: 12px 0;">
-                                        <span class="badge-department">{{ $emp->divisi }}</span>
+                                    <td style="font-size: 0.85rem; padding: 12px 8px; width: 15%;">
+                                        <span class="badge-department" style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis; display: inline-block; max-width: 100%;">{{ $emp->divisi }}</span>
                                     </td>
-                                    <td style="font-size: 0.85rem; border: none; padding: 12px 0;">
+                                    <td style="font-size: 0.85rem; padding: 12px 8px; width: 12%;">
                                         @if($emp->status === 'Aktif')
                                             <span class="badge-active">{{ $emp->status }}</span>
                                         @else
                                             <span class="badge-inactive">{{ $emp->status }}</span>
                                         @endif
                                     </td>
-                                    <td style="font-size: 0.85rem; border: none; padding: 12px 0;">
-                                        <small style="color: #64748b;">{{ $emp->created_at ? $emp->created_at->format('d M Y') : '-' }}</small>
+                                    <td style="font-size: 0.85rem; padding: 12px 8px; width: 12%;">
+                                        <small style="color: #64748b; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; display: block;">{{ $emp->created_at ? $emp->created_at->format('d M Y') : '-' }}</small>
                                     </td>
-                                    <td style="font-size: 0.85rem; border: none; padding: 12px 0; text-align: center;">
+                                    <td style="font-size: 0.85rem; padding: 12px 8px; text-align: center; position: relative; width: 8%;">
                                         <div class="action-dropdown">
-                                            <button class="action-dropdown-btn" data-employee-id="{{ $emp->id_karyawan }}">
+                                            <button class="action-dropdown-btn" data-employee-id="{{ $emp->id_karyawan }}" type="button" onclick="toggleTableDropdown(this, event)">
                                                 <i class="fas fa-ellipsis-v"></i>
                                             </button>
                                             <div class="action-dropdown-menu">
                                                 <button class="action-dropdown-item view-item" onclick="viewEmployee({{ $emp->id_karyawan }})">
-                                                    <i class="fas fa-eye me-2"></i>Detail
+                                                    <i class="fas fa-eye"></i>Detail
                                                 </button>
                                                 <button class="action-dropdown-item edit-item" onclick="editEmployee({{ $emp->id_karyawan }})">
-                                                    <i class="fas fa-edit me-2"></i>Edit
+                                                    <i class="fas fa-edit"></i>Edit
                                                 </button>
                                                 @if($emp->status === 'Aktif')
-                                                    <button class="action-dropdown-item" style="color: #f59e0b;" onclick="toggleStatus({{ $emp->id_karyawan }}, 'Non-Aktif')">
-                                                        <i class="fas fa-user-slash me-2"></i>Non-Aktifkan
+                                                    <button class="action-dropdown-item warning-item" onclick="toggleStatus({{ $emp->id_karyawan }}, 'Non-Aktif')">
+                                                        <i class="fas fa-user-slash"></i>Non-Aktifkan
                                                     </button>
                                                 @else
-                                                    <button class="action-dropdown-item" style="color: #10b981;" onclick="toggleStatus({{ $emp->id_karyawan }}, 'Aktif')">
-                                                        <i class="fas fa-user-check me-2"></i>Aktifkan
+                                                    <button class="action-dropdown-item view-item" onclick="toggleStatus({{ $emp->id_karyawan }}, 'Aktif')">
+                                                        <i class="fas fa-user-check"></i>Aktifkan
                                                     </button>
                                                 @endif
                                                 <button class="action-dropdown-item delete-item" onclick="deleteEmployee({{ $emp->id_karyawan }})">
-                                                    <i class="fas fa-trash me-2"></i>Hapus
+                                                    <i class="fas fa-trash"></i>Hapus
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </td>
+                                </tr>
+                                @empty
+                                <tr>
+                                    <td colspan="8" style="text-align: center; padding: 40px; color: #64748b;">
+                                        <i class="fas fa-users fa-2x mb-3" style="opacity: 0.3;"></i>
+                                        <br>
+                                        Tidak ada data karyawan
+                                    </td>
+                                </tr>
+                                @endforelse
+                            </tbody>
+                                @forelse($karyawan ?? [] as $index => $emp)
+                                <tr>
+                                    <td style="font-size: 0.85rem; padding: 12px 8px; width: 5%;">{{ $loop->iteration }}</td>
+                                    <td style="font-size: 0.85rem; padding: 12px 8px; width: 8%;">
+                                        <img src="/image/default-avatar.png" alt="Foto" style="width: 35px; height: 35px; border-radius: 50%; object-fit: cover;">
+                                    </td>
+                                    <td style="font-size: 0.85rem; padding: 12px 8px; width: 25%;">
+                                        <div style="max-width: 200px;">
+                                            <strong style="color: #1e293b; display: block; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">{{ $emp->nama }}</strong>
+                                            <small style="color: #64748b; display: block; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">{{ $emp->email }}</small>
+                                        </div>
+                                    </td>
+                                    <td style="font-size: 0.85rem; padding: 12px 8px; width: 15%;">
+                                        <strong style="color: #1e293b; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; display: block;">{{ $emp->divisi }}</strong>
+                                    </td>
+                                    <td style="font-size: 0.85rem; padding: 12px 8px; width: 15%;">
+                                        <span class="badge-department" style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis; display: inline-block; max-width: 100%;">{{ $emp->divisi }}</span>
+                                    </td>
+                                    <td style="font-size: 0.85rem; padding: 12px 8px; width: 12%;">
+                                        @if($emp->status === 'Aktif')
+                                            <span class="badge-active">{{ $emp->status }}</span>
+                                        @else
+                                            <span class="badge-inactive">{{ $emp->status }}</span>
+                                        @endif
+                                    </td>
+                                    <td style="font-size: 0.85rem; padding: 12px 8px; width: 12%;">
+                                        <small style="color: #64748b; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; display: block;">{{ $emp->created_at ? $emp->created_at->format('d M Y') : '-' }}</small>
+                                    </td>
+                                    <td style="font-size: 0.85rem; padding: 12px 8px; text-align: center; position: relative; width: 8%;">
+                                        <div class="action-dropdown">
+                                            <button class="action-dropdown-btn" data-employee-id="{{ $emp->id_karyawan }}" type="button" onclick="toggleTableDropdown(this, event)">
+                                                <i class="fas fa-ellipsis-v"></i>
+                                            </button>
+                                            <div class="action-dropdown-menu">
+                                                <button class="action-dropdown-item view-item" onclick="viewEmployee({{ $emp->id_karyawan }})">
+                                                    <i class="fas fa-eye"></i>Detail
+                                                </button>
+                                                <button class="action-dropdown-item edit-item" onclick="editEmployee({{ $emp->id_karyawan }})">
+                                                    <i class="fas fa-edit"></i>Edit
+                                                </button>
+                                                @if($emp->status === 'Aktif')
+                                                    <button class="action-dropdown-item warning-item" onclick="toggleStatus({{ $emp->id_karyawan }}, 'Non-Aktif')">
+                                                        <i class="fas fa-user-slash"></i>Non-Aktifkan
+                                                    </button>
+                                                @else
+                                                    <button class="action-dropdown-item view-item" onclick="toggleStatus({{ $emp->id_karyawan }}, 'Aktif')">
+                                                        <i class="fas fa-user-check"></i>Aktifkan
+                                                    </button>
+                                                @endif
+                                                <button class="action-dropdown-item delete-item" onclick="deleteEmployee({{ $emp->id_karyawan }})">
+                                                    <i class="fas fa-trash"></i>Hapus
                                                 </button>
                                             </div>
                                         </div>
@@ -1087,11 +1838,11 @@ body.dark-mode .pagination .page-item.disabled .page-link {
 
                         <!-- Pagination -->
                         @if(isset($karyawan) && $karyawan->hasPages())
-                        <div class="pagination-container">
-                            <div class="pagination-info">
+                        <div class="pagination-container" id="pagination-container">
+                            <div class="pagination-info" id="pagination-info">
                                 Menampilkan {{ $karyawan->firstItem() ?? 1 }}-{{ $karyawan->lastItem() ?? $karyawan->count() }} dari {{ $karyawan->total() ?? $karyawan->count() }} karyawan
                             </div>
-                            <div class="pagination-wrapper">
+                            <div class="pagination-wrapper" id="pagination-wrapper">
                                 {{ $karyawan->links('pagination::bootstrap-4') }}
                             </div>
                         </div>
@@ -1285,92 +2036,199 @@ body.dark-mode .pagination .page-item.disabled .page-link {
                 </h5>
                 <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
-            <div class="modal-body">
-                <form id="tambahKaryawanForm">
-                    <div class="row g-3">
-                        <div class="col-md-6">
-                            <label for="nama" class="form-label">
-                                <i class="fas fa-user me-1"></i>Nama Lengkap <span class="text-danger">*</span>
-                            </label>
-                            <input type="text" class="form-control" id="nama" name="nama" required>
-                            <div class="invalid-feedback"></div>
+            <div class="modal-body" style="padding: 0;">
+                <!-- Tab Navigation -->
+                <ul class="nav nav-tabs" id="karyawanTab" role="tablist">
+                    <li class="nav-item" role="presentation">
+                        <button class="nav-link active" id="form-tab" data-bs-toggle="tab" data-bs-target="#form-panel" type="button" role="tab" aria-controls="form-panel" aria-selected="true">
+                            <i class="fas fa-edit me-2"></i>Form Input
+                        </button>
+                    </li>
+                    <li class="nav-item" role="presentation">
+                        <button class="nav-link" id="preview-tab" data-bs-toggle="tab" data-bs-target="#preview-panel" type="button" role="tab" aria-controls="preview-panel" aria-selected="false">
+                            <i class="fas fa-eye me-2"></i>Preview Data
+                        </button>
+                    </li>
+                </ul>
+                
+                <!-- Tab Content -->
+                <div class="tab-content" id="karyawanTabContent">
+                    <!-- Form Panel -->
+                    <div class="tab-pane fade show active" id="form-panel" role="tabpanel" aria-labelledby="form-tab">
+                        <div class="form-container">
+                            <form id="tambahKaryawanForm">
+                                <div class="row g-2">
+                                    <div class="col-md-4">
+                                        <label for="nama" class="form-label compact-label">
+                                            <i class="fas fa-user me-1"></i>Nama Lengkap <span class="text-danger">*</span>
+                                        </label>
+                                        <input type="text" class="form-control compact-input" id="nama" name="nama" required>
+                                        <div class="invalid-feedback"></div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <label for="email" class="form-label compact-label">
+                                            <i class="fas fa-envelope me-1"></i>Email <span class="text-danger">*</span>
+                                        </label>
+                                        <input type="email" class="form-control compact-input" id="email" name="email" required>
+                                        <div class="invalid-feedback"></div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <label for="tanggal_lahir" class="form-label compact-label">
+                                            <i class="fas fa-calendar me-1"></i>Tanggal Lahir <span class="text-danger">*</span>
+                                        </label>
+                                        <input type="date" class="form-control compact-input" id="tanggal_lahir" name="tanggal_lahir" required>
+                                        <div class="invalid-feedback"></div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <label for="divisi" class="form-label compact-label">
+                                            <i class="fas fa-building me-1"></i>Divisi <span class="text-danger">*</span>
+                                        </label>
+                                        <select class="form-control compact-input" id="divisi" name="divisi" required>
+                                            <option value="">Pilih Divisi</option>
+                                            @foreach($divisiList ?? [] as $divisi)
+                                                <option value="{{ $divisi }}">{{ $divisi }}</option>
+                                            @endforeach
+                                            <option value="other">Divisi Lainnya</option>
+                                        </select>
+                                        <div class="invalid-feedback"></div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <label for="nomer_telepon" class="form-label compact-label">
+                                            <i class="fas fa-phone me-1"></i>Nomor Telepon <span class="text-danger">*</span>
+                                        </label>
+                                        <input type="tel" class="form-control compact-input" id="nomer_telepon" name="nomer_telepon" placeholder="08xxxxxxxxxx" required>
+                                        <div class="invalid-feedback"></div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <label for="id_shift" class="form-label compact-label">
+                                            <i class="fas fa-clock me-1"></i>Shift <span class="text-danger">*</span>
+                                        </label>
+                                        <select class="form-control compact-input" id="id_shift" name="id_shift" required>
+                                            <option value="">Pilih Shift</option>
+                                            @foreach($shiftList ?? [] as $shift)
+                                                <option value="{{ $shift->id_shift }}">
+                                                    {{ $shift->nama_shift }} ({{ date('H:i', strtotime($shift->jam_mulai)) }}-{{ date('H:i', strtotime($shift->jam_selesai)) }})
+                                                </option>
+                                            @endforeach
+                                        </select>
+                                        <div class="invalid-feedback"></div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <label for="status" class="form-label compact-label">
+                                            <i class="fas fa-toggle-on me-1"></i>Status <span class="text-danger">*</span>
+                                        </label>
+                                        <select class="form-control compact-input" id="status" name="status" required>
+                                            <option value="Aktif">Aktif</option>
+                                            <option value="Non-Aktif">Non-Aktif</option>
+                                        </select>
+                                        <div class="invalid-feedback"></div>
+                                    </div>
+                                    <div class="col-md-6" id="divisiLainnyaGroup" style="display: none;">
+                                        <label for="divisi_lainnya" class="form-label compact-label">
+                                            <i class="fas fa-plus me-1"></i>Nama Divisi Baru
+                                        </label>
+                                        <input type="text" class="form-control compact-input" id="divisi_lainnya" name="divisi_lainnya">
+                                    </div>
+                                    <div class="col-12">
+                                        <label for="alamat" class="form-label compact-label">
+                                            <i class="fas fa-map-marker-alt me-1"></i>Alamat <span class="text-danger">*</span>
+                                        </label>
+                                        <textarea class="form-control compact-input" id="alamat" name="alamat" rows="2" required></textarea>
+                                        <div class="invalid-feedback"></div>
+                                    </div>
+                                </div>
+
+                                <div class="row mt-2">
+                                    <div class="col-12">
+                                        <div class="alert alert-info compact-alert">
+                                            <i class="fas fa-info-circle me-2"></i>
+                                            <small><strong>Petunjuk:</strong> Klik tab "Preview Data" untuk melihat ringkasan sebelum menyimpan.</small>
+                                        </div>
+                                    </div>
+                                </div>
+                            </form>
                         </div>
-                        <div class="col-md-6">
-                            <label for="email" class="form-label">
-                                <i class="fas fa-envelope me-1"></i>Email <span class="text-danger">*</span>
-                            </label>
-                            <input type="email" class="form-control" id="email" name="email" required>
-                            <div class="invalid-feedback"></div>
+                    </div>
+
+                    <!-- Preview Panel -->
+                    <div class="tab-pane fade" id="preview-panel" role="tabpanel" aria-labelledby="preview-tab">
+                        <div class="preview-container">
+                            <div class="preview-section" style="background: #f8f9fa; border: 1px solid #dee2e6; border-radius: 8px; padding: 20px;">
+                                <h6 style="color: #f26b37; margin-bottom: 20px;">
+                                    <i class="fas fa-eye me-2"></i>Preview Data Karyawan
+                                </h6>
+
+                                <div class="row g-3">
+                                    <div class="col-md-6">
+                                        <div class="preview-item" style="border-bottom: 1px solid #dee2e6; padding-bottom: 10px; margin-bottom: 15px;">
+                                            <div class="preview-label" style="font-size: 0.875rem; color: #6c757d; margin-bottom: 2px;">Nama Lengkap</div>
+                                            <div class="preview-value" id="preview-nama" style="font-weight: 600; color: #2c3e50;">-</div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="preview-item" style="border-bottom: 1px solid #dee2e6; padding-bottom: 10px; margin-bottom: 15px;">
+                                            <div class="preview-label" style="font-size: 0.875rem; color: #6c757d; margin-bottom: 2px;">Email</div>
+                                            <div class="preview-value" id="preview-email" style="font-weight: 600; color: #2c3e50;">-</div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="preview-item" style="border-bottom: 1px solid #dee2e6; padding-bottom: 10px; margin-bottom: 15px;">
+                                            <div class="preview-label" style="font-size: 0.875rem; color: #6c757d; margin-bottom: 2px;">Divisi</div>
+                                            <div class="preview-value" id="preview-divisi" style="font-weight: 600; color: #2c3e50;">-</div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="preview-item" style="border-bottom: 1px solid #dee2e6; padding-bottom: 10px; margin-bottom: 15px;">
+                                            <div class="preview-label" style="font-size: 0.875rem; color: #6c757d; margin-bottom: 2px;">Tanggal Lahir</div>
+                                            <div class="preview-value" id="preview-tanggal-lahir" style="font-weight: 600; color: #2c3e50;">-</div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="preview-item" style="border-bottom: 1px solid #dee2e6; padding-bottom: 10px; margin-bottom: 15px;">
+                                            <div class="preview-label" style="font-size: 0.875rem; color: #6c757d; margin-bottom: 2px;">Nomor Telepon</div>
+                                            <div class="preview-value" id="preview-telepon" style="font-weight: 600; color: #2c3e50;">-</div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="preview-item" style="border-bottom: 1px solid #dee2e6; padding-bottom: 10px; margin-bottom: 15px;">
+                                            <div class="preview-label" style="font-size: 0.875rem; color: #6c757d; margin-bottom: 2px;">Shift</div>
+                                            <div class="preview-value" id="preview-shift" style="font-weight: 600; color: #2c3e50;">-</div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="preview-item" style="border-bottom: 1px solid #dee2e6; padding-bottom: 10px; margin-bottom: 15px;">
+                                            <div class="preview-label" style="font-size: 0.875rem; color: #6c757d; margin-bottom: 2px;">Status</div>
+                                            <div class="preview-value" id="preview-status" style="font-weight: 600; color: #2c3e50;">-</div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="preview-item" style="border-bottom: 1px solid #dee2e6; padding-bottom: 10px; margin-bottom: 15px;">
+                                            <div class="preview-label" style="font-size: 0.875rem; color: #6c757d; margin-bottom: 2px;">Usia</div>
+                                            <div class="preview-value" id="preview-usia" style="font-weight: 600; color: #2c3e50;">-</div>
+                                        </div>
+                                    </div>
+                                    <div class="col-12">
+                                        <div class="preview-item">
+                                            <div class="preview-label" style="font-size: 0.875rem; color: #6c757d; margin-bottom: 2px;">Alamat</div>
+                                            <div class="preview-value" id="preview-alamat" style="font-weight: 600; color: #2c3e50;">-</div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="alert alert-warning mt-3">
+                                    <i class="fas fa-exclamation-triangle me-2"></i>
+                                    <small><strong>Perhatian:</strong> Pastikan semua data sudah benar sebelum menyimpan.</small>
+                                </div>
+                            </div>
                         </div>
-                        <div class="col-md-6">
-                            <label for="divisi" class="form-label">
-                                <i class="fas fa-building me-1"></i>Divisi <span class="text-danger">*</span>
-                            </label>
-                            <select class="form-control" id="divisi" name="divisi" required>
-                                <option value="">Pilih Divisi</option>
-                                @foreach($divisiList ?? [] as $divisi)
-                                    <option value="{{ $divisi }}">{{ $divisi }}</option>
-                                @endforeach
-                                <option value="other">Divisi Lainnya</option>
-                            </select>
-                            <div class="invalid-feedback"></div>
-                        </div>
-                        <div class="col-md-6" id="divisiLainnyaGroup" style="display: none;">
-                            <label for="divisi_lainnya" class="form-label">
-                                <i class="fas fa-plus me-1"></i>Nama Divisi Baru
-                            </label>
-                            <input type="text" class="form-control" id="divisi_lainnya" name="divisi_lainnya">
-                        </div>
-                        <div class="col-md-6">
-                            <label for="tanggal_lahir" class="form-label">
-                                <i class="fas fa-calendar me-1"></i>Tanggal Lahir <span class="text-danger">*</span>
-                            </label>
-                            <input type="date" class="form-control" id="tanggal_lahir" name="tanggal_lahir" required>
-                            <div class="invalid-feedback"></div>
-                        </div>
-                        <div class="col-md-6">
-                            <label for="nomer_telepon" class="form-label">
-                                <i class="fas fa-phone me-1"></i>Nomor Telepon <span class="text-danger">*</span>
-                            </label>
-                            <input type="tel" class="form-control" id="nomer_telepon" name="nomer_telepon" placeholder="08xxxxxxxxxx" required>
-                            <div class="invalid-feedback"></div>
-                        </div>
-                        <div class="col-md-6">
-                            <label for="id_shift" class="form-label">
-                                <i class="fas fa-clock me-1"></i>Shift <span class="text-danger">*</span>
-                            </label>
-                            <select class="form-control" id="id_shift" name="id_shift" required>
-                                <option value="">Pilih Shift</option>
-                                @foreach($shiftList ?? [] as $shift)
-                                    <option value="{{ $shift->id_shift }}">
-                                        {{ $shift->nama_shift }} ({{ date('H:i', strtotime($shift->jam_mulai)) }}-{{ date('H:i', strtotime($shift->jam_selesai)) }})
-                                    </option>
-                                @endforeach
-                            </select>
-                            <div class="invalid-feedback"></div>
-                        </div>
-                        <div class="col-md-6">
-                            <label for="status" class="form-label">
-                                <i class="fas fa-toggle-on me-1"></i>Status <span class="text-danger">*</span>
-                            </label>
-                            <select class="form-control" id="status" name="status" required>
-                                <option value="Aktif">Aktif</option>
-                                <option value="Non-Aktif">Non-Aktif</option>
-                            </select>
-                            <div class="invalid-feedback"></div>
-                        </div>
-                        <div class="col-12">
-                            <label for="alamat" class="form-label">
-                                <i class="fas fa-map-marker-alt me-1"></i>Alamat <span class="text-danger">*</span>
-                            </label>
-                            <textarea class="form-control" id="alamat" name="alamat" rows="3" required></textarea>
-                            <div class="invalid-feedback"></div>
+                    </div>
+                </div>
                         </div>
                     </div>
                 </form>
             </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">
+            <div class="modal-footer d-flex justify-content-center">
+                <button type="button" class="btn btn-outline-secondary me-3" data-bs-dismiss="modal">
                     <i class="fas fa-times me-1"></i>Batal
                 </button>
                 <button type="button" class="btn btn-primary" id="submitKaryawan">
@@ -1382,28 +2240,31 @@ body.dark-mode .pagination .page-item.disabled .page-link {
 </div>
 
 <script>
-// Update current time
-function updateDateTime() {
+// Real-time clock function (same as dashboard)
+function updateRealTimeClock() {
     const now = new Date();
+    
+    // Format jam dengan timezone WIB (UTC+7)
     const options = {
         timeZone: 'Asia/Jakarta',
-        weekday: 'long',
-        year: 'numeric',
-        month: 'long',
-        day: 'numeric'
+        hour12: false,
+        hour: '2-digit',
+        minute: '2-digit',
+        second: '2-digit'
     };
-    const dateString = now.toLocaleDateString('id-ID', options);
     
-    const dateElement = document.getElementById('current-date');
-    if (dateElement) {
-        dateElement.textContent = dateString;
+    const timeString = now.toLocaleTimeString('id-ID', options);
+    const clockElement = document.getElementById('realTimeClock');
+    if (clockElement) {
+        clockElement.textContent = timeString + ' WIB';
     }
 }
 
 // Initialize
 document.addEventListener('DOMContentLoaded', function() {
-    updateDateTime();
-    setInterval(updateDateTime, 60000); // Update every minute
+    // Update clock immediately and then every second
+    updateRealTimeClock();
+    setInterval(updateRealTimeClock, 1000);
 });
 
 // Search functionality with AJAX
@@ -1729,32 +2590,106 @@ function updateSearchPaginationInfo(data) {
     }
 }
 
-function initializeDropdowns() {
-    // Remove existing event listeners to avoid duplicates
-    document.querySelectorAll('.action-dropdown-btn').forEach(button => {
-        // Clone node to remove all event listeners
-        const newButton = button.cloneNode(true);
-        button.parentNode.replaceChild(newButton, button);
-        
-        // Add new event listener
-        newButton.addEventListener('click', function(e) {
-            e.preventDefault();
-            e.stopPropagation();
-            
-            const dropdown = this.nextElementSibling;
-            const allDropdowns = document.querySelectorAll('.action-dropdown-menu');
-            
-            // Close all other dropdowns
-            allDropdowns.forEach(d => {
-                if (d !== dropdown) {
-                    d.style.display = 'none';
-                }
-            });
-            
-            // Toggle current dropdown
-            dropdown.style.display = dropdown.style.display === 'block' ? 'none' : 'block';
-        });
+// Specific function for table dropdown to avoid conflict with sidebar
+function toggleTableDropdown(button, event) {
+    // Prevent event bubbling to avoid triggering other dropdowns
+    if (event) {
+        event.preventDefault();
+        event.stopPropagation();
+        event.stopImmediatePropagation();
+    }
+    
+    console.log('toggleTableDropdown called', button);
+    
+    const dropdown = button.closest('.action-dropdown');
+    const allTableDropdowns = document.querySelectorAll('.table-responsive .action-dropdown');
+    
+    // Close all other table dropdowns only (not sidebar dropdowns)
+    allTableDropdowns.forEach(d => {
+        if (d !== dropdown) {
+            d.classList.remove('show');
+        }
     });
+    
+    // Toggle current dropdown
+    dropdown.classList.toggle('show');
+    
+    console.log('Table dropdown show state:', dropdown.classList.contains('show'));
+    
+    return false; // Prevent any further event propagation
+}
+
+// Simple dropdown toggle function
+function toggleDropdown(button) {
+    console.log('toggleDropdown called', button);
+    
+    const dropdown = button.closest('.action-dropdown');
+    const allDropdowns = document.querySelectorAll('.action-dropdown');
+    
+    // Close all other dropdowns
+    allDropdowns.forEach(d => {
+        if (d !== dropdown) {
+            d.classList.remove('show');
+        }
+    });
+    
+    // Toggle current dropdown
+    dropdown.classList.toggle('show');
+    
+    console.log('Dropdown show state:', dropdown.classList.contains('show'));
+}
+
+function initializeDropdowns() {
+    console.log('Initializing dropdowns...');
+    
+    // Remove all existing event listeners first
+    document.removeEventListener('click', handleOutsideClick);
+    
+    // Add event listeners to all dropdown buttons
+    document.querySelectorAll('.action-dropdown-btn').forEach(button => {
+        // Remove existing listeners
+        button.removeEventListener('click', handleButtonClick);
+        // Add new listener
+        button.addEventListener('click', handleButtonClick);
+    });
+    
+    // Add global click listener to close dropdowns
+    document.addEventListener('click', handleOutsideClick);
+    
+    console.log('Found buttons:', document.querySelectorAll('.action-dropdown-btn').length);
+}
+
+function handleButtonClick(e) {
+    e.preventDefault();
+    e.stopPropagation();
+    
+    console.log('Button clicked!', e.target);
+    
+    const button = e.currentTarget;
+    const dropdown = button.closest('.action-dropdown');
+    const menu = dropdown.querySelector('.action-dropdown-menu');
+    
+    // Close all other dropdowns
+    document.querySelectorAll('.action-dropdown').forEach(d => {
+        if (d !== dropdown) {
+            d.classList.remove('show');
+        }
+    });
+    
+    // Toggle current dropdown
+    dropdown.classList.toggle('show');
+    
+    console.log('Dropdown toggled, show class:', dropdown.classList.contains('show'));
+    console.log('Menu element:', menu);
+}
+
+function handleOutsideClick(e) {
+    // Only close table dropdowns when clicking outside, not sidebar dropdowns
+    if (!e.target.closest('.table-responsive .action-dropdown') && !e.target.closest('.sidebar')) {
+        document.querySelectorAll('.table-responsive .action-dropdown').forEach(dropdown => {
+            dropdown.classList.remove('show');
+        });
+    }
 }
 
 // Add keyboard shortcuts
@@ -2083,8 +3018,8 @@ function toggleDropdown(button) {
 // Close dropdown when clicking outside
 document.addEventListener('click', function(e) {
     if (!e.target.closest('.action-dropdown')) {
-        document.querySelectorAll('.action-dropdown-menu').forEach(dropdown => {
-            dropdown.style.display = 'none';
+        document.querySelectorAll('.action-dropdown').forEach(dropdown => {
+            dropdown.classList.remove('show');
         });
     }
 });
@@ -2093,16 +3028,16 @@ document.addEventListener('click', function(e) {
 function viewEmployee(id) {
     alert('View employee with ID: ' + id);
     // Close dropdown
-    document.querySelectorAll('.action-dropdown-menu').forEach(dropdown => {
-        dropdown.style.display = 'none';
+    document.querySelectorAll('.action-dropdown').forEach(dropdown => {
+        dropdown.classList.remove('show');
     });
 }
 
 function editEmployee(id) {
     alert('Edit employee with ID: ' + id);
     // Close dropdown
-    document.querySelectorAll('.action-dropdown-menu').forEach(dropdown => {
-        dropdown.style.display = 'none';
+    document.querySelectorAll('.action-dropdown').forEach(dropdown => {
+        dropdown.classList.remove('show');
     });
 }
 
@@ -2145,8 +3080,8 @@ function toggleStatus(id, newStatus) {
     }
     
     // Close dropdown
-    document.querySelectorAll('.action-dropdown-menu').forEach(dropdown => {
-        dropdown.style.display = 'none';
+    document.querySelectorAll('.action-dropdown').forEach(dropdown => {
+        dropdown.classList.remove('show');
     });
 }
 
@@ -2155,8 +3090,8 @@ function deleteEmployee(id) {
         alert('Delete employee with ID: ' + id);
     }
     // Close dropdown
-    document.querySelectorAll('.action-dropdown-menu').forEach(dropdown => {
-        dropdown.style.display = 'none';
+    document.querySelectorAll('.action-dropdown').forEach(dropdown => {
+        dropdown.classList.remove('show');
     });
 }
 
@@ -2188,5 +3123,154 @@ function showNotification(message, type = 'info') {
         }
     }, 3000);
 }
+
+// CRITICAL: Add the toggleTableDropdown function
+function toggleTableDropdown(button, event) {
+    console.log('toggleTableDropdown called!');
+    
+    if (event) {
+        event.preventDefault();
+        event.stopPropagation();
+        event.stopImmediatePropagation();
+    }
+    
+    const dropdown = button.closest('.action-dropdown');
+    const allTableDropdowns = document.querySelectorAll('.table-responsive .action-dropdown');
+    
+    // Close all other table dropdowns
+    allTableDropdowns.forEach(d => {
+        if (d !== dropdown) {
+            d.classList.remove('show');
+        }
+    });
+    
+    // Toggle current dropdown
+    dropdown.classList.toggle('show');
+    console.log('Dropdown toggled, show class:', dropdown.classList.contains('show'));
+    
+    return false;
+}
+
+// Initialize when page loads
+document.addEventListener('DOMContentLoaded', function() {
+    console.log('DOM Content Loaded - initializing dropdowns and smooth pagination');
+    
+    // Initialize dropdown functionality
+    initializeDropdowns();
+    
+    // Add smooth pagination (scroll to table when page changes)
+    document.addEventListener('click', function(e) {
+        if (e.target.closest('.pagination a')) {
+            // Add a small delay to let the page load, then scroll to table
+            setTimeout(() => {
+                const tableContainer = document.getElementById('karyawan-table-container');
+                if (tableContainer) {
+                    tableContainer.scrollIntoView({ 
+                        behavior: 'smooth', 
+                        block: 'start',
+                        inline: 'nearest'
+                    });
+                }
+            }, 100);
+        }
+    });
+});
+
+// Initialize dropdown functionality
+function initializeDropdowns() {
+    // Handle dropdown buttons with event delegation
+    document.addEventListener('click', function(e) {
+        if (e.target.closest('.table-responsive .action-dropdown-btn')) {
+            e.preventDefault();
+            e.stopPropagation();
+            console.log('Dropdown button clicked');
+            
+            const button = e.target.closest('.action-dropdown-btn');
+            const dropdown = button.closest('.action-dropdown');
+            const isCurrentlyShown = dropdown.classList.contains('show');
+            
+            // Close all table dropdowns first
+            document.querySelectorAll('.table-responsive .action-dropdown').forEach(d => {
+                d.classList.remove('show');
+            });
+            
+            // Toggle current dropdown if it wasn't shown
+            if (!isCurrentlyShown) {
+                dropdown.classList.add('show');
+                console.log('Dropdown shown');
+            }
+        }
+    });
+    
+    // Close dropdowns when clicking outside
+    document.addEventListener('click', function(e) {
+        if (!e.target.closest('.table-responsive .action-dropdown')) {
+            document.querySelectorAll('.table-responsive .action-dropdown').forEach(dropdown => {
+                dropdown.classList.remove('show');
+            });
+        }
+    });
+}
+
+// Specific function for table dropdown to avoid conflict with sidebar
+function toggleTableDropdown(button, event) {
+    // Prevent event bubbling to avoid triggering other dropdowns
+    if (event) {
+        event.preventDefault();
+        event.stopPropagation();
+        event.stopImmediatePropagation();
+    }
+    
+    console.log('toggleTableDropdown called', button);
+    
+    const dropdown = button.closest('.action-dropdown');
+    const allTableDropdowns = document.querySelectorAll('.table-responsive .action-dropdown');
+    
+    // Close all other table dropdowns only (not sidebar dropdowns)
+    allTableDropdowns.forEach(d => {
+        if (d !== dropdown) {
+            d.classList.remove('show');
+        }
+    });
+    
+    // Toggle current dropdown
+    dropdown.classList.toggle('show');
+    
+    console.log('Table dropdown show state:', dropdown.classList.contains('show'));
+    
+    return false; // Prevent any further event propagation
+}
+
+// Also initialize after AJAX calls
+window.initializeAfterAjax = function() {
+    console.log('Reinitializing dropdowns after AJAX');
+    setTimeout(() => {
+        // Re-attach event listeners to new elements
+        document.querySelectorAll('.table-responsive .action-dropdown-btn').forEach(button => {
+            if (!button.hasAttribute('data-initialized')) {
+                button.setAttribute('data-initialized', 'true');
+                button.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    console.log('Dropdown button clicked (AJAX)');
+                    
+                    const dropdown = this.closest('.action-dropdown');
+                    const isCurrentlyShown = dropdown.classList.contains('show');
+                    
+                    // Close all table dropdowns first
+                    document.querySelectorAll('.table-responsive .action-dropdown').forEach(d => {
+                        d.classList.remove('show');
+                    });
+                    
+                    // Toggle current dropdown if it wasn't shown
+                    if (!isCurrentlyShown) {
+                        dropdown.classList.add('show');
+                        console.log('Dropdown shown (AJAX)');
+                    }
+                });
+            }
+        });
+    }, 100);
+};
 </script>
 @endsection
