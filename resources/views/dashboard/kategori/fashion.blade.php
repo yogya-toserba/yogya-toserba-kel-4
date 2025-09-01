@@ -21,7 +21,7 @@
     <!-- Filter Section -->
     <div class="filter-section">
         <div class="row align-items-center">
-            <div class="col-md-8">
+            <div class="col-md-9">
                 <div class="row g-3">
                     <div class="col-md-4">
                         <div class="dropdown">
@@ -44,9 +44,9 @@
                             </button>
                             <ul class="dropdown-menu dropdown-menu-wide w-100">
                                 <li><a class="dropdown-item" href="#"><i class="fas fa-dollar-sign me-2 text-success"></i>< Rp 100rb</a></li>
-                                <li><a class="dropdown-item" href="#"><i class="fas fa-dollar-sign me-2 text-info"></i>Rp 100rb-500rb</a></li>
-                                <li><a class="dropdown-item" href="#"><i class="fas fa-dollar-sign me-2 text-warning"></i>Rp 500rb-1jt</a></li>
-                                <li><a class="dropdown-item" href="#"><i class="fas fa-dollar-sign me-2 text-danger"></i>> Rp 1 Juta</a></li>
+                                <li><a class="dropdown-item" href="#"><i class="fas fa-dollar-sign me-2 text-info"></i>Rp 100rb-300rb</a></li>
+                                <li><a class="dropdown-item" href="#"><i class="fas fa-dollar-sign me-2 text-warning"></i>Rp 300rb-500rb</a></li>
+                                <li><a class="dropdown-item" href="#"><i class="fas fa-dollar-sign me-2 text-danger"></i>> Rp 500rb</a></li>
                             </ul>
                         </div>
                     </div>
@@ -65,7 +65,7 @@
                     </div>
                 </div>
             </div>
-            <div class="col-md-4 text-end">
+            <div class="col-md-3 text-end">
                 <small class="text-muted">Menampilkan 1-12 dari 234 produk</small>
             </div>
         </div>
@@ -79,7 +79,7 @@
                 'price' => 'Rp 299.000',
                 'original_price' => 'Rp 399.000',
                 'discount' => '25%',
-                'image' => 'https://via.placeholder.com/300x300/f0f0f0/888?text=Kemeja+Formal',
+                'image' => '/image/kategori/fashion/kemeja_formal.png',
                 'rating' => 4.7,
                 'reviews' => 156
             ],
@@ -88,7 +88,7 @@
                 'price' => 'Rp 159.000',
                 'original_price' => 'Rp 219.000',
                 'discount' => '27%',
-                'image' => 'https://via.placeholder.com/300x300/f0f0f0/888?text=Dress+Wanita',
+                'image' => '/image/kategori/fashion/dress_wanita.png',
                 'rating' => 4.8,
                 'reviews' => 243
             ],
@@ -97,7 +97,7 @@
                 'price' => 'Rp 449.000',
                 'original_price' => '',
                 'discount' => '',
-                'image' => 'https://via.placeholder.com/300x300/f0f0f0/888?text=Sneakers+Pria',
+                'image' => '/image/kategori/fashion/sepatu_sneaker.png',
                 'rating' => 4.6,
                 'reviews' => 189
             ],
@@ -106,7 +106,7 @@
                 'price' => 'Rp 689.000',
                 'original_price' => 'Rp 899.000',
                 'discount' => '23%',
-                'image' => 'https://via.placeholder.com/300x300/f0f0f0/888?text=Tas+Handbag',
+                'image' => '/image/kategori/fashion/tas_handbag.png',
                 'rating' => 4.9,
                 'reviews' => 98
             ],
@@ -115,7 +115,7 @@
                 'price' => 'Rp 129.000',
                 'original_price' => 'Rp 179.000',
                 'discount' => '28%',
-                'image' => 'https://via.placeholder.com/300x300/f0f0f0/888?text=Blouse+Wanita',
+                'image' => '/image/kategori/fashion/blouse_wanita.png',
                 'rating' => 4.5,
                 'reviews' => 167
             ],
@@ -124,7 +124,7 @@
                 'price' => 'Rp 199.000',
                 'original_price' => '',
                 'discount' => '',
-                'image' => 'https://via.placeholder.com/300x300/f0f0f0/888?text=Celana+Jeans',
+                'image' => '/image/kategori/fashion/celana_jeans.png',
                 'rating' => 4.7,
                 'reviews' => 134
             ],
@@ -133,7 +133,7 @@
                 'price' => 'Rp 349.000',
                 'original_price' => 'Rp 449.000',
                 'discount' => '22%',
-                'image' => 'https://via.placeholder.com/300x300/f0f0f0/888?text=High+Heels',
+                'image' => '/image/kategori/fashion/high_heels.png',
                 'rating' => 4.4,
                 'reviews' => 76
             ],
@@ -142,7 +142,7 @@
                 'price' => 'Rp 259.000',
                 'original_price' => 'Rp 329.000',
                 'discount' => '21%',
-                'image' => 'https://via.placeholder.com/300x300/f0f0f0/888?text=Jaket+Bomber',
+                'image' => '/image/kategori/fashion/jaket_bomber.png',
                 'rating' => 4.6,
                 'reviews' => 112
             ],
@@ -151,7 +151,7 @@
                 'price' => 'Rp 89.000',
                 'original_price' => 'Rp 119.000',
                 'discount' => '25%',
-                'image' => 'https://via.placeholder.com/300x300/f0f0f0/888?text=Rok+Mini',
+                'image' => '/image/kategori/fashion/rok_mini.png',
                 'rating' => 4.3,
                 'reviews' => 89
             ],
@@ -160,7 +160,7 @@
                 'price' => 'Rp 179.000',
                 'original_price' => '',
                 'discount' => '',
-                'image' => 'https://via.placeholder.com/300x300/f0f0f0/888?text=Dompet+Pria',
+                'image' => '/image/kategori/fashion/dompet_pria.png',
                 'rating' => 4.8,
                 'reviews' => 203
             ],
@@ -169,7 +169,7 @@
                 'price' => 'Rp 149.000',
                 'original_price' => 'Rp 199.000',
                 'discount' => '25%',
-                'image' => 'https://via.placeholder.com/300x300/f0f0f0/888?text=Kaos+Polo',
+                'image' => '/image/kategori/fashion/kaos_polo.png',
                 'rating' => 4.5,
                 'reviews' => 145
             ],
@@ -178,7 +178,7 @@
                 'price' => 'Rp 99.000',
                 'original_price' => 'Rp 139.000',
                 'discount' => '29%',
-                'image' => 'https://via.placeholder.com/300x300/f0f0f0/888?text=Sandal+Wanita',
+                'image' => '/image/kategori/fashion/sandal_wanita.png',
                 'rating' => 4.4,
                 'reviews' => 67
             ]
@@ -195,31 +195,32 @@
             </div>
             
             <div class="product-info">
-                <div class="product-content">
-                    <h6 class="product-title">{{ $product['name'] }}</h6>
-                    
-                    <div class="product-rating">
-                        <div class="stars">
-                            @for($i = 1; $i <= 5; $i++)
-                            <i class="fas fa-star{{ $i <= floor($product['rating']) ? '' : ' text-muted' }}"></i>
-                            @endfor
-                        </div>
-                        <span class="review-count">({{ $product['reviews'] }})</span>
+                <h6 class="product-title">{{ $product['name'] }}</h6>
+                
+                <div class="product-rating">
+                    <div class="stars">
+                        @for($i = 1; $i <= 5; $i++)
+                        <i class="fas fa-star{{ $i <= floor($product['rating']) ? '' : ' text-muted' }}"></i>
+                        @endfor
                     </div>
+                    <span class="review-count">({{ $product['reviews'] }})</span>
                 </div>
                 
-                <div class="product-meta">
-                    <div class="product-price">
-                        <span class="current-price">{{ $product['price'] }}</span>
-                        @if($product['original_price'])
-                        <span class="original-price">{{ $product['original_price'] }}</span>
-                        @endif
-                    </div>
-                    
-                    <button class="add-to-cart-btn">
-                        <i class="fas fa-shopping-cart me-2"></i>Tambah ke Keranjang
-                    </button>
+                <div class="product-price">
+                    <span class="current-price">{{ $product['price'] }}</span>
+                    @if($product['original_price'])
+                    <span class="original-price">{{ $product['original_price'] }}</span>
+                    @endif
                 </div>
+                
+                <button class="add-to-cart-btn" data-bs-toggle="modal" data-bs-target="#productModal" 
+                        data-product-name="{{ $product['name'] }}"
+                        data-product-price="{{ $product['price'] }}"
+                        data-product-original-price="{{ $product['original_price'] ?? '' }}"
+                        data-product-image="{{ $product['image'] }}"
+                        data-product-id="{{ $loop->index + 1 }}">
+                    <i class="fas fa-shopping-cart me-2"></i>Tambah ke Keranjang
+                </button>
             </div>
         </div>
         @endforeach
@@ -235,170 +236,280 @@
                 <span class="page-link">1</span>
             </li>
             <li class="page-item">
-                <a class="page-link" href="#" title="Go to page 2">2</a>
+                <a class="page-link" href="#">2</a>
             </li>
             <li class="page-item">
-                <a class="page-link" href="#" title="Go to page 3">3</a>
+                <a class="page-link" href="#">3</a>
             </li>
             <li class="page-item">
-                <a class="page-link" href="#" title="Go to page 4">4</a>
+                <a class="page-link" href="#">4</a>
             </li>
             <li class="page-item">
-                <span class="page-link text-muted">...</span>
-            </li>
-            <li class="page-item">
-                <a class="page-link" href="#" title="Go to page 13">13</a>
-            </li>
-            <li class="page-item">
-                <a class="page-link" href="#" title="Next page">Next</a>
+                <a class="page-link" href="#">Next</a>
             </li>
         </ul>
     </nav>
 </div>
 
-@push('styles')
-<style>
-    /* Filter Dropdown Styles */
-    .filter-dropdown {
-        border: 2px solid #dee2e6;
-        border-radius: 25px;
-        padding: 8px 16px;
-        font-weight: 500;
-        transition: all 0.3s ease;
-        background: white;
-        text-align: left;
-        color: #495057;
-        position: relative;
-        z-index: 1;
-    }
-
-    .filter-dropdown * {
-        position: relative;
-        z-index: 2;
-    }
-
-    .filter-dropdown:hover {
-        border-color: #f26b37;
-        background: linear-gradient(135deg, #f26b37 0%, #e55827 100%);
-        color: white !important;
-    }
-
-    .filter-dropdown:hover,
-    .filter-dropdown:hover * {
-        color: white !important;
-    }
-
-    .filter-dropdown:hover i {
-        color: white !important;
-    }
-
-    .filter-section .dropdown-menu-wide {
-        min-width: 100%;
-        border-radius: 12px;
-        border: none;
-        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
-        padding: 10px 0;
-        margin-top: 5px;
-    }
-
-    .filter-section .dropdown-menu-wide .dropdown-item {
-        padding: 10px 16px;
-        font-weight: 500;
-        transition: all 0.3s ease;
-        border-radius: 0;
-    }
-
-    .filter-section .dropdown-menu-wide .dropdown-item:hover {
-        background: linear-gradient(135deg, #f26b37 0%, #e55827 100%);
-        color: white;
-    }
-
-    .filter-section .dropdown-menu-wide .dropdown-item i {
-        width: 18px;
-        transition: all 0.3s ease;
-    }
-
-    .filter-section .dropdown-menu-wide .dropdown-item:hover i {
-        color: white !important;
-    }
-
-    /* Responsive filter */
-    @media (max-width: 768px) {
-        .filter-section .row .col-md-4 {
-            margin-bottom: 10px;
-        }
-        
-        .filter-dropdown {
-            font-size: 0.9rem;
-            padding: 6px 12px;
-        }
-    }
-</style>
-@endpush
+<!-- Product Options Modal -->
+<div class="modal fade" id="productModal" tabindex="-1" aria-labelledby="productModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header border-0">
+                <h5 class="modal-title fw-bold" id="productModalLabel">Pilih Opsi Produk</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <!-- Product Image -->
+                    <div class="col-md-5">
+                        <div class="product-image-modal">
+                            <img id="modalProductImage" src="" alt="" class="img-fluid rounded">
+                        </div>
+                    </div>
+                    
+                    <!-- Product Details -->
+                    <div class="col-md-7">
+                        <div class="product-details-modal">
+                            <h6 id="modalProductName" class="fw-bold mb-3"></h6>
+                            
+                            <div class="price-section mb-4">
+                                <span id="modalCurrentPrice" class="current-price-modal"></span>
+                                <span id="modalOriginalPrice" class="original-price-modal"></span>
+                            </div>
+                            
+                            <!-- Size Selection -->
+                            <div class="option-group mb-4">
+                                <label class="form-label fw-semibold">Ukuran:</label>
+                                <div class="size-options">
+                                    <input type="radio" name="size" id="size-xs" value="XS" class="btn-check">
+                                    <label class="btn btn-outline-secondary size-btn" for="size-xs">XS</label>
+                                    
+                                    <input type="radio" name="size" id="size-s" value="S" class="btn-check">
+                                    <label class="btn btn-outline-secondary size-btn" for="size-s">S</label>
+                                    
+                                    <input type="radio" name="size" id="size-m" value="M" class="btn-check" checked>
+                                    <label class="btn btn-outline-secondary size-btn" for="size-m">M</label>
+                                    
+                                    <input type="radio" name="size" id="size-l" value="L" class="btn-check">
+                                    <label class="btn btn-outline-secondary size-btn" for="size-l">L</label>
+                                    
+                                    <input type="radio" name="size" id="size-xl" value="XL" class="btn-check">
+                                    <label class="btn btn-outline-secondary size-btn" for="size-xl">XL</label>
+                                    
+                                    <input type="radio" name="size" id="size-xxl" value="XXL" class="btn-check">
+                                    <label class="btn btn-outline-secondary size-btn" for="size-xxl">XXL</label>
+                                </div>
+                            </div>
+                            
+                            <!-- Color Selection -->
+                            <div class="option-group mb-4">
+                                <label class="form-label fw-semibold">Warna:</label>
+                                <div class="color-options">
+                                    <input type="radio" name="color" id="color-black" value="Hitam" class="btn-check">
+                                    <label class="btn color-btn" for="color-black" style="background-color: #000000;" title="Hitam"></label>
+                                    
+                                    <input type="radio" name="color" id="color-white" value="Putih" class="btn-check" checked>
+                                    <label class="btn color-btn" for="color-white" style="background-color: #ffffff; border: 2px solid #ddd;" title="Putih"></label>
+                                    
+                                    <input type="radio" name="color" id="color-red" value="Merah" class="btn-check">
+                                    <label class="btn color-btn" for="color-red" style="background-color: #dc3545;" title="Merah"></label>
+                                    
+                                    <input type="radio" name="color" id="color-blue" value="Biru" class="btn-check">
+                                    <label class="btn color-btn" for="color-blue" style="background-color: #0d6efd;" title="Biru"></label>
+                                    
+                                    <input type="radio" name="color" id="color-green" value="Hijau" class="btn-check">
+                                    <label class="btn color-btn" for="color-green" style="background-color: #198754;" title="Hijau"></label>
+                                    
+                                    <input type="radio" name="color" id="color-yellow" value="Kuning" class="btn-check">
+                                    <label class="btn color-btn" for="color-yellow" style="background-color: #ffc107;" title="Kuning"></label>
+                                    
+                                    <input type="radio" name="color" id="color-navy" value="Navy" class="btn-check">
+                                    <label class="btn color-btn" for="color-navy" style="background-color: #1e3a8a;" title="Navy"></label>
+                                </div>
+                            </div>
+                            
+                            <!-- Quantity Selection -->
+                            <div class="option-group mb-4">
+                                <label class="form-label fw-semibold">Jumlah:</label>
+                                <div class="quantity-selector">
+                                    <button type="button" class="btn btn-outline-secondary quantity-btn" onclick="decreaseQuantity()">
+                                        <i class="fas fa-minus"></i>
+                                    </button>
+                                    <input type="number" id="quantity" class="form-control quantity-input" value="1" min="1" max="10">
+                                    <button type="button" class="btn btn-outline-secondary quantity-btn" onclick="increaseQuantity()">
+                                        <i class="fas fa-plus"></i>
+                                    </button>
+                                </div>
+                                <small class="text-muted">Stok tersedia: 20</small>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer border-0">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
+                <button type="button" class="btn btn-primary btn-add-to-cart-final" onclick="addToCart()">
+                    <i class="fas fa-shopping-cart me-2"></i>Tambah ke Keranjang
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
 
 @endsection
 
 @push('styles')
 <style>
-/* Updated Product Actions */
-.product-actions {
+/* Product Modal Styles */
+.product-image-modal img {
+    max-height: 300px;
+    object-fit: cover;
+    width: 100%;
+}
+
+.current-price-modal {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: #e74c3c;
+}
+
+.original-price-modal {
+    color: #95a5a6;
+    text-decoration: line-through;
+    margin-left: 10px;
+    font-size: 1.1rem;
+}
+
+/* Size Options */
+.size-options {
     display: flex;
+    flex-wrap: wrap;
     gap: 8px;
-    flex-direction: column;
 }
 
-.btn-detail,
-.btn-quick-add {
-    flex: 1;
-    padding: 10px 16px;
-    border-radius: 8px;
+.size-btn {
+    min-width: 50px;
+    border-radius: 8px !important;
     font-weight: 600;
-    font-size: 0.9rem;
     transition: all 0.3s ease;
-    text-align: center;
 }
 
-.btn-detail {
-    background: transparent;
-    color: #f26b37;
-    border: 2px solid #f26b37;
-}
-
-.btn-detail:hover {
+.size-btn:hover {
     background: #f26b37;
+    border-color: #f26b37;
     color: white;
-    transform: translateY(-2px);
-    box-shadow: 0 4px 12px rgba(242, 107, 55, 0.3);
 }
 
-.btn-quick-add {
+.btn-check:checked + .size-btn {
+    background: #f26b37 !important;
+    border-color: #f26b37 !important;
+    color: white !important;
+}
+
+/* Color Options */
+.color-options {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+.color-btn {
+    width: 40px;
+    height: 40px;
+    border-radius: 50% !important;
+    border: 3px solid transparent !important;
+    transition: all 0.3s ease;
+    position: relative;
+}
+
+.color-btn:hover {
+    transform: scale(1.1);
+    box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+}
+
+.btn-check:checked + .color-btn {
+    border-color: #f26b37 !important;
+    box-shadow: 0 0 0 3px rgba(242, 107, 55, 0.3);
+}
+
+/* Quantity Selector */
+.quantity-selector {
+    display: flex;
+    align-items: center;
+    gap: 0;
+    max-width: 150px;
+}
+
+.quantity-btn {
+    width: 40px;
+    height: 40px;
+    border-radius: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.quantity-btn:first-child {
+    border-top-left-radius: 8px;
+    border-bottom-left-radius: 8px;
+}
+
+.quantity-btn:last-child {
+    border-top-right-radius: 8px;
+    border-bottom-right-radius: 8px;
+}
+
+.quantity-input {
+    border-radius: 0;
+    text-align: center;
+    width: 70px;
+    border-left: 0;
+    border-right: 0;
+}
+
+.quantity-input:focus {
+    box-shadow: none;
+    border-color: #f26b37;
+}
+
+/* Modal Actions */
+.btn-add-to-cart-final {
     background: linear-gradient(135deg, #f26b37 0%, #e55827 100%);
     border: none;
-    color: white;
+    padding: 12px 24px;
+    border-radius: 8px;
+    font-weight: 600;
+    transition: all 0.3s ease;
 }
 
-.btn-quick-add:hover {
+.btn-add-to-cart-final:hover {
     transform: translateY(-2px);
-    box-shadow: 0 4px 12px rgba(242, 107, 55, 0.3);
+    box-shadow: 0 5px 15px rgba(242, 107, 55, 0.3);
 }
 
-/* Product card adjustments */
-.product-card {
-    height: auto;
-    min-height: 420px;
-}
-
-/* Responsive adjustments */
-@media (max-width: 576px) {
-    .product-actions {
-        flex-direction: column;
+/* Responsive Modal */
+@media (max-width: 768px) {
+    .modal-dialog {
+        margin: 10px;
+    }
+    
+    .product-image-modal img {
+        max-height: 200px;
+    }
+    
+    .size-options {
         gap: 6px;
     }
     
-    .btn-detail,
-    .btn-quick-add {
-        font-size: 0.85rem;
-        padding: 8px 12px;
+    .size-btn {
+        min-width: 45px;
+        font-size: 0.9rem;
+    }
+    
+    .color-btn {
+        width: 35px;
+        height: 35px;
     }
 }
 </style>
@@ -418,45 +529,109 @@ function updateCartBadge() {
     }
 }
 
-// View product detail
-function viewProductDetail(id, name, price, originalPrice, image, rating, reviews) {
-    const detailUrl = new URL('/produk/detail', window.location.origin);
-    detailUrl.searchParams.set('id', id);
-    detailUrl.searchParams.set('name', name);
-    detailUrl.searchParams.set('price', price);
-    if (originalPrice) {
-        detailUrl.searchParams.set('originalPrice', originalPrice);
-    }
-    detailUrl.searchParams.set('image', image);
-    detailUrl.searchParams.set('rating', rating);
-    detailUrl.searchParams.set('reviews', reviews);
+// Product modal functionality
+document.addEventListener('DOMContentLoaded', function() {
+    const productModal = document.getElementById('productModal');
     
-    window.location.href = detailUrl.toString();
+    if (productModal) {
+        productModal.addEventListener('show.bs.modal', function(event) {
+            const button = event.relatedTarget;
+            const productName = button.getAttribute('data-product-name');
+            const productPrice = button.getAttribute('data-product-price');
+            const productOriginalPrice = button.getAttribute('data-product-original-price');
+            const productImage = button.getAttribute('data-product-image');
+            const productId = button.getAttribute('data-product-id');
+            
+            // Update modal content
+            document.getElementById('modalProductName').textContent = productName;
+            document.getElementById('modalCurrentPrice').textContent = productPrice;
+            document.getElementById('modalProductImage').src = productImage;
+            document.getElementById('modalProductImage').alt = productName;
+            
+            // Store product data for cart
+            productModal.setAttribute('data-product-id', productId);
+            productModal.setAttribute('data-product-name', productName);
+            productModal.setAttribute('data-product-price', productPrice.replace(/[^\d]/g, ''));
+            productModal.setAttribute('data-product-image', productImage);
+            
+            // Handle original price
+            const originalPriceElement = document.getElementById('modalOriginalPrice');
+            if (productOriginalPrice && productOriginalPrice !== '') {
+                originalPriceElement.textContent = productOriginalPrice;
+                originalPriceElement.style.display = 'inline';
+            } else {
+                originalPriceElement.style.display = 'none';
+            }
+            
+            // Reset form
+            document.getElementById('quantity').value = 1;
+            document.querySelector('input[name="size"][value="M"]').checked = true;
+            document.querySelector('input[name="color"][value="Putih"]').checked = true;
+        });
+    }
+    
+    // Update cart badge on page load
+    updateCartBadge();
+});
+
+// Quantity functions
+function increaseQuantity() {
+    const quantityInput = document.getElementById('quantity');
+    const currentValue = parseInt(quantityInput.value);
+    const maxValue = parseInt(quantityInput.max);
+    
+    if (currentValue < maxValue) {
+        quantityInput.value = currentValue + 1;
+    }
 }
 
-// Quick add to cart with default options
-function quickAddToCart(id, name, price, image) {
+function decreaseQuantity() {
+    const quantityInput = document.getElementById('quantity');
+    const currentValue = parseInt(quantityInput.value);
+    const minValue = parseInt(quantityInput.min);
+    
+    if (currentValue > minValue) {
+        quantityInput.value = currentValue - 1;
+    }
+}
+
+// Add to cart function
+function addToCart() {
+    const modal = document.getElementById('productModal');
+    const productId = modal.getAttribute('data-product-id');
+    const productName = modal.getAttribute('data-product-name');
+    const productPrice = parseInt(modal.getAttribute('data-product-price'));
+    const productImage = modal.getAttribute('data-product-image');
+    
+    // Get selected options
+    const selectedSize = document.querySelector('input[name="size"]:checked').value;
+    const selectedColor = document.querySelector('input[name="color"]:checked').value;
+    const quantity = parseInt(document.getElementById('quantity').value);
+    
+    // Create cart item
     const cartItem = {
-        id: id,
-        name: name,
-        price: parseInt(price.replace(/[^\d]/g, '')),
-        image: image,
-        size: 'M', // Default size
-        color: 'Putih', // Default color
-        quantity: 1,
+        id: productId,
+        name: productName,
+        price: productPrice,
+        image: productImage,
+        size: selectedSize,
+        color: selectedColor,
+        quantity: quantity,
         addedAt: new Date().toISOString()
     };
     
-    // Check if item already exists with same default options
+    // Check if item already exists in cart
     const existingItemIndex = cart.findIndex(item => 
-        item.id === id && 
-        item.size === 'M' && 
-        item.color === 'Putih'
+        item.id === productId && 
+        item.size === selectedSize && 
+        item.color === selectedColor
     );
     
     if (existingItemIndex > -1) {
-        cart[existingItemIndex].quantity += 1;
+        // Update quantity if item exists
+        cart[existingItemIndex].quantity += quantity;
     } else {
+        // Add new item to cart
         cart.push(cartItem);
     }
     
@@ -466,20 +641,22 @@ function quickAddToCart(id, name, price, image) {
     // Update cart badge
     updateCartBadge();
     
+    // Close modal
+    const modalInstance = bootstrap.Modal.getInstance(modal);
+    modalInstance.hide();
+    
     // Show success message
-    showToast(`${name} berhasil ditambahkan ke keranjang!`, 'success');
+    showToast('Produk berhasil ditambahkan ke keranjang!', 'success');
 }
 
 // Toast notification function
 function showToast(message, type = 'success') {
-    const bgClass = type === 'success' ? 'bg-success' : 'bg-danger';
-    const icon = type === 'success' ? 'fa-check-circle' : 'fa-exclamation-circle';
-    
+    // Create toast element
     const toastHtml = `
-        <div class="toast align-items-center text-white ${bgClass} border-0" role="alert" aria-live="assertive" aria-atomic="true">
+        <div class="toast align-items-center text-white bg-${type} border-0" role="alert" aria-live="assertive" aria-atomic="true">
             <div class="d-flex">
                 <div class="toast-body">
-                    <i class="fas ${icon} me-2"></i>${message}
+                    <i class="fas fa-check-circle me-2"></i>${message}
                 </div>
                 <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"></button>
             </div>
@@ -512,10 +689,5 @@ function showToast(message, type = 'success') {
         toastElement.remove();
     });
 }
-
-// Initialize page
-document.addEventListener('DOMContentLoaded', function() {
-    updateCartBadge();
-});
 </script>
 @endpush
