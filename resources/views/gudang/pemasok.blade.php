@@ -248,25 +248,27 @@
                                 </div>
                             </td>
                             <td class="align-middle text-center">
-                                <div class="btn-group" role="group">
-                                    <button class="btn btn-outline-primary btn-sm btn-detail" 
-                                            data-id="{{ $pemasok->id_pemasok }}"
-                                            data-bs-toggle="modal" 
-                                            data-bs-target="#detailPemasokModal"
-                                            title="Detail">
-                                        <i class="fas fa-eye"></i>
+                                <div class="action-dropdown">
+                                    <button class="action-dropdown-btn" data-pemasok-id="{{ $pemasok->id_pemasok }}">
+                                        <i class="fas fa-ellipsis-v"></i>
                                     </button>
-                                    <button class="btn btn-outline-warning btn-sm btn-edit" 
-                                            data-id="{{ $pemasok->id_pemasok }}"
-                                            title="Edit">
-                                        <i class="fas fa-edit"></i>
-                                    </button>
-                                    <button class="btn btn-outline-danger btn-sm btn-delete" 
-                                            data-id="{{ $pemasok->id_pemasok }}"
-                                            data-nama="{{ $pemasok->nama_perusahaan }}"
-                                            title="Hapus">
-                                        <i class="fas fa-trash"></i>
-                                    </button>
+                                    <div class="action-dropdown-menu">
+                                        <button class="action-dropdown-item view-item btn-detail" 
+                                                data-id="{{ $pemasok->id_pemasok }}"
+                                                data-bs-toggle="modal" 
+                                                data-bs-target="#detailPemasokModal">
+                                            <i class="fas fa-eye me-2"></i>Detail
+                                        </button>
+                                        <button class="action-dropdown-item edit-item btn-edit" 
+                                                data-id="{{ $pemasok->id_pemasok }}">
+                                            <i class="fas fa-edit me-2"></i>Edit
+                                        </button>
+                                        <button class="action-dropdown-item delete-item btn-delete" 
+                                                data-id="{{ $pemasok->id_pemasok }}"
+                                                data-nama="{{ $pemasok->nama_perusahaan }}">
+                                            <i class="fas fa-trash me-2"></i>Hapus
+                                        </button>
+                                    </div>
                                 </div>
                             </td>
                         </tr>
@@ -572,6 +574,11 @@
     background-color: rgba(0, 123, 255, 0.05);
 }
 
+/* Dark mode for table hover */
+body.dark-mode .table-hover tbody tr:hover {
+    background-color: rgba(242, 107, 55, 0.1) !important;
+}
+
 .card {
     transition: all 0.3s ease;
 }
@@ -581,9 +588,57 @@
     box-shadow: 0 4px 8px rgba(0,0,0,0.1) !important;
 }
 
+/* Dark mode card hover */
+body.dark-mode .card:hover {
+    box-shadow: 0 4px 8px rgba(242, 107, 55, 0.15) !important;
+}
+
 .btn:hover {
     transform: translateY(-1px);
     transition: all 0.2s ease;
+}
+
+/* Additional dark mode fixes for pemasok page */
+body.dark-mode .modal-content {
+    background-color: #2a2d3f !important;
+    color: #e2e8f0 !important;
+}
+
+body.dark-mode .modal-header {
+    background-color: #374151 !important;
+    border-color: #3a3d4a !important;
+    color: #e2e8f0 !important;
+}
+
+body.dark-mode .modal-footer {
+    background-color: #2a2d3f !important;
+    border-color: #3a3d4a !important;
+}
+
+body.dark-mode .close {
+    color: #e2e8f0 !important;
+}
+
+/* Dark mode for input groups */
+body.dark-mode .input-group-text {
+    background-color: #374151 !important;
+    border-color: #4b5563 !important;
+    color: #e2e8f0 !important;
+}
+
+/* Dark mode for text muted */
+body.dark-mode .text-muted {
+    color: #9ca3af !important;
+}
+
+/* Dark mode for small text */
+body.dark-mode small {
+    color: #9ca3af !important;
+}
+
+/* Dark mode for strong text */
+body.dark-mode strong {
+    color: #f3f4f6 !important;
 }
 </style>
 
@@ -593,100 +648,109 @@ document.addEventListener('DOMContentLoaded', function() {
     // CSRF Token untuk AJAX
     const token = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
     
+    // Initialize dropdown functionality
+    initializeDropdowns();
+    
     // Auto-format nomor telepon
-    document.querySelector('input[name="telepon"]').addEventListener('input', function(e) {
-        let value = e.target.value.replace(/\D/g, '');
-        if (value.length > 0) {
-            if (value.startsWith('8')) {
-                value = '0' + value;
+    const phoneInput = document.querySelector('input[name="telepon"]');
+    if (phoneInput) {
+        phoneInput.addEventListener('input', function(e) {
+            let value = e.target.value.replace(/\D/g, '');
+            if (value.length > 0) {
+                if (value.startsWith('8')) {
+                    value = '0' + value;
+                }
             }
-        }
-        e.target.value = value;
-    });
-
-    // Handle detail pemasok
-    document.querySelectorAll('.btn-detail').forEach(button => {
-        button.addEventListener('click', function() {
-            const pemasokId = this.getAttribute('data-id');
-            
-            fetch(`{{ url('gudang/pemasok') }}/${pemasokId}`)
-                .then(response => response.json())
-                .then(data => {
-                    if (data.success) {
-                        const pemasok = data.data;
-                        
-                        // Update modal content
-                        document.querySelector('#detailPemasokModal .modal-body').innerHTML = `
-                            <div class="row">
-                                <div class="col-md-6">
-                                    <div class="mb-3">
-                                        <label class="form-label text-muted small">NAMA PEMASOK</label>
-                                        <div class="fw-medium">${pemasok.nama_perusahaan}</div>
-                                    </div>
-                                    <div class="mb-3">
-                                        <label class="form-label text-muted small">KONTAK PERSON</label>
-                                        <div class="fw-medium">${pemasok.kontak_person}</div>
-                                    </div>
-                                    <div class="mb-3">
-                                        <label class="form-label text-muted small">TELEPON</label>
-                                        <div class="fw-medium">${pemasok.telepon}</div>
-                                    </div>
-                                    <div class="mb-3">
-                                        <label class="form-label text-muted small">EMAIL</label>
-                                        <div class="fw-medium">${pemasok.email}</div>
-                                    </div>
-                                </div>
-                                <div class="col-md-6">
-                                    <div class="mb-3">
-                                        <label class="form-label text-muted small">KOTA</label>
-                                        <div class="fw-medium">${pemasok.kota}</div>
-                                    </div>
-                                    <div class="mb-3">
-                                        <label class="form-label text-muted small">KATEGORI PRODUK</label>
-                                        <div class="fw-medium">${pemasok.kategori_produk}</div>
-                                    </div>
-                                    <div class="mb-3">
-                                        <label class="form-label text-muted small">STATUS</label>
-                                        <div><span class="badge bg-${pemasok.status == 'aktif' ? 'success' : 'secondary'}">${pemasok.status.charAt(0).toUpperCase() + pemasok.status.slice(1)}</span></div>
-                                    </div>
-                                    <div class="mb-3">
-                                        <label class="form-label text-muted small">RATING</label>
-                                        <div class="fw-medium">${pemasok.rating}/5.0</div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="col-12">
-                                    <div class="mb-3">
-                                        <label class="form-label text-muted small">ALAMAT LENGKAP</label>
-                                        <div class="fw-medium">${pemasok.alamat}</div>
-                                    </div>
-                                    ${pemasok.catatan ? `
-                                    <div class="mb-3">
-                                        <label class="form-label text-muted small">CATATAN</label>
-                                        <div class="fw-medium">${pemasok.catatan}</div>
-                                    </div>
-                                    ` : ''}
-                                </div>
-                            </div>
-                        `;
-                    }
-                })
-                .catch(error => {
-                    console.error('Error:', error);
-                    alert('Gagal memuat detail pemasok');
-                });
+            e.target.value = value;
         });
-    });
+    }
 
-    // Handle edit pemasok
-    document.querySelectorAll('.btn-edit').forEach(button => {
-        button.addEventListener('click', function() {
-            const pemasokId = this.getAttribute('data-id');
+    // Handle detail pemasok - ubah menjadi global function
+    window.viewPemasok = function(id) {
+        console.log('View pemasok:', id);
+        
+        fetch(`{{ url('gudang/pemasok') }}/${id}`)
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    const pemasok = data.data;
+                    const modal = new bootstrap.Modal(document.getElementById('detailPemasokModal'));
+                    
+                    // Update modal content
+                    document.querySelector('#detailPemasokModal .modal-body').innerHTML = `
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="mb-3">
+                                    <label class="form-label text-muted small">NAMA PEMASOK</label>
+                                    <div class="fw-medium">${pemasok.nama_perusahaan}</div>
+                                </div>
+                                <div class="mb-3">
+                                    <label class="form-label text-muted small">KONTAK PERSON</label>
+                                    <div class="fw-medium">${pemasok.kontak_person}</div>
+                                </div>
+                                <div class="mb-3">
+                                    <label class="form-label text-muted small">TELEPON</label>
+                                    <div class="fw-medium">${pemasok.telepon}</div>
+                                </div>
+                                <div class="mb-3">
+                                    <label class="form-label text-muted small">EMAIL</label>
+                                    <div class="fw-medium">${pemasok.email}</div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="mb-3">
+                                    <label class="form-label text-muted small">KOTA</label>
+                                    <div class="fw-medium">${pemasok.kota}</div>
+                                </div>
+                                <div class="mb-3">
+                                    <label class="form-label text-muted small">KATEGORI PRODUK</label>
+                                    <div class="fw-medium">${pemasok.kategori_produk}</div>
+                                </div>
+                                <div class="mb-3">
+                                    <label class="form-label text-muted small">STATUS</label>
+                                    <div><span class="badge bg-${pemasok.status == 'aktif' ? 'success' : 'secondary'}">${pemasok.status.charAt(0).toUpperCase() + pemasok.status.slice(1)}</span></div>
+                                </div>
+                                <div class="mb-3">
+                                    <label class="form-label text-muted small">RATING</label>
+                                    <div class="fw-medium">${pemasok.rating}/5.0</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-12">
+                                <div class="mb-3">
+                                    <label class="form-label text-muted small">ALAMAT LENGKAP</label>
+                                    <div class="fw-medium">${pemasok.alamat}</div>
+                                </div>
+                                ${pemasok.catatan ? `
+                                <div class="mb-3">
+                                    <label class="form-label text-muted small">CATATAN</label>
+                                    <div class="fw-medium">${pemasok.catatan}</div>
+                                </div>
+                                ` : ''}
+                            </div>
+                        </div>
+                    `;
+                    
+                    modal.show();
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                alert('Gagal memuat detail pemasok');
+            });
             
-            fetch(`{{ url('gudang/pemasok') }}/${pemasokId}/edit`)
-                .then(response => response.json())
-                .then(data => {
+        // Close dropdown
+        closeAllDropdowns();
+    }
+
+    // Handle edit pemasok - ubah menjadi global function
+    window.editPemasok = function(id) {
+        console.log('Edit pemasok:', id);
+        
+        fetch(`{{ url('gudang/pemasok') }}/${id}/edit`)
+            .then(response => response.json())
+            .then(data => {
                     if (data.success) {
                         const pemasok = data.data;
                         const modal = new bootstrap.Modal(document.getElementById('tambahPemasokModal'));
@@ -799,6 +863,48 @@ document.addEventListener('DOMContentLoaded', function() {
         submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin me-1"></i>Menyimpan...';
         submitBtn.disabled = true;
     });
+
+    // Initialize dropdown functionality
+    function initializeDropdowns() {
+        console.log('Initializing dropdowns...');
+        // Add event listeners to dropdown buttons
+        const dropdownButtons = document.querySelectorAll('.action-dropdown-btn');
+        console.log('Found dropdown buttons:', dropdownButtons.length);
+        
+        dropdownButtons.forEach(button => {
+            button.addEventListener('click', function(e) {
+                console.log('Dropdown button clicked');
+                e.preventDefault();
+                e.stopPropagation();
+                
+                const dropdown = this.nextElementSibling;
+                const allDropdowns = document.querySelectorAll('.action-dropdown-menu');
+                
+                console.log('Dropdown element:', dropdown);
+                
+                // Close all other dropdowns
+                allDropdowns.forEach(d => {
+                    if (d !== dropdown) {
+                        d.style.display = 'none';
+                    }
+                });
+                
+                // Toggle current dropdown
+                const isVisible = dropdown.style.display === 'block';
+                dropdown.style.display = isVisible ? 'none' : 'block';
+                console.log('Dropdown visibility:', dropdown.style.display);
+            });
+        });
+    }
 });
+
+    // Close dropdown when clicking outside
+    document.addEventListener('click', function(e) {
+        if (!e.target.closest('.action-dropdown')) {
+            document.querySelectorAll('.action-dropdown-menu').forEach(dropdown => {
+                dropdown.style.display = 'none';
+            });
+        }
+    });
 </script>
 @endsection

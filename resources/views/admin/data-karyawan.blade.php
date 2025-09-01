@@ -874,209 +874,6 @@ body.dark-mode .pagination .page-item.disabled .page-link {
         padding: 20px !important;
     }
 }
-
-/* Modal Dark Mode Styling */
-body.dark-mode .modal-content {
-    background: #2a2d3f !important;
-    border: 1px solid #3a3d4a !important;
-    color: #e2e8f0 !important;
-}
-
-body.dark-mode .modal-header {
-    border-bottom-color: #3a3d4a !important;
-}
-
-body.dark-mode .modal-footer {
-    border-top-color: #3a3d4a !important;
-}
-
-body.dark-mode .modal-title {
-    color: white !important;
-}
-
-/* Form Dark Mode Styling */
-body.dark-mode .form-label {
-    color: #e2e8f0 !important;
-    font-weight: 500 !important;
-}
-
-body.dark-mode .form-label i {
-    color: #f26b37 !important;
-}
-
-body.dark-mode .text-danger {
-    color: #ef4444 !important;
-}
-
-body.dark-mode .form-control {
-    background: #374151 !important;
-    border-color: #4b5563 !important;
-    color: #e2e8f0 !important;
-}
-
-body.dark-mode .form-control:focus {
-    background: #374151 !important;
-    border-color: #f26b37 !important;
-    color: #e2e8f0 !important;
-    box-shadow: 0 0 0 0.2rem rgba(242, 107, 55, 0.25) !important;
-}
-
-body.dark-mode .form-control::placeholder {
-    color: #9ca3af !important;
-}
-
-body.dark-mode .form-select {
-    background: #374151 !important;
-    border-color: #4b5563 !important;
-    color: #e2e8f0 !important;
-    background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3e%3cpath fill='none' stroke='%23ffffff' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M2 5l6 6 6-6'/%3e%3c/svg%3e") !important;
-}
-
-body.dark-mode .form-select option {
-    background: #374151 !important;
-    color: #e2e8f0 !important;
-}
-
-body.dark-mode .invalid-feedback {
-    color: #ef4444 !important;
-}
-
-body.dark-mode .form-control.is-invalid {
-    border-color: #ef4444 !important;
-    box-shadow: 0 0 0 0.2rem rgba(239, 68, 68, 0.25) !important;
-}
-
-/* Preview Section Dark Mode */
-body.dark-mode .preview-section {
-    background: #374151 !important;
-    border-color: #4b5563 !important;
-}
-
-body.dark-mode .preview-section h6 {
-    color: #f26b37 !important;
-}
-
-body.dark-mode .preview-item {
-    border-bottom-color: #4b5563 !important;
-}
-
-body.dark-mode .preview-label {
-    color: #9ca3af !important;
-}
-
-body.dark-mode .preview-value {
-    color: #e2e8f0 !important;
-}
-
-/* Tab styling for dark mode */
-body.dark-mode .nav-tabs {
-    border-bottom-color: #3a3d4a !important;
-}
-
-body.dark-mode .nav-tabs .nav-link {
-    border-color: transparent !important;
-    color: #9ca3af !important;
-    background: transparent !important;
-}
-
-body.dark-mode .nav-tabs .nav-link:hover {
-    border-color: #4b5563 #4b5563 #3a3d4a !important;
-    background: #374151 !important;
-    color: #e2e8f0 !important;
-}
-
-body.dark-mode .nav-tabs .nav-link.active {
-    background: #2a2d3f !important;
-    border-color: #3a3d4a #3a3d4a #2a2d3f !important;
-    color: #f26b37 !important;
-}
-
-body.dark-mode .tab-content {
-    border: 1px solid #3a3d4a !important;
-    border-top: none !important;
-    background: #2a2d3f !important;
-}
-
-/* Alert dark mode */
-body.dark-mode .alert-info {
-    background: #1e293b !important;
-    border-color: #334155 !important;
-    color: #cbd5e1 !important;
-}
-
-body.dark-mode .alert-warning {
-    background: #451a03 !important;
-    border-color: #92400e !important;
-    color: #fbbf24 !important;
-}
-
-/* Ensure tabs work properly */
-.tab-content {
-    border: 1px solid #dee2e6;
-    border-top: none;
-    background: white;
-    min-height: 400px;
-}
-
-.nav-tabs {
-    border-bottom: 1px solid #dee2e6;
-    background: #f8f9fa;
-    margin: 0;
-}
-
-.nav-tabs .nav-link {
-    border: 1px solid transparent;
-    border-top-left-radius: 0.375rem;
-    border-top-right-radius: 0.375rem;
-    color: #6c757d;
-    padding: 12px 20px;
-    font-weight: 500;
-}
-
-.nav-tabs .nav-link:hover {
-    border-color: #e9ecef #e9ecef #dee2e6;
-    background: #f8f9fa;
-    color: #495057;
-}
-
-.nav-tabs .nav-link.active {
-    color: #f26b37;
-    background: white;
-    border-color: #dee2e6 #dee2e6 white;
-    font-weight: 600;
-}
-
-/* Preview section styling */
-.preview-section {
-    background: #f8f9fa;
-    border: 1px solid #dee2e6;
-    border-radius: 8px;
-    padding: 20px;
-}
-
-.preview-item {
-    border-bottom: 1px solid #dee2e6;
-    padding-bottom: 10px;
-    margin-bottom: 15px;
-}
-
-.preview-item:last-child {
-    border-bottom: none;
-    margin-bottom: 0;
-}
-
-.preview-label {
-    font-size: 0.875rem;
-    color: #6c757d;
-    margin-bottom: 2px;
-    font-weight: 500;
-}
-
-.preview-value {
-    font-weight: 600;
-    color: #2c3e50;
-    word-wrap: break-word;
-}
 </style>
 
 <div class="new-karyawan">
@@ -1480,7 +1277,7 @@ body.dark-mode .alert-warning {
 
 <!-- Modal Tambah Karyawan -->
 <div class="modal fade" id="tambahKaryawanModal" tabindex="-1" aria-labelledby="tambahKaryawanModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-xl">
+    <div class="modal-dialog modal-lg">
         <div class="modal-content">
             <div class="modal-header" style="background: linear-gradient(135deg, #f26b37 0%, #e55827 100%); color: white;">
                 <h5 class="modal-title" id="tambahKaryawanModalLabel">
@@ -1488,196 +1285,93 @@ body.dark-mode .alert-warning {
                 </h5>
                 <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
-            <div class="modal-body" style="padding: 0;">
-                <!-- Tab Navigation -->
-                <ul class="nav nav-tabs" id="karyawanTab" role="tablist" style="padding: 0 25px; margin: 0; background: #f8f9fa;">
-                    <li class="nav-item" role="presentation">
-                        <button class="nav-link active" id="form-tab" data-bs-toggle="tab" data-bs-target="#form-panel" type="button" role="tab" aria-controls="form-panel" aria-selected="true">
-                            <i class="fas fa-edit me-2"></i>Form Input
-                        </button>
-                    </li>
-                    <li class="nav-item" role="presentation">
-                        <button class="nav-link" id="preview-tab" data-bs-toggle="tab" data-bs-target="#preview-panel" type="button" role="tab" aria-controls="preview-panel" aria-selected="false">
-                            <i class="fas fa-eye me-2"></i>Preview Data
-                        </button>
-                    </li>
-                </ul>
-                
-                <!-- Tab Content -->
-                <div class="tab-content" id="karyawanTabContent" style="padding: 25px;">
-                    <!-- Form Panel -->
-                    <div class="tab-pane fade show active" id="form-panel" role="tabpanel" aria-labelledby="form-tab">
-                        <form id="tambahKaryawanForm">
-                            <div class="row g-3">
-                                <div class="col-md-6">
-                                    <label for="nama" class="form-label">
-                                        <i class="fas fa-user me-1"></i>Nama Lengkap <span class="text-danger">*</span>
-                                    </label>
-                                    <input type="text" class="form-control" id="nama" name="nama" required>
-                                    <div class="invalid-feedback"></div>
-                                </div>
-                                <div class="col-md-6">
-                                    <label for="email" class="form-label">
-                                        <i class="fas fa-envelope me-1"></i>Email <span class="text-danger">*</span>
-                                    </label>
-                                    <input type="email" class="form-control" id="email" name="email" required>
-                                    <div class="invalid-feedback"></div>
-                                </div>
-                                <div class="col-md-6">
-                                    <label for="divisi" class="form-label">
-                                        <i class="fas fa-building me-1"></i>Divisi <span class="text-danger">*</span>
-                                    </label>
-                                    <select class="form-control" id="divisi" name="divisi" required>
-                                        <option value="">Pilih Divisi</option>
-                                        @foreach($divisiList ?? [] as $divisi)
-                                            <option value="{{ $divisi }}">{{ $divisi }}</option>
-                                        @endforeach
-                                        <option value="other">Divisi Lainnya</option>
-                                    </select>
-                                    <div class="invalid-feedback"></div>
-                                </div>
-                                <div class="col-md-6" id="divisiLainnyaGroup" style="display: none;">
-                                    <label for="divisi_lainnya" class="form-label">
-                                        <i class="fas fa-plus me-1"></i>Nama Divisi Baru
-                                    </label>
-                                    <input type="text" class="form-control" id="divisi_lainnya" name="divisi_lainnya">
-                                </div>
-                                <div class="col-md-6">
-                                    <label for="tanggal_lahir" class="form-label">
-                                        <i class="fas fa-calendar me-1"></i>Tanggal Lahir <span class="text-danger">*</span>
-                                    </label>
-                                    <input type="date" class="form-control" id="tanggal_lahir" name="tanggal_lahir" required>
-                                    <div class="invalid-feedback"></div>
-                                </div>
-                                <div class="col-md-6">
-                                    <label for="nomer_telepon" class="form-label">
-                                        <i class="fas fa-phone me-1"></i>Nomor Telepon <span class="text-danger">*</span>
-                                    </label>
-                                    <input type="tel" class="form-control" id="nomer_telepon" name="nomer_telepon" placeholder="08xxxxxxxxxx" required>
-                                    <div class="invalid-feedback"></div>
-                                </div>
-                                <div class="col-md-6">
-                                    <label for="id_shift" class="form-label">
-                                        <i class="fas fa-clock me-1"></i>Shift <span class="text-danger">*</span>
-                                    </label>
-                                    <select class="form-control" id="id_shift" name="id_shift" required>
-                                        <option value="">Pilih Shift</option>
-                                        @foreach($shiftList ?? [] as $shift)
-                                            <option value="{{ $shift->id_shift }}">
-                                                {{ $shift->nama_shift }} ({{ date('H:i', strtotime($shift->jam_mulai)) }}-{{ date('H:i', strtotime($shift->jam_selesai)) }})
-                                            </option>
-                                        @endforeach
-                                    </select>
-                                    <div class="invalid-feedback"></div>
-                                </div>
-                                <div class="col-md-6">
-                                    <label for="status" class="form-label">
-                                        <i class="fas fa-toggle-on me-1"></i>Status <span class="text-danger">*</span>
-                                    </label>
-                                    <select class="form-control" id="status" name="status" required>
-                                        <option value="Aktif">Aktif</option>
-                                        <option value="Non-Aktif">Non-Aktif</option>
-                                    </select>
-                                    <div class="invalid-feedback"></div>
-                                </div>
-                                <div class="col-12">
-                                    <label for="alamat" class="form-label">
-                                        <i class="fas fa-map-marker-alt me-1"></i>Alamat <span class="text-danger">*</span>
-                                    </label>
-                                    <textarea class="form-control" id="alamat" name="alamat" rows="3" required></textarea>
-                                    <div class="invalid-feedback"></div>
-                                </div>
-                            </div>
-                            
-                            <div class="row mt-4">
-                                <div class="col-12">
-                                    <div class="alert alert-info">
-                                        <i class="fas fa-info-circle me-2"></i>
-                                        <strong>Petunjuk:</strong> Setelah mengisi form, klik tab "Preview Data" untuk melihat ringkasan data sebelum menyimpan.
-                                    </div>
-                                </div>
-                            </div>
-                        </form>
-                    </div>
-                    
-                    <!-- Preview Panel -->
-                    <div class="tab-pane fade" id="preview-panel" role="tabpanel" aria-labelledby="preview-tab">
-                        <div class="preview-section" style="background: #f8f9fa; border: 1px solid #dee2e6; border-radius: 8px; padding: 20px;">
-                            <h6 style="color: #f26b37; margin-bottom: 20px;">
-                                <i class="fas fa-eye me-2"></i>Preview Data Karyawan
-                            </h6>
-                            
-                            <div class="row g-3">
-                                <div class="col-md-6">
-                                    <div class="preview-item" style="border-bottom: 1px solid #dee2e6; padding-bottom: 10px; margin-bottom: 15px;">
-                                        <div class="preview-label" style="font-size: 0.875rem; color: #6c757d; margin-bottom: 2px;">Nama Lengkap</div>
-                                        <div class="preview-value" id="preview-nama" style="font-weight: 600; color: #2c3e50;">-</div>
-                                    </div>
-                                </div>
-                                <div class="col-md-6">
-                                    <div class="preview-item" style="border-bottom: 1px solid #dee2e6; padding-bottom: 10px; margin-bottom: 15px;">
-                                        <div class="preview-label" style="font-size: 0.875rem; color: #6c757d; margin-bottom: 2px;">Email</div>
-                                        <div class="preview-value" id="preview-email" style="font-weight: 600; color: #2c3e50;">-</div>
-                                    </div>
-                                </div>
-                                <div class="col-md-6">
-                                    <div class="preview-item" style="border-bottom: 1px solid #dee2e6; padding-bottom: 10px; margin-bottom: 15px;">
-                                        <div class="preview-label" style="font-size: 0.875rem; color: #6c757d; margin-bottom: 2px;">Divisi</div>
-                                        <div class="preview-value" id="preview-divisi" style="font-weight: 600; color: #2c3e50;">-</div>
-                                    </div>
-                                </div>
-                                <div class="col-md-6">
-                                    <div class="preview-item" style="border-bottom: 1px solid #dee2e6; padding-bottom: 10px; margin-bottom: 15px;">
-                                        <div class="preview-label" style="font-size: 0.875rem; color: #6c757d; margin-bottom: 2px;">Tanggal Lahir</div>
-                                        <div class="preview-value" id="preview-tanggal-lahir" style="font-weight: 600; color: #2c3e50;">-</div>
-                                    </div>
-                                </div>
-                                <div class="col-md-6">
-                                    <div class="preview-item" style="border-bottom: 1px solid #dee2e6; padding-bottom: 10px; margin-bottom: 15px;">
-                                        <div class="preview-label" style="font-size: 0.875rem; color: #6c757d; margin-bottom: 2px;">Nomor Telepon</div>
-                                        <div class="preview-value" id="preview-telepon" style="font-weight: 600; color: #2c3e50;">-</div>
-                                    </div>
-                                </div>
-                                <div class="col-md-6">
-                                    <div class="preview-item" style="border-bottom: 1px solid #dee2e6; padding-bottom: 10px; margin-bottom: 15px;">
-                                        <div class="preview-label" style="font-size: 0.875rem; color: #6c757d; margin-bottom: 2px;">Shift</div>
-                                        <div class="preview-value" id="preview-shift" style="font-weight: 600; color: #2c3e50;">-</div>
-                                    </div>
-                                </div>
-                                <div class="col-md-6">
-                                    <div class="preview-item" style="border-bottom: 1px solid #dee2e6; padding-bottom: 10px; margin-bottom: 15px;">
-                                        <div class="preview-label" style="font-size: 0.875rem; color: #6c757d; margin-bottom: 2px;">Status</div>
-                                        <div class="preview-value" id="preview-status" style="font-weight: 600; color: #2c3e50;">-</div>
-                                    </div>
-                                </div>
-                                <div class="col-md-6">
-                                    <div class="preview-item" style="border-bottom: 1px solid #dee2e6; padding-bottom: 10px; margin-bottom: 15px;">
-                                        <div class="preview-label" style="font-size: 0.875rem; color: #6c757d; margin-bottom: 2px;">Usia</div>
-                                        <div class="preview-value" id="preview-usia" style="font-weight: 600; color: #2c3e50;">-</div>
-                                    </div>
-                                </div>
-                                <div class="col-12">
-                                    <div class="preview-item">
-                                        <div class="preview-label" style="font-size: 0.875rem; color: #6c757d; margin-bottom: 2px;">Alamat</div>
-                                        <div class="preview-value" id="preview-alamat" style="font-weight: 600; color: #2c3e50;">-</div>
-                                    </div>
-                                </div>
-                            </div>
-                            
-                            <div class="alert alert-warning mt-3">
-                                <i class="fas fa-exclamation-triangle me-2"></i>
-                                <strong>Perhatian:</strong> Pastikan semua data sudah benar sebelum menyimpan. Data yang sudah disimpan tidak dapat diubah secara otomatis.
-                            </div>
+            <div class="modal-body">
+                <form id="tambahKaryawanForm">
+                    <div class="row g-3">
+                        <div class="col-md-6">
+                            <label for="nama" class="form-label">
+                                <i class="fas fa-user me-1"></i>Nama Lengkap <span class="text-danger">*</span>
+                            </label>
+                            <input type="text" class="form-control" id="nama" name="nama" required>
+                            <div class="invalid-feedback"></div>
+                        </div>
+                        <div class="col-md-6">
+                            <label for="email" class="form-label">
+                                <i class="fas fa-envelope me-1"></i>Email <span class="text-danger">*</span>
+                            </label>
+                            <input type="email" class="form-control" id="email" name="email" required>
+                            <div class="invalid-feedback"></div>
+                        </div>
+                        <div class="col-md-6">
+                            <label for="divisi" class="form-label">
+                                <i class="fas fa-building me-1"></i>Divisi <span class="text-danger">*</span>
+                            </label>
+                            <select class="form-control" id="divisi" name="divisi" required>
+                                <option value="">Pilih Divisi</option>
+                                @foreach($divisiList ?? [] as $divisi)
+                                    <option value="{{ $divisi }}">{{ $divisi }}</option>
+                                @endforeach
+                                <option value="other">Divisi Lainnya</option>
+                            </select>
+                            <div class="invalid-feedback"></div>
+                        </div>
+                        <div class="col-md-6" id="divisiLainnyaGroup" style="display: none;">
+                            <label for="divisi_lainnya" class="form-label">
+                                <i class="fas fa-plus me-1"></i>Nama Divisi Baru
+                            </label>
+                            <input type="text" class="form-control" id="divisi_lainnya" name="divisi_lainnya">
+                        </div>
+                        <div class="col-md-6">
+                            <label for="tanggal_lahir" class="form-label">
+                                <i class="fas fa-calendar me-1"></i>Tanggal Lahir <span class="text-danger">*</span>
+                            </label>
+                            <input type="date" class="form-control" id="tanggal_lahir" name="tanggal_lahir" required>
+                            <div class="invalid-feedback"></div>
+                        </div>
+                        <div class="col-md-6">
+                            <label for="nomer_telepon" class="form-label">
+                                <i class="fas fa-phone me-1"></i>Nomor Telepon <span class="text-danger">*</span>
+                            </label>
+                            <input type="tel" class="form-control" id="nomer_telepon" name="nomer_telepon" placeholder="08xxxxxxxxxx" required>
+                            <div class="invalid-feedback"></div>
+                        </div>
+                        <div class="col-md-6">
+                            <label for="id_shift" class="form-label">
+                                <i class="fas fa-clock me-1"></i>Shift <span class="text-danger">*</span>
+                            </label>
+                            <select class="form-control" id="id_shift" name="id_shift" required>
+                                <option value="">Pilih Shift</option>
+                                @foreach($shiftList ?? [] as $shift)
+                                    <option value="{{ $shift->id_shift }}">
+                                        {{ $shift->nama_shift }} ({{ date('H:i', strtotime($shift->jam_mulai)) }}-{{ date('H:i', strtotime($shift->jam_selesai)) }})
+                                    </option>
+                                @endforeach
+                            </select>
+                            <div class="invalid-feedback"></div>
+                        </div>
+                        <div class="col-md-6">
+                            <label for="status" class="form-label">
+                                <i class="fas fa-toggle-on me-1"></i>Status <span class="text-danger">*</span>
+                            </label>
+                            <select class="form-control" id="status" name="status" required>
+                                <option value="Aktif">Aktif</option>
+                                <option value="Non-Aktif">Non-Aktif</option>
+                            </select>
+                            <div class="invalid-feedback"></div>
+                        </div>
+                        <div class="col-12">
+                            <label for="alamat" class="form-label">
+                                <i class="fas fa-map-marker-alt me-1"></i>Alamat <span class="text-danger">*</span>
+                            </label>
+                            <textarea class="form-control" id="alamat" name="alamat" rows="3" required></textarea>
+                            <div class="invalid-feedback"></div>
                         </div>
                     </div>
-                </div>
+                </form>
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">
                     <i class="fas fa-times me-1"></i>Batal
-                </button>
-                <button type="button" class="btn btn-outline-primary" id="updatePreview">
-                    <i class="fas fa-sync me-1"></i>Update Preview
                 </button>
                 <button type="button" class="btn btn-primary" id="submitKaryawan">
                     <i class="fas fa-save me-1"></i>Simpan Karyawan
@@ -2165,7 +1859,6 @@ function initializeFormHandlers() {
                 document.getElementById('divisi_lainnya').required = false;
                 document.getElementById('divisi_lainnya').value = '';
             }
-            updatePreviewData();
         });
     }
     
@@ -2173,12 +1866,6 @@ function initializeFormHandlers() {
     const submitButton = document.getElementById('submitKaryawan');
     if (submitButton) {
         submitButton.addEventListener('click', handleSubmitKaryawan);
-    }
-    
-    // Handle update preview button
-    const updatePreviewButton = document.getElementById('updatePreview');
-    if (updatePreviewButton) {
-        updatePreviewButton.addEventListener('click', updatePreviewData);
     }
     
     // Handle phone number formatting
@@ -2204,177 +1891,8 @@ function initializeFormHandlers() {
             }
             
             e.target.value = value;
-            updatePreviewData();
         });
     }
-    
-    // Add event listeners for real-time preview updates
-    const formInputs = ['nama', 'email', 'tanggal_lahir', 'alamat', 'id_shift', 'status'];
-    formInputs.forEach(inputId => {
-        const input = document.getElementById(inputId);
-        if (input) {
-            input.addEventListener('input', updatePreviewData);
-            input.addEventListener('change', updatePreviewData);
-        }
-    });
-    
-    // Handle tab switching
-    const previewTab = document.getElementById('preview-tab');
-    if (previewTab) {
-        previewTab.addEventListener('shown.bs.tab', function(e) {
-            updatePreviewData();
-        });
-    }
-    
-    // Auto-update preview when modal is shown
-    const modal = document.getElementById('tambahKaryawanModal');
-    if (modal) {
-        modal.addEventListener('shown.bs.modal', function() {
-            updatePreviewData();
-        });
-        
-        modal.addEventListener('hidden.bs.modal', function() {
-            resetForm();
-        });
-    }
-}
-
-// Update preview data
-function updatePreviewData() {
-    const form = document.getElementById('tambahKaryawanForm');
-    if (!form) return;
-    
-    const formData = new FormData(form);
-    
-    // Get form values
-    const nama = formData.get('nama') || '-';
-    const email = formData.get('email') || '-';
-    const divisi = formData.get('divisi') === 'other' ? (formData.get('divisi_lainnya') || '-') : (formData.get('divisi') || '-');
-    const tanggalLahir = formData.get('tanggal_lahir') || '-';
-    const nomerTelepon = formData.get('nomer_telepon') || '-';
-    const idShift = formData.get('id_shift');
-    const status = formData.get('status') || '-';
-    const alamat = formData.get('alamat') || '-';
-    
-    // Calculate age
-    let usia = '-';
-    if (tanggalLahir && tanggalLahir !== '-') {
-        const birthDate = new Date(tanggalLahir);
-        const today = new Date();
-        let age = today.getFullYear() - birthDate.getFullYear();
-        const monthDiff = today.getMonth() - birthDate.getMonth();
-        
-        if (monthDiff < 0 || (monthDiff === 0 && today.getDate() < birthDate.getDate())) {
-            age--;
-        }
-        usia = age + ' tahun';
-    }
-    
-    // Get shift name
-    let shiftText = '-';
-    if (idShift) {
-        const shiftSelect = document.getElementById('id_shift');
-        const selectedOption = shiftSelect.querySelector(`option[value="${idShift}"]`);
-        if (selectedOption) {
-            shiftText = selectedOption.textContent;
-        }
-    }
-    
-    // Format tanggal lahir
-    let tanggalLahirFormatted = tanggalLahir;
-    if (tanggalLahir && tanggalLahir !== '-') {
-        const date = new Date(tanggalLahir);
-        tanggalLahirFormatted = date.toLocaleDateString('id-ID', {
-            weekday: 'long',
-            year: 'numeric',
-            month: 'long',
-            day: 'numeric'
-        });
-    }
-    
-    // Update preview elements
-    updatePreviewElement('preview-nama', nama);
-    updatePreviewElement('preview-email', email);
-    updatePreviewElement('preview-divisi', divisi);
-    updatePreviewElement('preview-tanggal-lahir', tanggalLahirFormatted);
-    updatePreviewElement('preview-telepon', nomerTelepon);
-    updatePreviewElement('preview-shift', shiftText);
-    updatePreviewElement('preview-status', status);
-    updatePreviewElement('preview-usia', usia);
-    updatePreviewElement('preview-alamat', alamat);
-    
-    // Add status badge styling
-    const statusElement = document.getElementById('preview-status');
-    if (statusElement) {
-        statusElement.className = 'preview-value';
-        if (status === 'Aktif') {
-            statusElement.style.color = '#15803d';
-            statusElement.innerHTML = '<i class="fas fa-check-circle me-1"></i>' + status;
-        } else if (status === 'Non-Aktif') {
-            statusElement.style.color = '#dc2626';
-            statusElement.innerHTML = '<i class="fas fa-times-circle me-1"></i>' + status;
-        } else {
-            statusElement.style.color = '#6c757d';
-            statusElement.textContent = status;
-        }
-    }
-    
-    // Add age validation warning
-    const usiaElement = document.getElementById('preview-usia');
-    if (usiaElement && tanggalLahir && tanggalLahir !== '-') {
-        const birthDate = new Date(tanggalLahir);
-        const today = new Date();
-        let age = today.getFullYear() - birthDate.getFullYear();
-        const monthDiff = today.getMonth() - birthDate.getMonth();
-        
-        if (monthDiff < 0 || (monthDiff === 0 && today.getDate() < birthDate.getDate())) {
-            age--;
-        }
-        
-        if (age < 17) {
-            usiaElement.style.color = '#dc2626';
-            usiaElement.innerHTML = '<i class="fas fa-exclamation-triangle me-1"></i>' + age + ' tahun (Minimal 17 tahun)';
-        } else {
-            usiaElement.style.color = '#15803d';
-            usiaElement.innerHTML = '<i class="fas fa-check-circle me-1"></i>' + age + ' tahun';
-        }
-    }
-}
-
-// Helper function to update preview elements
-function updatePreviewElement(elementId, value) {
-    const element = document.getElementById(elementId);
-    if (element) {
-        element.textContent = value || '-';
-    }
-}
-
-// Reset form and preview
-function resetForm() {
-    const form = document.getElementById('tambahKaryawanForm');
-    if (form) {
-        form.reset();
-    }
-    
-    // Reset divisi lainnya
-    const divisiLainnyaGroup = document.getElementById('divisiLainnyaGroup');
-    if (divisiLainnyaGroup) {
-        divisiLainnyaGroup.style.display = 'none';
-        document.getElementById('divisi_lainnya').required = false;
-    }
-    
-    // Clear validation errors
-    clearValidationErrors();
-    
-    // Reset to form tab
-    const formTab = document.getElementById('form-tab');
-    if (formTab) {
-        const tab = new bootstrap.Tab(formTab);
-        tab.show();
-    }
-    
-    // Clear preview
-    updatePreviewData();
 }
 
 // Handle form submission
@@ -2400,12 +1918,6 @@ function handleSubmitKaryawan() {
     
     // Client-side validation
     if (!validateForm(data)) {
-        // Switch to form tab if validation fails
-        const formTab = document.getElementById('form-tab');
-        if (formTab) {
-            const tab = new bootstrap.Tab(formTab);
-            tab.show();
-        }
         return;
     }
     
@@ -2434,7 +1946,8 @@ function handleSubmitKaryawan() {
             modal.hide();
             
             // Reset form
-            resetForm();
+            form.reset();
+            document.getElementById('divisiLainnyaGroup').style.display = 'none';
             
             // Refresh table data
             setTimeout(() => {
@@ -2445,12 +1958,6 @@ function handleSubmitKaryawan() {
             // Show validation errors
             if (result.errors) {
                 showValidationErrors(result.errors);
-                // Switch to form tab to show errors
-                const formTab = document.getElementById('form-tab');
-                if (formTab) {
-                    const tab = new bootstrap.Tab(formTab);
-                    tab.show();
-                }
             } else {
                 showNotification(result.message || 'Terjadi kesalahan saat menyimpan data', 'error');
             }
@@ -2459,13 +1966,6 @@ function handleSubmitKaryawan() {
     .catch(error => {
         console.error('Submit error:', error);
         showNotification('Terjadi kesalahan saat menyimpan data', 'error');
-        
-        // Switch to form tab
-        const formTab = document.getElementById('form-tab');
-        if (formTab) {
-            const tab = new bootstrap.Tab(formTab);
-            tab.show();
-        }
     })
     .finally(() => {
         // Reset button state
