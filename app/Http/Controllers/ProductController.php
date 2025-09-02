@@ -4,13 +4,15 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Models\Product;
+use App\Models\StokProduk;
+use App\Models\Cabang;
+use Illuminate\Support\Facades\DB;
 
 class ProductController extends Controller
 {
     public function index()
     {
-        $products = Product::paginate(5); // 5 per halaman
+        $products = StokProduk::paginate(10); // 10 per halaman
         return view('gudang.inventori.inventory', compact('products'));
     }
 
@@ -19,59 +21,129 @@ class ProductController extends Controller
         return view('gudang.inventori.create');
     }
 
-   public function edit(Product $produk)
-{
-    return view('gudang.inventori.partials.edit-form', compact('produk'));
-}
-
-public function update(Request $request, $id)
-{
-    $product = Product::findOrFail($id);
-
-    $validated = $request->validate([
-        'nama_barang' => 'required|string|max:255',
-        'sku' => 'required|string|max:100',
-        'unit' => 'required|integer',
-        'harga_beli' => 'required|numeric',
-        'harga_jual' => 'required|numeric',
-        'status' => 'required|in:aktif,nonaktif',
-        'image' => 'nullable|image|mimes:jpg,jpeg,png|max:2048',
-    ]);
-
-    if ($request->hasFile('image')) {
-        $validated['image'] = $request->file('image')->store('produk', 'public');
+    public function edit($id)
+    {
+        $produk = StokProduk::findOrFail($id);
+        return view('gudang.inventori.partials.edit-form', compact('produk'));
     }
 
-    $product->update($validated);
+    public function update(Request $request, $id)
+    {
+        $product = StokProduk::findOrFail($id);
 
-    return redirect()->route('gudang.produk.index')
-    ->with('success', 'Produk berhasil diperbarui');
+        $validated = $request->validate([
+            'nama_barang' => 'required|string|max:255',
+            'jumlah_barang' => 'required|integer',
+            'stok' => 'required|integer', 
+            'harga_jual' => 'required|numeric',
+            'foto' => 'nullable|image|mimes:jpg,jpeg,png|max:2048',
+        ]);
 
-}
+        // Pastikan tetap menggunakan cabang Cikoneng
+        $cabangCikoneng = Cabang::where('nama_cabang', 'like', '%Cikoneng%')
+                                ->orWhere('nama_cabang', 'like', '%cikoneng%')
+                                ->first();
+        
+        if ($cabangCikoneng) {
+            $validated['id_cabang'] = $cabangCikoneng->id_cabang;
+        }
+        
+        // Pastikan ada kategori default
+        $kategoriDefault = DB::table('kategori')->first();
+        if ($kategoriDefault) {
+            $validated['id_kategori'] = $kategoriDefault->id_kategori;
+        }
+
+        if ($request->hasFile('foto')) {
+            $validated['foto'] = $request->file('foto')->store('produk', 'public');
+        }
+
+        $product->update($validated);
+
+        return redirect()->route('gudang.inventory.index')
+            ->with('success', 'Produk berhasil diperbarui');
+    }
 
     public function store(Request $request)
-{
-    $validated = $request->validate([
-        'nama_barang' => 'required|string',
-        'sku' => 'required|string',
-        'unit' => 'required|integer',
-        'harga_beli' => 'required|numeric',
-        'harga_jual' => 'required|numeric',
-        'status' => 'required|string',
-        'image' => 'nullable|image',
-        'deskripsi' => 'nullable|string',
-    ]);
+    {
+        // Debug: Log request data
+        \Log::info('Store request data: ', $request->all());
+        
+        $validated = $request->validate([
+            'nama_barang' => 'required|string|max:255',
+            'jumlah_barang' => 'required|integer',
+            'stok' => 'required|integer',
+            'harga_jual' => 'required|numeric',
+            'foto' => 'nullable|image|mimes:jpg,jpeg,png|max:2048',
+        ]);
 
-    if ($request->hasFile('image')) {
-        $validated['image'] = $request->file('image')->store('products', 'public');
+        // Debug: Log validated data
+        \Log::info('Validated data: ', $validated);
+
+        // Cari atau buat cabang Cikoneng
+        $cabangCikoneng = Cabang::where('nama_cabang', 'like', '%Cikoneng%')
+                                ->orWhere('nama_cabang', 'like', '%cikoneng%')
+                                ->first();
+        
+        if (!$cabangCikoneng) {
+            // Buat cabang Cikoneng jika belum ada
+            $cabangCikoneng = Cabang::create([
+                'nama_cabang' => 'Cikoneng',
+                'kategori' => 'Pusat',
+                'alamat' => 'Cikoneng, Ciamis',
+                'wilayah' => 'Jawa Barat'
+            ]);
+        }
+
+        // Pastikan ada kategori default
+        $kategoriDefault = DB::table('kategori')->first();
+        if (!$kategoriDefault) {
+            // Buat kategori default jika belum ada
+            $kategoriId = DB::table('kategori')->insertGetId([
+                'nama_kategori' => 'Umum',
+                'sub_kategori' => 'Produk Umum',
+                'created_at' => now(),
+                'updated_at' => now()
+            ]);
+        } else {
+            $kategoriId = $kategoriDefault->id_kategori;
+        }
+
+        // Set ID cabang otomatis ke Cikoneng
+        $validated['id_cabang'] = $cabangCikoneng->id_cabang;
+        $validated['id_kategori'] = $kategoriId;
+
+        if ($request->hasFile('foto')) {
+            $validated['foto'] = $request->file('foto')->store('produk', 'public');
+        }
+
+        // Debug: Log final data before insert
+        \Log::info('Final data before insert: ', $validated);
+
+        try {
+            $product = StokProduk::create($validated);
+            \Log::info('Product created successfully with ID: ' . $product->id_produk);
+        } catch (\Exception $e) {
+            \Log::error('Error creating product: ' . $e->getMessage());
+            return redirect()->back()->with('error', 'Error: ' . $e->getMessage())->withInput();
+        }
+
+        return redirect()->route('gudang.inventory.index')
+            ->with('success', 'Produk berhasil ditambahkan ke cabang ' . $cabangCikoneng->nama_cabang);
     }
 
-    $validated['tanggal'] = now(); // isi tanggal otomatis
+    public function destroy($id)
+    {
+        $product = StokProduk::findOrFail($id);
+        
+        // Hapus file gambar jika ada
+        if ($product->foto) {
+            \Storage::disk('public')->delete($product->foto);
+        }
+        
+        $product->delete();
 
-    Product::create($validated);
-
-    return redirect()->route('gudang.produk.index')
-    ->with('success', 'Produk berhasil ditambahkan');
-}
-
+        return redirect()->route('gudang.inventory.index')
+            ->with('success', 'Produk berhasil dihapus');
+    }
 }

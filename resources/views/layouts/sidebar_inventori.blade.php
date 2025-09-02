@@ -19,32 +19,32 @@
 
   <!-- NAVIGATION MENU -->
   <div class="sidebar-nav">
-    <a href="{{ route('gudang.dashboard') }}" class="nav-item {{ request()->routeIs('gudang.dashboard') ? 'active' : '' }}">
+    <a href="{{ route('gudang.inventori.dashboard') }}" class="nav-item {{ request()->routeIs('gudang.inventori.dashboard') ? 'active' : '' }}">
       <div class="nav-icon">
         <i class="fas fa-chart-line"></i>
       </div>
       <span class="nav-text">Dashboard</span>
-      @if(request()->routeIs('gudang.dashboard'))
+      @if(request()->routeIs('gudang.inventori.dashboard'))
+        <div class="nav-indicator"></div>
+      @endif
+    </a>
+
+    <a href="{{ route('gudang.inventory.index') }}" class="nav-item {{ request()->routeIs('gudang.inventory*') ? 'active' : '' }}">
+      <div class="nav-icon">
+        <i class="fas fa-boxes"></i>
+      </div>
+      <span class="nav-text">Inventori</span>
+      @if(request()->routeIs('gudang.inventory*'))
         <div class="nav-indicator"></div>
       @endif
     </a>
 
     <a href="{{ route('gudang.permintaan') }}" class="nav-item {{ request()->routeIs('gudang.permintaan') ? 'active' : '' }}">
       <div class="nav-icon">
-        <i class="fas fa-boxes"></i>
+        <i class="fas fa-warehouse"></i>
       </div>
       <span class="nav-text">Permintaan</span>
       @if(request()->routeIs('gudang.permintaan'))
-        <div class="nav-indicator"></div>
-      @endif
-    </a>
-
-    <a href="{{ route('gudang.stok.index') }}" class="nav-item {{ request()->routeIs('gudang.stok*') ? 'active' : '' }}">
-      <div class="nav-icon">
-        <i class="fas fa-warehouse"></i>
-      </div>
-      <span class="nav-text">Stok</span>
-      @if(request()->routeIs('gudang.stok*'))
         <div class="nav-indicator"></div>
       @endif
     </a>
