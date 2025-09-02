@@ -228,27 +228,39 @@
 
     <!-- Pagination -->
     <nav class="pagination-custom" aria-label="Product pagination">
-        <ul class="pagination">
-            <li class="page-item disabled">
-                <span class="page-link">Previous</span>
+        <ul class="pagination" id="pagination-container">
+            <li class="page-item" id="prevPage">
+                <a class="page-link" href="#" onclick="changePage('prev')">
+                    <i class="fas fa-arrow-left me-1"></i>Previous
+                </a>
             </li>
-            <li class="page-item active">
-                <span class="page-link">1</span>
+            <li class="page-item active" data-page="1">
+                <a class="page-link" href="#" onclick="changePage(1)">1</a>
             </li>
-            <li class="page-item">
-                <a class="page-link" href="#">2</a>
+            <li class="page-item" data-page="2">
+                <a class="page-link" href="#" onclick="changePage(2)">2</a>
             </li>
-            <li class="page-item">
-                <a class="page-link" href="#">3</a>
+            <li class="page-item" data-page="3">
+                <a class="page-link" href="#" onclick="changePage(3)">3</a>
             </li>
-            <li class="page-item">
-                <a class="page-link" href="#">4</a>
+            <li class="page-item" data-page="4">
+                <a class="page-link" href="#" onclick="changePage(4)">4</a>
             </li>
-            <li class="page-item">
-                <a class="page-link" href="#">Next</a>
+            <li class="page-item" id="nextPage">
+                <a class="page-link" href="#" onclick="changePage('next')">
+                    Next<i class="fas fa-arrow-right ms-1"></i>
+                </a>
             </li>
         </ul>
     </nav>
+
+    <!-- Loading indicator -->
+    <div id="pagination-loading" class="text-center my-4" style="display: none;">
+        <div class="spinner-border text-primary" role="status">
+            <span class="visually-hidden">Loading...</span>
+        </div>
+        <p class="mt-2 text-muted">Memuat produk...</p>
+    </div>
 </div>
 
 <!-- Product Options Modal -->
@@ -520,6 +532,10 @@
 // Global cart array
 let cart = JSON.parse(localStorage.getItem('cart')) || [];
 
+// Pagination variables
+let currentPage = 1;
+const totalPages = 20; // Total halaman yang tersedia
+
 // Update cart badge
 function updateCartBadge() {
     const cartBadge = document.querySelector('.cart-badge');
@@ -529,9 +545,106 @@ function updateCartBadge() {
     }
 }
 
+// Pagination functions
+function updatePagination() {
+    const pagination = document.getElementById('pagination');
+    const prevButton = document.getElementById('prevPage');
+    const nextButton = document.getElementById('nextPage');
+    
+    // Clear existing page numbers
+    const pageItems = pagination.querySelectorAll('.page-item[data-page]');
+    pageItems.forEach(item => item.remove());
+    
+    // Calculate page range to show
+    let startPage = Math.max(1, currentPage - 2);
+    let endPage = Math.min(totalPages, startPage + 3);
+    
+    // Adjust start page if we're near the end
+    if (endPage - startPage < 3) {
+        startPage = Math.max(1, endPage - 3);
+    }
+    
+    // Create page number buttons
+    for (let i = startPage; i <= endPage; i++) {
+        const pageItem = document.createElement('li');
+        pageItem.className = `page-item ${i === currentPage ? 'active' : ''}`;
+        pageItem.setAttribute('data-page', i);
+        
+        const pageLink = document.createElement('a');
+        pageLink.className = 'page-link';
+        pageLink.href = '#';
+        pageLink.textContent = i;
+        pageLink.onclick = () => changePage(i);
+        
+        pageItem.appendChild(pageLink);
+        nextButton.parentNode.insertBefore(pageItem, nextButton);
+    }
+    
+    // Update Previous button state
+    if (currentPage <= 1) {
+        prevButton.classList.add('disabled');
+        prevButton.querySelector('a').style.pointerEvents = 'none';
+        prevButton.querySelector('a').style.opacity = '0.5';
+    } else {
+        prevButton.classList.remove('disabled');
+        prevButton.querySelector('a').style.pointerEvents = 'auto';
+        prevButton.querySelector('a').style.opacity = '1';
+    }
+    
+    // Update Next button state
+    if (currentPage >= totalPages) {
+        nextButton.classList.add('disabled');
+        nextButton.querySelector('a').style.pointerEvents = 'none';
+        nextButton.querySelector('a').style.opacity = '0.5';
+    } else {
+        nextButton.classList.remove('disabled');
+        nextButton.querySelector('a').style.pointerEvents = 'auto';
+        nextButton.querySelector('a').style.opacity = '1';
+    }
+    
+    // Update page info
+    updatePageInfo();
+}
+
+function changePage(page) {
+    if (page === 'prev' && currentPage > 1) {
+        currentPage--;
+    } else if (page === 'next' && currentPage < totalPages) {
+        currentPage++;
+    } else if (typeof page === 'number' && page >= 1 && page <= totalPages) {
+        currentPage = page;
+    }
+    
+    // Update pagination display
+    updatePagination();
+    
+    // Scroll to top of products
+    document.querySelector('.product-grid').scrollIntoView({ 
+        behavior: 'smooth',
+        block: 'start'
+    });
+    
+    // Here you would typically load new products from server
+    // For now, we'll just update the page display
+    console.log(`Loading page ${currentPage}`);
+}
+
+function updatePageInfo() {
+    const pageInfo = document.querySelector('.text-muted');
+    if (pageInfo) {
+        const itemsPerPage = 12;
+        const startItem = (currentPage - 1) * itemsPerPage + 1;
+        const endItem = Math.min(currentPage * itemsPerPage, 234); // 234 total products
+        pageInfo.textContent = `Menampilkan ${startItem}-${endItem} dari 234 produk`;
+    }
+}
+
 // Product modal functionality
 document.addEventListener('DOMContentLoaded', function() {
     const productModal = document.getElementById('productModal');
+    
+    // Initialize pagination
+    updatePagination();
     
     if (productModal) {
         productModal.addEventListener('show.bs.modal', function(event) {
@@ -690,4 +803,6 @@ function showToast(message, type = 'success') {
     });
 }
 </script>
+
+<!-- Pagination functionality disabled as requested -->
 @endpush

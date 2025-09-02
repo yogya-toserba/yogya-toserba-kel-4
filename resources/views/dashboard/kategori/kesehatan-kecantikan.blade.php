@@ -227,34 +227,58 @@
 
     <!-- Pagination -->
     <nav class="pagination-custom" aria-label="Product pagination">
-        <ul class="pagination">
-            <li class="page-item disabled">
+        <ul class="pagination" id="pagination-container">
+            <li class="page-item disabled" id="prev-page">
                 <span class="page-link">Previous</span>
             </li>
             <li class="page-item active">
                 <span class="page-link">1</span>
             </li>
             <li class="page-item">
-                <a class="page-link" href="#" title="Go to page 2">2</a>
+                <a class="page-link" href="#" data-page="2" title="Go to page 2">2</a>
             </li>
             <li class="page-item">
-                <a class="page-link" href="#" title="Go to page 3">3</a>
+                <a class="page-link" href="#" data-page="3" title="Go to page 3">3</a>
             </li>
             <li class="page-item">
-                <a class="page-link" href="#" title="Go to page 4">4</a>
+                <a class="page-link" href="#" data-page="4" title="Go to page 4">4</a>
             </li>
             <li class="page-item">
                 <span class="page-link text-muted">...</span>
             </li>
             <li class="page-item">
-                <a class="page-link" href="#" title="Go to page 48">48</a>
+                <a class="page-link" href="#" data-page="48" title="Go to page 48">48</a>
             </li>
-            <li class="page-item">
+            <li class="page-item" id="next-page">
                 <a class="page-link" href="#" title="Next page">Next</a>
             </li>
         </ul>
     </nav>
+
+    <!-- Loading indicator -->
+    <div id="pagination-loading" class="text-center my-4" style="display: none;">
+        <div class="spinner-border text-primary" role="status">
+            <span class="visually-hidden">Loading...</span>
+        </div>
+        <p class="mt-2 text-muted">Memuat produk...</p>
+    </div>
 </div>
+
+<!-- Include Pagination JavaScript -->
+<script src="{{ asset('js/pagination.js') }}"></script>
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    // Initialize pagination manager for health & beauty category
+    window.kesehatanManager = new PaginationManager({
+        totalPages: 48,
+        itemsPerPage: 12,
+        totalItems: 576,
+        paginationId: 'pagination-container',
+        pageInfoSelector: '.text-muted',
+        productGridSelector: '.product-grid'
+    });
+});
+</script>
 
 @push('styles')
 <style>

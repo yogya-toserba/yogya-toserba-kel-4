@@ -18,6 +18,40 @@
     <link href="https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
 </head>
 <body>
+    <!-- Ultra Elegant Login Required Modal -->
+    <div class="modal login-required-modal" id="loginRequiredModal" tabindex="-1" aria-labelledby="loginRequiredModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
+                        <i class="fas fa-times"></i>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="login-icon-container">
+                        <div class="login-icon">
+                            <i class="fas fa-user-shield"></i>
+                        </div>
+                    </div>
+                    
+                    <h2 class="modal-title" id="loginRequiredModalLabel">Akses Eksklusif</h2>
+                    <p class="modal-text">
+                        Bergabunglah dengan MyYOGYA untuk menikmati pengalaman berbelanja yang luar biasa dengan penawaran eksklusif, voucher spesial, dan layanan premium yang dirancang khusus untuk Anda.
+                    </p>
+                    
+                    <div class="modal-buttons">
+                        <button type="button" class="btn btn-cancel" data-bs-dismiss="modal">
+                            <i class="fas fa-arrow-left me-2"></i>Nanti Saja
+                        </button>
+                        <a href="{{ route('pelanggan.login') }}" class="btn btn-login">
+                            <i class="fas fa-sign-in-alt me-2"></i>Masuk Sekarang
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <!-- Enhanced Promo Notification Modal -->
     <div class="modal" id="promoModal" tabindex="-1" aria-labelledby="promoModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered">
@@ -27,7 +61,7 @@
                 </div>
                 <div class="modal-body text-center">
                     <!-- Welcome Icon -->
-                    <div class="promo-icon">
+                    <div class="promo-icon welcome-icon">
                         <i class="fas fa-gift fa-3x text-white"></i>
                     </div>
                     
@@ -426,14 +460,6 @@
                                         {{ round((($product['original_price'] - $product['price']) / $product['original_price']) * 100) }}%
                                     </span>
                                 </div>
-                                <div class="product-actions">
-                                    <button class="btn btn-sm btn-outline-primary">
-                                        <i class="fas fa-heart"></i>
-                                    </button>
-                                    <button class="btn btn-sm btn-outline-primary">
-                                        <i class="fas fa-eye"></i>
-                                    </button>
-                                </div>
                             </div>
                             <div class="product-info">
                                 <h6 class="product-name">{{ $product['name'] }}</h6>
@@ -453,8 +479,8 @@
                                     <span class="current-price">Rp {{ number_format($product['price'], 0, ',', '.') }}</span>
                                     <span class="original-price">Rp {{ number_format($product['original_price'], 0, ',', '.') }}</span>
                                 </div>
-                                <button class="btn btn-primary btn-add-cart" data-product-id="{{ $product['id'] }}">
-                                    <i class="fas fa-shopping-cart me-2"></i>Tambah ke Keranjang
+                                <button class="btn btn-primary btn-sm btn-add-cart" data-product-id="{{ $product['id'] }}">
+                                    <i class="fas fa-shopping-cart me-1"></i>Keranjang
                                 </button>
                             </div>
                         </div>
@@ -560,54 +586,155 @@
     <script src="{{ asset('js/dashboard.js') }}"></script>
     
     <script>
-        // Prevent modal from being scrollable and show on page load
+        // Enhanced navbar scroll effect
         document.addEventListener('DOMContentLoaded', function() {
-            const promoModal = new bootstrap.Modal(document.getElementById('promoModal'));
+            const navbar = document.querySelector('.navbar');
+            let lastScrollTop = 0;
             
-            // Show modal on page load for guests only
-            @guest
-                promoModal.show();
-            @endguest
-            
-            // Prevent scrolling when modal is open
-            document.getElementById('promoModal').addEventListener('show.bs.modal', function() {
-                document.body.style.overflow = 'hidden';
-                document.body.style.paddingRight = '0px';
-            });
-            
-            // Restore scrolling and remove all modal effects when modal is closed
-            document.getElementById('promoModal').addEventListener('hidden.bs.modal', function() {
-                document.body.style.overflow = '';
-                document.body.style.paddingRight = '';
+            function handleScroll() {
+                const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
                 
-                // Force remove modal backdrop and body classes
-                document.body.classList.remove('modal-open');
-                const backdrop = document.querySelector('.modal-backdrop');
-                if (backdrop) {
-                    backdrop.remove();
+                if (scrollTop > 100) {
+                    navbar.classList.add('scrolled');
+                } else {
+                    navbar.classList.remove('scrolled');
                 }
                 
-                // Reset body styles completely
-                document.body.removeAttribute('style');
+                lastScrollTop = scrollTop <= 0 ? 0 : scrollTop;
+            }
+            
+            window.addEventListener('scroll', handleScroll, { passive: true });
+            
+            // Enhanced modal functionality with smooth animations
+            const promoModal = new bootstrap.Modal(document.getElementById('promoModal'));
+            const loginRequiredModal = new bootstrap.Modal(document.getElementById('loginRequiredModal'));
+            
+            // Show modal on page load for guests only with delay for better UX
+            @guest
+                setTimeout(() => {
+                    promoModal.show();
+                    
+                    // Add entrance sound effect (optional)
+                    setTimeout(() => {
+                        const modalBody = document.querySelector('#promoModal .modal-body');
+                        modalBody.style.filter = 'drop-shadow(0 0 20px rgba(242, 107, 55, 0.3))';
+                    }, 600);
+                }, 800);
+            @endguest
+            
+            // Login required functionality - trigger when user tries to access restricted features
+            window.showLoginRequired = function() {
+                loginRequiredModal.show();
+            };
+            
+            // Add click handlers for restricted features
+            document.querySelectorAll('.requires-login').forEach(function(element) {
+                element.addEventListener('click', function(e) {
+                    @guest
+                        e.preventDefault();
+                        showLoginRequired();
+                    @endguest
+                });
             });
+            
+            // Enhanced modal event handlers with animation controls
+            function setupModalEvents(modalElement) {
+                modalElement.addEventListener('show.bs.modal', function() {
+                    document.body.style.overflow = 'hidden';
+                    
+                    // Add entrance animation class
+                    setTimeout(() => {
+                        modalElement.classList.add('modal-entering');
+                    }, 100);
+                });
+                
+                modalElement.addEventListener('shown.bs.modal', function() {
+                    // Trigger sequential animations for modal content
+                    const elements = modalElement.querySelectorAll('.welcome-title, .brand-title, .platform-subtitle, .features-highlight, .voucher-section, .modal-buttons');
+                    
+                    elements.forEach((element, index) => {
+                        setTimeout(() => {
+                            element.style.opacity = '1';
+                            element.style.transform = 'translateY(0)';
+                        }, index * 200);
+                    });
+                    
+                    // Add interactive hover effects
+                    const voucherCode = modalElement.querySelector('.voucher-code');
+                    if (voucherCode) {
+                        voucherCode.addEventListener('click', function() {
+                            // Copy to clipboard effect
+                            this.style.transform = 'scale(0.95)';
+                            setTimeout(() => {
+                                this.style.transform = 'scale(1)';
+                            }, 150);
+                        });
+                    }
+                });
+                
+                modalElement.addEventListener('hide.bs.modal', function() {
+                    document.body.style.overflow = 'auto';
+                    modalElement.classList.remove('modal-entering');
+                    document.body.style.paddingRight = '0px';
+                });
+                
+                modalElement.addEventListener('hidden.bs.modal', function() {
+                    document.body.style.overflow = '';
+                    document.body.style.paddingRight = '';
+                    
+                    // Force remove modal backdrop and body classes
+                    document.body.classList.remove('modal-open');
+                    const backdrop = document.querySelector('.modal-backdrop');
+                    if (backdrop) {
+                        backdrop.remove();
+                    }
+                    
+                    // Reset body styles completely
+                    document.body.removeAttribute('style');
+                });
+            }
+            
+            // Setup events for both modals
+            setupModalEvents(document.getElementById('promoModal'));
+            setupModalEvents(document.getElementById('loginRequiredModal'));
         });
         
-        // Force remove all modal animations
+        // Enhanced modal animations with orange theme
         document.addEventListener('DOMContentLoaded', function() {
-            const modal = document.getElementById('promoModal');
-            if (modal) {
-                // Remove fade class to prevent Bootstrap animations
-                modal.classList.remove('fade');
-                
-                // Force backdrop to be instant
+            const modals = document.querySelectorAll('.modal');
+            
+            modals.forEach(function(modal) {
                 modal.addEventListener('show.bs.modal', function() {
                     setTimeout(function() {
                         const backdrop = document.querySelector('.modal-backdrop');
                         if (backdrop) {
                             backdrop.style.opacity = '1';
-                            backdrop.style.transition = 'none';
-                            backdrop.style.background = 'rgba(0, 0, 0, 0.5)';
+                            backdrop.style.transition = 'opacity 0.3s ease';
+                            backdrop.style.background = 'rgba(0, 0, 0, 0.7)';
+                            backdrop.style.backdropFilter = 'blur(20px)';
+                            backdrop.style.webkitBackdropFilter = 'blur(20px)';
                         }
+                    }, 10);
+                });
+            });
+            
+            // Add elegant entrance animation to product cards
+            const observer = new IntersectionObserver(function(entries) {
+                entries.forEach(function(entry) {
+                    if (entry.isIntersecting) {
+                        entry.target.style.opacity = '1';
+                        entry.target.style.transform = 'translateY(0)';
+                    }
+                });
+            }, { threshold: 0.1 });
+            
+            document.querySelectorAll('.product-card').forEach(function(card, index) {
+                card.style.opacity = '0';
+                card.style.transform = 'translateY(30px)';
+                card.style.transition = `opacity 0.6s ease ${index * 0.1}s, transform 0.6s ease ${index * 0.1}s`;
+                observer.observe(card);
+            });
+        });
                     }, 0);
                 });
             }
