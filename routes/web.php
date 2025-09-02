@@ -265,6 +265,29 @@ Route::prefix('admin')->name('admin.')->group(function () {
         Route::get('absensi', function () {
             return view('admin.absensi');
         })->name('absensi');
+
+        // Manajemen Pengguna Routes
+        Route::get('daftar-pengguna', function () {
+            return view('admin.daftar-pengguna');
+        })->name('daftar-pengguna');
+        Route::get('membership', function () {
+            return view('admin.membership');
+        })->name('membership');
+        Route::get('log-aktivitas', function () {
+            return view('admin.log-aktivitas');
+        })->name('log-aktivitas');
+
+        // Manajemen Gudang Routes
+        Route::get('data-pengawai-gudang', function () {
+            return view('admin.data-pengawai-gudang');
+        })->name('data-pengawai-gudang');
+        Route::get('lokasi-gudang', function () {
+            return view('admin.lokasi-gudang');
+        })->name('lokasi-gudang');
+        Route::get('data-barang', function () {
+            return view('admin.data-barang');
+        })->name('data-barang');
+
         Route::get('pengaturan', function () {
             return view('admin.pengaturan');
         })->name('pengaturan');
