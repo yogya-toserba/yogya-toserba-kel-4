@@ -176,12 +176,33 @@ Route::prefix('gudang')->name('gudang.')->group(function () {
     Route::get('/kontak-admin', function () {
         return view('gudang.kontak-admin');
     })->name('kontak-admin');
+    
+    // Debug route (public, no auth required)
+    Route::get('/debug-test', function () {
+        return response()->json([
+            'message' => 'Debug route working!',
+            'pemasok_count' => \App\Models\Pemasok::count(),
+            'timestamp' => now()
+        ]);
+    });
+    
+    // Simple pemasok test route (no auth required)
+    Route::get('/test-pemasok/{id}', function ($id) {
+        $pemasok = \App\Models\Pemasok::where('id_pemasok', $id)->first();
+        return response()->json([
+            'found' => $pemasok ? true : false,
+            'data' => $pemasok,
+            'total_count' => \App\Models\Pemasok::count()
+        ]);
+    });
 
     // Protected routes (require gudang authentication)
     Route::middleware(['auth.gudang'])->group(function () {
         Route::get('/dashboard', [GudangController::class, 'dashboard'])->name('dashboard');
 
         // Stock management routes
+        Route::get('stok-export', [StokGudangPusatController::class, 'export'])->name('stok.export');
+        Route::get('stok-data', [StokGudangPusatController::class, 'getStokData'])->name('stok.data');
         Route::get('stok/{stok}/add-stock', [StokGudangPusatController::class, 'showAddStock'])->name('stok.add-stock');
         Route::post('stok/{stok}/add-stock', [StokGudangPusatController::class, 'addStock'])->name('stok.add-stock.submit');
         Route::resource('stok', StokGudangPusatController::class);
@@ -200,6 +221,11 @@ Route::prefix('gudang')->name('gudang.')->group(function () {
         })->name('inventori');
 
         // Routes untuk Pemasok
+        // Export route harus diletakkan sebelum resource route
+        Route::get('/export-pemasok', [PemasokController::class, 'export'])->name('pemasok.export');
+        Route::get('/pemasok/export', [PemasokController::class, 'export'])->name('pemasok.export.alt');
+        Route::get('/pemasok-data', [PemasokController::class, 'getData'])->name('pemasok.data');
+        
         Route::resource('pemasok', PemasokController::class)->names([
             'index' => 'pemasok.index',
             'create' => 'pemasok.create',
@@ -209,7 +235,39 @@ Route::prefix('gudang')->name('gudang.')->group(function () {
             'update' => 'pemasok.update',
             'destroy' => 'pemasok.destroy'
         ]);
-        Route::get('/pemasok-data', [PemasokController::class, 'getData'])->name('pemasok.data');
+        
+        // Debug route to check pemasok count
+        Route::get('/check-pemasok', function () {
+            $count = \App\Models\Pemasok::count();
+            $sample = \App\Models\Pemasok::take(3)->get();
+            return response()->json([
+                'total_pemasok' => $count,
+                'sample_data' => $sample
+            ]);
+        });
+        
+        // Simple test export without authentication
+        Route::get('/test-export', function () {
+            return response('Test Export Working!', 200);
+        });
+        
+        // Simple test route inside protected group
+        Route::get('/test-auth', function () {
+            return response()->json([
+                'message' => 'Auth working!',
+                'user' => auth('gudang')->user() ? 'Authenticated' : 'Not authenticated',
+                'timestamp' => now()
+            ]);
+        });
+        
+        // Debug route to check pemasok data
+        Route::get('/debug-pemasok', function () {
+            $pemasoks = \App\Models\Pemasok::all();
+            return response()->json([
+                'count' => $pemasoks->count(),
+                'data' => $pemasoks->take(5)
+            ]);
+        });
 
         Route::get('/resiko', function () {
             return view('gudang.resiko');

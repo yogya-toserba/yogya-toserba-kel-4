@@ -159,24 +159,27 @@ class StokGudangPusatController extends BaseController
      */
     public function update(Request $request, StokGudangPusat $stok)
     {
+        // Validation untuk field yang essential saja
         $validated = $request->validate([
             'nama_produk' => 'required|string|max:255',
-            'satuan' => 'required|string|max:50',
             'jumlah' => 'required|integer|min:0',
-            'foto' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
-            'expired' => 'nullable|date|after:today',
+            'harga_beli' => 'required|numeric|min:0',
+            'harga_jual' => 'required|numeric|min:0',
+            'status' => 'required|in:aktif,non-aktif',
+            'expired' => 'nullable|date',
         ]);
 
-        if ($request->hasFile('foto')) {
-            // Delete old photo if exists
-            if ($stok->foto) {
-                Storage::disk('public')->delete($stok->foto);
-            }
-            $fotoPath = $request->file('foto')->store('stok-photos', 'public');
-            $validated['foto'] = $fotoPath;
-        }
-
+        // Update data stok
         $stok->update($validated);
+
+        // Handle AJAX requests
+        if ($request->expectsJson()) {
+            return response()->json([
+                'success' => true,
+                'message' => 'Data stok berhasil diperbarui',
+                'data' => $stok->fresh()
+            ]);
+        }
 
         return redirect()->route('gudang.stok.index')
                         ->with('success', 'Data produk berhasil diperbarui.');
@@ -311,5 +314,213 @@ class StokGudangPusatController extends BaseController
             'message' => $message,
             'new_quantity' => $stok->jumlah
         ]);
+    }
+
+    /**
+     * Export stok data to CSV or Excel
+     */
+    public function export(Request $request)
+    {
+        $format = $request->get('format', 'csv');
+        
+        $query = StokGudangPusat::query();
+        
+        // Apply same filters as index
+        if ($request->filled('search')) {
+            $query->where('nama_produk', 'like', '%' . $request->search . '%');
+        }
+        
+        if ($request->filled('kategori')) {
+            $query->where('kategori', $request->kategori);
+        }
+        
+        if ($request->filled('stock_filter')) {
+            switch ($request->stock_filter) {
+                case 'low':
+                    $query->where('jumlah', '<=', 10)->where('jumlah', '>', 0);
+                    break;
+                case 'empty':
+                    $query->where('jumlah', '<=', 0);
+                    break;
+                case 'normal':
+                    $query->where('jumlah', '>', 10);
+                    break;
+                case 'expiring':
+                    $query->whereNotNull('expired')
+                          ->whereDate('expired', '<=', now()->addDays(30));
+                    break;
+            }
+        }
+        
+        $stokData = $query->orderBy('nama_produk')->get();
+        
+        if ($format === 'excel') {
+            return $this->exportToExcel($stokData);
+        } else {
+            return $this->exportToCsv($stokData);
+        }
+    }
+
+    /**
+     * Export to CSV format
+     */
+    private function exportToCsv($stokData)
+    {
+        $filename = 'stok_gudang_pusat_' . date('Y-m-d_H-i-s') . '.csv';
+        
+        $headers = [
+            'Content-Type' => 'text/csv; charset=UTF-8',
+            'Content-Disposition' => 'attachment; filename="' . $filename . '"',
+            'Cache-Control' => 'must-revalidate, post-check=0, pre-check=0',
+            'Expires' => '0',
+            'Pragma' => 'public',
+        ];
+
+        $callback = function() use ($stokData) {
+            $file = fopen('php://output', 'w');
+            
+            // Add BOM for UTF-8
+            fprintf($file, chr(0xEF).chr(0xBB).chr(0xBF));
+            
+            // Headers with semicolon delimiter for Excel compatibility
+            fputcsv($file, [
+                'ID Stok',
+                'Nama Produk', 
+                'Kategori',
+                'Jumlah',
+                'Satuan',
+                'Harga Beli',
+                'Harga Jual',
+                'Tanggal Expired',
+                'Supplier',
+                'Lokasi Rak',
+                'Barcode',
+                'Status',
+                'Tanggal Ditambahkan',
+                'Terakhir Diperbarui'
+            ], ';');
+            
+            // Data rows
+            foreach ($stokData as $stok) {
+                fputcsv($file, [
+                    $stok->id_stok ?? '',
+                    $stok->nama_produk ?? '',
+                    $stok->kategori ?? '',
+                    $stok->jumlah ?? 0,
+                    $stok->satuan ?? '',
+                    $stok->harga_beli ?? 0,
+                    $stok->harga_jual ?? 0,
+                    $stok->expired ? date('d/m/Y', strtotime($stok->expired)) : '',
+                    $stok->supplier ?? '',
+                    $stok->lokasi_rak ?? '',
+                    $stok->barcode ?? '',
+                    $stok->jumlah > 0 ? 'Tersedia' : 'Habis',
+                    $stok->created_at ? date('d/m/Y H:i', strtotime($stok->created_at)) : '',
+                    $stok->updated_at ? date('d/m/Y H:i', strtotime($stok->updated_at)) : ''
+                ], ';');
+            }
+            
+            fclose($file);
+        };
+
+        return response()->stream($callback, 200, $headers);
+    }
+
+    /**
+     * Export to Excel format (HTML table)
+     */
+    private function exportToExcel($stokData)
+    {
+        $filename = 'stok_gudang_pusat_' . date('Y-m-d_H-i-s') . '.xls';
+        
+        $headers = [
+            'Content-Type' => 'application/vnd.ms-excel; charset=UTF-8',
+            'Content-Disposition' => 'attachment; filename="' . $filename . '"',
+            'Cache-Control' => 'must-revalidate, post-check=0, pre-check=0',
+            'Expires' => '0',
+            'Pragma' => 'public',
+        ];
+
+        $html = '<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <style>
+        table { border-collapse: collapse; width: 100%; }
+        th, td { border: 1px solid #000; padding: 8px; text-align: left; }
+        th { background-color: #f2f2f2; font-weight: bold; }
+        .number { text-align: right; }
+        .center { text-align: center; }
+    </style>
+</head>
+<body>
+    <h2>Data Stok Gudang Pusat - ' . date('d/m/Y H:i') . '</h2>
+    <table>
+        <thead>
+            <tr>
+                <th>ID Stok</th>
+                <th>Nama Produk</th>
+                <th>Kategori</th>
+                <th>Jumlah</th>
+                <th>Satuan</th>
+                <th>Harga Beli</th>
+                <th>Harga Jual</th>
+                <th>Tanggal Expired</th>
+                <th>Supplier</th>
+                <th>Lokasi Rak</th>
+                <th>Barcode</th>
+                <th>Status</th>
+                <th>Tanggal Ditambahkan</th>
+                <th>Terakhir Diperbarui</th>
+            </tr>
+        </thead>
+        <tbody>';
+
+        foreach ($stokData as $stok) {
+            $html .= '<tr>
+                <td class="center">' . ($stok->id_stok ?? '') . '</td>
+                <td>' . ($stok->nama_produk ?? '') . '</td>
+                <td>' . ($stok->kategori ?? '') . '</td>
+                <td class="number">' . ($stok->jumlah ?? 0) . '</td>
+                <td>' . ($stok->satuan ?? '') . '</td>
+                <td class="number">Rp ' . number_format($stok->harga_beli ?? 0, 0, ',', '.') . '</td>
+                <td class="number">Rp ' . number_format($stok->harga_jual ?? 0, 0, ',', '.') . '</td>
+                <td class="center">' . ($stok->expired ? date('d/m/Y', strtotime($stok->expired)) : '') . '</td>
+                <td>' . ($stok->supplier ?? '') . '</td>
+                <td>' . ($stok->lokasi_rak ?? '') . '</td>
+                <td>' . ($stok->barcode ?? '') . '</td>
+                <td class="center">' . ($stok->jumlah > 0 ? 'Tersedia' : 'Habis') . '</td>
+                <td class="center">' . ($stok->created_at ? date('d/m/Y H:i', strtotime($stok->created_at)) : '') . '</td>
+                <td class="center">' . ($stok->updated_at ? date('d/m/Y H:i', strtotime($stok->updated_at)) : '') . '</td>
+            </tr>';
+        }
+
+        $html .= '</tbody>
+    </table>
+</body>
+</html>';
+
+        return response($html, 200, $headers);
+    }
+
+    /**
+     * Get stok data for AJAX requests
+     */
+    public function getStokData(Request $request)
+    {
+        try {
+            $id = $request->get('id');
+            $stok = StokGudangPusat::where('id_produk', $id)->firstOrFail();
+            
+            return response()->json([
+                'success' => true,
+                'data' => $stok
+            ]);
+        } catch (\Exception $e) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Data stok tidak ditemukan'
+            ], 404);
+        }
     }
 }
