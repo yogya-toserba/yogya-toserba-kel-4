@@ -601,7 +601,7 @@ body.dark-mode .text-secondary {
             </div>
             <div style="text-align: right;">
                 <div id="realTimeClock" style="font-weight: 600; color: white; font-size: 1rem; margin-bottom: 5px;"></div>
-                <small style="opacity: 0.8;">Senin, 1 September 2025</small>
+                <small id="currentDate" style="opacity: 0.8;"></small>
             </div>
         </div>
     </div>
@@ -957,7 +957,26 @@ document.addEventListener('DOMContentLoaded', function() {
         };
         
         const timeString = now.toLocaleTimeString('id-ID', options);
-        document.getElementById('realTimeClock').textContent = timeString + ' WIB';
+        
+        // Update clock
+        const clockElement = document.getElementById('realTimeClock');
+        if (clockElement) {
+            clockElement.textContent = timeString + ' WIB';
+        }
+        
+        // Update date
+        const dateElement = document.getElementById('currentDate');
+        if (dateElement) {
+            const dateOptions = { 
+                weekday: 'long', 
+                year: 'numeric', 
+                month: 'long', 
+                day: 'numeric',
+                timeZone: 'Asia/Jakarta'
+            };
+            const dateString = now.toLocaleDateString('id-ID', dateOptions);
+            dateElement.textContent = dateString;
+        }
     }
     
     // Update clock immediately

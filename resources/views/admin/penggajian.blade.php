@@ -158,6 +158,49 @@ body.dark-mode .new-stat-label {
     margin-right: 4px !important;
 }
 
+.new-stat-number {
+    font-size: 2.3rem !important;
+    font-weight: bold !important;
+    color: #1e293b !important;
+    margin: 12px 0 8px 0 !important;
+    line-height: 1.2 !important;
+}
+
+body.dark-mode .new-stat-number {
+    color: #e2e8f0 !important;
+}
+
+.new-stat-label {
+    color: #64748b !important;
+    font-weight: 500 !important;
+    font-size: 0.9rem !important;
+    line-height: 1.3 !important;
+}
+
+body.dark-mode .new-stat-label {
+    color: #94a3b8 !important;
+}
+
+.new-stat-change {
+    font-size: 0.75rem !important;
+    font-weight: 600 !important;
+    margin-top: 8px !important;
+    padding: 4px 8px !important;
+    border-radius: 12px !important;
+    display: inline-block !important;
+    text-align: center !important;
+}
+
+.change-positive {
+    background: #dcfce7 !important;
+    color: #15803d !important;
+}
+
+.change-neutral {
+    background: #e0f2fe !important;
+    color: #0277bd !important;
+}
+
 .new-card {
     background: white !important;
     border-radius: 15px !important;
@@ -203,6 +246,111 @@ body.dark-mode .new-card-title {
 
 .new-card-body {
     padding: 25px !important;
+}
+
+/* Real-time clock styling */
+#realTimeClock {
+    background: rgba(255, 255, 255, 0.2) !important;
+    padding: 8px 16px !important;
+    border-radius: 20px !important;
+    border: 1px solid rgba(255, 255, 255, 0.3) !important;
+    backdrop-filter: blur(10px) !important;
+    font-family: 'Courier New', monospace !important;
+    letter-spacing: 1px !important;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1) !important;
+    transition: all 0.2s ease !important;
+}
+
+#realTimeClock:hover {
+    background: rgba(255, 255, 255, 0.25) !important;
+    transform: translateY(-1px) !important;
+}
+
+/* Responsive styling for header */
+@media (max-width: 992px) {
+    .new-header div[style*="display: flex"] {
+        flex-direction: column !important;
+        text-align: center !important;
+    }
+    
+    .new-header div[style*="text-align: right"] {
+        text-align: center !important;
+        margin-top: 15px !important;
+    }
+    
+    #realTimeClock {
+        font-size: 0.9rem !important;
+        padding: 6px 12px !important;
+    }
+}
+
+@media (max-width: 768px) {
+    .new-header h1 {
+        font-size: 2rem !important;
+    }
+    
+    .new-header p {
+        font-size: 1rem !important;
+    }
+    
+    #realTimeClock {
+        font-size: 0.95rem !important;
+    }
+}
+
+/* Form Controls - Match Absensi Style */
+.form-control {
+    border: 1px solid #e2e8f0 !important;
+    border-radius: 10px !important;
+    padding: 8px 12px !important;
+    background: white !important;
+    color: #1e293b !important;
+    font-size: 0.9rem !important;
+    transition: all 0.3s ease !important;
+}
+
+.form-control:focus {
+    border-color: #f26b37 !important;
+    box-shadow: 0 0 0 3px rgba(242, 107, 55, 0.1) !important;
+    background: white !important;
+}
+
+body.dark-mode .form-control {
+    background: #374151 !important;
+    border-color: #4b5563 !important;
+    color: #e2e8f0 !important;
+}
+
+body.dark-mode .form-control:focus {
+    background: #374151 !important;
+    border-color: #f26b37 !important;
+    box-shadow: 0 0 0 3px rgba(242, 107, 55, 0.2) !important;
+}
+
+.form-label {
+    color: #374151 !important;
+    font-weight: 500 !important;
+    font-size: 0.85rem !important;
+    margin-bottom: 5px !important;
+}
+
+body.dark-mode .form-label {
+    color: #e2e8f0 !important;
+}
+
+/* Search and Filter Bar */
+.search-filter-bar {
+    background: white !important;
+    padding: 25px !important;
+    border-radius: 15px !important;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.1) !important;
+    margin-bottom: 30px !important;
+    border: 1px solid #e2e8f0 !important;
+}
+
+body.dark-mode .search-filter-bar {
+    background: #2a2d3f !important;
+    border-color: #3a3d4a !important;
 }
 
 /* Table Card Specific Styling */
@@ -1355,22 +1503,30 @@ body.dark-mode td small {
 <div class="new-dashboard">
     <!-- Header Section -->
     <div class="new-header">
-        <h1><i class="fas fa-money-check-alt me-3"></i>Manajemen Penggajian Karyawan</h1>
-        <p>Kelola dan proses gaji karyawan MyYOGYA dengan sistem terintegrasi</p>
+        <div style="display: flex; justify-content: space-between; align-items: center;">
+            <div>
+                <h1><i class="fas fa-money-check-alt me-3"></i>Manajemen Penggajian Karyawan</h1>
+                <p>Kelola dan proses gaji karyawan MyYOGYA dengan sistem terintegrasi</p>
+            </div>
+            <div style="text-align: right;">
+                <div id="realTimeClock" style="font-weight: 600; color: white; font-size: 1rem; margin-bottom: 5px;"></div>
+                <small id="currentDate" style="opacity: 0.8;"></small>
+            </div>
+        </div>
     </div>
 
-    <!-- Stats Section -->
+    <!-- Statistics Cards -->
     <div class="row g-4 mb-5">
         <div class="col-lg-3 col-md-6">
             <div class="new-stat-card">
                 <div class="new-stat-icon">
                     <i class="fas fa-money-bill-wave"></i>
                 </div>
-                <div class="new-stat-label">Total Gaji Bulan Ini</div>
                 <div class="new-stat-number">Rp 485.2M</div>
-                <small style="color: #10b981; font-size: 0.7rem;">
-                    <i class="fas fa-calendar-month"></i> Agustus 2025
-                </small>
+                <div class="new-stat-label">Total Gaji Bulan Ini</div>
+                <div class="new-stat-change change-positive">
+                    <i class="fas fa-calendar-month"></i> <span id="currentMonthYear">Loading...</span>
+                </div>
             </div>
         </div>
         <div class="col-lg-3 col-md-6">
@@ -1378,11 +1534,11 @@ body.dark-mode td small {
                 <div class="new-stat-icon">
                     <i class="fas fa-check-circle"></i>
                 </div>
-                <div class="new-stat-label">Sudah Dibayar</div>
                 <div class="new-stat-number">189</div>
-                <small style="color: #3b82f6; font-size: 0.7rem;">
+                <div class="new-stat-label">Sudah Dibayar</div>
+                <div class="new-stat-change change-positive">
                     <i class="fas fa-user-check"></i> Karyawan
-                </small>
+                </div>
             </div>
         </div>
         <div class="col-lg-3 col-md-6">
@@ -1390,11 +1546,11 @@ body.dark-mode td small {
                 <div class="new-stat-icon">
                     <i class="fas fa-clock"></i>
                 </div>
-                <div class="new-stat-label">Pending Approval</div>
                 <div class="new-stat-number">23</div>
-                <small style="color: #f59e0b; font-size: 0.7rem;">
+                <div class="new-stat-label">Pending Approval</div>
+                <div class="new-stat-change change-neutral">
                     <i class="fas fa-hourglass-half"></i> Menunggu
-                </small>
+                </div>
             </div>
         </div>
         <div class="col-lg-3 col-md-6">
@@ -1402,11 +1558,11 @@ body.dark-mode td small {
                 <div class="new-stat-icon">
                     <i class="fas fa-star"></i>
                 </div>
-                <div class="new-stat-label">Bonus & Lembur</div>
                 <div class="new-stat-number">Rp 23.5M</div>
-                <small style="color: #8b5cf6; font-size: 0.7rem;">
+                <div class="new-stat-label">Bonus & Lembur</div>
+                <div class="new-stat-change change-positive">
                     <i class="fas fa-plus-circle"></i> Tambahan
-                </small>
+                </div>
             </div>
         </div>
     </div>
@@ -1502,7 +1658,7 @@ body.dark-mode td small {
         <div class="new-card-header">
             <h5 class="new-card-title">
                 <i class="fas fa-calculator"></i>
-                Daftar Penggajian Karyawan - Agustus 2025
+                <span id="currentMonthHeader">Loading...</span>
             </h5>
             <div class="d-flex gap-2">
                 <button class="btn btn-modern btn-header">
@@ -2230,5 +2386,65 @@ document.querySelectorAll('.action-dropdown-item').forEach(item => {
         this.closest('.action-dropdown-menu').style.display = 'none';
     });
 });
+
+// Real time clock and date
+function updateClock() {
+    const now = new Date();
+    
+    // Update clock
+    const timeString = now.toLocaleTimeString('id-ID', {
+        hour12: false,
+        hour: '2-digit',
+        minute: '2-digit',
+        second: '2-digit',
+        timeZone: 'Asia/Jakarta'
+    });
+    const clockElement = document.getElementById('realTimeClock');
+    if (clockElement) {
+        clockElement.textContent = timeString + ' WIB';
+    }
+    
+    // Update date
+    const dateElement = document.getElementById('currentDate');
+    if (dateElement) {
+        const dateOptions = { 
+            weekday: 'long', 
+            year: 'numeric', 
+            month: 'long', 
+            day: 'numeric',
+            timeZone: 'Asia/Jakarta'
+        };
+        const dateString = now.toLocaleDateString('id-ID', dateOptions);
+        dateElement.textContent = dateString;
+    }
+    
+    // Update current month year for stats
+    const monthYearElement = document.getElementById('currentMonthYear');
+    if (monthYearElement) {
+        const monthOptions = { 
+            month: 'long',
+            year: 'numeric',
+            timeZone: 'Asia/Jakarta'
+        };
+        const monthString = now.toLocaleDateString('id-ID', monthOptions);
+        monthYearElement.textContent = monthString;
+    }
+    
+    // Update current month header
+    const monthHeaderElement = document.getElementById('currentMonthHeader');
+    if (monthHeaderElement) {
+        const headerOptions = { 
+            month: 'long',
+            year: 'numeric',
+            timeZone: 'Asia/Jakarta'
+        };
+        const headerString = now.toLocaleDateString('id-ID', headerOptions);
+        monthHeaderElement.textContent = `Daftar Penggajian Karyawan - ${headerString}`;
+    }
+}
+
+// Update clock every second
+setInterval(updateClock, 1000);
+updateClock(); // Initial call
 </script>
 @endsection
