@@ -1,14 +1,14 @@
 @extends('layouts.appGudang')
 
-@section('title', 'Tambah Pengiriman - MyYOGYA Dashboard')
+@section('title', 'Edit Pengiriman - MyYOGYA Dashboard')
 
 @section('content')
 <div class="container-fluid py-4">
     <!-- Header Section -->
     <div class="page-header d-flex justify-content-between align-items-center mb-4">
         <div>
-            <h1><i class="fas fa-plus-circle me-2"></i>Tambah Pengiriman Baru</h1>
-            <p class="mb-0">Buat pengiriman produk ke cabang atau tujuan lainnya</p>
+            <h1><i class="fas fa-edit me-2"></i>Edit Pengiriman</h1>
+            <p class="mb-0">Ubah informasi pengiriman produk</p>
         </div>
         <div class="actions d-flex gap-2">
             <a href="{{ route('gudang.pengiriman.index') }}" class="btn btn-orange btn-lg shadow-sm">
@@ -24,12 +24,13 @@
                 <div class="new-card-header">
                     <h5 class="mb-0 new-card-title">
                         <i class="fas fa-edit" style="color: #f26b37; margin-right: 10px;"></i>
-                        Informasi Pengiriman
+                        Edit Informasi Pengiriman
                     </h5>
                 </div>
                 <div class="new-card-body p-4">
-                    <form action="{{ route('gudang.pengiriman.store') }}" method="POST" id="pengirimanForm">
+                    <form action="{{ route('gudang.pengiriman.update', $pengiriman->id) }}" method="POST" id="pengirimanForm">
                         @csrf
+                        @method('PUT')
                         
                         <div class="row">
                             <!-- Nama Produk -->
@@ -41,7 +42,8 @@
                                         id="id_produk" name="id_produk" required>
                                     <option value="">Pilih Produk</option>
                                     @foreach($produkList as $produk)
-                                        <option value="{{ $produk->id_produk }}" {{ old('id_produk') == $produk->id_produk ? 'selected' : '' }}>
+                                        <option value="{{ $produk->id_produk }}" 
+                                                {{ (old('id_produk', $pengiriman->id_produk) == $produk->id_produk) ? 'selected' : '' }}>
                                             {{ $produk->nama_produk }} — Tersisa: {{ $produk->jumlah }}
                                         </option>
                                     @endforeach
@@ -60,7 +62,7 @@
                                        class="form-control @error('tujuan') is-invalid @enderror" 
                                        id="tujuan" 
                                        name="tujuan" 
-                                       value="{{ old('tujuan') }}"
+                                       value="{{ old('tujuan', $pengiriman->tujuan) }}"
                                        placeholder="Contoh: Cabang Malioboro, Gudang Regional Yogya"
                                        required>
                                 @error('tujuan')
@@ -79,7 +81,7 @@
                                        class="form-control @error('jumlah') is-invalid @enderror" 
                                        id="jumlah" 
                                        name="jumlah" 
-                                       value="{{ old('jumlah') }}"
+                                       value="{{ old('jumlah', $pengiriman->jumlah) }}"
                                        min="1"
                                        placeholder="Masukkan jumlah produk"
                                        required>
@@ -97,7 +99,7 @@
                                        class="form-control @error('tanggal_kirim') is-invalid @enderror" 
                                        id="tanggal_kirim" 
                                        name="tanggal_kirim" 
-                                       value="{{ old('tanggal_kirim', date('Y-m-d')) }}"
+                                       value="{{ old('tanggal_kirim', $pengiriman->tanggal_kirim ? $pengiriman->tanggal_kirim->format('Y-m-d') : '') }}"
                                        required>
                                 @error('tanggal_kirim')
                                     <div class="invalid-feedback">{{ $message }}</div>
@@ -114,9 +116,9 @@
                                 <select class="form-select @error('status') is-invalid @enderror" 
                                         id="status" name="status" required>
                                     <option value="">Pilih Status</option>
-                                    <option value="pending" {{ old('status') == 'pending' ? 'selected' : '' }}>Pending</option>
-                                    <option value="dikirim" {{ old('status') == 'dikirim' ? 'selected' : '' }}>Dikirim</option>
-                                    <option value="selesai" {{ old('status') == 'selesai' ? 'selected' : '' }}>Selesai</option>
+                                    <option value="pending" {{ old('status', $pengiriman->status) == 'pending' ? 'selected' : '' }}>Pending</option>
+                                    <option value="dikirim" {{ old('status', $pengiriman->status) == 'dikirim' ? 'selected' : '' }}>Dikirim</option>
+                                    <option value="selesai" {{ old('status', $pengiriman->status) == 'selesai' ? 'selected' : '' }}>Selesai</option>
                                 </select>
                                 @error('status')
                                     <div class="invalid-feedback">{{ $message }}</div>
@@ -126,8 +128,8 @@
 
                         <!-- Action Buttons -->
                         <div class="d-flex gap-2 pt-3 border-top">
-                            <button type="submit" class="btn btn-primary">
-                                <i class="fas fa-save me-2"></i>Simpan Pengiriman
+                            <button type="submit" class="btn btn-warning">
+                                <i class="fas fa-save me-2"></i>Update Pengiriman
                             </button>
                             <a href="{{ route('gudang.pengiriman.index') }}" class="btn btn-outline-secondary">
                                 <i class="fas fa-times me-2"></i>Batal

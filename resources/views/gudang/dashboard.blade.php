@@ -266,7 +266,7 @@ body.dark-mode .quick-action-btn {
             <div class="new-stat-icon">
                 <i class="fas fa-boxes"></i>
             </div>
-            <div class="new-stat-number">23,456</div>
+            <div class="new-stat-number">{{ number_format($totalStok ?? 0) }}</div>
             <div class="new-stat-label">Total Stok Barang</div>
         </div>
 
@@ -274,15 +274,15 @@ body.dark-mode .quick-action-btn {
             <div class="new-stat-icon">
                 <i class="fas fa-arrow-down"></i>
             </div>
-            <div class="new-stat-number">1,245</div>
-            <div class="new-stat-label">Barang Masuk</div>
+            <div class="new-stat-number">{{ number_format($barangMasuk ?? 0) }}</div>
+            <div class="new-stat-label">Barang Masuk (30d)</div>
         </div>
 
         <div class="new-stat-card">
             <div class="new-stat-icon">
                 <i class="fas fa-arrow-up"></i>
             </div>
-            <div class="new-stat-number">892</div>
+            <div class="new-stat-number">{{ number_format($barangKeluar ?? 0) }}</div>
             <div class="new-stat-label">Barang Keluar</div>
         </div>
 
@@ -290,7 +290,7 @@ body.dark-mode .quick-action-btn {
             <div class="new-stat-icon">
                 <i class="fas fa-target"></i>
             </div>
-            <div class="new-stat-number">96.5%</div>
+            <div class="new-stat-number">{{ ($akurasi ?? 0) }}%</div>
             <div class="new-stat-label">Akurasi Pengiriman</div>
         </div>
     </div>
@@ -470,12 +470,17 @@ if (trenCtx) {
 // Kategori Chart
 const kategoriCtx = document.getElementById('kategoriChart');
 if (kategoriCtx) {
+    // Data from server-side
+    const kategoriData = @json($kategoriDistribusi ?? []);
+    const labels = kategoriData.length ? kategoriData.map(i => i.kategori) : ['Elektronik', 'Fashion', 'Makanan', 'Peralatan', 'Lainnya'];
+    const dataValues = kategoriData.length ? kategoriData.map(i => i.total) : [30,25,20,15,10];
+
     new Chart(kategoriCtx, {
         type: 'doughnut',
         data: {
-            labels: ['Elektronik', 'Fashion', 'Makanan', 'Peralatan', 'Lainnya'],
+            labels: labels,
             datasets: [{
-                data: [30, 25, 20, 15, 10],
+                data: dataValues,
                 backgroundColor: [
                     primaryColor,
                     secondaryColor,

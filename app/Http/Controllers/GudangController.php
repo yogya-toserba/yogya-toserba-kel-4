@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Models\Gudang;
 use Illuminate\Routing\Controller as BaseController;
+use Illuminate\Support\Facades\DB;
 
 class GudangController extends BaseController
 {
@@ -60,7 +61,40 @@ class GudangController extends BaseController
     public function dashboard()
     {
         $gudang = Auth::guard('gudang')->user();
-        return view('gudang.dashboard', compact('gudang'));
+
+        // Aggregates for dashboard
+        $totalStok = \App\Models\StokGudangPusat::sum('jumlah');
+
+        // Barang masuk: approximate as total stock added in last 30 days (if created_at exists)
+        $barangMasuk = (int) \App\Models\StokGudangPusat::where('created_at', '>=', now()->subDays(30))->sum('jumlah');
+
+        // Barang keluar: sum of pengiriman jumlah
+        $barangKeluar = (int) \App\Models\Pengiriman::sum('jumlah');
+
+        // Akurasi pengiriman: simple percentage = (1 - abs(keluar - keluar_tercatat)/max(1, keluar_tercatat)) * 100
+        // Here we use a simple heuristic: if barangKeluar matches total decremented from stok, we assume high accuracy.
+        // For now calculate ratio of successful (status 'selesai') to total pengiriman.
+        $totalPengiriman = \App\Models\Pengiriman::count();
+        $pengirimanSelesai = \App\Models\Pengiriman::where('status', 'selesai')->count();
+        $akurasi = $totalPengiriman > 0 ? round(($pengirimanSelesai / $totalPengiriman) * 100, 1) : 0.0;
+
+        // Pie chart: distribution by kategori from stok table
+        $kategoriDistribusi = \App\Models\StokGudangPusat::select('kategori', DB::raw('SUM(jumlah) as total'))
+            ->groupBy('kategori')
+            ->orderBy('total', 'desc')
+            ->get()
+            ->map(function ($r) {
+                return ['kategori' => $r->kategori ?? 'Unknown', 'total' => (int) $r->total];
+            });
+
+        return view('gudang.dashboard', compact(
+            'gudang',
+            'totalStok',
+            'barangMasuk',
+            'barangKeluar',
+            'akurasi',
+            'kategoriDistribusi'
+        ));
     }
 
     public function logout(Request $request)
