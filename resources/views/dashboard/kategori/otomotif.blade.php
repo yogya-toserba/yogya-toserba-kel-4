@@ -12,7 +12,7 @@
             <span>Otomotif</span>
         </nav>
         
-        <h1 class="display-5 fw-bold mb-3">🚗 Otomotif</h1>
+        <h1 class="display-5 fw-bold mb-3">Otomotif</h1>
         <p class="lead mb-0">Perlengkapan otomotif terlengkap untuk perawatan dan aksesoris kendaraan Anda</p>
     </div>
 </div>

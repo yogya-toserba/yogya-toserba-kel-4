@@ -517,7 +517,7 @@
 
         <!-- Quick Actions -->
         <div class="quick-actions">
-            <div class="action-card" onclick="location.href='{{ route('gudang.inventory.index') }}'">
+            <div class="action-card" onclick="location.href='{{ route('gudang.inventori.index') }}'">
                 <div class="action-icon primary">
                     <i class="fas fa-plus"></i>
                 </div>

@@ -33,7 +33,7 @@
 <h3 class="font-bold text-2xl mb-6 text-orange-600">
     <i class="fas fa-edit mr-2"></i>Edit Produk
 </h3>
-<form action="{{ route('gudang.inventory.update', $produk->id_produk) }}" method="POST" enctype="multipart/form-data">
+<form action="{{ route('gudang.inventori.update', $produk->id_produk) }}" method="POST" enctype="multipart/form-data">
     @csrf
     @method('PUT')
 

@@ -1,6 +1,6 @@
 @extends('layouts.navbar_admin')
 
-@section('title', 'Dashboard Admin - MyYOGYA')
+@section('title', 'Analisis Admin - MyYOGYA')
 
 @section('content')
 <style>
@@ -9,21 +9,7 @@
     box-sizing: border-box !important;
 }
 
-/* RESET ALL CONFLICTS */
-.main-content {
-    margin-left: 250px !important;
-    padding: 25px 35px !important;
-    background: #f8fafc !important;
-    overflow-x: hidden !important;
-    position: relative !important;
-    width: calc(100% - 250px) !important;
-    box-sizing: border-box !important;
-}
-
-/* Dark Mode Support */
-body.dark-mode .main-content {
-    background: #1a1d29 !important;
-}
+/* Let layout handle main-content positioning */
 
 /* FORCE NEW DASHBOARD STYLES */
 .new-dashboard {
@@ -40,12 +26,12 @@ body.dark-mode .new-dashboard {
 }
 
 .new-header {
-    background: linear-gradient(135deg, #f26b37 0%, #e55827 100%) !important;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%) !important;
     color: white !important;
     padding: 35px 40px !important;
     border-radius: 15px !important;
     margin-bottom: 35px !important;
-    box-shadow: 0 4px 15px rgba(242, 107, 55, 0.3) !important;
+    box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3) !important;
     position: relative !important;
 }
 
@@ -536,6 +522,104 @@ body.dark-mode .table span[style*="background: #fef3c7"] {
     }
 }
 
+/* Analysis Navigation Cards */
+.analysis-nav-card {
+    display: block;
+    text-decoration: none;
+    color: inherit;
+    background: white;
+    border: 1px solid #e2e8f0;
+    border-radius: 12px;
+    padding: 25px 20px;
+    height: 100%;
+    transition: all 0.3s ease;
+    position: relative;
+    overflow: hidden;
+}
+
+.analysis-nav-card:hover {
+    text-decoration: none;
+    color: inherit;
+    transform: translateY(-5px);
+    box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+    border-color: var(--nav-color);
+}
+
+.analysis-nav-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 4px;
+    background: var(--nav-gradient);
+}
+
+.analysis-nav-card.keuangan { 
+    --nav-color: #10b981; 
+    --nav-gradient: linear-gradient(90deg, #10b981, #059669); 
+}
+
+.analysis-nav-card.pelanggan { 
+    --nav-color: #f59e0b; 
+    --nav-gradient: linear-gradient(90deg, #f59e0b, #d97706); 
+}
+
+.analysis-nav-card.barang { 
+    --nav-color: #3b82f6; 
+    --nav-gradient: linear-gradient(90deg, #3b82f6, #1d4ed8); 
+}
+
+.analysis-nav-card.penjualan { 
+    --nav-color: #8b5cf6; 
+    --nav-gradient: linear-gradient(90deg, #8b5cf6, #7c3aed); 
+}
+
+.analysis-nav-icon {
+    width: 50px;
+    height: 50px;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 15px auto;
+    font-size: 1.3rem;
+    color: white;
+    background: var(--nav-gradient);
+}
+
+.analysis-nav-title {
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: #1e293b;
+    margin-bottom: 10px;
+    text-align: center;
+}
+
+.analysis-nav-description {
+    color: #64748b;
+    font-size: 0.85rem;
+    line-height: 1.4;
+    text-align: center;
+    margin-bottom: 20px;
+    height: 50px;
+}
+
+.analysis-nav-button {
+    background: var(--nav-gradient);
+    color: white;
+    padding: 8px 16px;
+    border-radius: 8px;
+    font-size: 0.8rem;
+    font-weight: 500;
+    text-align: center;
+    transition: all 0.2s ease;
+}
+
+.analysis-nav-card:hover .analysis-nav-button {
+    transform: translateY(-1px);
+}
+
 /* DARK MODE FIX FOR TEXT-MUTED */
 body.dark-mode .text-muted {
     color: #94a3b8 !important;
@@ -589,6 +673,15 @@ body.dark-mode .text-muted {
 body.dark-mode .text-secondary {
     color: #94a3b8 !important;
 }
+
+/* Mobile responsive for main-content */
+@media (max-width: 768px) {
+    .main-content {
+        margin-left: 0 !important;
+        width: 100% !important;
+        padding: 20px !important;
+    }
+}
 </style>
 
 <div class="new-dashboard">
@@ -596,8 +689,8 @@ body.dark-mode .text-secondary {
     <div class="new-header">
         <div style="display: flex; justify-content: space-between; align-items: center;">
             <div>
-                <h1><i class="fas fa-tachometer-alt me-3"></i>Dashboard Admin</h1>
-                <p>Selamat datang di panel administrasi MyYOGYA</p>
+                <h1><i class="fas fa-chart-line me-3"></i>Analisis Admin</h1>
+                <p>Selamat datang di panel analisis MyYOGYA</p>
             </div>
             <div style="text-align: right;">
                 <div id="realTimeClock" style="font-weight: 600; color: white; font-size: 1rem; margin-bottom: 5px;"></div>
@@ -657,6 +750,92 @@ body.dark-mode .text-secondary {
                 <small style="color: #10b981; font-size: 0.7rem;">
                     <i class="fas fa-money-bill-wave"></i> {{ $transaksiHariIni }} transaksi
                 </small>
+            </div>
+        </div>
+    </div>
+
+    <!-- Analisis Navigation Section -->
+    <div class="row mb-5">
+        <div class="col-12">
+            <div class="new-card">
+                <div class="new-card-header">
+                    <h5 class="new-card-title">
+                        <i class="fas fa-compass me-2"></i>
+                        Pilih Analisis yang Ingin Anda Lihat
+                    </h5>
+                    <p class="mb-0 text-muted">Akses berbagai dashboard analisis untuk memahami bisnis secara mendalam</p>
+                </div>
+                <div class="new-card-body">
+                    <div class="row g-4">
+                        <!-- Analisis Keuangan -->
+                        <div class="col-lg-3 col-md-6">
+                            <a href="{{ route('admin.analisis.keuangan') }}" class="analysis-nav-card keuangan">
+                                <div class="analysis-nav-icon">
+                                    <i class="fas fa-chart-pie"></i>
+                                </div>
+                                <h6 class="analysis-nav-title">Analisis Keuangan</h6>
+                                <p class="analysis-nav-description">
+                                    Monitor pendapatan, profit, transaksi, dan performa keuangan
+                                </p>
+                                <div class="analysis-nav-button">
+                                    <i class="fas fa-arrow-right me-2"></i>
+                                    Lihat Keuangan
+                                </div>
+                            </a>
+                        </div>
+
+                        <!-- Analisis Pelanggan -->
+                        <div class="col-lg-3 col-md-6">
+                            <a href="{{ route('admin.analisis.pelanggan') }}" class="analysis-nav-card pelanggan">
+                                <div class="analysis-nav-icon">
+                                    <i class="fas fa-users"></i>
+                                </div>
+                                <h6 class="analysis-nav-title">Analisis Pelanggan</h6>
+                                <p class="analysis-nav-description">
+                                    Analisis perilaku, demografi, dan loyalitas pelanggan
+                                </p>
+                                <div class="analysis-nav-button">
+                                    <i class="fas fa-arrow-right me-2"></i>
+                                    Lihat Pelanggan
+                                </div>
+                            </a>
+                        </div>
+
+                        <!-- Analisis Barang -->
+                        <div class="col-lg-3 col-md-6">
+                            <a href="{{ route('admin.analisis.barang') }}" class="analysis-nav-card barang">
+                                <div class="analysis-nav-icon">
+                                    <i class="fas fa-boxes"></i>
+                                </div>
+                                <h6 class="analysis-nav-title">Analisis Barang</h6>
+                                <p class="analysis-nav-description">
+                                    Kelola inventori, stok, dan performa produk
+                                </p>
+                                <div class="analysis-nav-button">
+                                    <i class="fas fa-arrow-right me-2"></i>
+                                    Lihat Barang
+                                </div>
+                            </a>
+                        </div>
+
+                        <!-- Analisis Penjualan -->
+                        <div class="col-lg-3 col-md-6">
+                            <a href="{{ route('admin.analisis.penjualan') }}" class="analysis-nav-card penjualan">
+                                <div class="analysis-nav-icon">
+                                    <i class="fas fa-chart-bar"></i>
+                                </div>
+                                <h6 class="analysis-nav-title">Analisis Penjualan</h6>
+                                <p class="analysis-nav-description">
+                                    Monitor tren penjualan, target, dan performa sales
+                                </p>
+                                <div class="analysis-nav-button">
+                                    <i class="fas fa-arrow-right me-2"></i>
+                                    Lihat Penjualan
+                                </div>
+                            </a>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
