@@ -403,7 +403,7 @@
                                     <a href="javascript:void(0);" onclick="openEditModal({{ $product->id_produk }})">
                                         <i class="fas fa-edit mr-2 text-blue-500"></i>Edit
                                     </a>
-                                    <form action="{{ route('gudang.inventory.destroy',$product->id_produk) }}" method="POST"
+                                    <form action="{{ route('gudang.inventori.destroy',$product->id_produk) }}" method="POST"
                                         onsubmit="return confirm('Yakin ingin menghapus produk ini?')" style="margin: 0;">
                                         @csrf
                                         @method('DELETE')
@@ -457,7 +457,7 @@
         </div>
     @endif
     
-    <form action="{{ route('gudang.inventory.store') }}" method="POST" enctype="multipart/form-data">
+    <form action="{{ route('gudang.inventori.store') }}" method="POST" enctype="multipart/form-data">
         @csrf
         <div class="space-y-4">
             <div>
@@ -563,7 +563,7 @@
     }
 
     function openEditModal(id) {
-        let url = "{{ route('gudang.inventory.edit', ':id') }}";
+        let url = "{{ route('gudang.inventori.edit', ':id') }}";
         url = url.replace(':id', id);
 
         fetch(url)
