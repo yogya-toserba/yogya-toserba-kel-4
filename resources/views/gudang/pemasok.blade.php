@@ -16,7 +16,25 @@
     @if(session('error'))
     <div class="alert alert-danger alert-dismissible fade show mb-4" role="alert">
         <i class="fas fa-exclamation-circle me-2"></i>{{ session('error') }}
-        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        <button type="button" class="bt    // AJAX request untuk get data
+    // Try simple approach with window.location
+    const baseUrl = window.location.origin;
+    const url = `${baseUrl}/gudang/pemasok-data?id=${id}`;
+    console.log('Making AJAX request to:', url);
+    
+    // Test dengan URL alternatif jika route helper gagal
+    const fallbackUrl = `/gudang/pemasok-data?id=${id}`;
+    console.log('Fallback URL:', fallbackUrl);
+    
+    // Check if CSRF token exists
+    const csrfToken = document.querySelector('meta[name="csrf-token"]');
+    if (!csrfToken) {
+        alert('CSRF token not found!');
+        return;
+    }
+    
+    // Try main URL first, fallback if needed
+    fetch(url, {a-bs-dismiss="alert" aria-label="Close"></button>
     </div>
     @endif
 
@@ -40,9 +58,24 @@
             <h2 class="mb-1"><i class="fas fa-industry text-primary"></i> Manajemen Pemasok</h2>
             <p class="text-muted mb-0">Kelola data pemasok dan supplier Anda</p>
         </div>
-        <button class="btn btn-primary btn-lg shadow-sm" data-bs-toggle="modal" data-bs-target="#tambahPemasokModal">
-            <i class="fas fa-plus me-2"></i>Tambah Pemasok
-        </button>
+        <div class="d-flex gap-2">
+            <div class="dropdown">
+                <button class="btn btn-success btn-lg shadow-sm dropdown-toggle" type="button" data-bs-toggle="dropdown">
+                    <i class="fas fa-file-excel me-2"></i>Export Data
+                </button>
+                <ul class="dropdown-menu">
+                    <li><button class="dropdown-item" onclick="exportPemasok('csv')">
+                        <i class="fas fa-file-csv me-2"></i>Export CSV
+                    </button></li>
+                    <li><button class="dropdown-item" onclick="exportPemasok('excel')">
+                        <i class="fas fa-file-excel me-2"></i>Export Excel
+                    </button></li>
+                </ul>
+            </div>
+            <button class="btn btn-primary btn-lg shadow-sm" data-bs-toggle="modal" data-bs-target="#tambahPemasokModal">
+                <i class="fas fa-plus me-2"></i>Tambah Pemasok
+            </button>
+        </div>
     </div>
 
     <!-- Statistics Cards -->
@@ -248,25 +281,34 @@
                                 </div>
                             </td>
                             <td class="align-middle text-center">
-                                <div class="btn-group" role="group">
-                                    <button class="btn btn-outline-primary btn-sm btn-detail" 
-                                            data-id="{{ $pemasok->id_pemasok }}"
-                                            data-bs-toggle="modal" 
-                                            data-bs-target="#detailPemasokModal"
-                                            title="Detail">
-                                        <i class="fas fa-eye"></i>
+                                <div class="dropdown">
+                                    <button class="btn btn-sm btn-outline-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                        <i class="fas fa-cog"></i>
                                     </button>
-                                    <button class="btn btn-outline-warning btn-sm btn-edit" 
-                                            data-id="{{ $pemasok->id_pemasok }}"
-                                            title="Edit">
-                                        <i class="fas fa-edit"></i>
-                                    </button>
-                                    <button class="btn btn-outline-danger btn-sm btn-delete" 
-                                            data-id="{{ $pemasok->id_pemasok }}"
-                                            data-nama="{{ $pemasok->nama_perusahaan }}"
-                                            title="Hapus">
-                                        <i class="fas fa-trash"></i>
-                                    </button>
+                                    <ul class="dropdown-menu dropdown-menu-end">
+                                        <li>
+                                            <button class="dropdown-item btn-detail" 
+                                                    data-id="{{ $pemasok->id_pemasok }}"
+                                                    onclick="viewPemasokDetail({{ $pemasok->id_pemasok }})"
+                                                    type="button">
+                                                <i class="fas fa-eye text-info me-2"></i>Lihat Detail
+                                            </button>
+                                        </li>
+                                        <li>
+                                            <button class="dropdown-item btn-edit" 
+                                                    onclick="editPemasok({{ $pemasok->id_pemasok }})">
+                                                <i class="fas fa-edit text-warning me-2"></i>Edit Data
+                                            </button>
+                                        </li>
+                                        <li><hr class="dropdown-divider"></li>
+                                        <li>
+                                            <button class="dropdown-item text-danger btn-delete" 
+                                                    data-id="{{ $pemasok->id_pemasok }}"
+                                                    data-nama="{{ $pemasok->nama_perusahaan }}">
+                                                <i class="fas fa-trash me-2"></i>Hapus Data
+                                            </button>
+                                        </li>
+                                    </ul>
                                 </div>
                             </td>
                         </tr>
@@ -542,9 +584,104 @@
         </div>
     </div>
 </div>
+
+<!-- Edit Pemasok Modal -->
+<div class="modal fade" id="editPemasokModal" tabindex="-1" aria-labelledby="editPemasokModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="editPemasokModalLabel">Edit Pemasok</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form id="editPemasokForm">
+                    <input type="hidden" id="edit_id_pemasok" name="id_pemasok">
+                    
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <label for="edit_nama_perusahaan" class="form-label">Nama Perusahaan <span class="text-danger">*</span></label>
+                            <input type="text" class="form-control" id="edit_nama_perusahaan" name="nama_perusahaan" required>
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label for="edit_kontak_person" class="form-label">Kontak Person <span class="text-danger">*</span></label>
+                            <input type="text" class="form-control" id="edit_kontak_person" name="kontak_person" required>
+                        </div>
+                    </div>
+                    
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <label for="edit_telepon" class="form-label">Telepon <span class="text-danger">*</span></label>
+                            <input type="text" class="form-control" id="edit_telepon" name="telepon" required>
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label for="edit_email" class="form-label">Email <span class="text-danger">*</span></label>
+                            <input type="email" class="form-control" id="edit_email" name="email" required>
+                        </div>
+                    </div>
+                    
+                    <div class="mb-3">
+                        <label for="edit_alamat" class="form-label">Alamat <span class="text-danger">*</span></label>
+                        <textarea class="form-control" id="edit_alamat" name="alamat" rows="3" required></textarea>
+                    </div>
+                    
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <label for="edit_kota" class="form-label">Kota <span class="text-danger">*</span></label>
+                            <input type="text" class="form-control" id="edit_kota" name="kota" required>
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label for="edit_kategori_produk" class="form-label">Kategori Produk <span class="text-danger">*</span></label>
+                            <input type="text" class="form-control" id="edit_kategori_produk" name="kategori_produk" required>
+                        </div>
+                    </div>
+                    
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <label for="edit_tanggal_kerjasama" class="form-label">Tanggal Kerjasama</label>
+                            <input type="date" class="form-control" id="edit_tanggal_kerjasama" name="tanggal_kerjasama">
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label for="edit_status" class="form-label">Status <span class="text-danger">*</span></label>
+                            <select class="form-select" id="edit_status" name="status" required>
+                                <option value="">Pilih Status</option>
+                                <option value="aktif">Aktif</option>
+                                <option value="non-aktif">Non-Aktif</option>
+                            </select>
+                        </div>
+                    </div>
+                    
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <label for="edit_rating" class="form-label">Rating</label>
+                            <select class="form-select" id="edit_rating" name="rating">
+                                <option value="">Pilih Rating</option>
+                                <option value="1">1 - Kurang Baik</option>
+                                <option value="2">2 - Cukup</option>
+                                <option value="3">3 - Baik</option>
+                                <option value="4">4 - Sangat Baik</option>
+                                <option value="5">5 - Excellent</option>
+                            </select>
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label for="edit_catatan" class="form-label">Catatan</label>
+                            <textarea class="form-control" id="edit_catatan" name="catatan" rows="3"></textarea>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
+                <button type="button" class="btn btn-primary" id="updatePemasokBtn">Simpan Perubahan</button>
+            </div>
+        </div>
+    </div>
+</div>
 @endsection
 
-@section('scripts')
+@push('scripts')
+<!-- SweetAlert2 CDN -->
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
 <style>
 .avatar-sm {
     width: 40px;
@@ -572,6 +709,27 @@
     background-color: rgba(0, 123, 255, 0.05);
 }
 
+/* Dark mode for table hover */
+body.dark-mode .table-hover tbody tr:hover {
+    background-color: rgba(242, 107, 55, 0.1) !important;
+}
+
+/* Button group styles */
+.btn-group .btn {
+    margin: 0 2px;
+    padding: 4px 8px;
+    font-size: 12px;
+    border-radius: 4px !important;
+}
+
+.btn-group .btn:hover {
+    transform: translateY(-1px);
+}
+
+.btn-group .btn i {
+    font-size: 11px;
+}
+
 .card {
     transition: all 0.3s ease;
 }
@@ -581,224 +739,648 @@
     box-shadow: 0 4px 8px rgba(0,0,0,0.1) !important;
 }
 
+/* Dark mode card hover */
+body.dark-mode .card:hover {
+    box-shadow: 0 4px 8px rgba(242, 107, 55, 0.15) !important;
+}
+
 .btn:hover {
     transform: translateY(-1px);
     transition: all 0.2s ease;
 }
+
+/* Additional dark mode fixes for pemasok page */
+body.dark-mode .modal-content {
+    background-color: #2a2d3f !important;
+    color: #e2e8f0 !important;
+}
+
+body.dark-mode .modal-header {
+    background-color: #374151 !important;
+    border-color: #3a3d4a !important;
+    color: #e2e8f0 !important;
+}
+
+body.dark-mode .modal-footer {
+    background-color: #2a2d3f !important;
+    border-color: #3a3d4a !important;
+}
+
+body.dark-mode .close {
+    color: #e2e8f0 !important;
+}
+
+/* Dark mode for input groups */
+body.dark-mode .input-group-text {
+    background-color: #374151 !important;
+    border-color: #4b5563 !important;
+    color: #e2e8f0 !important;
+}
+
+/* Dark mode for text muted */
+body.dark-mode .text-muted {
+    color: #9ca3af !important;
+}
+
+/* Dark mode for small text */
+body.dark-mode small {
+    color: #9ca3af !important;
+}
+
+/* Dark mode for strong text */
+body.dark-mode strong {
+    color: #f3f4f6 !important;
+}
 </style>
 
 <script>
-// JavaScript untuk interaksi
+console.log('JavaScript file loaded!');
+
+// Global function untuk export pemasok
+function exportPemasok(format = 'csv') {
+    console.log('Export function called with format:', format);
+    
+    // Get current filter values
+    const searchParams = new URLSearchParams();
+    
+    // Add format parameter
+    searchParams.append('format', format);
+    
+    // Get search value
+    const searchInput = document.querySelector('input[name="search"]');
+    if (searchInput && searchInput.value) {
+        searchParams.append('search', searchInput.value);
+    }
+    
+    // Get status filter
+    const statusSelect = document.querySelector('select[name="status"]');
+    if (statusSelect && statusSelect.value) {
+        searchParams.append('status', statusSelect.value);
+    }
+    
+    // Get kategori filter
+    const kategoriSelect = document.querySelector('select[name="kategori"]');
+    if (kategoriSelect && kategoriSelect.value) {
+        searchParams.append('kategori', kategoriSelect.value);
+    }
+    
+    // Get kota filter
+    const kotaSelect = document.querySelector('select[name="kota"]');
+    if (kotaSelect && kotaSelect.value) {
+        searchParams.append('kota', kotaSelect.value);
+    }
+    
+    // Build export URL with filters
+    const baseUrl = window.location.origin;
+    const exportUrl = `${baseUrl}/gudang/export-pemasok?${searchParams.toString()}`;
+    
+    console.log('Export URL:', exportUrl);
+    
+    // Test URL alternatif juga
+    const altUrl = `${baseUrl}/gudang/pemasok/export?${searchParams.toString()}`;
+    console.log('Alternative Export URL:', altUrl);
+    
+    // Show loading notification
+    const formatText = format === 'excel' ? 'Excel' : 'CSV';
+    if (typeof Swal !== 'undefined') {
+        const Toast = Swal.mixin({
+            toast: true,
+            position: 'top-end',
+            showConfirmButton: false,
+            timer: 2000,
+            timerProgressBar: true
+        });
+        
+        Toast.fire({
+            icon: 'info',
+            title: `Mempersiapkan file ${formatText}...`
+        });
+    } else {
+        alert(`Mempersiapkan file ${formatText}...`);
+    }
+    
+    // Create a temporary link and trigger download
+    const link = document.createElement('a');
+    link.href = exportUrl;
+    link.style.display = 'none';
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+}
+
+// Global function untuk view detail
+function viewPemasokDetail(id) {
+    console.log('viewPemasokDetail called with ID:', id);
+    
+    // Test apakah modal element ada
+    const modalElement = document.getElementById('detailPemasokModal');
+    if (!modalElement) {
+        alert('Modal element not found!');
+        return;
+    }
+    
+    // Tampilkan loading modal
+    const modalTitle = document.querySelector('#detailPemasokModal .modal-title');
+    const modalBody = document.querySelector('#detailPemasokModal .modal-body');
+    
+    if (!modalTitle || !modalBody) {
+        alert('Modal title or body not found!');
+        return;
+    }
+    
+    modalTitle.innerHTML = 'Loading...';
+    modalBody.innerHTML = `
+        <div class="text-center">
+            <div class="spinner-border text-primary" role="status">
+                <span class="sr-only">Loading...</span>
+            </div>
+            <p class="mt-2">Memuat data pemasok...</p>
+        </div>
+    `;
+    
+    // Tampilkan modal
+    try {
+        const detailModal = new bootstrap.Modal(modalElement);
+        detailModal.show();
+    } catch (error) {
+        alert('Error showing modal: ' + error.message);
+        return;
+    }
+    
+    // AJAX request untuk get data
+    // Try simple approach with window.location
+    const baseUrl = window.location.origin;
+    const url = `${baseUrl}/gudang/pemasok-data?id=${id}`;
+    console.log('Making AJAX request to:', url);
+    
+    // Test dengan URL alternatif jika route helper gagal
+    const fallbackUrl = `/gudang/pemasok-data?id=${id}`;
+    console.log('Fallback URL:', fallbackUrl);
+    
+    // Check if CSRF token exists
+    const csrfToken = document.querySelector('meta[name="csrf-token"]');
+    if (!csrfToken) {
+        alert('CSRF token not found!');
+        return;
+    }
+    
+    // Add timeout untuk prevent infinite loading
+    const controller = new AbortController();
+    const timeoutId = setTimeout(() => {
+        controller.abort();
+        modalTitle.innerHTML = 'Timeout';
+        modalBody.innerHTML = `
+            <div class="alert alert-warning">
+                <h6>Request Timeout!</h6>
+                <p>Permintaan memakan waktu terlalu lama.</p>
+                <small>Coba lagi atau periksa koneksi.</small>
+            </div>
+        `;
+    }, 8000); // 8 second timeout
+    
+    // Try main URL first, fallback if needed
+    fetch(url, {
+        method: 'GET',
+        headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json',
+            'X-CSRF-TOKEN': csrfToken.getAttribute('content')
+        },
+        signal: controller.signal
+    })
+    .then(response => {
+        clearTimeout(timeoutId); // Clear timeout jika berhasil
+        console.log('Response status:', response.status);
+        console.log('Response ok:', response.ok);
+        console.log('Response headers:', response.headers);
+        
+        if (!response.ok) {
+            throw new Error(`HTTP ${response.status}: ${response.statusText}`);
+        }
+        return response.json();
+    })
+    .then(data => {
+        console.log('Data received:', data);
+        
+        // Update modal title
+        modalTitle.innerHTML = 'Detail Pemasok';
+        
+        // Ambil data dari response
+        const pemasok = data.data;
+        
+        // Update modal body dengan data
+        modalBody.innerHTML = `
+            <div class="row">
+                <div class="col-md-6">
+                    <h6 class="text-primary mb-3">Informasi Perusahaan</h6>
+                    <table class="table table-sm">
+                        <tr>
+                            <td><strong>Nama Perusahaan:</strong></td>
+                            <td>${pemasok.nama_perusahaan || '-'}</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Kontak Person:</strong></td>
+                            <td>${pemasok.kontak_person || '-'}</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Email:</strong></td>
+                            <td>${pemasok.email || '-'}</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Telepon:</strong></td>
+                            <td>${pemasok.telepon || '-'}</td>
+                        </tr>
+                    </table>
+                </div>
+                <div class="col-md-6">
+                    <h6 class="text-primary mb-3">Informasi Lokasi</h6>
+                    <table class="table table-sm">
+                        <tr>
+                            <td><strong>Alamat:</strong></td>
+                            <td>${pemasok.alamat || '-'}</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Kota:</strong></td>
+                            <td>${pemasok.kota || '-'}</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Kode Pos:</strong></td>
+                            <td>${pemasok.kode_pos || '-'}</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Kategori Produk:</strong></td>
+                            <td>${pemasok.kategori_produk || '-'}</td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+            ${pemasok.catatan ? `
+            <div class="row mt-3">
+                <div class="col-12">
+                    <h6 class="text-primary mb-2">Catatan</h6>
+                    <p class="text-muted">${pemasok.catatan}</p>
+                </div>
+            </div>
+            ` : ''}
+        `;
+    })
+    .catch(error => {
+        clearTimeout(timeoutId); // Clear timeout jika error
+        console.error('Error:', error);
+        
+        modalTitle.innerHTML = 'Error';
+        
+        if (error.name === 'AbortError') {
+            modalBody.innerHTML = `
+                <div class="alert alert-warning">
+                    <h6>Request Dibatalkan!</h6>
+                    <p>Request timeout atau dibatalkan.</p>
+                    <small>Coba lagi atau periksa koneksi internet.</small>
+                </div>
+            `;
+        } else {
+            modalBody.innerHTML = `
+                <div class="alert alert-danger">
+                    <h6>Terjadi Kesalahan!</h6>
+                    <p>Tidak dapat memuat data pemasok. Silakan coba lagi.</p>
+                    <small>Error: ${error.message}</small>
+                    <hr>
+                    <small>URL yang diakses: ${url}</small>
+                    <br><small>Fallback URL: ${fallbackUrl}</small>
+                    <br><small>Coba akses URL ini manual di browser untuk test</small>
+                </div>
+            `;
+        }
+    });
+}
+
+// Global function untuk edit pemasok
+function editPemasok(id) {
+    console.log('editPemasok called with ID:', id);
+    
+    // Test apakah modal element ada
+    const modalElement = document.getElementById('editPemasokModal');
+    if (!modalElement) {
+        alert('Modal edit element not found!');
+        return;
+    }
+    
+    // Tampilkan loading di modal
+    const modalTitle = document.querySelector('#editPemasokModal .modal-title');
+    const modalBody = document.querySelector('#editPemasokModal .modal-body');
+    
+    if (!modalTitle || !modalBody) {
+        alert('Modal title or body not found!');
+        return;
+    }
+    
+    modalTitle.innerHTML = 'Loading...';
+    modalBody.innerHTML = `
+        <div class="text-center">
+            <div class="spinner-border text-primary" role="status">
+                <span class="sr-only">Loading...</span>
+            </div>
+            <p class="mt-2">Memuat data pemasok...</p>
+        </div>
+    `;
+    
+    // Tampilkan modal
+    try {
+        const editModal = new bootstrap.Modal(modalElement);
+        editModal.show();
+    } catch (error) {
+        alert('Error showing modal: ' + error.message);
+        return;
+    }
+    
+    // AJAX request untuk get data
+    const baseUrl = window.location.origin;
+    const url = `${baseUrl}/gudang/pemasok-data?id=${id}`;
+    console.log('Making AJAX request to:', url);
+    
+    // Check if CSRF token exists
+    const csrfToken = document.querySelector('meta[name="csrf-token"]');
+    if (!csrfToken) {
+        alert('CSRF token not found!');
+        return;
+    }
+    
+    // Add timeout untuk prevent infinite loading
+    const controller = new AbortController();
+    const timeoutId = setTimeout(() => {
+        controller.abort();
+        modalTitle.innerHTML = 'Timeout';
+        modalBody.innerHTML = `
+            <div class="alert alert-warning">
+                <h6>Request Timeout!</h6>
+                <p>Permintaan memakan waktu terlalu lama.</p>
+                <small>Coba lagi atau periksa koneksi.</small>
+            </div>
+        `;
+    }, 8000); // 8 second timeout
+    
+    // Fetch data untuk edit
+    fetch(url, {
+        method: 'GET',
+        headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json',
+            'X-CSRF-TOKEN': csrfToken.getAttribute('content')
+        },
+        signal: controller.signal
+    })
+    .then(response => {
+        clearTimeout(timeoutId); // Clear timeout jika berhasil
+        console.log('Response status:', response.status);
+        
+        if (!response.ok) {
+            throw new Error(`HTTP ${response.status}: ${response.statusText}`);
+        }
+        return response.json();
+    })
+    .then(data => {
+        console.log('Data received for edit:', data);
+        
+        // Reset modal title
+        modalTitle.innerHTML = 'Edit Pemasok';
+        
+        // Restore form content
+        modalBody.innerHTML = `
+            <form id="editPemasokForm">
+                <input type="hidden" id="edit_id_pemasok" name="id_pemasok">
+                
+                <div class="row">
+                    <div class="col-md-6 mb-3">
+                        <label for="edit_nama_perusahaan" class="form-label">Nama Perusahaan <span class="text-danger">*</span></label>
+                        <input type="text" class="form-control" id="edit_nama_perusahaan" name="nama_perusahaan" required>
+                    </div>
+                    <div class="col-md-6 mb-3">
+                        <label for="edit_kontak_person" class="form-label">Kontak Person <span class="text-danger">*</span></label>
+                        <input type="text" class="form-control" id="edit_kontak_person" name="kontak_person" required>
+                    </div>
+                </div>
+                
+                <div class="row">
+                    <div class="col-md-6 mb-3">
+                        <label for="edit_telepon" class="form-label">Telepon <span class="text-danger">*</span></label>
+                        <input type="text" class="form-control" id="edit_telepon" name="telepon" required>
+                    </div>
+                    <div class="col-md-6 mb-3">
+                        <label for="edit_email" class="form-label">Email <span class="text-danger">*</span></label>
+                        <input type="email" class="form-control" id="edit_email" name="email" required>
+                    </div>
+                </div>
+                
+                <div class="mb-3">
+                    <label for="edit_alamat" class="form-label">Alamat <span class="text-danger">*</span></label>
+                    <textarea class="form-control" id="edit_alamat" name="alamat" rows="3" required></textarea>
+                </div>
+                
+                <div class="row">
+                    <div class="col-md-6 mb-3">
+                        <label for="edit_kota" class="form-label">Kota <span class="text-danger">*</span></label>
+                        <input type="text" class="form-control" id="edit_kota" name="kota" required>
+                    </div>
+                    <div class="col-md-6 mb-3">
+                        <label for="edit_kategori_produk" class="form-label">Kategori Produk <span class="text-danger">*</span></label>
+                        <input type="text" class="form-control" id="edit_kategori_produk" name="kategori_produk" required>
+                    </div>
+                </div>
+                
+                <div class="row">
+                    <div class="col-md-6 mb-3">
+                        <label for="edit_tanggal_kerjasama" class="form-label">Tanggal Kerjasama</label>
+                        <input type="date" class="form-control" id="edit_tanggal_kerjasama" name="tanggal_kerjasama">
+                    </div>
+                    <div class="col-md-6 mb-3">
+                        <label for="edit_status" class="form-label">Status <span class="text-danger">*</span></label>
+                        <select class="form-select" id="edit_status" name="status" required>
+                            <option value="">Pilih Status</option>
+                            <option value="aktif">Aktif</option>
+                            <option value="non-aktif">Non-Aktif</option>
+                        </select>
+                    </div>
+                </div>
+                
+                <div class="row">
+                    <div class="col-md-6 mb-3">
+                        <label for="edit_rating" class="form-label">Rating</label>
+                        <select class="form-select" id="edit_rating" name="rating">
+                            <option value="">Pilih Rating</option>
+                            <option value="1">1 - Kurang Baik</option>
+                            <option value="2">2 - Cukup</option>
+                            <option value="3">3 - Baik</option>
+                            <option value="4">4 - Sangat Baik</option>
+                            <option value="5">5 - Excellent</option>
+                        </select>
+                    </div>
+                    <div class="col-md-6 mb-3">
+                        <label for="edit_catatan" class="form-label">Catatan</label>
+                        <textarea class="form-control" id="edit_catatan" name="catatan" rows="3"></textarea>
+                    </div>
+                </div>
+            </form>
+        `;
+        
+        // Populate form dengan data
+        const pemasok = data.data;
+        document.getElementById('edit_id_pemasok').value = pemasok.id_pemasok;
+        document.getElementById('edit_nama_perusahaan').value = pemasok.nama_perusahaan || '';
+        document.getElementById('edit_kontak_person').value = pemasok.kontak_person || '';
+        document.getElementById('edit_telepon').value = pemasok.telepon || '';
+        document.getElementById('edit_email').value = pemasok.email || '';
+        document.getElementById('edit_alamat').value = pemasok.alamat || '';
+        document.getElementById('edit_kota').value = pemasok.kota || '';
+        document.getElementById('edit_kategori_produk').value = pemasok.kategori_produk || '';
+        document.getElementById('edit_tanggal_kerjasama').value = pemasok.tanggal_kerjasama || '';
+        document.getElementById('edit_status').value = pemasok.status || '';
+        document.getElementById('edit_rating').value = pemasok.rating || '';
+        document.getElementById('edit_catatan').value = pemasok.catatan || '';
+    })
+    .catch(error => {
+        clearTimeout(timeoutId); // Clear timeout jika error
+        console.error('Error:', error);
+        
+        modalTitle.innerHTML = 'Error';
+        
+        if (error.name === 'AbortError') {
+            modalBody.innerHTML = `
+                <div class="alert alert-warning">
+                    <h6>Request Dibatalkan!</h6>
+                    <p>Request timeout atau dibatalkan.</p>
+                    <small>Coba lagi atau periksa koneksi internet.</small>
+                </div>
+            `;
+        } else {
+            modalBody.innerHTML = `
+                <div class="alert alert-danger">
+                    <h6>Terjadi Kesalahan!</h6>
+                    <p>Tidak dapat memuat data pemasok. Silakan coba lagi.</p>
+                    <small>Error: ${error.message}</small>
+                </div>
+            `;
+        }
+    });
+}
+
+// Function untuk update pemasok
+function updatePemasok() {
+    const form = document.getElementById('editPemasokForm');
+    const formData = new FormData(form);
+    const id = document.getElementById('edit_id_pemasok').value;
+    
+    // Check if CSRF token exists
+    const csrfToken = document.querySelector('meta[name="csrf-token"]');
+    if (!csrfToken) {
+        Swal.fire('Error', 'CSRF token not found!', 'error');
+        return;
+    }
+    
+    // Validasi form
+    if (!form.checkValidity()) {
+        form.reportValidity();
+        return;
+    }
+    
+    // Show loading
+    Swal.fire({
+        title: 'Memproses...',
+        text: 'Sedang memperbarui data pemasok',
+        allowOutsideClick: false,
+        didOpen: () => {
+            Swal.showLoading();
+        }
+    });
+    
+    // Convert FormData to JSON
+    const data = {};
+    for (let [key, value] of formData.entries()) {
+        data[key] = value;
+    }
+    
+    const baseUrl = window.location.origin;
+    const url = `${baseUrl}/gudang/pemasok/${id}`;
+    
+    fetch(url, {
+        method: 'PUT',
+        headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json',
+            'X-CSRF-TOKEN': csrfToken.getAttribute('content')
+        },
+        body: JSON.stringify(data)
+    })
+    .then(response => {
+        if (!response.ok) {
+            return response.json().then(err => Promise.reject(err));
+        }
+        return response.json();
+    })
+    .then(data => {
+        Swal.fire({
+            icon: 'success',
+            title: 'Berhasil!',
+            text: 'Data pemasok berhasil diperbarui',
+            showConfirmButton: false,
+            timer: 1500
+        }).then(() => {
+            // Tutup modal
+            const modal = bootstrap.Modal.getInstance(document.getElementById('editPemasokModal'));
+            modal.hide();
+            
+            // Reload halaman untuk refresh data
+            window.location.reload();
+        });
+    })
+    .catch(error => {
+        console.error('Error:', error);
+        
+        let errorMessage = 'Terjadi kesalahan saat memperbarui data';
+        
+        if (error.errors) {
+            // Laravel validation errors
+            const errors = Object.values(error.errors).flat();
+            errorMessage = errors.join('\n');
+        } else if (error.message) {
+            errorMessage = error.message;
+        }
+        
+        Swal.fire({
+            icon: 'error',
+            title: 'Gagal!',
+            text: errorMessage
+        });
+    });
+}
+
+// Event listener untuk DOM ready
 document.addEventListener('DOMContentLoaded', function() {
+    console.log('DOM ready!');
+    
     // CSRF Token untuk AJAX
     const token = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
     
     // Auto-format nomor telepon
-    document.querySelector('input[name="telepon"]').addEventListener('input', function(e) {
-        let value = e.target.value.replace(/\D/g, '');
-        if (value.length > 0) {
-            if (value.startsWith('8')) {
-                value = '0' + value;
+    const phoneInput = document.querySelector('input[name="telepon"]');
+    if (phoneInput) {
+        phoneInput.addEventListener('input', function(e) {
+            let value = e.target.value.replace(/\D/g, '');
+            if (value.length > 0) {
+                if (value.startsWith('8')) {
+                    value = '0' + value;
+                }
             }
-        }
-        e.target.value = value;
-    });
-
-    // Handle detail pemasok
-    document.querySelectorAll('.btn-detail').forEach(button => {
-        button.addEventListener('click', function() {
-            const pemasokId = this.getAttribute('data-id');
-            
-            fetch(`{{ url('gudang/pemasok') }}/${pemasokId}`)
-                .then(response => response.json())
-                .then(data => {
-                    if (data.success) {
-                        const pemasok = data.data;
-                        
-                        // Update modal content
-                        document.querySelector('#detailPemasokModal .modal-body').innerHTML = `
-                            <div class="row">
-                                <div class="col-md-6">
-                                    <div class="mb-3">
-                                        <label class="form-label text-muted small">NAMA PEMASOK</label>
-                                        <div class="fw-medium">${pemasok.nama_perusahaan}</div>
-                                    </div>
-                                    <div class="mb-3">
-                                        <label class="form-label text-muted small">KONTAK PERSON</label>
-                                        <div class="fw-medium">${pemasok.kontak_person}</div>
-                                    </div>
-                                    <div class="mb-3">
-                                        <label class="form-label text-muted small">TELEPON</label>
-                                        <div class="fw-medium">${pemasok.telepon}</div>
-                                    </div>
-                                    <div class="mb-3">
-                                        <label class="form-label text-muted small">EMAIL</label>
-                                        <div class="fw-medium">${pemasok.email}</div>
-                                    </div>
-                                </div>
-                                <div class="col-md-6">
-                                    <div class="mb-3">
-                                        <label class="form-label text-muted small">KOTA</label>
-                                        <div class="fw-medium">${pemasok.kota}</div>
-                                    </div>
-                                    <div class="mb-3">
-                                        <label class="form-label text-muted small">KATEGORI PRODUK</label>
-                                        <div class="fw-medium">${pemasok.kategori_produk}</div>
-                                    </div>
-                                    <div class="mb-3">
-                                        <label class="form-label text-muted small">STATUS</label>
-                                        <div><span class="badge bg-${pemasok.status == 'aktif' ? 'success' : 'secondary'}">${pemasok.status.charAt(0).toUpperCase() + pemasok.status.slice(1)}</span></div>
-                                    </div>
-                                    <div class="mb-3">
-                                        <label class="form-label text-muted small">RATING</label>
-                                        <div class="fw-medium">${pemasok.rating}/5.0</div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="col-12">
-                                    <div class="mb-3">
-                                        <label class="form-label text-muted small">ALAMAT LENGKAP</label>
-                                        <div class="fw-medium">${pemasok.alamat}</div>
-                                    </div>
-                                    ${pemasok.catatan ? `
-                                    <div class="mb-3">
-                                        <label class="form-label text-muted small">CATATAN</label>
-                                        <div class="fw-medium">${pemasok.catatan}</div>
-                                    </div>
-                                    ` : ''}
-                                </div>
-                            </div>
-                        `;
-                    }
-                })
-                .catch(error => {
-                    console.error('Error:', error);
-                    alert('Gagal memuat detail pemasok');
-                });
+            e.target.value = value;
         });
-    });
-
-    // Handle edit pemasok
-    document.querySelectorAll('.btn-edit').forEach(button => {
-        button.addEventListener('click', function() {
-            const pemasokId = this.getAttribute('data-id');
-            
-            fetch(`{{ url('gudang/pemasok') }}/${pemasokId}/edit`)
-                .then(response => response.json())
-                .then(data => {
-                    if (data.success) {
-                        const pemasok = data.data;
-                        const modal = new bootstrap.Modal(document.getElementById('tambahPemasokModal'));
-                        
-                        // Update form title
-                        document.getElementById('tambahPemasokLabel').innerHTML = '<i class="fas fa-edit me-2"></i>Edit Pemasok';
-                        
-                        // Update form action
-                        const form = document.getElementById('formPemasok');
-                        form.action = `{{ url('gudang/pemasok') }}/${pemasokId}`;
-                        
-                        // Add method override for PUT
-                        let methodField = form.querySelector('input[name="_method"]');
-                        if (!methodField) {
-                            methodField = document.createElement('input');
-                            methodField.type = 'hidden';
-                            methodField.name = '_method';
-                            form.appendChild(methodField);
-                        }
-                        methodField.value = 'PUT';
-                        
-                        // Fill form with data
-                        form.querySelector('input[name="nama_perusahaan"]').value = pemasok.nama_perusahaan;
-                        form.querySelector('input[name="kontak_person"]').value = pemasok.kontak_person;
-                        form.querySelector('input[name="telepon"]').value = pemasok.telepon;
-                        form.querySelector('input[name="email"]').value = pemasok.email;
-                        form.querySelector('textarea[name="alamat"]').value = pemasok.alamat;
-                        form.querySelector('select[name="kota"]').value = pemasok.kota;
-                        form.querySelector('select[name="kategori_produk"]').value = pemasok.kategori_produk;
-                        if (pemasok.tanggal_kerjasama) {
-                            form.querySelector('input[name="tanggal_kerjasama"]').value = pemasok.tanggal_kerjasama;
-                        }
-                        form.querySelector('select[name="status"]').value = pemasok.status;
-                        form.querySelector('select[name="rating"]').value = pemasok.rating;
-                        if (pemasok.catatan) {
-                            form.querySelector('textarea[name="catatan"]').value = pemasok.catatan;
-                        }
-                        
-                        modal.show();
-                    }
-                })
-                .catch(error => {
-                    console.error('Error:', error);
-                    alert('Gagal memuat data pemasok');
-                });
+    }
+    
+    // Event listener untuk update button
+    const updatePemasokBtn = document.getElementById('updatePemasokBtn');
+    if (updatePemasokBtn) {
+        updatePemasokBtn.addEventListener('click', function() {
+            updatePemasok();
         });
-    });
-
-    // Handle delete pemasok
-    document.querySelectorAll('.btn-delete').forEach(button => {
-        button.addEventListener('click', function() {
-            const pemasokId = this.getAttribute('data-id');
-            const namaPemasok = this.getAttribute('data-nama');
-            
-            if (confirm(`Apakah Anda yakin ingin menghapus pemasok "${namaPemasok}"?`)) {
-                fetch(`{{ url('gudang/pemasok') }}/${pemasokId}`, {
-                    method: 'DELETE',
-                    headers: {
-                        'X-CSRF-TOKEN': token,
-                        'Content-Type': 'application/json'
-                    }
-                })
-                .then(response => response.json())
-                .then(data => {
-                    if (data.success) {
-                        // Refresh halaman
-                        location.reload();
-                    } else {
-                        alert(data.message || 'Gagal menghapus pemasok');
-                    }
-                })
-                .catch(error => {
-                    console.error('Error:', error);
-                    alert('Terjadi kesalahan saat menghapus pemasok');
-                });
-            }
-        });
-    });
-
-    // Reset form when modal is hidden
-    document.getElementById('tambahPemasokModal').addEventListener('hidden.bs.modal', function() {
-        const form = document.getElementById('formPemasok');
-        form.reset();
-        form.action = '{{ route('gudang.pemasok.store') }}';
-        
-        // Remove method override
-        const methodField = form.querySelector('input[name="_method"]');
-        if (methodField) {
-            methodField.remove();
-        }
-        
-        // Reset title
-        document.getElementById('tambahPemasokLabel').innerHTML = '<i class="fas fa-plus-circle me-2"></i>Tambah Pemasok Baru';
-    });
-
-    // Auto submit filter form when select changes
-    document.querySelectorAll('#filterForm select').forEach(element => {
-        element.addEventListener('change', function() {
-            document.getElementById('filterForm').submit();
-        });
-    });
-
-    // Validasi form
-    document.getElementById('formPemasok').addEventListener('submit', function(e) {
-        // Form akan submit secara normal, tidak dicegah lagi
-        
-        // Simulasi loading
-        const submitBtn = e.target.querySelector('button[type="submit"]');
-        const originalText = submitBtn.innerHTML;
-        submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin me-1"></i>Menyimpan...';
-        submitBtn.disabled = true;
-    });
+    }
 });
 </script>
-@endsection
+@endpush

@@ -615,7 +615,7 @@ class AdminController extends BaseController
 
         // Ambil daftar divisi untuk filter
         $divisiList = Karyawan::distinct('divisi')->pluck('divisi')->sort();
-
+        
         // Ambil data shift untuk form
         $shiftList = DB::table('shift')->select('id_shift', 'nama_shift', 'jam_mulai', 'jam_selesai')->get();
 
@@ -740,7 +740,7 @@ class AdminController extends BaseController
             $birthDate = new \DateTime($validated['tanggal_lahir']);
             $today = new \DateTime();
             $age = $today->diff($birthDate)->y;
-
+            
             if ($age < 17) {
                 if ($request->expectsJson()) {
                     return response()->json([
@@ -786,6 +786,7 @@ class AdminController extends BaseController
 
             return redirect()->route('admin.data-karyawan')
                 ->with('success', 'Karyawan berhasil ditambahkan!');
+
         } catch (\Illuminate\Validation\ValidationException $e) {
             if ($request->expectsJson()) {
                 return response()->json([
@@ -795,9 +796,10 @@ class AdminController extends BaseController
                 ], 422);
             }
             throw $e;
+            
         } catch (\Exception $e) {
             Log::error('Error creating karyawan: ' . $e->getMessage());
-
+            
             if ($request->expectsJson()) {
                 return response()->json([
                     'success' => false,

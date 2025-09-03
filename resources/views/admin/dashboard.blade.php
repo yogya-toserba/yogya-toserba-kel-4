@@ -620,6 +620,60 @@ body.dark-mode .table span[style*="background: #fef3c7"] {
     transform: translateY(-1px);
 }
 
+/* DARK MODE FIX FOR TEXT-MUTED */
+body.dark-mode .text-muted {
+    color: #94a3b8 !important;
+}
+
+body.dark-mode .text-success {
+    color: #10b981 !important;
+}
+
+body.dark-mode .text-info {
+    color: #3b82f6 !important;
+}
+
+body.dark-mode .text-warning {
+    color: #f59e0b !important;
+}
+
+/* Fix for small text in Status Sistem section */
+body.dark-mode .new-card-body small {
+    color: #94a3b8 !important;
+}
+
+body.dark-mode .new-card-body small.text-success {
+    color: #10b981 !important;
+}
+
+body.dark-mode .new-card-body small.text-muted {
+    color: #94a3b8 !important;
+}
+
+/* Fix for h6 headings in Status Sistem */
+body.dark-mode .new-card-body h6 {
+    color: #e2e8f0 !important;
+}
+
+/* Ensure all text colors are visible in dark mode */
+body.dark-mode .new-card-body div h6 {
+    color: #f3f4f6 !important;
+    font-weight: 600 !important;
+}
+
+body.dark-mode .new-card-body div small {
+    color: #94a3b8 !important;
+}
+
+/* Override Bootstrap text utilities for dark mode */
+body.dark-mode .text-muted {
+    color: #9ca3af !important;
+}
+
+body.dark-mode .text-secondary {
+    color: #94a3b8 !important;
+}
+
 /* Mobile responsive for main-content */
 @media (max-width: 768px) {
     .main-content {
@@ -640,7 +694,7 @@ body.dark-mode .table span[style*="background: #fef3c7"] {
             </div>
             <div style="text-align: right;">
                 <div id="realTimeClock" style="font-weight: 600; color: white; font-size: 1rem; margin-bottom: 5px;"></div>
-                <small style="opacity: 0.8;">{{ date('l, d F Y') }}</small>
+                <small id="currentDate" style="opacity: 0.8;"></small>
             </div>
         </div>
     </div>
@@ -1082,7 +1136,26 @@ document.addEventListener('DOMContentLoaded', function() {
         };
         
         const timeString = now.toLocaleTimeString('id-ID', options);
-        document.getElementById('realTimeClock').textContent = timeString + ' WIB';
+        
+        // Update clock
+        const clockElement = document.getElementById('realTimeClock');
+        if (clockElement) {
+            clockElement.textContent = timeString + ' WIB';
+        }
+        
+        // Update date
+        const dateElement = document.getElementById('currentDate');
+        if (dateElement) {
+            const dateOptions = { 
+                weekday: 'long', 
+                year: 'numeric', 
+                month: 'long', 
+                day: 'numeric',
+                timeZone: 'Asia/Jakarta'
+            };
+            const dateString = now.toLocaleDateString('id-ID', dateOptions);
+            dateElement.textContent = dateString;
+        }
     }
     
     // Update clock immediately
