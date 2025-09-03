@@ -12,7 +12,7 @@
             <span>Buku & Alat Tulis</span>
         </nav>
         
-        <h1 class="display-5 fw-bold mb-3">📚 Buku & Alat Tulis</h1>
+        <h1 class="display-5 fw-bold mb-3">Buku & Alat Tulis</h1>
         <p class="lead mb-0">Koleksi buku terlengkap dan alat tulis berkualitas untuk menunjang pendidikan dan kreativitas</p>
     </div>
 </div>

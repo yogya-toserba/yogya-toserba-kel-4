@@ -12,7 +12,7 @@
             <span>Kesehatan & Kecantikan</span>
         </nav>
         
-        <h1 class="display-5 fw-bold mb-3">💄 Kesehatan & Kecantikan</h1>
+        <h1 class="display-5 fw-bold mb-3">Kesehatan & Kecantikan</h1>
         <p class="lead mb-0">Produk kesehatan dan kecantikan terpercaya untuk menjaga penampilan dan kesehatan Anda</p>
     </div>
 </div>

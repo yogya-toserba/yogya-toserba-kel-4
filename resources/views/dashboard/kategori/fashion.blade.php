@@ -12,7 +12,7 @@
             <span>Fashion</span>
         </nav>
         
-        <h1 class="display-5 fw-bold mb-3">👗 Fashion</h1>
+        <h1 class="display-5 fw-bold mb-3">Fashion</h1>
         <p class="lead mb-0">Koleksi fashion terdepan untuk gaya hidup modern Anda</p>
     </div>
 </div>
