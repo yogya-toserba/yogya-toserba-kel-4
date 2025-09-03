@@ -12,7 +12,7 @@
             <span>Olahraga</span>
         </nav>
         
-        <h1 class="display-5 fw-bold mb-3">⚽ Olahraga</h1>
+        <h1 class="display-5 fw-bold mb-3">Olahraga</h1>
         <p class="lead mb-0">Perlengkapan olahraga terlengkap untuk menunjang aktivitas dan gaya hidup sehat</p>
     </div>
 </div>
