@@ -177,6 +177,13 @@ Route::prefix('gudang')->name('gudang.')->group(function () {
         return view('gudang.kontak-admin');
     })->name('kontak-admin');
     
+    // Dashboard Inventori Routes (no authentication required)
+    Route::get('/inventori/dashboard', [App\Http\Controllers\InventoriDashboardController::class, 'index'])
+        ->name('inventori.dashboard');
+    
+    Route::get('/inventori/statistics', [App\Http\Controllers\InventoriDashboardController::class, 'getStatistics'])
+        ->name('inventori.statistics');
+    
     // Debug route (public, no auth required)
     Route::get('/debug-test', function () {
         return response()->json([
@@ -201,12 +208,23 @@ Route::prefix('gudang')->name('gudang.')->group(function () {
         Route::get('/dashboard', [GudangController::class, 'dashboard'])->name('dashboard');
 
         // Stock management routes
-        Route::get('stok-export', [StokGudangPusatController::class, 'export'])->name('stok.export');
-        Route::get('stok-data', [StokGudangPusatController::class, 'getStokData'])->name('stok.data');
-        Route::get('stok/{stok}/add-stock', [StokGudangPusatController::class, 'showAddStock'])->name('stok.add-stock');
-        Route::post('stok/{stok}/add-stock', [StokGudangPusatController::class, 'addStock'])->name('stok.add-stock.submit');
-        Route::resource('stok', StokGudangPusatController::class);
+        Route::get('stok-export', [StokGudangPusatController::class, 'export'])->name('gudang.stok.export');
+        Route::get('stok-data', [StokGudangPusatController::class, 'getStokData'])->name('gudang.stok.data');
+        Route::get('stok/{stok}/add-stock', [StokGudangPusatController::class, 'showAddStock'])->name('gudang.stok.add-stock');
+        Route::post('stok/{stok}/add-stock', [StokGudangPusatController::class, 'addStock'])->name('gudang.stok.add-stock.submit');
+        Route::resource('stok', StokGudangPusatController::class)->names([
+            'index' => 'gudang.stok.index',
+            'create' => 'gudang.stok.create',
+            'store' => 'gudang.stok.store',
+            'show' => 'gudang.stok.show',
+            'edit' => 'gudang.stok.edit',
+            'update' => 'gudang.stok.update',
+            'destroy' => 'gudang.stok.destroy'
+        ]);
 
+        // Main stok route for sidebar
+        Route::get('/stok-main', [StokGudangPusatController::class, 'index'])->name('stok');
+        
         // Other gudang routes
         Route::get('/permintaan', function () {
             return view('gudang.permintaan');
@@ -277,9 +295,12 @@ Route::prefix('gudang')->name('gudang.')->group(function () {
             return view('gudang.logistik');
         })->name('logistik');
 
-        Route::get('/inventory', [ProductController::class, 'index'])->name('inventory.index');
-        Route::get('/inventory/create', [ProductController::class, 'create'])->name('inventory.create');
-        Route::post('/inventory', [ProductController::class, 'store'])->name('inventory.store');
+        Route::get('/inventori', [ProductController::class, 'index'])->name('inventori.index');
+        Route::get('/inventori/create', [ProductController::class, 'create'])->name('inventori.create');
+        Route::post('/inventori', [ProductController::class, 'store'])->name('inventori.store');
+        Route::get('/inventori/{id}/edit', [ProductController::class, 'edit'])->name('inventori.edit');
+        Route::put('/inventori/{id}', [ProductController::class, 'update'])->name('inventori.update');
+        Route::delete('/inventori/{id}', [ProductController::class, 'destroy'])->name('inventori.destroy');
         Route::resource('produk', ProductController::class);
     });
 });
@@ -307,11 +328,6 @@ Route::prefix('admin')->name('admin.')->group(function () {
     // Protected Admin Routes
     Route::middleware(['auth:admin'])->group(function () {
         Route::get('/dashboard', [AdminController::class, 'dashboard'])->name('dashboard');
-        Route::get('/analisis', [AdminController::class, 'dashboard'])->name('analisis');
-        Route::get('/analisis/keuangan', [AdminController::class, 'dashboardKeuangan'])->name('analisis.keuangan');
-        Route::get('/analisis/pelanggan', [AdminController::class, 'dashboardPelanggan'])->name('analisis.pelanggan');
-        Route::get('/analisis/barang', [AdminController::class, 'dashboardBarang'])->name('analisis.barang');
-        Route::get('/analisis/penjualan', [AdminController::class, 'dashboardPenjualan'])->name('analisis.penjualan');
         Route::get('/chart-data', [AdminController::class, 'getChartData'])->name('chart.data');
         Route::get('/data-karyawan', [AdminController::class, 'dataKaryawan'])->name('data-karyawan');
         Route::get('/data-karyawan/search', [AdminController::class, 'searchKaryawan'])->name('data-karyawan.search');

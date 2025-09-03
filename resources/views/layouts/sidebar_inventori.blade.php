@@ -29,12 +29,12 @@
       @endif
     </a>
 
-    <a href="{{ route('gudang.inventory.index') }}" class="nav-item {{ request()->routeIs('gudang.inventory*') ? 'active' : '' }}">
+    <a href="{{ route('gudang.inventori.index') }}" class="nav-item {{ request()->routeIs('gudang.inventori*') ? 'active' : '' }}">
       <div class="nav-icon">
         <i class="fas fa-boxes"></i>
       </div>
       <span class="nav-text">Inventori</span>
-      @if(request()->routeIs('gudang.inventory*'))
+      @if(request()->routeIs('gudang.inventori*'))
         <div class="nav-indicator"></div>
       @endif
     </a>

@@ -103,7 +103,7 @@
             <p class="menu-desc">Lihat statistik, grafik, dan overview sistem inventori secara real-time dengan tampilan yang modern dan interaktif.</p>
         </a>
 
-        <a href="{{ route('gudang.inventory.index') }}" class="menu-card">
+        <a href="{{ route('gudang.inventori.index') }}" class="menu-card">
             <div class="menu-icon success">
                 <i class="fas fa-boxes"></i>
             </div>

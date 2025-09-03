@@ -31,17 +31,20 @@ class GudangController extends BaseController
             $request->session()->regenerate();
 
             $gudang = Auth::guard('gudang')->user();
+            
+            // Cek jika ID gudang adalah 1002, arahkan ke dashboard inventori
+            $redirectRoute = $gudang->id_gudang == '1002' ? route('gudang.inventori.dashboard') : route('gudang.dashboard');
 
             // Return JSON response for AJAX requests
             if ($request->wantsJson() || $request->ajax()) {
                 return response()->json([
                     'success' => true,
                     'message' => "Selamat datang, {$gudang->nama_gudang}!",
-                    'redirect' => route('gudang.dashboard')
+                    'redirect' => $redirectRoute
                 ]);
             }
 
-            return redirect()->intended(route('gudang.dashboard'));
+            return redirect()->intended($redirectRoute);
         }
 
         // Return JSON response for AJAX requests
