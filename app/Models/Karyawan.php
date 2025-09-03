@@ -22,6 +22,7 @@ class Karyawan extends Model
         'nomer_telepon',
         'id_shift',
         'id_cabang',
+        'jabatan_id',
         'status'
     ];
 
@@ -33,6 +34,60 @@ class Karyawan extends Model
     public function cabang()
     {
         return $this->belongsTo(Cabang::class, 'id_cabang', 'id_cabang');
+    }
+
+    // Relationship with Jabatan table
+    public function jabatan()
+    {
+        return $this->belongsTo(Jabatan::class, 'jabatan_id');
+    }
+
+    // Relationship with Gaji table
+    public function gaji()
+    {
+        return $this->hasMany(Gaji::class, 'id_karyawan', 'id_karyawan');
+    }
+
+    // Relationship with Absensi table (jika model Absensi ada)
+    // public function absensi()
+    // {
+    //     return $this->hasMany(Absensi::class, 'id_karyawan', 'id_karyawan');
+    // }
+
+    // Method untuk menghitung total kehadiran dalam periode tertentu
+    public function getTotalKehadiranBulan($tahun, $bulan)
+    {
+        // Simulasi data kehadiran - nanti bisa diganti dengan query ke tabel absensi
+        return rand(18, 22); // Simulasi 18-22 hari hadir
+    }
+
+    // Method untuk generate gaji otomatis
+    public function generateGajiOtomatis($periode)
+    {
+        if (!$this->jabatan) {
+            return null;
+        }
+
+        $tahun = date('Y', strtotime($periode));
+        $bulan = date('m', strtotime($periode));
+
+        $totalHariHadir = $this->getTotalKehadiranBulan($tahun, $bulan);
+        $perhitunganGaji = $this->jabatan->hitungGaji($totalHariHadir);
+
+        return [
+            'id_karyawan' => $this->id_karyawan,
+            'total_hari_hadir' => $totalHariHadir,
+            'total_hari_kerja' => $this->jabatan->minimal_hari_kerja,
+            'periode_gaji' => $periode,
+            'gaji_pokok' => $perhitunganGaji['gaji_pokok'],
+            'tunjangan' => $perhitunganGaji['tunjangan_jabatan'], // Sesuaikan dengan kolom tabel
+            'bonus' => $perhitunganGaji['bonus_kehadiran'], // Sesuaikan dengan kolom tabel
+            'potongan_absen' => $perhitunganGaji['potongan_absen'],
+            'total_gaji' => $perhitunganGaji['total_gaji'],
+            'status' => 'pending',
+            'is_auto_generated' => true,
+            'keterangan' => 'Gaji digenerate otomatis berdasarkan jabatan: ' . $this->jabatan->nama_jabatan
+        ];
     }
 
     // Relationship with Shift table (commented until Shift model is created)
