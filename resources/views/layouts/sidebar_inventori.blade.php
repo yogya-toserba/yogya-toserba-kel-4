@@ -1,13 +1,6 @@
 <div class="sidebar" id="sidebar">
-  <!-- LOGO & BRAND SECTION -    <a href="{{ route('gudang.pemasok.index') }}" class="nav-item {{ request()->routeIs('gudang.pemasok*') ? 'active' : '' }}">
-      <div class="nav-icon">
-        <i class="fas fa-truck-loading"></i>
-      </div>
-      <span class="nav-text">Pemasok</span>
-      @if(request()->routeIs('gudang.pemasok*'))
-        <div class="nav-indicator"></div>
-      @endif
-    </a> class="sidebar-brand">
+  <!-- LOGO & BRAND SECTION -->
+  <div class="sidebar-brand">
     <div class="brand-logo">
       <img src="{{ asset('image/logo_yogya.png') }}" alt="YOGYA Logo" class="yogya-logo">
     </div>
@@ -29,22 +22,22 @@
       @endif
     </a>
 
-    <a href="{{ route('gudang.inventori.index') }}" class="nav-item {{ request()->routeIs('gudang.inventori*') ? 'active' : '' }}">
+    <a href="{{ route('gudang.inventori.index') }}" class="nav-item {{ request()->routeIs('gudang.inventori.index') ? 'active' : '' }}">
       <div class="nav-icon">
         <i class="fas fa-boxes"></i>
       </div>
       <span class="nav-text">Inventori</span>
-      @if(request()->routeIs('gudang.inventori*'))
+      @if(request()->routeIs('gudang.inventori.index'))
         <div class="nav-indicator"></div>
       @endif
     </a>
 
-    <a href="{{ route('gudang.permintaan') }}" class="nav-item {{ request()->routeIs('gudang.permintaan') ? 'active' : '' }}">
+    <a href="{{ route('gudang.inventori.permintaan.inventori') }}" class="nav-item {{ request()->routeIs('gudang.inventori.permintaan.inventori') ? 'active' : '' }}">
       <div class="nav-icon">
         <i class="fas fa-warehouse"></i>
       </div>
       <span class="nav-text">Permintaan</span>
-      @if(request()->routeIs('gudang.permintaan'))
+      @if(request()->routeIs('gudang.inventori.permintaan.inventori'))
         <div class="nav-indicator"></div>
       @endif
     </a>

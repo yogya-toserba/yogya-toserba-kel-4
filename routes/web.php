@@ -226,9 +226,17 @@ Route::prefix('gudang')->name('gudang.')->group(function () {
         Route::get('/stok-main', [StokGudangPusatController::class, 'index'])->name('stok');
         
         // Other gudang routes
-        Route::get('/permintaan', function () {
-            return view('gudang.permintaan');
-        })->name('permintaan');
+        Route::get('/permintaan', [GudangController::class, 'permintaan'])->name('permintaan');
+        
+        Route::get('/permintaan-inventori', function () {
+            return view('gudang.permintaan_inventori');
+        })->name('permintaan.inventori');
+        
+        Route::get('/inventori/permintaan-inventori', function () {
+            return view('gudang.inventori.permintaan_inventori');
+        })->name('inventori.permintaan.inventori');
+        
+        Route::post('/permintaan-submit', [GudangController::class, 'submitPermintaan'])->name('permintaan.submit');
 
         Route::get('/pengiriman', function () {
             return view('gudang.pengiriman');
