@@ -12,7 +12,7 @@
             <span>Elektronik</span>
         </nav>
         
-        <h1 class="display-5 fw-bold mb-3">📱 Elektronik</h1>
+        <h1 class="display-5 fw-bold mb-3">Elektronik</h1>
         <p class="lead mb-0">Temukan berbagai produk elektronik terkini dengan teknologi terdepan</p>
     </div>
 </div>

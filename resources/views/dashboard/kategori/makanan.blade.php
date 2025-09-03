@@ -12,7 +12,7 @@
             <span>Makanan & Minuman</span>
         </nav>
         
-        <h1 class="display-5 fw-bold mb-3">🍕 Makanan & Minuman</h1>
+        <h1 class="display-5 fw-bold mb-3">Makanan & Minuman</h1>
         <p class="lead mb-0">Nikmati berbagai pilihan makanan dan minuman segar berkualitas</p>
     </div>
 </div>

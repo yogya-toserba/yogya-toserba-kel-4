@@ -12,7 +12,7 @@
             <span>Rumah Tangga</span>
         </nav>
         
-        <h1 class="display-5 fw-bold mb-3">🏠 Rumah Tangga</h1>
+        <h1 class="display-5 fw-bold mb-3">Rumah Tangga</h1>
         <p class="lead mb-0">Perlengkapan rumah tangga terlengkap untuk kenyamanan hidup sehari-hari</p>
     </div>
 </div>
