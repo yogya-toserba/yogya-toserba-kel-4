@@ -496,7 +496,7 @@ body.dark-mode .table small {
     color: white !important;
     font-weight: 500 !important;
     padding: 8px 16px !important;
-    border-radius: 8px !important;
+    border-radius: 10px !important;
     transition: all 0.3s ease !important;
 }
 
@@ -506,12 +506,12 @@ body.dark-mode .table small {
 }
 
 .btn-outline-primary {
-    border: 2px solid #f26b37 !important;
+    border: 1px solid #f26b37 !important;
     color: #f26b37 !important;
     background: transparent !important;
     font-weight: 500 !important;
-    padding: 6px 14px !important;
-    border-radius: 8px !important;
+    padding: 8px 14px !important;
+    border-radius: 10px !important;
     transition: all 0.3s ease !important;
 }
 
@@ -522,12 +522,12 @@ body.dark-mode .table small {
 }
 
 .btn-outline-secondary {
-    border: 2px solid #6c757d !important;
+    border: 1px solid #6c757d !important;
     color: #6c757d !important;
     background: transparent !important;
     font-weight: 500 !important;
-    padding: 6px 14px !important;
-    border-radius: 8px !important;
+    padding: 8px 14px !important;
+    border-radius: 10px !important;
     transition: all 0.3s ease !important;
 }
 
@@ -635,11 +635,13 @@ body.dark-mode .search-filter-bar {
 
 /* Form Controls */
 .form-control {
-    border: 2px solid #e2e8f0 !important;
-    border-radius: 8px !important;
+    border: 1px solid #e2e8f0 !important;
+    border-radius: 10px !important;
     padding: 8px 12px !important;
+    background: white !important;
+    color: #1e293b !important;
     font-size: 0.9rem !important;
-    transition: all 0.2s ease !important;
+    transition: all 0.3s ease !important;
 }
 
 .form-control:hover {
@@ -649,7 +651,8 @@ body.dark-mode .search-filter-bar {
 
 .form-control:focus {
     border-color: #f26b37 !important;
-    box-shadow: 0 0 0 0.2rem rgba(242, 107, 55, 0.25) !important;
+    box-shadow: 0 0 0 3px rgba(242, 107, 55, 0.1) !important;
+    background: white !important;
     transform: none !important;
 }
 
@@ -668,11 +671,27 @@ body.dark-mode .form-control:focus {
     background: #374151 !important;
     border-color: #f26b37 !important;
     color: #e2e8f0 !important;
-    box-shadow: 0 0 0 0.2rem rgba(242, 107, 55, 0.25) !important;
+    box-shadow: 0 0 0 3px rgba(242, 107, 55, 0.2) !important;
 }
 
 body.dark-mode .form-control::placeholder {
     color: #9ca3af !important;
+}
+
+.form-select {
+    border: 1px solid #e2e8f0 !important;
+    border-radius: 10px !important;
+    padding: 8px 12px !important;
+    background: white !important;
+    color: #1e293b !important;
+    font-size: 0.9rem !important;
+    transition: all 0.3s ease !important;
+}
+
+.form-select:focus {
+    border-color: #f26b37 !important;
+    box-shadow: 0 0 0 3px rgba(242, 107, 55, 0.1) !important;
+    background: white !important;
 }
 
 body.dark-mode .form-select {
@@ -685,9 +704,7 @@ body.dark-mode .form-select:focus {
     background: #374151 !important;
     border-color: #f26b37 !important;
     color: #e2e8f0 !important;
-}
-    border-color: #4b5563 !important;
-    color: #e2e8f0 !important;
+    box-shadow: 0 0 0 3px rgba(242, 107, 55, 0.2) !important;
 }
 
 body.dark-mode .form-select option {
@@ -1152,6 +1169,13 @@ body.dark-mode .pagination .page-item.disabled .page-link {
 
 .equal-height-cards .table-responsive {
     flex: 1;
+    display: flex;
+    flex-direction: column;
+}
+
+/* Ensure pagination stays at bottom */
+.equal-height-cards .table-responsive .pagination-container {
+    margin-top: auto;
 }
 
 @media (max-width: 1200px) {
@@ -1407,10 +1431,10 @@ body.dark-mode .preview-container::-webkit-scrollbar-thumb:hover {
 
 /* Form label styling */
 .form-label {
-    font-weight: 600;
-    color: #374151;
-    margin-bottom: 8px;
-    font-size: 0.9rem;
+    color: #374151 !important;
+    font-weight: 500 !important;
+    font-size: 0.85rem !important;
+    margin-bottom: 5px !important;
 }
 
 .compact-label {
@@ -1572,7 +1596,7 @@ body.dark-mode .preview-value {
             </div>
             <div style="text-align: right;">
                 <div id="realTimeClock" style="font-weight: 600; color: white; font-size: 1rem; margin-bottom: 5px;"></div>
-                <small style="opacity: 0.8;">Senin, 1 September 2025</small>
+                <small id="currentDate" style="opacity: 0.8;"></small>
             </div>
         </div>
     </div>
@@ -1633,14 +1657,11 @@ body.dark-mode .preview-value {
     <div class="search-filter-bar">
         <div class="row g-3 align-items-center">
             <div class="col-md-4">
-                <div class="input-group">
-                    <span class="input-group-text">
-                        <i class="fas fa-search"></i>
-                    </span>
-                    <input type="text" class="form-control" placeholder="Cari karyawan..." id="searchKaryawan">
-                </div>
+                <label class="form-label">Cari Karyawan</label>
+                <input type="text" class="form-control" placeholder="Masukkan nama karyawan..." id="searchKaryawan">
             </div>
             <div class="col-md-2">
+                <label class="form-label">Departemen</label>
                 <select class="form-control" id="filterDepartment">
                     <option value="">Semua Departemen</option>
                     @foreach($divisiList ?? [] as $divisi)
@@ -1649,6 +1670,7 @@ body.dark-mode .preview-value {
                 </select>
             </div>
             <div class="col-md-2">
+                <label class="form-label">Status</label>
                 <select class="form-control" id="filterStatus">
                     <option value="">Semua Status</option>
                     <option value="Aktif">Aktif</option>
@@ -1656,11 +1678,13 @@ body.dark-mode .preview-value {
                 </select>
             </div>
             <div class="col-md-3">
-                <button class="btn btn-primary w-100" data-bs-toggle="modal" data-bs-target="#tambahKaryawanModal">
+                <label class="form-label">&nbsp;</label>
+                <button class="btn btn-primary w-100" data-bs-toggle="modal" data-bs-target="#tambahKaryawanModal" style="background: linear-gradient(135deg, #f26b37 0%, #e55827 100%); border: none; padding: 8px;">
                     <i class="fas fa-plus me-2"></i>Tambah
                 </button>
             </div>
             <div class="col-md-1">
+                <label class="form-label">&nbsp;</label>
                 <button class="btn btn-outline-secondary w-100" id="resetFilters" title="Reset Filter">
                     <i class="fas fa-undo"></i>
                 </button>
@@ -1676,14 +1700,6 @@ body.dark-mode .preview-value {
                     <div class="new-card-title">
                         <i class="fas fa-table"></i>
                         Daftar Karyawan
-                    </div>
-                    <div class="d-flex gap-2">
-                        <button class="btn btn-outline-primary btn-sm">
-                            <i class="fas fa-download me-1"></i>Export
-                        </button>
-                        <button class="btn btn-outline-primary btn-sm">
-                            <i class="fas fa-filter me-1"></i>Filter
-                        </button>
                     </div>
                 </div>
                 <div class="new-card-body">
@@ -1702,72 +1718,6 @@ body.dark-mode .preview-value {
                                 </tr>
                             </thead>
                             <tbody id="karyawan-table-body">
-                                @forelse($karyawan ?? [] as $index => $emp)
-                                <tr>
-                                    <td style="font-size: 0.85rem; padding: 12px 8px; width: 5%;">{{ $loop->iteration }}</td>
-                                    <td style="font-size: 0.85rem; padding: 12px 8px; width: 8%;">
-                                        <img src="/image/default-avatar.png" alt="Foto" style="width: 35px; height: 35px; border-radius: 50%; object-fit: cover;">
-                                    </td>
-                                    <td style="font-size: 0.85rem; padding: 12px 8px; width: 25%;">
-                                        <div style="max-width: 200px;">
-                                            <strong style="color: #1e293b; display: block; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">{{ $emp->nama }}</strong>
-                                            <small style="color: #64748b; display: block; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">{{ $emp->email }}</small>
-                                        </div>
-                                    </td>
-                                    <td style="font-size: 0.85rem; padding: 12px 8px; width: 15%;">
-                                        <strong style="color: #1e293b; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; display: block;">{{ $emp->divisi }}</strong>
-                                    </td>
-                                    <td style="font-size: 0.85rem; padding: 12px 8px; width: 15%;">
-                                        <span class="badge-department" style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis; display: inline-block; max-width: 100%;">{{ $emp->divisi }}</span>
-                                    </td>
-                                    <td style="font-size: 0.85rem; padding: 12px 8px; width: 12%;">
-                                        @if($emp->status === 'Aktif')
-                                            <span class="badge-active">{{ $emp->status }}</span>
-                                        @else
-                                            <span class="badge-inactive">{{ $emp->status }}</span>
-                                        @endif
-                                    </td>
-                                    <td style="font-size: 0.85rem; padding: 12px 8px; width: 12%;">
-                                        <small style="color: #64748b; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; display: block;">{{ $emp->created_at ? $emp->created_at->format('d M Y') : '-' }}</small>
-                                    </td>
-                                    <td style="font-size: 0.85rem; padding: 12px 8px; text-align: center; position: relative; width: 8%;">
-                                        <div class="action-dropdown">
-                                            <button class="action-dropdown-btn" data-employee-id="{{ $emp->id_karyawan }}" type="button" onclick="toggleTableDropdown(this, event)">
-                                                <i class="fas fa-ellipsis-v"></i>
-                                            </button>
-                                            <div class="action-dropdown-menu">
-                                                <button class="action-dropdown-item view-item" onclick="viewEmployee({{ $emp->id_karyawan }})">
-                                                    <i class="fas fa-eye"></i>Detail
-                                                </button>
-                                                <button class="action-dropdown-item edit-item" onclick="editEmployee({{ $emp->id_karyawan }})">
-                                                    <i class="fas fa-edit"></i>Edit
-                                                </button>
-                                                @if($emp->status === 'Aktif')
-                                                    <button class="action-dropdown-item warning-item" onclick="toggleStatus({{ $emp->id_karyawan }}, 'Non-Aktif')">
-                                                        <i class="fas fa-user-slash"></i>Non-Aktifkan
-                                                    </button>
-                                                @else
-                                                    <button class="action-dropdown-item view-item" onclick="toggleStatus({{ $emp->id_karyawan }}, 'Aktif')">
-                                                        <i class="fas fa-user-check"></i>Aktifkan
-                                                    </button>
-                                                @endif
-                                                <button class="action-dropdown-item delete-item" onclick="deleteEmployee({{ $emp->id_karyawan }})">
-                                                    <i class="fas fa-trash"></i>Hapus
-                                                </button>
-                                            </div>
-                                        </div>
-                                    </td>
-                                </tr>
-                                @empty
-                                <tr>
-                                    <td colspan="8" style="text-align: center; padding: 40px; color: #64748b;">
-                                        <i class="fas fa-users fa-2x mb-3" style="opacity: 0.3;"></i>
-                                        <br>
-                                        Tidak ada data karyawan
-                                    </td>
-                                </tr>
-                                @endforelse
-                            </tbody>
                                 @forelse($karyawan ?? [] as $index => $emp)
                                 <tr>
                                     <td style="font-size: 0.85rem; padding: 12px 8px; width: 5%;">{{ $loop->iteration }}</td>
@@ -1911,8 +1861,8 @@ body.dark-mode .preview-value {
             <div class="new-card">
                 <div class="new-card-header">
                     <div class="new-card-title">
-                        <i class="fas fa-clock"></i>
-                        Kehadiran Hari Ini
+                        <i class="fas fa-user-plus"></i>
+                        Karyawan Terbaru
                     </div>
                 </div>
                 <div class="new-card-body">
@@ -1921,20 +1871,31 @@ body.dark-mode .preview-value {
                             <thead style="background: white;">
                                 <tr>
                                     <th style="font-size: 0.8rem; font-weight: 600; color: #64748b; border: none;">Nama</th>
-                                    <th style="font-size: 0.8rem; font-weight: 600; color: #64748b; border: none;">Waktu Masuk</th>
-                                    <th style="font-size: 0.8rem; font-weight: 600; color: #64748b; border: none; text-align: center;">Status</th>
+                                    <th style="font-size: 0.8rem; font-weight: 600; color: #64748b; border: none;">Departemen</th>
+                                    <th style="font-size: 0.8rem; font-weight: 600; color: #64748b; border: none; text-align: center;">Bergabung</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 <tr>
                                     <td style="font-size: 0.85rem; border: none; padding: 8px 0;">
-                                        <strong style="color: #1e293b;">Budi Santoso</strong>
+                                        <strong style="color: #1e293b;">Agus Dewi</strong>
                                     </td>
                                     <td style="font-size: 0.85rem; border: none; padding: 8px 0;">
-                                        <small style="color: #64748b;">08:00</small>
+                                        <span class="badge-department">Security</span>
                                     </td>
                                     <td style="font-size: 0.85rem; border: none; padding: 8px 0; text-align: center;">
-                                        <span class="badge-active">Hadir</span>
+                                        <small style="color: #64748b;">31 Agu 2025</small>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td style="font-size: 0.85rem; border: none; padding: 8px 0;">
+                                        <strong style="color: #1e293b;">Agus Kusumawati</strong>
+                                    </td>
+                                    <td style="font-size: 0.85rem; border: none; padding: 8px 0;">
+                                        <span class="badge-department">Maintenance</span>
+                                    </td>
+                                    <td style="font-size: 0.85rem; border: none; padding: 8px 0; text-align: center;">
+                                        <small style="color: #64748b;">31 Agu 2025</small>
                                     </td>
                                 </tr>
                                 <tr>
@@ -1942,10 +1903,21 @@ body.dark-mode .preview-value {
                                         <strong style="color: #1e293b;">Sari Wulandari</strong>
                                     </td>
                                     <td style="font-size: 0.85rem; border: none; padding: 8px 0;">
-                                        <small style="color: #64748b;">08:15</small>
+                                        <span class="badge-department">Admin</span>
                                     </td>
                                     <td style="font-size: 0.85rem; border: none; padding: 8px 0; text-align: center;">
-                                        <span class="badge-active">Hadir</span>
+                                        <small style="color: #64748b;">30 Agu 2025</small>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td style="font-size: 0.85rem; border: none; padding: 8px 0;">
+                                        <strong style="color: #1e293b;">Budi Santoso</strong>
+                                    </td>
+                                    <td style="font-size: 0.85rem; border: none; padding: 8px 0;">
+                                        <span class="badge-department">Marketing</span>
+                                    </td>
+                                    <td style="font-size: 0.85rem; border: none; padding: 8px 0; text-align: center;">
+                                        <small style="color: #64748b;">29 Agu 2025</small>
                                     </td>
                                 </tr>
                                 <tr>
@@ -1953,71 +1925,51 @@ body.dark-mode .preview-value {
                                         <strong style="color: #1e293b;">Ahmad Rifki</strong>
                                     </td>
                                     <td style="font-size: 0.85rem; border: none; padding: 8px 0;">
-                                        <small style="color: #64748b;">-</small>
+                                        <span class="badge-department">IT Support</span>
                                     </td>
                                     <td style="font-size: 0.85rem; border: none; padding: 8px 0; text-align: center;">
-                                        <span class="badge-inactive">Tidak Hadir</span>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td style="font-size: 0.85rem; border: none; padding: 8px 0;">
-                                        <strong style="color: #1e293b;">Dewi Sartika</strong>
-                                    </td>
-                                    <td style="font-size: 0.85rem; border: none; padding: 8px 0;">
-                                        <small style="color: #64748b;">08:05</small>
-                                    </td>
-                                    <td style="font-size: 0.85rem; border: none; padding: 8px 0; text-align: center;">
-                                        <span class="badge-active">Hadir</span>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td style="font-size: 0.85rem; border: none; padding: 8px 0;">
-                                        <strong style="color: #1e293b;">Rian Pratama</strong>
-                                    </td>
-                                    <td style="font-size: 0.85rem; border: none; padding: 8px 0;">
-                                        <small style="color: #64748b;">08:20</small>
-                                    </td>
-                                    <td style="font-size: 0.85rem; border: none; padding: 8px 0; text-align: center;">
-                                        <span class="badge-active">Hadir</span>
+                                        <small style="color: #64748b;">28 Agu 2025</small>
                                     </td>
                                 </tr>
                             </tbody>
                         </table>
 
-                        <!-- Pagination for Kehadiran -->
+                        <!-- Pagination for Karyawan Terbaru -->
                         <div class="pagination-container">
                             <div class="pagination-info">
-                                Menampilkan 1-5 dari 28 karyawan hadir
+                                Menampilkan 5 karyawan terbaru dari 725 total
                             </div>
-                            <nav>
-                                <ul class="pagination">
-                                    <li class="page-item">
-                                        <a class="page-link" href="#" aria-label="Previous">
-                                            <i class="fas fa-chevron-left"></i>
-                                        </a>
-                                    </li>
-                                    <li class="page-item active">
-                                        <a class="page-link" href="#">1</a>
-                                    </li>
-                                    <li class="page-item">
-                                        <a class="page-link" href="#">2</a>
-                                    </li>
-                                    <li class="page-item">
-                                        <a class="page-link" href="#">3</a>
-                                    </li>
-                                    <li class="page-item">
-                                        <a class="page-link" href="#">...</a>
-                                    </li>
-                                    <li class="page-item">
-                                        <a class="page-link" href="#">6</a>
-                                    </li>
-                                    <li class="page-item">
-                                        <a class="page-link" href="#" aria-label="Next">
-                                            <i class="fas fa-chevron-right"></i>
-                                        </a>
-                                    </li>
-                                </ul>
-                            </nav>
+                            <div class="pagination-wrapper">
+                                <nav>
+                                    <ul class="pagination">
+                                        <li class="page-item">
+                                            <a class="page-link" href="#" aria-label="Previous">
+                                                <i class="fas fa-chevron-left"></i>
+                                            </a>
+                                        </li>
+                                        <li class="page-item active">
+                                            <a class="page-link" href="#">1</a>
+                                        </li>
+                                        <li class="page-item">
+                                            <a class="page-link" href="#">2</a>
+                                        </li>
+                                        <li class="page-item">
+                                            <a class="page-link" href="#">3</a>
+                                        </li>
+                                        <li class="page-item">
+                                            <a class="page-link" href="#">...</a>
+                                        </li>
+                                        <li class="page-item">
+                                            <a class="page-link" href="#">72</a>
+                                        </li>
+                                        <li class="page-item">
+                                            <a class="page-link" href="#" aria-label="Next">
+                                                <i class="fas fa-chevron-right"></i>
+                                            </a>
+                                        </li>
+                                    </ul>
+                                </nav>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -2254,9 +2206,25 @@ function updateRealTimeClock() {
     };
     
     const timeString = now.toLocaleTimeString('id-ID', options);
+    
+    // Update clock
     const clockElement = document.getElementById('realTimeClock');
     if (clockElement) {
         clockElement.textContent = timeString + ' WIB';
+    }
+    
+    // Update date
+    const dateElement = document.getElementById('currentDate');
+    if (dateElement) {
+        const dateOptions = { 
+            weekday: 'long', 
+            year: 'numeric', 
+            month: 'long', 
+            day: 'numeric',
+            timeZone: 'Asia/Jakarta'
+        };
+        const dateString = now.toLocaleDateString('id-ID', dateOptions);
+        dateElement.textContent = dateString;
     }
 }
 
@@ -2707,7 +2675,7 @@ document.addEventListener('keydown', function(e) {
     }
 });
 
-// Real-time clock update
+// Real-time clock update (consolidate with date update)
 function updateRealTimeClock() {
     const now = new Date();
     
@@ -2725,17 +2693,23 @@ function updateRealTimeClock() {
     if (realTimeClockElement) {
         realTimeClockElement.textContent = timeString + ' WIB';
     }
-}
-
-// Update real-time clock
-updateRealTimeClock();
-setInterval(updateRealTimeClock, 1000);
-
-// Update current day
-function updateDateTime() {
-    const now = new Date();
-    const dayElement = document.getElementById('current-day');
     
+    // Update date as well
+    const dateElement = document.getElementById('currentDate');
+    if (dateElement) {
+        const dateOptions = { 
+            weekday: 'long', 
+            year: 'numeric', 
+            month: 'long', 
+            day: 'numeric',
+            timeZone: 'Asia/Jakarta'
+        };
+        const dateString = now.toLocaleDateString('id-ID', dateOptions);
+        dateElement.textContent = dateString;
+    }
+    
+    // Update current day element if exists
+    const dayElement = document.getElementById('current-day');
     if (dayElement) {
         const dayOptions = {
             weekday: 'long',
@@ -2750,9 +2724,9 @@ function updateDateTime() {
     }
 }
 
-// Update day immediately and then every minute
-updateDateTime();
-setInterval(updateDateTime, 60000);
+// Update real-time clock
+updateRealTimeClock();
+setInterval(updateRealTimeClock, 1000);
 
 // Filter functionality
 document.getElementById('filterDepartment').addEventListener('change', performSearch);

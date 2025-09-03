@@ -1,11 +1,10 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="csrf-token" content="{{ csrf_token() }}">
-    <title>@yield('title', 'Admin Dashboard')</title>
+    <title>@yield('title', 'Analisis Admin')</title>
     <!-- Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <!-- Font Awesome -->
@@ -370,9 +369,12 @@
         }
 
         .submenu .nav-link {
-            font-size: 13px;
-            padding: 8px 15px;
+            font-size: 11px;
+            padding: 6px 12px;
             color: var(--light-text-secondary);
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
         }
 
         body.dark-mode .submenu .nav-link {
@@ -381,7 +383,7 @@
 
         .submenu .nav-link:hover {
             background: var(--light-nav-hover);
-            padding-left: 20px;
+            padding-left: 16px;
             color: var(--light-text);
         }
 
@@ -578,13 +580,11 @@
             .main-content {
                 margin-left: 0;
             }
-
-            .nav-text,
-            .brand-text,
-            .admin-info {
+            
+            .nav-text, .brand-text, .admin-info {
                 display: none;
             }
-
+            
             .nav-link {
                 justify-content: center;
                 padding: 12px 10px;
@@ -610,93 +610,98 @@
 
             <!-- Navigation -->
             <div class="sidebar-nav">
-                <a href="{{ route('admin.dashboard') }}"
-                    class="nav-link {{ Request::is('admin/dashboard') ? 'active' : '' }}">
+                <a href="{{ route('admin.analisis') }}" class="nav-link {{ Request::is('admin/analisis*') ? 'active' : '' }}">
                     <div class="nav-icon">
-                        <i class="fas fa-tachometer-alt"></i>
+                        <i class="fas fa-chart-line"></i>
                     </div>
-                    <span class="nav-text">Dashboard</span>
-                    @if (Request::is('admin/dashboard'))
+                    <span class="nav-text">Analisis</span>
+                    @if(Request::is('admin/analisis*'))
                         <div class="nav-indicator"></div>
                     @endif
                 </a>
 
-                <a href="{{ route('admin.data-karyawan') }}"
-                    class="nav-link {{ Request::is('admin/data-karyawan*') ? 'active' : '' }}">
-                    <div class="nav-icon">
-                        <i class="fas fa-users"></i>
+                <!-- Manajemen Karyawan Dropdown -->
+                <div class="dropdown-nav {{ Request::is('admin/data-karyawan*') || Request::is('admin/penggajian*') || Request::is('admin/absensi*') ? 'show' : '' }}">
+                    <div class="dropdown-toggle-nav {{ Request::is('admin/data-karyawan*') || Request::is('admin/penggajian*') || Request::is('admin/absensi*') ? 'active' : '' }}" onclick="toggleKaryawanDropdown()">
+                        <span><i class="fas fa-users"></i> Manajemen Karyawan</span>
+                        <i class="fas fa-chevron-down dropdown-arrow"></i>
                     </div>
-                    <span class="nav-text">Data Karyawan</span>
-                    @if (Request::is('admin/data-karyawan*'))
-                        <div class="nav-indicator"></div>
-                    @endif
-                </a>
-
-                <a href="{{ route('admin.penggajian') }}"
-                    class="nav-link {{ Request::is('admin/penggajian') && !Request::is('admin/penggajian/create') ? 'active' : '' }}">
-                    <div class="nav-icon">
-                        <i class="fas fa-money-check-alt"></i>
+                    <div class="submenu {{ Request::is('admin/data-karyawan*') || Request::is('admin/penggajian*') || Request::is('admin/absensi*') ? 'show' : '' }}">
+                        <a href="{{ route('admin.data-karyawan') }}" class="nav-link {{ Request::is('admin/data-karyawan*') ? 'active' : '' }}">
+                            <i class="fas fa-users"></i> Data Karyawan
+                        </a>
+                        <a href="{{ route('admin.penggajian') }}" class="nav-link {{ Request::is('admin/penggajian*') ? 'active' : '' }}">
+                            <i class="fas fa-money-check-alt"></i> Penggajian
+                        </a>
+                        <a href="{{ route('admin.absensi') }}" class="nav-link {{ Request::is('admin/absensi*') ? 'active' : '' }}">
+                            <i class="fas fa-user-check"></i> Absensi
+                        </a>
                     </div>
-                    <span class="nav-text">Penggajian</span>
-                    @if (Request::is('admin/penggajian') && !Request::is('admin/penggajian/create'))
-                        <div class="nav-indicator"></div>
-                    @endif
-                </a>
-
-                <a href="{{ route('admin.penggajian.create') }}"
-                    class="nav-link {{ Request::is('admin/penggajian/create') ? 'active' : '' }}">
-                    <div class="nav-icon">
-                        <i class="fas fa-plus-circle"></i>
-                    </div>
-                    <span class="nav-text">Input Gaji Karyawan</span>
-                    @if (Request::is('admin/penggajian/create'))
-                        <div class="nav-indicator"></div>
-                    @endif
-                </a>
-
-                <a href="{{ route('admin.absensi') }}"
-                    class="nav-link {{ Request::is('admin/absensi*') ? 'active' : '' }}">
-                    <div class="nav-icon">
-                        <i class="fas fa-user-check"></i>
-                    </div>
-                    <span class="nav-text">Absensi</span>
-                    @if (Request::is('admin/absensi*'))
-                        <div class="nav-indicator"></div>
-                    @endif
-                </a>
+                </div>
 
                 <!-- Keuangan Dropdown -->
-                <div
-                    class="dropdown-nav {{ Request::is('admin/laporan*') || Request::is('admin/keuangan*') ? 'show' : '' }}">
-                    <div class="dropdown-toggle-nav {{ Request::is('admin/laporan*') || Request::is('admin/keuangan*') ? 'active' : '' }}"
-                        onclick="toggleDropdown()">
+                <div class="dropdown-nav {{ Request::is('admin/laporan*') || Request::is('admin/keuangan*') ? 'show' : '' }}">
+                    <div class="dropdown-toggle-nav {{ Request::is('admin/laporan*') || Request::is('admin/keuangan*') ? 'active' : '' }}" onclick="toggleDropdown()">
                         <span><i class="fas fa-chart-pie"></i> Keuangan</span>
                         <i class="fas fa-chevron-down dropdown-arrow"></i>
                     </div>
-                    <div
-                        class="submenu {{ Request::is('admin/laporan*') || Request::is('admin/keuangan*') ? 'show' : '' }}">
-                        <a href="{{ route('admin.laporan') }}"
-                            class="nav-link {{ Request::is('admin/laporan') ? 'active' : '' }}">
+                    <div class="submenu {{ Request::is('admin/laporan*') || Request::is('admin/keuangan*') ? 'show' : '' }}">
+                        <a href="{{ route('admin.laporan') }}" class="nav-link {{ Request::is('admin/laporan') ? 'active' : '' }}">
                             <i class="fas fa-file-alt"></i> Laporan
                         </a>
-                        <a href="{{ route('admin.keuangan.riwayat') }}"
-                            class="nav-link {{ Request::is('admin/keuangan/riwayat*') ? 'active' : '' }}">
+                        <a href="{{ route('admin.keuangan.riwayat') }}" class="nav-link {{ Request::is('admin/keuangan/riwayat*') ? 'active' : '' }}">
                             <i class="fas fa-history"></i> Riwayat Transaksi
                         </a>
-                        <a href="{{ route('admin.keuangan.bukubesar') }}"
-                            class="nav-link {{ Request::is('admin/keuangan/buku-besar*') ? 'active' : '' }}">
+                        <a href="{{ route('admin.keuangan.bukubesar') }}" class="nav-link {{ Request::is('admin/keuangan/buku-besar*') ? 'active' : '' }}">
                             <i class="fas fa-book"></i> Buku Besar
                         </a>
                     </div>
                 </div>
 
-                <a href="{{ route('admin.pengaturan') }}"
-                    class="nav-link {{ Request::is('admin/pengaturan*') ? 'active' : '' }}">
+                <!-- Manajemen Pengguna Dropdown -->
+                <div class="dropdown-nav {{ Request::is('admin/daftar-pengguna*') || Request::is('admin/membership*') || Request::is('admin/log-aktivitas*') ? 'show' : '' }}">
+                    <div class="dropdown-toggle-nav {{ Request::is('admin/daftar-pengguna*') || Request::is('admin/membership*') || Request::is('admin/log-aktivitas*') ? 'active' : '' }}" onclick="togglePenggunaDropdown()">
+                        <span><i class="fas fa-users-cog"></i> Manajemen Pengguna</span>
+                        <i class="fas fa-chevron-down dropdown-arrow"></i>
+                    </div>
+                    <div class="submenu {{ Request::is('admin/daftar-pengguna*') || Request::is('admin/membership*') || Request::is('admin/log-aktivitas*') ? 'show' : '' }}">
+                        <a href="{{ url('/admin/daftar-pengguna') }}" class="nav-link {{ Request::is('admin/daftar-pengguna*') ? 'active' : '' }}">
+                            <i class="fas fa-users"></i> Daftar Pengguna
+                        </a>
+                        <a href="{{ url('/admin/membership') }}" class="nav-link {{ Request::is('admin/membership*') ? 'active' : '' }}">
+                            <i class="fas fa-id-card"></i> Membership
+                        </a>
+                        <a href="{{ url('/admin/log-aktivitas') }}" class="nav-link {{ Request::is('admin/log-aktivitas*') ? 'active' : '' }}">
+                            <i class="fas fa-chart-line"></i> Log Aktivitas
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Manajemen Gudang Dropdown -->
+                <div class="dropdown-nav {{ Request::is('admin/data-pengawai-gudang*') || Request::is('admin/lokasi-gudang*') || Request::is('admin/data-barang*') ? 'show' : '' }}">
+                    <div class="dropdown-toggle-nav {{ Request::is('admin/data-pengawai-gudang*') || Request::is('admin/lokasi-gudang*') || Request::is('admin/data-barang*') ? 'active' : '' }}" onclick="toggleGudangDropdown()">
+                        <span><i class="fas fa-warehouse"></i> Manajemen Gudang</span>
+                        <i class="fas fa-chevron-down dropdown-arrow"></i>
+                    </div>
+                    <div class="submenu {{ Request::is('admin/data-pengawai-gudang*') || Request::is('admin/lokasi-gudang*') || Request::is('admin/data-barang*') ? 'show' : '' }}">
+                        <a href="{{ route('admin.data-pengawai-gudang') }}" class="nav-link {{ Request::is('admin/data-pengawai-gudang*') ? 'active' : '' }}">
+                            <i class="fas fa-users-cog"></i> Data Pengawai Gudang
+                        </a>
+                        <a href="{{ route('admin.lokasi-gudang') }}" class="nav-link {{ Request::is('admin/lokasi-gudang*') ? 'active' : '' }}">
+                            <i class="fas fa-map-marker-alt"></i> Lokasi Gudang
+                        </a>
+                        <a href="{{ route('admin.data-barang') }}" class="nav-link {{ Request::is('admin/data-barang*') ? 'active' : '' }}">
+                            <i class="fas fa-boxes"></i> Data Barang
+                        </a>
+                    </div>
+                </div>
+
+                <a href="{{ route('admin.pengaturan') }}" class="nav-link {{ Request::is('admin/pengaturan*') ? 'active' : '' }}">
                     <div class="nav-icon">
                         <i class="fas fa-cog"></i>
                     </div>
                     <span class="nav-text">Pengaturan</span>
-                    @if (Request::is('admin/pengaturan*'))
+                    @if(Request::is('admin/pengaturan*'))
                         <div class="nav-indicator"></div>
                     @endif
                 </a>
@@ -718,8 +723,7 @@
                         </div>
                         <div class="admin-actions">
                             <!-- Mode Toggle Button -->
-                            <button class="mode-toggle-btn" onclick="toggleDarkMode(event)" id="mode-toggle"
-                                title="Toggle Dark Mode">
+                            <button class="mode-toggle-btn" onclick="toggleDarkMode(event)" id="mode-toggle" title="Toggle Dark Mode">
                                 <i class="fas fa-moon" id="mode-icon"></i>
                             </button>
                             <div class="dropdown-arrow-footer">
@@ -727,11 +731,10 @@
                             </div>
                         </div>
                     </div>
-
+                    
                     <!-- Dropdown Menu -->
                     <div class="dropdown-menu" id="admin-dropdown">
-                        <div class="dropdown-item"
-                            onclick="window.location.href='{{ route('admin.profile') ?? '#' }}'">
+                        <div class="dropdown-item" onclick="window.location.href='{{ route('admin.profile') ?? '#' }}'">
                             <i class="fas fa-user-edit"></i>
                             <span>Edit Profile</span>
                             <small>Ubah profil</small>
@@ -754,7 +757,7 @@
                 <div class="sidebar-info">
                     <p class="app-version">
                         <i class="fas fa-code-branch"></i>
-                        v2.1.3
+                        v1.0.0
                     </p>
                     <p class="device-info">
                         <i class="fas fa-desktop"></i>
@@ -777,18 +780,91 @@
     <!-- Bootstrap JS -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <script>
-        function toggleDropdown() {
-            const dropdown = document.querySelector('.dropdown-nav');
-            const submenu = dropdown.querySelector('.submenu');
-            const arrow = dropdown.querySelector('.dropdown-arrow');
-
-            dropdown.classList.toggle('show');
-            submenu.classList.toggle('show');
-
-            if (dropdown.classList.contains('show')) {
-                arrow.style.transform = 'rotate(180deg)';
-            } else {
+        function closeAllDropdowns() {
+            const allDropdowns = document.querySelectorAll('.dropdown-nav');
+            allDropdowns.forEach(dropdown => {
+                const submenu = dropdown.querySelector('.submenu');
+                const arrow = dropdown.querySelector('.dropdown-arrow');
+                
+                dropdown.classList.remove('show');
+                submenu.classList.remove('show');
                 arrow.style.transform = 'rotate(0deg)';
+            });
+        }
+
+        function toggleDropdown() {
+            // Close all dropdowns first
+            const allDropdowns = document.querySelectorAll('.dropdown-nav');
+            const keuanganDropdown = allDropdowns[1]; // Second dropdown (Keuangan)
+            const isCurrentlyOpen = keuanganDropdown.classList.contains('show');
+            
+            closeAllDropdowns();
+            
+            // If it wasn't open, open the Keuangan dropdown
+            if (!isCurrentlyOpen) {
+                const submenu = keuanganDropdown.querySelector('.submenu');
+                const arrow = keuanganDropdown.querySelector('.dropdown-arrow');
+                
+                keuanganDropdown.classList.add('show');
+                submenu.classList.add('show');
+                arrow.style.transform = 'rotate(180deg)';
+            }
+        }
+
+        function toggleKaryawanDropdown() {
+            // Close all dropdowns first
+            const allDropdowns = document.querySelectorAll('.dropdown-nav');
+            const karyawanDropdown = allDropdowns[0]; // First dropdown (Manajemen Karyawan)
+            const isCurrentlyOpen = karyawanDropdown.classList.contains('show');
+            
+            closeAllDropdowns();
+            
+            // If it wasn't open, open the Karyawan dropdown
+            if (!isCurrentlyOpen) {
+                const submenu = karyawanDropdown.querySelector('.submenu');
+                const arrow = karyawanDropdown.querySelector('.dropdown-arrow');
+                
+                karyawanDropdown.classList.add('show');
+                submenu.classList.add('show');
+                arrow.style.transform = 'rotate(180deg)';
+            }
+        }
+
+        function togglePenggunaDropdown() {
+            // Close all dropdowns first
+            const allDropdowns = document.querySelectorAll('.dropdown-nav');
+            const penggunaDropdown = allDropdowns[2]; // Third dropdown (Manajemen Pengguna)
+            const isCurrentlyOpen = penggunaDropdown.classList.contains('show');
+            
+            closeAllDropdowns();
+            
+            // If it wasn't open, open the Pengguna dropdown
+            if (!isCurrentlyOpen) {
+                const submenu = penggunaDropdown.querySelector('.submenu');
+                const arrow = penggunaDropdown.querySelector('.dropdown-arrow');
+                
+                penggunaDropdown.classList.add('show');
+                submenu.classList.add('show');
+                arrow.style.transform = 'rotate(180deg)';
+            }
+        }
+
+        function toggleGudangDropdown() {
+            // Close all dropdowns first
+            const allDropdowns = document.querySelectorAll('.dropdown-nav');
+            const gudangDropdown = allDropdowns[3]; // Fourth dropdown (Manajemen Gudang)
+            const isCurrentlyOpen = gudangDropdown.classList.contains('show');
+            
+            closeAllDropdowns();
+            
+            // If it wasn't open, open the Gudang dropdown
+            if (!isCurrentlyOpen) {
+                const submenu = gudangDropdown.querySelector('.submenu');
+                const arrow = gudangDropdown.querySelector('.dropdown-arrow');
+                
+                gudangDropdown.classList.add('show');
+                submenu.classList.add('show');
+                arrow.style.transform = 'rotate(180deg)';
             }
         }
 
@@ -796,12 +872,12 @@
             if (event) {
                 event.stopPropagation();
             }
-
+            
             const body = document.body;
             const modeIcon = document.getElementById('mode-icon');
-
+            
             body.classList.toggle('dark-mode');
-
+            
             if (body.classList.contains('dark-mode')) {
                 modeIcon.className = 'fas fa-sun';
                 localStorage.setItem('theme', 'dark');
@@ -814,7 +890,7 @@
         function toggleAdminDropdown() {
             const dropdown = document.getElementById('admin-dropdown');
             const arrow = document.getElementById('dropdown-icon');
-
+            
             dropdown.classList.toggle('show');
             arrow.parentElement.classList.toggle('rotated');
         }
@@ -822,7 +898,7 @@
         document.addEventListener('click', function(event) {
             const dropdown = document.getElementById('admin-dropdown');
             const adminProfile = document.querySelector('.admin-profile');
-
+            
             if (dropdown && adminProfile && !adminProfile.contains(event.target)) {
                 dropdown.classList.remove('show');
                 document.getElementById('dropdown-icon').parentElement.classList.remove('rotated');
@@ -833,12 +909,12 @@
             const savedTheme = localStorage.getItem('theme');
             const body = document.body;
             const modeIcon = document.getElementById('mode-icon');
-
+            
             if (savedTheme === 'dark') {
                 body.classList.add('dark-mode');
                 modeIcon.className = 'fas fa-sun';
             }
-
+            
             updateTime();
             setInterval(updateTime, 1000);
         });
@@ -849,7 +925,7 @@
                 hour: '2-digit',
                 minute: '2-digit'
             });
-
+            
             const timeElement = document.getElementById('current-time');
             if (timeElement) {
                 timeElement.textContent = timeString;
@@ -871,7 +947,7 @@
                 hour12: false
             };
             const timeString = now.toLocaleDateString('id-ID', options).replace(/\//g, '/') + ' WIB';
-
+            
             const dateTimeElement = document.getElementById('current-datetime');
             if (dateTimeElement) {
                 dateTimeElement.textContent = timeString;
@@ -912,7 +988,7 @@
         document.addEventListener('DOMContentLoaded', function() {
             getDeviceInfo();
             updateRealTimeData();
-
+            
             // Update time every second
             setInterval(updateRealTimeData, 1000);
         });
@@ -921,7 +997,7 @@
             const dropdown = document.getElementById('admin-dropdown');
             dropdown.classList.remove('show');
             document.getElementById('dropdown-icon').parentElement.classList.remove('rotated');
-
+            
             if (confirm('Apakah Anda yakin ingin logout dari sistem?')) {
                 window.location.href = '/logout';
             }
@@ -929,5 +1005,4 @@
     </script>
     @stack('scripts')
 </body>
-
 </html>

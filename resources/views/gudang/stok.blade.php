@@ -832,9 +832,23 @@ body.dark-mode .action-btn:active {
     box-shadow: 0 8px 25px rgba(0,0,0,0.25);
     min-width: 180px;
     display: none;
-    z-index: 9999 !important;
+    z-index: 1050;
     overflow: visible;
     transform: translateY(2px);
+}
+
+/* Adjust position for right edge tables */
+.modern-table td:last-child .action-dropdown-menu {
+    right: 0;
+    left: auto;
+}
+
+@media (max-width: 768px) {
+    .action-dropdown-menu {
+        left: auto;
+        right: 0;
+        min-width: 160px;
+    }
 }
 
 body.dark-mode .action-dropdown-menu {
@@ -859,6 +873,11 @@ body.dark-mode .action-dropdown-menu {
     color: #374151;
     text-decoration: none;
     border-bottom: 1px solid #f1f5f9;
+    border: none;
+    background: none;
+    width: 100%;
+    text-align: left;
+    font-size: 14px;
 }
 
 .action-dropdown-item:last-child {
@@ -999,10 +1018,20 @@ body.dark-mode .action-dropdown-item:hover {
                     <i class="fas fa-plus"></i>
                     Tambah Stok
                 </a>
-                <button class="btn btn-outline-modern" onclick="exportData()">
-                    <i class="fas fa-download"></i>
-                    Export
-                </button>
+                <div class="dropdown">
+                    <button class="btn btn-outline-modern dropdown-toggle" type="button" id="exportDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+                        <i class="fas fa-download"></i>
+                        Export
+                    </button>
+                    <ul class="dropdown-menu" aria-labelledby="exportDropdown">
+                        <li><a class="dropdown-item" href="#" onclick="exportStok('csv')">
+                            <i class="fas fa-file-csv text-success me-2"></i>Export CSV
+                        </a></li>
+                        <li><a class="dropdown-item" href="#" onclick="exportStok('excel')">
+                            <i class="fas fa-file-excel text-primary me-2"></i>Export Excel
+                        </a></li>
+                    </ul>
+                </div>
                 <button class="btn btn-outline-modern" onclick="location.reload()">
                     <i class="fas fa-sync-alt"></i>
                     Refresh
@@ -1080,14 +1109,14 @@ body.dark-mode .action-dropdown-item:hover {
                                     <i class="fas fa-ellipsis-v"></i>
                                 </button>
                                 <div class="action-dropdown-menu">
-                                    <a href="{{ route('gudang.stok.show', $stok) }}" class="action-dropdown-item">
+                                    <button onclick="event.stopPropagation(); viewStokDetail({{ $stok->id_produk }}); return false;" class="action-dropdown-item">
                                         <i class="fas fa-eye"></i>
                                         Lihat Detail
-                                    </a>
-                                    <a href="{{ route('gudang.stok.edit', $stok) }}" class="action-dropdown-item">
+                                    </button>
+                                    <button onclick="event.stopPropagation(); editStok({{ $stok->id_produk }}); return false;" class="action-dropdown-item">
                                         <i class="fas fa-edit"></i>
                                         Edit Stok
-                                    </a>
+                                    </button>
                                     <a href="{{ route('gudang.stok.add-stock', $stok) }}" class="action-dropdown-item">
                                         <i class="fas fa-plus"></i>
                                         Tambah Stok
@@ -1372,9 +1401,55 @@ function calculateProfit() {
 }
 
 // Export function
+function exportStok(format = 'csv') {
+    console.log('Exporting stok data in format:', format);
+    
+    // Get current filter values
+    const searchValue = document.querySelector('input[name="search"]')?.value || '';
+    const kategoriValue = document.querySelector('select[name="kategori"]')?.value || '';
+    const stockFilterValue = document.querySelector('select[name="stock_filter"]')?.value || '';
+    
+    // Build export URL with current filters
+    const baseUrl = window.location.origin;
+    const exportUrl = new URL(`${baseUrl}/gudang/stok-export`);
+    
+    // Add parameters
+    exportUrl.searchParams.append('format', format);
+    if (searchValue) exportUrl.searchParams.append('search', searchValue);
+    if (kategoriValue) exportUrl.searchParams.append('kategori', kategoriValue);
+    if (stockFilterValue) exportUrl.searchParams.append('stock_filter', stockFilterValue);
+    
+    console.log('Export URL:', exportUrl.toString());
+    
+    // Show loading notification
+    if (typeof Swal !== 'undefined') {
+        Swal.fire({
+            title: 'Memproses Export...',
+            text: `Sedang menyiapkan file ${format.toUpperCase()}`,
+            allowOutsideClick: false,
+            didOpen: () => {
+                Swal.showLoading();
+            }
+        });
+        
+        // Auto close after 2 seconds
+        setTimeout(() => {
+            Swal.close();
+        }, 2000);
+    }
+    
+    // Create temporary link and trigger download
+    const link = document.createElement('a');
+    link.href = exportUrl.toString();
+    link.download = '';
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+}
+
+// Legacy function for backward compatibility
 function exportData() {
-    // You can implement export functionality here
-    alert('Fungsi export akan segera tersedia');
+    exportStok('csv');
 }
 
 // Auto refresh alerts after 5 seconds
@@ -1402,6 +1477,661 @@ document.getElementById('harga_beli').addEventListener('input', function() {
 document.getElementById('harga_jual').addEventListener('input', function() {
     formatCurrency(this);
 });
+
+// Global function untuk view detail stok
+function viewStokDetail(id) {
+    console.log('viewStokDetail called with ID:', id);
+    
+    // Close any existing dropdown
+    document.querySelectorAll('.action-dropdown-menu').forEach(menu => {
+        menu.style.display = 'none';
+    });
+    
+    // Test apakah modal element ada
+    const modalElement = document.getElementById('detailStokModal');
+    if (!modalElement) {
+        alert('Modal element not found!');
+        return;
+    }
+    
+    // Tampilkan loading modal
+    const modalTitle = document.querySelector('#detailStokModal .modal-title');
+    const modalBody = document.querySelector('#detailStokModal .modal-body');
+    
+    if (!modalTitle || !modalBody) {
+        alert('Modal title or body not found!');
+        return;
+    }
+    
+    modalTitle.innerHTML = 'Loading...';
+    modalBody.innerHTML = `
+        <div class="text-center">
+            <div class="spinner-border text-primary" role="status">
+                <span class="sr-only">Loading...</span>
+            </div>
+            <p class="mt-2">Memuat data stok...</p>
+        </div>
+    `;
+    
+    // Tampilkan modal
+    try {
+        const detailModal = new bootstrap.Modal(modalElement);
+        detailModal.show();
+    } catch (error) {
+        alert('Error showing modal: ' + error.message);
+        return;
+    }
+    
+    // AJAX request untuk get data
+    const baseUrl = window.location.origin;
+    const url = `${baseUrl}/gudang/stok-data?id=${id}`;
+    console.log('Making AJAX request to:', url);
+    
+    // Check if CSRF token exists
+    const csrfToken = document.querySelector('meta[name="csrf-token"]');
+    if (!csrfToken) {
+        alert('CSRF token not found!');
+        return;
+    }
+    
+    // Add timeout untuk prevent infinite loading
+    const controller = new AbortController();
+    const timeoutId = setTimeout(() => {
+        controller.abort();
+        modalTitle.innerHTML = 'Timeout';
+        modalBody.innerHTML = `
+            <div class="alert alert-warning">
+                <h6>Request Timeout!</h6>
+                <p>Permintaan memakan waktu terlalu lama.</p>
+                <small>Coba lagi atau periksa koneksi.</small>
+            </div>
+        `;
+    }, 8000); // 8 second timeout
+    
+    // Fetch data
+    fetch(url, {
+        method: 'GET',
+        headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json',
+            'X-CSRF-TOKEN': csrfToken.getAttribute('content')
+        },
+        signal: controller.signal
+    })
+    .then(response => {
+        clearTimeout(timeoutId);
+        console.log('Response status:', response.status);
+        
+        if (!response.ok) {
+            throw new Error(`HTTP ${response.status}: ${response.statusText}`);
+        }
+        return response.json();
+    })
+    .then(data => {
+        console.log('Data received:', data);
+        
+        // Update modal title
+        modalTitle.innerHTML = 'Detail Stok';
+        
+        // Ambil data dari response
+        const stok = data.data;
+        
+        // Update modal body dengan data
+        modalBody.innerHTML = `
+            <div class="row">
+                <div class="col-md-6">
+                    <h6 class="text-primary mb-3">Informasi Produk</h6>
+                    <table class="table table-sm">
+                        <tr>
+                            <td><strong>ID Produk:</strong></td>
+                            <td>#${String(stok.id_produk).padStart(3, '0')}</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Nama Produk:</strong></td>
+                            <td>${stok.nama_produk || '-'}</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Kategori:</strong></td>
+                            <td>${stok.kategori || '-'}</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Satuan:</strong></td>
+                            <td>${stok.satuan || '-'}</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Status:</strong></td>
+                            <td>
+                                ${stok.status === 'aktif' ? '<span class="badge bg-success">Aktif</span>' : '<span class="badge bg-danger">Non-Aktif</span>'}
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+                <div class="col-md-6">
+                    <h6 class="text-primary mb-3">Informasi Stok & Harga</h6>
+                    <table class="table table-sm">
+                        <tr>
+                            <td><strong>Jumlah Stok:</strong></td>
+                            <td><span class="badge ${stok.jumlah > 0 ? (stok.jumlah <= 10 ? 'bg-warning' : 'bg-success') : 'bg-danger'}">${stok.jumlah || 0}</span></td>
+                        </tr>
+                        <tr>
+                            <td><strong>Harga Beli:</strong></td>
+                            <td>Rp ${stok.harga_beli ? Number(stok.harga_beli).toLocaleString('id-ID') : '0'}</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Harga Jual:</strong></td>
+                            <td>Rp ${stok.harga_jual ? Number(stok.harga_jual).toLocaleString('id-ID') : '0'}</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Margin:</strong></td>
+                            <td>${stok.harga_beli && stok.harga_jual ? Math.round(((stok.harga_jual - stok.harga_beli) / stok.harga_beli) * 100) + '%' : '0%'}</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Tanggal Input:</strong></td>
+                            <td>${stok.tanggal ? new Date(stok.tanggal).toLocaleDateString('id-ID') : '-'}</td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+            ${stok.deskripsi ? `
+            <div class="row mt-3">
+                <div class="col-12">
+                    <h6 class="text-primary mb-2">Deskripsi</h6>
+                    <p class="text-muted">${stok.deskripsi}</p>
+                </div>
+            </div>
+            ` : ''}
+            ${stok.expired ? `
+            <div class="row mt-3">
+                <div class="col-12">
+                    <h6 class="text-primary mb-2">Informasi Kedaluwarsa</h6>
+                    <p class="text-muted">
+                        <i class="fas fa-calendar-alt me-2"></i>
+                        Tanggal Kedaluwarsa: ${new Date(stok.expired).toLocaleDateString('id-ID')}
+                        ${new Date(stok.expired) <= new Date() ? '<span class="badge bg-danger ms-2">KEDALUWARSA</span>' : 
+                          new Date(stok.expired) <= new Date(Date.now() + 30*24*60*60*1000) ? '<span class="badge bg-warning ms-2">AKAN KEDALUWARSA</span>' : 
+                          '<span class="badge bg-success ms-2">MASIH SEGAR</span>'}
+                    </p>
+                </div>
+            </div>
+            ` : ''}
+        `;
+    })
+    .catch(error => {
+        clearTimeout(timeoutId);
+        console.error('Error:', error);
+        
+        modalTitle.innerHTML = 'Error';
+        
+        if (error.name === 'AbortError') {
+            modalBody.innerHTML = `
+                <div class="alert alert-warning">
+                    <h6>Request Dibatalkan!</h6>
+                    <p>Request timeout atau dibatalkan.</p>
+                    <small>Coba lagi atau periksa koneksi internet.</small>
+                </div>
+            `;
+        } else {
+            modalBody.innerHTML = `
+                <div class="alert alert-danger">
+                    <h6>Terjadi Kesalahan!</h6>
+                    <p>Tidak dapat memuat data stok. Silakan coba lagi.</p>
+                    <small>Error: ${error.message}</small>
+                </div>
+            `;
+        }
+    });
+}
+
+// Global function untuk edit stok
+function editStok(id) {
+    console.log('=== EDIT STOK FUNCTION CALLED ===');
+    console.log('editStok called with ID:', id);
+    console.log('Type of ID:', typeof id);
+    
+    // Validate ID
+    if (!id || id === 'undefined' || id === 'null') {
+        console.error('Invalid ID provided:', id);
+        alert('ID produk tidak valid: ' + id);
+        return;
+    }
+    
+    // Test apakah modal element ada
+    const modalElement = document.getElementById('editStokModal');
+    console.log('Modal element found:', modalElement ? 'YES' : 'NO');
+    if (!modalElement) {
+        console.error('Modal element not found!');
+        alert('Modal edit element not found!');
+        return;
+    }
+    
+    // Close any existing dropdown
+    document.querySelectorAll('.action-dropdown-menu').forEach(menu => {
+        menu.style.display = 'none';
+    });
+    
+    // Tampilkan loading di modal
+    const modalTitle = document.querySelector('#editStokModal .modal-title');
+    const modalBody = document.querySelector('#editStokModal .modal-body');
+    
+    console.log('Modal title found:', modalTitle ? 'YES' : 'NO');
+    console.log('Modal body found:', modalBody ? 'YES' : 'NO');
+    
+    if (!modalTitle || !modalBody) {
+        console.error('Modal title or body not found!');
+        alert('Modal title or body not found!');
+        return;
+    }
+    
+    modalTitle.innerHTML = 'Loading...';
+    modalBody.innerHTML = `
+        <div class="text-center py-4">
+            <div class="spinner-border text-primary mb-3" role="status">
+                <span class="visually-hidden">Loading...</span>
+            </div>
+            <p class="text-muted">Memuat data untuk edit...</p>
+        </div>
+    `;
+    
+    // Tampilkan modal
+    try {
+        console.log('Attempting to show modal...');
+        const editModal = new bootstrap.Modal(modalElement);
+        editModal.show();
+        console.log('Modal shown successfully');
+    } catch (error) {
+        console.error('Error showing modal:', error);
+        alert('Error showing modal: ' + error.message);
+        return;
+    }
+    
+    // AJAX request untuk get data
+    const baseUrl = window.location.origin;
+    const url = `${baseUrl}/gudang/stok-data?id=${id}`;
+    console.log('Making AJAX request to:', url);
+    
+    // Check if CSRF token exists
+    const csrfToken = document.querySelector('meta[name="csrf-token"]');
+    if (!csrfToken) {
+        alert('CSRF token not found!');
+        return;
+    }
+    
+    // Add timeout untuk prevent infinite loading
+    const controller = new AbortController();
+    const timeoutId = setTimeout(() => {
+        controller.abort();
+        modalTitle.innerHTML = 'Timeout';
+        modalBody.innerHTML = `
+            <div class="alert alert-warning">
+                <h6>Request Timeout!</h6>
+                <p>Permintaan memakan waktu terlalu lama.</p>
+                <small>Coba lagi atau periksa koneksi.</small>
+            </div>
+        `;
+    }, 8000); // 8 second timeout
+    
+    // Fetch data untuk edit
+    fetch(url, {
+        method: 'GET',
+        headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json',
+            'X-CSRF-TOKEN': csrfToken.getAttribute('content')
+        },
+        signal: controller.signal
+    })
+    .then(response => {
+        clearTimeout(timeoutId); // Clear timeout jika berhasil
+        console.log('Response status:', response.status);
+        
+        if (!response.ok) {
+            throw new Error(`HTTP ${response.status}: ${response.statusText}`);
+        }
+        return response.json();
+    })
+    .then(data => {
+        console.log('Data received for edit:', data);
+        
+        // Reset modal title
+        modalTitle.innerHTML = 'Edit Stok';
+        
+        // Reset modal body with compact form - hanya field yang penting
+        modalBody.innerHTML = `
+            <form id="editStokForm">
+                <input type="hidden" id="edit_id_produk" name="id_produk">
+                
+                <div class="row">
+                    <div class="col-md-8 mb-3">
+                        <label for="edit_nama_produk" class="form-label">Nama Produk <span class="text-danger">*</span></label>
+                        <input type="text" class="form-control" id="edit_nama_produk" name="nama_produk" required>
+                    </div>
+                    <div class="col-md-4 mb-3">
+                        <label for="edit_jumlah" class="form-label">Stok <span class="text-danger">*</span></label>
+                        <input type="number" class="form-control" id="edit_jumlah" name="jumlah" min="0" required>
+                    </div>
+                </div>
+                
+                <div class="row">
+                    <div class="col-md-6 mb-3">
+                        <label for="edit_harga_beli" class="form-label">Harga Beli <span class="text-danger">*</span></label>
+                        <input type="number" class="form-control" id="edit_harga_beli" name="harga_beli" min="0" step="0.01" required>
+                    </div>
+                    <div class="col-md-6 mb-3">
+                        <label for="edit_harga_jual" class="form-label">Harga Jual <span class="text-danger">*</span></label>
+                        <input type="number" class="form-control" id="edit_harga_jual" name="harga_jual" min="0" step="0.01" required>
+                    </div>
+                </div>
+                
+                <div class="row">
+                    <div class="col-md-6 mb-3">
+                        <label for="edit_status" class="form-label">Status <span class="text-danger">*</span></label>
+                        <select class="form-select" id="edit_status" name="status" required>
+                            <option value="">Pilih Status</option>
+                            <option value="aktif">Aktif</option>
+                            <option value="non-aktif">Non-Aktif</option>
+                        </select>
+                    </div>
+                    <div class="col-md-6 mb-3">
+                        <label for="edit_expired" class="form-label">Kedaluwarsa</label>
+                        <input type="date" class="form-control" id="edit_expired" name="expired">
+                        <small class="text-muted">Opsional</small>
+                    </div>
+                </div>
+            </form>
+        `;
+        
+        // Wait for DOM to be ready, then populate form dengan data
+        setTimeout(() => {
+            try {
+                const stok = data.data;
+                
+                // Set values dengan null checking
+                const setFieldValue = (id, value) => {
+                    const field = document.getElementById(id);
+                    if (field) {
+                        field.value = value || '';
+                    } else {
+                        console.warn(`Field dengan ID ${id} tidak ditemukan`);
+                    }
+                };
+                
+                setFieldValue('edit_id_produk', stok.id_produk);
+                setFieldValue('edit_nama_produk', stok.nama_produk);
+                setFieldValue('edit_jumlah', stok.jumlah);
+                setFieldValue('edit_harga_beli', stok.harga_beli);
+                setFieldValue('edit_harga_jual', stok.harga_jual);
+                setFieldValue('edit_expired', stok.expired);
+                setFieldValue('edit_status', stok.status);
+                
+            } catch (error) {
+                console.error('Error saat populate form:', error);
+            }
+        }, 100); // Wait 100ms for DOM to be ready
+    })
+    .catch(error => {
+        clearTimeout(timeoutId); // Clear timeout jika error
+        console.error('Error:', error);
+        
+        modalTitle.innerHTML = 'Error';
+        
+        if (error.name === 'AbortError') {
+            modalBody.innerHTML = `
+                <div class="alert alert-warning">
+                    <h6>Request Dibatalkan!</h6>
+                    <p>Request timeout atau dibatalkan.</p>
+                    <small>Coba lagi atau periksa koneksi internet.</small>
+                </div>
+            `;
+        } else {
+            modalBody.innerHTML = `
+                <div class="alert alert-danger">
+                    <h6>Terjadi Kesalahan!</h6>
+                    <p>Tidak dapat memuat data stok. Silakan coba lagi.</p>
+                    <small>Error: ${error.message}</small>
+                </div>
+            `;
+        }
+    });
+}
+
+// Function untuk update stok
+function updateStok() {
+    const form = document.getElementById('editStokForm');
+    const formData = new FormData(form);
+    const id = document.getElementById('edit_id_produk').value;
+    
+    // Check if CSRF token exists
+    const csrfToken = document.querySelector('meta[name="csrf-token"]');
+    if (!csrfToken) {
+        Swal.fire('Error', 'CSRF token not found!', 'error');
+        return;
+    }
+    
+    // Validasi form
+    if (!form.checkValidity()) {
+        form.reportValidity();
+        return;
+    }
+    
+    // Show loading
+    Swal.fire({
+        title: 'Memproses...',
+        text: 'Sedang memperbarui data stok',
+        allowOutsideClick: false,
+        didOpen: () => {
+            Swal.showLoading();
+        }
+    });
+    
+    const baseUrl = window.location.origin;
+    const url = `${baseUrl}/gudang/stok/${id}`;
+    
+    // Add CSRF token and method override to FormData
+    formData.append('_token', csrfToken.getAttribute('content'));
+    formData.append('_method', 'PUT');
+    
+    fetch(url, {
+        method: 'POST', // Using POST with method override for file upload
+        headers: {
+            'Accept': 'application/json',
+            'X-CSRF-TOKEN': csrfToken.getAttribute('content')
+        },
+        body: formData
+    })
+    .then(response => {
+        if (!response.ok) {
+            return response.json().then(err => Promise.reject(err));
+        }
+        return response.json();
+    })
+    .then(data => {
+        Swal.fire({
+            icon: 'success',
+            title: 'Berhasil!',
+            text: 'Data stok berhasil diperbarui',
+            showConfirmButton: false,
+            timer: 1500
+        }).then(() => {
+            // Tutup modal
+            const modal = bootstrap.Modal.getInstance(document.getElementById('editStokModal'));
+            modal.hide();
+            
+            // Reload halaman untuk refresh data
+            window.location.reload();
+        });
+    })
+    .catch(error => {
+        console.error('Error:', error);
+        
+        let errorMessage = 'Terjadi kesalahan saat memperbarui data';
+        
+        if (error.errors) {
+            // Laravel validation errors
+            const errors = Object.values(error.errors).flat();
+            errorMessage = errors.join('\n');
+        } else if (error.message) {
+            errorMessage = error.message;
+        }
+        
+        Swal.fire({
+            icon: 'error',
+            title: 'Gagal!',
+            text: errorMessage
+        });
+    });
+}
+
+// Event listener untuk DOM ready
+document.addEventListener('DOMContentLoaded', function() {
+    console.log('DOM ready!');
+    
+    // Event listener untuk update button
+    const updateStokBtn = document.getElementById('updateStokBtn');
+    if (updateStokBtn) {
+        updateStokBtn.addEventListener('click', function() {
+            updateStok();
+        });
+    }
+    
+    // Close dropdown when any modal opens
+    const modals = ['detailStokModal', 'editStokModal'];
+    modals.forEach(modalId => {
+        const modalElement = document.getElementById(modalId);
+        if (modalElement) {
+            modalElement.addEventListener('show.bs.modal', function() {
+                // Close all dropdowns
+                document.querySelectorAll('.action-dropdown-menu').forEach(menu => {
+                    menu.style.display = 'none';
+                });
+                // Remove active state from buttons
+                document.querySelectorAll('.action-btn').forEach(btn => {
+                    btn.classList.remove('active');
+                });
+                // Remove dropdown-active class from rows
+                document.querySelectorAll('.modern-table tbody tr').forEach(row => {
+                    row.classList.remove('dropdown-active');
+                });
+            });
+        }
+    });
+});
 </script>
+
+<!-- SweetAlert2 CDN -->
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+<!-- Detail Stok Modal -->
+<div class="modal fade" id="detailStokModal" tabindex="-1" aria-labelledby="detailStokModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="detailStokModalLabel">Detail Stok</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <!-- Content will be loaded dynamically -->
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Tutup</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Edit Stok Modal -->
+<div class="modal fade" id="editStokModal" tabindex="-1" aria-labelledby="editStokModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="editStokModalLabel">Edit Stok</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form id="editStokForm">
+                    <input type="hidden" id="edit_id_produk" name="id_produk">
+                    
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <label for="edit_nama_produk" class="form-label">Nama Produk <span class="text-danger">*</span></label>
+                            <input type="text" class="form-control" id="edit_nama_produk" name="nama_produk" required>
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label for="edit_kategori" class="form-label">Kategori <span class="text-danger">*</span></label>
+                            <input type="text" class="form-control" id="edit_kategori" name="kategori" required>
+                        </div>
+                    </div>
+                    
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <label for="edit_satuan" class="form-label">Satuan <span class="text-danger">*</span></label>
+                            <select class="form-select" id="edit_satuan" name="satuan" required>
+                                <option value="">Pilih Satuan</option>
+                                <option value="pcs">Pcs</option>
+                                <option value="kg">Kg</option>
+                                <option value="gr">Gram</option>
+                                <option value="ltr">Liter</option>
+                                <option value="ml">Mililiter</option>
+                                <option value="box">Box</option>
+                                <option value="pack">Pack</option>
+                                <option value="botol">Botol</option>
+                            </select>
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label for="edit_jumlah" class="form-label">Jumlah Stok <span class="text-danger">*</span></label>
+                            <input type="number" class="form-control" id="edit_jumlah" name="jumlah" min="0" required>
+                        </div>
+                    </div>
+                    
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <label for="edit_harga_beli" class="form-label">Harga Beli <span class="text-danger">*</span></label>
+                            <input type="number" class="form-control" id="edit_harga_beli" name="harga_beli" min="0" step="0.01" required>
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label for="edit_harga_jual" class="form-label">Harga Jual <span class="text-danger">*</span></label>
+                            <input type="number" class="form-control" id="edit_harga_jual" name="harga_jual" min="0" step="0.01" required>
+                        </div>
+                    </div>
+                    
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <label for="edit_tanggal" class="form-label">Tanggal Input</label>
+                            <input type="date" class="form-control" id="edit_tanggal" name="tanggal">
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label for="edit_expired" class="form-label">Tanggal Kedaluwarsa</label>
+                            <input type="date" class="form-control" id="edit_expired" name="expired">
+                        </div>
+                    </div>
+                    
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <label for="edit_status" class="form-label">Status <span class="text-danger">*</span></label>
+                            <select class="form-select" id="edit_status" name="status" required>
+                                <option value="">Pilih Status</option>
+                                <option value="aktif">Aktif</option>
+                                <option value="non-aktif">Non-Aktif</option>
+                            </select>
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label for="edit_foto" class="form-label">Foto Produk</label>
+                            <input type="file" class="form-control" id="edit_foto" name="foto" accept="image/*">
+                            <small class="text-muted">Biarkan kosong jika tidak ingin mengubah foto</small>
+                        </div>
+                    </div>
+                    
+                    <div class="mb-3">
+                        <label for="edit_deskripsi" class="form-label">Deskripsi</label>
+                        <textarea class="form-control" id="edit_deskripsi" name="deskripsi" rows="3"></textarea>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
+                <button type="button" class="btn btn-primary" id="updateStokBtn">Simpan Perubahan</button>
+            </div>
+        </div>
+    </div>
+</div>
 
 @endsection

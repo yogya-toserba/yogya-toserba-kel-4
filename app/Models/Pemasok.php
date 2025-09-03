@@ -12,6 +12,12 @@ class Pemasok extends Model
     protected $table = 'pemasok';
     protected $primaryKey = 'id_pemasok';
     
+    // Tell Laravel to use this key for route model binding
+    public function getRouteKeyName()
+    {
+        return 'id_pemasok';
+    }
+    
     protected $fillable = [
         'nama_perusahaan',
         'kontak_person', 
