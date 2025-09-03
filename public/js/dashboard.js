@@ -597,3 +597,149 @@ if ("IntersectionObserver" in window) {
         imageObserver.observe(img);
     });
 }
+
+// Anti-flickering navigation enhancements
+document.addEventListener("DOMContentLoaded", function () {
+    // Remove page loading class after content is loaded
+    document.body.classList.add('page-loaded');
+    document.body.classList.remove('page-loading');
+    
+    // Enhanced dropdown management for category navigation
+    const categoryDropdowns = document.querySelectorAll('.dropdown');
+    
+    categoryDropdowns.forEach(dropdown => {
+        const dropdownButton = dropdown.querySelector('.dropdown-toggle');
+        const dropdownMenu = dropdown.querySelector('.dropdown-menu');
+        
+        if (dropdownButton && dropdownMenu) {
+            // Prevent flickering by managing dropdown states properly
+            dropdownButton.addEventListener('click', function(e) {
+                e.preventDefault();
+                
+                // Close other dropdowns first
+                categoryDropdowns.forEach(otherDropdown => {
+                    if (otherDropdown !== dropdown) {
+                        otherDropdown.classList.remove('show');
+                        const otherMenu = otherDropdown.querySelector('.dropdown-menu');
+                        if (otherMenu) {
+                            otherMenu.classList.remove('show');
+                        }
+                    }
+                });
+                
+                // Toggle current dropdown with smooth animation
+                dropdown.classList.toggle('show');
+                dropdownMenu.classList.toggle('show');
+            });
+            
+            // Handle mouse leave to close dropdown
+            dropdown.addEventListener('mouseleave', function() {
+                setTimeout(() => {
+                    if (!dropdown.matches(':hover')) {
+                        dropdown.classList.remove('show');
+                        dropdownMenu.classList.remove('show');
+                    }
+                }, 100);
+            });
+        }
+    });
+    
+    // Prevent layout shifts during page transitions
+    const navbar = document.querySelector('.navbar');
+    if (navbar) {
+        // Force hardware acceleration for smoother animations
+        navbar.style.transform = 'translateZ(0)';
+        navbar.style.backfaceVisibility = 'hidden';
+        
+        // Handle scroll-based navbar effects smoothly
+        let lastScrollY = window.scrollY;
+        let ticking = false;
+        
+        function updateNavbar() {
+            const currentScrollY = window.scrollY;
+            
+            if (currentScrollY > lastScrollY && currentScrollY > 100) {
+                // Scrolling down
+                navbar.style.transform = 'translateY(-100%) translateZ(0)';
+            } else {
+                // Scrolling up
+                navbar.style.transform = 'translateY(0) translateZ(0)';
+            }
+            
+            lastScrollY = currentScrollY;
+            ticking = false;
+        }
+        
+        function onScroll() {
+            if (!ticking) {
+                requestAnimationFrame(updateNavbar);
+                ticking = true;
+            }
+        }
+        
+        window.addEventListener('scroll', onScroll, { passive: true });
+    }
+    
+    // Category header animations
+    const categoryHeader = document.querySelector('.category-header');
+    if (categoryHeader) {
+        // Ensure smooth rendering
+        categoryHeader.style.transform = 'translateZ(0)';
+        
+        // Animate elements on load
+        const title = categoryHeader.querySelector('h1');
+        const description = categoryHeader.querySelector('p');
+        
+        if (title) {
+            title.style.animation = 'categoryTitleFadeIn 0.6s ease forwards';
+            title.style.animationDelay = '0.2s';
+        }
+        
+        if (description) {
+            description.style.animation = 'categoryTitleFadeIn 0.6s ease forwards';
+            description.style.animationDelay = '0.4s';
+        }
+    }
+    
+    // Optimize Bootstrap dropdown behavior
+    const bsDropdowns = document.querySelectorAll('[data-bs-toggle="dropdown"]');
+    bsDropdowns.forEach(dropdown => {
+        dropdown.addEventListener('click', function(e) {
+            // Prevent double-trigger issues
+            e.stopPropagation();
+        });
+    });
+    
+    // Close dropdowns when clicking outside
+    document.addEventListener('click', function(e) {
+        if (!e.target.closest('.dropdown')) {
+            categoryDropdowns.forEach(dropdown => {
+                dropdown.classList.remove('show');
+                const menu = dropdown.querySelector('.dropdown-menu');
+                if (menu) {
+                    menu.classList.remove('show');
+                }
+            });
+        }
+    });
+});
+
+// Preload critical CSS classes to prevent FOUC
+document.head.insertAdjacentHTML('beforeend', `
+    <style>
+        .page-loading { opacity: 0; }
+        .page-loaded { opacity: 1; transition: opacity 0.3s ease; }
+        .navbar { transition: transform 0.3s ease-out; }
+        .dropdown-menu-wide { 
+            opacity: 0; 
+            visibility: hidden; 
+            transform: translateY(-15px) scale(0.95);
+            transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        .dropdown.show .dropdown-menu-wide { 
+            opacity: 1; 
+            visibility: visible; 
+            transform: translateY(0) scale(1);
+        }
+    </style>
+`);

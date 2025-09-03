@@ -827,8 +827,8 @@
                     <a href="mailto:info@myyogya.com" class="btn btn-primary me-3">
                         <i class="fas fa-envelope me-2"></i>Hubungi Kami
                     </a>
-                    <a href="tel:0800-1-500-500" class="btn btn-outline-primary">
-                        <i class="fas fa-phone me-2"></i>0800-1-500-500
+                    <a href="tel:0852-1551-4124" class="btn btn-outline-primary">
+                        <i class="fas fa-phone me-2"></i>0852-1551-4124
                     </a>
                 </div>
             </div>

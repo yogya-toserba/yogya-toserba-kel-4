@@ -159,6 +159,11 @@ Route::prefix('kategori')->name('kategori.')->group(function () {
     Route::get('/perawatan', [CategoryController::class, 'perawatan'])->name('perawatan');
 });
 
+// Route keranjang belanja
+Route::get('/keranjang', function () {
+    return view('dashboard.keranjang');
+})->name('keranjang');
+
 Route::prefix('admin')->name('admin.')->group(function () {
     // Authentication Routes
     Route::get('/login', [AdminController::class, 'showLogin'])->name('login');

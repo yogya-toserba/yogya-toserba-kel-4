@@ -1065,8 +1065,8 @@
                         <a href="mailto:investor@myyogya.com" class="btn btn-primary me-3">
                             <i class="fas fa-envelope me-2"></i>Email Investor Relations
                         </a>
-                        <a href="tel:021-5555-1234" class="btn btn-outline-primary">
-                            <i class="fas fa-phone me-2"></i>(021) 5555-1234
+                        <a href="tel:0852-1551-4124" class="btn btn-outline-primary">
+                            <i class="fas fa-phone me-2"></i>0852-1551-4124
                         </a>
                     </div>
                 </div>
