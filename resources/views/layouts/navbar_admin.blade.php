@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -577,11 +578,13 @@
             .main-content {
                 margin-left: 0;
             }
-            
-            .nav-text, .brand-text, .admin-info {
+
+            .nav-text,
+            .brand-text,
+            .admin-info {
                 display: none;
             }
-            
+
             .nav-link {
                 justify-content: center;
                 padding: 12px 10px;
@@ -607,71 +610,93 @@
 
             <!-- Navigation -->
             <div class="sidebar-nav">
-                <a href="{{ route('admin.dashboard') }}" class="nav-link {{ Request::is('admin/dashboard') ? 'active' : '' }}">
+                <a href="{{ route('admin.dashboard') }}"
+                    class="nav-link {{ Request::is('admin/dashboard') ? 'active' : '' }}">
                     <div class="nav-icon">
                         <i class="fas fa-tachometer-alt"></i>
                     </div>
                     <span class="nav-text">Dashboard</span>
-                    @if(Request::is('admin/dashboard'))
+                    @if (Request::is('admin/dashboard'))
                         <div class="nav-indicator"></div>
                     @endif
                 </a>
 
-                <a href="{{ route('admin.data-karyawan') }}" class="nav-link {{ Request::is('admin/data-karyawan*') ? 'active' : '' }}">
+                <a href="{{ route('admin.data-karyawan') }}"
+                    class="nav-link {{ Request::is('admin/data-karyawan*') ? 'active' : '' }}">
                     <div class="nav-icon">
                         <i class="fas fa-users"></i>
                     </div>
                     <span class="nav-text">Data Karyawan</span>
-                    @if(Request::is('admin/data-karyawan*'))
+                    @if (Request::is('admin/data-karyawan*'))
                         <div class="nav-indicator"></div>
                     @endif
                 </a>
 
-                <a href="{{ route('admin.penggajian') }}" class="nav-link {{ Request::is('admin/penggajian*') ? 'active' : '' }}">
+                <a href="{{ route('admin.penggajian') }}"
+                    class="nav-link {{ Request::is('admin/penggajian') && !Request::is('admin/penggajian/create') ? 'active' : '' }}">
                     <div class="nav-icon">
                         <i class="fas fa-money-check-alt"></i>
                     </div>
                     <span class="nav-text">Penggajian</span>
-                    @if(Request::is('admin/penggajian*'))
+                    @if (Request::is('admin/penggajian') && !Request::is('admin/penggajian/create'))
                         <div class="nav-indicator"></div>
                     @endif
                 </a>
 
-                <a href="{{ route('admin.absensi') }}" class="nav-link {{ Request::is('admin/absensi*') ? 'active' : '' }}">
+                <a href="{{ route('admin.penggajian.create') }}"
+                    class="nav-link {{ Request::is('admin/penggajian/create') ? 'active' : '' }}">
+                    <div class="nav-icon">
+                        <i class="fas fa-plus-circle"></i>
+                    </div>
+                    <span class="nav-text">Input Gaji Karyawan</span>
+                    @if (Request::is('admin/penggajian/create'))
+                        <div class="nav-indicator"></div>
+                    @endif
+                </a>
+
+                <a href="{{ route('admin.absensi') }}"
+                    class="nav-link {{ Request::is('admin/absensi*') ? 'active' : '' }}">
                     <div class="nav-icon">
                         <i class="fas fa-user-check"></i>
                     </div>
                     <span class="nav-text">Absensi</span>
-                    @if(Request::is('admin/absensi*'))
+                    @if (Request::is('admin/absensi*'))
                         <div class="nav-indicator"></div>
                     @endif
                 </a>
 
                 <!-- Keuangan Dropdown -->
-                <div class="dropdown-nav {{ Request::is('admin/laporan*') || Request::is('admin/keuangan*') ? 'show' : '' }}">
-                    <div class="dropdown-toggle-nav {{ Request::is('admin/laporan*') || Request::is('admin/keuangan*') ? 'active' : '' }}" onclick="toggleDropdown()">
+                <div
+                    class="dropdown-nav {{ Request::is('admin/laporan*') || Request::is('admin/keuangan*') ? 'show' : '' }}">
+                    <div class="dropdown-toggle-nav {{ Request::is('admin/laporan*') || Request::is('admin/keuangan*') ? 'active' : '' }}"
+                        onclick="toggleDropdown()">
                         <span><i class="fas fa-chart-pie"></i> Keuangan</span>
                         <i class="fas fa-chevron-down dropdown-arrow"></i>
                     </div>
-                    <div class="submenu {{ Request::is('admin/laporan*') || Request::is('admin/keuangan*') ? 'show' : '' }}">
-                        <a href="{{ route('admin.laporan') }}" class="nav-link {{ Request::is('admin/laporan') ? 'active' : '' }}">
+                    <div
+                        class="submenu {{ Request::is('admin/laporan*') || Request::is('admin/keuangan*') ? 'show' : '' }}">
+                        <a href="{{ route('admin.laporan') }}"
+                            class="nav-link {{ Request::is('admin/laporan') ? 'active' : '' }}">
                             <i class="fas fa-file-alt"></i> Laporan
                         </a>
-                        <a href="{{ route('admin.keuangan.riwayat') }}" class="nav-link {{ Request::is('admin/keuangan/riwayat*') ? 'active' : '' }}">
+                        <a href="{{ route('admin.keuangan.riwayat') }}"
+                            class="nav-link {{ Request::is('admin/keuangan/riwayat*') ? 'active' : '' }}">
                             <i class="fas fa-history"></i> Riwayat Transaksi
                         </a>
-                        <a href="{{ route('admin.keuangan.bukubesar') }}" class="nav-link {{ Request::is('admin/keuangan/buku-besar*') ? 'active' : '' }}">
+                        <a href="{{ route('admin.keuangan.bukubesar') }}"
+                            class="nav-link {{ Request::is('admin/keuangan/buku-besar*') ? 'active' : '' }}">
                             <i class="fas fa-book"></i> Buku Besar
                         </a>
                     </div>
                 </div>
 
-                <a href="{{ route('admin.pengaturan') }}" class="nav-link {{ Request::is('admin/pengaturan*') ? 'active' : '' }}">
+                <a href="{{ route('admin.pengaturan') }}"
+                    class="nav-link {{ Request::is('admin/pengaturan*') ? 'active' : '' }}">
                     <div class="nav-icon">
                         <i class="fas fa-cog"></i>
                     </div>
                     <span class="nav-text">Pengaturan</span>
-                    @if(Request::is('admin/pengaturan*'))
+                    @if (Request::is('admin/pengaturan*'))
                         <div class="nav-indicator"></div>
                     @endif
                 </a>
@@ -693,7 +718,8 @@
                         </div>
                         <div class="admin-actions">
                             <!-- Mode Toggle Button -->
-                            <button class="mode-toggle-btn" onclick="toggleDarkMode(event)" id="mode-toggle" title="Toggle Dark Mode">
+                            <button class="mode-toggle-btn" onclick="toggleDarkMode(event)" id="mode-toggle"
+                                title="Toggle Dark Mode">
                                 <i class="fas fa-moon" id="mode-icon"></i>
                             </button>
                             <div class="dropdown-arrow-footer">
@@ -701,10 +727,11 @@
                             </div>
                         </div>
                     </div>
-                    
+
                     <!-- Dropdown Menu -->
                     <div class="dropdown-menu" id="admin-dropdown">
-                        <div class="dropdown-item" onclick="window.location.href='{{ route('admin.profile') ?? '#' }}'">
+                        <div class="dropdown-item"
+                            onclick="window.location.href='{{ route('admin.profile') ?? '#' }}'">
                             <i class="fas fa-user-edit"></i>
                             <span>Edit Profile</span>
                             <small>Ubah profil</small>
@@ -754,10 +781,10 @@
             const dropdown = document.querySelector('.dropdown-nav');
             const submenu = dropdown.querySelector('.submenu');
             const arrow = dropdown.querySelector('.dropdown-arrow');
-            
+
             dropdown.classList.toggle('show');
             submenu.classList.toggle('show');
-            
+
             if (dropdown.classList.contains('show')) {
                 arrow.style.transform = 'rotate(180deg)';
             } else {
@@ -769,12 +796,12 @@
             if (event) {
                 event.stopPropagation();
             }
-            
+
             const body = document.body;
             const modeIcon = document.getElementById('mode-icon');
-            
+
             body.classList.toggle('dark-mode');
-            
+
             if (body.classList.contains('dark-mode')) {
                 modeIcon.className = 'fas fa-sun';
                 localStorage.setItem('theme', 'dark');
@@ -787,7 +814,7 @@
         function toggleAdminDropdown() {
             const dropdown = document.getElementById('admin-dropdown');
             const arrow = document.getElementById('dropdown-icon');
-            
+
             dropdown.classList.toggle('show');
             arrow.parentElement.classList.toggle('rotated');
         }
@@ -795,7 +822,7 @@
         document.addEventListener('click', function(event) {
             const dropdown = document.getElementById('admin-dropdown');
             const adminProfile = document.querySelector('.admin-profile');
-            
+
             if (dropdown && adminProfile && !adminProfile.contains(event.target)) {
                 dropdown.classList.remove('show');
                 document.getElementById('dropdown-icon').parentElement.classList.remove('rotated');
@@ -806,12 +833,12 @@
             const savedTheme = localStorage.getItem('theme');
             const body = document.body;
             const modeIcon = document.getElementById('mode-icon');
-            
+
             if (savedTheme === 'dark') {
                 body.classList.add('dark-mode');
                 modeIcon.className = 'fas fa-sun';
             }
-            
+
             updateTime();
             setInterval(updateTime, 1000);
         });
@@ -822,7 +849,7 @@
                 hour: '2-digit',
                 minute: '2-digit'
             });
-            
+
             const timeElement = document.getElementById('current-time');
             if (timeElement) {
                 timeElement.textContent = timeString;
@@ -844,7 +871,7 @@
                 hour12: false
             };
             const timeString = now.toLocaleDateString('id-ID', options).replace(/\//g, '/') + ' WIB';
-            
+
             const dateTimeElement = document.getElementById('current-datetime');
             if (dateTimeElement) {
                 dateTimeElement.textContent = timeString;
@@ -885,7 +912,7 @@
         document.addEventListener('DOMContentLoaded', function() {
             getDeviceInfo();
             updateRealTimeData();
-            
+
             // Update time every second
             setInterval(updateRealTimeData, 1000);
         });
@@ -894,7 +921,7 @@
             const dropdown = document.getElementById('admin-dropdown');
             dropdown.classList.remove('show');
             document.getElementById('dropdown-icon').parentElement.classList.remove('rotated');
-            
+
             if (confirm('Apakah Anda yakin ingin logout dari sistem?')) {
                 window.location.href = '/logout';
             }
@@ -902,4 +929,5 @@
     </script>
     @stack('scripts')
 </body>
+
 </html>

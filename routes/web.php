@@ -12,7 +12,13 @@ use App\Http\Controllers\ProdukTerlarisController;
 use App\Http\Controllers\KeranjangController;
 use App\Http\Controllers\ProdukController;
 use App\Http\Controllers\KeuanganController;
+use App\Http\Controllers\PenggajianController;
 use App\Http\Controllers\PemasokController;
+
+// Global login route - redirects to admin login
+Route::get('/login', function () {
+    return redirect()->route('admin.login');
+})->name('login');
 
 // Route untuk testing error pages
 Route::get('/test-errors', function () {
@@ -258,9 +264,13 @@ Route::prefix('admin')->name('admin.')->group(function () {
         Route::get('/sales-data', [AdminController::class, 'getSalesData'])->name('sales.data');
         Route::get('/profile', [AdminController::class, 'profile'])->name('profile');
         Route::post('/profile', [AdminController::class, 'updateProfile'])->name('profile.update');
-        Route::get('penggajian', function () {
-            return view('admin.penggajian');
-        })->name('penggajian');
+        Route::get('penggajian', [PenggajianController::class, 'index'])->name('penggajian');
+        Route::get('penggajian/create', [PenggajianController::class, 'create'])->name('penggajian.create');
+        Route::post('penggajian/store', [PenggajianController::class, 'store'])->name('penggajian.store');
+        Route::get('penggajian/karyawan/{id}/gaji', [PenggajianController::class, 'getGajiByKaryawan'])->name('penggajian.gaji-by-karyawan');
+        Route::post('penggajian/bulk-action', [PenggajianController::class, 'bulkAction'])->name('penggajian.bulk-action');
+        Route::post('penggajian/generate', [PenggajianController::class, 'generateSlipGaji'])->name('penggajian.generate');
+        Route::post('penggajian/export', [PenggajianController::class, 'exportData'])->name('penggajian.export');
         Route::get('laporan', [KeuanganController::class, 'laporan'])->name('laporan');
         Route::get('absensi', function () {
             return view('admin.absensi');

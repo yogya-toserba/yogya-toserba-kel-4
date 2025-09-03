@@ -21,12 +21,19 @@ class Karyawan extends Model
         'tanggal_lahir',
         'nomer_telepon',
         'id_shift',
+        'id_cabang',
         'status'
     ];
 
     protected $casts = [
         'tanggal_lahir' => 'date',
     ];
+
+    // Relationship with Cabang table
+    public function cabang()
+    {
+        return $this->belongsTo(Cabang::class, 'id_cabang', 'id_cabang');
+    }
 
     // Relationship with Shift table (commented until Shift model is created)
     // public function shift()
