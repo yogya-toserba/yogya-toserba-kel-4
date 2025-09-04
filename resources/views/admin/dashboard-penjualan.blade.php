@@ -4,13 +4,20 @@
 
 @section('content')
 <style>
+/* Yogya Brand Colors */
+:root {
+    --yogya-orange: #FF6B35;
+    --yogya-orange-dark: #E55A2B;
+    --yogya-orange-light: #FF8A5C;
+}
+
 .penjualan-header {
-    background: linear-gradient(135deg, #9333ea 0%, #7c3aed 100%);
+    background: linear-gradient(135deg, var(--yogya-orange-light) 0%, var(--yogya-orange) 100%);
     color: white;
     padding: 35px 40px;
     border-radius: 15px;
     margin-bottom: 35px;
-    box-shadow: 0 4px 15px rgba(147, 51, 234, 0.3);
+    box-shadow: 0 6px 20px rgba(255, 138, 92, 0.3);
 }
 
 .penjualan-stats {
@@ -27,17 +34,18 @@
     box-shadow: 0 4px 15px rgba(0,0,0,0.08);
     border: 1px solid #e2e8f0;
     transition: all 0.3s ease;
+    border-top: 3px solid var(--yogya-orange);
 }
 
 .penjualan-card:hover {
     transform: translateY(-3px);
-    box-shadow: 0 8px 25px rgba(0,0,0,0.12);
+    box-shadow: 0 10px 30px rgba(255, 138, 92, 0.15);
 }
 
 .penjualan-icon {
     width: 45px;
     height: 45px;
-    background: linear-gradient(135deg, #9333ea, #7c3aed);
+    background: linear-gradient(135deg, var(--yogya-orange-light), var(--yogya-orange));
     border-radius: 10px;
     display: flex;
     align-items: center;
@@ -272,17 +280,17 @@ function initChart(data) {
             datasets: [{
                 label: 'Pendapatan (Rp)',
                 data: values,
-                borderColor: '#9333ea',
-                backgroundColor: 'rgba(147, 51, 234, 0.1)',
+                borderColor: 'var(--yogya-orange)',
+                backgroundColor: 'rgba(255, 107, 53, 0.1)',
                 borderWidth: 3,
                 fill: true,
                 tension: 0.4,
-                pointBackgroundColor: '#9333ea',
+                pointBackgroundColor: 'var(--yogya-orange)',
                 pointBorderColor: '#ffffff',
                 pointBorderWidth: 3,
                 pointRadius: 6,
                 pointHoverRadius: 8,
-                shadowColor: 'rgba(147, 51, 234, 0.3)',
+                shadowColor: 'rgba(255, 107, 53, 0.3)',
                 shadowBlur: 10
             }]
         },

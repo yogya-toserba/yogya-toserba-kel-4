@@ -142,6 +142,17 @@ Route::prefix('pelanggan')->name('pelanggan.')->group(function () {
     Route::post('/register', [PelangganController::class, 'register'])->name('register.submit');
 
     Route::post('/logout', [PelangganController::class, 'logout'])->name('logout');
+    
+    // Search route (available to all customers)
+    Route::get('/search', [PelangganController::class, 'search'])->name('search');
+    
+    // Protected pelanggan routes
+    Route::middleware('auth:pelanggan')->group(function () {
+        Route::get('/dashboard', [PelangganController::class, 'dashboard'])->name('dashboard');
+        Route::get('/profile', [PelangganController::class, 'profile'])->name('profile');
+        Route::post('/profile', [PelangganController::class, 'updateProfile'])->name('profile.update');
+        Route::post('/profile/password', [PelangganController::class, 'updatePassword'])->name('profile.password');
+    });
 
     // Public routes for customer help
     Route::get('/manual', function () {
@@ -318,6 +329,14 @@ Route::prefix('admin')->name('admin.')->group(function () {
         Route::get('/data-karyawan/tambah', [AdminController::class, 'tambahKaryawan'])->name('data-karyawan.tambah');
         Route::post('/data-karyawan', [AdminController::class, 'storeKaryawan'])->name('data-karyawan.store');
         Route::post('/karyawan/{id}/toggle-status', [AdminController::class, 'toggleKaryawanStatus'])->name('karyawan.toggle-status');
+        
+        // Search Routes
+        Route::post('/search', [AdminController::class, 'search'])->name('search');
+        Route::get('/search-results', [AdminController::class, 'searchResults'])->name('search-results');
+        
+        // Profile Routes
+        Route::get('/profile', [AdminController::class, 'profile'])->name('profile');
+        Route::put('/profile', [AdminController::class, 'updateProfile'])->name('profile.update');
         Route::get('/sales-data', [AdminController::class, 'getSalesData'])->name('sales.data');
         Route::get('/profile', [AdminController::class, 'profile'])->name('profile');
         Route::post('/profile', [AdminController::class, 'updateProfile'])->name('profile.update');

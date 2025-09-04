@@ -565,6 +565,344 @@
             color: var(--dark-text-secondary);
         }
 
+        /* TOP HEADER */
+        .top-header {
+            position: fixed;
+            top: 0;
+            left: var(--sidebar-width);
+            right: 0;
+            height: 70px;
+            background: var(--light-card-bg);
+            border-bottom: 1px solid var(--light-border);
+            z-index: 1000;
+            display: flex;
+            align-items: center;
+            box-shadow: 0 2px 10px var(--light-shadow);
+        }
+
+        body.dark-mode .top-header {
+            background: var(--dark-card-bg);
+            border-bottom-color: var(--dark-border);
+            box-shadow: 0 2px 10px var(--dark-shadow);
+        }
+
+        .header-content {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            width: 100%;
+            padding: 0 25px;
+        }
+
+        .header-left {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            flex: 1;
+        }
+
+        .sidebar-toggle {
+            background: none;
+            border: none;
+            color: var(--light-text);
+            font-size: 18px;
+            cursor: pointer;
+            padding: 8px;
+            border-radius: 6px;
+            transition: background 0.3s ease;
+        }
+
+        .sidebar-toggle:hover {
+            background: var(--light-nav-hover);
+        }
+
+        body.dark-mode .sidebar-toggle {
+            color: var(--dark-text);
+        }
+
+        body.dark-mode .sidebar-toggle:hover {
+            background: var(--dark-nav-hover);
+        }
+
+        .page-title h5 {
+            color: var(--light-text);
+            font-weight: 600;
+            margin: 0;
+        }
+
+        body.dark-mode .page-title h5 {
+            color: var(--dark-text);
+        }
+
+        .header-center {
+            flex: 2;
+            display: flex;
+            justify-content: center;
+        }
+
+        .search-container {
+            position: relative;
+            width: 100%;
+            max-width: 500px;
+        }
+
+        .search-input-group {
+            position: relative;
+            display: flex;
+            align-items: center;
+        }
+
+        .search-input {
+            width: 100%;
+            padding: 12px 45px 12px 15px;
+            border: 2px solid var(--light-border);
+            border-radius: 25px;
+            background: var(--light-bg);
+            color: var(--light-text);
+            font-size: 14px;
+            transition: all 0.3s ease;
+            outline: none;
+        }
+
+        .search-input:focus {
+            border-color: var(--yogya-orange);
+            box-shadow: 0 0 0 3px rgba(242, 107, 55, 0.1);
+        }
+
+        body.dark-mode .search-input {
+            background: var(--dark-card-bg);
+            border-color: var(--dark-border);
+            color: var(--dark-text);
+        }
+
+        body.dark-mode .search-input:focus {
+            border-color: var(--yogya-orange);
+            box-shadow: 0 0 0 3px rgba(242, 107, 55, 0.2);
+        }
+
+        .search-btn {
+            position: absolute;
+            right: 5px;
+            background: var(--yogya-gradient);
+            border: none;
+            border-radius: 50%;
+            width: 35px;
+            height: 35px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .search-btn:hover {
+            transform: scale(1.05);
+            box-shadow: 0 4px 15px rgba(242, 107, 55, 0.4);
+        }
+
+        .search-results {
+            position: absolute;
+            top: 100%;
+            left: 0;
+            right: 0;
+            background: var(--light-card-bg);
+            border: 1px solid var(--light-border);
+            border-radius: 12px;
+            max-height: 400px;
+            overflow-y: auto;
+            z-index: 1001;
+            display: none;
+            box-shadow: 0 8px 25px var(--light-shadow);
+            margin-top: 5px;
+        }
+
+        body.dark-mode .search-results {
+            background: var(--dark-card-bg);
+            border-color: var(--dark-border);
+            box-shadow: 0 8px 25px var(--dark-shadow);
+        }
+
+        .search-result-item {
+            padding: 12px 15px;
+            border-bottom: 1px solid var(--light-border);
+            cursor: pointer;
+            transition: background 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .search-result-item:hover {
+            background: var(--light-nav-hover);
+        }
+
+        .search-result-item:last-child {
+            border-bottom: none;
+        }
+
+        body.dark-mode .search-result-item {
+            border-bottom-color: var(--dark-border);
+        }
+
+        body.dark-mode .search-result-item:hover {
+            background: var(--dark-nav-hover);
+        }
+
+        .search-result-icon {
+            width: 30px;
+            height: 30px;
+            border-radius: 6px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 12px;
+            color: white;
+        }
+
+        .search-result-content {
+            flex: 1;
+        }
+
+        .search-result-title {
+            font-weight: 600;
+            color: var(--light-text);
+            font-size: 13px;
+            margin: 0;
+        }
+
+        .search-result-subtitle {
+            color: var(--light-text-secondary);
+            font-size: 11px;
+            margin: 2px 0 0 0;
+        }
+
+        body.dark-mode .search-result-title {
+            color: var(--dark-text);
+        }
+
+        body.dark-mode .search-result-subtitle {
+            color: var(--dark-text-secondary);
+        }
+
+        .header-right {
+            flex: 1;
+            display: flex;
+            justify-content: flex-end;
+        }
+
+        .header-actions {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .action-btn {
+            position: relative;
+            background: none;
+            border: none;
+            color: var(--light-text);
+            font-size: 16px;
+            cursor: pointer;
+            padding: 10px;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+        }
+
+        .action-btn:hover {
+            background: var(--light-nav-hover);
+            color: var(--yogya-orange);
+        }
+
+        body.dark-mode .action-btn {
+            color: var(--dark-text);
+        }
+
+        body.dark-mode .action-btn:hover {
+            background: var(--dark-nav-hover);
+        }
+
+        .notification-badge {
+            position: absolute;
+            top: 5px;
+            right: 5px;
+            background: #e74c3c;
+            color: white;
+            border-radius: 50%;
+            width: 18px;
+            height: 18px;
+            font-size: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 600;
+        }
+
+        .admin-profile {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 8px 12px;
+            border-radius: 25px;
+            background: var(--light-nav-hover);
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .admin-profile:hover {
+            background: var(--yogya-orange);
+            color: white;
+        }
+
+        body.dark-mode .admin-profile {
+            background: var(--dark-nav-hover);
+        }
+
+        body.dark-mode .admin-profile:hover {
+            background: var(--yogya-orange);
+        }
+
+        .admin-avatar {
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 2px solid var(--yogya-orange);
+        }
+
+        .admin-name {
+            font-size: 13px;
+            font-weight: 600;
+            color: var(--light-text);
+        }
+
+        body.dark-mode .admin-name {
+            color: var(--dark-text);
+        }
+
+        .main-content {
+            margin-top: 70px; /* Account for fixed header */
+        }
+
+        /* RESPONSIVE */
+        @media (max-width: 768px) {
+            .top-header {
+                left: 0;
+            }
+            
+            .header-center {
+                flex: 1;
+                margin: 0 15px;
+            }
+            
+            .search-container {
+                max-width: none;
+            }
+            
+            .admin-name {
+                display: none;
+            }
+
         /* RESPONSIVE */
         @media (max-width: 768px) {
             .sidebar {
@@ -680,7 +1018,7 @@
                 <!-- Manajemen Gudang Dropdown -->
                 <div class="dropdown-nav {{ Request::is('admin/data-pengawai-gudang*') || Request::is('admin/lokasi-gudang*') || Request::is('admin/data-barang*') ? 'show' : '' }}">
                     <div class="dropdown-toggle-nav {{ Request::is('admin/data-pengawai-gudang*') || Request::is('admin/lokasi-gudang*') || Request::is('admin/data-barang*') ? 'active' : '' }}" onclick="toggleGudangDropdown()">
-                        <span><i class="fas fa-warehouse"></i> Manajemen Gudang</span>
+                        <span><i class="fas fa-warehouse"></i> Manajemen Inventory</span>
                         <i class="fas fa-chevron-down dropdown-arrow"></i>
                     </div>
                     <div class="submenu {{ Request::is('admin/data-pengawai-gudang*') || Request::is('admin/lokasi-gudang*') || Request::is('admin/data-barang*') ? 'show' : '' }}">
@@ -770,6 +1108,55 @@
                 </div>
             </div>
         </nav>
+
+        <!-- Top Header with Search -->
+        <div class="top-header">
+            <div class="header-content">
+                <div class="header-left">
+                    <button class="sidebar-toggle d-lg-none" onclick="toggleSidebar()">
+                        <i class="fas fa-bars"></i>
+                    </button>
+                    <div class="page-title">
+                        <h5 class="mb-0">@yield('page-title', 'Dashboard')</h5>
+                        <small class="text-muted">@yield('page-subtitle', 'Selamat datang di panel admin')</small>
+                    </div>
+                </div>
+                
+                <div class="header-center">
+                    <div class="search-container">
+                        <form class="search-form" id="globalSearchForm">
+                            <div class="search-input-group">
+                                <input type="text" 
+                                       class="search-input" 
+                                       id="globalSearch" 
+                                       placeholder="Cari produk, pelanggan, transaksi..."
+                                       autocomplete="off">
+                                <button type="submit" class="search-btn">
+                                    <i class="fas fa-search"></i>
+                                </button>
+                            </div>
+                            <div class="search-results" id="searchResults"></div>
+                        </form>
+                    </div>
+                </div>
+                
+                <div class="header-right">
+                    <div class="header-actions">
+                        <button class="action-btn notification-btn" title="Notifikasi">
+                            <i class="fas fa-bell"></i>
+                            <span class="notification-badge">3</span>
+                        </button>
+                        <button class="action-btn theme-toggle" onclick="toggleTheme()" title="Toggle Dark Mode">
+                            <i class="fas fa-moon" id="theme-icon"></i>
+                        </button>
+                        <div class="admin-profile">
+                            <img src="https://ui-avatars.com/api/?name={{ urlencode(Auth::guard('admin')->user()->username ?? 'Admin') }}&background=f26b37&color=fff&size=30" alt="Admin" class="admin-avatar">
+                            <span class="admin-name">{{ Auth::guard('admin')->user()->username ?? 'Admin' }}</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
 
         <!-- Main Content -->
         <div class="main-content">
@@ -1002,6 +1389,249 @@
                 window.location.href = '/logout';
             }
         }
+
+        // Search Functionality
+        class GlobalSearch {
+            constructor() {
+                this.searchInput = document.getElementById('globalSearch');
+                this.searchResults = document.getElementById('searchResults');
+                this.searchForm = document.getElementById('globalSearchForm');
+                this.debounceTimer = null;
+                this.init();
+            }
+
+            init() {
+                if (!this.searchInput) return;
+
+                this.searchInput.addEventListener('input', (e) => {
+                    this.debounceSearch(e.target.value);
+                });
+
+                this.searchInput.addEventListener('focus', () => {
+                    if (this.searchInput.value.trim()) {
+                        this.showResults();
+                    }
+                });
+
+                // Close results when clicking outside
+                document.addEventListener('click', (e) => {
+                    if (!e.target.closest('.search-container')) {
+                        this.hideResults();
+                    }
+                });
+
+                // Handle form submission
+                this.searchForm.addEventListener('submit', (e) => {
+                    e.preventDefault();
+                    this.performDetailedSearch(this.searchInput.value);
+                });
+            }
+
+            debounceSearch(query) {
+                clearTimeout(this.debounceTimer);
+                this.debounceTimer = setTimeout(() => {
+                    this.performSearch(query);
+                }, 300);
+            }
+
+            async performSearch(query) {
+                if (!query.trim()) {
+                    this.hideResults();
+                    return;
+                }
+
+                try {
+                    // Show loading state
+                    this.showLoading();
+
+                    const response = await fetch('/admin/search', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+                        },
+                        body: JSON.stringify({ query: query })
+                    });
+
+                    const data = await response.json();
+                    this.displayResults(data);
+                } catch (error) {
+                    console.error('Search error:', error);
+                    this.showError();
+                }
+            }
+
+            showLoading() {
+                this.searchResults.innerHTML = `
+                    <div class="search-result-item">
+                        <div class="search-result-icon" style="background: #6c757d;">
+                            <i class="fas fa-spinner fa-spin"></i>
+                        </div>
+                        <div class="search-result-content">
+                            <div class="search-result-title">Mencari...</div>
+                            <div class="search-result-subtitle">Sedang mencari data yang sesuai</div>
+                        </div>
+                    </div>
+                `;
+                this.showResults();
+            }
+
+            showError() {
+                this.searchResults.innerHTML = `
+                    <div class="search-result-item">
+                        <div class="search-result-icon" style="background: #e74c3c;">
+                            <i class="fas fa-exclamation-triangle"></i>
+                        </div>
+                        <div class="search-result-content">
+                            <div class="search-result-title">Error pencarian</div>
+                            <div class="search-result-subtitle">Terjadi kesalahan saat mencari data</div>
+                        </div>
+                    </div>
+                `;
+                this.showResults();
+            }
+
+            displayResults(data) {
+                if (!data.results || data.results.length === 0) {
+                    this.searchResults.innerHTML = `
+                        <div class="search-result-item">
+                            <div class="search-result-icon" style="background: #6c757d;">
+                                <i class="fas fa-search"></i>
+                            </div>
+                            <div class="search-result-content">
+                                <div class="search-result-title">Tidak ada hasil</div>
+                                <div class="search-result-subtitle">Coba gunakan kata kunci yang berbeda</div>
+                            </div>
+                        </div>
+                    `;
+                } else {
+                    let html = '';
+                    data.results.forEach(item => {
+                        html += this.createResultItem(item);
+                    });
+                    
+                    if (data.hasMore) {
+                        html += `
+                            <div class="search-result-item" onclick="globalSearch.performDetailedSearch('${this.searchInput.value}')">
+                                <div class="search-result-icon" style="background: var(--yogya-orange);">
+                                    <i class="fas fa-ellipsis-h"></i>
+                                </div>
+                                <div class="search-result-content">
+                                    <div class="search-result-title">Lihat semua hasil</div>
+                                    <div class="search-result-subtitle">Klik untuk melihat hasil pencarian lengkap</div>
+                                </div>
+                            </div>
+                        `;
+                    }
+                    
+                    this.searchResults.innerHTML = html;
+                }
+                this.showResults();
+            }
+
+            createResultItem(item) {
+                const iconColor = this.getIconColor(item.type);
+                const icon = this.getIcon(item.type);
+                
+                return `
+                    <div class="search-result-item" onclick="globalSearch.navigateToResult('${item.url}')">
+                        <div class="search-result-icon" style="background: ${iconColor};">
+                            <i class="fas fa-${icon}"></i>
+                        </div>
+                        <div class="search-result-content">
+                            <div class="search-result-title">${item.title}</div>
+                            <div class="search-result-subtitle">${item.subtitle}</div>
+                        </div>
+                    </div>
+                `;
+            }
+
+            getIconColor(type) {
+                const colors = {
+                    'produk': '#28a745',
+                    'pelanggan': '#007bff',
+                    'transaksi': '#ffc107',
+                    'karyawan': '#17a2b8',
+                    'kategori': '#6f42c1'
+                };
+                return colors[type] || '#6c757d';
+            }
+
+            getIcon(type) {
+                const icons = {
+                    'produk': 'box',
+                    'pelanggan': 'user',
+                    'transaksi': 'receipt',
+                    'karyawan': 'user-tie',
+                    'kategori': 'tags'
+                };
+                return icons[type] || 'search';
+            }
+
+            navigateToResult(url) {
+                window.location.href = url;
+            }
+
+            performDetailedSearch(query) {
+                // Navigate to a dedicated search results page
+                window.location.href = `/admin/search-results?q=${encodeURIComponent(query)}`;
+            }
+
+            showResults() {
+                this.searchResults.style.display = 'block';
+            }
+
+            hideResults() {
+                this.searchResults.style.display = 'none';
+            }
+        }
+
+        // Theme toggle functionality
+        function toggleTheme() {
+            const body = document.body;
+            const themeIcon = document.getElementById('theme-icon');
+            
+            body.classList.toggle('dark-mode');
+            
+            if (body.classList.contains('dark-mode')) {
+                themeIcon.className = 'fas fa-sun';
+                localStorage.setItem('theme', 'dark');
+            } else {
+                themeIcon.className = 'fas fa-moon';
+                localStorage.setItem('theme', 'light');
+            }
+        }
+
+        // Initialize theme from localStorage
+        function initTheme() {
+            const savedTheme = localStorage.getItem('theme');
+            const themeIcon = document.getElementById('theme-icon');
+            
+            if (savedTheme === 'dark') {
+                document.body.classList.add('dark-mode');
+                if (themeIcon) themeIcon.className = 'fas fa-sun';
+            }
+        }
+
+        // Sidebar toggle for mobile
+        function toggleSidebar() {
+            const sidebar = document.getElementById('sidebar');
+            sidebar.classList.toggle('active');
+        }
+
+        // Initialize everything when DOM is loaded
+        document.addEventListener('DOMContentLoaded', function() {
+            // Initialize existing functionality
+            getDeviceInfo();
+            updateRealTimeData();
+            initTheme();
+            
+            // Initialize search
+            window.globalSearch = new GlobalSearch();
+            
+            // Update time every second
+            setInterval(updateRealTimeData, 1000);
+        });
     </script>
     @stack('scripts')
 </body>
