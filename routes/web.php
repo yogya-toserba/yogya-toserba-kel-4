@@ -100,9 +100,14 @@ Route::get('/cara-belanja', function () {
 })->name('cara-belanja');
 
 // Pengiriman
+
+// Pengiriman
 Route::get('/pengiriman', function () {
     return view('pengiriman');
 })->name('pengiriman');
+
+// Gudang Pengiriman
+Route::get('/gudang/pengiriman', [App\Http\Controllers\GudangController::class, 'pengiriman'])->name('gudang.pengiriman');
 
 Route::get('/metode-pembayaran', function () {
     return view('metode-pembayaran');
