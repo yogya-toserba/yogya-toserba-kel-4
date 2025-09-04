@@ -1042,17 +1042,9 @@
                 </div>
 
                 <!-- Manajemen Gudang Dropdown -->
-<<<<<<< HEAD
                 <div class="dropdown-nav {{ Request::is('admin/data-pengawai-gudang*') || Request::is('admin/lokasi-gudang*') || Request::is('admin/data-barang*') ? 'show' : '' }}">
                     <div class="dropdown-toggle-nav {{ Request::is('admin/data-pengawai-gudang*') || Request::is('admin/lokasi-gudang*') || Request::is('admin/data-barang*') ? 'active' : '' }}" onclick="toggleGudangDropdown()">
-                        <span><i class="fas fa-warehouse"></i> Manajemen Inventory</span>
-=======
-                <div
-                    class="dropdown-nav {{ Request::is('admin/data-pengawai-gudang*') || Request::is('admin/lokasi-gudang*') || Request::is('admin/data-barang*') ? 'show' : '' }}">
-                    <div class="dropdown-toggle-nav {{ Request::is('admin/data-pengawai-gudang*') || Request::is('admin/lokasi-gudang*') || Request::is('admin/data-barang*') ? 'active' : '' }}"
-                        onclick="toggleGudangDropdown()">
                         <span><i class="fas fa-warehouse"></i> Manajemen Gudang</span>
->>>>>>> 1207738a31160cc511dce5d4aed88d768753a1c0
                         <i class="fas fa-chevron-down dropdown-arrow"></i>
                     </div>
                     <div
