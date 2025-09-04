@@ -222,13 +222,13 @@
                 'reviews' => 167
             ]
         ] as $product)
-        <div class="product-card">
+        <div class="product-card" onclick="openProductModal('{{ addslashes($product['name']) }}', '{{ $product['image'] }}', '{{ $product['price'] }}', '{{ $product['original_price'] ?? '' }}', {{ $product['rating'] }}, {{ $product['reviews'] }}, 'TechStore Official')" style="cursor: pointer;">
             <div class="product-image">
                 <img src="{{ $product['image'] }}" alt="{{ $product['name'] }}">
                 @if($product['discount'])
                 <span class="discount-badge">-{{ $product['discount'] }}</span>
                 @endif
-                <button class="wishlist-btn">
+                <button class="wishlist-btn" onclick="event.stopPropagation();">
                     <i class="far fa-heart"></i>
                 </button>
             </div>
@@ -255,9 +255,9 @@
                         @endif
                     </div>
                     
-                    <button class="add-to-cart-btn">
-                        <i class="fas fa-shopping-cart me-2"></i>Tambah ke Keranjang
-                    </button>
+                    <div class="store-info">
+                        <small class="text-muted">TechStore Official</small>
+                    </div>
                 </div>
             </div>
         </div>
@@ -382,7 +382,324 @@
             padding: 6px 12px;
         }
     }
+
+    /* Store Info Styles */
+    .store-info {
+        margin-top: 8px;
+    }
+    
+    .store-info small {
+        font-size: 0.8rem;
+        color: #666;
+    }
+
+    /* Product Card Hover Effect */
+    .product-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+    }
 </style>
 @endpush
 
+<script>
+// Add to cart function
+function addToCart(event, product) {
+    event.stopPropagation(); // Prevent any parent click events
+    
+    // Get existing cart from localStorage
+    let cart = JSON.parse(localStorage.getItem('cart') || '[]');
+    
+    // Check if product already exists in cart
+    const existingProductIndex = cart.findIndex(item => 
+        item.id === product.id && item.name === product.name
+    );
+    
+    if (existingProductIndex > -1) {
+        // If product exists, increase quantity
+        cart[existingProductIndex].quantity += 1;
+    } else {
+        // If new product, add to cart
+        product.quantity = 1;
+        cart.push(product);
+    }
+    
+    // Save to localStorage
+    localStorage.setItem('cart', JSON.stringify(cart));
+    
+    // Update cart counter in navbar (use global function from layout)
+    if (typeof updateCartBadge === 'function') {
+        updateCartBadge();
+    }
+    
+    // Show success toast
+    showToast(`${product.name} berhasil ditambahkan ke keranjang!`, 'success');
+}
+
+// Toast notification function
+function showToast(message, type = 'success') {
+    // Create toast element
+    const toastHtml = `
+        <div class="toast align-items-center text-white bg-${type} border-0" role="alert" aria-live="assertive" aria-atomic="true">
+            <div class="d-flex">
+                <div class="toast-body">
+                    <i class="fas fa-check-circle me-2"></i>${message}
+                </div>
+                <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"></button>
+            </div>
+        </div>
+    `;
+
+    // Create toast container if it doesn't exist
+    let toastContainer = document.getElementById('toast-container');
+    if (!toastContainer) {
+        toastContainer = document.createElement('div');
+        toastContainer.id = 'toast-container';
+        toastContainer.className = 'toast-container position-fixed top-0 end-0 p-3';
+        toastContainer.style.zIndex = '9999';
+        document.body.appendChild(toastContainer);
+    }
+
+    // Add toast to container
+    toastContainer.insertAdjacentHTML('beforeend', toastHtml);
+
+    // Initialize and show toast
+    const toastElement = toastContainer.lastElementChild;
+    const toast = new bootstrap.Toast(toastElement, {
+        autohide: true,
+        delay: 3000
+    });
+    toast.show();
+
+    // Remove toast element after it's hidden
+    toastElement.addEventListener('hidden.bs.toast', function() {
+        toastElement.remove();
+    });
+}
+
+// Product modal functions
+function openProductModal(name, image, price, originalPrice, rating, reviews, storeName) {
+    const modal = document.getElementById('productModal');
+    
+    // Update modal content
+    modal.querySelector('.modal-title').textContent = name;
+    modal.querySelector('.product-image').src = image;
+    modal.querySelector('.current-price').textContent = price;
+    modal.querySelector('.store-name').textContent = storeName;
+    
+    if (originalPrice) {
+        modal.querySelector('.original-price').textContent = originalPrice;
+        modal.querySelector('.original-price').style.display = 'inline';
+    } else {
+        modal.querySelector('.original-price').style.display = 'none';
+    }
+    
+    // Update rating
+    const starsContainer = modal.querySelector('.modal-rating .stars');
+    starsContainer.innerHTML = '';
+    for (let i = 1; i <= 5; i++) {
+        const star = document.createElement('i');
+        star.className = `fas fa-star${i <= Math.floor(rating) ? '' : ' text-muted'}`;
+        starsContainer.appendChild(star);
+    }
+    modal.querySelector('.review-count').textContent = `(${reviews} ulasan)`;
+    
+    // Show modal
+    const modalInstance = new bootstrap.Modal(modal);
+    modalInstance.show();
+}
+
+function addToCartFromModal() {
+    const modal = document.getElementById('productModal');
+    const productTitle = modal.querySelector('.modal-title').textContent;
+    const productPrice = modal.querySelector('.current-price').textContent;
+    const productImage = modal.querySelector('.product-image').src;
+    const quantityInput = document.getElementById('quantity');
+    const quantity = parseInt(quantityInput?.value || 1);
+    
+    // Data produk yang akan ditambahkan ke keranjang
+    const product = {
+        id: Date.now(), // Generate unique ID
+        name: productTitle,
+        price: parseInt(productPrice.replace(/[^0-9]/g, '')),
+        quantity: quantity,
+        image: productImage,
+        category: 'Elektronik'
+    };
+    
+    // Use existing addToCart function but modify for modal context
+    let cart = JSON.parse(localStorage.getItem('cart') || '[]');
+    
+    // Check if product already exists in cart
+    const existingProductIndex = cart.findIndex(item => 
+        item.name === product.name
+    );
+    
+    if (existingProductIndex !== -1) {
+        // If product exists, increase quantity
+        cart[existingProductIndex].quantity += quantity;
+    } else {
+        // If new product, add to cart
+        cart.push(product);
+    }
+    
+    // Save updated cart to localStorage
+    localStorage.setItem('cart', JSON.stringify(cart));
+    
+    // Update cart counter in navbar
+    if (typeof updateCartBadge === 'function') {
+        updateCartBadge();
+    }
+    
+    // Tutup modal
+    const modalInstance = bootstrap.Modal.getInstance(modal);
+    modalInstance.hide();
+    
+    showToast('Produk berhasil ditambahkan ke keranjang!', 'success');
+}
+
+function increaseQuantity() {
+    const quantityInput = document.getElementById('quantity');
+    const currentValue = parseInt(quantityInput.value);
+    const maxValue = parseInt(quantityInput.max);
+
+    if (currentValue < maxValue) {
+        quantityInput.value = currentValue + 1;
+    }
+}
+
+function decreaseQuantity() {
+    const quantityInput = document.getElementById('quantity');
+    const currentValue = parseInt(quantityInput.value);
+    const minValue = parseInt(quantityInput.min);
+
+    if (currentValue > minValue) {
+        quantityInput.value = currentValue - 1;
+    }
+}
+
+function addToWishlist() {
+    showToast('Produk ditambahkan ke wishlist!', 'success');
+}
+
+// Initialize cart counter on page load
+document.addEventListener('DOMContentLoaded', function() {
+    if (typeof updateCartBadge === 'function') {
+        updateCartBadge();
+    }
+});
+</script>
+
+<!-- Product Detail Modal -->
+<div class="modal fade" id="productModal" tabindex="-1" aria-labelledby="productModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header border-0 pb-0">
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body pt-0">
+                <div class="row">
+                    <!-- Product Image -->
+                    <div class="col-md-6">
+                        <div class="product-image-container text-center">
+                            <img src="" alt="" class="product-image img-fluid rounded" style="max-height: 400px;">
+                        </div>
+                    </div>
+                    
+                    <!-- Product Info -->
+                    <div class="col-md-6">
+                        <div class="product-details">
+                            <!-- Store Information -->
+                            <div class="store-section mb-3 p-3 bg-light rounded">
+                                <div class="d-flex align-items-center mb-2">
+                                    <div class="store-avatar me-3">
+                                        <div class="bg-primary text-white rounded-circle d-flex align-items-center justify-content-center" style="width: 40px; height: 40px;">
+                                            <i class="fas fa-store"></i>
+                                        </div>
+                                    </div>
+                                    <div class="flex-grow-1">
+                                        <h6 class="store-name mb-1">TechStore Official</h6>
+                                        <div class="d-flex align-items-center gap-2">
+                                            <span class="badge bg-success">
+                                                <i class="fas fa-check-circle me-1"></i>Official Store
+                                            </span>
+                                            <span class="badge bg-warning text-dark">
+                                                <i class="fas fa-star me-1"></i>4.8
+                                            </span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row text-center">
+                                    <div class="col-4">
+                                        <small class="text-muted d-block">Produk</small>
+                                        <strong>2.3k+</strong>
+                                    </div>
+                                    <div class="col-4">
+                                        <small class="text-muted d-block">Rating</small>
+                                        <strong>4.8/5</strong>
+                                    </div>
+                                    <div class="col-4">
+                                        <small class="text-muted d-block">Kota</small>
+                                        <strong>Jakarta</strong>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Product Title -->
+                            <h4 class="modal-title mb-3">Product Name</h4>
+                            
+                            <!-- Rating -->
+                            <div class="modal-rating mb-3">
+                                <div class="d-flex align-items-center">
+                                    <div class="stars me-2">
+                                        <!-- Stars will be populated by JavaScript -->
+                                    </div>
+                                    <span class="review-count text-muted">(0 ulasan)</span>
+                                </div>
+                            </div>
+                            
+                            <!-- Price -->
+                            <div class="price-section mb-4">
+                                <div class="d-flex align-items-baseline gap-2">
+                                    <span class="current-price h4 text-danger mb-0">Rp 0</span>
+                                    <span class="original-price text-muted text-decoration-line-through">Rp 0</span>
+                                </div>
+                            </div>
+                            
+                            <!-- Product Description -->
+                            <div class="product-description mb-4">
+                                <h6>Deskripsi Produk</h6>
+                                <p class="text-muted">
+                                    Produk elektronik berkualitas tinggi dengan teknologi terdepan. 
+                                    Dilengkapi dengan fitur-fitur canggih untuk memenuhi kebutuhan sehari-hari Anda.
+                                    Garansi resmi 1 tahun dari distributor resmi.
+                                </p>
+                            </div>
+                            
+                            <!-- Quantity Selector -->
+                            <div class="quantity-section mb-4">
+                                <label class="form-label">Kuantitas</label>
+                                <div class="d-flex align-items-center gap-2">
+                                    <button type="button" class="btn btn-outline-secondary btn-sm" onclick="decreaseQuantity()">-</button>
+                                    <input type="number" id="quantity" class="form-control text-center" style="width: 80px;" value="1" min="1" max="99">
+                                    <button type="button" class="btn btn-outline-secondary btn-sm" onclick="increaseQuantity()">+</button>
+                                    <small class="text-muted ms-2">Stok: 50</small>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer border-0 pt-0">
+                <div class="d-flex gap-2 w-100">
+                    <button type="button" class="btn btn-outline-primary flex-fill" onclick="addToWishlist()">
+                        <i class="far fa-heart me-2"></i>Wishlist
+                    </button>
+                    <button type="button" class="btn btn-primary flex-fill" onclick="addToCartFromModal()">
+                        <i class="fas fa-shopping-cart me-2"></i>Tambah ke Keranjang
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 @endsection

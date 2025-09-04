@@ -255,9 +255,7 @@
                         @endif
                     </div>
                     
-                    <button class="add-to-cart-btn">
-                        <i class="fas fa-shopping-cart me-2"></i>Tambah ke Keranjang
-                    </button>
+                    <!-- Add to cart button removed -->
                 </div>
             </div>
         </div>

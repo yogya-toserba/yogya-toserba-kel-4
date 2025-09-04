@@ -364,6 +364,31 @@
                                 <div class="product-header mb-3">
                                     <span id="modalProductCategory" class="badge bg-primary mb-2"></span>
                                     <h4 id="modalProductName" class="fw-bold mb-2"></h4>
+                                    
+                                    <!-- Store Information -->
+                                    <div class="store-info mb-3">
+                                        <div class="d-flex align-items-center">
+                                            <img src="/image/logo/yogya-store.png" alt="Store" class="store-logo me-2" onerror="this.style.display='none'">
+                                            <div>
+                                                <div class="store-name fw-semibold text-primary">
+                                                    <i class="fas fa-store me-1"></i>
+                                                    MyYOGYA Official Store
+                                                </div>
+                                                <div class="store-badges">
+                                                    <span class="badge bg-success me-1">
+                                                        <i class="fas fa-check-circle me-1"></i>Toko Resmi
+                                                    </span>
+                                                    <span class="badge bg-warning text-dark me-1">
+                                                        <i class="fas fa-star me-1"></i>4.8
+                                                    </span>
+                                                    <span class="badge bg-info">
+                                                        <i class="fas fa-shipping-fast me-1"></i>Pengiriman Cepat
+                                                    </span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    
                                     <div class="product-rating mb-3">
                                         <div class="stars d-inline-block me-2">
                                             <i class="fas fa-star text-warning"></i>
@@ -478,7 +503,7 @@
                         <button type="button" class="btn btn-outline-primary flex-fill" onclick="addToWishlist()">
                             <i class="far fa-heart me-2"></i>Wishlist
                         </button>
-                        <button type="button" class="btn btn-primary flex-fill btn-add-to-cart-final" onclick="addToCart()">
+                        <button type="button" class="btn btn-primary flex-fill" onclick="addToCartFromModal()" id="addToCartModalBtn">
                             <i class="fas fa-shopping-cart me-2"></i>Tambah ke Keranjang
                         </button>
                     </div>
@@ -701,20 +726,7 @@
         border-color: #f26b37;
     }
 
-    /* Modal Actions */
-    .btn-add-to-cart-final {
-        background: linear-gradient(135deg, #f26b37 0%, #e55827 100%);
-        border: none;
-        padding: 12px 24px;
-        border-radius: 8px;
-        font-weight: 600;
-        transition: all 0.3s ease;
-    }
-
-    .btn-add-to-cart-final:hover {
-        transform: translateY(-2px);
-        box-shadow: 0 5px 15px rgba(242, 107, 55, 0.3);
-    }
+    /* Modal Actions - Cart button removed */
 
     /* Responsive Modal */
     @media (max-width: 768px) {
@@ -739,6 +751,55 @@
             width: 35px;
             height: 35px;
         }
+    }
+
+    /* Add to Cart Button Styles */
+    .btn-add-to-cart {
+        width: 100%;
+        padding: 10px 15px;
+        background: #f26b37;
+        color: white;
+        border: none;
+        border-radius: 8px;
+        font-weight: 600;
+        font-size: 14px;
+        transition: all 0.3s ease;
+        margin-top: 10px;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        position: relative;
+        z-index: 10;
+    }
+
+    .btn-add-to-cart:hover {
+        background: #e55827;
+        transform: translateY(-2px);
+        box-shadow: 0 5px 15px rgba(242, 107, 55, 0.3);
+        color: white;
+    }
+
+    .btn-add-to-cart:active {
+        transform: translateY(0);
+        box-shadow: 0 2px 5px rgba(242, 107, 55, 0.3);
+    }
+
+    .btn-add-to-cart i {
+        font-size: 13px;
+    }
+
+    /* Prevent modal opening when clicking add to cart */
+    .btn-add-to-cart {
+        pointer-events: auto;
+    }
+
+    .product-card .product-info {
+        pointer-events: none;
+    }
+
+    .product-card .product-info > * {
+        pointer-events: auto;
     }
     </style>
 @endpush
@@ -950,6 +1011,45 @@
         showToast(`${productName} berhasil ditambahkan ke wishlist!`, 'success');
     }
 
+    // Add to cart from modal function
+    function addToCartFromModal() {
+        const modal = document.getElementById('productModal');
+        const productTitle = modal.querySelector('.modal-title').textContent;
+        const selectedSize = modal.querySelector('input[name="size"]:checked')?.value;
+        const selectedColor = modal.querySelector('input[name="color"]:checked')?.value;
+        const quantityInput = document.getElementById('quantity');
+        const quantity = parseInt(quantityInput?.value || 1);
+        
+        if (!selectedSize) {
+            showToast('Pilih ukuran terlebih dahulu!', 'error');
+            return;
+        }
+        
+        if (!selectedColor) {
+            showToast('Pilih warna terlebih dahulu!', 'error');
+            return;
+        }
+        
+        // Data produk yang akan ditambahkan ke keranjang
+        const product = {
+            id: Date.now(), // Generate unique ID
+            name: productTitle,
+            price: 129000, // Harga dari modal
+            size: selectedSize,
+            color: selectedColor,
+            quantity: quantity,
+            image: modal.querySelector('.product-image').src
+        };
+        
+        addToCart(product);
+        
+        // Tutup modal
+        const modalInstance = bootstrap.Modal.getInstance(modal);
+        modalInstance.hide();
+        
+        showToast('Produk berhasil ditambahkan ke keranjang!', 'success');
+    }
+
     // Quantity functions
     function increaseQuantity() {
         const quantityInput = document.getElementById('quantity');
@@ -972,68 +1072,44 @@
     }
 
     // Add to cart function
-    function addToCart() {
-        const modal = document.getElementById('productModal');
-        const productId = modal.getAttribute('data-product-id');
-        const productName = modal.getAttribute('data-product-name');
-        const productPrice = parseInt(modal.getAttribute('data-product-price'));
-        const productImage = modal.getAttribute('data-product-image');
-        const productCategory = modal.getAttribute('data-product-category');
-
-        // Get selected options
-        const selectedSize = document.querySelector('input[name="size"]:checked').value;
-        const selectedColor = document.querySelector('input[name="color"]:checked').value;
-        const quantity = parseInt(document.getElementById('quantity').value);
-
-        // Create cart item
-        const cartItem = {
-            id: productId,
-            name: productName,
-            price: productPrice,
-            image: productImage,
-            category: productCategory,
-            size: selectedSize,
-            color: selectedColor,
-            quantity: quantity,
-            addedAt: new Date().toISOString()
-        };
-
-        // Check if item already exists in cart
-        const existingItemIndex = cart.findIndex(item => 
-            item.id === productId && 
-            item.size === selectedSize && 
-            item.color === selectedColor
+    function addToCart(event, product) {
+        event.stopPropagation(); // Prevent modal from opening
+        
+        // Get existing cart from localStorage
+        let cart = JSON.parse(localStorage.getItem('cart') || '[]');
+        
+        // Check if product already exists in cart
+        const existingProductIndex = cart.findIndex(item => 
+            item.id === product.id && item.name === product.name
         );
-
-        if (existingItemIndex > -1) {
-            // Update quantity if item exists
-            cart[existingItemIndex].quantity += quantity;
+        
+        if (existingProductIndex > -1) {
+            // If product exists, increase quantity
+            cart[existingProductIndex].quantity += 1;
         } else {
-            // Add new item to cart
-            cart.push(cartItem);
+            // If new product, add to cart
+            product.quantity = 1;
+            cart.push(product);
         }
-
+        
         // Save to localStorage
         localStorage.setItem('cart', JSON.stringify(cart));
-
-        // Update cart badge in navbar
+        
+        // Update cart counter in navbar (use global function from layout)
         if (typeof updateCartBadge === 'function') {
             updateCartBadge();
-        } else {
-            // Fallback: dispatch storage event to trigger update
-            window.dispatchEvent(new StorageEvent('storage', {
-                key: 'cart',
-                newValue: JSON.stringify(cart)
-            }));
         }
-
-        // Close modal
-        const modalInstance = bootstrap.Modal.getInstance(modal);
-        modalInstance.hide();
-
-        // Show success message
-        showToast('Produk berhasil ditambahkan ke keranjang!', 'success');
+        
+        // Show success toast
+        showToast(`${product.name} berhasil ditambahkan ke keranjang!`, 'success');
     }
+    
+    // Initialize cart counter on page load
+    document.addEventListener('DOMContentLoaded', function() {
+        if (typeof updateCartBadge === 'function') {
+            updateCartBadge();
+        }
+    });
 
     // Toast notification function
     function showToast(message, type = 'success') {

@@ -526,7 +526,7 @@
             </div>
             <div class="col-lg-6">
                 <div class="hero-image">
-                    <img src="{{ asset('image/placeholder.png') }}" alt="YOGYA Group" class="img-fluid rounded-4 shadow-lg">
+                    <img src="{{ asset('image/tim_kami/hehe.jpg') }}" alt="YOGYA Group" class="img-fluid rounded-4 shadow-lg">
                 </div>
             </div>
         </div>
@@ -710,11 +710,11 @@
             <div class="col-lg-4 col-md-6">
                 <div class="team-card">
                     <div class="team-image">
-                        <img src="{{ asset('image/placeholder.png') }}" alt="Muhammad Fikri Haikal" class="img-fluid">
+                        <img src="{{ asset('image/tim_kami/haikal.jpg') }}" alt="Muhammad Fikri Haikal" class="img-fluid">
                     </div>
                     <div class="team-info">
                         <h5 class="team-name">Muhammad Fikri Haikal</h5>
-                        <p class="team-position">Chief Executive Officer</p>
+                        <p class="team-position">Project Manager</p>
                         <div class="team-social">
                             <a href="#"><i class="fab fa-linkedin-in"></i></a>
                             <a href="#"><i class="fab fa-twitter"></i></a>
@@ -729,7 +729,7 @@
                     </div>
                     <div class="team-info">
                         <h5 class="team-name">Erfan Eka Maulana</h5>
-                        <p class="team-position">Chief Technology Officer</p>
+                        <p class="team-position">UI/UX Designer</p>
                         <div class="team-social">
                             <a href="#"><i class="fab fa-linkedin-in"></i></a>
                             <a href="#"><i class="fab fa-github"></i></a>
@@ -744,11 +744,11 @@
                     </div>
                     <div class="team-info">
                         <h5 class="team-name">Nabil Cahyadi Abdillah</h5>
-                        <p class="team-position">Chief Marketing Officer</p>
+                        <p class="team-position">Backend Developer</p>
                         <div class="team-social">
                             <a href="#"><i class="fab fa-linkedin-in"></i></a>
                             <a href="#"><i class="fab fa-instagram"></i></a>
-                        </div>
+                        </div> 
                     </div>
                 </div>
             </div>
@@ -759,7 +759,7 @@
                     </div>
                     <div class="team-info">
                         <h5 class="team-name">Mahesa Putra Faturrohman</h5>
-                        <p class="team-position">Chief Operating Officer</p>
+                        <p class="team-position">Frontend Developer</p>
                         <div class="team-social">
                             <a href="#"><i class="fab fa-linkedin-in"></i></a>
                             <a href="#"><i class="fab fa-twitter"></i></a>
@@ -773,8 +773,8 @@
                         <img src="{{ asset('image/placeholder.png') }}" alt="Yazdi Prayogi Aprianal" class="img-fluid">
                     </div>
                     <div class="team-info">
-                        <h5 class="team-name">Yazdi Prayogi Aprianal</h5>
-                        <p class="team-position">Chief Financial Officer</p>
+                        <h5 class="team-name">Yazdi Prayogi Apriana</h5>
+                        <p class="team-position">Quality Assurance</p>
                         <div class="team-social">
                             <a href="#"><i class="fab fa-linkedin-in"></i></a>
                             <a href="#"><i class="fab fa-twitter"></i></a>
@@ -789,7 +789,7 @@
                     </div>
                     <div class="team-info">
                         <h5 class="team-name">Ikmal Suryana Putra</h5>
-                        <p class="team-position">Head of Product Development</p>
+                        <p class="team-position">Documentation Specialist</p>
                         <div class="team-social">
                             <a href="#"><i class="fab fa-linkedin-in"></i></a>
                             <a href="#"><i class="fab fa-github"></i></a>
@@ -804,7 +804,7 @@
                     </div>
                     <div class="team-info">
                         <h5 class="team-name">Vikri Alva Pratama</h5>
-                        <p class="team-position">Head of Customer Relations</p>
+                        <p class="team-position">Database Administrator</p>
                         <div class="team-social">
                             <a href="#"><i class="fab fa-linkedin-in"></i></a>
                             <a href="#"><i class="fab fa-instagram"></i></a>

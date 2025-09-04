@@ -54,8 +54,8 @@
         /* Product Grid */
         .product-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-            gap: 25px;
+            grid-template-columns: repeat(5, 1fr);
+            gap: 16px;
             margin-bottom: 50px;
             grid-auto-rows: 1fr; /* Makes all grid items same height */
         }
@@ -360,6 +360,14 @@
         }
 
         /* Responsive */
+        /* Tablet size */
+        @media (max-width: 1024px) and (min-width: 769px) {
+            .product-grid {
+                grid-template-columns: repeat(4, 1fr);
+                gap: 18px;
+            }
+        }
+
         @media (max-width: 768px) {
             .category-header {
                 padding: 60px 0 40px;
@@ -367,7 +375,7 @@
             }
             
             .product-grid {
-                grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+                grid-template-columns: repeat(3, 1fr);
                 gap: 15px;
             }
             
@@ -404,7 +412,7 @@
 
         @media (max-width: 480px) {
             .product-grid {
-                grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+                grid-template-columns: repeat(2, 1fr);
                 gap: 12px;
             }
 
@@ -823,8 +831,9 @@
             const cart = JSON.parse(localStorage.getItem('cart')) || [];
             const cartBadge = document.getElementById('cart-badge');
             if (cartBadge) {
-                cartBadge.textContent = cart.length;
-                cartBadge.style.display = cart.length > 0 ? 'inline' : 'none';
+                const totalItems = cart.reduce((sum, item) => sum + (item.quantity || 1), 0);
+                cartBadge.textContent = totalItems;
+                cartBadge.style.display = totalItems > 0 ? 'inline' : 'none';
             }
         }
 
