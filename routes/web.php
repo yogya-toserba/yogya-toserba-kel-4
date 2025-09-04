@@ -12,7 +12,14 @@ use App\Http\Controllers\ProdukTerlarisController;
 use App\Http\Controllers\KeranjangController;
 use App\Http\Controllers\ProdukController;
 use App\Http\Controllers\KeuanganController;
+use App\Http\Controllers\PenggajianController;
+use App\Http\Controllers\PenggajianOtomatisController;
 use App\Http\Controllers\PemasokController;
+
+// Global login route - redirects to admin login
+Route::get('/login', function () {
+    return redirect()->route('admin.login');
+})->name('login');
 
 // Route untuk testing error pages
 Route::get('/test-errors', function () {
@@ -142,6 +149,17 @@ Route::prefix('pelanggan')->name('pelanggan.')->group(function () {
     Route::post('/register', [PelangganController::class, 'register'])->name('register.submit');
 
     Route::post('/logout', [PelangganController::class, 'logout'])->name('logout');
+    
+    // Search route (available to all customers)
+    Route::get('/search', [PelangganController::class, 'search'])->name('search');
+    
+    // Protected pelanggan routes
+    Route::middleware('auth:pelanggan')->group(function () {
+        Route::get('/dashboard', [PelangganController::class, 'dashboard'])->name('dashboard');
+        Route::get('/profile', [PelangganController::class, 'profile'])->name('profile');
+        Route::post('/profile', [PelangganController::class, 'updateProfile'])->name('profile.update');
+        Route::post('/profile/password', [PelangganController::class, 'updatePassword'])->name('profile.password');
+    });
 
     // Public routes for customer help
     Route::get('/manual', function () {
@@ -176,14 +194,16 @@ Route::prefix('gudang')->name('gudang.')->group(function () {
     Route::get('/kontak-admin', function () {
         return view('gudang.kontak-admin');
     })->name('kontak-admin');
-    
+
+<<<<<<< HEAD
+=======
     // Dashboard Inventori Routes (no authentication required)
     Route::get('/inventori/dashboard', [App\Http\Controllers\InventoriDashboardController::class, 'index'])
         ->name('inventori.dashboard');
     
     Route::get('/inventori/statistics', [App\Http\Controllers\InventoriDashboardController::class, 'getStatistics'])
         ->name('inventori.statistics');
-    
+>>>>>>> b1217d2b7d36e3fafa2c47b1ef057eb526439e13
     // Debug route (public, no auth required)
     Route::get('/debug-test', function () {
         return response()->json([
@@ -192,7 +212,7 @@ Route::prefix('gudang')->name('gudang.')->group(function () {
             'timestamp' => now()
         ]);
     });
-    
+
     // Simple pemasok test route (no auth required)
     Route::get('/test-pemasok/{id}', function ($id) {
         $pemasok = \App\Models\Pemasok::where('id_pemasok', $id)->first();
@@ -238,9 +258,18 @@ Route::prefix('gudang')->name('gudang.')->group(function () {
         
         Route::post('/permintaan-submit', [GudangController::class, 'submitPermintaan'])->name('permintaan.submit');
 
-        Route::get('/pengiriman', function () {
-            return view('gudang.pengiriman');
-        })->name('pengiriman');
+        // Pengiriman routes
+        Route::resource('pengiriman', App\Http\Controllers\Gudang\PengirimanController::class)->names([
+            'index' => 'pengiriman.index',
+            'create' => 'pengiriman.create',
+            'store' => 'pengiriman.store',
+            'show' => 'pengiriman.show',
+            'edit' => 'pengiriman.edit',
+            'update' => 'pengiriman.update',
+            'destroy' => 'pengiriman.destroy'
+        ]);
+        Route::post('/pengiriman/{id}/update-status', [App\Http\Controllers\Gudang\PengirimanController::class, 'updateStatus'])
+            ->name('pengiriman.updateStatus');
 
         Route::get('/inventori', function () {
             return view('gudang.inventori');
@@ -251,7 +280,7 @@ Route::prefix('gudang')->name('gudang.')->group(function () {
         Route::get('/export-pemasok', [PemasokController::class, 'export'])->name('pemasok.export');
         Route::get('/pemasok/export', [PemasokController::class, 'export'])->name('pemasok.export.alt');
         Route::get('/pemasok-data', [PemasokController::class, 'getData'])->name('pemasok.data');
-        
+
         Route::resource('pemasok', PemasokController::class)->names([
             'index' => 'pemasok.index',
             'create' => 'pemasok.create',
@@ -261,7 +290,7 @@ Route::prefix('gudang')->name('gudang.')->group(function () {
             'update' => 'pemasok.update',
             'destroy' => 'pemasok.destroy'
         ]);
-        
+
         // Debug route to check pemasok count
         Route::get('/check-pemasok', function () {
             $count = \App\Models\Pemasok::count();
@@ -271,12 +300,12 @@ Route::prefix('gudang')->name('gudang.')->group(function () {
                 'sample_data' => $sample
             ]);
         });
-        
+
         // Simple test export without authentication
         Route::get('/test-export', function () {
             return response('Test Export Working!', 200);
         });
-        
+
         // Simple test route inside protected group
         Route::get('/test-auth', function () {
             return response()->json([
@@ -285,7 +314,7 @@ Route::prefix('gudang')->name('gudang.')->group(function () {
                 'timestamp' => now()
             ]);
         });
-        
+
         // Debug route to check pemasok data
         Route::get('/debug-pemasok', function () {
             $pemasoks = \App\Models\Pemasok::all();
@@ -342,12 +371,38 @@ Route::prefix('admin')->name('admin.')->group(function () {
         Route::get('/data-karyawan/tambah', [AdminController::class, 'tambahKaryawan'])->name('data-karyawan.tambah');
         Route::post('/data-karyawan', [AdminController::class, 'storeKaryawan'])->name('data-karyawan.store');
         Route::post('/karyawan/{id}/toggle-status', [AdminController::class, 'toggleKaryawanStatus'])->name('karyawan.toggle-status');
+        
+        // Search Routes
+        Route::post('/search', [AdminController::class, 'search'])->name('search');
+        Route::get('/search-results', [AdminController::class, 'searchResults'])->name('search-results');
+        
+        // Profile Routes
+        Route::get('/profile', [AdminController::class, 'profile'])->name('profile');
+        Route::put('/profile', [AdminController::class, 'updateProfile'])->name('profile.update');
         Route::get('/sales-data', [AdminController::class, 'getSalesData'])->name('sales.data');
         Route::get('/profile', [AdminController::class, 'profile'])->name('profile');
         Route::post('/profile', [AdminController::class, 'updateProfile'])->name('profile.update');
-        Route::get('penggajian', function () {
-            return view('admin.penggajian');
-        })->name('penggajian');
+        Route::get('penggajian', [PenggajianController::class, 'index'])->name('penggajian');
+        Route::get('penggajian/create', [PenggajianController::class, 'create'])->name('penggajian.create');
+        Route::post('penggajian/store', [PenggajianController::class, 'store'])->name('penggajian.store');
+        Route::get('penggajian/karyawan/{id}/gaji', [PenggajianController::class, 'getGajiByKaryawan'])->name('penggajian.gaji-by-karyawan');
+        Route::post('penggajian/bulk-action', [PenggajianController::class, 'bulkAction'])->name('penggajian.bulk-action');
+        Route::post('penggajian/generate', [PenggajianController::class, 'generateSlipGaji'])->name('penggajian.generate');
+        Route::post('penggajian/export', [PenggajianController::class, 'exportData'])->name('penggajian.export');
+
+        // Penggajian Otomatis Routes
+        Route::get('penggajian-otomatis', [PenggajianOtomatisController::class, 'index'])->name('penggajian-otomatis');
+        Route::post('penggajian-otomatis/generate', [PenggajianOtomatisController::class, 'generateGaji'])->name('penggajian-otomatis.generate');
+        Route::post('penggajian-otomatis/approve', [PenggajianOtomatisController::class, 'bulkApprove'])->name('penggajian-otomatis.approve');
+        Route::post('penggajian-otomatis/approve/{id}', [PenggajianOtomatisController::class, 'approveGaji'])->name('penggajian-otomatis.approve.single');
+        Route::post('penggajian-otomatis/pay/{id}', [PenggajianOtomatisController::class, 'markAsPaid'])->name('penggajian-otomatis.pay');
+        Route::get('penggajian-detail/{id}', [PenggajianOtomatisController::class, 'detail'])->name('penggajian-detail');
+
+        // Jabatan & Gaji Management Routes
+        Route::get('jabatan-gaji', [PenggajianOtomatisController::class, 'jabatan'])->name('jabatan-gaji');
+        Route::post('jabatan-gaji', [PenggajianOtomatisController::class, 'storeJabatan'])->name('jabatan-gaji.store');
+        Route::put('jabatan-gaji/{id}', [PenggajianOtomatisController::class, 'updateJabatan'])->name('jabatan-gaji.update');
+        Route::delete('jabatan-gaji/{id}', [PenggajianOtomatisController::class, 'deleteJabatan'])->name('jabatan-gaji.delete');
         Route::get('laporan', [KeuanganController::class, 'laporan'])->name('laporan');
         Route::get('absensi', function () {
             return view('admin.absensi');

@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -565,6 +566,344 @@
             color: var(--dark-text-secondary);
         }
 
+        /* TOP HEADER */
+        .top-header {
+            position: fixed;
+            top: 0;
+            left: var(--sidebar-width);
+            right: 0;
+            height: 70px;
+            background: var(--light-card-bg);
+            border-bottom: 1px solid var(--light-border);
+            z-index: 1000;
+            display: flex;
+            align-items: center;
+            box-shadow: 0 2px 10px var(--light-shadow);
+        }
+
+        body.dark-mode .top-header {
+            background: var(--dark-card-bg);
+            border-bottom-color: var(--dark-border);
+            box-shadow: 0 2px 10px var(--dark-shadow);
+        }
+
+        .header-content {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            width: 100%;
+            padding: 0 25px;
+        }
+
+        .header-left {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            flex: 1;
+        }
+
+        .sidebar-toggle {
+            background: none;
+            border: none;
+            color: var(--light-text);
+            font-size: 18px;
+            cursor: pointer;
+            padding: 8px;
+            border-radius: 6px;
+            transition: background 0.3s ease;
+        }
+
+        .sidebar-toggle:hover {
+            background: var(--light-nav-hover);
+        }
+
+        body.dark-mode .sidebar-toggle {
+            color: var(--dark-text);
+        }
+
+        body.dark-mode .sidebar-toggle:hover {
+            background: var(--dark-nav-hover);
+        }
+
+        .page-title h5 {
+            color: var(--light-text);
+            font-weight: 600;
+            margin: 0;
+        }
+
+        body.dark-mode .page-title h5 {
+            color: var(--dark-text);
+        }
+
+        .header-center {
+            flex: 2;
+            display: flex;
+            justify-content: center;
+        }
+
+        .search-container {
+            position: relative;
+            width: 100%;
+            max-width: 500px;
+        }
+
+        .search-input-group {
+            position: relative;
+            display: flex;
+            align-items: center;
+        }
+
+        .search-input {
+            width: 100%;
+            padding: 12px 45px 12px 15px;
+            border: 2px solid var(--light-border);
+            border-radius: 25px;
+            background: var(--light-bg);
+            color: var(--light-text);
+            font-size: 14px;
+            transition: all 0.3s ease;
+            outline: none;
+        }
+
+        .search-input:focus {
+            border-color: var(--yogya-orange);
+            box-shadow: 0 0 0 3px rgba(242, 107, 55, 0.1);
+        }
+
+        body.dark-mode .search-input {
+            background: var(--dark-card-bg);
+            border-color: var(--dark-border);
+            color: var(--dark-text);
+        }
+
+        body.dark-mode .search-input:focus {
+            border-color: var(--yogya-orange);
+            box-shadow: 0 0 0 3px rgba(242, 107, 55, 0.2);
+        }
+
+        .search-btn {
+            position: absolute;
+            right: 5px;
+            background: var(--yogya-gradient);
+            border: none;
+            border-radius: 50%;
+            width: 35px;
+            height: 35px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .search-btn:hover {
+            transform: scale(1.05);
+            box-shadow: 0 4px 15px rgba(242, 107, 55, 0.4);
+        }
+
+        .search-results {
+            position: absolute;
+            top: 100%;
+            left: 0;
+            right: 0;
+            background: var(--light-card-bg);
+            border: 1px solid var(--light-border);
+            border-radius: 12px;
+            max-height: 400px;
+            overflow-y: auto;
+            z-index: 1001;
+            display: none;
+            box-shadow: 0 8px 25px var(--light-shadow);
+            margin-top: 5px;
+        }
+
+        body.dark-mode .search-results {
+            background: var(--dark-card-bg);
+            border-color: var(--dark-border);
+            box-shadow: 0 8px 25px var(--dark-shadow);
+        }
+
+        .search-result-item {
+            padding: 12px 15px;
+            border-bottom: 1px solid var(--light-border);
+            cursor: pointer;
+            transition: background 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .search-result-item:hover {
+            background: var(--light-nav-hover);
+        }
+
+        .search-result-item:last-child {
+            border-bottom: none;
+        }
+
+        body.dark-mode .search-result-item {
+            border-bottom-color: var(--dark-border);
+        }
+
+        body.dark-mode .search-result-item:hover {
+            background: var(--dark-nav-hover);
+        }
+
+        .search-result-icon {
+            width: 30px;
+            height: 30px;
+            border-radius: 6px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 12px;
+            color: white;
+        }
+
+        .search-result-content {
+            flex: 1;
+        }
+
+        .search-result-title {
+            font-weight: 600;
+            color: var(--light-text);
+            font-size: 13px;
+            margin: 0;
+        }
+
+        .search-result-subtitle {
+            color: var(--light-text-secondary);
+            font-size: 11px;
+            margin: 2px 0 0 0;
+        }
+
+        body.dark-mode .search-result-title {
+            color: var(--dark-text);
+        }
+
+        body.dark-mode .search-result-subtitle {
+            color: var(--dark-text-secondary);
+        }
+
+        .header-right {
+            flex: 1;
+            display: flex;
+            justify-content: flex-end;
+        }
+
+        .header-actions {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .action-btn {
+            position: relative;
+            background: none;
+            border: none;
+            color: var(--light-text);
+            font-size: 16px;
+            cursor: pointer;
+            padding: 10px;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+        }
+
+        .action-btn:hover {
+            background: var(--light-nav-hover);
+            color: var(--yogya-orange);
+        }
+
+        body.dark-mode .action-btn {
+            color: var(--dark-text);
+        }
+
+        body.dark-mode .action-btn:hover {
+            background: var(--dark-nav-hover);
+        }
+
+        .notification-badge {
+            position: absolute;
+            top: 5px;
+            right: 5px;
+            background: #e74c3c;
+            color: white;
+            border-radius: 50%;
+            width: 18px;
+            height: 18px;
+            font-size: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 600;
+        }
+
+        .admin-profile {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 8px 12px;
+            border-radius: 25px;
+            background: var(--light-nav-hover);
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .admin-profile:hover {
+            background: var(--yogya-orange);
+            color: white;
+        }
+
+        body.dark-mode .admin-profile {
+            background: var(--dark-nav-hover);
+        }
+
+        body.dark-mode .admin-profile:hover {
+            background: var(--yogya-orange);
+        }
+
+        .admin-avatar {
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 2px solid var(--yogya-orange);
+        }
+
+        .admin-name {
+            font-size: 13px;
+            font-weight: 600;
+            color: var(--light-text);
+        }
+
+        body.dark-mode .admin-name {
+            color: var(--dark-text);
+        }
+
+        .main-content {
+            margin-top: 70px; /* Account for fixed header */
+        }
+
+        /* RESPONSIVE */
+        @media (max-width: 768px) {
+            .top-header {
+                left: 0;
+            }
+            
+            .header-center {
+                flex: 1;
+                margin: 0 15px;
+            }
+            
+            .search-container {
+                max-width: none;
+            }
+            
+            .admin-name {
+                display: none;
+            }
+
         /* RESPONSIVE */
         @media (max-width: 768px) {
             .sidebar {
@@ -580,11 +919,13 @@
             .main-content {
                 margin-left: 0;
             }
-            
-            .nav-text, .brand-text, .admin-info {
+
+            .nav-text,
+            .brand-text,
+            .admin-info {
                 display: none;
             }
-            
+
             .nav-link {
                 justify-content: center;
                 padding: 12px 10px;
@@ -610,98 +951,134 @@
 
             <!-- Navigation -->
             <div class="sidebar-nav">
-                <a href="{{ route('admin.analisis') }}" class="nav-link {{ Request::is('admin/analisis*') ? 'active' : '' }}">
+                <a href="{{ route('admin.analisis') }}"
+                    class="nav-link {{ Request::is('admin/analisis*') ? 'active' : '' }}">
                     <div class="nav-icon">
                         <i class="fas fa-chart-line"></i>
                     </div>
                     <span class="nav-text">Analisis</span>
-                    @if(Request::is('admin/analisis*'))
+                    @if (Request::is('admin/analisis*'))
                         <div class="nav-indicator"></div>
                     @endif
                 </a>
 
                 <!-- Manajemen Karyawan Dropdown -->
-                <div class="dropdown-nav {{ Request::is('admin/data-karyawan*') || Request::is('admin/penggajian*') || Request::is('admin/absensi*') ? 'show' : '' }}">
-                    <div class="dropdown-toggle-nav {{ Request::is('admin/data-karyawan*') || Request::is('admin/penggajian*') || Request::is('admin/absensi*') ? 'active' : '' }}" onclick="toggleKaryawanDropdown()">
+                <div
+                    class="dropdown-nav {{ Request::is('admin/data-karyawan*') || Request::is('admin/penggajian*') || Request::is('admin/absensi*') ? 'show' : '' }}">
+                    <div class="dropdown-toggle-nav {{ Request::is('admin/data-karyawan*') || Request::is('admin/penggajian*') || Request::is('admin/absensi*') ? 'active' : '' }}"
+                        onclick="toggleKaryawanDropdown()">
                         <span><i class="fas fa-users"></i> Manajemen Karyawan</span>
                         <i class="fas fa-chevron-down dropdown-arrow"></i>
                     </div>
-                    <div class="submenu {{ Request::is('admin/data-karyawan*') || Request::is('admin/penggajian*') || Request::is('admin/absensi*') ? 'show' : '' }}">
-                        <a href="{{ route('admin.data-karyawan') }}" class="nav-link {{ Request::is('admin/data-karyawan*') ? 'active' : '' }}">
+                    <div
+                        class="submenu {{ Request::is('admin/data-karyawan*') || Request::is('admin/penggajian*') || Request::is('admin/absensi*') ? 'show' : '' }}">
+                        <a href="{{ route('admin.data-karyawan') }}"
+                            class="nav-link {{ Request::is('admin/data-karyawan*') ? 'active' : '' }}">
                             <i class="fas fa-users"></i> Data Karyawan
                         </a>
-                        <a href="{{ route('admin.penggajian') }}" class="nav-link {{ Request::is('admin/penggajian*') ? 'active' : '' }}">
+                        <a href="{{ route('admin.penggajian') }}"
+                            class="nav-link {{ Request::is('admin/penggajian') && !Request::is('admin/penggajian-otomatis*') ? 'active' : '' }}">
                             <i class="fas fa-money-check-alt"></i> Penggajian
                         </a>
-                        <a href="{{ route('admin.absensi') }}" class="nav-link {{ Request::is('admin/absensi*') ? 'active' : '' }}">
+                        <a href="{{ route('admin.penggajian-otomatis') }}"
+                            class="nav-link {{ Request::is('admin/penggajian-otomatis*') ? 'active' : '' }}">
+                            <i class="fas fa-robot"></i> Penggajian Otomatis
+                        </a>
+                        <a href="{{ route('admin.absensi') }}"
+                            class="nav-link {{ Request::is('admin/absensi*') ? 'active' : '' }}">
                             <i class="fas fa-user-check"></i> Absensi
                         </a>
                     </div>
                 </div>
 
                 <!-- Keuangan Dropdown -->
-                <div class="dropdown-nav {{ Request::is('admin/laporan*') || Request::is('admin/keuangan*') ? 'show' : '' }}">
-                    <div class="dropdown-toggle-nav {{ Request::is('admin/laporan*') || Request::is('admin/keuangan*') ? 'active' : '' }}" onclick="toggleDropdown()">
+                <div
+                    class="dropdown-nav {{ Request::is('admin/laporan*') || Request::is('admin/keuangan*') ? 'show' : '' }}">
+                    <div class="dropdown-toggle-nav {{ Request::is('admin/laporan*') || Request::is('admin/keuangan*') ? 'active' : '' }}"
+                        onclick="toggleDropdown()">
                         <span><i class="fas fa-chart-pie"></i> Keuangan</span>
                         <i class="fas fa-chevron-down dropdown-arrow"></i>
                     </div>
-                    <div class="submenu {{ Request::is('admin/laporan*') || Request::is('admin/keuangan*') ? 'show' : '' }}">
-                        <a href="{{ route('admin.laporan') }}" class="nav-link {{ Request::is('admin/laporan') ? 'active' : '' }}">
+                    <div
+                        class="submenu {{ Request::is('admin/laporan*') || Request::is('admin/keuangan*') ? 'show' : '' }}">
+                        <a href="{{ route('admin.laporan') }}"
+                            class="nav-link {{ Request::is('admin/laporan') ? 'active' : '' }}">
                             <i class="fas fa-file-alt"></i> Laporan
                         </a>
-                        <a href="{{ route('admin.keuangan.riwayat') }}" class="nav-link {{ Request::is('admin/keuangan/riwayat*') ? 'active' : '' }}">
+                        <a href="{{ route('admin.keuangan.riwayat') }}"
+                            class="nav-link {{ Request::is('admin/keuangan/riwayat*') ? 'active' : '' }}">
                             <i class="fas fa-history"></i> Riwayat Transaksi
                         </a>
-                        <a href="{{ route('admin.keuangan.bukubesar') }}" class="nav-link {{ Request::is('admin/keuangan/buku-besar*') ? 'active' : '' }}">
+                        <a href="{{ route('admin.keuangan.bukubesar') }}"
+                            class="nav-link {{ Request::is('admin/keuangan/buku-besar*') ? 'active' : '' }}">
                             <i class="fas fa-book"></i> Buku Besar
                         </a>
                     </div>
                 </div>
 
                 <!-- Manajemen Pengguna Dropdown -->
-                <div class="dropdown-nav {{ Request::is('admin/daftar-pengguna*') || Request::is('admin/membership*') || Request::is('admin/log-aktivitas*') ? 'show' : '' }}">
-                    <div class="dropdown-toggle-nav {{ Request::is('admin/daftar-pengguna*') || Request::is('admin/membership*') || Request::is('admin/log-aktivitas*') ? 'active' : '' }}" onclick="togglePenggunaDropdown()">
+                <div
+                    class="dropdown-nav {{ Request::is('admin/daftar-pengguna*') || Request::is('admin/membership*') || Request::is('admin/log-aktivitas*') ? 'show' : '' }}">
+                    <div class="dropdown-toggle-nav {{ Request::is('admin/daftar-pengguna*') || Request::is('admin/membership*') || Request::is('admin/log-aktivitas*') ? 'active' : '' }}"
+                        onclick="togglePenggunaDropdown()">
                         <span><i class="fas fa-users-cog"></i> Manajemen Pengguna</span>
                         <i class="fas fa-chevron-down dropdown-arrow"></i>
                     </div>
-                    <div class="submenu {{ Request::is('admin/daftar-pengguna*') || Request::is('admin/membership*') || Request::is('admin/log-aktivitas*') ? 'show' : '' }}">
-                        <a href="{{ url('/admin/daftar-pengguna') }}" class="nav-link {{ Request::is('admin/daftar-pengguna*') ? 'active' : '' }}">
+                    <div
+                        class="submenu {{ Request::is('admin/daftar-pengguna*') || Request::is('admin/membership*') || Request::is('admin/log-aktivitas*') ? 'show' : '' }}">
+                        <a href="{{ url('/admin/daftar-pengguna') }}"
+                            class="nav-link {{ Request::is('admin/daftar-pengguna*') ? 'active' : '' }}">
                             <i class="fas fa-users"></i> Daftar Pengguna
                         </a>
-                        <a href="{{ url('/admin/membership') }}" class="nav-link {{ Request::is('admin/membership*') ? 'active' : '' }}">
+                        <a href="{{ url('/admin/membership') }}"
+                            class="nav-link {{ Request::is('admin/membership*') ? 'active' : '' }}">
                             <i class="fas fa-id-card"></i> Membership
                         </a>
-                        <a href="{{ url('/admin/log-aktivitas') }}" class="nav-link {{ Request::is('admin/log-aktivitas*') ? 'active' : '' }}">
+                        <a href="{{ url('/admin/log-aktivitas') }}"
+                            class="nav-link {{ Request::is('admin/log-aktivitas*') ? 'active' : '' }}">
                             <i class="fas fa-chart-line"></i> Log Aktivitas
                         </a>
                     </div>
                 </div>
 
                 <!-- Manajemen Gudang Dropdown -->
+<<<<<<< HEAD
                 <div class="dropdown-nav {{ Request::is('admin/data-pengawai-gudang*') || Request::is('admin/lokasi-gudang*') || Request::is('admin/data-barang*') ? 'show' : '' }}">
                     <div class="dropdown-toggle-nav {{ Request::is('admin/data-pengawai-gudang*') || Request::is('admin/lokasi-gudang*') || Request::is('admin/data-barang*') ? 'active' : '' }}" onclick="toggleGudangDropdown()">
+                        <span><i class="fas fa-warehouse"></i> Manajemen Inventory</span>
+=======
+                <div
+                    class="dropdown-nav {{ Request::is('admin/data-pengawai-gudang*') || Request::is('admin/lokasi-gudang*') || Request::is('admin/data-barang*') ? 'show' : '' }}">
+                    <div class="dropdown-toggle-nav {{ Request::is('admin/data-pengawai-gudang*') || Request::is('admin/lokasi-gudang*') || Request::is('admin/data-barang*') ? 'active' : '' }}"
+                        onclick="toggleGudangDropdown()">
                         <span><i class="fas fa-warehouse"></i> Manajemen Gudang</span>
+>>>>>>> 1207738a31160cc511dce5d4aed88d768753a1c0
                         <i class="fas fa-chevron-down dropdown-arrow"></i>
                     </div>
-                    <div class="submenu {{ Request::is('admin/data-pengawai-gudang*') || Request::is('admin/lokasi-gudang*') || Request::is('admin/data-barang*') ? 'show' : '' }}">
-                        <a href="{{ route('admin.data-pengawai-gudang') }}" class="nav-link {{ Request::is('admin/data-pengawai-gudang*') ? 'active' : '' }}">
+                    <div
+                        class="submenu {{ Request::is('admin/data-pengawai-gudang*') || Request::is('admin/lokasi-gudang*') || Request::is('admin/data-barang*') ? 'show' : '' }}">
+                        <a href="{{ route('admin.data-pengawai-gudang') }}"
+                            class="nav-link {{ Request::is('admin/data-pengawai-gudang*') ? 'active' : '' }}">
                             <i class="fas fa-users-cog"></i> Data Pengawai Gudang
                         </a>
-                        <a href="{{ route('admin.lokasi-gudang') }}" class="nav-link {{ Request::is('admin/lokasi-gudang*') ? 'active' : '' }}">
+                        <a href="{{ route('admin.lokasi-gudang') }}"
+                            class="nav-link {{ Request::is('admin/lokasi-gudang*') ? 'active' : '' }}">
                             <i class="fas fa-map-marker-alt"></i> Lokasi Gudang
                         </a>
-                        <a href="{{ route('admin.data-barang') }}" class="nav-link {{ Request::is('admin/data-barang*') ? 'active' : '' }}">
+                        <a href="{{ route('admin.data-barang') }}"
+                            class="nav-link {{ Request::is('admin/data-barang*') ? 'active' : '' }}">
                             <i class="fas fa-boxes"></i> Data Barang
                         </a>
                     </div>
                 </div>
 
-                <a href="{{ route('admin.pengaturan') }}" class="nav-link {{ Request::is('admin/pengaturan*') ? 'active' : '' }}">
+                <a href="{{ route('admin.pengaturan') }}"
+                    class="nav-link {{ Request::is('admin/pengaturan*') ? 'active' : '' }}">
                     <div class="nav-icon">
                         <i class="fas fa-cog"></i>
                     </div>
                     <span class="nav-text">Pengaturan</span>
-                    @if(Request::is('admin/pengaturan*'))
+                    @if (Request::is('admin/pengaturan*'))
                         <div class="nav-indicator"></div>
                     @endif
                 </a>
@@ -723,7 +1100,8 @@
                         </div>
                         <div class="admin-actions">
                             <!-- Mode Toggle Button -->
-                            <button class="mode-toggle-btn" onclick="toggleDarkMode(event)" id="mode-toggle" title="Toggle Dark Mode">
+                            <button class="mode-toggle-btn" onclick="toggleDarkMode(event)" id="mode-toggle"
+                                title="Toggle Dark Mode">
                                 <i class="fas fa-moon" id="mode-icon"></i>
                             </button>
                             <div class="dropdown-arrow-footer">
@@ -731,10 +1109,11 @@
                             </div>
                         </div>
                     </div>
-                    
+
                     <!-- Dropdown Menu -->
                     <div class="dropdown-menu" id="admin-dropdown">
-                        <div class="dropdown-item" onclick="window.location.href='{{ route('admin.profile') ?? '#' }}'">
+                        <div class="dropdown-item"
+                            onclick="window.location.href='{{ route('admin.profile') ?? '#' }}'">
                             <i class="fas fa-user-edit"></i>
                             <span>Edit Profile</span>
                             <small>Ubah profil</small>
@@ -771,6 +1150,55 @@
             </div>
         </nav>
 
+        <!-- Top Header with Search -->
+        <div class="top-header">
+            <div class="header-content">
+                <div class="header-left">
+                    <button class="sidebar-toggle d-lg-none" onclick="toggleSidebar()">
+                        <i class="fas fa-bars"></i>
+                    </button>
+                    <div class="page-title">
+                        <h5 class="mb-0">@yield('page-title', 'Dashboard')</h5>
+                        <small class="text-muted">@yield('page-subtitle', 'Selamat datang di panel admin')</small>
+                    </div>
+                </div>
+                
+                <div class="header-center">
+                    <div class="search-container">
+                        <form class="search-form" id="globalSearchForm">
+                            <div class="search-input-group">
+                                <input type="text" 
+                                       class="search-input" 
+                                       id="globalSearch" 
+                                       placeholder="Cari produk, pelanggan, transaksi..."
+                                       autocomplete="off">
+                                <button type="submit" class="search-btn">
+                                    <i class="fas fa-search"></i>
+                                </button>
+                            </div>
+                            <div class="search-results" id="searchResults"></div>
+                        </form>
+                    </div>
+                </div>
+                
+                <div class="header-right">
+                    <div class="header-actions">
+                        <button class="action-btn notification-btn" title="Notifikasi">
+                            <i class="fas fa-bell"></i>
+                            <span class="notification-badge">3</span>
+                        </button>
+                        <button class="action-btn theme-toggle" onclick="toggleTheme()" title="Toggle Dark Mode">
+                            <i class="fas fa-moon" id="theme-icon"></i>
+                        </button>
+                        <div class="admin-profile">
+                            <img src="https://ui-avatars.com/api/?name={{ urlencode(Auth::guard('admin')->user()->username ?? 'Admin') }}&background=f26b37&color=fff&size=30" alt="Admin" class="admin-avatar">
+                            <span class="admin-name">{{ Auth::guard('admin')->user()->username ?? 'Admin' }}</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
         <!-- Main Content -->
         <div class="main-content">
             @yield('content')
@@ -785,7 +1213,7 @@
             allDropdowns.forEach(dropdown => {
                 const submenu = dropdown.querySelector('.submenu');
                 const arrow = dropdown.querySelector('.dropdown-arrow');
-                
+
                 dropdown.classList.remove('show');
                 submenu.classList.remove('show');
                 arrow.style.transform = 'rotate(0deg)';
@@ -797,14 +1225,14 @@
             const allDropdowns = document.querySelectorAll('.dropdown-nav');
             const keuanganDropdown = allDropdowns[1]; // Second dropdown (Keuangan)
             const isCurrentlyOpen = keuanganDropdown.classList.contains('show');
-            
+
             closeAllDropdowns();
-            
+
             // If it wasn't open, open the Keuangan dropdown
             if (!isCurrentlyOpen) {
                 const submenu = keuanganDropdown.querySelector('.submenu');
                 const arrow = keuanganDropdown.querySelector('.dropdown-arrow');
-                
+
                 keuanganDropdown.classList.add('show');
                 submenu.classList.add('show');
                 arrow.style.transform = 'rotate(180deg)';
@@ -816,14 +1244,14 @@
             const allDropdowns = document.querySelectorAll('.dropdown-nav');
             const karyawanDropdown = allDropdowns[0]; // First dropdown (Manajemen Karyawan)
             const isCurrentlyOpen = karyawanDropdown.classList.contains('show');
-            
+
             closeAllDropdowns();
-            
+
             // If it wasn't open, open the Karyawan dropdown
             if (!isCurrentlyOpen) {
                 const submenu = karyawanDropdown.querySelector('.submenu');
                 const arrow = karyawanDropdown.querySelector('.dropdown-arrow');
-                
+
                 karyawanDropdown.classList.add('show');
                 submenu.classList.add('show');
                 arrow.style.transform = 'rotate(180deg)';
@@ -835,14 +1263,14 @@
             const allDropdowns = document.querySelectorAll('.dropdown-nav');
             const penggunaDropdown = allDropdowns[2]; // Third dropdown (Manajemen Pengguna)
             const isCurrentlyOpen = penggunaDropdown.classList.contains('show');
-            
+
             closeAllDropdowns();
-            
+
             // If it wasn't open, open the Pengguna dropdown
             if (!isCurrentlyOpen) {
                 const submenu = penggunaDropdown.querySelector('.submenu');
                 const arrow = penggunaDropdown.querySelector('.dropdown-arrow');
-                
+
                 penggunaDropdown.classList.add('show');
                 submenu.classList.add('show');
                 arrow.style.transform = 'rotate(180deg)';
@@ -854,14 +1282,14 @@
             const allDropdowns = document.querySelectorAll('.dropdown-nav');
             const gudangDropdown = allDropdowns[3]; // Fourth dropdown (Manajemen Gudang)
             const isCurrentlyOpen = gudangDropdown.classList.contains('show');
-            
+
             closeAllDropdowns();
-            
+
             // If it wasn't open, open the Gudang dropdown
             if (!isCurrentlyOpen) {
                 const submenu = gudangDropdown.querySelector('.submenu');
                 const arrow = gudangDropdown.querySelector('.dropdown-arrow');
-                
+
                 gudangDropdown.classList.add('show');
                 submenu.classList.add('show');
                 arrow.style.transform = 'rotate(180deg)';
@@ -872,12 +1300,12 @@
             if (event) {
                 event.stopPropagation();
             }
-            
+
             const body = document.body;
             const modeIcon = document.getElementById('mode-icon');
-            
+
             body.classList.toggle('dark-mode');
-            
+
             if (body.classList.contains('dark-mode')) {
                 modeIcon.className = 'fas fa-sun';
                 localStorage.setItem('theme', 'dark');
@@ -890,7 +1318,7 @@
         function toggleAdminDropdown() {
             const dropdown = document.getElementById('admin-dropdown');
             const arrow = document.getElementById('dropdown-icon');
-            
+
             dropdown.classList.toggle('show');
             arrow.parentElement.classList.toggle('rotated');
         }
@@ -898,7 +1326,7 @@
         document.addEventListener('click', function(event) {
             const dropdown = document.getElementById('admin-dropdown');
             const adminProfile = document.querySelector('.admin-profile');
-            
+
             if (dropdown && adminProfile && !adminProfile.contains(event.target)) {
                 dropdown.classList.remove('show');
                 document.getElementById('dropdown-icon').parentElement.classList.remove('rotated');
@@ -909,12 +1337,12 @@
             const savedTheme = localStorage.getItem('theme');
             const body = document.body;
             const modeIcon = document.getElementById('mode-icon');
-            
+
             if (savedTheme === 'dark') {
                 body.classList.add('dark-mode');
                 modeIcon.className = 'fas fa-sun';
             }
-            
+
             updateTime();
             setInterval(updateTime, 1000);
         });
@@ -925,7 +1353,7 @@
                 hour: '2-digit',
                 minute: '2-digit'
             });
-            
+
             const timeElement = document.getElementById('current-time');
             if (timeElement) {
                 timeElement.textContent = timeString;
@@ -947,7 +1375,7 @@
                 hour12: false
             };
             const timeString = now.toLocaleDateString('id-ID', options).replace(/\//g, '/') + ' WIB';
-            
+
             const dateTimeElement = document.getElementById('current-datetime');
             if (dateTimeElement) {
                 dateTimeElement.textContent = timeString;
@@ -988,7 +1416,7 @@
         document.addEventListener('DOMContentLoaded', function() {
             getDeviceInfo();
             updateRealTimeData();
-            
+
             // Update time every second
             setInterval(updateRealTimeData, 1000);
         });
@@ -997,12 +1425,256 @@
             const dropdown = document.getElementById('admin-dropdown');
             dropdown.classList.remove('show');
             document.getElementById('dropdown-icon').parentElement.classList.remove('rotated');
-            
+
             if (confirm('Apakah Anda yakin ingin logout dari sistem?')) {
                 window.location.href = '/logout';
             }
         }
+
+        // Search Functionality
+        class GlobalSearch {
+            constructor() {
+                this.searchInput = document.getElementById('globalSearch');
+                this.searchResults = document.getElementById('searchResults');
+                this.searchForm = document.getElementById('globalSearchForm');
+                this.debounceTimer = null;
+                this.init();
+            }
+
+            init() {
+                if (!this.searchInput) return;
+
+                this.searchInput.addEventListener('input', (e) => {
+                    this.debounceSearch(e.target.value);
+                });
+
+                this.searchInput.addEventListener('focus', () => {
+                    if (this.searchInput.value.trim()) {
+                        this.showResults();
+                    }
+                });
+
+                // Close results when clicking outside
+                document.addEventListener('click', (e) => {
+                    if (!e.target.closest('.search-container')) {
+                        this.hideResults();
+                    }
+                });
+
+                // Handle form submission
+                this.searchForm.addEventListener('submit', (e) => {
+                    e.preventDefault();
+                    this.performDetailedSearch(this.searchInput.value);
+                });
+            }
+
+            debounceSearch(query) {
+                clearTimeout(this.debounceTimer);
+                this.debounceTimer = setTimeout(() => {
+                    this.performSearch(query);
+                }, 300);
+            }
+
+            async performSearch(query) {
+                if (!query.trim()) {
+                    this.hideResults();
+                    return;
+                }
+
+                try {
+                    // Show loading state
+                    this.showLoading();
+
+                    const response = await fetch('/admin/search', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+                        },
+                        body: JSON.stringify({ query: query })
+                    });
+
+                    const data = await response.json();
+                    this.displayResults(data);
+                } catch (error) {
+                    console.error('Search error:', error);
+                    this.showError();
+                }
+            }
+
+            showLoading() {
+                this.searchResults.innerHTML = `
+                    <div class="search-result-item">
+                        <div class="search-result-icon" style="background: #6c757d;">
+                            <i class="fas fa-spinner fa-spin"></i>
+                        </div>
+                        <div class="search-result-content">
+                            <div class="search-result-title">Mencari...</div>
+                            <div class="search-result-subtitle">Sedang mencari data yang sesuai</div>
+                        </div>
+                    </div>
+                `;
+                this.showResults();
+            }
+
+            showError() {
+                this.searchResults.innerHTML = `
+                    <div class="search-result-item">
+                        <div class="search-result-icon" style="background: #e74c3c;">
+                            <i class="fas fa-exclamation-triangle"></i>
+                        </div>
+                        <div class="search-result-content">
+                            <div class="search-result-title">Error pencarian</div>
+                            <div class="search-result-subtitle">Terjadi kesalahan saat mencari data</div>
+                        </div>
+                    </div>
+                `;
+                this.showResults();
+            }
+
+            displayResults(data) {
+                if (!data.results || data.results.length === 0) {
+                    this.searchResults.innerHTML = `
+                        <div class="search-result-item">
+                            <div class="search-result-icon" style="background: #6c757d;">
+                                <i class="fas fa-search"></i>
+                            </div>
+                            <div class="search-result-content">
+                                <div class="search-result-title">Tidak ada hasil</div>
+                                <div class="search-result-subtitle">Coba gunakan kata kunci yang berbeda</div>
+                            </div>
+                        </div>
+                    `;
+                } else {
+                    let html = '';
+                    data.results.forEach(item => {
+                        html += this.createResultItem(item);
+                    });
+                    
+                    if (data.hasMore) {
+                        html += `
+                            <div class="search-result-item" onclick="globalSearch.performDetailedSearch('${this.searchInput.value}')">
+                                <div class="search-result-icon" style="background: var(--yogya-orange);">
+                                    <i class="fas fa-ellipsis-h"></i>
+                                </div>
+                                <div class="search-result-content">
+                                    <div class="search-result-title">Lihat semua hasil</div>
+                                    <div class="search-result-subtitle">Klik untuk melihat hasil pencarian lengkap</div>
+                                </div>
+                            </div>
+                        `;
+                    }
+                    
+                    this.searchResults.innerHTML = html;
+                }
+                this.showResults();
+            }
+
+            createResultItem(item) {
+                const iconColor = this.getIconColor(item.type);
+                const icon = this.getIcon(item.type);
+                
+                return `
+                    <div class="search-result-item" onclick="globalSearch.navigateToResult('${item.url}')">
+                        <div class="search-result-icon" style="background: ${iconColor};">
+                            <i class="fas fa-${icon}"></i>
+                        </div>
+                        <div class="search-result-content">
+                            <div class="search-result-title">${item.title}</div>
+                            <div class="search-result-subtitle">${item.subtitle}</div>
+                        </div>
+                    </div>
+                `;
+            }
+
+            getIconColor(type) {
+                const colors = {
+                    'produk': '#28a745',
+                    'pelanggan': '#007bff',
+                    'transaksi': '#ffc107',
+                    'karyawan': '#17a2b8',
+                    'kategori': '#6f42c1'
+                };
+                return colors[type] || '#6c757d';
+            }
+
+            getIcon(type) {
+                const icons = {
+                    'produk': 'box',
+                    'pelanggan': 'user',
+                    'transaksi': 'receipt',
+                    'karyawan': 'user-tie',
+                    'kategori': 'tags'
+                };
+                return icons[type] || 'search';
+            }
+
+            navigateToResult(url) {
+                window.location.href = url;
+            }
+
+            performDetailedSearch(query) {
+                // Navigate to a dedicated search results page
+                window.location.href = `/admin/search-results?q=${encodeURIComponent(query)}`;
+            }
+
+            showResults() {
+                this.searchResults.style.display = 'block';
+            }
+
+            hideResults() {
+                this.searchResults.style.display = 'none';
+            }
+        }
+
+        // Theme toggle functionality
+        function toggleTheme() {
+            const body = document.body;
+            const themeIcon = document.getElementById('theme-icon');
+            
+            body.classList.toggle('dark-mode');
+            
+            if (body.classList.contains('dark-mode')) {
+                themeIcon.className = 'fas fa-sun';
+                localStorage.setItem('theme', 'dark');
+            } else {
+                themeIcon.className = 'fas fa-moon';
+                localStorage.setItem('theme', 'light');
+            }
+        }
+
+        // Initialize theme from localStorage
+        function initTheme() {
+            const savedTheme = localStorage.getItem('theme');
+            const themeIcon = document.getElementById('theme-icon');
+            
+            if (savedTheme === 'dark') {
+                document.body.classList.add('dark-mode');
+                if (themeIcon) themeIcon.className = 'fas fa-sun';
+            }
+        }
+
+        // Sidebar toggle for mobile
+        function toggleSidebar() {
+            const sidebar = document.getElementById('sidebar');
+            sidebar.classList.toggle('active');
+        }
+
+        // Initialize everything when DOM is loaded
+        document.addEventListener('DOMContentLoaded', function() {
+            // Initialize existing functionality
+            getDeviceInfo();
+            updateRealTimeData();
+            initTheme();
+            
+            // Initialize search
+            window.globalSearch = new GlobalSearch();
+            
+            // Update time every second
+            setInterval(updateRealTimeData, 1000);
+        });
     </script>
     @stack('scripts')
 </body>
+
 </html>

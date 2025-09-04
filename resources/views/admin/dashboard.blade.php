@@ -2,6 +2,9 @@
 
 @section('title', 'Analisis Admin - MyYOGYA')
 
+@section('page-title', 'Dashboard Analisis')
+@section('page-subtitle', 'Ringkasan dan analisis data bisnis secara menyeluruh')
+
 @section('content')
 <style>
 /* GLOBAL OVERFLOW CONTROL */
@@ -26,12 +29,12 @@ body.dark-mode .new-dashboard {
 }
 
 .new-header {
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%) !important;
+    background: var(--yogya-orange) !important;
     color: white !important;
     padding: 35px 40px !important;
     border-radius: 15px !important;
     margin-bottom: 35px !important;
-    box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3) !important;
+    box-shadow: 0 6px 20px rgba(255, 107, 53, 0.3) !important;
     position: relative !important;
 }
 
@@ -541,7 +544,7 @@ body.dark-mode .table span[style*="background: #fef3c7"] {
     text-decoration: none;
     color: inherit;
     transform: translateY(-5px);
-    box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+    box-shadow: 0 10px 30px var(--nav-shadow, rgba(0,0,0,0.15));
     border-color: var(--nav-color);
 }
 
@@ -555,24 +558,43 @@ body.dark-mode .table span[style*="background: #fef3c7"] {
     background: var(--nav-gradient);
 }
 
+/* Yogya Brand Colors - Orange, Kuning, Hijau */
+:root {
+    --yogya-orange: #FF6B35;
+    --yogya-orange-dark: #E55A2B;
+    --yogya-orange-light: #FF8A5C;
+    
+    --yogya-yellow: #FFD23F;
+    --yogya-yellow-dark: #E6BD35;
+    --yogya-yellow-light: #FFDD66;
+    
+    --yogya-green: #4CAF50;
+    --yogya-green-dark: #388E3C;
+    --yogya-green-light: #66BB6A;
+}
+
 .analysis-nav-card.keuangan { 
-    --nav-color: #10b981; 
-    --nav-gradient: linear-gradient(90deg, #10b981, #059669); 
+    --nav-color: var(--yogya-green); 
+    --nav-gradient: linear-gradient(135deg, var(--yogya-green), var(--yogya-green-dark)); 
+    --nav-shadow: rgba(76, 175, 80, 0.3);
 }
 
 .analysis-nav-card.pelanggan { 
-    --nav-color: #f59e0b; 
-    --nav-gradient: linear-gradient(90deg, #f59e0b, #d97706); 
+    --nav-color: var(--yogya-orange); 
+    --nav-gradient: linear-gradient(135deg, var(--yogya-orange), var(--yogya-orange-dark)); 
+    --nav-shadow: rgba(255, 107, 53, 0.3);
 }
 
 .analysis-nav-card.barang { 
-    --nav-color: #3b82f6; 
-    --nav-gradient: linear-gradient(90deg, #3b82f6, #1d4ed8); 
+    --nav-color: var(--yogya-yellow); 
+    --nav-gradient: linear-gradient(135deg, var(--yogya-yellow), var(--yogya-yellow-dark)); 
+    --nav-shadow: rgba(255, 210, 63, 0.3);
 }
 
 .analysis-nav-card.penjualan { 
-    --nav-color: #8b5cf6; 
-    --nav-gradient: linear-gradient(90deg, #8b5cf6, #7c3aed); 
+    --nav-color: var(--yogya-orange); 
+    --nav-gradient: linear-gradient(135deg, var(--yogya-orange-light), var(--yogya-orange)); 
+    --nav-shadow: rgba(255, 138, 92, 0.3);
 }
 
 .analysis-nav-icon {

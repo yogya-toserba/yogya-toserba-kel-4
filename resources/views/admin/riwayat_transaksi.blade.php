@@ -121,7 +121,7 @@ body.dark-mode .new-pengguna {
 
 /* STATS CARDS - EXACT MATCH WITH DAFTAR PENGGUNA */
 .new-stat-card {
-    background: white !important;
+        background: white !important;
     padding: 25px !important;
     border-radius: 15px !important;
     box-shadow: 0 4px 15px rgba(0,0,0,0.1) !important;

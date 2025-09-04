@@ -4,13 +4,20 @@
 
 @section('content')
 <style>
+/* Yogya Brand Colors */
+:root {
+    --yogya-yellow: #FFD23F;
+    --yogya-yellow-dark: #E6BD35;
+    --yogya-yellow-light: #FFDD66;
+}
+
 .barang-header {
-    background: linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%);
+    background: linear-gradient(135deg, var(--yogya-yellow) 0%, var(--yogya-yellow-dark) 100%);
     color: white;
     padding: 35px 40px;
     border-radius: 15px;
     margin-bottom: 35px;
-    box-shadow: 0 4px 15px rgba(59, 130, 246, 0.3);
+    box-shadow: 0 6px 20px rgba(255, 210, 63, 0.3);
 }
 
 .barang-stats {
@@ -27,17 +34,18 @@
     box-shadow: 0 4px 15px rgba(0,0,0,0.08);
     border: 1px solid #e2e8f0;
     transition: all 0.3s ease;
+    border-top: 3px solid var(--yogya-yellow);
 }
 
 .barang-card:hover {
     transform: translateY(-3px);
-    box-shadow: 0 8px 25px rgba(0,0,0,0.12);
+    box-shadow: 0 10px 30px rgba(255, 210, 63, 0.15);
 }
 
 .barang-icon {
     width: 45px;
     height: 45px;
-    background: linear-gradient(135deg, #3b82f6, #1d4ed8);
+    background: linear-gradient(135deg, var(--yogya-yellow), var(--yogya-yellow-dark));
     border-radius: 10px;
     display: flex;
     align-items: center;

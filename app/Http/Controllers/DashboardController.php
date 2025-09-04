@@ -10,7 +10,7 @@ class DashboardController extends Controller
 {
   public function index()
   {
-    $user = Auth::user();
+    $user = Auth::guard('pelanggan')->user() ?: Auth::user();
 
     // Data untuk slider promo
     $promoSlides = [
@@ -128,7 +128,7 @@ class DashboardController extends Controller
 
   public function addToCart(Request $request)
   {
-    if (!Auth::check()) {
+    if (!Auth::guard('pelanggan')->check() && !Auth::check()) {
       return response()->json([
         'success' => false,
         'message' => 'Silakan login terlebih dahulu untuk menambahkan produk ke keranjang.',
