@@ -195,15 +195,12 @@ Route::prefix('gudang')->name('gudang.')->group(function () {
         return view('gudang.kontak-admin');
     })->name('kontak-admin');
 
-<<<<<<< HEAD
-=======
     // Dashboard Inventori Routes (no authentication required)
     Route::get('/inventori/dashboard', [App\Http\Controllers\InventoriDashboardController::class, 'index'])
         ->name('inventori.dashboard');
     
     Route::get('/inventori/statistics', [App\Http\Controllers\InventoriDashboardController::class, 'getStatistics'])
         ->name('inventori.statistics');
->>>>>>> b1217d2b7d36e3fafa2c47b1ef057eb526439e13
     // Debug route (public, no auth required)
     Route::get('/debug-test', function () {
         return response()->json([
