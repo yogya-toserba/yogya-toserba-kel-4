@@ -12,7 +12,7 @@
             <span>Perawatan & Kecantikan</span>
         </nav>
         
-        <h1 class="display-5 fw-bold mb-3">💄 Perawatan & Kecantikan</h1>
+        <h1 class="display-5 fw-bold mb-3">Perawatan & Kecantikan</h1>
         <p class="lead mb-0">Produk kecantikan dan perawatan terbaik untuk penampilan sempurna Anda</p>
     </div>
 </div>

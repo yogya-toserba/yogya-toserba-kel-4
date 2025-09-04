@@ -394,6 +394,7 @@ body.dark-mode .action-dropdown-menu {
     opacity: 1;
     visibility: visible;
     transform: translateY(0);
+    display: block;
 }
 
 .action-dropdown-item {
@@ -432,6 +433,8 @@ body.dark-mode .action-dropdown-item:hover {
     text-align: center;
 }
 
+/* Removed animation styles for cleaner display */
+
 @media (max-width: 768px) {
     .stats-grid {
         grid-template-columns: 1fr;
@@ -459,19 +462,19 @@ body.dark-mode .action-dropdown-item:hover {
     <!-- Stats Section -->
     <div class="stats-grid">
         <div class="stat-card">
-            <div class="stat-number">24</div>
+            <div class="stat-number">{{ isset($allPermintaan) ? count($allPermintaan) : 0 }}</div>
             <div class="stat-label">Total Permintaan</div>
         </div>
         <div class="stat-card">
-            <div class="stat-number">8</div>
+            <div class="stat-number">{{ isset($allPermintaan) ? collect($allPermintaan)->where('status', 'Menunggu')->count() : 0 }}</div>
             <div class="stat-label">Menunggu Approval</div>
         </div>
         <div class="stat-card">
-            <div class="stat-number">12</div>
+            <div class="stat-number">{{ isset($allPermintaan) ? collect($allPermintaan)->where('status', 'Diproses')->count() : 0 }}</div>
             <div class="stat-label">Diproses</div>
         </div>
         <div class="stat-card">
-            <div class="stat-number">4</div>
+            <div class="stat-number">{{ isset($allPermintaan) ? collect($allPermintaan)->where('status', 'Selesai')->filter(function($item) { return isset($item['created_at']) && \Carbon\Carbon::parse($item['created_at'])->isToday(); })->count() : 0 }}</div>
             <div class="stat-label">Selesai Hari Ini</div>
         </div>
     </div>
@@ -524,6 +527,10 @@ body.dark-mode .action-dropdown-item:hover {
                 Daftar Permintaan Masuk
             </h5>
             <div class="d-flex gap-2">
+                <a href="{{ route('gudang.inventori.permintaan.inventori') }}" class="btn btn-modern">
+                    <i class="fas fa-plus"></i>
+                    Buat Permintaan
+                </a>
                 <button class="btn btn-outline-modern">
                     <i class="fas fa-download"></i>
                     Export
@@ -548,168 +555,90 @@ body.dark-mode .action-dropdown-item:hover {
                     </tr>
                 </thead>
                 <tbody>
-                    <tr>
-                        <td>
-                            <div class="fw-semibold">#REQ001</div>
-                            <small class="text-muted">CB001</small>
-                        </td>
-                        <td>
-                            <div class="fw-semibold">Cabang Bandung</div>
-                            <small class="text-muted">Jl. Soekarno Hatta No.123</small>
-                        </td>
-                        <td>
-                            <div>07 Agustus 2025</div>
-                            <small class="text-muted">08:30 WIB</small>
-                        </td>
-                        <td>
-                            <span class="fw-semibold">15 Item</span>
-                        </td>
-                        <td>
-                            <span class="priority-badge priority-tinggi">Tinggi</span>
-                        </td>
-                        <td>
-                            <span class="badge bg-warning">Menunggu</span>
-                        </td>
-                        <td>
-                            <div class="action-dropdown">
-                                <button class="action-btn" onclick="toggleActionDropdown(this)">
-                                    <i class="fas fa-ellipsis-v"></i>
-                                </button>
-                                <div class="action-dropdown-menu">
-                                    <a href="#" class="action-dropdown-item" data-bs-toggle="modal" data-bs-target="#detailModal1">
-                                        <i class="fas fa-eye"></i>
-                                        Lihat Detail
-                                    </a>
-                                    <a href="#" class="action-dropdown-item">
-                                        <i class="fas fa-edit"></i>
-                                        Edit Permintaan
-                                    </a>
-                                    <a href="#" class="action-dropdown-item">
-                                        <i class="fas fa-check"></i>
-                                        Setujui
-                                    </a>
-                                    <a href="#" class="action-dropdown-item">
-                                        <i class="fas fa-times"></i>
-                                        Tolak
-                                    </a>
-                                    <a href="#" class="action-dropdown-item">
-                                        <i class="fas fa-print"></i>
-                                        Cetak
-                                    </a>
+                    <!-- Dynamic data from form submissions -->
+                    @if(isset($allPermintaan) && count($allPermintaan) > 0)
+                        @foreach($allPermintaan as $index => $permintaan)
+                        <tr>
+                            <td>
+                                <div class="fw-semibold">{{ $permintaan['id_permintaan'] }}</div>
+                                <small class="text-muted">{{ $permintaan['id_cabang'] }}</small>
+                            </td>
+                            <td>
+                                <div class="fw-semibold">{{ $permintaan['nama_cabang'] }}</div>
+                                <small class="text-muted">{{ $permintaan['penanggung_jawab'] }}</small>
+                            </td>
+                            <td>
+                                <div>{{ $permintaan['tanggal'] }}</div>
+                                <small class="text-muted">{{ $permintaan['waktu'] }}</small>
+                            </td>
+                            <td>
+                                <span class="fw-semibold">{{ $permintaan['total_items'] }} Item</span>
+                            </td>
+                            <td>
+                                <span class="priority-badge priority-{{ strtolower($permintaan['prioritas']) }}">{{ $permintaan['prioritas'] }}</span>
+                            </td>
+                            <td>
+                                <span class="badge bg-warning">{{ $permintaan['status'] }}</span>
+                            </td>
+                            <td>
+                                <div class="action-dropdown">
+                                    <button class="action-btn">
+                                        <i class="fas fa-ellipsis-v"></i>
+                                    </button>
+                                    <div class="action-dropdown-menu">
+                                        <a href="#" class="action-dropdown-item" data-bs-toggle="modal" data-bs-target="#detailModal{{ $index }}">
+                                            <i class="fas fa-eye"></i>
+                                            Lihat Detail
+                                        </a>
+                                        <a href="#" class="action-dropdown-item">
+                                            <i class="fas fa-edit"></i>
+                                            Edit Permintaan
+                                        </a>
+                                        <a href="#" class="action-dropdown-item">
+                                            <i class="fas fa-check"></i>
+                                            Setujui
+                                        </a>
+                                        <a href="#" class="action-dropdown-item">
+                                            <i class="fas fa-times"></i>
+                                            Tolak
+                                        </a>
+                                        <a href="#" class="action-dropdown-item">
+                                            <i class="fas fa-print"></i>
+                                            Cetak
+                                        </a>
+                                    </div>
                                 </div>
+                            </td>
+                        </tr>
+                        @endforeach
+                    @else
+                    <!-- No data message when no submissions exist -->
+                    <tr>
+                        <td colspan="7" class="text-center py-4">
+                            <div class="text-muted">
+                                <i class="fas fa-inbox fa-2x mb-3"></i>
+                                <h6>Belum ada permintaan</h6>
+                                <p class="mb-0">Permintaan yang dibuat akan muncul di sini</p>
                             </div>
                         </td>
                     </tr>
-                    <tr>
-                        <td>
-                            <div class="fw-semibold">#REQ002</div>
-                            <small class="text-muted">CB002</small>
-                        </td>
-                        <td>
-                            <div class="fw-semibold">Cabang Jakarta</div>
-                            <small class="text-muted">Jl. Sudirman No.45</small>
-                        </td>
-                        <td>
-                            <div>07 Agustus 2025</div>
-                            <small class="text-muted">10:15 WIB</small>
-                        </td>
-                        <td>
-                            <span class="fw-semibold">8 Item</span>
-                        </td>
-                        <td>
-                            <span class="priority-badge priority-sedang">Sedang</span>
-                        </td>
-                        <td>
-                            <span class="badge bg-info">Diproses</span>
-                        </td>
-                        <td>
-                            <div class="action-dropdown">
-                                <button class="action-btn" onclick="toggleActionDropdown(this)">
-                                    <i class="fas fa-ellipsis-v"></i>
-                                </button>
-                                <div class="action-dropdown-menu">
-                                    <a href="#" class="action-dropdown-item" data-bs-toggle="modal" data-bs-target="#detailModal2">
-                                        <i class="fas fa-eye"></i>
-                                        Lihat Detail
-                                    </a>
-                                    <a href="#" class="action-dropdown-item">
-                                        <i class="fas fa-edit"></i>
-                                        Edit Permintaan
-                                    </a>
-                                    <a href="#" class="action-dropdown-item">
-                                        <i class="fas fa-shipping-fast"></i>
-                                        Proses Kirim
-                                    </a>
-                                    <a href="#" class="action-dropdown-item">
-                                        <i class="fas fa-print"></i>
-                                        Cetak
-                                    </a>
-                                </div>
-                            </div>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>
-                            <div class="fw-semibold">#REQ003</div>
-                            <small class="text-muted">CB003</small>
-                        </td>
-                        <td>
-                            <div class="fw-semibold">Cabang Surabaya</div>
-                            <small class="text-muted">Jl. Pemuda No.88</small>
-                        </td>
-                        <td>
-                            <div>06 Agustus 2025</div>
-                            <small class="text-muted">14:20 WIB</small>
-                        </td>
-                        <td>
-                            <span class="fw-semibold">22 Item</span>
-                        </td>
-                        <td>
-                            <span class="priority-badge priority-rendah">Rendah</span>
-                        </td>
-                        <td>
-                            <span class="badge bg-success">Selesai</span>
-                        </td>
-                        <td>
-                            <div class="action-dropdown">
-                                <button class="action-btn" onclick="toggleActionDropdown(this)">
-                                    <i class="fas fa-ellipsis-v"></i>
-                                </button>
-                                <div class="action-dropdown-menu">
-                                    <a href="#" class="action-dropdown-item" data-bs-toggle="modal" data-bs-target="#detailModal3">
-                                        <i class="fas fa-eye"></i>
-                                        Lihat Detail
-                                    </a>
-                                    <a href="#" class="action-dropdown-item">
-                                        <i class="fas fa-download"></i>
-                                        Download Laporan
-                                    </a>
-                                    <a href="#" class="action-dropdown-item">
-                                        <i class="fas fa-copy"></i>
-                                        Duplikasi
-                                    </a>
-                                    <a href="#" class="action-dropdown-item">
-                                        <i class="fas fa-print"></i>
-                                        Cetak
-                                    </a>
-                                </div>
-                            </div>
-                        </td>
-                    </tr>
+                    @endif
                 </tbody>
             </table>
         </div>
     </div>
 </div>
 
-<!-- Modern Modal Detail -->
-<div class="modal fade" id="detailModal1" tabindex="-1" aria-labelledby="detailModalLabel" aria-hidden="true">
+<!-- Modern Modal Detail for All Submissions -->
+@if(isset($allPermintaan) && count($allPermintaan) > 0)
+@foreach($allPermintaan as $index => $permintaan)
+<div class="modal fade" id="detailModal{{ $index }}" tabindex="-1" aria-labelledby="detailModalLabel{{ $index }}" aria-hidden="true">
     <div class="modal-dialog modal-xl modal-dialog-centered">
         <div class="modal-content" style="border-radius: 12px; border: none; box-shadow: 0 10px 30px rgba(0,0,0,0.2);">
             <div class="modal-header" style="background: linear-gradient(135deg, #f26b37, #e55827); color: white; border-radius: 12px 12px 0 0; border: none;">
                 <h5 class="modal-title fw-bold">
                     <i class="fas fa-clipboard-list me-2"></i>
-                    Detail Permintaan #REQ001
+                    Detail Permintaan {{ $permintaan['id_permintaan'] }}
                 </h5>
                 <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
             </div>
@@ -728,19 +657,23 @@ body.dark-mode .action-dropdown-item:hover {
                                 <div class="row g-2">
                                     <div class="col-sm-6">
                                         <small class="text-muted">ID Permintaan</small>
-                                        <div class="fw-semibold">#REQ001</div>
+                                        <div class="fw-semibold">{{ $permintaan['id_permintaan'] }}</div>
                                     </div>
                                     <div class="col-sm-6">
                                         <small class="text-muted">Status</small>
-                                        <div><span class="badge bg-warning">Menunggu</span></div>
+                                        <div><span class="badge bg-warning">{{ $permintaan['status'] }}</span></div>
                                     </div>
                                     <div class="col-sm-6">
-                                        <small class="text-muted">Tanggal</small>
-                                        <div class="fw-semibold">07 Agustus 2025</div>
+                                        <small class="text-muted">Tanggal Dibuat</small>
+                                        <div class="fw-semibold">{{ $permintaan['tanggal'] }}</div>
                                     </div>
                                     <div class="col-sm-6">
                                         <small class="text-muted">Waktu</small>
-                                        <div class="fw-semibold">08:30 WIB</div>
+                                        <div class="fw-semibold">{{ $permintaan['waktu'] }}</div>
+                                    </div>
+                                    <div class="col-12">
+                                        <small class="text-muted">Tanggal Dibutuhkan</small>
+                                        <div class="fw-semibold">{{ $permintaan['tanggal_dibutuhkan'] }}</div>
                                     </div>
                                 </div>
                             </div>
@@ -758,20 +691,26 @@ body.dark-mode .action-dropdown-item:hover {
                                 <div class="row g-2">
                                     <div class="col-sm-6">
                                         <small class="text-muted">ID Cabang</small>
-                                        <div class="fw-semibold">CB001</div>
+                                        <div class="fw-semibold">{{ $permintaan['id_cabang'] }}</div>
                                     </div>
                                     <div class="col-sm-6">
                                         <small class="text-muted">Prioritas</small>
-                                        <div><span class="priority-badge priority-tinggi">Tinggi</span></div>
+                                        <div><span class="priority-badge priority-{{ strtolower($permintaan['prioritas']) }}">{{ $permintaan['prioritas'] }}</span></div>
                                     </div>
                                     <div class="col-12">
                                         <small class="text-muted">Nama Cabang</small>
-                                        <div class="fw-semibold">Cabang Bandung</div>
+                                        <div class="fw-semibold">{{ $permintaan['nama_cabang'] }}</div>
                                     </div>
                                     <div class="col-12">
-                                        <small class="text-muted">Alamat</small>
-                                        <div>Jl. Soekarno Hatta No.123, Bandung</div>
+                                        <small class="text-muted">Penanggung Jawab</small>
+                                        <div class="fw-semibold">{{ $permintaan['penanggung_jawab'] }}</div>
                                     </div>
+                                    @if($permintaan['catatan_umum'])
+                                    <div class="col-12">
+                                        <small class="text-muted">Catatan Umum</small>
+                                        <div>{{ $permintaan['catatan_umum'] }}</div>
+                                    </div>
+                                    @endif
                                 </div>
                             </div>
                         </div>
@@ -783,7 +722,7 @@ body.dark-mode .action-dropdown-item:hover {
                     <div class="card-header-modern">
                         <h6 class="card-title-modern">
                             <i class="fas fa-boxes" style="color: #f26b37;"></i>
-                            Daftar Produk yang Diminta (2 Items)
+                            Daftar Produk yang Diminta ({{ count($permintaan['produk_list']) }} Items)
                         </h6>
                     </div>
                     <div class="table-responsive">
@@ -800,52 +739,47 @@ body.dark-mode .action-dropdown-item:hover {
                                 </tr>
                             </thead>
                             <tbody>
+                                @foreach($permintaan['produk_list'] as $produk)
                                 <tr>
                                     <td>
-                                        <div class="fw-semibold">PRD001</div>
+                                        <div class="fw-semibold">{{ $produk['kode_produk'] }}</div>
                                     </td>
                                     <td>
-                                        <div class="fw-semibold">Minyak Goreng Tropical</div>
-                                        <small class="text-muted">Kemasan 1L</small>
+                                        <div class="fw-semibold">{{ $produk['nama_barang'] }}</div>
                                     </td>
                                     <td>
-                                        <span class="badge bg-info">Sembako</span>
+                                        <span class="badge bg-info">{{ $produk['kategori'] }}</span>
                                     </td>
                                     <td>
-                                        <span class="fw-bold text-primary">100</span>
+                                        <span class="fw-bold text-primary">{{ $produk['jumlah'] }}</span>
                                     </td>
-                                    <td>Liter</td>
+                                    <td>{{ $produk['satuan'] }}</td>
                                     <td>
-                                        <span class="fw-semibold text-success">250 Liter</span>
-                                        <div><small class="text-muted">Stok Aman</small></div>
+                                        @if($produk['stok_tersedia'] > 0)
+                                            @if($produk['stok_tersedia'] >= $produk['jumlah'] * 2)
+                                                <span class="fw-semibold text-success">{{ $produk['stok_tersedia'] }} {{ $produk['satuan'] }}</span>
+                                                <div><small class="text-muted">Stok Aman</small></div>
+                                            @elseif($produk['stok_tersedia'] >= $produk['jumlah'])
+                                                <span class="fw-semibold text-warning">{{ $produk['stok_tersedia'] }} {{ $produk['satuan'] }}</span>
+                                                <div><small class="text-muted">Stok Terbatas</small></div>
+                                            @else
+                                                <span class="fw-semibold text-danger">{{ $produk['stok_tersedia'] }} {{ $produk['satuan'] }}</span>
+                                                <div><small class="text-muted">Stok Kurang</small></div>
+                                            @endif
+                                        @else
+                                            <span class="fw-semibold text-danger">Kosong</span>
+                                            <div><small class="text-muted">Tidak Tersedia</small></div>
+                                        @endif
                                     </td>
                                     <td>
-                                        <small>Permintaan mendesak karena stok cabang menipis</small>
+                                        @if($produk['catatan'])
+                                            <small>{{ $produk['catatan'] }}</small>
+                                        @else
+                                            <small class="text-muted">-</small>
+                                        @endif
                                     </td>
                                 </tr>
-                                <tr>
-                                    <td>
-                                        <div class="fw-semibold">PRD002</div>
-                                    </td>
-                                    <td>
-                                        <div class="fw-semibold">Beras Premium Grade A</div>
-                                        <small class="text-muted">Kemasan 5Kg</small>
-                                    </td>
-                                    <td>
-                                        <span class="badge bg-info">Sembako</span>
-                                    </td>
-                                    <td>
-                                        <span class="fw-bold text-primary">50</span>
-                                    </td>
-                                    <td>Kg</td>
-                                    <td>
-                                        <span class="fw-semibold text-warning">75 Kg</span>
-                                        <div><small class="text-muted">Stok Terbatas</small></div>
-                                    </td>
-                                    <td>
-                                        <small>Untuk persiapan stok minggu depan</small>
-                                    </td>
-                                </tr>
+                                @endforeach
                             </tbody>
                         </table>
                     </div>
@@ -870,13 +804,20 @@ body.dark-mode .action-dropdown-item:hover {
         </div>
     </div>
 </div>
+@endforeach
+@endif
 
 <!-- Bootstrap JS -->
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 
 <script>
 // Action Dropdown Toggle Function
-function toggleActionDropdown(button) {
+function toggleActionDropdown(button, e) {
+    if (e) {
+        e.preventDefault();
+        e.stopPropagation();
+    }
+    
     // Close all other dropdowns first
     document.querySelectorAll('.action-dropdown-menu').forEach(menu => {
         if (menu !== button.nextElementSibling) {
@@ -889,21 +830,31 @@ function toggleActionDropdown(button) {
     menu.classList.toggle('show');
 }
 
-// Close dropdown when clicking outside
-document.addEventListener('click', function(event) {
-    if (!event.target.closest('.action-dropdown')) {
-        document.querySelectorAll('.action-dropdown-menu').forEach(menu => {
-            menu.classList.remove('show');
+// Initialize all dropdowns when document is ready
+document.addEventListener('DOMContentLoaded', function() {
+    // Add click event to all action buttons
+    document.querySelectorAll('.action-btn').forEach(button => {
+        button.addEventListener('click', function(e) {
+            toggleActionDropdown(this, e);
         });
-    }
-});
-
-// Close dropdown when clicking on menu item
-document.querySelectorAll('.action-dropdown-item').forEach(item => {
-    item.addEventListener('click', function() {
-        document.querySelectorAll('.action-dropdown-menu').forEach(menu => {
-            menu.classList.remove('show');
+    });
+    
+    // Close dropdown when clicking on menu item
+    document.querySelectorAll('.action-dropdown-item').forEach(item => {
+        item.addEventListener('click', function() {
+            document.querySelectorAll('.action-dropdown-menu').forEach(menu => {
+                menu.classList.remove('show');
+            });
         });
+    });
+    
+    // Close dropdown when clicking outside
+    document.addEventListener('click', function(event) {
+        if (!event.target.closest('.action-dropdown')) {
+            document.querySelectorAll('.action-dropdown-menu').forEach(menu => {
+                menu.classList.remove('show');
+            });
+        }
     });
 });
 </script>

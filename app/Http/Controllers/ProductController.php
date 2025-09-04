@@ -60,7 +60,7 @@ class ProductController extends Controller
 
         $product->update($validated);
 
-        return redirect()->route('gudang.inventory.index')
+        return redirect()->route('gudang.inventori.index')
             ->with('success', 'Produk berhasil diperbarui');
     }
 
@@ -128,7 +128,7 @@ class ProductController extends Controller
             return redirect()->back()->with('error', 'Error: ' . $e->getMessage())->withInput();
         }
 
-        return redirect()->route('gudang.inventory.index')
+        return redirect()->route('gudang.inventori.index')
             ->with('success', 'Produk berhasil ditambahkan ke cabang ' . $cabangCikoneng->nama_cabang);
     }
 
@@ -143,7 +143,7 @@ class ProductController extends Controller
         
         $product->delete();
 
-        return redirect()->route('gudang.inventory.index')
+        return redirect()->route('gudang.inventori.index')
             ->with('success', 'Produk berhasil dihapus');
     }
 }

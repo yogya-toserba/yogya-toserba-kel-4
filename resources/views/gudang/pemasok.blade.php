@@ -53,17 +53,42 @@
     @endif
 
     <!-- Header Section -->
-    <div class="d-flex justify-content-between align-items-center mb-4">
+    <style>
+    .page-header {
+        background: linear-gradient(135deg, #f26b37 0%, #e55827 100%);
+        color: #fff;
+        padding: 22px;
+        border-radius: 12px;
+        margin-bottom: 20px;
+        box-shadow: 0 8px 28px rgba(0,0,0,0.08);
+    }
+    .page-header h1 { margin: 0; font-size: 1.5rem; font-weight: 700; }
+    .page-header p { margin: 0; opacity: 0.95; }
+    .page-header .actions .btn { min-width: 140px; }
+
+    .btn-orange {
+        background: linear-gradient(135deg,#f26b37 0%,#e55827 100%) !important;
+        color: #fff !important;
+        border: none !important;
+        box-shadow: 0 8px 20px rgba(226,88,39,0.25);
+    }
+    .btn-orange:hover {
+        filter: brightness(0.95);
+        color: #fff !important;
+    }
+    </style>
+
+    <div class="page-header d-flex justify-content-between align-items-center">
         <div>
-            <h2 class="mb-1"><i class="fas fa-industry text-primary"></i> Manajemen Pemasok</h2>
-            <p class="text-muted mb-0">Kelola data pemasok dan supplier Anda</p>
+            <h1><i class="fas fa-industry me-2"></i>Manajemen Pemasok</h1>
+            <p class="mb-0">Kelola data pemasok dan supplier Anda</p>
         </div>
-        <div class="d-flex gap-2">
+            <div class="actions d-flex gap-2">
             <div class="dropdown">
-                <button class="btn btn-success btn-lg shadow-sm dropdown-toggle" type="button" data-bs-toggle="dropdown">
+                <button class="btn btn-orange btn-lg shadow-sm dropdown-toggle" type="button" data-bs-toggle="dropdown">
                     <i class="fas fa-file-excel me-2"></i>Export Data
                 </button>
-                <ul class="dropdown-menu">
+                <ul class="dropdown-menu dropdown-menu-end">
                     <li><button class="dropdown-item" onclick="exportPemasok('csv')">
                         <i class="fas fa-file-csv me-2"></i>Export CSV
                     </button></li>
@@ -72,7 +97,7 @@
                     </button></li>
                 </ul>
             </div>
-            <button class="btn btn-primary btn-lg shadow-sm" data-bs-toggle="modal" data-bs-target="#tambahPemasokModal">
+            <button class="btn btn-orange btn-lg shadow-sm" data-bs-toggle="modal" data-bs-target="#tambahPemasokModal">
                 <i class="fas fa-plus me-2"></i>Tambah Pemasok
             </button>
         </div>

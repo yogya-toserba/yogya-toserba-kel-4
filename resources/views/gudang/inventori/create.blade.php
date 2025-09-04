@@ -42,7 +42,7 @@
 </form>
 
 <br>
-<a href="{{ route('gudang.inventory.index') }}">Kembali</a>
+<a href="{{ route('gudang.inventori.index') }}">Kembali</a>
 
 </body>
 </html>
