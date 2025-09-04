@@ -47,18 +47,18 @@ Route::prefix('gudang')->name('gudang.')->group(function () {
         Route::get('/dashboard', [GudangController::class, 'dashboard'])->name('dashboard');
 
         // Stock management routes
-        Route::get('stok-export', [StokGudangPusatController::class, 'export'])->name('gudang.stok.export');
-        Route::get('stok-data', [StokGudangPusatController::class, 'getStokData'])->name('gudang.stok.data');
-        Route::get('stok/{stok}/add-stock', [StokGudangPusatController::class, 'showAddStock'])->name('gudang.stok.add-stock');
-        Route::post('stok/{stok}/add-stock', [StokGudangPusatController::class, 'addStock'])->name('gudang.stok.add-stock.submit');
+        Route::get('stok-export', [StokGudangPusatController::class, 'export'])->name('stok.export');
+        Route::get('stok-data', [StokGudangPusatController::class, 'getStokData'])->name('stok.data');
+        Route::get('stok/{stok}/add-stock', [StokGudangPusatController::class, 'showAddStock'])->name('stok.add-stock');
+        Route::post('stok/{stok}/add-stock', [StokGudangPusatController::class, 'addStock'])->name('stok.add-stock.submit');
         Route::resource('stok', StokGudangPusatController::class)->names([
-            'index' => 'gudang.stok.index',
-            'create' => 'gudang.stok.create',
-            'store' => 'gudang.stok.store',
-            'show' => 'gudang.stok.show',
-            'edit' => 'gudang.stok.edit',
-            'update' => 'gudang.stok.update',
-            'destroy' => 'gudang.stok.destroy'
+            'index' => 'stok.index',
+            'create' => 'stok.create',
+            'store' => 'stok.store',
+            'show' => 'stok.show',
+            'edit' => 'stok.edit',
+            'update' => 'stok.update',
+            'destroy' => 'stok.destroy'
         ]);
 
         // Main stok route for sidebar

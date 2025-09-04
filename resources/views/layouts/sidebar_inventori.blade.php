@@ -42,12 +42,12 @@
       @endif
     </a>
 
-    <a href="{{ route('gudang.pengiriman') }}" class="nav-item {{ request()->routeIs('gudang.pengiriman') ? 'active' : '' }}">
+    <a href="{{ route('gudang.pengiriman.index') }}" class="nav-item {{ request()->routeIs('gudang.pengiriman*') ? 'active' : '' }}">
       <div class="nav-icon">
         <i class="fas fa-truck"></i>
       </div>
       <span class="nav-text">Pengiriman</span>
-      @if(request()->routeIs('gudang.pengiriman'))
+      @if(request()->routeIs('gudang.pengiriman*'))
         <div class="nav-indicator"></div>
       @endif
     </a>
