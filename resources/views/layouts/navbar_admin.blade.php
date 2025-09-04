@@ -980,10 +980,10 @@
                             class="nav-link {{ Request::is('admin/penggajian') && !Request::is('admin/penggajian-otomatis*') ? 'active' : '' }}">
                             <i class="fas fa-money-check-alt"></i> Penggajian
                         </a>
-                        <a href="{{ route('admin.penggajian-otomatis') }}"
+                        <!-- <a href="{{ route('admin.penggajian-otomatis') }}"
                             class="nav-link {{ Request::is('admin/penggajian-otomatis*') ? 'active' : '' }}">
                             <i class="fas fa-robot"></i> Penggajian Otomatis
-                        </a>
+                        </a> -->
                         <a href="{{ route('admin.absensi') }}"
                             class="nav-link {{ Request::is('admin/absensi*') ? 'active' : '' }}">
                             <i class="fas fa-user-check"></i> Absensi
