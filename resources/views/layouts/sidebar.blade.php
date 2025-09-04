@@ -10,6 +10,18 @@
     </div>
   </div>
 
+  <!-- NOTIFICATION SECTION -->
+  <div class="notification-section">
+    <div class="notification-header">
+      <i class="fas fa-bell"></i>
+      <span>Notifikasi</span>
+      <span class="notification-count" id="notificationCount">0</span>
+    </div>
+    <div class="notification-list" id="notificationList">
+      <!-- Notifikasi akan dimuat di sini -->
+    </div>
+  </div>
+
   <!-- NAVIGATION MENU -->
   <div class="sidebar-nav">
     <a href="{{ route('gudang.dashboard') }}" class="nav-item {{ request()->routeIs('gudang.dashboard') ? 'active' : '' }}">
@@ -591,6 +603,108 @@
       padding: 12px 10px;
     }
   }
+
+  /* NOTIFICATION STYLES */
+  .notification-section {
+    margin: 20px 15px 10px 15px;
+    background: var(--light-card-bg);
+    border-radius: 12px;
+    border: 1px solid var(--light-border);
+    overflow: hidden;
+  }
+
+  body.dark-mode .notification-section {
+    background: var(--dark-card-bg);
+    border-color: var(--dark-border);
+  }
+
+  .notification-header {
+    display: flex;
+    align-items: center;
+    padding: 12px 15px;
+    background: var(--yogya-gradient);
+    color: white;
+    font-size: 13px;
+    font-weight: 600;
+  }
+
+  .notification-header i {
+    margin-right: 8px;
+  }
+
+  .notification-count {
+    margin-left: auto;
+    background: rgba(255, 255, 255, 0.3);
+    padding: 2px 8px;
+    border-radius: 12px;
+    font-size: 11px;
+  }
+
+  .notification-list {
+    max-height: 200px;
+    overflow-y: auto;
+  }
+
+  .notification-item {
+    padding: 12px 15px;
+    border-bottom: 1px solid var(--light-border);
+    cursor: pointer;
+    transition: background 0.3s ease;
+  }
+
+  body.dark-mode .notification-item {
+    border-bottom-color: var(--dark-border);
+  }
+
+  .notification-item:hover {
+    background: var(--light-nav-hover);
+  }
+
+  body.dark-mode .notification-item:hover {
+    background: var(--dark-nav-hover);
+  }
+
+  .notification-item:last-child {
+    border-bottom: none;
+  }
+
+  .notification-title {
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--light-text);
+    margin-bottom: 4px;
+  }
+
+  body.dark-mode .notification-title {
+    color: var(--dark-text);
+  }
+
+  .notification-message {
+    font-size: 11px;
+    color: var(--light-text-secondary);
+    line-height: 1.3;
+  }
+
+  body.dark-mode .notification-message {
+    color: var(--dark-text-secondary);
+  }
+
+  .notification-time {
+    font-size: 10px;
+    color: var(--yogya-orange);
+    margin-top: 4px;
+  }
+
+  .notification-empty {
+    padding: 20px 15px;
+    text-align: center;
+    color: var(--light-text-secondary);
+    font-size: 11px;
+  }
+
+  body.dark-mode .notification-empty {
+    color: var(--dark-text-secondary);
+  }
 </style>
 
 <script>
@@ -677,4 +791,53 @@
       window.location.href = '/logout';
     }
   }
+
+  // NOTIFICATION FUNCTIONS
+  function loadNotifications() {
+    fetch('{{ route("gudang.notifications.get") }}')
+      .then(response => response.json())
+      .then(data => {
+        const notificationList = document.getElementById('notificationList');
+        const notificationCount = document.getElementById('notificationCount');
+        
+        notificationCount.textContent = data.count;
+        
+        if (data.notifications.length === 0) {
+          notificationList.innerHTML = '<div class="notification-empty">Tidak ada notifikasi baru</div>';
+        } else {
+          notificationList.innerHTML = data.notifications.map(notif => `
+            <div class="notification-item" onclick="handleNotificationClick('${notif.id}', '${notif.url}')">
+              <div class="notification-title">${notif.title}</div>
+              <div class="notification-message">${notif.message}</div>
+              <div class="notification-time">${notif.time}</div>
+            </div>
+          `).join('');
+        }
+      })
+      .catch(error => {
+        console.error('Error loading notifications:', error);
+      });
+  }
+
+  function handleNotificationClick(notifId, url) {
+    // Mark notification as read
+    fetch('{{ route("gudang.notifications.mark-read") }}', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'X-CSRF-TOKEN': '{{ csrf_token() }}'
+      },
+      body: JSON.stringify({ id: notifId })
+    })
+    .then(() => {
+      // Redirect to notification URL
+      window.location.href = url;
+    });
+  }
+
+  // Load notifications on page load and refresh every 30 seconds
+  document.addEventListener('DOMContentLoaded', function() {
+    loadNotifications();
+    setInterval(loadNotifications, 30000); // Refresh every 30 seconds
+  });
 </script>

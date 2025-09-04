@@ -222,4 +222,174 @@ class GudangController extends BaseController
             'total_count' => count($existingPermintaan)
         ]);
     }
+
+    public function inventoriDashboard()
+    {
+        $gudang = Auth::guard('gudang')->user();
+        return view('gudang.inventori.dashboard', compact('gudang'));
+    }
+
+    public function permintaanInventori()
+    {
+        return view('gudang.inventori.permintaan_inventori');
+    }
+
+    public function stokInventori()
+    {
+        return view('gudang.inventori.stok');
+    }
+
+    // Method untuk mendapatkan notifikasi permintaan baru
+    public function getNotifications()
+    {
+        $allPermintaan = session('all_permintaan', []);
+        $notifications = [];
+        
+        // Ambil permintaan dengan status 'Menunggu' (baru masuk)
+        foreach ($allPermintaan as $permintaan) {
+            if ($permintaan['status'] === 'Menunggu') {
+                $notifications[] = [
+                    'id' => $permintaan['id_permintaan'],
+                    'title' => 'Permintaan Inventori Baru',
+                    'message' => "Permintaan dari {$permintaan['nama_cabang']} dengan {$permintaan['total_items']} item",
+                    'type' => 'info',
+                    'priority' => $permintaan['prioritas'],
+                    'time' => $permintaan['waktu'],
+                    'url' => route('gudang.permintaan')
+                ];
+            }
+        }
+        
+        return response()->json([
+            'notifications' => $notifications,
+            'count' => count($notifications)
+        ]);
+    }
+
+    // Method untuk menandai notifikasi sebagai sudah dibaca
+    public function markNotificationRead(Request $request)
+    {
+        $permintaanId = $request->input('id');
+        $allPermintaan = session('all_permintaan', []);
+        
+        // Update status permintaan menjadi 'Dilihat'
+        foreach ($allPermintaan as $key => $permintaan) {
+            if ($permintaan['id_permintaan'] === $permintaanId) {
+                $allPermintaan[$key]['status'] = 'Dilihat';
+                break;
+            }
+        }
+        
+        session(['all_permintaan' => $allPermintaan]);
+        
+        return response()->json(['success' => true]);
+    }
+
+    // Method untuk terima permintaan
+    public function terimaPermintaan(Request $request)
+    {
+        $permintaanId = $request->input('permintaan_id');
+        $index = $request->input('index');
+        
+        $allPermintaan = session('all_permintaan', []);
+        
+        if (isset($allPermintaan[$index]) && $allPermintaan[$index]['id_permintaan'] === $permintaanId) {
+            $allPermintaan[$index]['status'] = 'Siap Kirim';
+            session(['all_permintaan' => $allPermintaan]);
+            
+            return response()->json([
+                'success' => true, 
+                'message' => 'Permintaan berhasil diterima dan siap untuk dikirim'
+            ]);
+        }
+        
+        return response()->json(['success' => false, 'message' => 'Permintaan tidak ditemukan']);
+    }
+
+    // Method untuk tolak permintaan
+    public function tolakPermintaan(Request $request)
+    {
+        $permintaanId = $request->input('permintaan_id');
+        $index = $request->input('index');
+        
+        $allPermintaan = session('all_permintaan', []);
+        
+        if (isset($allPermintaan[$index]) && $allPermintaan[$index]['id_permintaan'] === $permintaanId) {
+            $allPermintaan[$index]['status'] = 'Ditolak';
+            session(['all_permintaan' => $allPermintaan]);
+            
+            return response()->json([
+                'success' => true, 
+                'message' => 'Permintaan berhasil ditolak'
+            ]);
+        }
+        
+        return response()->json(['success' => false, 'message' => 'Permintaan tidak ditemukan']);
+    }
+
+    // Method untuk kirim permintaan ke pengiriman
+    public function kirimPermintaan(Request $request)
+    {
+        $permintaanId = $request->input('permintaan_id');
+        $index = $request->input('index');
+        
+        $allPermintaan = session('all_permintaan', []);
+        
+        if (isset($allPermintaan[$index]) && $allPermintaan[$index]['id_permintaan'] === $permintaanId) {
+            $permintaan = $allPermintaan[$index];
+            
+            // Cek apakah sudah diterima
+            if ($permintaan['status'] !== 'Siap Kirim') {
+                return response()->json([
+                    'success' => false, 
+                    'message' => 'Permintaan harus diterima terlebih dahulu sebelum dapat dikirim'
+                ]);
+            }
+            
+            // Buat data pengiriman
+            $pengirimanData = [
+                'id_pengiriman' => 'PGR-' . date('Ymd') . '-' . str_pad(rand(1, 9999), 4, '0', STR_PAD_LEFT),
+                'no_permintaan' => $permintaan['id_permintaan'],
+                'produk' => $this->formatProdukList($permintaan['produk_list']),
+                'tujuan' => $permintaan['nama_cabang'],
+                'tanggal_kirim' => date('Y-m-d H:i:s'),
+                'status' => 'Siap Kirim',
+                'total_items' => $permintaan['total_items'],
+                'penanggung_jawab' => $permintaan['penanggung_jawab'],
+                'prioritas' => $permintaan['prioritas'],
+                'catatan' => $permintaan['catatan_umum'] ?? ''
+            ];
+            
+            // Simpan ke session pengiriman
+            $allPengiriman = session('all_pengiriman', []);
+            $allPengiriman[] = $pengirimanData;
+            session(['all_pengiriman' => $allPengiriman]);
+            
+            // Update status permintaan menjadi Dikirim
+            $allPermintaan[$index]['status'] = 'Dikirim';
+            $allPermintaan[$index]['tanggal_dikirim'] = date('Y-m-d H:i:s');
+            session(['all_permintaan' => $allPermintaan]);
+            
+            return response()->json([
+                'success' => true, 
+                'message' => 'Permintaan berhasil dikirim ke bagian pengiriman',
+                'pengiriman_id' => $pengirimanData['id_pengiriman']
+            ]);
+        }
+        
+        return response()->json(['success' => false, 'message' => 'Permintaan tidak ditemukan']);
+    }
+
+    // Helper method untuk format produk list
+    private function formatProdukList($produkList)
+    {
+        if (is_array($produkList) && count($produkList) > 0) {
+            $formatted = [];
+            foreach ($produkList as $produk) {
+                $formatted[] = $produk['nama_barang'] . ' (' . $produk['jumlah'] . ' ' . $produk['satuan'] . ')';
+            }
+            return implode(', ', $formatted);
+        }
+        return 'N/A';
+    }
 }

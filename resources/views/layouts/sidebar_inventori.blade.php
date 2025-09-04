@@ -46,7 +46,7 @@
       <div class="nav-icon">
         <i class="fas fa-truck"></i>
       </div>
-      <span class="nav-text">Pengiriman</span>
+      <span class="nav-text">Penerimaan</span>
       @if(request()->routeIs('gudang.pengiriman*'))
         <div class="nav-indicator"></div>
       @endif
