@@ -47,25 +47,15 @@ Route::prefix('admin')->name('admin.')->group(function () {
         Route::get('penggajian-detail/{id}', [PenggajianOtomatisController::class, 'detail'])->name('penggajian-detail');
 
         // Analisis routes (dashboard pages)
-        Route::get('/analisis', function () {
-            return view('admin.dashboard');
-        })->name('analisis');
+        Route::get('/analisis', [AdminController::class, 'dashboard'])->name('analisis');
 
-        Route::get('/analisis/keuangan', function () {
-            return view('admin.dashboard-keuangan');
-        })->name('analisis.keuangan');
+        Route::get('/analisis/keuangan', [AdminController::class, 'dashboardKeuangan'])->name('analisis.keuangan');
 
-        Route::get('/analisis/pelanggan', function () {
-            return view('admin.dashboard-pelanggan');
-        })->name('analisis.pelanggan');
+        Route::get('/analisis/pelanggan', [AdminController::class, 'dashboardPelanggan'])->name('analisis.pelanggan');
 
-        Route::get('/analisis/barang', function () {
-            return view('admin.dashboard-barang');
-        })->name('analisis.barang');
+        Route::get('/analisis/barang', [AdminController::class, 'dashboardBarang'])->name('analisis.barang');
 
-        Route::get('/analisis/penjualan', function () {
-            return view('admin.dashboard-penjualan');
-        })->name('analisis.penjualan');
+        Route::get('/analisis/penjualan', [AdminController::class, 'dashboardPenjualan'])->name('analisis.penjualan');
 
     });
 });
