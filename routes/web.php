@@ -371,6 +371,11 @@ Route::prefix('admin')->name('admin.')->group(function () {
             return view('admin.pengaturan');
         })->name('pengaturan');
 
+        // Analisis Routes
+        Route::get('analisis', function () {
+            return view('admin.analisis');
+        })->name('analisis');
+
         // Keuangan Routes
         Route::prefix('keuangan')->name('keuangan.')->group(function () {
             Route::get('dashboard', [KeuanganController::class, 'dashboard'])->name('dashboard');
