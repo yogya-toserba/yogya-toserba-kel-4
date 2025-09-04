@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Routing\Controller as BaseController;
 use App\Models\Admin;
@@ -211,11 +212,29 @@ class AdminController extends BaseController
             ->limit(10)
             ->get();
 
+        // Produk terlaris berdasarkan total jumlah yang dibeli
+        $produkTerlaris = DB::table('detail_transaksi')
+            ->join('stok_produk', 'detail_transaksi.id_produk', '=', 'stok_produk.id_produk')
+            ->join('kategori', 'stok_produk.id_kategori', '=', 'kategori.id_kategori')
+            ->select(
+                'stok_produk.nama_barang',
+                'stok_produk.harga_jual',
+                'kategori.nama_kategori',
+                DB::raw('SUM(detail_transaksi.jumlah_barang) as total_terjual'),
+                DB::raw('SUM(detail_transaksi.total_harga) as total_pendapatan'),
+                DB::raw('COUNT(DISTINCT detail_transaksi.id_transaksi) as jumlah_transaksi')
+            )
+            ->groupBy('stok_produk.id_produk', 'stok_produk.nama_barang', 'stok_produk.harga_jual', 'kategori.nama_kategori')
+            ->orderByDesc('total_terjual')
+            ->limit(10)
+            ->get();
+
         return view('admin.dashboard-pelanggan', compact(
             'totalPelanggan',
             'pelangganBulanIni',
             'pelangganAktif',
-            'pelangganTerbaru'
+            'pelangganTerbaru',
+            'produkTerlaris'
         ));
     }
 
@@ -543,32 +562,76 @@ class AdminController extends BaseController
 
     public function profile()
     {
-        return view('admin.profile', [
-            'admin' => Auth::guard('admin')->user()
-        ]);
+        $admin = Auth::guard('admin')->user();
+        return view('admin.profile', compact('admin'));
     }
 
     public function updateProfile(Request $request)
     {
-        /** @var Admin $admin */
-        $admin = Auth::guard('admin')->user();
+        try {
+            $admin = Auth::guard('admin')->user();
+            
+            $request->validate([
+                'name' => 'required|string|max:255',
+                'username' => 'required|string|max:255|unique:admin,username,' . $admin->id,
+                'email' => 'required|email|max:255|unique:admin,email,' . $admin->id,
+                'phone' => 'nullable|string|max:20',
+                'position' => 'nullable|string|max:100',
+                'bio' => 'nullable|string|max:500',
+                'avatar' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+                'current_password' => 'nullable|required_with:new_password',
+                'new_password' => 'nullable|min:8|confirmed',
+            ]);
 
-        $validated = $request->validate([
-            'name' => ['required', 'string', 'max:255'],
-            'email' => ['required', 'email', 'unique:admins,email,' . $admin->id],
-            'password' => ['nullable', 'min:8', 'confirmed'],
-        ]);
+            // Handle avatar upload
+            if ($request->hasFile('avatar')) {
+                // Create uploads directory if it doesn't exist
+                $uploadsDir = public_path('uploads/avatars');
+                if (!file_exists($uploadsDir)) {
+                    mkdir($uploadsDir, 0755, true);
+                }
 
-        $admin->name = $validated['name'];
-        $admin->email = $validated['email'];
+                // Delete old avatar if exists
+                if ($admin->avatar && file_exists(public_path('uploads/avatars/' . $admin->avatar))) {
+                    unlink(public_path('uploads/avatars/' . $admin->avatar));
+                }
 
-        if (!empty($validated['password'])) {
-            $admin->password = bcrypt($validated['password']);
+                $avatar = $request->file('avatar');
+                $avatarName = time() . '_' . $admin->id . '.' . $avatar->getClientOriginalExtension();
+                $avatar->move($uploadsDir, $avatarName);
+                $admin->avatar = $avatarName;
+            }
+
+            // Update basic information
+            $admin->name = $request->name;
+            $admin->username = $request->username ?? $admin->username;
+            $admin->email = $request->email;
+            $admin->phone = $request->phone;
+            $admin->position = $request->position ?? 'Administrator';
+            $admin->bio = $request->bio;
+
+            // Update password if provided
+            if ($request->filled('current_password')) {
+                if (!Hash::check($request->current_password, $admin->password)) {
+                    return back()->withErrors(['current_password' => 'Password saat ini tidak sesuai']);
+                }
+                
+                if ($request->filled('new_password')) {
+                    $admin->password = Hash::make($request->new_password);
+                }
+            }
+
+            $admin->save();
+
+            return redirect()->route('admin.profile')
+                ->with('success', 'Profile berhasil diperbarui!');
+
+        } catch (\Illuminate\Validation\ValidationException $e) {
+            return back()->withErrors($e->errors())->withInput();
+        } catch (\Exception $e) {
+            Log::error('Profile update error: ' . $e->getMessage());
+            return back()->with('error', 'Gagal memperbarui profile: ' . $e->getMessage())->withInput();
         }
-
-        $admin->save();
-
-        return back()->with('status', 'Profile updated successfully');
     }
 
     public function dataKaryawan(Request $request)
@@ -811,4 +874,146 @@ class AdminController extends BaseController
                 ->with('error', 'Gagal menambahkan karyawan: ' . $e->getMessage());
         }
     }
+
+    public function search(Request $request)
+    {
+        $query = $request->input('query');
+        
+        if (!$query || strlen($query) < 2) {
+            return response()->json(['results' => [], 'hasMore' => false]);
+        }
+
+        $results = [];
+        $limit = 5; // Limit untuk quick search
+
+        try {
+            // Search Produk
+            $produk = DB::table('stok_produk')
+                ->join('kategori', 'stok_produk.id_kategori', '=', 'kategori.id_kategori')
+                ->where('stok_produk.nama_barang', 'LIKE', "%{$query}%")
+                ->select('stok_produk.*', 'kategori.nama_kategori')
+                ->limit($limit)
+                ->get();
+
+            foreach ($produk as $item) {
+                $results[] = [
+                    'type' => 'produk',
+                    'title' => $item->nama_barang,
+                    'subtitle' => "Kategori: {$item->nama_kategori} • Stok: {$item->stok} • Rp " . number_format($item->harga_jual),
+                    'url' => route('admin.dashboard')
+                ];
+            }
+
+            // Search Pelanggan
+            $pelanggan = DB::table('pelanggan')
+                ->where('nama_pelanggan', 'LIKE', "%{$query}%")
+                ->orWhere('email', 'LIKE', "%{$query}%")
+                ->limit($limit)
+                ->get();
+
+            foreach ($pelanggan as $item) {
+                $results[] = [
+                    'type' => 'pelanggan',
+                    'title' => $item->nama_pelanggan,
+                    'subtitle' => "Email: {$item->email} • Telp: {$item->nomer_telepon}",
+                    'url' => route('admin.analisis.pelanggan')
+                ];
+            }
+
+            // Search Transaksi berdasarkan ID atau tanggal
+            $transaksi = DB::table('transaksi')
+                ->join('pelanggan', 'transaksi.id_pelanggan', '=', 'pelanggan.id_pelanggan')
+                ->where('transaksi.id_transaksi', 'LIKE', "%{$query}%")
+                ->orWhere('pelanggan.nama_pelanggan', 'LIKE', "%{$query}%")
+                ->select('transaksi.*', 'pelanggan.nama_pelanggan')
+                ->limit($limit)
+                ->get();
+
+            foreach ($transaksi as $item) {
+                $results[] = [
+                    'type' => 'transaksi',
+                    'title' => "Transaksi #{$item->id_transaksi}",
+                    'subtitle' => "{$item->nama_pelanggan} • " . date('d M Y', strtotime($item->tanggal_transaksi)) . " • Rp " . number_format($item->total_belanja),
+                    'url' => route('admin.analisis.penjualan')
+                ];
+            }
+
+            // Search Kategori
+            $kategori = DB::table('kategori')
+                ->where('nama_kategori', 'LIKE', "%{$query}%")
+                ->limit($limit)
+                ->get();
+
+            foreach ($kategori as $item) {
+                $results[] = [
+                    'type' => 'kategori',
+                    'title' => $item->nama_kategori,
+                    'subtitle' => "Kategori produk",
+                    'url' => route('admin.analisis.barang')
+                ];
+            }
+
+            // Batasi total hasil untuk quick search
+            $results = array_slice($results, 0, 8);
+            
+            return response()->json([
+                'results' => $results,
+                'hasMore' => count($results) >= 8
+            ]);
+
+        } catch (\Exception $e) {
+            Log::error('Search error: ' . $e->getMessage());
+            return response()->json(['results' => [], 'hasMore' => false, 'error' => 'Search failed']);
+        }
+    }
+
+    public function searchResults(Request $request)
+    {
+        $query = $request->input('q');
+        
+        if (!$query) {
+            return redirect()->route('admin.dashboard');
+        }
+
+        $results = [
+            'produk' => [],
+            'pelanggan' => [],
+            'transaksi' => [],
+            'kategori' => []
+        ];
+
+        try {
+            // Search semua produk
+            $results['produk'] = DB::table('stok_produk')
+                ->join('kategori', 'stok_produk.id_kategori', '=', 'kategori.id_kategori')
+                ->where('stok_produk.nama_barang', 'LIKE', "%{$query}%")
+                ->select('stok_produk.*', 'kategori.nama_kategori')
+                ->paginate(20);
+
+            // Search semua pelanggan
+            $results['pelanggan'] = DB::table('pelanggan')
+                ->where('nama_pelanggan', 'LIKE', "%{$query}%")
+                ->orWhere('email', 'LIKE', "%{$query}%")
+                ->paginate(20);
+
+            // Search semua transaksi
+            $results['transaksi'] = DB::table('transaksi')
+                ->join('pelanggan', 'transaksi.id_pelanggan', '=', 'pelanggan.id_pelanggan')
+                ->where('transaksi.id_transaksi', 'LIKE', "%{$query}%")
+                ->orWhere('pelanggan.nama_pelanggan', 'LIKE', "%{$query}%")
+                ->select('transaksi.*', 'pelanggan.nama_pelanggan')
+                ->paginate(20);
+
+            // Search semua kategori
+            $results['kategori'] = DB::table('kategori')
+                ->where('nama_kategori', 'LIKE', "%{$query}%")
+                ->paginate(20);
+
+        } catch (\Exception $e) {
+            Log::error('Detailed search error: ' . $e->getMessage());
+        }
+
+        return view('admin.search-results', compact('query', 'results'));
+    }
+
 }

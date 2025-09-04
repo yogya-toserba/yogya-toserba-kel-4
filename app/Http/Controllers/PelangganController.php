@@ -33,7 +33,7 @@ class PelangganController extends Controller
       $request->session()->regenerate();
 
       // Redirect langsung ke dashboard dengan pesan sukses
-      return redirect()->intended(route('dashboard'))->with('success', 'Login berhasil! Selamat datang ' . Auth::guard('pelanggan')->user()->nama_pelanggan);
+      return redirect()->intended(route('pelanggan.dashboard'))->with('success', 'Login berhasil! Selamat datang ' . Auth::guard('pelanggan')->user()->nama_pelanggan);
     }
 
     // Jika login gagal, kembali ke form login dengan error
@@ -68,7 +68,7 @@ class PelangganController extends Controller
     Auth::guard('pelanggan')->login($pelanggan);
 
     // Redirect langsung ke dashboard dengan pesan sukses setelah registrasi
-    return redirect()->route('dashboard')->with('success', 'Registrasi berhasil! Selamat datang ' . $pelanggan->nama_pelanggan);
+    return redirect()->route('pelanggan.dashboard')->with('success', 'Registrasi berhasil! Selamat datang ' . $pelanggan->nama_pelanggan);
   }
 
   public function logout(Request $request)
@@ -78,6 +78,147 @@ class PelangganController extends Controller
     $request->session()->invalidate();
     $request->session()->regenerateToken();
 
-    return redirect('/');
+    return redirect('/')->with('success', 'Anda telah berhasil logout!');
+  }
+
+  // Search function for pelanggan
+  public function search(Request $request)
+  {
+    $query = $request->input('q');
+    if (!$query) {
+      return view('pelanggan.search-results', ['results' => [], 'query' => '']);
+    }
+
+    // Example: search products by name
+    $results = \DB::table('stok_produk')
+      ->where('nama_barang', 'like', "%{$query}%")
+      ->limit(10)
+      ->get();
+
+    return view('pelanggan.search-results', [
+      'results' => $results,
+      'query' => $query
+    ]);
+  }
+
+  public function dashboard()
+  {
+    // Data for customer dashboard
+    $promoSlides = [
+        [
+            'title' => 'Flash Sale Spektakuler!',
+            'subtitle' => 'Diskon hingga 70% untuk produk pilihan',
+            'button_text' => 'Belanja Sekarang'
+        ],
+        [
+            'title' => 'Gratis Ongkir Se-Indonesia',
+            'subtitle' => 'Minimum pembelian Rp 100.000',
+            'button_text' => 'Mulai Belanja'
+        ],
+        [
+            'title' => 'Member Baru? Dapat Voucher!',
+            'subtitle' => 'Dapatkan voucher 50% untuk pembelian pertama',
+            'button_text' => 'Daftar Sekarang'
+        ]
+    ];
+
+    $categories = [
+        ['name' => 'Elektronik', 'icon' => 'fas fa-laptop', 'color' => '#3498db', 'url' => '#'],
+        ['name' => 'Fashion', 'icon' => 'fas fa-tshirt', 'color' => '#e74c3c', 'url' => '#'],
+        ['name' => 'Rumah Tangga', 'icon' => 'fas fa-home', 'color' => '#2ecc71', 'url' => '#'],
+        ['name' => 'Olahraga', 'icon' => 'fas fa-dumbbell', 'color' => '#f39c12', 'url' => '#'],
+        ['name' => 'Kecantikan', 'icon' => 'fas fa-heart', 'color' => '#e91e63', 'url' => '#'],
+        ['name' => 'Makanan', 'icon' => 'fas fa-utensils', 'color' => '#ff9800', 'url' => '#'],
+        ['name' => 'Buku', 'icon' => 'fas fa-book', 'color' => '#9c27b0', 'url' => '#'],
+        ['name' => 'Perawatan', 'icon' => 'fas fa-spa', 'color' => '#607d8b', 'url' => '#']
+    ];
+
+    $popularProducts = [
+        [
+            'id' => 1,
+            'name' => 'Smartphone Flagship Terbaru',
+            'price' => 8999000,
+            'original_price' => 12999000,
+            'rating' => 4.8,
+            'sold' => 2350
+        ],
+        [
+            'id' => 2,
+            'name' => 'Laptop Gaming Pro',
+            'price' => 15999000,
+            'original_price' => 21999000,
+            'rating' => 4.9,
+            'sold' => 1150
+        ],
+        [
+            'id' => 3,
+            'name' => 'Wireless Earbuds Premium',
+            'price' => 899000,
+            'original_price' => 1299000,
+            'rating' => 4.7,
+            'sold' => 5420
+        ],
+        [
+            'id' => 4,
+            'name' => 'Smart Watch Series X',
+            'price' => 2499000,
+            'original_price' => 3499000,
+            'rating' => 4.6,
+            'sold' => 3200
+        ]
+    ];
+
+    return view('dashboard.index', compact('promoSlides', 'categories', 'popularProducts'));
+  }
+
+  public function profile()
+  {
+    $pelanggan = Auth::guard('pelanggan')->user();
+    return view('pelanggan.profile', compact('pelanggan'));
+  }
+
+  public function updateProfile(Request $request)
+  {
+    $pelanggan = Auth::guard('pelanggan')->user();
+    
+    $request->validate([
+      'nama_pelanggan' => 'required|string|max:255',
+      'email' => 'required|string|email|max:255|unique:pelanggan,email,' . $pelanggan->id_pelanggan . ',id_pelanggan',
+      'nomer_telepon' => 'required|string|max:20',
+      'alamat' => 'required|string',
+      'tanggal_lahir' => 'required|date',
+      'jenis_kelamin' => 'required|in:L,P',
+    ]);
+
+    $pelanggan->update([
+      'nama_pelanggan' => $request->nama_pelanggan,
+      'email' => $request->email,
+      'nomer_telepon' => $request->nomer_telepon,
+      'alamat' => $request->alamat,
+      'tanggal_lahir' => $request->tanggal_lahir,
+      'jenis_kelamin' => $request->jenis_kelamin,
+    ]);
+
+    return redirect()->route('pelanggan.profile')->with('success', 'Profile berhasil diperbarui!');
+  }
+
+  public function updatePassword(Request $request)
+  {
+    $request->validate([
+      'current_password' => 'required',
+      'password' => 'required|string|min:8|confirmed',
+    ]);
+
+    $pelanggan = Auth::guard('pelanggan')->user();
+
+    if (!Hash::check($request->current_password, $pelanggan->password)) {
+      return back()->withErrors(['current_password' => 'Password saat ini tidak benar']);
+    }
+
+    $pelanggan->update([
+      'password' => Hash::make($request->password),
+    ]);
+
+    return redirect()->route('pelanggan.profile')->with('success', 'Password berhasil diperbarui!');
   }
 }

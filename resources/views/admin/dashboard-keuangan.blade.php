@@ -2,15 +2,25 @@
 
 @section('title', 'Analisis Keuangan - MyYOGYA Admin')
 
+@section('page-title', 'Analisis Keuangan')
+@section('page-subtitle', 'Monitor pendapatan, transaksi, dan performa keuangan bisnis')
+
 @section('content')
 <style>
+/* Yogya Brand Colors */
+:root {
+    --yogya-green: #4CAF50;
+    --yogya-green-dark: #388E3C;
+    --yogya-green-light: #66BB6A;
+}
+
 .keuangan-header {
-    background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+    background: linear-gradient(135deg, var(--yogya-green) 0%, var(--yogya-green-dark) 100%);
     color: white;
     padding: 35px 40px;
     border-radius: 15px;
     margin-bottom: 35px;
-    box-shadow: 0 4px 15px rgba(16, 185, 129, 0.3);
+    box-shadow: 0 6px 20px rgba(76, 175, 80, 0.3);
 }
 
 .keuangan-stats {
@@ -27,17 +37,18 @@
     box-shadow: 0 4px 15px rgba(0,0,0,0.08);
     border: 1px solid #e2e8f0;
     transition: all 0.3s ease;
+    border-top: 3px solid var(--yogya-green);
 }
 
 .keuangan-card:hover {
     transform: translateY(-3px);
-    box-shadow: 0 8px 25px rgba(0,0,0,0.12);
+    box-shadow: 0 10px 30px rgba(76, 175, 80, 0.15);
 }
 
 .keuangan-icon {
     width: 45px;
     height: 45px;
-    background: linear-gradient(135deg, #10b981, #059669);
+    background: linear-gradient(135deg, var(--yogya-green), var(--yogya-green-dark));
     border-radius: 10px;
     display: flex;
     align-items: center;
@@ -165,10 +176,15 @@ document.addEventListener('DOMContentLoaded', function() {
             datasets: [{
                 label: 'Pendapatan',
                 data: {!! json_encode($chartData) !!},
-                borderColor: '#10b981',
-                backgroundColor: 'rgba(16, 185, 129, 0.1)',
-                borderWidth: 2,
-                fill: true
+                borderColor: 'var(--yogya-green)',
+                backgroundColor: 'rgba(76, 175, 80, 0.1)',
+                borderWidth: 3,
+                fill: true,
+                tension: 0.4,
+                pointBackgroundColor: 'var(--yogya-green)',
+                pointBorderColor: '#ffffff',
+                pointBorderWidth: 2,
+                pointRadius: 5
             }]
         },
         options: {

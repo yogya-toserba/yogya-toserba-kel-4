@@ -640,10 +640,10 @@
                     @else
                         <div class="profile-info">
                             <div class="avatar">
-                                {{ strtoupper(substr(Auth::user()->nama ?? 'U', 0, 1)) }}
+                                {{ strtoupper(substr((Auth::user() ?? Auth::guard('pelanggan')->user())->nama ?? 'U', 0, 1)) }}
                             </div>
                             <div class="user-details">
-                                <div class="user-name">{{ Auth::user()->nama ?? 'User' }}</div>
+                                <div class="user-name">{{ (Auth::user() ?? Auth::guard('pelanggan')->user())->nama ?? 'User' }}</div>
                                 <div class="user-status">Member</div>
                             </div>
                         </div>

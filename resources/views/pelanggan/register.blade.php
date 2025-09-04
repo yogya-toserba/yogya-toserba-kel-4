@@ -48,7 +48,7 @@
                     
                     <!-- Nama Lengkap -->
                     <div class="form-group floating-label">
-                        <input type="text" name="name" class="form-control" value="{{ old('name') }}" required autofocus>
+                        <input type="text" name="nama_pelanggan" class="form-control" value="{{ old('nama_pelanggan') }}" required autofocus>
                         <label class="floating-label-text">Nama Lengkap</label>
                     </div>
                     
@@ -59,7 +59,7 @@
                             <label class="floating-label-text">Alamat Email</label>
                         </div>
                         <div class="form-group floating-label">
-                            <input type="tel" name="phone" class="form-control" value="{{ old('phone') }}" pattern="[0-9\-]*" title="Masukkan nomor telepon yang valid" required>
+                            <input type="tel" name="nomer_telepon" class="form-control" value="{{ old('nomer_telepon') }}" pattern="[0-9\-]*" title="Masukkan nomor telepon yang valid" required>
                             <label class="floating-label-text">No. Telp</label>
                         </div>
                     </div>
@@ -70,38 +70,38 @@
                             <label style="color: #6c757d; font-weight: 500; margin-bottom: 0.3rem; display: block; font-size: 0.9rem;">Jenis Kelamin</label>
                             <div class="gender-group-compact">
                                 <div class="radio-option">
-                                    <input type="radio" name="gender" value="pria" id="pria" {{ old('gender') == 'pria' ? 'checked' : '' }} required>
+                                    <input type="radio" name="jenis_kelamin" value="L" id="pria" {{ old('jenis_kelamin') == 'L' ? 'checked' : '' }} required>
                                     <label for="pria">Pria</label>
                                 </div>
                                 <div class="radio-option">
-                                    <input type="radio" name="gender" value="wanita" id="wanita" {{ old('gender') == 'wanita' ? 'checked' : '' }} required>
+                                    <input type="radio" name="jenis_kelamin" value="P" id="wanita" {{ old('jenis_kelamin') == 'P' ? 'checked' : '' }} required>
                                     <label for="wanita">Wanita</label>
                                 </div>
                             </div>
                         </div>
                         <div class="form-group floating-label">
-                            <input type="date" name="birth_date" class="form-control" value="{{ old('birth_date') }}" required>
+                            <input type="date" name="tanggal_lahir" class="form-control" value="{{ old('tanggal_lahir') }}" required>
                             <label class="floating-label-text">Tanggal Lahir</label>
                         </div>
                     </div>
 
                     <!-- Alamat (Optional) -->
                     <div class="form-group floating-label">
-                        <input type="text" name="address" class="form-control" value="{{ old('address') }}">
+                        <input type="text" name="alamat" class="form-control" value="{{ old('alamat') }}" required>
                         <label class="floating-label-text">Alamat</label>
                     </div>
                     
                     <!-- Password dan Konfirmasi Password -->
                     <div class="form-row">
                         <div class="form-group floating-label password-input-group">
-                            <input type="password" name="password" class="form-control" minlength="6" required>
+                            <input type="password" name="password" class="form-control" minlength="8" required>
                             <label class="floating-label-text">Kata Sandi (min. 8)</label>
                             <span class="password-toggle" onclick="togglePassword('password')">
                                 <i class="fas fa-eye" id="password-eye"></i>
                             </span>
                         </div>
                         <div class="form-group floating-label password-input-group">
-                            <input type="password" name="password_confirmation" class="form-control" minlength="6" required>
+                            <input type="password" name="password_confirmation" class="form-control" minlength="8" required>
                             <label class="floating-label-text">Konfirmasi Kata Sandi</label>
                             <span class="password-toggle" onclick="togglePassword('password_confirmation')">
                                 <i class="fas fa-eye" id="password_confirmation-eye"></i>
