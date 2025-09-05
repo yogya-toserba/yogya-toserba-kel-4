@@ -140,6 +140,7 @@ Route::prefix('api')->group(function () {
     Route::get('/tren-penjualan', [ProdukTerlarisController::class, 'getTrenPenjualanHarian'])->name('api.tren.penjualan');
 });
 
+
 // Pelanggan Routes - login dan register dengan controller
 Route::prefix('pelanggan')->name('pelanggan.')->group(function () {
     Route::get('/login', [PelangganController::class, 'showLogin'])->name('login');
@@ -338,6 +339,12 @@ Route::prefix('gudang')->name('gudang.')->group(function () {
         Route::resource('produk', ProductController::class);
     });
 });
+
+// Load separate route files
+require __DIR__ . '/pelanggan.php';
+require __DIR__ . '/gudang.php';
+require __DIR__ . '/admin.php';
+
 
 // Route kategori - cleaned up without duplicates
 Route::prefix('kategori')->name('kategori.')->group(function () {

@@ -980,10 +980,10 @@
                             class="nav-link {{ Request::is('admin/penggajian') && !Request::is('admin/penggajian-otomatis*') ? 'active' : '' }}">
                             <i class="fas fa-money-check-alt"></i> Penggajian
                         </a>
-                        <a href="{{ route('admin.penggajian-otomatis') }}"
+                        <!-- <a href="{{ route('admin.penggajian-otomatis') }}"
                             class="nav-link {{ Request::is('admin/penggajian-otomatis*') ? 'active' : '' }}">
                             <i class="fas fa-robot"></i> Penggajian Otomatis
-                        </a>
+                        </a> -->
                         <a href="{{ route('admin.absensi') }}"
                             class="nav-link {{ Request::is('admin/absensi*') ? 'active' : '' }}">
                             <i class="fas fa-user-check"></i> Absensi
@@ -1042,17 +1042,9 @@
                 </div>
 
                 <!-- Manajemen Gudang Dropdown -->
-<<<<<<< HEAD
                 <div class="dropdown-nav {{ Request::is('admin/data-pengawai-gudang*') || Request::is('admin/lokasi-gudang*') || Request::is('admin/data-barang*') ? 'show' : '' }}">
                     <div class="dropdown-toggle-nav {{ Request::is('admin/data-pengawai-gudang*') || Request::is('admin/lokasi-gudang*') || Request::is('admin/data-barang*') ? 'active' : '' }}" onclick="toggleGudangDropdown()">
-                        <span><i class="fas fa-warehouse"></i> Manajemen Inventory</span>
-=======
-                <div
-                    class="dropdown-nav {{ Request::is('admin/data-pengawai-gudang*') || Request::is('admin/lokasi-gudang*') || Request::is('admin/data-barang*') ? 'show' : '' }}">
-                    <div class="dropdown-toggle-nav {{ Request::is('admin/data-pengawai-gudang*') || Request::is('admin/lokasi-gudang*') || Request::is('admin/data-barang*') ? 'active' : '' }}"
-                        onclick="toggleGudangDropdown()">
                         <span><i class="fas fa-warehouse"></i> Manajemen Gudang</span>
->>>>>>> 1207738a31160cc511dce5d4aed88d768753a1c0
                         <i class="fas fa-chevron-down dropdown-arrow"></i>
                     </div>
                     <div
