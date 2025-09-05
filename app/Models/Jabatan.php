@@ -62,7 +62,7 @@ class Jabatan extends Model
             'tunjangan_jabatan' => $this->tunjangan_jabatan,
             'bonus_kehadiran' => $bonusKehadiran,
             'potongan_absen' => $potonganAbsen,
-            'total_gaji' => $totalGaji
+            'jumlah_gaji' => $totalGaji
         ];
     }
 

@@ -582,7 +582,7 @@
                                         </td>
                                         <td>
                                             <div style="color: #10b981; font-weight: 700; font-size: 1rem;">Rp
-                                                {{ number_format($gaji->total_gaji, 0, ',', '.') }}</div>
+                                                {{ number_format($gaji->jumlah_gaji, 0, ',', '.') }}</div>
                                         </td>
                                         <td>
                                             <span

@@ -15,40 +15,23 @@ class Gaji extends Model
 
     protected $fillable = [
         'id_karyawan',
-        'total_hari_hadir',
-        'total_hari_kerja',
+        'periode_gaji',
         'gaji_pokok',
         'tunjangan',
         'bonus',
-        'potongan_absen',
-        'lembur_jam',
-        'lembur_tarif',
-        'total_lembur',
-        'potongan_bpjs',
-        'potongan_pajak',
-        'potongan_lain',
-        'total_potongan',
-        'total_gaji',
-        'status',
-        'periode_gaji',
-        'is_auto_generated',
-        'keterangan'
+        'potongan',
+        'jumlah_gaji',
+        'status_pembayaran',
+        'keterangan',
+        'is_auto_generated'
     ];
 
     protected $casts = [
         'gaji_pokok' => 'decimal:2',
         'tunjangan' => 'decimal:2',
         'bonus' => 'decimal:2',
-        'potongan_absen' => 'decimal:2',
-        'lembur_jam' => 'decimal:2',
-        'lembur_tarif' => 'decimal:2',
-        'total_lembur' => 'decimal:2',
-        'potongan_bpjs' => 'decimal:2',
-        'potongan_pajak' => 'decimal:2',
-        'potongan_lain' => 'decimal:2',
-        'total_potongan' => 'decimal:2',
-        'total_gaji' => 'decimal:2',
-        'periode_gaji' => 'date',
+        'potongan' => 'decimal:2',
+        'jumlah_gaji' => 'decimal:2',
         'is_auto_generated' => 'boolean'
     ];
 
@@ -91,7 +74,7 @@ class Gaji extends Model
     // Accessor untuk format currency
     public function getFormattedTotalGajiAttribute()
     {
-        return 'Rp ' . number_format($this->total_gaji, 0, ',', '.');
+        return 'Rp ' . number_format($this->jumlah_gaji, 0, ',', '.');
     }
 
     // Accessor untuk format gaji pokok

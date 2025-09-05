@@ -83,7 +83,7 @@ class Karyawan extends Model
             'tunjangan' => $perhitunganGaji['tunjangan_jabatan'], // Sesuaikan dengan kolom tabel
             'bonus' => $perhitunganGaji['bonus_kehadiran'], // Sesuaikan dengan kolom tabel
             'potongan_absen' => $perhitunganGaji['potongan_absen'],
-            'total_gaji' => $perhitunganGaji['total_gaji'],
+            'jumlah_gaji' => $perhitunganGaji['jumlah_gaji'],
             'status' => 'pending',
             'is_auto_generated' => true,
             'keterangan' => 'Gaji digenerate otomatis berdasarkan jabatan: ' . $this->jabatan->nama_jabatan
