@@ -13,6 +13,9 @@ class PengirimanController extends Controller
 {
   public function index(Request $request)
   {
+    // Ambil data pengiriman dari session (data dari permintaan yang dikirim)
+    $sessionPengiriman = session('all_pengiriman', []);
+    
     $query = Pengiriman::query();
 
     // Filter berdasarkan pencarian
@@ -39,12 +42,18 @@ class PengirimanController extends Controller
     }
 
     $pengiriman = $query->orderBy('created_at', 'desc')->paginate(10);
+    
+    // Gabungkan dengan data dari session untuk statistik
+    $sessionCount = count($sessionPengiriman);
+    $sessionPending = collect($sessionPengiriman)->where('status', 'Siap Kirim')->count();
+    $sessionDikirim = collect($sessionPengiriman)->where('status', 'Dalam Perjalanan')->count();
+    $sessionSelesai = collect($sessionPengiriman)->where('status', 'Selesai')->count();
 
     // Data untuk statistik
-    $totalPengiriman = Pengiriman::count();
-    $pending = Pengiriman::where('status', 'pending')->count();
-    $dikirim = Pengiriman::where('status', 'dikirim')->count();
-    $selesai = Pengiriman::where('status', 'selesai')->count();
+    $totalPengiriman = Pengiriman::count() + $sessionCount;
+    $pending = Pengiriman::where('status', 'pending')->count() + $sessionPending;
+    $dikirim = Pengiriman::where('status', 'dikirim')->count() + $sessionDikirim;
+    $selesai = Pengiriman::where('status', 'selesai')->count() + $sessionSelesai;
 
     // Data untuk dropdown
     $statusOptions = Pengiriman::getStatusOptions();
@@ -52,6 +61,7 @@ class PengirimanController extends Controller
 
     return view('gudang.pengiriman.index', compact(
       'pengiriman',
+      'sessionPengiriman',
       'totalPengiriman',
       'pending',
       'dikirim',

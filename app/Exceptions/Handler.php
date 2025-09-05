@@ -4,6 +4,7 @@ namespace App\Exceptions;
 
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
 use Illuminate\Http\Request;
+use Illuminate\Session\TokenMismatchException;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
 use Symfony\Component\HttpKernel\Exception\MethodNotAllowedHttpException;
@@ -38,6 +39,17 @@ class Handler extends ExceptionHandler
    */
   public function render($request, Throwable $exception)
   {
+    // Handle CSRF token mismatch
+    if ($exception instanceof TokenMismatchException) {
+      if ($request->expectsJson()) {
+        return response()->json(['message' => 'Page expired. Please refresh and try again.'], 419);
+      }
+      
+      return redirect()->back()
+        ->withInput($request->except('password', '_token'))
+        ->with('error', 'Page expired. Please try again.');
+    }
+
     // Handle 404 errors
     if ($exception instanceof NotFoundHttpException) {
       return response()->view('errors.404', [], 404);

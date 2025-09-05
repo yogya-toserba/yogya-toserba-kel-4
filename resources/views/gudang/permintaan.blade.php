@@ -2,6 +2,10 @@
 
 @section('title', 'Permintaan Cabang - MyYOGYA')
 
+@push('head')
+<meta name="csrf-token" content="{{ csrf_token() }}">
+@endpush
+
 @section('content')
 <style>
 /* Modern Permintaan Styles */
@@ -578,33 +582,64 @@ body.dark-mode .action-dropdown-item:hover {
                                 <span class="priority-badge priority-{{ strtolower($permintaan['prioritas']) }}">{{ $permintaan['prioritas'] }}</span>
                             </td>
                             <td>
-                                <span class="badge bg-warning">{{ $permintaan['status'] }}</span>
+                                @php
+                                    $status = $permintaan['status'] ?? 'Menunggu';
+                                    $statusClass = match($status) {
+                                        'Menunggu' => 'bg-warning',
+                                        'Diterima' => 'bg-success',
+                                        'Siap Kirim' => 'bg-primary',
+                                        'Dikirim' => 'bg-info',
+                                        'Ditolak' => 'bg-danger',
+                                        default => 'bg-secondary'
+                                    };
+                                @endphp
+                                <span class="badge {{ $statusClass }}">{{ $status }}</span>
                             </td>
                             <td>
-                                <div class="action-dropdown">
-                                    <button class="action-btn">
-                                        <i class="fas fa-ellipsis-v"></i>
-                                    </button>
-                                    <div class="action-dropdown-menu">
-                                        <a href="#" class="action-dropdown-item" data-bs-toggle="modal" data-bs-target="#detailModal{{ $index }}">
-                                            <i class="fas fa-eye"></i>
-                                            Lihat Detail
-                                        </a>
-                                        <a href="#" class="action-dropdown-item">
-                                            <i class="fas fa-edit"></i>
-                                            Edit Permintaan
-                                        </a>
-                                        <a href="#" class="action-dropdown-item">
-                                            <i class="fas fa-check"></i>
-                                            Setujui
-                                        </a>
-                                        <a href="#" class="action-dropdown-item">
-                                            <i class="fas fa-times"></i>
-                                            Tolak
-                                        </a>
-                                        <a href="#" class="action-dropdown-item">
-                                            <i class="fas fa-print"></i>
-                                            Cetak
+                                <div class="d-flex gap-2">
+                                    @if($status === 'Menunggu')
+                                        <!-- Tombol Terima -->
+                                        <button class="btn btn-success btn-sm" 
+                                                onclick="terimaPermintaan('{{ $permintaan['id_permintaan'] }}', {{ $index }})"
+                                                title="Terima Permintaan">
+                                            <i class="fas fa-check"></i> Terima
+                                        </button>
+                                        <button class="btn btn-danger btn-sm" 
+                                                onclick="tolakPermintaan('{{ $permintaan['id_permintaan'] }}', {{ $index }})"
+                                                title="Tolak Permintaan">
+                                            <i class="fas fa-times"></i> Tolak
+                                        </button>
+                                    @endif
+
+                                    <!-- Dropdown Menu -->
+                                    <div class="action-dropdown">
+                                        <button class="action-btn">
+                                            <i class="fas fa-ellipsis-v"></i>
+                                        </button>
+                                        <div class="action-dropdown-menu">
+                                            <a href="#" class="action-dropdown-item" data-bs-toggle="modal" data-bs-target="#detailModal{{ $index }}">
+                                                <i class="fas fa-eye"></i>
+                                                Lihat Detail
+                                            </a>
+                                            
+                                            @if(in_array($status, ['Diterima', 'Siap Kirim']))
+                                                <a href="#" class="action-dropdown-item" 
+                                                   onclick="kirimPermintaan('{{ $permintaan['id_permintaan'] }}', {{ $index }})">
+                                                    <i class="fas fa-shipping-fast"></i>
+                                                    Kirim Permintaan
+                                                </a>
+                                            @endif
+                                            
+                                            @if($status !== 'Dikirim')
+                                                <a href="#" class="action-dropdown-item">
+                                                    <i class="fas fa-edit"></i>
+                                                    Edit Permintaan
+                                                </a>
+                                            @endif
+                                        </div>
+                                    </div>
+                                </div>
+                            </td>     
                                         </a>
                                     </div>
                                 </div>
@@ -857,5 +892,93 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     });
 });
+
+// Function untuk terima permintaan
+function terimaPermintaan(permintaanId, index) {
+    if (confirm('Apakah Anda yakin ingin menerima permintaan ini?')) {
+        fetch('{{ route("gudang.permintaan.terima") }}', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+            },
+            body: JSON.stringify({
+                permintaan_id: permintaanId,
+                index: index
+            })
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                location.reload(); // Refresh halaman untuk update status
+            } else {
+                alert('Gagal menerima permintaan: ' + data.message);
+            }
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            alert('Terjadi kesalahan saat memproses permintaan');
+        });
+    }
+}
+
+// Function untuk tolak permintaan
+function tolakPermintaan(permintaanId, index) {
+    if (confirm('Apakah Anda yakin ingin menolak permintaan ini?')) {
+        fetch('{{ route("gudang.permintaan.tolak") }}', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+            },
+            body: JSON.stringify({
+                permintaan_id: permintaanId,
+                index: index
+            })
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                location.reload();
+            } else {
+                alert('Gagal menolak permintaan: ' + data.message);
+            }
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            alert('Terjadi kesalahan saat memproses permintaan');
+        });
+    }
+}
+
+// Function untuk kirim permintaan ke pengiriman
+function kirimPermintaan(permintaanId, index) {
+    if (confirm('Apakah Anda yakin ingin mengirim permintaan ini ke bagian pengiriman?')) {
+        fetch('{{ route("gudang.permintaan.kirim") }}', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+            },
+            body: JSON.stringify({
+                permintaan_id: permintaanId,
+                index: index
+            })
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                alert('Permintaan berhasil dikirim ke bagian pengiriman!');
+                location.reload();
+            } else {
+                alert('Gagal mengirim permintaan: ' + data.message);
+            }
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            alert('Terjadi kesalahan saat memproses permintaan');
+        });
+    }
+}
 </script>
 @endsection

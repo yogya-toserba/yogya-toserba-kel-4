@@ -76,6 +76,15 @@ Route::prefix('gudang')->name('gudang.')->group(function () {
         })->name('inventori.permintaan.inventori');
         
         Route::post('/permintaan-submit', [GudangController::class, 'submitPermintaan'])->name('permintaan.submit');
+        
+        // Permintaan workflow routes
+        Route::post('/permintaan/terima', [GudangController::class, 'terimaPermintaan'])->name('permintaan.terima');
+        Route::post('/permintaan/tolak', [GudangController::class, 'tolakPermintaan'])->name('permintaan.tolak');
+        Route::post('/permintaan/kirim', [GudangController::class, 'kirimPermintaan'])->name('permintaan.kirim');
+
+        // Notification routes
+        Route::get('/notifications', [GudangController::class, 'getNotifications'])->name('notifications.get');
+        Route::post('/notifications/mark-read', [GudangController::class, 'markNotificationRead'])->name('notifications.mark-read');
 
         // Pengiriman routes
         Route::resource('pengiriman', App\Http\Controllers\Gudang\PengirimanController::class)->names([

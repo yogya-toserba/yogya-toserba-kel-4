@@ -110,7 +110,7 @@
     </div>
 
     <!-- Navbar -->
-    <nav class="navbar navbar-expand-lg sticky-top">
+    <nav class="navbar navbar-expand-lg fixed-top">
         <div class="container">
             <!-- Logo -->
             <a class="navbar-brand" href="{{ route('dashboard') }}">

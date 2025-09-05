@@ -1,4 +1,4 @@
-@extends('layouts.app')
+﻿@extends('layouts.app')
 
 @section('title', 'Perawatan & Kecantikan - MyYOGYA')
 
@@ -6,14 +6,53 @@
 <!-- Category Header -->
 <div class="category-header">
     <div class="container">
-        <nav class="breadcrumb-custom">
-            <a href="{{ route('dashboard') }}">Beranda</a>
-            <span class="mx-2">/</span>
-            <span>Perawatan & Kecantikan</span>
-        </nav>
+        <div class="d-flex justify-content-between align-items-center mb-4">
+            <nav class="breadcrumb-custom">
+                <a href="{{ route('dashboard') }}">Beranda</a>
+                <span class="mx-2">/</span>
+                <span>Perawatan & Kecantikan</span>
+            </nav>
+            
+            <!-- Category Navigation Button -->
+            <div class="dropdown">
+                <button class="btn btn-category-nav dropdown-toggle d-flex align-items-center" type="button" id="categoryDropdownHeader" data-bs-toggle="dropdown" aria-expanded="false">
+                    <i class="fas fa-th-large me-2"></i>
+                    Semua Kategori
+                </button>
+                <ul class="dropdown-menu dropdown-menu-wide dropdown-menu-end" aria-labelledby="categoryDropdownHeader">
+                    <li><a class="dropdown-item" href="{{ route('kategori.elektronik') }}">
+                        <i class="fas fa-laptop me-2 text-primary"></i>Elektronik
+                    </a></li>
+                    <li><a class="dropdown-item" href="{{ route('kategori.fashion') }}">
+                        <i class="fas fa-tshirt me-2 text-danger"></i>Fashion
+                    </a></li>
+                    <li><a class="dropdown-item" href="{{ route('kategori.makanan') }}">
+                        <i class="fas fa-hamburger me-2 text-warning"></i>Makanan & Minuman
+                    </a></li>
+                    <li><a class="dropdown-item" href="{{ route('kategori.perawatan') }}">
+                        <i class="fas fa-spa me-2 text-info"></i>Perawatan & Kecantikan
+                    </a></li>
+                    <li><a class="dropdown-item" href="{{ route('kategori.rumah-tangga') }}">
+                        <i class="fas fa-home me-2 text-success"></i>Rumah Tangga
+                    </a></li>
+                    <li><a class="dropdown-item" href="{{ route('kategori.olahraga') }}">
+                        <i class="fas fa-dumbbell me-2 text-dark"></i>Olahraga
+                    </a></li>
+                    <li><a class="dropdown-item" href="{{ route('kategori.otomotif') }}">
+                        <i class="fas fa-car me-2 text-secondary"></i>Otomotif
+                    </a></li>
+                    <li><a class="dropdown-item" href="{{ route('kategori.buku') }}">
+                        <i class="fas fa-book me-2 text-muted"></i>Buku & Alat Tulis
+                    </a></li>
+                    <li><a class="dropdown-item" href="{{ route('kategori.kesehatan-kecantikan') }}">
+                        <i class="fas fa-heart me-2 text-danger"></i>Kesehatan & Kecantikan
+                    </a></li>
+                </ul>
+            </div>
+        </div>
         
         <h1 class="display-5 fw-bold mb-3">Perawatan & Kecantikan</h1>
-        <p class="lead mb-0">Produk kecantikan dan perawatan terbaik untuk penampilan sempurna Anda</p>
+        <p class="lead mb-0">Produk perawatan tubuh dan kecantikan untuk tampil percaya diri</p>
     </div>
 </div>
 
@@ -23,7 +62,7 @@
         <div class="row align-items-center">
             <div class="col-md-9">
                 <div class="row g-3">
-                    <div class="col-md-4">
+                    <div class="col-md-6">
                         <div class="dropdown">
                             <button class="btn btn-outline-secondary dropdown-toggle d-flex align-items-center justify-content-between w-100 filter-dropdown" type="button" data-bs-toggle="dropdown" aria-expanded="false">
                                 <span><i class="fas fa-th-large me-2"></i>Semua Kategori</span>
@@ -37,7 +76,7 @@
                             </ul>
                         </div>
                     </div>
-                    <div class="col-md-4">
+                    <div class="col-md-6">
                         <div class="dropdown">
                             <button class="btn btn-outline-secondary dropdown-toggle d-flex align-items-center justify-content-between w-100 filter-dropdown" type="button" data-bs-toggle="dropdown" aria-expanded="false">
                                 <span><i class="fas fa-tags me-2"></i>Rentang Harga</span>
@@ -50,7 +89,7 @@
                             </ul>
                         </div>
                     </div>
-                    <div class="col-md-4">
+                    <div class="col-md-6">
                         <div class="dropdown">
                             <button class="btn btn-outline-secondary dropdown-toggle d-flex align-items-center justify-content-between w-100 filter-dropdown" type="button" data-bs-toggle="dropdown" aria-expanded="false">
                                 <span><i class="fas fa-sort me-2"></i>Urutkan</span>
@@ -216,9 +255,7 @@
                         @endif
                     </div>
                     
-                    <button class="add-to-cart-btn">
-                        <i class="fas fa-shopping-cart me-2"></i>Tambah ke Keranjang
-                    </button>
+                    <!-- Add to cart button removed -->
                 </div>
             </div>
         </div>
@@ -282,7 +319,39 @@ document.addEventListener('DOMContentLoaded', function() {
 
 @push('styles')
 <style>
-    /* Filter Dropdown Styles */
+    
+    /* Category Navigation Button Styles */
+    .btn-category-nav {
+        background: rgba(255, 255, 255, 0.15);
+        backdrop-filter: blur(10px);
+        border: 2px solid rgba(255, 255, 255, 0.3);
+        color: white;
+        border-radius: 25px;
+        padding: 10px 20px;
+        font-weight: 600;
+        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    }
+
+    .btn-category-nav:hover {
+        background: rgba(255, 255, 255, 0.25);
+        border-color: rgba(255, 255, 255, 0.5);
+        color: white;
+        transform: translateY(-2px);
+        box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
+    }
+
+    .btn-category-nav:focus {
+        background: rgba(255, 255, 255, 0.25);
+        border-color: rgba(255, 255, 255, 0.5);
+        color: white;
+        box-shadow: 0 0 0 0.2rem rgba(255, 255, 255, 0.25);
+    }
+
+    .btn-category-nav i {
+        color: white;
+    }
+/* Filter Dropdown Styles */
     .filter-dropdown {
         border: 2px solid #dee2e6;
         border-radius: 25px;
@@ -348,7 +417,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
     /* Responsive filter */
     @media (max-width: 768px) {
-        .filter-section .row .col-md-4 {
+        .filter-section .row .col-md-6 {
             margin-bottom: 10px;
         }
         
@@ -361,3 +430,6 @@ document.addEventListener('DOMContentLoaded', function() {
 @endpush
 
 @endsection
+
+
+

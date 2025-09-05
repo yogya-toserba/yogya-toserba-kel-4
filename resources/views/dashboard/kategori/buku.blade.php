@@ -6,11 +6,50 @@
 <!-- Category Header -->
 <div class="category-header">
     <div class="container">
-        <nav class="breadcrumb-custom">
-            <a href="{{ route('dashboard') }}">Beranda</a>
-            <span class="mx-2">/</span>
-            <span>Buku & Alat Tulis</span>
-        </nav>
+        <div class="d-flex justify-content-between align-items-center mb-4">
+            <nav class="breadcrumb-custom">
+                <a href="{{ route('dashboard') }}">Beranda</a>
+                <span class="mx-2">/</span>
+                <span>Buku & Alat Tulis</span>
+            </nav>
+            
+            <!-- Category Navigation Button -->
+            <div class="dropdown">
+                <button class="btn btn-category-nav dropdown-toggle d-flex align-items-center" type="button" id="categoryDropdownHeader" data-bs-toggle="dropdown" aria-expanded="false">
+                    <i class="fas fa-th-large me-2"></i>
+                    Semua Kategori
+                </button>
+                <ul class="dropdown-menu dropdown-menu-wide dropdown-menu-end" aria-labelledby="categoryDropdownHeader">
+                    <li><a class="dropdown-item" href="{{ route('kategori.elektronik') }}">
+                        <i class="fas fa-laptop me-2 text-primary"></i>Elektronik
+                    </a></li>
+                    <li><a class="dropdown-item" href="{{ route('kategori.fashion') }}">
+                        <i class="fas fa-tshirt me-2 text-danger"></i>Fashion
+                    </a></li>
+                    <li><a class="dropdown-item" href="{{ route('kategori.makanan') }}">
+                        <i class="fas fa-hamburger me-2 text-warning"></i>Makanan & Minuman
+                    </a></li>
+                    <li><a class="dropdown-item" href="{{ route('kategori.perawatan') }}">
+                        <i class="fas fa-spa me-2 text-info"></i>Perawatan & Kecantikan
+                    </a></li>
+                    <li><a class="dropdown-item" href="{{ route('kategori.rumah-tangga') }}">
+                        <i class="fas fa-home me-2 text-success"></i>Rumah Tangga
+                    </a></li>
+                    <li><a class="dropdown-item" href="{{ route('kategori.olahraga') }}">
+                        <i class="fas fa-dumbbell me-2 text-dark"></i>Olahraga
+                    </a></li>
+                    <li><a class="dropdown-item" href="{{ route('kategori.otomotif') }}">
+                        <i class="fas fa-car me-2 text-secondary"></i>Otomotif
+                    </a></li>
+                    <li><a class="dropdown-item" href="{{ route('kategori.buku') }}">
+                        <i class="fas fa-book me-2 text-muted"></i>Buku & Alat Tulis
+                    </a></li>
+                    <li><a class="dropdown-item" href="{{ route('kategori.kesehatan-kecantikan') }}">
+                        <i class="fas fa-heart me-2 text-danger"></i>Kesehatan & Kecantikan
+                    </a></li>
+                </ul>
+            </div>
+        </div>
         
         <h1 class="display-5 fw-bold mb-3">Buku & Alat Tulis</h1>
         <p class="lead mb-0">Koleksi buku terlengkap dan alat tulis berkualitas untuk menunjang pendidikan dan kreativitas</p>
@@ -216,9 +255,7 @@
                         @endif
                     </div>
                     
-                    <button class="add-to-cart-btn">
-                        <i class="fas fa-shopping-cart me-2"></i>Tambah ke Keranjang
-                    </button>
+                    <!-- Add to cart button removed -->
                 </div>
             </div>
         </div>

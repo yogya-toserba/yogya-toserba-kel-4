@@ -20,24 +20,52 @@ class AdminController extends BaseController
 
     public function showLogin()
     {
+        // Regenerate CSRF token untuk menghindari page expired
+        if (!session()->has('_token')) {
+            session()->regenerateToken();
+        }
+        
         return view('admin.login');
     }
 
     public function login(Request $request)
     {
-        $credentials = $request->validate([
-            'email' => ['required', 'email'],
-            'password' => ['required'],
+        // Debug untuk mengetahui penyebab page expired
+        Log::info('Login attempt initiated', [
+            'method' => $request->method(),
+            'has_csrf' => $request->hasHeader('X-CSRF-TOKEN') || $request->has('_token'),
+            'csrf_token' => $request->header('X-CSRF-TOKEN') ?: $request->get('_token'),
+            'session_id' => $request->session()->getId(),
         ]);
 
-        if (Auth::guard('admin')->attempt($credentials, $request->remember)) {
-            $request->session()->regenerate();
-            return redirect()->intended(route('admin.dashboard'));
-        }
+        try {
+            $credentials = $request->validate([
+                'email' => ['required', 'email'],
+                'password' => ['required'],
+            ]);
 
-        return back()->withErrors([
-            'email' => 'The provided credentials do not match our records.',
-        ])->onlyInput('email');
+            Log::info('Validation passed', ['email' => $credentials['email']]);
+
+            if (Auth::guard('admin')->attempt($credentials, $request->remember)) {
+                $request->session()->regenerate();
+                Log::info('Login successful', ['email' => $credentials['email']]);
+                return redirect()->intended(route('admin.dashboard'));
+            }
+
+            Log::warning('Login failed - invalid credentials', ['email' => $credentials['email']]);
+            return back()->withErrors([
+                'email' => 'The provided credentials do not match our records.',
+            ])->onlyInput('email');
+
+        } catch (\Exception $e) {
+            Log::error('Login error', [
+                'message' => $e->getMessage(),
+                'trace' => $e->getTraceAsString()
+            ]);
+            return back()->withErrors([
+                'email' => 'An error occurred during login. Please try again.',
+            ]);
+        }
     }
 
     public function dashboard()

@@ -54,8 +54,8 @@
         /* Product Grid */
         .product-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-            gap: 25px;
+            grid-template-columns: repeat(5, 1fr);
+            gap: 16px;
             margin-bottom: 50px;
             grid-auto-rows: 1fr; /* Makes all grid items same height */
         }
@@ -360,6 +360,14 @@
         }
 
         /* Responsive */
+        /* Tablet size */
+        @media (max-width: 1024px) and (min-width: 769px) {
+            .product-grid {
+                grid-template-columns: repeat(4, 1fr);
+                gap: 18px;
+            }
+        }
+
         @media (max-width: 768px) {
             .category-header {
                 padding: 60px 0 40px;
@@ -367,7 +375,7 @@
             }
             
             .product-grid {
-                grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+                grid-template-columns: repeat(3, 1fr);
                 gap: 15px;
             }
             
@@ -404,7 +412,7 @@
 
         @media (max-width: 480px) {
             .product-grid {
-                grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+                grid-template-columns: repeat(2, 1fr);
                 gap: 12px;
             }
 
@@ -576,11 +584,46 @@
             background: linear-gradient(135deg, #f26b37 0%, #e55827 100%) !important;
             border-color: #f26b37 !important;
         }
+
+        /* Fixed Navbar Styles */
+        body {
+            padding-top: 100px; /* Adjust based on navbar height */
+        }
+
+        .navbar.fixed-top {
+            background: white;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            z-index: 1030;
+            transition: all 0.3s ease;
+        }
+
+        /* Category header adjustments for fixed navbar */
+        .category-header {
+            margin-top: -100px;
+            padding-top: 130px;
+        }
+
+        /* Dashboard content adjustment */
+        .main-content {
+            margin-top: 0;
+        }
+
+        /* Responsive adjustments */
+        @media (max-width: 768px) {
+            body {
+                padding-top: 90px;
+            }
+            
+            .category-header {
+                margin-top: -90px;
+                padding-top: 120px;
+            }
+        }
     </style>
 </head>
 <body>
     <!-- Navbar -->
-    <nav class="navbar navbar-expand-lg sticky-top">
+    <nav class="navbar navbar-expand-lg fixed-top">
         <div class="container">
             <!-- Logo -->
             <a class="navbar-brand" href="{{ route('dashboard') }}">
@@ -620,10 +663,10 @@
 
                 <!-- Cart -->
                 <div class="nav-item">
-                    <a href="#" class="nav-link">
+                    <a href="{{ route('keranjang') }}" class="nav-link" id="cart-nav-link">
                         <div class="nav-icon-wrapper">
                             <i class="fas fa-shopping-cart"></i>
-                            <span class="cart-badge">5</span>
+                            <span class="cart-badge" id="cart-badge">0</span>
                         </div>
                     </a>
                 </div>
@@ -654,54 +697,7 @@
     </nav>
 
     <!-- Category Navigation -->
-    <div class="category-nav" style="background: var(--light-bg); padding: 12px 0; border-bottom: 1px solid var(--border-color);">
-        <div class="container">
-            <div class="d-flex align-items-center">
-                <div class="d-flex align-items-center">
-                    <a href="{{ route('dashboard') }}" class="me-4 text-decoration-none" style="color: var(--text-dark);">
-                        <i class="fas fa-home"></i> Beranda
-                    </a>
-                    
-                    <!-- Category Dropdown -->
-                    <div class="dropdown">
-                        <button class="btn btn-outline-secondary dropdown-toggle d-flex align-items-center" type="button" id="categoryDropdown" data-bs-toggle="dropdown" aria-expanded="false">
-                            <i class="fas fa-th-large me-2"></i>
-                            Semua Kategori
-                        </button>
-                        <ul class="dropdown-menu dropdown-menu-wide" aria-labelledby="categoryDropdown">
-                            <li><a class="dropdown-item" href="{{ route('kategori.elektronik') }}">
-                                <i class="fas fa-laptop me-2 text-primary"></i>Elektronik
-                            </a></li>
-                            <li><a class="dropdown-item" href="{{ route('kategori.fashion') }}">
-                                <i class="fas fa-tshirt me-2 text-danger"></i>Fashion
-                            </a></li>
-                            <li><a class="dropdown-item" href="{{ route('kategori.makanan') }}">
-                                <i class="fas fa-hamburger me-2 text-warning"></i>Makanan & Minuman
-                            </a></li>
-                            <li><a class="dropdown-item" href="{{ route('kategori.perawatan') }}">
-                                <i class="fas fa-spa me-2 text-info"></i>Perawatan & Kecantikan
-                            </a></li>
-                            <li><a class="dropdown-item" href="{{ route('kategori.rumah-tangga') }}">
-                                <i class="fas fa-home me-2 text-success"></i>Rumah Tangga
-                            </a></li>
-                            <li><a class="dropdown-item" href="{{ route('kategori.olahraga') }}">
-                                <i class="fas fa-dumbbell me-2 text-dark"></i>Olahraga
-                            </a></li>
-                            <li><a class="dropdown-item" href="{{ route('kategori.otomotif') }}">
-                                <i class="fas fa-car me-2 text-secondary"></i>Otomotif
-                            </a></li>
-                            <li><a class="dropdown-item" href="{{ route('kategori.buku') }}">
-                                <i class="fas fa-book me-2 text-muted"></i>Buku & Alat Tulis
-                            </a></li>
-                            <li><a class="dropdown-item" href="{{ route('kategori.kesehatan-kecantikan') }}">
-                                <i class="fas fa-heart me-2 text-danger"></i>Kesehatan & Kecantikan
-                            </a></li>
-                        </ul>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
+
 
     <!-- Main Content -->
     <main>
@@ -827,6 +823,29 @@
                         dropdownMenu.style.display = 'none';
                     }, 200);
                 });
+            }
+        });
+
+        // Update cart badge
+        function updateCartBadge() {
+            const cart = JSON.parse(localStorage.getItem('cart')) || [];
+            const cartBadge = document.getElementById('cart-badge');
+            if (cartBadge) {
+                const totalItems = cart.reduce((sum, item) => sum + (item.quantity || 1), 0);
+                cartBadge.textContent = totalItems;
+                cartBadge.style.display = totalItems > 0 ? 'inline' : 'none';
+            }
+        }
+
+        // Initialize cart badge on page load
+        document.addEventListener('DOMContentLoaded', function() {
+            updateCartBadge();
+        });
+
+        // Listen for cart updates
+        window.addEventListener('storage', function(e) {
+            if (e.key === 'cart') {
+                updateCartBadge();
             }
         });
     </script>

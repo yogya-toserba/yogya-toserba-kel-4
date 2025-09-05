@@ -855,8 +855,8 @@
                         <a href="mailto:hr@myyogya.com?subject=Initiave Application" class="btn btn-primary me-3">
                             <i class="fas fa-envelope me-2"></i>hr@myyogya.com
                         </a>
-                        <a href="tel:0265-777779" class="btn btn-outline-primary">
-                            <i class="fas fa-phone me-2"></i>(0265) 777-779
+                        <a href="tel:0852-1551-4124" class="btn btn-outline-primary">
+                            <i class="fas fa-phone me-2"></i>0852-1551-4124
                         </a>
                     </div>
                 </div>

@@ -12,7 +12,7 @@ class KeranjangController extends Controller
      */
     public function index()
     {
-        return view('keranjang.index');
+        return view('dashboard.keranjang');
     }
 
     /**

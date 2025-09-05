@@ -647,7 +647,7 @@ body.dark-mode .modal-body .form-control:focus {
                 <i class="fas fa-shipping-fast"></i>
                 Manajemen Pengiriman
             </h1>
-            <p class="page-subtitle">Kelola pengiriman barang dan status pengiriman</p>
+            <p class="page-subtitle">Kelola dan pantau status pengiriman barang ke seluruh cabang</p>
         </div>
 
         <!-- Stats Section -->
@@ -744,174 +744,154 @@ body.dark-mode .modal-body .form-control:focus {
                 <table class="modern-table">
                     <thead>
                         <tr>
-                            <th>No. Resi</th>
+                            <th>No. Permintaan</th>
+                            <th>Produk</th>
                             <th>Tujuan</th>
-                            <th>Ekspedisi</th>
                             <th>Tanggal Kirim</th>
                             <th>Status</th>
-                            <th>Total Biaya</th>
+                            <th>Total Item</th>
                             <th>Aksi</th>
                         </tr>
                     </thead>
                     <tbody>
-                        <tr>
-                            <td>
-                                <span class="fw-semibold">RSI001234567</span><br>
-                                <small class="text-muted">Order #ORD-2024-001</small>
-                            </td>
-                            <td>
-                                <span class="fw-semibold">Jakarta Selatan</span><br>
-                                <small class="text-muted">Jl. Sudirman No. 123</small>
-                            </td>
-                            <td>
-                                <span class="fw-bold">JNE</span><br>
-                                <small class="text-muted">REG - Regular</small>
-                            </td>
-                            <td>
-                                <span class="fw-semibold">25 Agt 2024</span><br>
-                                <small class="text-muted">14:30 WIB</small>
-                            </td>
-                            <td>
-                                <span class="status-badge status-shipping">Dalam Pengiriman</span>
-                            </td>
-                            <td>
-                                <span class="fw-bold">Rp 35.000</span><br>
-                                <small class="text-muted">+ Asuransi Rp 5.000</small>
-                            </td>
-                            <td>
-                                <div class="action-dropdown">
-                                    <button class="action-btn" onclick="toggleActionDropdown(this)">
-                                        <i class="fas fa-ellipsis-v"></i>
-                                    </button>
-                                    <div class="action-dropdown-menu">
-                                        <a href="#" class="action-dropdown-item" data-bs-toggle="modal" data-bs-target="#detailModal1">
-                                            <i class="fas fa-eye"></i>
-                                            Lihat Detail
-                                        </a>
-                                        <a href="#" class="action-dropdown-item">
-                                            <i class="fas fa-route"></i>
-                                            Lacak Pengiriman
-                                        </a>
-                                        <a href="#" class="action-dropdown-item">
-                                            <i class="fas fa-edit"></i>
-                                            Update Status
-                                        </a>
-                                        <a href="#" class="action-dropdown-item">
-                                            <i class="fas fa-print"></i>
-                                            Cetak Label
-                                        </a>
-                                        <a href="#" class="action-dropdown-item text-danger">
-                                            <i class="fas fa-times"></i>
-                                            Batalkan
-                                        </a>
+                        <!-- Data dari session permintaan yang dikirim -->
+                        @if(isset($sessionPengiriman) && count($sessionPengiriman) > 0)
+                            @foreach($sessionPengiriman as $index => $pengiriman)
+                            <tr>
+                                <td>
+                                    <span class="fw-semibold">{{ $pengiriman['no_permintaan'] }}</span><br>
+                                    <small class="text-muted">ID: {{ $pengiriman['id_pengiriman'] }}</small>
+                                </td>
+                                <td>
+                                    <div class="fw-semibold">{{ Str::limit($pengiriman['produk'], 50) }}</div>
+                                    <small class="text-muted">{{ $pengiriman['total_items'] }} item total</small>
+                                </td>
+                                <td>
+                                    <span class="fw-semibold">{{ $pengiriman['tujuan'] }}</span><br>
+                                    <small class="text-muted">{{ $pengiriman['penanggung_jawab'] }}</small>
+                                </td>
+                                <td>
+                                    <div>{{ date('d M Y', strtotime($pengiriman['tanggal_kirim'])) }}</div>
+                                    <small class="text-muted">{{ date('H:i', strtotime($pengiriman['tanggal_kirim'])) }} WIB</small>
+                                </td>
+                                <td>
+                                    @php
+                                        $statusClass = match($pengiriman['status']) {
+                                            'Siap Kirim' => 'bg-warning',
+                                            'Dalam Perjalanan' => 'bg-info',
+                                            'Selesai' => 'bg-success',
+                                            default => 'bg-secondary'
+                                        };
+                                    @endphp
+                                    <span class="badge {{ $statusClass }}">{{ $pengiriman['status'] }}</span>
+                                </td>
+                                <td>
+                                    <span class="fw-semibold">{{ $pengiriman['total_items'] }}</span><br>
+                                    <small class="text-muted">{{ $pengiriman['prioritas'] }}</small>
+                                </td>
+                                <td>
+                                    <div class="action-dropdown">
+                                        <button class="action-btn">
+                                            <i class="fas fa-ellipsis-v"></i>
+                                        </button>
+                                        <div class="action-dropdown-menu">
+                                            <a href="#" class="action-dropdown-item" 
+                                               onclick="lihatDetailPengiriman('{{ $pengiriman['id_pengiriman'] }}', {{ $index }})">
+                                                <i class="fas fa-eye"></i>
+                                                Lihat Detail
+                                            </a>
+                                            @if($pengiriman['status'] === 'Siap Kirim')
+                                                <a href="#" class="action-dropdown-item"
+                                                   onclick="mulaiPengiriman('{{ $pengiriman['id_pengiriman'] }}', {{ $index }})">
+                                                    <i class="fas fa-truck"></i>
+                                                    Mulai Pengiriman
+                                                </a>
+                                            @endif
+                                            @if($pengiriman['status'] === 'Dalam Perjalanan')
+                                                <a href="#" class="action-dropdown-item"
+                                                   onclick="selesaiPengiriman('{{ $pengiriman['id_pengiriman'] }}', {{ $index }})">
+                                                    <i class="fas fa-check-circle"></i>
+                                                    Selesai Pengiriman
+                                                </a>
+                                            @endif
+                                        </div>
                                     </div>
+                                </td>
+                            </tr>
+                            @endforeach
+                        @endif
+                        
+                        <!-- Data dari database pengiriman lainnya -->
+                        @if(isset($pengiriman) && $pengiriman->count() > 0)
+                            @foreach($pengiriman as $item)
+                            <tr>
+                                <td>
+                                    <span class="fw-semibold">{{ $item->id ?? 'PGR-' . str_pad($item->id ?? 1, 6, '0', STR_PAD_LEFT) }}</span><br>
+                                    <small class="text-muted">{{ $item->kode_pengiriman ?? 'N/A' }}</small>
+                                </td>
+                                <td>
+                                    <div class="fw-semibold">{{ $item->nama_produk ?? $item->produk ?? 'Produk tidak tersedia' }}</div>
+                                    <small class="text-muted">{{ $item->jumlah ?? 0 }} item</small>
+                                </td>
+                                <td>
+                                    <span class="fw-semibold">{{ $item->tujuan ?? 'Tujuan tidak tersedia' }}</span><br>
+                                    <small class="text-muted">{{ $item->alamat ?? 'Alamat tidak tersedia' }}</small>
+                                </td>
+                                <td>
+                                    <div>{{ date('d M Y', strtotime($item->tanggal_kirim ?? $item->created_at)) }}</div>
+                                    <small class="text-muted">{{ date('H:i', strtotime($item->tanggal_kirim ?? $item->created_at)) }} WIB</small>
+                                </td>
+                                <td>
+                                    @php
+                                        $dbStatus = $item->status ?? 'pending';
+                                        $statusClass = match(strtolower($dbStatus)) {
+                                            'pending' => 'bg-warning',
+                                            'dikirim' => 'bg-info',
+                                            'selesai' => 'bg-success',
+                                            default => 'bg-secondary'
+                                        };
+                                    @endphp
+                                    <span class="badge {{ $statusClass }}">{{ ucfirst($dbStatus) }}</span>
+                                </td>
+                                <td>
+                                    <span class="fw-semibold">{{ $item->jumlah ?? 0 }}</span><br>
+                                    <small class="text-muted">{{ $item->prioritas ?? 'Normal' }}</small>
+                                </td>
+                                <td>
+                                    <div class="action-dropdown">
+                                        <button class="action-btn">
+                                            <i class="fas fa-ellipsis-v"></i>
+                                        </button>
+                                        <div class="action-dropdown-menu">
+                                            <a href="{{ route('gudang.pengiriman.show', $item->id) }}" class="action-dropdown-item">
+                                                <i class="fas fa-eye"></i>
+                                                Lihat Detail
+                                            </a>
+                                            @if(strtolower($item->status ?? 'pending') === 'pending')
+                                                <a href="{{ route('gudang.pengiriman.edit', $item->id) }}" class="action-dropdown-item">
+                                                    <i class="fas fa-edit"></i>
+                                                    Edit Pengiriman
+                                                </a>
+                                            @endif
+                                        </div>
+                                    </div>
+                                </td>
+                            </tr>
+                            @endforeach
+                        @endif
+                        
+                        <!-- Jika tidak ada data -->
+                        @if((!isset($sessionPengiriman) || count($sessionPengiriman) === 0) && (!isset($pengiriman) || $pengiriman->count() === 0))
+                        <tr>
+                            <td colspan="7" class="text-center py-4">
+                                <div class="text-muted">
+                                    <i class="fas fa-inbox fa-3x mb-3 opacity-50"></i>
+                                    <p class="mb-0">Belum ada data pengiriman</p>
+                                    <small>Permintaan yang sudah diterima dan dikirim akan muncul di sini</small>
                                 </div>
                             </td>
                         </tr>
-                        <tr>
-                            <td>
-                                <span class="fw-semibold">RSI001234568</span><br>
-                                <small class="text-muted">Order #ORD-2024-002</small>
-                            </td>
-                            <td>
-                                <span class="fw-semibold">Bandung</span><br>
-                                <small class="text-muted">Jl. Asia Afrika No. 45</small>
-                            </td>
-                            <td>
-                                <span class="fw-bold">POS Indonesia</span><br>
-                                <small class="text-muted">Express - Kilat</small>
-                            </td>
-                            <td>
-                                <span class="fw-semibold">24 Agt 2024</span><br>
-                                <small class="text-muted">10:15 WIB</small>
-                            </td>
-                            <td>
-                                <span class="status-badge status-delivered">Terkirim</span>
-                            </td>
-                            <td>
-                                <span class="fw-bold">Rp 28.000</span><br>
-                                <small class="text-muted">Gratis Asuransi</small>
-                            </td>
-                            <td>
-                                <div class="action-dropdown">
-                                    <button class="action-btn" onclick="toggleActionDropdown(this)">
-                                        <i class="fas fa-ellipsis-v"></i>
-                                    </button>
-                                    <div class="action-dropdown-menu">
-                                        <a href="#" class="action-dropdown-item" data-bs-toggle="modal" data-bs-target="#detailModal2">
-                                            <i class="fas fa-eye"></i>
-                                            Lihat Detail
-                                        </a>
-                                        <a href="#" class="action-dropdown-item">
-                                            <i class="fas fa-route"></i>
-                                            Riwayat Pengiriman
-                                        </a>
-                                        <a href="#" class="action-dropdown-item">
-                                            <i class="fas fa-star"></i>
-                                            Beri Rating
-                                        </a>
-                                        <a href="#" class="action-dropdown-item">
-                                            <i class="fas fa-print"></i>
-                                            Cetak Bukti
-                                        </a>
-                                    </div>
-                                </div>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>
-                                <span class="fw-semibold">RSI001234569</span><br>
-                                <small class="text-muted">Order #ORD-2024-003</small>
-                            </td>
-                            <td>
-                                <span class="fw-semibold">Surabaya</span><br>
-                                <small class="text-muted">Jl. Pemuda No. 78</small>
-                            </td>
-                            <td>
-                                <span class="fw-bold">J&T Express</span><br>
-                                <small class="text-muted">REG - Regular</small>
-                            </td>
-                            <td>
-                                <span class="fw-semibold">23 Agt 2024</span><br>
-                                <small class="text-muted">16:45 WIB</small>
-                            </td>
-                            <td>
-                                <span class="status-badge status-pending">Menunggu Pengiriman</span>
-                            </td>
-                            <td>
-                                <span class="fw-bold">Rp 42.000</span><br>
-                                <small class="text-muted">+ Asuransi Rp 8.000</small>
-                            </td>
-                            <td>
-                                <div class="action-dropdown">
-                                    <button class="action-btn" onclick="toggleActionDropdown(this)">
-                                        <i class="fas fa-ellipsis-v"></i>
-                                    </button>
-                                    <div class="action-dropdown-menu">
-                                        <a href="#" class="action-dropdown-item">
-                                            <i class="fas fa-eye"></i>
-                                            Lihat Detail
-                                        </a>
-                                        <a href="#" class="action-dropdown-item">
-                                            <i class="fas fa-paper-plane"></i>
-                                            Proses Pengiriman
-                                        </a>
-                                        <a href="#" class="action-dropdown-item">
-                                            <i class="fas fa-edit"></i>
-                                            Edit Data
-                                        </a>
-                                        <a href="#" class="action-dropdown-item">
-                                            <i class="fas fa-print"></i>
-                                            Cetak Label
-                                        </a>
-                                        <a href="#" class="action-dropdown-item text-danger">
-                                            <i class="fas fa-trash"></i>
-                                            Hapus
-                                        </a>
-                                    </div>
-                                </div>
-                            </td>
-                        </tr>
+                        @endif
                     </tbody>
                 </table>
             </div>
@@ -1083,10 +1063,6 @@ body.dark-mode .modal-body .form-control:focus {
                     <i class="fas fa-times"></i>
                     Tutup
                 </button>
-                <button type="button" class="btn btn-primary">
-                    <i class="fas fa-print"></i>
-                    Cetak Detail
-                </button>
             </div>
         </div>
     </div>
@@ -1133,6 +1109,75 @@ document.querySelector('.btn-primary').addEventListener('click', function() {
     console.log('Filter applied');
 });
 
+// Action functions for pengiriman
+function lihatDetailPengiriman(idPengiriman, index) {
+    console.log('Detail pengiriman:', idPengiriman, 'Index:', index);
+    // Add modal to show pengiriman details
+    alert('Fitur detail pengiriman untuk ID: ' + idPengiriman);
+}
+
+function mulaiPengiriman(idPengiriman, index) {
+    if (confirm('Mulai pengiriman untuk ID: ' + idPengiriman + '?')) {
+        // Update status to "Dalam Perjalanan"
+        updatePengirimanStatus(idPengiriman, index, 'Dalam Perjalanan');
+    }
+}
+
+function selesaiPengiriman(idPengiriman, index) {
+    if (confirm('Selesaikan pengiriman untuk ID: ' + idPengiriman + '?')) {
+        // Update status to "Selesai"
+        updatePengirimanStatus(idPengiriman, index, 'Selesai');
+    }
+}
+
+function updatePengirimanStatus(idPengiriman, index, newStatus) {
+    // Update session data
+    const sessionPengiriman = @json($sessionPengiriman ?? []);
+    if (sessionPengiriman[index]) {
+        // Make AJAX request to update status
+        fetch(`/gudang/pengiriman/${idPengiriman}/update-status`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+            },
+            body: JSON.stringify({
+                status: newStatus,
+                index: index
+            })
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                location.reload(); // Reload to show updated status
+            } else {
+                alert('Error: ' + data.message);
+            }
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            alert('Terjadi kesalahan saat update status');
+        });
+    }
+}
+
+// Action buttons for pengiriman
+document.querySelectorAll('.detail-btn').forEach(btn => {
+    btn.addEventListener('click', function() {
+        const pengirimanId = this.getAttribute('data-id');
+        console.log('Detail pengiriman:', pengirimanId);
+        // Add detail functionality here
+    });
+});
+
+document.querySelectorAll('.proses-btn').forEach(btn => {
+    btn.addEventListener('click', function() {
+        const pengirimanId = this.getAttribute('data-id');
+        console.log('Proses pengiriman:', pengirimanId);
+        // Add processing functionality here
+    });
+});
+
 document.querySelector('.btn-secondary').addEventListener('click', function() {
     // Reset all form fields
     document.getElementById('status').value = '';
@@ -1142,61 +1187,6 @@ document.querySelector('.btn-secondary').addEventListener('click', function() {
     console.log('Filter reset');
 });
 </script>
-
-      </div>
-    </div>
-  </div>
-</div>
-
-<!-- Modal Tambah Pengiriman -->
-<div class="modal fade" id="modalPengiriman" tabindex="-1" aria-labelledby="modalPengirimanLabel" aria-hidden="true">
-  <div class="modal-dialog modal-lg">
-    <div class="modal-content">
-      
-      <div class="modal-header">
-        <h5 class="modal-title" id="modalPengirimanLabel">Tambah Pengiriman Baru</h5>
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-      </div>
-
-      <div class="modal-body">
-        <div class="mb-3">
-          <label class="form-label">Tanggal Pengiriman</label>
-          <input type="date" class="form-control">
-        </div>
-        <div class="mb-3">
-          <label class="form-label">Cabang Tujuan</label>
-          <input type="text" class="form-control" placeholder="Masukkan nama cabang">
-        </div>
-        <div class="mb-3">
-          <label class="form-label">Kode Pengiriman</label>
-          <input type="text" class="form-control" placeholder="Masukkan kode pengiriman">
-        </div>
-        <div class="mb-3">
-          <label class="form-label">Jumlah Barang</label>
-          <input type="number" class="form-control" placeholder="Masukkan jumlah barang">
-        </div>
-        <div class="mb-3">
-          <label class="form-label">Supir</label>
-          <input type="text" class="form-control" placeholder="Masukkan nama supir">
-        </div>
-        <div class="mb-3">
-          <label class="form-label">Status</label>
-          <select class="form-select">
-            <option value="Terkirim">Terkirim</option>
-            <option value="Proses">Proses</option>
-            <option value="Dibatalkan">Dibatalkan</option>
-          </select>
-        </div>
-      </div>
-
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Tutup</button>
-        <button type="button" class="btn btn-primary">Simpan</button>
-      </div>
-
-    </div>
-  </div>
-</div>
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 @endsection
