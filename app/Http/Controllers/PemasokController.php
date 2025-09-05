@@ -3,8 +3,13 @@
 namespace App\Http\Controllers;
 
 use App\Models\Pemasok;
+use App\Models\PemasokUser;
+use App\Models\ChatRoom;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Str;
 
 class PemasokController extends Controller
 {
@@ -14,14 +19,14 @@ class PemasokController extends Controller
     public function index(Request $request)
     {
         $gudang = Auth::guard('gudang')->user();
-        
+
         $query = Pemasok::query();
-        
+
         // Filter berdasarkan pencarian
         if ($request->filled('search')) {
             $query->search($request->search);
         }
-        
+
         // Filter berdasarkan status
         if ($request->filled('status')) {
             if ($request->status === 'aktif') {
@@ -30,47 +35,47 @@ class PemasokController extends Controller
                 $query->nonAktif();
             }
         }
-        
+
         // Filter berdasarkan kategori
         if ($request->filled('kategori')) {
             $query->kategori($request->kategori);
         }
-        
+
         // Filter berdasarkan kota
         if ($request->filled('kota')) {
             $query->where('kota', 'like', '%' . $request->kota . '%');
         }
-        
+
         // Sorting
         $sortBy = $request->get('sort', 'nama_perusahaan');
         $sortOrder = $request->get('order', 'asc');
         $query->orderBy($sortBy, $sortOrder);
-        
+
         $pemasoks = $query->paginate(10);
-        
+
         // Data untuk statistics
         $totalPemasok = Pemasok::count();
         $pemasokAktif = Pemasok::aktif()->count();
         $pemasokNonAktif = Pemasok::nonAktif()->count();
         $totalKategori = Pemasok::distinct('kategori_produk')->count();
-        
+
         // Kategori produk untuk dropdown filter
         $kategoriProduk = Pemasok::distinct()
             ->pluck('kategori_produk')
             ->filter()
             ->sort()
             ->values();
-        
+
         // Kota untuk dropdown filter  
         $kotaList = Pemasok::distinct()
             ->pluck('kota')
             ->filter()
             ->sort()
             ->values();
-        
+
         return view('gudang.pemasok', compact(
             'gudang',
-            'pemasoks', 
+            'pemasoks',
             'totalPemasok',
             'pemasokAktif',
             'pemasokNonAktif',
@@ -107,16 +112,47 @@ class PemasokController extends Controller
             'catatan' => 'nullable|string',
             'rating' => 'nullable|numeric|between:1,5'
         ]);
-        
+
         // Set default rating jika tidak diisi
         if (!isset($validated['rating'])) {
             $validated['rating'] = 5.0;
         }
-        
-        Pemasok::create($validated);
-        
+
+        // Buat pemasok
+        $pemasok = Pemasok::create($validated);
+
+        // Generate username dan password untuk akun supplier
+        $username = Str::slug($validated['nama_perusahaan']) . '_' . $pemasok->id_pemasok;
+        $password = Str::random(8); // Generate password random 8 karakter
+
+        // Buat user account untuk pemasok
+        $pemasokUser = PemasokUser::create([
+            'pemasok_id' => $pemasok->id_pemasok,
+            'username' => $username,
+            'email' => $validated['email'],
+            'password' => Hash::make($password),
+            'nama_lengkap' => $validated['kontak_person'],
+            'telepon' => $validated['telepon'],
+            'status' => 'aktif'
+        ]);
+
+        // Buat chat room default
+        ChatRoom::create([
+            'pemasok_id' => $pemasok->id_pemasok,
+            'gudang_id' => Auth::guard('gudang')->user()->id_gudang,
+            'nama_room' => 'Chat dengan ' . $validated['nama_perusahaan'],
+            'deskripsi' => 'Room chat untuk komunikasi dengan supplier ' . $validated['nama_perusahaan'],
+            'status' => 'aktif'
+        ]);
+
         return redirect()->route('gudang.pemasok.index')
-            ->with('success', 'Pemasok berhasil ditambahkan');
+            ->with('success', 'Pemasok berhasil ditambahkan!')
+            ->with('user_credentials', [
+                'username' => $username,
+                'password' => $password,
+                'email' => $validated['email'],
+                'login_url' => route('supplier.login')
+            ]);
     }
 
     /**
@@ -124,27 +160,38 @@ class PemasokController extends Controller
      */
     public function show($id)
     {
-        \Log::info('PemasokController@show called with ID: ' . $id);
-        
+        Log::info('PemasokController@show called with ID: ' . $id);
+
         try {
-            $pemasok = Pemasok::where('id_pemasok', $id)->first();
-            
+            $pemasok = Pemasok::with('user')->where('id_pemasok', $id)->first();
+
             if (!$pemasok) {
-                \Log::error('Pemasok not found with ID: ' . $id);
+                Log::error('Pemasok not found with ID: ' . $id);
                 return response()->json([
                     'success' => false,
                     'message' => 'Pemasok tidak ditemukan'
                 ], 404);
             }
-            
-            \Log::info('Pemasok found: ' . json_encode($pemasok));
-            
+
+            Log::info('Pemasok found: ' . json_encode($pemasok));
+
+            // Include user login credentials
+            $data = $pemasok->toArray();
+            if ($pemasok->user) {
+                $data['login_credentials'] = [
+                    'username' => $pemasok->user->username,
+                    'email' => $pemasok->user->email,
+                    'login_url' => route('supplier.login'),
+                    'status' => $pemasok->user->status
+                ];
+            }
+
             return response()->json([
                 'success' => true,
-                'data' => $pemasok
+                'data' => $data
             ]);
         } catch (\Exception $e) {
-            \Log::error('Error in PemasokController@show: ' . $e->getMessage());
+            Log::error('Error in PemasokController@show: ' . $e->getMessage());
             return response()->json([
                 'success' => false,
                 'message' => 'Terjadi kesalahan: ' . $e->getMessage()
@@ -170,7 +217,7 @@ class PemasokController extends Controller
     public function update(Request $request, $id)
     {
         $pemasok = Pemasok::findOrFail($id);
-        
+
         $validated = $request->validate([
             'nama_perusahaan' => 'required|string|max:255',
             'kontak_person' => 'required|string|max:255',
@@ -184,9 +231,9 @@ class PemasokController extends Controller
             'catatan' => 'nullable|string',
             'rating' => 'nullable|numeric|between:1,5'
         ]);
-        
+
         $pemasok->update($validated);
-        
+
         // Handle AJAX requests
         if ($request->expectsJson()) {
             return response()->json([
@@ -195,7 +242,7 @@ class PemasokController extends Controller
                 'data' => $pemasok->fresh()
             ]);
         }
-        
+
         return redirect()->route('gudang.pemasok.index')
             ->with('success', 'Pemasok berhasil diperbarui');
     }
@@ -208,7 +255,7 @@ class PemasokController extends Controller
         try {
             $pemasok = Pemasok::findOrFail($id);
             $pemasok->delete();
-            
+
             return response()->json([
                 'success' => true,
                 'message' => 'Pemasok berhasil dihapus'
@@ -220,7 +267,7 @@ class PemasokController extends Controller
             ], 500);
         }
     }
-    
+
     /**
      * Get pemasok data for AJAX
      */
@@ -229,27 +276,27 @@ class PemasokController extends Controller
         // If ID is provided, return single pemasok
         if ($request->filled('id')) {
             $pemasok = Pemasok::where('id_pemasok', $request->id)->first();
-            
+
             if (!$pemasok) {
                 return response()->json([
                     'success' => false,
                     'message' => 'Pemasok tidak ditemukan'
                 ], 404);
             }
-            
+
             return response()->json([
                 'success' => true,
                 'data' => $pemasok
             ]);
         }
-        
+
         $query = Pemasok::query();
-        
+
         // Apply filters
         if ($request->filled('search')) {
             $query->search($request->search);
         }
-        
+
         if ($request->filled('status')) {
             if ($request->status === 'aktif') {
                 $query->aktif();
@@ -257,17 +304,17 @@ class PemasokController extends Controller
                 $query->nonAktif();
             }
         }
-        
+
         if ($request->filled('kategori')) {
             $query->kategori($request->kategori);
         }
-        
+
         if ($request->filled('kota')) {
             $query->where('kota', 'like', '%' . $request->kota . '%');
         }
-        
+
         $pemasoks = $query->get();
-        
+
         return response()->json([
             'success' => true,
             'data' => $pemasoks
@@ -281,12 +328,12 @@ class PemasokController extends Controller
     {
         try {
             $query = Pemasok::query();
-            
+
             // Apply filters
             if ($request->filled('search')) {
                 $query->search($request->search);
             }
-            
+
             if ($request->filled('status')) {
                 if ($request->status === 'aktif') {
                     $query->aktif();
@@ -294,17 +341,17 @@ class PemasokController extends Controller
                     $query->nonAktif();
                 }
             }
-            
+
             if ($request->filled('kategori')) {
                 $query->kategori($request->kategori);
             }
-            
+
             if ($request->filled('kota')) {
                 $query->where('kota', 'like', '%' . $request->kota . '%');
             }
-            
+
             $pemasoks = $query->orderBy('nama_perusahaan', 'asc')->get();
-            
+
             // Jika tidak ada data, buat data sample untuk testing
             if ($pemasoks->isEmpty()) {
                 $pemasoks = collect([
@@ -336,15 +383,15 @@ class PemasokController extends Controller
                     ]
                 ]);
             }
-            
+
             // Check if user wants Excel format
             if ($request->get('format') === 'excel') {
                 return $this->exportToExcel($pemasoks);
             }
-            
+
             // Default CSV export
             $filename = 'Data_Pemasok_' . date('Y-m-d_H-i-s') . '.csv';
-            
+
             $headers = [
                 'Content-Type' => 'text/csv; charset=UTF-8',
                 'Content-Disposition' => 'attachment; filename="' . $filename . '"',
@@ -352,13 +399,13 @@ class PemasokController extends Controller
                 'Cache-Control' => 'must-revalidate, post-check=0, pre-check=0',
                 'Expires' => '0'
             ];
-            
-            $callback = function() use ($pemasoks) {
+
+            $callback = function () use ($pemasoks) {
                 $file = fopen('php://output', 'w');
-                
+
                 // Add BOM untuk UTF-8 encoding di Excel
-                fprintf($file, chr(0xEF).chr(0xBB).chr(0xBF));
-                
+                fprintf($file, chr(0xEF) . chr(0xBB) . chr(0xBF));
+
                 // Add headers dengan delimiter titik koma untuk Excel Indonesia
                 fputcsv($file, [
                     'No',
@@ -374,7 +421,7 @@ class PemasokController extends Controller
                     'Rating',
                     'Catatan'
                 ], ';'); // Gunakan semicolon sebagai delimiter
-                
+
                 // Add data
                 $no = 1;
                 foreach ($pemasoks as $pemasok) {
@@ -386,7 +433,7 @@ class PemasokController extends Controller
                             $tanggalKerjasama = date('d/m/Y', strtotime($pemasok->tanggal_kerjasama));
                         }
                     }
-                    
+
                     // Bersihkan data untuk menghindari line break
                     fputcsv($file, [
                         $no++,
@@ -403,14 +450,13 @@ class PemasokController extends Controller
                         str_replace(["\r", "\n"], ' ', $pemasok->catatan ?? '')
                     ], ';'); // Gunakan semicolon sebagai delimiter
                 }
-                
+
                 fclose($file);
             };
-            
+
             return response()->stream($callback, 200, $headers);
-            
         } catch (\Exception $e) {
-            \Log::error('Export error: ' . $e->getMessage());
+            Log::error('Export error: ' . $e->getMessage());
             return redirect()->back()->with('error', 'Terjadi kesalahan saat export: ' . $e->getMessage());
         }
     }
@@ -421,7 +467,7 @@ class PemasokController extends Controller
     private function exportToExcel($pemasoks)
     {
         $filename = 'Data_Pemasok_' . date('Y-m-d_H-i-s') . '.xls';
-        
+
         $headers = [
             'Content-Type' => 'application/vnd.ms-excel; charset=UTF-8',
             'Content-Disposition' => 'attachment; filename="' . $filename . '"',
@@ -429,7 +475,7 @@ class PemasokController extends Controller
             'Cache-Control' => 'must-revalidate, post-check=0, pre-check=0',
             'Expires' => '0'
         ];
-        
+
         $html = '
         <html>
         <head>
@@ -457,7 +503,7 @@ class PemasokController extends Controller
                     <th>Rating</th>
                     <th>Catatan</th>
                 </tr>';
-        
+
         $no = 1;
         foreach ($pemasoks as $pemasok) {
             $tanggalKerjasama = '';
@@ -468,7 +514,7 @@ class PemasokController extends Controller
                     $tanggalKerjasama = date('d/m/Y', strtotime($pemasok->tanggal_kerjasama));
                 }
             }
-            
+
             $html .= '<tr>';
             $html .= '<td>' . $no++ . '</td>';
             $html .= '<td>' . htmlspecialchars($pemasok->nama_perusahaan ?? '') . '</td>';
@@ -484,9 +530,45 @@ class PemasokController extends Controller
             $html .= '<td>' . htmlspecialchars($pemasok->catatan ?? '') . '</td>';
             $html .= '</tr>';
         }
-        
+
         $html .= '</table></body></html>';
-        
+
         return response($html, 200, $headers);
+    }
+
+    /**
+     * Reset password untuk akun supplier
+     */
+    public function resetPassword($id)
+    {
+        try {
+            $pemasok = Pemasok::with('user')->findOrFail($id);
+
+            if (!$pemasok->user) {
+                return response()->json([
+                    'success' => false,
+                    'message' => 'Akun supplier belum dibuat untuk pemasok ini'
+                ], 404);
+            }
+
+            // Generate password baru
+            $newPassword = Str::random(8);
+
+            // Update password
+            $pemasok->user->update([
+                'password' => Hash::make($newPassword)
+            ]);
+
+            return response()->json([
+                'success' => true,
+                'message' => 'Password berhasil direset',
+                'new_password' => $newPassword
+            ]);
+        } catch (\Exception $e) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Terjadi kesalahan: ' . $e->getMessage()
+            ], 500);
+        }
     }
 }

@@ -362,7 +362,6 @@ require __DIR__ . '/pelanggan.php';
 require __DIR__ . '/gudang.php';
 require __DIR__ . '/admin.php';
 
-
 // Route kategori - cleaned up without duplicates
 Route::prefix('kategori')->name('kategori.')->group(function () {
     Route::get('/elektronik', [CategoryController::class, 'elektronik'])->name('elektronik');
@@ -395,6 +394,102 @@ Route::get('/test-csrf', function () {
 Route::post('/test-csrf', function (Request $request) {
     return back()->with('success', 'CSRF test successful! Data: ' . $request->input('test_input'));
 })->name('test.csrf.submit');
+
+// Protected Admin Routes
+Route::middleware(['auth:admin'])->group(function () {
+    Route::get('/dashboard', [AdminController::class, 'dashboard'])->name('dashboard');
+    Route::get('/chart-data', [AdminController::class, 'getChartData'])->name('chart.data');
+    Route::get('/data-karyawan', [AdminController::class, 'dataKaryawan'])->name('data-karyawan');
+    Route::get('/data-karyawan/search', [AdminController::class, 'searchKaryawan'])->name('data-karyawan.search');
+    Route::get('/data-karyawan/tambah', [AdminController::class, 'tambahKaryawan'])->name('data-karyawan.tambah');
+    Route::post('/data-karyawan', [AdminController::class, 'storeKaryawan'])->name('data-karyawan.store');
+    Route::post('/karyawan/{id}/toggle-status', [AdminController::class, 'toggleKaryawanStatus'])->name('karyawan.toggle-status');
+
+    // Search Routes
+    Route::post('/search', [AdminController::class, 'search'])->name('search');
+    Route::get('/search-results', [AdminController::class, 'searchResults'])->name('search-results');
+
+    // Profile Routes
+    Route::get('/profile', [AdminController::class, 'profile'])->name('profile');
+    Route::put('/profile', [AdminController::class, 'updateProfile'])->name('profile.update');
+    Route::get('/sales-data', [AdminController::class, 'getSalesData'])->name('sales.data');
+    Route::get('/profile', [AdminController::class, 'profile'])->name('profile');
+    Route::post('/profile', [AdminController::class, 'updateProfile'])->name('profile.update');
+    Route::get('penggajian', [PenggajianController::class, 'index'])->name('penggajian');
+    Route::get('penggajian/create', [PenggajianController::class, 'create'])->name('penggajian.create');
+    Route::post('penggajian/store', [PenggajianController::class, 'store'])->name('penggajian.store');
+    Route::get('penggajian/karyawan/{id}/gaji', [PenggajianController::class, 'getGajiByKaryawan'])->name('penggajian.gaji-by-karyawan');
+    Route::post('penggajian/bulk-action', [PenggajianController::class, 'bulkAction'])->name('penggajian.bulk-action');
+    Route::post('penggajian/generate', [PenggajianController::class, 'generateSlipGaji'])->name('penggajian.generate');
+    Route::post('penggajian/export', [PenggajianController::class, 'exportData'])->name('penggajian.export');
+
+    // Penggajian Otomatis Routes
+    Route::get('penggajian-otomatis', [PenggajianOtomatisController::class, 'index'])->name('penggajian-otomatis');
+    Route::post('penggajian-otomatis/generate', [PenggajianOtomatisController::class, 'generateGaji'])->name('penggajian-otomatis.generate');
+    Route::post('penggajian-otomatis/approve', [PenggajianOtomatisController::class, 'bulkApprove'])->name('penggajian-otomatis.approve');
+    Route::post('penggajian-otomatis/approve/{id}', [PenggajianOtomatisController::class, 'approveGaji'])->name('penggajian-otomatis.approve.single');
+    Route::post('penggajian-otomatis/pay/{id}', [PenggajianOtomatisController::class, 'markAsPaid'])->name('penggajian-otomatis.pay');
+    Route::get('penggajian-detail/{id}', [PenggajianOtomatisController::class, 'detail'])->name('penggajian-detail');
+
+    // Jabatan & Gaji Management Routes
+    Route::get('jabatan-gaji', [PenggajianOtomatisController::class, 'jabatan'])->name('jabatan-gaji');
+    Route::post('jabatan-gaji', [PenggajianOtomatisController::class, 'storeJabatan'])->name('jabatan-gaji.store');
+    Route::put('jabatan-gaji/{id}', [PenggajianOtomatisController::class, 'updateJabatan'])->name('jabatan-gaji.update');
+    Route::delete('jabatan-gaji/{id}', [PenggajianOtomatisController::class, 'deleteJabatan'])->name('jabatan-gaji.delete');
+    Route::get('laporan', [KeuanganController::class, 'laporan'])->name('laporan');
+    Route::get('absensi', function () {
+        return view('admin.absensi');
+    })->name('absensi');
+
+    // Manajemen Pengguna Routes
+    Route::get('daftar-pengguna', function () {
+        return view('admin.daftar-pengguna');
+    })->name('daftar-pengguna');
+    Route::get('membership', function () {
+        return view('admin.membership');
+    })->name('membership');
+    Route::get('log-aktivitas', function () {
+        return view('admin.log-aktivitas');
+    })->name('log-aktivitas');
+
+    // Manajemen Gudang Routes
+    Route::get('data-pengawai-gudang', function () {
+        return view('admin.data-pengawai-gudang');
+    })->name('data-pengawai-gudang');
+    Route::get('lokasi-gudang', function () {
+        return view('admin.lokasi-gudang');
+    })->name('lokasi-gudang');
+    Route::get('data-barang', function () {
+        return view('admin.data-barang');
+    })->name('data-barang');
+
+    Route::get('pengaturan', function () {
+        return view('admin.pengaturan');
+    })->name('pengaturan');
+
+    // Keuangan Routes
+    Route::prefix('keuangan')->name('keuangan.')->group(function () {
+        Route::get('dashboard', [KeuanganController::class, 'dashboard'])->name('dashboard');
+        Route::get('riwayat-transaksi', [KeuanganController::class, 'riwayatTransaksi'])->name('riwayat');
+        Route::get('buku-besar', [KeuanganController::class, 'bukuBesar'])->name('bukubesar');
+        Route::get('laporan', [KeuanganController::class, 'laporan'])->name('laporan');
+        Route::get('export-pdf', [KeuanganController::class, 'exportPDF'])->name('export.pdf');
+
+        // AJAX Routes
+        Route::get('detail-transaksi/{id}', [KeuanganController::class, 'getDetailTransaksi'])->name('detail.transaksi');
+        Route::get('export-riwayat', [KeuanganController::class, 'exportRiwayatTransaksi'])->name('export.riwayat');
+    });
+
+    // Route redirect untuk kompatibilitas layout
+    Route::get('keuangan', function () {
+        return redirect()->route('admin.keuangan.dashboard');
+    })->name('keuangan');
+});
+
+// Supplier routes
+Route::prefix('supplier')->group(function () {
+    require __DIR__ . '/supplier.php';
+});
 
 // Fallback route untuk halaman yang tidak ditemukan (404)
 Route::fallback(function () {

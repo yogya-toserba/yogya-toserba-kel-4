@@ -8,19 +8,19 @@ use Illuminate\Database\Eloquent\Model;
 class Pemasok extends Model
 {
     use HasFactory;
-    
+
     protected $table = 'pemasok';
     protected $primaryKey = 'id_pemasok';
-    
+
     // Tell Laravel to use this key for route model binding
     public function getRouteKeyName()
     {
         return 'id_pemasok';
     }
-    
+
     protected $fillable = [
         'nama_perusahaan',
-        'kontak_person', 
+        'kontak_person',
         'telepon',
         'email',
         'alamat',
@@ -31,37 +31,49 @@ class Pemasok extends Model
         'catatan',
         'rating'
     ];
-    
+
     protected $casts = [
         'tanggal_kerjasama' => 'date',
         'rating' => 'decimal:1'
     ];
-    
+
     // Scope untuk filter status
     public function scopeAktif($query)
     {
         return $query->where('status', 'aktif');
     }
-    
+
     public function scopeNonAktif($query)
     {
         return $query->where('status', 'non-aktif');
     }
-    
+
     // Scope untuk search
     public function scopeSearch($query, $search)
     {
-        return $query->where(function($q) use ($search) {
+        return $query->where(function ($q) use ($search) {
             $q->where('nama_perusahaan', 'like', "%{$search}%")
-              ->orWhere('kontak_person', 'like', "%{$search}%")
-              ->orWhere('kategori_produk', 'like', "%{$search}%")
-              ->orWhere('kota', 'like', "%{$search}%");
+                ->orWhere('kontak_person', 'like', "%{$search}%")
+                ->orWhere('kategori_produk', 'like', "%{$search}%")
+                ->orWhere('kota', 'like', "%{$search}%");
         });
     }
-    
+
     // Scope untuk filter kategori
     public function scopeKategori($query, $kategori)
     {
         return $query->where('kategori_produk', 'like', "%{$kategori}%");
+    }
+
+    // Relasi dengan user pemasok
+    public function user()
+    {
+        return $this->hasOne(PemasokUser::class, 'pemasok_id', 'id_pemasok');
+    }
+
+    // Relasi dengan chat rooms
+    public function chatRooms()
+    {
+        return $this->hasMany(ChatRoom::class, 'pemasok_id', 'id_pemasok');
     }
 }

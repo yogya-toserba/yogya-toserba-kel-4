@@ -12,6 +12,40 @@
     </div>
     @endif
 
+    <!-- User Credentials Alert -->
+    @if(session('user_credentials'))
+    <div class="alert alert-info alert-dismissible fade show mb-4" role="alert">
+        <div class="d-flex justify-content-between align-items-start">
+            <div>
+                <h5 class="alert-heading">
+                    <i class="fas fa-user-lock me-2"></i>Akun Supplier Berhasil Dibuat!
+                </h5>
+                <hr>
+                <div class="row">
+                    <div class="col-md-6">
+                        <strong>Username:</strong><br>
+                        <code class="fs-6">{{ session('user_credentials.username') }}</code>
+                    </div>
+                    <div class="col-md-6">
+                        <strong>Password:</strong><br>
+                        <code class="fs-6">{{ session('user_credentials.password') }}</code>
+                    </div>
+                </div>
+                <hr>
+                <p class="mb-0">
+                    <strong>Email:</strong> {{ session('user_credentials.email') }}<br>
+                    <strong>URL Login:</strong> <a href="{{ session('user_credentials.login_url') }}" target="_blank">{{ session('user_credentials.login_url') }}</a>
+                </p>
+                <small class="text-muted">
+                    <i class="fas fa-exclamation-triangle"></i> 
+                    Simpan kredensial ini dengan aman. Password hanya ditampilkan sekali saja!
+                </small>
+            </div>
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+    </div>
+    @endif
+
     <!-- Error Alert -->
     @if(session('error'))
     <div class="alert alert-danger alert-dismissible fade show mb-4" role="alert">
@@ -1039,6 +1073,52 @@ function viewPemasokDetail(id) {
                     </table>
                 </div>
             </div>
+            ${pemasok.login_credentials ? `
+            <div class="row mt-3">
+                <div class="col-12">
+                    <h6 class="text-success mb-3">
+                        <i class="fas fa-user-lock me-2"></i>Informasi Login Supplier
+                    </h6>
+                    <div class="alert alert-info">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <strong>Username:</strong><br>
+                                <code class="fs-6">${pemasok.login_credentials.username}</code>
+                            </div>
+                            <div class="col-md-6">
+                                <strong>Email Login:</strong><br>
+                                <code class="fs-6">${pemasok.login_credentials.email}</code>
+                            </div>
+                        </div>
+                        <hr>
+                        <p class="mb-0">
+                            <strong>URL Login:</strong> 
+                            <a href="${pemasok.login_credentials.login_url}" target="_blank">
+                                ${pemasok.login_credentials.login_url}
+                            </a><br>
+                            <strong>Status Akun:</strong> 
+                            <span class="badge ${pemasok.login_credentials.status === 'aktif' ? 'bg-success' : 'bg-danger'}">
+                                ${pemasok.login_credentials.status}
+                            </span>
+                        </p>
+                        <small class="text-muted">
+                            <i class="fas fa-info-circle"></i> 
+                            Password hanya ditampilkan saat pertama kali membuat akun.
+                        </small>
+                    </div>
+                </div>
+            </div>
+            ` : `
+            <div class="row mt-3">
+                <div class="col-12">
+                    <div class="alert alert-warning">
+                        <i class="fas fa-exclamation-triangle me-2"></i>
+                        <strong>Akun Login Belum Dibuat</strong><br>
+                        <small>Silakan edit pemasok untuk membuat akun login supplier.</small>
+                    </div>
+                </div>
+            </div>
+            `}
             ${pemasok.catatan ? `
             <div class="row mt-3">
                 <div class="col-12">

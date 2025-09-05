@@ -84,6 +84,36 @@
       @endif
     </a>
 
+    <a href="{{ route('gudang.chat.index') }}" class="nav-item {{ request()->routeIs('gudang.chat*') ? 'active' : '' }}">
+      <div class="nav-icon">
+        <i class="fas fa-comments"></i>
+        @php
+          $unreadCount = 0;
+          try {
+            $gudang = Auth::guard('gudang')->user();
+            if ($gudang) {
+              $chatRooms = \App\Models\ChatRoom::with('messages')
+                  ->where('gudang_id', $gudang->id_gudang)
+                  ->orWhereNull('gudang_id')
+                  ->get();
+              $unreadCount = $chatRooms->sum(function($room) use ($gudang) {
+                  return $room->unreadMessagesCount('gudang', $gudang->id_gudang);
+              });
+            }
+          } catch (\Exception $e) {
+            // Ignore errors to prevent layout breaking
+          }
+        @endphp
+        @if($unreadCount > 0)
+          <span class="chat-badge">{{ $unreadCount > 99 ? '99+' : $unreadCount }}</span>
+        @endif
+      </div>
+      <span class="nav-text">Chat Supplier</span>
+      @if(request()->routeIs('gudang.chat*'))
+        <div class="nav-indicator"></div>
+      @endif
+    </a>
+
     <a href="{{ route('gudang.resiko') }}" class="nav-item {{ request()->routeIs('gudang.resiko') ? 'active' : '' }}">
       <div class="nav-icon">
         <i class="fas fa-exclamation-triangle"></i>

@@ -10,7 +10,9 @@ class Gudang extends Authenticatable
     use Notifiable;
 
     protected $table = 'gudang';
-    protected $primaryKey = 'id'; // Use 'id' as primary key, not 'id_gudang'
+    protected $primaryKey = 'id_gudang'; // Use 'id_gudang' as primary key
+    protected $keyType = 'string'; // Since id_gudang is string
+    public $incrementing = false; // Since it's not auto-increment
     protected $guard = 'gudang';
 
     // Define the username field for authentication

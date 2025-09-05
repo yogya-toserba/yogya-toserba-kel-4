@@ -618,6 +618,33 @@
       border: 1px solid #e3e6f0;
     }
 
+    /* Chat Badge Styling */
+    .chat-badge {
+      position: absolute;
+      top: -5px;
+      right: -8px;
+      background: #dc3545;
+      color: white;
+      border-radius: 50%;
+      min-width: 18px;
+      height: 18px;
+      font-size: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: bold;
+      z-index: 10;
+      border: 2px solid #ffffff;
+    }
+
+    .nav-icon {
+      position: relative;
+    }
+
+    body.dark-mode .chat-badge {
+      border-color: #2a2d3f;
+    }
+
     /* RESPONSIVE SIDEBAR */
     @media (max-width: 1200px) {
       .main-content {

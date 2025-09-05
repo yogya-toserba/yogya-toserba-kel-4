@@ -22,6 +22,10 @@ return [
             'driver' => 'session',
             'provider' => 'gudangs',
         ],
+        'pemasok' => [
+            'driver' => 'session',
+            'provider' => 'pemasoks',
+        ],
     ],
 
     'providers' => [
@@ -40,6 +44,10 @@ return [
         'gudangs' => [
             'driver' => 'eloquent',
             'model' => App\Models\Gudang::class,
+        ],
+        'pemasoks' => [
+            'driver' => 'eloquent',
+            'model' => App\Models\PemasokUser::class,
         ],
     ],
 
