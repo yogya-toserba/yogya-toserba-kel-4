@@ -6,54 +6,94 @@ use App\Http\Controllers\Controller;
 use App\Models\Absensi;
 use App\Models\Karyawan;
 use App\Models\Shift;
+use App\Models\JadwalKerja;
+use App\Services\AbsensiService;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
 class AbsensiController extends Controller
 {
+    protected $absensiService;
+
+    public function __construct(AbsensiService $absensiService)
+    {
+        $this->absensiService = $absensiService;
+    }
+
     /**
      * Display a listing of the resource.
      */
     public function index(Request $request)
     {
-        $tanggal = $request->get('tanggal', Carbon::today()->format('Y-m-d'));
+        $tanggal = $request->get('tanggal');
         $bulan = $request->get('bulan', Carbon::now()->month);
         $tahun = $request->get('tahun', Carbon::now()->year);
         $karyawan_id = $request->get('karyawan_id');
+        $status = $request->get('status');
+        $perPage = $request->get('per_page', 15);
 
-        // Base query
-        $query = Absensi::with(['karyawan.jabatan', 'shift']);
+        // Base query dengan relasi yang benar
+        $query = Absensi::with(['karyawan.jabatan', 'jadwalKerja.shift']);
 
         // Filter berdasarkan parameter
         if ($request->filled('tanggal')) {
-            $query->whereDate('tanggal', $tanggal);
+            $query->whereDate('absensi.tanggal', $tanggal);
         } else {
-            $query->whereYear('tanggal', $tahun)
+            $query->whereYear('absensi.tanggal', $tahun)
+                ->whereMonth('absensi.tanggal', $bulan);
+        }
+
+        if ($karyawan_id) {
+            $query->where('absensi.id_karyawan', $karyawan_id);
+        }
+
+        if ($status) {
+            $query->where('absensi.status', $status);
+        }
+
+        $absensiList = $query->orderBy('absensi.tanggal', 'desc')
+            ->orderBy('absensi.jam_masuk', 'asc')
+            ->paginate($perPage);
+
+        // Append query parameters
+        $absensiList->appends($request->query());
+
+        // Data untuk filter
+        $karyawanList = Karyawan::where('status', 'aktif')
+            ->orderBy('nama')
+            ->get();
+        $shiftList = Shift::all();
+
+        // Statistik berdasarkan filter yang sama
+        $statsQuery = Absensi::query();
+
+        if ($request->filled('tanggal')) {
+            $statsQuery->whereDate('tanggal', $tanggal);
+        } else {
+            $statsQuery->whereYear('tanggal', $tahun)
                 ->whereMonth('tanggal', $bulan);
         }
 
         if ($karyawan_id) {
-            $query->where('id_karyawan', $karyawan_id);
+            $statsQuery->where('id_karyawan', $karyawan_id);
         }
 
-        $absensiList = $query->orderBy('tanggal', 'desc')
-            ->orderBy('jam_masuk', 'asc')
-            ->paginate(20);
-
-        // Data untuk filter
-        $karyawanList = Karyawan::where('status', 'aktif')->get();
-        $shiftList = Shift::all();
-
-        // Statistik
         $stats = [
-            'total_hadir' => $query->where('status', 'hadir')->count(),
-            'total_terlambat' => $query->where('status', 'terlambat')->count(),
-            'total_alpha' => $query->where('status', 'alpha')->count(),
-            'total_izin' => $query->where('status', 'izin')->count()
+            'total_hadir' => $statsQuery->clone()->hadir()->count(),
+            'total_alfa' => $statsQuery->clone()->alfa()->count(),
+            'total_izin' => $statsQuery->clone()->izin()->count(),
+            'total_sakit' => $statsQuery->clone()->sakit()->count(),
+            'total_terlambat' => $statsQuery->clone()->terlambat()->count(),
+            'rata_durasi_kerja' => round($statsQuery->clone()->hadir()->avg(DB::raw('TIMESTAMPDIFF(MINUTE, jam_masuk, jam_keluar)')) / 60, 2) ?? 0,
+            'total_menit_terlambat' => $statsQuery->clone()->sum('terlambat_menit') ?? 0
         ];
 
+        // Alias untuk backward compatibility dengan view
+        $absensi = $absensiList;
+
         return view('admin.absensi.index', compact(
+            'absensi',
             'absensiList',
             'karyawanList',
             'shiftList',
@@ -61,7 +101,8 @@ class AbsensiController extends Controller
             'tanggal',
             'bulan',
             'tahun',
-            'karyawan_id'
+            'karyawan_id',
+            'status'
         ));
     }
 
@@ -104,7 +145,7 @@ class AbsensiController extends Controller
 
         Absensi::create($request->all());
 
-        return redirect()->route('admin.absensi')
+        return redirect()->route('admin.absensi.index')
             ->with('success', 'Data absensi berhasil ditambahkan.');
     }
 
@@ -113,7 +154,7 @@ class AbsensiController extends Controller
      */
     public function show($id)
     {
-        $absensi = Absensi::with(['karyawan.jabatan', 'shift'])->findOrFail($id);
+        $absensi = Absensi::with(['karyawan.jabatan', 'jadwalKerja.shift'])->findOrFail($id);
 
         return view('admin.absensi.detail', compact('absensi'));
     }
@@ -145,7 +186,7 @@ class AbsensiController extends Controller
         $absensi = Absensi::findOrFail($id);
         $absensi->update($request->all());
 
-        return redirect()->route('admin.absensi')
+        return redirect()->route('admin.absensi.index')
             ->with('success', 'Data absensi berhasil diperbarui.');
     }
 
@@ -157,7 +198,7 @@ class AbsensiController extends Controller
         $absensi = Absensi::findOrFail($id);
         $absensi->delete();
 
-        return redirect()->route('admin.absensi')
+        return redirect()->route('admin.absensi.index')
             ->with('success', 'Data absensi berhasil dihapus.');
     }
 
@@ -173,7 +214,7 @@ class AbsensiController extends Controller
         // Handle file import logic here
         // For now, just return success message
 
-        return redirect()->route('admin.absensi')
+        return redirect()->route('admin.absensi.index')
             ->with('success', 'Data absensi berhasil diimport.');
     }
 
@@ -185,7 +226,7 @@ class AbsensiController extends Controller
         $bulan = $request->get('bulan', Carbon::now()->month);
         $tahun = $request->get('tahun', Carbon::now()->year);
 
-        $absensiList = Absensi::with(['karyawan.jabatan', 'shift'])
+        $absensiList = Absensi::with(['karyawan.jabatan', 'jadwalKerja.shift'])
             ->whereYear('tanggal', $tahun)
             ->whereMonth('tanggal', $bulan)
             ->get();
@@ -245,7 +286,200 @@ class AbsensiController extends Controller
         Absensi::whereIn('id_absensi', $request->selected_ids)
             ->update(['status' => $request->status]);
 
-        return redirect()->route('admin.absensi')
+        return redirect()->route('admin.absensi.index')
             ->with('success', 'Status absensi berhasil diperbarui secara massal.');
+    }
+
+    /**
+     * Absensi masuk
+     */
+    public function checkIn(Request $request)
+    {
+        $request->validate([
+            'id_karyawan' => 'required|exists:karyawan,id_karyawan',
+            'foto' => 'nullable|image|max:2048',
+            'lokasi' => 'nullable|string|max:255'
+        ]);
+
+        $data = [
+            'tanggal' => now()->toDateString(),
+            'jam' => now()->toTimeString(),
+            'lokasi' => $request->lokasi,
+            'foto' => $request->hasFile('foto') ? $this->uploadFoto($request->file('foto'), 'masuk') : null
+        ];
+
+        $result = $this->absensiService->recordKehadiran($request->id_karyawan, 'masuk', $data);
+
+        if ($result['success']) {
+            return response()->json([
+                'success' => true,
+                'message' => $result['message'],
+                'data' => $result['data']
+            ]);
+        }
+
+        return response()->json([
+            'success' => false,
+            'message' => $result['message']
+        ], 400);
+    }
+
+    /**
+     * Absensi keluar
+     */
+    public function checkOut(Request $request)
+    {
+        $request->validate([
+            'id_karyawan' => 'required|exists:karyawan,id_karyawan',
+            'foto' => 'nullable|image|max:2048',
+            'lokasi' => 'nullable|string|max:255'
+        ]);
+
+        $data = [
+            'tanggal' => now()->toDateString(),
+            'jam' => now()->toTimeString(),
+            'lokasi' => $request->lokasi,
+            'foto' => $request->hasFile('foto') ? $this->uploadFoto($request->file('foto'), 'keluar') : null
+        ];
+
+        $result = $this->absensiService->recordKehadiran($request->id_karyawan, 'keluar', $data);
+
+        if ($result['success']) {
+            return response()->json([
+                'success' => true,
+                'message' => $result['message'],
+                'data' => $result['data']
+            ]);
+        }
+
+        return response()->json([
+            'success' => false,
+            'message' => $result['message']
+        ], 400);
+    }
+
+    /**
+     * Pengajuan izin/sakit
+     */
+    public function submitIzinSakit(Request $request)
+    {
+        $request->validate([
+            'id_karyawan' => 'required|exists:karyawan,id_karyawan',
+            'tanggal' => 'required|date|after_or_equal:today',
+            'status' => 'required|in:Izin,Sakit',
+            'keterangan' => 'required|string|max:500',
+            'dokumen' => 'nullable|file|mimes:pdf,jpg,jpeg,png|max:2048'
+        ]);
+
+        $dokumen = null;
+        if ($request->hasFile('dokumen')) {
+            $dokumen = $request->file('dokumen')->store('absensi/dokumen', 'public');
+        }
+
+        $result = $this->absensiService->recordIzinSakit(
+            $request->id_karyawan,
+            $request->tanggal,
+            $request->status,
+            $request->keterangan,
+            $dokumen
+        );
+
+        if ($result['success']) {
+            return redirect()->back()->with('success', $result['message']);
+        }
+
+        return redirect()->back()->withErrors(['error' => $result['message']]);
+    }
+
+    /**
+     * Laporan harian
+     */
+    public function laporanHarian(Request $request)
+    {
+        $tanggal = $request->get('tanggal', now()->toDateString());
+
+        $laporan = $this->absensiService->getLaporanHarian($tanggal);
+
+        return view('admin.absensi.laporan-harian', compact('laporan', 'tanggal'));
+    }
+
+    /**
+     * Dashboard absensi
+     */
+    public function dashboard(Request $request)
+    {
+        $periode = $request->get('periode', now()->format('Y-m'));
+
+        // Statistik umum
+        $stats = $this->absensiService->getStatistikAbsensi($periode);
+
+        // Data untuk chart kehadiran
+        $chartData = $this->getChartKehadiran($periode);
+
+        // Top 5 karyawan terlambat
+        $topTerlambat = Absensi::with('karyawan')
+            ->whereYear('tanggal', Carbon::parse($periode)->year)
+            ->whereMonth('tanggal', Carbon::parse($periode)->month)
+            ->where('terlambat_menit', '>', 0)
+            ->select('id_karyawan', DB::raw('SUM(terlambat_menit) as total_terlambat'), DB::raw('COUNT(*) as jumlah_terlambat'))
+            ->groupBy('id_karyawan')
+            ->orderBy('total_terlambat', 'desc')
+            ->limit(5)
+            ->get();
+
+        return view('admin.absensi.dashboard', compact('stats', 'chartData', 'topTerlambat', 'periode'));
+    }
+
+    /**
+     * Auto mark absent for today
+     */
+    public function autoMarkAbsent(Request $request)
+    {
+        $tanggal = $request->get('tanggal', now()->toDateString());
+
+        $count = $this->absensiService->autoMarkAbsent($tanggal);
+
+        return response()->json([
+            'success' => true,
+            'message' => "Berhasil menandai {$count} karyawan sebagai alfa",
+            'count' => $count
+        ]);
+    }
+
+    /**
+     * Upload foto absensi
+     */
+    private function uploadFoto($file, $type)
+    {
+        $filename = time() . '_' . $type . '.' . $file->getClientOriginalExtension();
+        return $file->storeAs('absensi/foto', $filename, 'public');
+    }
+
+    /**
+     * Get chart data for attendance
+     */
+    private function getChartKehadiran($periode)
+    {
+        $tanggal = Carbon::parse($periode);
+        $startDate = $tanggal->copy()->startOfMonth();
+        $endDate = $tanggal->copy()->endOfMonth();
+
+        $data = [];
+
+        while ($startDate->lte($endDate)) {
+            $hadir = Absensi::whereDate('tanggal', $startDate->toDateString())
+                ->hadir()
+                ->count();
+
+            $data[] = [
+                'tanggal' => $startDate->format('Y-m-d'),
+                'hari' => $startDate->format('D'),
+                'hadir' => $hadir
+            ];
+
+            $startDate->addDay();
+        }
+
+        return $data;
     }
 }

@@ -48,12 +48,13 @@ Route::prefix('admin')->name('admin.')->group(function () {
         Route::post('penggajian/preview', [PenggajianController::class, 'preview'])->name('penggajian.preview');
         Route::get('penggajian/konfigurasi', [PenggajianController::class, 'konfigurasi'])->name('penggajian.konfigurasi');
         Route::get('penggajian/karyawan/{id}/gaji', [PenggajianController::class, 'getGajiByKaryawan'])->name('penggajian.gaji-by-karyawan');
+        Route::get('penggajian/detail-absensi', [PenggajianController::class, 'getDetailAbsensi'])->name('penggajian.detail-absensi');
         Route::post('penggajian/bulk-action', [PenggajianController::class, 'bulkAction'])->name('penggajian.bulk-action');
         Route::post('penggajian/generate', [PenggajianController::class, 'generateSlipGaji'])->name('penggajian.generate');
         Route::post('penggajian/export', [PenggajianController::class, 'exportData'])->name('penggajian.export');
 
         // Absensi Routes
-        Route::get('absensi', [AbsensiController::class, 'index'])->name('absensi');
+        Route::get('absensi', [AbsensiController::class, 'index'])->name('absensi.index');
         Route::get('absensi/create', [AbsensiController::class, 'create'])->name('absensi.create');
         Route::post('absensi', [AbsensiController::class, 'store'])->name('absensi.store');
         Route::get('absensi/{id}', [AbsensiController::class, 'show'])->name('absensi.show');
@@ -63,6 +64,17 @@ Route::prefix('admin')->name('admin.')->group(function () {
         Route::post('absensi/import', [AbsensiController::class, 'import'])->name('absensi.import');
         Route::get('absensi/export', [AbsensiController::class, 'export'])->name('absensi.export');
         Route::post('absensi/bulk-update', [AbsensiController::class, 'bulkUpdate'])->name('absensi.bulk-update');
+
+        // Absensi System Routes (New Complete System)
+        Route::post('absensi/check-in', [AbsensiController::class, 'checkIn'])->name('absensi.check-in');
+        Route::post('absensi/check-out', [AbsensiController::class, 'checkOut'])->name('absensi.check-out');
+        Route::post('absensi/izin-sakit', [AbsensiController::class, 'submitIzinSakit'])->name('absensi.izin-sakit');
+        Route::get('absensi/dashboard', [AbsensiController::class, 'dashboard'])->name('absensi.dashboard');
+        Route::get('absensi/laporan-harian', [AbsensiController::class, 'laporanHarian'])->name('absensi.laporan-harian');
+        Route::get('absensi/detail/{id}', [AbsensiController::class, 'detail'])->name('absensi.detail');
+        Route::get('absensi/karyawan-list', [AbsensiController::class, 'getKaryawanList'])->name('absensi.karyawan-list');
+        Route::get('absensi/pending-checkout', [AbsensiController::class, 'getPendingCheckout'])->name('absensi.pending-checkout');
+        Route::post('absensi/auto-mark-absent', [AbsensiController::class, 'autoMarkAbsent'])->name('absensi.auto-mark-absent');
 
         // Penggajian Otomatis Routes
         Route::get('penggajian-otomatis', [PenggajianOtomatisController::class, 'index'])->name('penggajian-otomatis');
