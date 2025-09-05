@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Log;
 use App\Models\Gudang;
 use Illuminate\Routing\Controller as BaseController;
 use Illuminate\Support\Facades\DB;
@@ -32,7 +33,7 @@ class GudangController extends BaseController
             $request->session()->regenerate();
 
             $gudang = Auth::guard('gudang')->user();
-            
+
             // Cek jika ID gudang adalah 1002, arahkan ke dashboard inventori
             $redirectRoute = $gudang->id_gudang == '1002' ? route('gudang.inventori.dashboard') : route('gudang.dashboard');
 
@@ -113,18 +114,18 @@ class GudangController extends BaseController
     {
         // Ambil semua data permintaan dari session
         $allPermintaan = session('all_permintaan', []);
-        
+
         // Debug logging
-        \Log::info('Displaying permintaan page:', ['count' => count($allPermintaan)]);
-        
+        Log::info('Displaying permintaan page:', ['count' => count($allPermintaan)]);
+
         return view('gudang.permintaan', compact('allPermintaan'));
     }
 
     public function submitPermintaan(Request $request)
     {
-        \Log::info('=== SUBMIT PERMINTAAN START ===');
-        \Log::info('All request data: ', $request->all());
-        
+        Log::info('=== SUBMIT PERMINTAAN START ===');
+        Log::info('All request data: ', $request->all());
+
         // Validasi input
         $validated = $request->validate([
             'id_cabang' => 'required|string',
@@ -148,22 +149,22 @@ class GudangController extends BaseController
             'catatan.*' => 'nullable|string'
         ]);
 
-        \Log::info('Validation SUCCESS - validated data: ', $validated);
+        Log::info('Validation SUCCESS - validated data: ', $validated);
 
         // Generate ID permintaan
         $permintaanId = '#REQ' . str_pad(rand(100, 999), 3, '0', STR_PAD_LEFT);
-        
+
         // Mapping nama cabang
         $cabangNames = [
             'CB001' => 'Cabang Bandung',
-            'CB002' => 'Cabang Jakarta', 
+            'CB002' => 'Cabang Jakarta',
             'CB003' => 'Cabang Surabaya'
         ];
 
         // Siapkan data produk
         $produkList = [];
         $totalItems = 0;
-        
+
         for ($i = 0; $i < count($validated['kode_produk']); $i++) {
             $produkList[] = [
                 'kode_produk' => $validated['kode_produk'][$i],
@@ -193,26 +194,26 @@ class GudangController extends BaseController
             'produk_list' => $produkList
         ];
 
-        \Log::info('Permintaan data prepared: ', $permintaanData);
+        Log::info('Permintaan data prepared: ', $permintaanData);
 
         // Ambil data permintaan yang sudah ada dari session atau buat array kosong
         $existingPermintaan = session('all_permintaan', []);
-        \Log::info('Existing permintaan before add: ', ['count' => count($existingPermintaan)]);
-        
+        Log::info('Existing permintaan before add: ', ['count' => count($existingPermintaan)]);
+
         // Tambahkan permintaan baru ke array
         $existingPermintaan[] = $permintaanData;
-        
+
         // Simpan kembali ke session
         session(['all_permintaan' => $existingPermintaan]);
 
         // Verify data was saved
         $verifySession = session('all_permintaan', []);
-        \Log::info('Session verification: ', [
-            'count' => count($verifySession), 
+        Log::info('Session verification: ', [
+            'count' => count($verifySession),
             'last_item' => end($verifySession)
         ]);
 
-        \Log::info('=== SUBMIT PERMINTAAN END SUCCESS ===');
+        Log::info('=== SUBMIT PERMINTAAN END SUCCESS ===');
 
         // Return JSON response untuk AJAX
         return response()->json([
@@ -244,7 +245,7 @@ class GudangController extends BaseController
     {
         $allPermintaan = session('all_permintaan', []);
         $notifications = [];
-        
+
         // Ambil permintaan dengan status 'Menunggu' (baru masuk)
         foreach ($allPermintaan as $permintaan) {
             if ($permintaan['status'] === 'Menunggu') {
@@ -259,7 +260,7 @@ class GudangController extends BaseController
                 ];
             }
         }
-        
+
         return response()->json([
             'notifications' => $notifications,
             'count' => count($notifications)
@@ -271,7 +272,7 @@ class GudangController extends BaseController
     {
         $permintaanId = $request->input('id');
         $allPermintaan = session('all_permintaan', []);
-        
+
         // Update status permintaan menjadi 'Dilihat'
         foreach ($allPermintaan as $key => $permintaan) {
             if ($permintaan['id_permintaan'] === $permintaanId) {
@@ -279,9 +280,9 @@ class GudangController extends BaseController
                 break;
             }
         }
-        
+
         session(['all_permintaan' => $allPermintaan]);
-        
+
         return response()->json(['success' => true]);
     }
 
@@ -290,19 +291,19 @@ class GudangController extends BaseController
     {
         $permintaanId = $request->input('permintaan_id');
         $index = $request->input('index');
-        
+
         $allPermintaan = session('all_permintaan', []);
-        
+
         if (isset($allPermintaan[$index]) && $allPermintaan[$index]['id_permintaan'] === $permintaanId) {
             $allPermintaan[$index]['status'] = 'Siap Kirim';
             session(['all_permintaan' => $allPermintaan]);
-            
+
             return response()->json([
-                'success' => true, 
+                'success' => true,
                 'message' => 'Permintaan berhasil diterima dan siap untuk dikirim'
             ]);
         }
-        
+
         return response()->json(['success' => false, 'message' => 'Permintaan tidak ditemukan']);
     }
 
@@ -311,19 +312,19 @@ class GudangController extends BaseController
     {
         $permintaanId = $request->input('permintaan_id');
         $index = $request->input('index');
-        
+
         $allPermintaan = session('all_permintaan', []);
-        
+
         if (isset($allPermintaan[$index]) && $allPermintaan[$index]['id_permintaan'] === $permintaanId) {
             $allPermintaan[$index]['status'] = 'Ditolak';
             session(['all_permintaan' => $allPermintaan]);
-            
+
             return response()->json([
-                'success' => true, 
+                'success' => true,
                 'message' => 'Permintaan berhasil ditolak'
             ]);
         }
-        
+
         return response()->json(['success' => false, 'message' => 'Permintaan tidak ditemukan']);
     }
 
@@ -332,20 +333,20 @@ class GudangController extends BaseController
     {
         $permintaanId = $request->input('permintaan_id');
         $index = $request->input('index');
-        
+
         $allPermintaan = session('all_permintaan', []);
-        
+
         if (isset($allPermintaan[$index]) && $allPermintaan[$index]['id_permintaan'] === $permintaanId) {
             $permintaan = $allPermintaan[$index];
-            
+
             // Cek apakah sudah diterima
             if ($permintaan['status'] !== 'Siap Kirim') {
                 return response()->json([
-                    'success' => false, 
+                    'success' => false,
                     'message' => 'Permintaan harus diterima terlebih dahulu sebelum dapat dikirim'
                 ]);
             }
-            
+
             // Buat data pengiriman
             $pengirimanData = [
                 'id_pengiriman' => 'PGR-' . date('Ymd') . '-' . str_pad(rand(1, 9999), 4, '0', STR_PAD_LEFT),
@@ -359,24 +360,24 @@ class GudangController extends BaseController
                 'prioritas' => $permintaan['prioritas'],
                 'catatan' => $permintaan['catatan_umum'] ?? ''
             ];
-            
+
             // Simpan ke session pengiriman
             $allPengiriman = session('all_pengiriman', []);
             $allPengiriman[] = $pengirimanData;
             session(['all_pengiriman' => $allPengiriman]);
-            
+
             // Update status permintaan menjadi Dikirim
             $allPermintaan[$index]['status'] = 'Dikirim';
             $allPermintaan[$index]['tanggal_dikirim'] = date('Y-m-d H:i:s');
             session(['all_permintaan' => $allPermintaan]);
-            
+
             return response()->json([
-                'success' => true, 
+                'success' => true,
                 'message' => 'Permintaan berhasil dikirim ke bagian pengiriman',
                 'pengiriman_id' => $pengirimanData['id_pengiriman']
             ]);
         }
-        
+
         return response()->json(['success' => false, 'message' => 'Permintaan tidak ditemukan']);
     }
 
@@ -391,5 +392,136 @@ class GudangController extends BaseController
             return implode(', ', $formatted);
         }
         return 'N/A';
+    }
+
+    /**
+     * Display data pengawai gudang
+     */
+    public function dataPengawaiGudang()
+    {
+        // Ambil data karyawan yang bekerja di gudang
+        $pengawaiGudang = DB::table('karyawan')
+            ->leftJoin('jabatan', 'karyawan.jabatan_id', '=', 'jabatan.id')
+            ->leftJoin('cabang', 'karyawan.cabang_id', '=', 'cabang.id_cabang')
+            ->select(
+                'karyawan.*',
+                'jabatan.nama_jabatan',
+                'jabatan.gaji_pokok',
+                'cabang.nama_cabang'
+            )
+            ->where('karyawan.divisi', 'LIKE', '%gudang%')
+            ->orWhere('jabatan.nama_jabatan', 'LIKE', '%gudang%')
+            ->orWhere('karyawan.divisi', 'LIKE', '%warehouse%')
+            ->orWhere('karyawan.divisi', 'LIKE', '%logistik%')
+            ->where('karyawan.status', 'aktif')
+            ->orderBy('karyawan.nama')
+            ->get();
+
+        // Statistik pengawai gudang
+        $stats = [
+            'total_pengawai' => $pengawaiGudang->count(),
+            'pengawai_aktif' => $pengawaiGudang->where('status', 'aktif')->count(),
+            'rata_rata_gaji' => $pengawaiGudang->avg('gaji_pokok'),
+            'total_gaji' => $pengawaiGudang->sum('gaji_pokok')
+        ];
+
+        // Grouping by jabatan
+        $pengawaiByJabatan = $pengawaiGudang->groupBy('nama_jabatan')->map(function ($items, $jabatan) {
+            return [
+                'jabatan' => $jabatan ?: 'Belum ada jabatan',
+                'jumlah' => $items->count(),
+                'rata_gaji' => $items->avg('gaji_pokok')
+            ];
+        });
+
+        return view('admin.gudang.data-pengawai-gudang', compact(
+            'pengawaiGudang',
+            'stats',
+            'pengawaiByJabatan'
+        ));
+    }
+
+    /**
+     * Display lokasi gudang
+     */
+    public function lokasiGudang()
+    {
+        // Ambil data gudang dari database
+        $gudangList = DB::table('gudang')
+            ->leftJoin('cabang', 'gudang.id_cabang', '=', 'cabang.id_cabang')
+            ->select(
+                'gudang.*',
+                'cabang.nama_cabang',
+                'cabang.alamat as alamat_cabang'
+            )
+            ->orderBy('gudang.nama_gudang')
+            ->get();
+
+        // Statistik gudang
+        $stats = [
+            'total_gudang' => $gudangList->count(),
+            'gudang_aktif' => $gudangList->where('status', 'aktif')->count(),
+            'gudang_nonaktif' => $gudangList->where('status', 'nonaktif')->count(),
+            'kapasitas_total' => $gudangList->sum('kapasitas')
+        ];
+
+        // Grouping by cabang
+        $gudangByCabang = $gudangList->groupBy('nama_cabang')->map(function ($items, $cabang) {
+            return [
+                'cabang' => $cabang ?: 'Pusat',
+                'jumlah' => $items->count(),
+                'kapasitas_total' => $items->sum('kapasitas'),
+                'gudang_aktif' => $items->where('status', 'aktif')->count()
+            ];
+        });
+
+        return view('admin.gudang.lokasi-gudang', compact(
+            'gudangList',
+            'stats',
+            'gudangByCabang'
+        ));
+    }
+
+    public function dataBarang()
+    {
+        // Mengambil data produk dan stok gudang
+        $produkList = DB::table('produk')
+            ->leftJoin('stok_produk', 'produk.id_produk', '=', 'stok_produk.id_produk')
+            ->leftJoin('kategori', 'produk.id_kategori', '=', 'kategori.id_kategori')
+            ->select(
+                'produk.*',
+                'stok_produk.stok',
+                'stok_produk.stok_minimum',
+                'kategori.nama_kategori'
+            )
+            ->get();
+
+        // Statistik produk
+        $stats = [
+            'total_produk' => $produkList->count(),
+            'produk_stok_habis' => $produkList->where('stok', '<=', 0)->count(),
+            'produk_stok_minimum' => $produkList->where('stok', '<=', DB::raw('stok_minimum'))->count(),
+            'total_nilai_stok' => $produkList->sum(function ($item) {
+                return $item->stok * $item->harga_jual;
+            })
+        ];
+
+        // Grouping by kategori
+        $produkByKategori = $produkList->groupBy('nama_kategori')->map(function ($items, $kategori) {
+            return [
+                'kategori' => $kategori ?: 'Tidak Terkategori',
+                'jumlah' => $items->count(),
+                'total_stok' => $items->sum('stok'),
+                'nilai_stok' => $items->sum(function ($item) {
+                    return $item->stok * $item->harga_jual;
+                })
+            ];
+        });
+
+        return view('admin.gudang.data-barang', compact(
+            'produkList',
+            'stats',
+            'produkByKategori'
+        ));
     }
 }

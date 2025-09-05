@@ -951,19 +951,21 @@
 
             <!-- Navigation -->
             <div class="sidebar-nav">
-                <a href="{{ route('admin.analisis') }}"
-                    class="nav-link {{ Request::is('admin/analisis*') ? 'active' : '' }}">
+                <!-- Analisis Link -->
+                <a href="{{ route('admin.dashboard') }}"
+                    class="nav-link {{ Request::is('admin/dashboard*') ? 'active' : '' }}">
                     <div class="nav-icon">
                         <i class="fas fa-chart-line"></i>
                     </div>
                     <span class="nav-text">Analisis</span>
-                    @if (Request::is('admin/analisis*'))
+                    @if (Request::is('admin/dashboard*'))
                         <div class="nav-indicator"></div>
                     @endif
                 </a>
 
                 <!-- Manajemen Karyawan Dropdown -->
                 <div
+                    id="karyawan-dropdown"
                     class="dropdown-nav {{ Request::is('admin/data-karyawan*') || Request::is('admin/penggajian*') || Request::is('admin/absensi*') ? 'show' : '' }}">
                     <div class="dropdown-toggle-nav {{ Request::is('admin/data-karyawan*') || Request::is('admin/penggajian*') || Request::is('admin/absensi*') ? 'active' : '' }}"
                         onclick="toggleKaryawanDropdown()">
@@ -993,16 +995,17 @@
 
                 <!-- Keuangan Dropdown -->
                 <div
-                    class="dropdown-nav {{ Request::is('admin/laporan*') || Request::is('admin/keuangan*') ? 'show' : '' }}">
-                    <div class="dropdown-toggle-nav {{ Request::is('admin/laporan*') || Request::is('admin/keuangan*') ? 'active' : '' }}"
+                    id="keuangan-dropdown"
+                    class="dropdown-nav {{ Request::is('admin/keuangan*') ? 'show' : '' }}">
+                    <div class="dropdown-toggle-nav {{ Request::is('admin/keuangan*') ? 'active' : '' }}"
                         onclick="toggleDropdown()">
                         <span><i class="fas fa-chart-pie"></i> Keuangan</span>
                         <i class="fas fa-chevron-down dropdown-arrow"></i>
                     </div>
                     <div
-                        class="submenu {{ Request::is('admin/laporan*') || Request::is('admin/keuangan*') ? 'show' : '' }}">
-                        <a href="{{ route('admin.laporan') }}"
-                            class="nav-link {{ Request::is('admin/laporan') ? 'active' : '' }}">
+                        class="submenu {{ Request::is('admin/keuangan*') ? 'show' : '' }}">
+                        <a href="{{ route('admin.keuangan.laporan') }}"
+                            class="nav-link {{ Request::is('admin/keuangan/laporan*') ? 'active' : '' }}">
                             <i class="fas fa-file-alt"></i> Laporan
                         </a>
                         <a href="{{ route('admin.keuangan.riwayat') }}"
@@ -1010,7 +1013,7 @@
                             <i class="fas fa-history"></i> Riwayat Transaksi
                         </a>
                         <a href="{{ route('admin.keuangan.bukubesar') }}"
-                            class="nav-link {{ Request::is('admin/keuangan/buku-besar*') ? 'active' : '' }}">
+                            class="nav-link {{ Request::is('admin/keuangan/bukubesar*') ? 'active' : '' }}">
                             <i class="fas fa-book"></i> Buku Besar
                         </a>
                     </div>
@@ -1018,6 +1021,7 @@
 
                 <!-- Manajemen Pengguna Dropdown -->
                 <div
+                    id="pengguna-dropdown"
                     class="dropdown-nav {{ Request::is('admin/daftar-pengguna*') || Request::is('admin/membership*') || Request::is('admin/log-aktivitas*') ? 'show' : '' }}">
                     <div class="dropdown-toggle-nav {{ Request::is('admin/daftar-pengguna*') || Request::is('admin/membership*') || Request::is('admin/log-aktivitas*') ? 'active' : '' }}"
                         onclick="togglePenggunaDropdown()">
@@ -1042,23 +1046,23 @@
                 </div>
 
                 <!-- Manajemen Gudang Dropdown -->
-                <div class="dropdown-nav {{ Request::is('admin/data-pengawai-gudang*') || Request::is('admin/lokasi-gudang*') || Request::is('admin/data-barang*') ? 'show' : '' }}">
+                <div id="gudang-dropdown" class="dropdown-nav {{ Request::is('admin/data-pengawai-gudang*') || Request::is('admin/lokasi-gudang*') || Request::is('admin/data-barang*') ? 'show' : '' }}">
                     <div class="dropdown-toggle-nav {{ Request::is('admin/data-pengawai-gudang*') || Request::is('admin/lokasi-gudang*') || Request::is('admin/data-barang*') ? 'active' : '' }}" onclick="toggleGudangDropdown()">
                         <span><i class="fas fa-warehouse"></i> Manajemen Gudang</span>
                         <i class="fas fa-chevron-down dropdown-arrow"></i>
                     </div>
                     <div
                         class="submenu {{ Request::is('admin/data-pengawai-gudang*') || Request::is('admin/lokasi-gudang*') || Request::is('admin/data-barang*') ? 'show' : '' }}">
-                        <a href="{{ route('admin.data-pengawai-gudang') }}"
-                            class="nav-link {{ Request::is('admin/data-pengawai-gudang*') ? 'active' : '' }}">
+                        <a href="#"
+                            class="nav-link disabled">
                             <i class="fas fa-users-cog"></i> Data Pengawai Gudang
                         </a>
-                        <a href="{{ route('admin.lokasi-gudang') }}"
-                            class="nav-link {{ Request::is('admin/lokasi-gudang*') ? 'active' : '' }}">
+                        <a href="#"
+                            class="nav-link disabled">
                             <i class="fas fa-map-marker-alt"></i> Lokasi Gudang
                         </a>
-                        <a href="{{ route('admin.data-barang') }}"
-                            class="nav-link {{ Request::is('admin/data-barang*') ? 'active' : '' }}">
+                        <a href="#"
+                            class="nav-link disabled">
                             <i class="fas fa-boxes"></i> Data Barang
                         </a>
                     </div>
@@ -1150,8 +1154,7 @@
                         <i class="fas fa-bars"></i>
                     </button>
                     <div class="page-title">
-                        <h5 class="mb-0">@yield('page-title', 'Dashboard')</h5>
-                        <small class="text-muted">@yield('page-subtitle', 'Selamat datang di panel admin')</small>
+                        <h5 class="mb-0">@yield('page-title', 'Analisis')</h5>
                     </div>
                 </div>
                 
@@ -1214,77 +1217,72 @@
 
         function toggleDropdown() {
             // Close all dropdowns first
-            const allDropdowns = document.querySelectorAll('.dropdown-nav');
-            const keuanganDropdown = allDropdowns[1]; // Second dropdown (Keuangan)
-            const isCurrentlyOpen = keuanganDropdown.classList.contains('show');
+            const keuanganDropdown = document.getElementById('keuangan-dropdown');
+            const isCurrentlyOpen = keuanganDropdown && keuanganDropdown.classList.contains('show');
 
             closeAllDropdowns();
 
-            // If it wasn't open, open the Keuangan dropdown
-            if (!isCurrentlyOpen) {
+            if (!isCurrentlyOpen && keuanganDropdown) {
                 const submenu = keuanganDropdown.querySelector('.submenu');
                 const arrow = keuanganDropdown.querySelector('.dropdown-arrow');
 
                 keuanganDropdown.classList.add('show');
-                submenu.classList.add('show');
-                arrow.style.transform = 'rotate(180deg)';
+                if (submenu) submenu.classList.add('show');
+                if (arrow) arrow.style.transform = 'rotate(180deg)';
             }
         }
 
         function toggleKaryawanDropdown() {
             // Close all dropdowns first
-            const allDropdowns = document.querySelectorAll('.dropdown-nav');
-            const karyawanDropdown = allDropdowns[0]; // First dropdown (Manajemen Karyawan)
-            const isCurrentlyOpen = karyawanDropdown.classList.contains('show');
+            const karyawanDropdown = document.getElementById('karyawan-dropdown');
+            const isCurrentlyOpen = karyawanDropdown && karyawanDropdown.classList.contains('show');
 
             closeAllDropdowns();
 
             // If it wasn't open, open the Karyawan dropdown
-            if (!isCurrentlyOpen) {
+            if (!isCurrentlyOpen && karyawanDropdown) {
                 const submenu = karyawanDropdown.querySelector('.submenu');
                 const arrow = karyawanDropdown.querySelector('.dropdown-arrow');
 
                 karyawanDropdown.classList.add('show');
-                submenu.classList.add('show');
-                arrow.style.transform = 'rotate(180deg)';
+                if (submenu) submenu.classList.add('show');
+                if (arrow) arrow.style.transform = 'rotate(180deg)';
             }
         }
 
         function togglePenggunaDropdown() {
             // Close all dropdowns first
-            const allDropdowns = document.querySelectorAll('.dropdown-nav');
-            const penggunaDropdown = allDropdowns[2]; // Third dropdown (Manajemen Pengguna)
-            const isCurrentlyOpen = penggunaDropdown.classList.contains('show');
+            const penggunaDropdown = document.getElementById('pengguna-dropdown');
+            const isCurrentlyOpen = penggunaDropdown && penggunaDropdown.classList.contains('show');
 
             closeAllDropdowns();
 
             // If it wasn't open, open the Pengguna dropdown
-            if (!isCurrentlyOpen) {
+            if (!isCurrentlyOpen && penggunaDropdown) {
                 const submenu = penggunaDropdown.querySelector('.submenu');
                 const arrow = penggunaDropdown.querySelector('.dropdown-arrow');
 
                 penggunaDropdown.classList.add('show');
-                submenu.classList.add('show');
-                arrow.style.transform = 'rotate(180deg)';
+                if (submenu) submenu.classList.add('show');
+                if (arrow) arrow.style.transform = 'rotate(180deg)';
             }
         }
 
         function toggleGudangDropdown() {
             // Close all dropdowns first
-            const allDropdowns = document.querySelectorAll('.dropdown-nav');
-            const gudangDropdown = allDropdowns[3]; // Fourth dropdown (Manajemen Gudang)
-            const isCurrentlyOpen = gudangDropdown.classList.contains('show');
+            const gudangDropdown = document.getElementById('gudang-dropdown');
+            const isCurrentlyOpen = gudangDropdown && gudangDropdown.classList.contains('show');
 
             closeAllDropdowns();
 
             // If it wasn't open, open the Gudang dropdown
-            if (!isCurrentlyOpen) {
+            if (!isCurrentlyOpen && gudangDropdown) {
                 const submenu = gudangDropdown.querySelector('.submenu');
                 const arrow = gudangDropdown.querySelector('.dropdown-arrow');
 
                 gudangDropdown.classList.add('show');
-                submenu.classList.add('show');
-                arrow.style.transform = 'rotate(180deg)';
+                if (submenu) submenu.classList.add('show');
+                if (arrow) arrow.style.transform = 'rotate(180deg)';
             }
         }
 
@@ -1321,24 +1319,14 @@
 
             if (dropdown && adminProfile && !adminProfile.contains(event.target)) {
                 dropdown.classList.remove('show');
-                document.getElementById('dropdown-icon').parentElement.classList.remove('rotated');
+                const dropdownIcon = document.getElementById('dropdown-icon');
+                if (dropdownIcon) {
+                    dropdownIcon.parentElement.classList.remove('rotated');
+                }
             }
         });
 
-        document.addEventListener('DOMContentLoaded', function() {
-            const savedTheme = localStorage.getItem('theme');
-            const body = document.body;
-            const modeIcon = document.getElementById('mode-icon');
-
-            if (savedTheme === 'dark') {
-                body.classList.add('dark-mode');
-                modeIcon.className = 'fas fa-sun';
-            }
-
-            updateTime();
-            setInterval(updateTime, 1000);
-        });
-
+        // Update current time display
         function updateTime() {
             const now = new Date();
             const timeString = now.toLocaleTimeString('id-ID', {
@@ -1419,7 +1407,19 @@
             document.getElementById('dropdown-icon').parentElement.classList.remove('rotated');
 
             if (confirm('Apakah Anda yakin ingin logout dari sistem?')) {
-                window.location.href = '/logout';
+                // Create form for logout with CSRF token
+                const form = document.createElement('form');
+                form.method = 'POST';
+                form.action = '{{ route("admin.logout") }}';
+                
+                const csrfToken = document.createElement('input');
+                csrfToken.type = 'hidden';
+                csrfToken.name = '_token';
+                csrfToken.value = '{{ csrf_token() }}';
+                
+                form.appendChild(csrfToken);
+                document.body.appendChild(form);
+                form.submit();
             }
         }
 
@@ -1654,13 +1654,17 @@
 
         // Initialize everything when DOM is loaded
         document.addEventListener('DOMContentLoaded', function() {
-            // Initialize existing functionality
-            getDeviceInfo();
-            updateRealTimeData();
+            // Initialize theme
             initTheme();
             
-            // Initialize search
-            window.globalSearch = new GlobalSearch();
+            // Initialize device info and time updates
+            getDeviceInfo();
+            updateRealTimeData();
+            
+            // Initialize search functionality
+            if (document.getElementById('globalSearch')) {
+                window.globalSearch = new GlobalSearch();
+            }
             
             // Update time every second
             setInterval(updateRealTimeData, 1000);
