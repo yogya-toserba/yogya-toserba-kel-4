@@ -29,21 +29,24 @@ class PenggajianController extends Controller
     {
         $bulan = (int) $request->get('bulan', Carbon::now()->month);
         $tahun = (int) $request->get('tahun', Carbon::now()->year);
+        $perPage = (int) $request->get('per_page', 10);
         $periode = Carbon::create($tahun, $bulan, 1)->format('Y-m');
 
         // Ambil data gaji dengan relasi
         $gajiList = Gaji::with(['karyawan.jabatan', 'karyawan.cabang'])
-            ->whereYear('periode_gaji', $tahun)
-            ->whereMonth('periode_gaji', $bulan)
+            ->where('periode_gaji', $periode) // Menggunakan format YYYY-MM
             ->orderBy('created_at', 'desc')
-            ->paginate(10);
+            ->paginate($perPage);
+
+        // Append query parameters to pagination links
+        $gajiList->appends($request->query());
 
         // Statistik
         $stats = [
-            'total_gaji' => Gaji::whereYear('periode_gaji', $tahun)->whereMonth('periode_gaji', $bulan)->sum('jumlah_gaji'),
-            'total_karyawan' => Gaji::whereYear('periode_gaji', $tahun)->whereMonth('periode_gaji', $bulan)->count(),
-            'rata_rata_gaji' => Gaji::whereYear('periode_gaji', $tahun)->whereMonth('periode_gaji', $bulan)->avg('jumlah_gaji'),
-            'gaji_tertinggi' => Gaji::whereYear('periode_gaji', $tahun)->whereMonth('periode_gaji', $bulan)->max('jumlah_gaji')
+            'total_gaji' => Gaji::where('periode_gaji', $periode)->sum('jumlah_gaji'),
+            'total_karyawan' => Gaji::where('periode_gaji', $periode)->count(),
+            'rata_rata_gaji' => Gaji::where('periode_gaji', $periode)->avg('jumlah_gaji'),
+            'gaji_tertinggi' => Gaji::where('periode_gaji', $periode)->max('jumlah_gaji')
         ];
 
         return view('admin.penggajian.index', compact(
@@ -157,8 +160,8 @@ class PenggajianController extends Controller
         // Ambil data absensi untuk periode gaji
         $periode = Carbon::createFromFormat('Y-m-d', $gaji->periode_gaji);
         $absensiData = Absensi::where('id_karyawan', $gaji->id_karyawan)
-            ->whereYear('tanggal', $periode->year)
-            ->whereMonth('tanggal', $periode->month)
+            ->whereYear('absensi.tanggal', $periode->year)
+            ->whereMonth('absensi.tanggal', $periode->month)
             ->get();
 
         return view('admin.penggajian.show', compact('gaji', 'absensiData'));
@@ -323,5 +326,28 @@ class PenggajianController extends Controller
         $jabatan = Jabatan::where('status', true)->get();
 
         return view('admin.penggajian.konfigurasi', compact('jabatan'));
+    }
+
+    /**
+     * Get detail absensi karyawan untuk periode tertentu
+     */
+    public function getDetailAbsensi(Request $request)
+    {
+        $request->validate([
+            'id_karyawan' => 'required|exists:karyawan,id_karyawan',
+            'bulan' => 'required|integer|min:1|max:12',
+            'tahun' => 'required|integer|min:2020|max:2030'
+        ]);
+
+        $karyawan = Karyawan::with(['jabatan', 'cabang'])->find($request->id_karyawan);
+        $periode = Carbon::create($request->tahun, $request->bulan, 1);
+
+        $detailAbsensi = $this->penggajianService->getDetailAbsensiKaryawan(
+            $request->id_karyawan,
+            $periode->startOfMonth(),
+            $periode->endOfMonth()
+        );
+
+        return response()->json($detailAbsensi);
     }
 }

@@ -2,6 +2,30 @@
 
 @section('title', 'Sistem Penggajian Otomatis')
 
+@push('styles')
+    <style>
+        .dataTables_info {
+            color: #6c757d;
+            font-size: 0.875rem;
+            padding-top: 0.75rem;
+        }
+
+        .card-footer {
+            border-top: 1px solid #e3e6f0;
+            background-color: #f8f9fc !important;
+        }
+
+        .pagination-sm .page-link {
+            padding: 0.375rem 0.75rem;
+            font-size: 0.875rem;
+        }
+
+        .table-responsive {
+            border-radius: 0.35rem;
+        }
+    </style>
+@endpush
+
 @section('content')
     <div class="container-fluid">
         <!-- Header -->
@@ -64,7 +88,18 @@
                                     @endfor
                                 </select>
                             </div>
-                            <div class="col-md-3">
+                            <div class="col-md-2">
+                                <label for="per_page" class="form-label">Per Halaman</label>
+                                <select name="per_page" id="per_page" class="form-select">
+                                    @foreach ([10, 25, 50, 100] as $perPageOption)
+                                        <option value="{{ $perPageOption }}"
+                                            {{ request('per_page', 10) == $perPageOption ? 'selected' : '' }}>
+                                            {{ $perPageOption }}
+                                        </option>
+                                    @endforeach
+                                </select>
+                            </div>
+                            <div class="col-md-2">
                                 <label class="form-label">&nbsp;</label>
                                 <button type="submit" class="btn btn-primary d-block">
                                     <i class="fas fa-filter"></i> Filter
@@ -129,10 +164,9 @@
                                     <th>No</th>
                                     <th>Nama Karyawan</th>
                                     <th>Jabatan</th>
-                                    <th>Cabang</th>
+                                    <th>Absensi</th>
                                     <th>Gaji Pokok</th>
                                     <th>Tunjangan</th>
-                                    <th>Bonus</th>
                                     <th>Potongan</th>
                                     <th>Total Gaji</th>
                                     <th>Status</th>
@@ -141,15 +175,32 @@
                             </thead>
                             <tbody>
                                 @foreach ($gajiList as $index => $gaji)
+                                    @php
+                                        $statsAbsensi = $gaji->karyawan->getStatistikAbsensiBulan($tahun, $bulan);
+                                    @endphp
                                     <tr>
                                         <td>{{ $gajiList->firstItem() + $index }}</td>
                                         <td>{{ $gaji->karyawan->nama ?? 'N/A' }}</td>
                                         <td>{{ $gaji->karyawan->jabatan->nama_jabatan ?? 'N/A' }}</td>
-                                        <td>{{ $gaji->karyawan->cabang->nama_cabang ?? 'Pusat' }}</td>
+                                        <td>
+                                            <small class="text-muted">
+                                                <div><strong>Hadir:</strong> {{ $statsAbsensi['total_hadir'] }} hari</div>
+                                                <div><strong>Absen:</strong> {{ $statsAbsensi['total_absen'] }} hari</div>
+                                                <div><strong>Kehadiran:</strong>
+                                                    {{ $statsAbsensi['persentase_kehadiran'] }}%</div>
+                                                @if ($statsAbsensi['total_terlambat_menit'] > 0)
+                                                    <div class="text-warning"><strong>Terlambat:</strong>
+                                                        {{ $statsAbsensi['total_terlambat_menit'] }} menit</div>
+                                                @endif
+                                            </small>
+                                        </td>
                                         <td>Rp {{ number_format($gaji->gaji_pokok ?? 0, 0, ',', '.') }}</td>
-                                        <td>Rp {{ number_format($gaji->tunjangan ?? 0, 0, ',', '.') }}</td>
-                                        <td>Rp {{ number_format($gaji->bonus ?? 0, 0, ',', '.') }}</td>
-                                        <td>Rp {{ number_format($gaji->potongan ?? 0, 0, ',', '.') }}</td>
+                                        <td>Rp
+                                            {{ number_format(($gaji->tunjangan_jabatan ?? 0) + ($gaji->tunjangan_kehadiran ?? 0) + ($gaji->tunjangan_lainnya ?? 0), 0, ',', '.') }}
+                                        </td>
+                                        <td>Rp
+                                            {{ number_format(($gaji->potongan_absensi ?? 0) + ($gaji->potongan_lainnya ?? 0), 0, ',', '.') }}
+                                        </td>
                                         <td><strong>Rp {{ number_format($gaji->jumlah_gaji ?? 0, 0, ',', '.') }}</strong>
                                         </td>
                                         <td>
@@ -177,9 +228,23 @@
                         </table>
                     </div>
 
-                    <!-- Pagination -->
-                    <div class="d-flex justify-content-center">
-                        {{ $gajiList->links() }}
+                    <!-- Pagination Info dan Controls -->
+                    <div class="card-footer bg-light">
+                        <div class="row align-items-center">
+                            <div class="col-md-6">
+                                <div class="dataTables_info">
+                                    Menampilkan {{ $gajiList->firstItem() }} sampai {{ $gajiList->lastItem() }}
+                                    dari {{ $gajiList->total() }} data gaji
+                                    (Periode: {{ Carbon\Carbon::create(null, $bulan, 1)->format('F') }}
+                                    {{ $tahun }})
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="d-flex justify-content-end">
+                                    {{ $gajiList->appends(request()->query())->links('pagination.custom') }}
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 @else
                     <div class="text-center py-4">

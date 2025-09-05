@@ -6,97 +6,36 @@ use App\Models\Karyawan;
 use App\Models\Gaji;
 use App\Models\Absensi;
 use App\Models\JadwalKerja;
-use App\Models\Jabatan;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\DB;
 
 class PenggajianOtomatisService
 {
     /**
-     * Konfigurasi gaji berdasarkan jenis karyawan
+     * Generate gaji otomatis untuk semua karyawan dalam periode tertentu
      */
-    private $configGaji = [
-        'Kasir' => [
-            'gaji_pokok_harian' => 150000,
-            'tunjangan_jabatan' => 300000,
-            'bonus_kehadiran_per_hari' => 25000,
-            'bonus_shift_malam' => 15000,
-            'denda_terlambat_per_menit' => 2000,
-            'minimal_hari_kerja' => 22,
-            'lembur_tarif_per_jam' => 20000
-        ],
-        'Pramuniaga' => [
-            'gaji_pokok_harian' => 130000,
-            'tunjangan_jabatan' => 250000,
-            'bonus_kehadiran_per_hari' => 20000,
-            'bonus_shift_malam' => 12000,
-            'denda_terlambat_per_menit' => 1500,
-            'minimal_hari_kerja' => 22,
-            'lembur_tarif_per_jam' => 18000
-        ],
-        'Customer Service' => [
-            'gaji_pokok_harian' => 140000,
-            'tunjangan_jabatan' => 275000,
-            'bonus_kehadiran_per_hari' => 22000,
-            'bonus_shift_malam' => 13000,
-            'denda_terlambat_per_menit' => 1800,
-            'minimal_hari_kerja' => 22,
-            'lembur_tarif_per_jam' => 19000
-        ],
-        'Bagian Gudang' => [
-            'gaji_pokok_harian' => 145000,
-            'tunjangan_jabatan' => 280000,
-            'bonus_kehadiran_per_hari' => 23000,
-            'bonus_shift_malam' => 14000,
-            'denda_terlambat_per_menit' => 1700,
-            'minimal_hari_kerja' => 22,
-            'lembur_tarif_per_jam' => 20000
-        ]
-    ];
-
-    /**
-     * Generate gaji otomatis untuk periode tertentu
-     */
-    public function generateGajiOtomatis($bulan = null, $tahun = null)
+    public function generateGajiOtomatis($periode)
     {
-        $bulan = $bulan ?? Carbon::now()->month;
-        $tahun = $tahun ?? Carbon::now()->year;
-
-        $startDate = Carbon::create($tahun, $bulan, 1);
-        $endDate = $startDate->copy()->endOfMonth();
-
         $results = [];
-        $karyawanList = Karyawan::with(['jabatan'])->where('status', 'aktif')->get();
+
+        // Coba berbagai kemungkinan status aktif
+        $karyawanList = Karyawan::with(['jabatan', 'cabang'])
+            ->whereIn('status', ['active', 'aktif', 'Active', 'Aktif', '1', 1, true])
+            ->get();
+
+        // Jika tidak ada dengan status tersebut, ambil semua karyawan
+        if ($karyawanList->isEmpty()) {
+            $karyawanList = Karyawan::with(['jabatan', 'cabang'])->get();
+        }
 
         foreach ($karyawanList as $karyawan) {
             try {
-                $gajiData = $this->hitungGajiKaryawan($karyawan, $startDate, $endDate);
-
-                // Cek apakah gaji untuk periode ini sudah ada
-                $existingGaji = Gaji::where('id_karyawan', $karyawan->id_karyawan)
-                    ->where('periode_gaji', $startDate->format('Y-m'))
-                    ->first();
-
-                if ($existingGaji) {
-                    // Update existing record
-                    $existingGaji->update($gajiData);
-                    $results[] = [
-                        'karyawan' => $karyawan->nama,
-                        'status' => 'updated',
-                        'jumlah_gaji' => $gajiData['jumlah_gaji']
-                    ];
-                } else {
-                    // Create new record
-                    Gaji::create($gajiData);
-                    $results[] = [
-                        'karyawan' => $karyawan->nama,
-                        'status' => 'created',
-                        'jumlah_gaji' => $gajiData['jumlah_gaji']
-                    ];
-                }
+                $result = $this->processGajiKaryawan($karyawan, $periode);
+                $results[] = $result;
             } catch (\Exception $e) {
                 $results[] = [
-                    'karyawan' => $karyawan->nama,
+                    'id_karyawan' => $karyawan->id_karyawan,
+                    'nama' => $karyawan->nama,
                     'status' => 'error',
                     'message' => $e->getMessage()
                 ];
@@ -107,168 +46,327 @@ class PenggajianOtomatisService
     }
 
     /**
-     * Hitung gaji untuk satu karyawan
+     * Proses gaji untuk satu karyawan
      */
-    public function hitungGajiKaryawan(Karyawan $karyawan, Carbon $startDate, Carbon $endDate)
+    public function processGajiKaryawan($karyawan, $periode)
     {
-        $jabatan = $karyawan->jabatan->nama_jabatan ?? 'Pramuniaga';
-        $config = $this->configGaji[$jabatan] ?? $this->configGaji['Pramuniaga'];
+        $startDate = Carbon::parse($periode)->startOfMonth();
+        $endDate = Carbon::parse($periode)->endOfMonth();
 
-        // Ambil data jadwal kerja dan absensi
-        $jadwalKerja = JadwalKerja::where('id_karyawan', $karyawan->id_karyawan)
-            ->whereBetween('tanggal', [$startDate, $endDate])
-            ->with(['shift', 'absensi'])
-            ->get();
+        // Hitung gaji berdasarkan data absensi
+        $gajiData = $this->hitungGajiKaryawan($karyawan, $startDate, $endDate);
 
-        $totalHariKerja = $jadwalKerja->count();
-        $totalHariHadir = 0;
-        $totalJamLembur = 0;
-        $totalDendaTerlambat = 0;
-        $totalBonusShiftMalam = 0;
-        $totalHariAlpa = 0;
+        // Cek apakah sudah ada gaji untuk periode ini
+        $periodeGaji = $startDate->format('Y-m'); // Format YYYY-MM
+        $existingGaji = Gaji::where('id_karyawan', $karyawan->id_karyawan)
+            ->where('periode_gaji', $periodeGaji)
+            ->first();
 
-        foreach ($jadwalKerja as $jadwal) {
-            $absensi = $jadwal->absensi;
+        if ($existingGaji) {
+            // Update gaji yang sudah ada
+            $existingGaji->update([
+                'gaji_pokok' => $gajiData['gaji_pokok'],
+                'tunjangan' => $gajiData['total_tunjangan'],
+                'bonus' => $gajiData['bonus_kehadiran'],
+                'potongan' => $gajiData['total_potongan'],
+                'jumlah_gaji' => $gajiData['jumlah_gaji'],
+                'is_auto_generated' => true,
+                'keterangan' => $gajiData['keterangan']
+            ]);
 
-            if ($absensi) {
-                if ($absensi->status === 'Hadir') {
-                    $totalHariHadir++;
+            return [
+                'id_karyawan' => $karyawan->id_karyawan,
+                'nama' => $karyawan->nama,
+                'status' => 'updated',
+                'jumlah_gaji' => $gajiData['jumlah_gaji']
+            ];
+        } else {
+            // Buat gaji baru
+            Gaji::create([
+                'id_karyawan' => $karyawan->id_karyawan,
+                'periode_gaji' => $periodeGaji,
+                'gaji_pokok' => $gajiData['gaji_pokok'],
+                'tunjangan' => $gajiData['total_tunjangan'],
+                'bonus' => $gajiData['bonus_kehadiran'],
+                'potongan' => $gajiData['total_potongan'],
+                'jumlah_gaji' => $gajiData['jumlah_gaji'],
+                'status_pembayaran' => 'pending',
+                'is_auto_generated' => true,
+                'keterangan' => $gajiData['keterangan']
+            ]);
 
-                    // Hitung denda terlambat
-                    if ($absensi->terlambat_menit > 0) {
-                        $totalDendaTerlambat += ($absensi->terlambat_menit * $config['denda_terlambat_per_menit']);
-                    }
+            return [
+                'id_karyawan' => $karyawan->id_karyawan,
+                'nama' => $karyawan->nama,
+                'status' => 'created',
+                'jumlah_gaji' => $gajiData['jumlah_gaji']
+            ];
+        }
+    }
 
-                    // Hitung lembur
-                    $durasiKerja = $absensi->durasi_kerja ?? 0;
-                    $shift = $jadwal->shift;
-                    if ($shift && $durasiKerja > $shift->durasi_kerja) {
-                        $totalJamLembur += ($durasiKerja - $shift->durasi_kerja);
-                    }
-
-                    // Bonus shift malam
-                    if ($shift && $shift->isShiftMalam()) {
-                        $totalBonusShiftMalam += $config['bonus_shift_malam'];
-                    }
-                } elseif ($absensi->status === 'Alpa') {
-                    $totalHariAlpa++;
-                }
-            } else {
-                // Tidak ada absensi = Alpa
-                $totalHariAlpa++;
-            }
+    /**
+     * Hitung gaji karyawan berdasarkan absensi dan jabatan
+     */
+    public function hitungGajiKaryawan($karyawan, $startDate, $endDate)
+    {
+        if (!$karyawan->jabatan) {
+            throw new \Exception('Karyawan tidak memiliki jabatan');
         }
 
-        // Perhitungan gaji
-        $gajiPokok = $config['gaji_pokok_harian'] * $totalHariHadir;
-        $tunjanganJabatan = $config['tunjangan_jabatan'];
-        $bonusKehadiran = $config['bonus_kehadiran_per_hari'] * $totalHariHadir;
-        $totalLembur = $totalJamLembur * $config['lembur_tarif_per_jam'];
+        // Ambil data absensi karyawan untuk periode tertentu
+        $absensiData = $this->getAbsensiData($karyawan->id_karyawan, $startDate, $endDate);
 
-        // Potongan
-        $potonganAbsen = $totalHariAlpa * ($config['gaji_pokok_harian'] * 0.5); // 50% dari gaji harian
-        $potonganBPJS = ($gajiPokok + $tunjanganJabatan) * 0.01; // 1% untuk BPJS
-        $potonganPajak = $this->hitungPajakPPh21($gajiPokok + $tunjanganJabatan + $bonusKehadiran);
+        // Hitung hari kerja
+        $totalHariKerja = $this->hitungHariKerja($startDate, $endDate);
+        $hariHadir = $absensiData['hadir'];
+        $hariAlpha = $absensiData['alpha'];
+        $hariIzin = $absensiData['izin'];
+        $hariSakit = $absensiData['sakit'];
+        $totalTerlambat = $absensiData['total_terlambat_menit'];
 
-        $totalBonus = $bonusKehadiran + $totalBonusShiftMalam;
-        $totalPotongan = $potonganAbsen + $potonganBPJS + $potonganPajak + $totalDendaTerlambat;
-        $totalGaji = $gajiPokok + $tunjanganJabatan + $totalBonus + $totalLembur - $totalPotongan;
+        // Gaji pokok dari jabatan
+        $gajiPokok = $karyawan->jabatan->gaji_pokok ?? 0;
+
+        // Tunjangan jabatan (fixed)
+        $tunjanganJabatan = $karyawan->jabatan->tunjangan_jabatan ?? 0;
+
+        // Tunjangan kehadiran (berdasarkan kehadiran)
+        $persentaseKehadiran = $totalHariKerja > 0 ? ($hariHadir / $totalHariKerja) * 100 : 0;
+        $tunjanganKehadiran = 0;
+
+        if ($persentaseKehadiran >= 95) {
+            $tunjanganKehadiran = 500000; // Bonus kehadiran penuh
+        } elseif ($persentaseKehadiran >= 90) {
+            $tunjanganKehadiran = 300000; // Bonus kehadiran baik
+        } elseif ($persentaseKehadiran >= 80) {
+            $tunjanganKehadiran = 100000; // Bonus kehadiran cukup
+        }
+
+        // Potongan absensi
+        $potonganAbsensi = 0;
+        $potonganPerHari = $gajiPokok / $totalHariKerja; // Potongan per hari
+
+        // Potongan untuk alpha (potong penuh)
+        $potonganAbsensi += $hariAlpha * $potonganPerHari;
+
+        // Potongan untuk izin (potong 50%)
+        $potonganAbsensi += $hariIzin * ($potonganPerHari * 0.5);
+
+        // Potongan untuk sakit (tidak ada potongan jika ada surat dokter)
+        // Untuk sekarang, sakit tidak dipotong
+
+        // Potongan keterlambatan
+        $potonganTerlambat = 0;
+        if ($totalTerlambat > 0) {
+            $potonganPerMenit = 5000; // Rp 5000 per menit terlambat
+            $potonganTerlambat = min($totalTerlambat * $potonganPerMenit, $gajiPokok * 0.1); // Max 10% dari gaji pokok
+        }
+
+        $totalPotongan = $potonganAbsensi + $potonganTerlambat;
+        $totalTunjangan = $tunjanganJabatan + $tunjanganKehadiran;
+        $jumlahGaji = $gajiPokok + $totalTunjangan - $totalPotongan;
+
+        // Pastikan gaji tidak negatif
+        $jumlahGaji = max($jumlahGaji, 0);
 
         return [
-            'id_karyawan' => $karyawan->id_karyawan,
-            'total_hari_hadir' => $totalHariHadir,
-            'total_hari_kerja' => $totalHariKerja,
             'gaji_pokok' => $gajiPokok,
-            'tunjangan' => $tunjanganJabatan,
-            'bonus' => $totalBonus,
-            'potongan_absen' => $potonganAbsen,
-            'lembur_jam' => $totalJamLembur,
-            'lembur_tarif' => $config['lembur_tarif_per_jam'],
-            'total_lembur' => $totalLembur,
-            'potongan_bpjs' => $potonganBPJS,
-            'potongan_pajak' => $potonganPajak,
-            'potongan_lain' => $totalDendaTerlambat,
+            'tunjangan_jabatan' => $tunjanganJabatan,
+            'tunjangan_kehadiran' => $tunjanganKehadiran,
+            'bonus_kehadiran' => $tunjanganKehadiran, // Alias untuk compatibility
+            'tunjangan_lainnya' => 0,
+            'potongan_absensi' => $potonganAbsensi,
+            'potongan_lainnya' => $potonganTerlambat,
+            'total_tunjangan' => $totalTunjangan,
             'total_potongan' => $totalPotongan,
-            'jumlah_gaji' => $totalGaji,
-            'status' => 'pending',
-            'periode_gaji' => $startDate->format('Y-m'),
-            'is_auto_generated' => true,
-            'keterangan' => "Gaji otomatis untuk {$jabatan} periode {$startDate->format('F Y')}. Hadir: {$totalHariHadir}/{$totalHariKerja} hari. Lembur: {$totalJamLembur} jam."
+            'jumlah_gaji' => $jumlahGaji,
+            'keterangan' => $this->generateKeterangan($absensiData, $persentaseKehadiran),
+            'detail_absensi' => $absensiData
         ];
     }
 
     /**
-     * Hitung pajak PPh21 sederhana
+     * Ambil data absensi karyawan untuk periode tertentu
      */
-    private function hitungPajakPPh21($penghasilanBruto)
+    private function getAbsensiData($idKaryawan, $startDate, $endDate)
     {
-        // PTKP (Penghasilan Tidak Kena Pajak) per bulan untuk TK/0 = Rp 4.500.000
-        $ptkp = 4500000;
-        $penghasilanKenaPajak = max(0, ($penghasilanBruto * 12) - $ptkp); // Annualized
+        // Ambil jadwal kerja karyawan
+        $jadwalKerja = JadwalKerja::where('id_karyawan', $idKaryawan)
+            ->whereBetween('tanggal', [$startDate, $endDate])
+            ->get();
 
-        $pajak = 0;
-        if ($penghasilanKenaPajak <= 60000000) { // 5%
-            $pajak = $penghasilanKenaPajak * 0.05;
-        } elseif ($penghasilanKenaPajak <= 250000000) { // 15%
-            $pajak = (60000000 * 0.05) + (($penghasilanKenaPajak - 60000000) * 0.15);
-        } else { // 25%
-            $pajak = (60000000 * 0.05) + (190000000 * 0.15) + (($penghasilanKenaPajak - 250000000) * 0.25);
-        }
+        // Ambil data absensi
+        $absensi = Absensi::whereHas('jadwalKerja', function ($query) use ($idKaryawan) {
+            $query->where('id_karyawan', $idKaryawan);
+        })
+            ->whereBetween('absensi.tanggal', [$startDate, $endDate])
+            ->get();
 
-        return $pajak / 12; // Monthly tax
+        $hadir = $absensi->where('status', 'Hadir')->count();
+        $alpha = $absensi->where('status', 'Alpha')->count();
+        $izin = $absensi->where('status', 'Izin')->count();
+        $sakit = $absensi->where('status', 'Sakit')->count();
+        $totalTerlambat = $absensi->sum('terlambat_menit');
+
+        return [
+            'total_jadwal' => $jadwalKerja->count(),
+            'hadir' => $hadir,
+            'alpha' => $alpha,
+            'izin' => $izin,
+            'sakit' => $sakit,
+            'total_terlambat_menit' => $totalTerlambat,
+            'persentase_kehadiran' => $jadwalKerja->count() > 0 ? ($hadir / $jadwalKerja->count()) * 100 : 0
+        ];
     }
 
     /**
-     * Generate laporan gaji berdasarkan jabatan
+     * Hitung total hari kerja dalam periode (tidak termasuk weekend)
+     */
+    private function hitungHariKerja($startDate, $endDate)
+    {
+        $hariKerja = 0;
+        $current = $startDate->copy();
+
+        while ($current->lte($endDate)) {
+            // Senin-Jumat = hari kerja (1-5), Sabtu-Minggu = weekend (6-7)
+            if ($current->dayOfWeek >= 1 && $current->dayOfWeek <= 5) {
+                $hariKerja++;
+            }
+            $current->addDay();
+        }
+
+        return $hariKerja;
+    }
+
+    /**
+     * Generate keterangan gaji
+     */
+    private function generateKeterangan($absensiData, $persentaseKehadiran)
+    {
+        $keterangan = "Gaji otomatis - ";
+        $keterangan .= "Hadir: {$absensiData['hadir']} hari, ";
+        $keterangan .= "Alpha: {$absensiData['alpha']} hari, ";
+        $keterangan .= "Izin: {$absensiData['izin']} hari, ";
+        $keterangan .= "Sakit: {$absensiData['sakit']} hari. ";
+        $keterangan .= "Kehadiran: " . number_format($persentaseKehadiran, 1) . "%";
+
+        if ($absensiData['total_terlambat_menit'] > 0) {
+            $keterangan .= ". Terlambat total: {$absensiData['total_terlambat_menit']} menit";
+        }
+
+        return $keterangan;
+    }
+
+    /**
+     * Preview gaji sebelum generate
+     */
+    public function previewGaji($periode)
+    {
+        $startDate = Carbon::parse($periode)->startOfMonth();
+        $endDate = Carbon::parse($periode)->endOfMonth();
+        $karyawanList = Karyawan::with(['jabatan', 'cabang'])->where('status', 'active')->get();
+
+        $preview = [];
+
+        foreach ($karyawanList as $karyawan) {
+            try {
+                $gajiData = $this->hitungGajiKaryawan($karyawan, $startDate, $endDate);
+                $preview[] = [
+                    'id_karyawan' => $karyawan->id_karyawan,
+                    'nama' => $karyawan->nama,
+                    'jabatan' => $karyawan->jabatan->nama_jabatan ?? 'Tidak ada',
+                    'gaji_pokok' => $gajiData['gaji_pokok'],
+                    'total_tunjangan' => $gajiData['total_tunjangan'],
+                    'total_potongan' => $gajiData['total_potongan'],
+                    'jumlah_gaji' => $gajiData['jumlah_gaji'],
+                    'kehadiran' => $gajiData['detail_absensi']['hadir'],
+                    'alpha' => $gajiData['detail_absensi']['alpha'],
+                    'status' => 'ready'
+                ];
+            } catch (\Exception $e) {
+                $preview[] = [
+                    'id_karyawan' => $karyawan->id_karyawan,
+                    'nama' => $karyawan->nama,
+                    'jabatan' => $karyawan->jabatan->nama_jabatan ?? 'Tidak ada',
+                    'error' => $e->getMessage(),
+                    'status' => 'error'
+                ];
+            }
+        }
+
+        return $preview;
+    }
+
+    /**
+     * Generate laporan gaji per jabatan
      */
     public function laporanGajiPerJabatan($bulan, $tahun)
     {
-        $periode = Carbon::create($tahun, $bulan, 1)->format('Y-m');
+        $periode = $tahun . '-' . str_pad($bulan, 2, '0', STR_PAD_LEFT);
 
         $laporan = DB::table('gaji')
             ->join('karyawan', 'gaji.id_karyawan', '=', 'karyawan.id_karyawan')
-            ->join('jabatan', 'karyawan.jabatan_id', '=', 'jabatan.id')
-            ->where('gaji.periode_gaji', $periode)
+            ->join('jabatan', 'karyawan.jabatan_id', '=', 'jabatan.id_jabatan')
             ->select(
                 'jabatan.nama_jabatan',
-                DB::raw('COUNT(*) as jumlah_karyawan'),
-                DB::raw('AVG(gaji.jumlah_gaji) as rata_rata_gaji'),
-                DB::raw('SUM(gaji.jumlah_gaji) as total_gaji_jabatan'),
-                DB::raw('AVG(gaji.total_hari_hadir) as rata_rata_kehadiran')
+                DB::raw('COUNT(gaji.id_gaji) as total_karyawan'),
+                DB::raw('SUM(gaji.jumlah_gaji) as total_gaji'),
+                DB::raw('AVG(gaji.jumlah_gaji) as rata_gaji'),
+                DB::raw('MIN(gaji.jumlah_gaji) as gaji_min'),
+                DB::raw('MAX(gaji.jumlah_gaji) as gaji_max')
             )
-            ->groupBy('jabatan.nama_jabatan')
+            ->where('gaji.periode_gaji', $periode)
+            ->groupBy('jabatan.id_jabatan', 'jabatan.nama_jabatan')
+            ->orderBy('total_gaji', 'desc')
             ->get();
 
         return $laporan;
     }
 
     /**
-     * Validasi data gaji sebelum finalisasi
+     * Validasi data gaji
      */
     public function validasiGaji($periode)
     {
         $errors = [];
 
-        // Cek karyawan yang belum ada gaji
-        $karyawanTanpaGaji = Karyawan::whereNotExists(function ($query) use ($periode) {
-            $query->select(DB::raw(1))
-                ->from('gaji')
-                ->whereRaw('gaji.id_karyawan = karyawan.id_karyawan')
-                ->where('periode_gaji', $periode);
-        })->where('status', 'aktif')->get();
-
-        if ($karyawanTanpaGaji->count() > 0) {
-            $errors[] = "Karyawan belum ada gaji: " . $karyawanTanpaGaji->pluck('nama')->implode(', ');
-        }
-
-        // Cek gaji dengan nilai negatif
-        $gajiNegatif = Gaji::where('periode_gaji', $periode)
-            ->where('jumlah_gaji', '<', 0)
-            ->with('karyawan')
+        // Check duplicate gaji
+        $duplicates = DB::table('gaji')
+            ->select('id_karyawan', DB::raw('COUNT(*) as total'))
+            ->where('periode_gaji', $periode)
+            ->groupBy('id_karyawan')
+            ->having('total', '>', 1)
             ->get();
 
-        if ($gajiNegatif->count() > 0) {
-            $errors[] = "Gaji negatif ditemukan pada: " . $gajiNegatif->pluck('karyawan.nama')->implode(', ');
+        if ($duplicates->count() > 0) {
+            $errors[] = 'Ditemukan ' . $duplicates->count() . ' karyawan dengan gaji duplicate pada periode ' . $periode;
+        }
+
+        // Check karyawan tanpa gaji
+        $karyawanAktif = Karyawan::where('status', 'aktif')->count();
+        $karyawanDenganGaji = Gaji::where('periode_gaji', $periode)->distinct('id_karyawan')->count();
+
+        if ($karyawanDenganGaji < $karyawanAktif) {
+            $selisih = $karyawanAktif - $karyawanDenganGaji;
+            $errors[] = 'Terdapat ' . $selisih . ' karyawan aktif yang belum memiliki data gaji';
+        }
+
+        // Check gaji dengan nilai 0 atau negatif
+        $gajiInvalid = Gaji::where('periode_gaji', $periode)
+            ->where('jumlah_gaji', '<=', 0)
+            ->count();
+
+        if ($gajiInvalid > 0) {
+            $errors[] = 'Ditemukan ' . $gajiInvalid . ' data gaji dengan nilai <= 0';
+        }
+
+        // Check karyawan tanpa jabatan
+        $tanpaJabatan = Karyawan::whereNull('jabatan_id')
+            ->where('status', 'aktif')
+            ->count();
+
+        if ($tanpaJabatan > 0) {
+            $errors[] = 'Terdapat ' . $tanpaJabatan . ' karyawan aktif tanpa jabatan';
         }
 
         return $errors;
