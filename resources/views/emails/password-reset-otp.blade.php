@@ -22,7 +22,7 @@
             box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
         }
         .header {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            background: linear-gradient(135deg, #F26B37 0%, #E55827 100%);
             color: white;
             padding: 30px;
             text-align: center;
@@ -37,7 +37,7 @@
         }
         .otp-code {
             background: #f8f9fa;
-            border: 2px dashed #667eea;
+            border: 2px dashed #F26B37;
             border-radius: 10px;
             padding: 20px;
             text-align: center;
@@ -46,7 +46,7 @@
         .otp-number {
             font-size: 36px;
             font-weight: bold;
-            color: #667eea;
+            color: #F26B37;
             letter-spacing: 8px;
             margin: 10px 0;
         }
@@ -71,20 +71,20 @@
         .btn {
             display: inline-block;
             padding: 12px 24px;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            background: linear-gradient(135deg, #F26B37 0%, #E55827 100%);
             color: white;
             text-decoration: none;
             border-radius: 25px;
             margin: 20px 0;
         }
         .security-tips {
-            background: #e3f2fd;
-            border-left: 4px solid #2196f3;
+            background: #fff5f0;
+            border-left: 4px solid #F26B37;
             padding: 15px;
             margin: 20px 0;
         }
         .security-tips h4 {
-            color: #1976d2;
+            color: #F26B37;
             margin-top: 0;
         }
         .security-tips ul {
@@ -149,8 +149,8 @@
                 Jika Anda mengalami kesulitan, silakan hubungi customer service kami:
             </p>
             <ul style="font-size: 14px; color: #666; margin: 10px 0;">
-                <li>📞 Telepon: (021) 1234-5678</li>
-                <li>📧 Email: support@myyogya.com</li>
+                <li>📞 Telepon: 085189094514</li>
+                <li>📧 Email: yogya.toserbaa@gmail.com</li>
                 <li>💬 Live Chat: melalui website atau aplikasi</li>
             </ul>
         </div>
@@ -159,9 +159,9 @@
             <p><strong>MyYOGYA</strong> - Toserba Terpercaya Sejak 1975</p>
             <p>Email ini dikirim secara otomatis. Mohon tidak membalas email ini.</p>
             <p style="margin-top: 15px;">
-                <a href="#" style="color: #667eea; text-decoration: none;">Privacy Policy</a> | 
-                <a href="#" style="color: #667eea; text-decoration: none;">Terms of Service</a> | 
-                <a href="#" style="color: #667eea; text-decoration: none;">Contact Us</a>
+                <a href="#" style="color: #F26B37; text-decoration: none;">Privacy Policy</a> | 
+                <a href="#" style="color: #F26B37; text-decoration: none;">Terms of Service</a> | 
+                <a href="#" style="color: #F26B37; text-decoration: none;">Contact Us</a>
             </p>
             <p style="margin-top: 15px; font-size: 12px;">
                 &copy; {{ date('Y') }} MyYOGYA. All rights reserved.
