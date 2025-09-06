@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -38,7 +39,7 @@
             color: white;
             z-index: 1000;
             overflow-y: auto;
-            box-shadow: 4px 0 15px rgba(0,0,0,0.1);
+            box-shadow: 4px 0 15px rgba(0, 0, 0, 0.1);
             display: flex;
             flex-direction: column;
         }
@@ -54,8 +55,8 @@
         /* SIDEBAR BRAND */
         .sidebar-brand {
             padding: 20px;
-            background: rgba(0,0,0,0.1);
-            border-bottom: 1px solid rgba(255,255,255,0.1);
+            background: rgba(0, 0, 0, 0.1);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
             text-align: center;
         }
 
@@ -75,7 +76,7 @@
         /* ADMIN INFO */
         .admin-section {
             padding: 15px 20px;
-            border-bottom: 1px solid rgba(255,255,255,0.1);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
             margin-bottom: 15px;
         }
 
@@ -88,7 +89,7 @@
         .admin-avatar {
             width: 40px;
             height: 40px;
-            background: rgba(255,255,255,0.2);
+            background: rgba(255, 255, 255, 0.2);
             border-radius: 50%;
             display: flex;
             align-items: center;
@@ -114,7 +115,7 @@
         }
 
         .nav-link {
-            color: rgba(255,255,255,0.9);
+            color: rgba(255, 255, 255, 0.9);
             text-decoration: none;
             padding: 12px 15px;
             display: block;
@@ -127,14 +128,14 @@
         }
 
         .nav-link:hover {
-            background: rgba(255,255,255,0.15);
+            background: rgba(255, 255, 255, 0.15);
             color: white;
             text-decoration: none;
             transform: translateX(3px);
         }
 
         .nav-link.active {
-            background: rgba(255,255,255,0.2);
+            background: rgba(255, 255, 255, 0.2);
             color: white;
             font-weight: 600;
         }
@@ -151,7 +152,7 @@
         }
 
         .dropdown-toggle-nav {
-            color: rgba(255,255,255,0.9);
+            color: rgba(255, 255, 255, 0.9);
             text-decoration: none;
             padding: 12px 15px;
             display: flex;
@@ -164,13 +165,13 @@
         }
 
         .dropdown-toggle-nav:hover {
-            background: rgba(255,255,255,0.15);
+            background: rgba(255, 255, 255, 0.15);
             color: white;
             text-decoration: none;
         }
 
         .dropdown-toggle-nav.active {
-            background: rgba(255,255,255,0.2);
+            background: rgba(255, 255, 255, 0.2);
             color: white;
         }
 
@@ -196,18 +197,18 @@
         .submenu .nav-link {
             font-size: 0.85rem;
             padding: 8px 15px;
-            color: rgba(255,255,255,0.8);
+            color: rgba(255, 255, 255, 0.8);
         }
 
         .submenu .nav-link:hover {
-            background: rgba(255,255,255,0.1);
+            background: rgba(255, 255, 255, 0.1);
             padding-left: 20px;
         }
 
         /* SIDEBAR FOOTER */
         .sidebar-footer {
             padding: 15px 20px;
-            border-top: 1px solid rgba(255,255,255,0.1);
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
             font-size: 0.75rem;
             opacity: 0.8;
         }
@@ -259,42 +260,53 @@
 
             <!-- Navigation -->
             <div class="sidebar-nav">
-                <a href="{{ route('admin.dashboard') }}" class="nav-link {{ Request::is('admin/dashboard') ? 'active' : '' }}">
+                <a href="{{ route('admin.dashboard') }}"
+                    class="nav-link {{ Request::is('admin/dashboard') ? 'active' : '' }}">
                     <i class="fas fa-tachometer-alt"></i> Dashboard
                 </a>
 
-                <a href="{{ route('admin.data-karyawan') }}" class="nav-link {{ Request::is('admin/data-karyawan*') ? 'active' : '' }}">
+                <a href="{{ route('admin.data-karyawan') }}"
+                    class="nav-link {{ Request::is('admin/data-karyawan*') ? 'active' : '' }}">
                     <i class="fas fa-users"></i> Data Karyawan
                 </a>
 
-                <a href="{{ route('admin.penggajian') }}" class="nav-link {{ Request::is('admin/penggajian*') ? 'active' : '' }}">
+                <a href="{{ route('admin.penggajian') }}"
+                    class="nav-link {{ Request::is('admin/penggajian*') ? 'active' : '' }}">
                     <i class="fas fa-money-check-alt"></i> Penggajian
                 </a>
 
-                <a href="{{ route('admin.absensi') }}" class="nav-link {{ Request::is('admin/absensi*') ? 'active' : '' }}">
+                <a href="{{ route('admin.absensi.index') }}"
+                    class="nav-link {{ Request::is('admin/absensi*') ? 'active' : '' }}">
                     <i class="fas fa-user-check"></i> Absensi
                 </a>
 
                 <!-- Keuangan Dropdown -->
-                <div class="dropdown-nav {{ Request::is('admin/laporan*') || Request::is('admin/keuangan*') ? 'show' : '' }}">
-                    <div class="dropdown-toggle-nav {{ Request::is('admin/laporan*') || Request::is('admin/keuangan*') ? 'active' : '' }}" onclick="toggleDropdown()">
+                <div
+                    class="dropdown-nav {{ Request::is('admin/laporan*') || Request::is('admin/keuangan*') ? 'show' : '' }}">
+                    <div class="dropdown-toggle-nav {{ Request::is('admin/laporan*') || Request::is('admin/keuangan*') ? 'active' : '' }}"
+                        onclick="toggleDropdown()">
                         <span><i class="fas fa-chart-pie"></i> Keuangan</span>
                         <i class="fas fa-chevron-down dropdown-arrow"></i>
                     </div>
-                    <div class="submenu {{ Request::is('admin/laporan*') || Request::is('admin/keuangan*') ? 'show' : '' }}">
-                        <a href="{{ route('admin.laporan') }}" class="nav-link {{ Request::is('admin/laporan') ? 'active' : '' }}">
+                    <div
+                        class="submenu {{ Request::is('admin/laporan*') || Request::is('admin/keuangan*') ? 'show' : '' }}">
+                        <a href="{{ route('admin.laporan') }}"
+                            class="nav-link {{ Request::is('admin/laporan') ? 'active' : '' }}">
                             <i class="fas fa-file-alt"></i> Laporan
                         </a>
-                        <a href="{{ route('admin.keuangan.riwayat') }}" class="nav-link {{ Request::is('admin/keuangan/riwayat*') ? 'active' : '' }}">
+                        <a href="{{ route('admin.keuangan.riwayat') }}"
+                            class="nav-link {{ Request::is('admin/keuangan/riwayat*') ? 'active' : '' }}">
                             <i class="fas fa-history"></i> Riwayat Transaksi
                         </a>
-                        <a href="{{ route('admin.keuangan.bukubesar') }}" class="nav-link {{ Request::is('admin/keuangan/buku-besar*') ? 'active' : '' }}">
+                        <a href="{{ route('admin.keuangan.bukubesar') }}"
+                            class="nav-link {{ Request::is('admin/keuangan/buku-besar*') ? 'active' : '' }}">
                             <i class="fas fa-book"></i> Buku Besar
                         </a>
                     </div>
                 </div>
 
-                <a href="{{ route('admin.pengaturan') }}" class="nav-link {{ Request::is('admin/pengaturan*') ? 'active' : '' }}">
+                <a href="{{ route('admin.pengaturan') }}"
+                    class="nav-link {{ Request::is('admin/pengaturan*') ? 'active' : '' }}">
                     <i class="fas fa-cog"></i> Pengaturan
                 </a>
             </div>
@@ -319,10 +331,10 @@
             const dropdown = document.querySelector('.dropdown-nav');
             const submenu = dropdown.querySelector('.submenu');
             const arrow = dropdown.querySelector('.dropdown-arrow');
-            
+
             dropdown.classList.toggle('show');
             submenu.classList.toggle('show');
-            
+
             if (dropdown.classList.contains('show')) {
                 arrow.style.transform = 'rotate(180deg)';
             } else {
@@ -332,4 +344,5 @@
     </script>
     @stack('scripts')
 </body>
+
 </html>

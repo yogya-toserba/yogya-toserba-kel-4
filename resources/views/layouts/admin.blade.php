@@ -134,7 +134,7 @@
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="{{ route('admin.absensi') }}">
+                    <a class="nav-link" href="{{ route('admin.absensi.index') }}">
                         <i class="fas fa-clock"></i>
                         Absensi
                     </a>

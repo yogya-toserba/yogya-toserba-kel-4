@@ -1,22 +1,24 @@
 <!DOCTYPE html>
 <html lang="id">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>@yield('title', 'Admin Keuangan - MyYOGYA')</title>
     <meta name="csrf-token" content="{{ csrf_token() }}">
-    
+
     <!-- Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <!-- Font Awesome -->
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
     <!-- Google Fonts -->
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700;800&display=swap"
+        rel="stylesheet">
     <!-- Chart.js -->
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    
+
     @stack('styles')
-    
+
     <style>
         :root {
             --primary-color: #f26b37;
@@ -53,13 +55,13 @@
             width: var(--sidebar-width);
             overflow-y: auto;
             z-index: 1000;
-            box-shadow: 4px 0 15px rgba(0,0,0,0.1);
+            box-shadow: 4px 0 15px rgba(0, 0, 0, 0.1);
         }
 
         .sidebar-header {
             padding: 20px;
-            background: rgba(0,0,0,0.1);
-            border-bottom: 1px solid rgba(255,255,255,0.1);
+            background: rgba(0, 0, 0, 0.1);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
             text-align: left;
         }
 
@@ -128,7 +130,7 @@
             left: -100%;
             width: 100%;
             height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.1), transparent);
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.1), transparent);
             transition: left 0.5s ease;
         }
 
@@ -162,8 +164,8 @@
             left: 0;
             right: 0;
             padding: 20px;
-            background: rgba(0,0,0,0.1);
-            border-top: 1px solid rgba(255,255,255,0.1);
+            background: rgba(0, 0, 0, 0.1);
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
         }
 
         .sidebar-user-info {
@@ -175,7 +177,7 @@
         .sidebar-user-avatar {
             width: 45px;
             height: 45px;
-            background: rgba(255,255,255,0.2);
+            background: rgba(255, 255, 255, 0.2);
             border-radius: 50%;
             display: flex;
             align-items: center;
@@ -312,7 +314,7 @@
             font-size: 2rem;
             font-weight: 700;
             margin-bottom: 8px;
-            text-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
         }
 
         .page-header .lead {
@@ -325,7 +327,7 @@
         .card-custom {
             background: white;
             border-radius: 16px;
-            box-shadow: 0 8px 32px rgba(0,0,0,0.1);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
             border: 1px solid rgba(242, 107, 55, 0.1);
             margin-bottom: 25px;
             overflow: hidden;
@@ -348,7 +350,7 @@
             border-radius: 16px;
             padding: 25px;
             text-align: center;
-            box-shadow: 0 8px 32px rgba(0,0,0,0.1);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
             border: 1px solid rgba(242, 107, 55, 0.1);
             transition: all 0.3s ease;
             position: relative;
@@ -367,7 +369,7 @@
 
         .kpi-card:hover {
             transform: translateY(-5px);
-            box-shadow: 0 12px 40px rgba(0,0,0,0.15);
+            box-shadow: 0 12px 40px rgba(0, 0, 0, 0.15);
         }
 
         .kpi-card h5 {
@@ -388,10 +390,21 @@
             font-weight: 500;
         }
 
-        .kpi-green h5 { color: #28a745; }
-        .kpi-blue h5 { color: #007bff; }
-        .kpi-yellow h5 { color: #ffc107; }
-        .kpi-red h5 { color: #dc3545; }
+        .kpi-green h5 {
+            color: #28a745;
+        }
+
+        .kpi-blue h5 {
+            color: #007bff;
+        }
+
+        .kpi-yellow h5 {
+            color: #ffc107;
+        }
+
+        .kpi-red h5 {
+            color: #dc3545;
+        }
 
         /* Responsive */
         @media (max-width: 768px) {
@@ -423,22 +436,23 @@
         }
 
         .sidebar::-webkit-scrollbar-track {
-            background: rgba(255,255,255,0.1);
+            background: rgba(255, 255, 255, 0.1);
         }
 
         .sidebar::-webkit-scrollbar-thumb {
-            background: rgba(255,255,255,0.3);
+            background: rgba(255, 255, 255, 0.3);
             border-radius: 3px;
         }
 
         .sidebar::-webkit-scrollbar-thumb:hover {
-            background: rgba(255,255,255,0.5);
+            background: rgba(255, 255, 255, 0.5);
         }
     </style>
 </head>
+
 <body>
     <!-- Sidebar -->
-        <div class="sidebar">
+    <div class="sidebar">
         <div class="sidebar-header">
             <a href="{{ route('admin.keuangan.dashboard') }}" class="sidebar-logo">
                 <div class="sidebar-brand">
@@ -450,62 +464,72 @@
 
         <div class="sidebar-menu">
             <div class="sidebar-menu-item">
-                <a href="{{ route('admin.dashboard') }}" class="sidebar-menu-link {{ request()->routeIs('admin.dashboard') ? 'active' : '' }}">
+                <a href="{{ route('admin.dashboard') }}"
+                    class="sidebar-menu-link {{ request()->routeIs('admin.dashboard') ? 'active' : '' }}">
                     <i class="fas fa-home me-2"></i>
                     Dashboard
                 </a>
             </div>
             <div class="sidebar-menu-item">
-                <a href="{{ route('admin.data-karyawan') }}" class="sidebar-menu-link {{ request()->routeIs('admin.data-karyawan*') ? 'active' : '' }}">
+                <a href="{{ route('admin.data-karyawan') }}"
+                    class="sidebar-menu-link {{ request()->routeIs('admin.data-karyawan*') ? 'active' : '' }}">
                     <i class="fas fa-users me-2"></i>
                     Data Karyawan
                 </a>
             </div>
             <div class="sidebar-menu-item">
-                <a href="{{ route('admin.penggajian') }}" class="sidebar-menu-link {{ request()->routeIs('admin.penggajian*') ? 'active' : '' }}">
+                <a href="{{ route('admin.penggajian') }}"
+                    class="sidebar-menu-link {{ request()->routeIs('admin.penggajian*') ? 'active' : '' }}">
                     <i class="fas fa-money-check-alt me-2"></i>
                     Penggajian
                 </a>
             </div>
             <div class="sidebar-menu-item">
-                <a href="{{ route('admin.absensi') }}" class="sidebar-menu-link {{ request()->routeIs('admin.absensi*') ? 'active' : '' }}">
+                <a href="{{ route('admin.absensi.index') }}"
+                    class="sidebar-menu-link {{ request()->routeIs('admin.absensi*') ? 'active' : '' }}">
                     <i class="fas fa-user-check me-2"></i>
                     Absensi
                 </a>
             </div>
-            
+
             <!-- Keuangan Section -->
             <hr style="border-color: rgba(255,255,255,0.2); margin: 15px 15px;">
             <div class="sidebar-menu-item">
-                <span style="color: #9ca3af; font-size: 0.75rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px; padding: 0 15px;">KEUANGAN</span>
+                <span
+                    style="color: #9ca3af; font-size: 0.75rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px; padding: 0 15px;">KEUANGAN</span>
             </div>
             <div class="sidebar-menu-item">
-                <a href="{{ route('admin.keuangan.dashboard') }}" class="sidebar-menu-link {{ request()->routeIs('admin.keuangan.dashboard') ? 'active' : '' }}">
+                <a href="{{ route('admin.keuangan.dashboard') }}"
+                    class="sidebar-menu-link {{ request()->routeIs('admin.keuangan.dashboard') ? 'active' : '' }}">
                     <i class="fas fa-tachometer-alt me-2"></i>
                     Dashboard Keuangan
                 </a>
             </div>
             <div class="sidebar-menu-item">
-                <a href="{{ route('admin.keuangan.riwayat') }}" class="sidebar-menu-link {{ request()->routeIs('admin.keuangan.riwayat') ? 'active' : '' }}">
+                <a href="{{ route('admin.keuangan.riwayat') }}"
+                    class="sidebar-menu-link {{ request()->routeIs('admin.keuangan.riwayat') ? 'active' : '' }}">
                     <i class="fas fa-history me-2"></i>
                     Riwayat Transaksi
                 </a>
             </div>
             <div class="sidebar-menu-item">
-                <a href="{{ route('admin.keuangan.bukubesar') }}" class="sidebar-menu-link {{ request()->routeIs('admin.keuangan.bukubesar') ? 'active' : '' }}">
+                <a href="{{ route('admin.keuangan.bukubesar') }}"
+                    class="sidebar-menu-link {{ request()->routeIs('admin.keuangan.bukubesar') ? 'active' : '' }}">
                     <i class="fas fa-book me-2"></i>
                     Buku Besar
                 </a>
             </div>
             <div class="sidebar-menu-item">
-                <a href="{{ route('admin.keuangan.laporan') }}" class="sidebar-menu-link {{ request()->routeIs('admin.keuangan.laporan') ? 'active' : '' }}">
+                <a href="{{ route('admin.keuangan.laporan') }}"
+                    class="sidebar-menu-link {{ request()->routeIs('admin.keuangan.laporan') ? 'active' : '' }}">
                     <i class="fas fa-chart-line me-2"></i>
                     Laporan Keuangan
                 </a>
             </div>
-            
+
             <div class="sidebar-menu-item">
-                <a href="{{ route('admin.pengaturan') }}" class="sidebar-menu-link {{ request()->routeIs('admin.pengaturan*') ? 'active' : '' }}">
+                <a href="{{ route('admin.pengaturan') }}"
+                    class="sidebar-menu-link {{ request()->routeIs('admin.pengaturan*') ? 'active' : '' }}">
                     <i class="fas fa-cog me-2"></i>
                     Pengaturan
                 </a>
@@ -580,7 +604,7 @@
 
     <!-- Bootstrap JS -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-    
+
     <script>
         // Update time
         function updateTime() {
@@ -596,30 +620,31 @@
                 month: 'long',
                 day: 'numeric'
             });
-            
+
             document.getElementById('current-time').textContent = `${timeString} - ${dateString}`;
         }
-        
+
         // Update time every second
         setInterval(updateTime, 1000);
         updateTime();
 
         // Sidebar toggle functionality
-        document.getElementById('sidebarCollapse').addEventListener('click', function () {
+        document.getElementById('sidebarCollapse').addEventListener('click', function() {
             document.querySelector('.sidebar').classList.toggle('show');
         });
-        
+
         // Auto close sidebar when clicking outside on mobile
-        document.addEventListener('click', function (e) {
+        document.addEventListener('click', function(e) {
             const sidebar = document.querySelector('.sidebar');
             const toggleBtn = document.getElementById('sidebarCollapse');
-            
+
             if (window.innerWidth <= 768 && !sidebar.contains(e.target) && !toggleBtn.contains(e.target)) {
                 sidebar.classList.remove('show');
             }
         });
     </script>
-    
+
     @stack('scripts')
 </body>
+
 </html>

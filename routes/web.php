@@ -16,11 +16,22 @@ use App\Http\Controllers\KeuanganController;
 use App\Http\Controllers\PenggajianController;
 use App\Http\Controllers\PenggajianOtomatisController;
 use App\Http\Controllers\PemasokController;
+use App\Http\Controllers\KaryawanAbsensiController;
 
 // Global login route - redirects to admin login
 Route::get('/login', function () {
     return redirect()->route('admin.login');
 })->name('login');
+
+// Karyawan Routes (Public - tidak perlu login admin)
+Route::prefix('karyawan')->name('karyawan.')->group(function () {
+    Route::get('/', [KaryawanAbsensiController::class, 'index'])->name('index');
+    Route::post('/checkin', [KaryawanAbsensiController::class, 'checkIn'])->name('checkin');
+    Route::post('/checkout', [KaryawanAbsensiController::class, 'checkOut'])->name('checkout');
+    Route::get('/riwayat', [KaryawanAbsensiController::class, 'riwayat'])->name('riwayat');
+    Route::get('/status', [KaryawanAbsensiController::class, 'statusHariIni'])->name('status');
+    Route::get('/cari', [KaryawanAbsensiController::class, 'cariKaryawan'])->name('cari');
+});
 
 // Route untuk testing error pages
 Route::get('/test-errors', function () {
@@ -151,10 +162,10 @@ Route::prefix('pelanggan')->name('pelanggan.')->group(function () {
     Route::post('/register', [PelangganController::class, 'register'])->name('register.submit');
 
     Route::post('/logout', [PelangganController::class, 'logout'])->name('logout');
-    
+
     // Search route (available to all customers)
     Route::get('/search', [PelangganController::class, 'search'])->name('search');
-    
+
     // Protected pelanggan routes
     Route::middleware('auth:pelanggan')->group(function () {
         Route::get('/dashboard', [PelangganController::class, 'dashboard'])->name('dashboard');
@@ -200,7 +211,7 @@ Route::prefix('gudang')->name('gudang.')->group(function () {
     // Dashboard Inventori Routes (no authentication required)
     Route::get('/inventori/dashboard', [App\Http\Controllers\InventoriDashboardController::class, 'index'])
         ->name('inventori.dashboard');
-    
+
     Route::get('/inventori/statistics', [App\Http\Controllers\InventoriDashboardController::class, 'getStatistics'])
         ->name('inventori.statistics');
     // Debug route (public, no auth required)
@@ -243,18 +254,18 @@ Route::prefix('gudang')->name('gudang.')->group(function () {
 
         // Main stok route for sidebar
         Route::get('/stok-main', [StokGudangPusatController::class, 'index'])->name('stok');
-        
+
         // Other gudang routes
         Route::get('/permintaan', [GudangController::class, 'permintaan'])->name('permintaan');
-        
+
         Route::get('/permintaan-inventori', function () {
             return view('gudang.permintaan_inventori');
         })->name('permintaan.inventori');
-        
+
         Route::get('/inventori/permintaan-inventori', function () {
             return view('gudang.inventori.permintaan_inventori');
         })->name('inventori.permintaan.inventori');
-        
+
         Route::post('/permintaan-submit', [GudangController::class, 'submitPermintaan'])->name('permintaan.submit');
 
         // Pengiriman routes
