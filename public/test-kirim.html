@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test Kirim Pengiriman</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+</head>
+<body>
+    <h1>Test Kirim Pengiriman</h1>
+    <button onclick="testKirimPengiriman(0)">Test Kirim Index 0</button>
+    <button onclick="testKirimPengiriman(1)">Test Kirim Index 1</button>
+    
+    <div id="result"></div>
+
+    <script>
+    function testKirimPengiriman(index) {
+        console.log('Testing kirim pengiriman for index:', index);
+        
+        $.ajax({
+            url: '/gudang/pengiriman/kirim',
+            type: 'POST',
+            data: {
+                _token: '{{ csrf_token() }}',
+                index: index
+            },
+            success: function(response) {
+                console.log('Success response:', response);
+                $('#result').html('<div style="color: green;">SUCCESS: ' + response.message + '</div>');
+                
+                if (response.success) {
+                    Swal.fire({
+                        title: 'Berhasil!',
+                        text: response.message,
+                        icon: 'success',
+                        timer: 2000,
+                        showConfirmButton: false
+                    }).then(() => {
+                        if (response.redirect) {
+                            console.log('Redirecting to:', response.redirect);
+                            window.location.href = response.redirect;
+                        }
+                    });
+                }
+            },
+            error: function(xhr, status, error) {
+                console.log('Error response:', xhr.responseText);
+                $('#result').html('<div style="color: red;">ERROR: ' + xhr.responseText + '</div>');
+                
+                Swal.fire({
+                    title: 'Error!',
+                    text: 'Terjadi kesalahan saat mengirim pengiriman: ' + error,
+                    icon: 'error'
+                });
+            }
+        });
+    }
+    </script>
+</body>
+</html>

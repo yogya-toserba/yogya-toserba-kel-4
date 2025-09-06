@@ -6,6 +6,103 @@ use App\Http\Controllers\StokGudangPusatController;
 use App\Http\Controllers\PemasokController;
 use App\Http\Controllers\ProductController;
 
+// Test route untuk menambah data session
+Route::get('/test-data', function () {
+    // Buat data contoh untuk pengiriman
+    $contohPengiriman = [
+        [
+            'id' => 1,
+            'id_pengiriman' => 'SHIP-001',
+            'nama_produk' => 'Monitor Samsung',
+            'tujuan' => 'Cabang Bandung',
+            'jumlah' => 3,
+            'tanggal_kirim' => date('Y-m-d'),
+            'status' => 'Siap Kirim',
+            'created_at' => date('Y-m-d H:i:s')
+        ],
+        [
+            'id' => 2,
+            'id_pengiriman' => 'SHIP-002',
+            'nama_produk' => 'Printer Canon',
+            'tujuan' => 'Cabang Medan',
+            'jumlah' => 2,
+            'tanggal_kirim' => date('Y-m-d'),
+            'status' => 'Siap Kirim',
+            'created_at' => date('Y-m-d H:i:s')
+        ]
+    ];
+
+    // Set session data
+    session(['all_pengiriman' => $contohPengiriman]);
+    session(['all_penerimaan' => []]);
+
+    return response()->json([
+        'success' => true,
+        'message' => 'Data test berhasil ditambahkan!',
+        'pengiriman_count' => count($contohPengiriman),
+        'penerimaan_count' => 0
+    ]);
+});
+
+// Test page untuk kirim pengiriman
+Route::get('/test-kirim', function () {
+    return view('test-kirim');
+});
+
+// Test AJAX kirim
+Route::post('/test-kirim-ajax', function (Illuminate\Http\Request $request) {
+    try {
+        $index = $request->input('index');
+        $sessionPengiriman = session('all_pengiriman', []);
+        
+        if (isset($sessionPengiriman[$index])) {
+            // Ambil data yang akan dikirim
+            $item = $sessionPengiriman[$index];
+            
+            // Update status pengiriman menjadi "Dikirim"
+            $sessionPengiriman[$index]['status'] = 'Dikirim';
+            $sessionPengiriman[$index]['tanggal_kirim_aktual'] = now()->format('Y-m-d H:i:s');
+            
+            // Transfer data ke session penerimaan dengan status "Dalam Perjalanan"
+            $sessionPenerimaan = session('all_penerimaan', []);
+            $penerimaanItem = [
+                'id' => $item['id'] ?? count($sessionPenerimaan) + 1,
+                'nama_produk' => $item['nama_produk'],
+                'tujuan' => $item['tujuan'],
+                'jumlah' => $item['jumlah'],
+                'status' => 'Dalam Perjalanan',
+                'tanggal_kirim' => $item['tanggal_kirim'] ?? date('Y-m-d'),
+                'tanggal_kirim_aktual' => now()->format('Y-m-d H:i:s'),
+                'created_at' => now()->format('Y-m-d H:i:s')
+            ];
+            
+            $sessionPenerimaan[] = $penerimaanItem;
+            
+            // Save kedua session
+            session(['all_pengiriman' => $sessionPengiriman]);
+            session(['all_penerimaan' => $sessionPenerimaan]);
+            
+            return response()->json([
+                'success' => true,
+                'message' => 'Pengiriman berhasil dikirim dan masuk ke sistem penerimaan!',
+                'redirect' => route('gudang.inventori.penerimaan.index'),
+                'data' => [
+                    'pengiriman_updated' => $sessionPengiriman[$index],
+                    'penerimaan_added' => $penerimaanItem,
+                    'total_penerimaan' => count($sessionPenerimaan)
+                ]
+            ]);
+        } else {
+            throw new \Exception('Data pengiriman tidak ditemukan dalam session');
+        }
+    } catch (\Exception $e) {
+        return response()->json([
+            'success' => false,
+            'message' => 'Terjadi kesalahan: ' . $e->getMessage()
+        ], 500);
+    }
+});
+
 // Gudang Routes
 Route::prefix('gudang')->name('gudang.')->group(function () {
     // Authentication routes
@@ -98,6 +195,26 @@ Route::prefix('gudang')->name('gudang.')->group(function () {
         ]);
         Route::post('/pengiriman/{id}/update-status', [App\Http\Controllers\Gudang\PengirimanController::class, 'updateStatus'])
             ->name('pengiriman.updateStatus');
+        Route::post('/pengiriman/kirim', [App\Http\Controllers\Gudang\PengirimanController::class, 'kirimPengiriman'])
+            ->name('pengiriman.kirim');
+
+        // Penerimaan routes (via Gudang Dashboard)
+        Route::get('/penerimaan', [App\Http\Controllers\Gudang\PenerimaanController::class, 'index'])
+            ->name('penerimaan.index');
+        Route::post('/penerimaan/terima', [App\Http\Controllers\Gudang\PenerimaanController::class, 'terimaPenerimaan'])
+            ->name('penerimaan.terima');
+        Route::post('/penerimaan/update-status', [App\Http\Controllers\Gudang\PenerimaanController::class, 'updateStatus'])
+            ->name('penerimaan.update-status');
+            
+        // Keep inventori routes for backward compatibility
+        Route::get('/inventori/penerimaan', [App\Http\Controllers\Gudang\PenerimaanController::class, 'index'])
+            ->name('inventori.penerimaan.index');
+        Route::post('/inventori/penerimaan/terima', [App\Http\Controllers\Gudang\PenerimaanController::class, 'terimaPenerimaan'])
+            ->name('inventori.penerimaan.terima');
+        Route::post('/inventori/penerimaan/update-status', [App\Http\Controllers\Gudang\PenerimaanController::class, 'updateStatus'])
+            ->name('inventori.penerimaan.update-status');
+        Route::post('/pengiriman/update-session-status', [App\Http\Controllers\Gudang\PengirimanController::class, 'updateSessionStatus'])
+            ->name('pengiriman.updateSessionStatus');
 
         Route::get('/inventori', function () {
             return view('gudang.inventori');

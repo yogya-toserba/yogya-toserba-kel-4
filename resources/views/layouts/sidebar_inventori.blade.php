@@ -42,12 +42,12 @@
       @endif
     </a>
 
-    <a href="{{ route('gudang.pengiriman.index') }}" class="nav-item {{ request()->routeIs('gudang.pengiriman*') ? 'active' : '' }}">
+    <a href="{{ route('gudang.inventori.penerimaan.index') }}" class="nav-item {{ request()->routeIs('gudang.inventori.penerimaan*') ? 'active' : '' }}">
       <div class="nav-icon">
-        <i class="fas fa-truck"></i>
+        <i class="fas fa-truck-loading"></i>
       </div>
       <span class="nav-text">Penerimaan</span>
-      @if(request()->routeIs('gudang.pengiriman*'))
+      @if(request()->routeIs('gudang.inventori.penerimaan*'))
         <div class="nav-indicator"></div>
       @endif
     </a>
@@ -203,6 +203,10 @@
     text-align: center;
     border-bottom: 2px solid var(--light-border);
     background: var(--light-card-bg);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
   }
 
   body.dark-mode .sidebar-brand {
@@ -212,6 +216,9 @@
 
   .brand-logo {
     margin-bottom: 10px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
   }
 
   .yogya-logo {

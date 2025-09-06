@@ -111,6 +111,14 @@
             <p class="menu-desc">Tambah, edit, hapus, dan kelola semua produk dalam inventori dengan interface yang user-friendly.</p>
         </a>
 
+        <a href="{{ route('gudang.inventori.penerimaan.index') }}" class="menu-card">
+            <div class="menu-icon primary">
+                <i class="fas fa-truck-loading"></i>
+            </div>
+            <h3 class="menu-title">Penerimaan Barang</h3>
+            <p class="menu-desc">Kelola penerimaan barang dari pengiriman, verifikasi, dan update status inventori secara real-time.</p>
+        </a>
+
         <a href="#" class="menu-card">
             <div class="menu-icon warning">
                 <i class="fas fa-exclamation-triangle"></i>

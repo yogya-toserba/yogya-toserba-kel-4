@@ -3,6 +3,10 @@
 @section('title', 'Pengiriman - MyYOGYA Dashboard')
 
 @section('content')
+<!-- Ensure Bootstrap CSS is loaded -->
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+<!-- Add CSRF token for AJAX requests -->
+<meta name="csrf-token" content="{{ csrf_token() }}"
 <style>
 /* Modern MyYOGYA Theme */
 .page-wrapper {
@@ -800,15 +804,30 @@ body.dark-mode .modal-body .form-control:focus {
                                                 <i class="fas fa-eye"></i>
                                                 Lihat Detail
                                             </a>
-                                            @if($pengiriman['status'] === 'Siap Kirim')
-                                                <a href="#" class="action-dropdown-item"
+                                            @if($pengiriman['status'] === 'Menunggu')
+                                                <a href="#" class="action-dropdown-item text-success"
+                                                   onclick="terimaPengiriman('{{ $pengiriman['id_pengiriman'] }}', {{ $index }})">
+                                                    <i class="fas fa-check"></i>
+                                                    Terima
+                                                </a>
+                                                <a href="#" class="action-dropdown-item text-danger"
+                                                   onclick="tolakPengiriman('{{ $pengiriman['id_pengiriman'] }}', {{ $index }})">
+                                                    <i class="fas fa-times"></i>
+                                                    Tolak
+                                                </a>
+                                            @elseif($pengiriman['status'] === 'Siap Kirim')
+                                                <a href="#" class="action-dropdown-item text-success"
                                                    onclick="mulaiPengiriman('{{ $pengiriman['id_pengiriman'] }}', {{ $index }})">
                                                     <i class="fas fa-truck"></i>
-                                                    Mulai Pengiriman
+                                                    Siap Kirim
                                                 </a>
-                                            @endif
-                                            @if($pengiriman['status'] === 'Dalam Perjalanan')
-                                                <a href="#" class="action-dropdown-item"
+                                                <a href="#" class="action-dropdown-item text-primary"
+                                                   onclick="selesaiPengiriman('{{ $pengiriman['id_pengiriman'] }}', {{ $index }})">
+                                                    <i class="fas fa-check-circle"></i>
+                                                    Selesai Pengiriman
+                                                </a>
+                                            @elseif($pengiriman['status'] === 'Dalam Perjalanan')
+                                                <a href="#" class="action-dropdown-item text-primary"
                                                    onclick="selesaiPengiriman('{{ $pengiriman['id_pengiriman'] }}', {{ $index }})">
                                                     <i class="fas fa-check-circle"></i>
                                                     Selesai Pengiriman
@@ -846,12 +865,28 @@ body.dark-mode .modal-body .form-control:focus {
                                         $dbStatus = $item->status ?? 'pending';
                                         $statusClass = match(strtolower($dbStatus)) {
                                             'pending' => 'bg-warning',
-                                            'dikirim' => 'bg-info',
+                                            'dikirim', 'siap_kirim' => 'bg-info',
+                                            'dalam_perjalanan' => 'bg-primary',
                                             'selesai' => 'bg-success',
+                                            'ditolak' => 'bg-danger',
                                             default => 'bg-secondary'
                                         };
+                                        
+                                        // Map status display names
+                                        $statusDisplay = match(strtolower($dbStatus)) {
+                                            'pending' => 'Menunggu',
+                                            'dikirim' => 'Diterima',
+                                            'siap_kirim' => 'Siap Kirim',
+                                            'dalam_perjalanan' => 'Dalam Perjalanan',
+                                            'selesai' => 'Selesai',
+                                            'ditolak' => 'Ditolak',
+                                            default => ucfirst($dbStatus)
+                                        };
                                     @endphp
-                                    <span class="badge {{ $statusClass }}">{{ ucfirst($dbStatus) }}</span>
+                                    <span class="badge {{ $statusClass }}">{{ $statusDisplay }}</span>
+                                    @if(strtolower($dbStatus) === 'ditolak' && !empty($item->keterangan))
+                                        <br><small class="text-muted mt-1 d-block">{{ $item->keterangan }}</small>
+                                    @endif
                                 </td>
                                 <td>
                                     <span class="fw-semibold">{{ $item->jumlah ?? 0 }}</span><br>
@@ -868,9 +903,36 @@ body.dark-mode .modal-body .form-control:focus {
                                                 Lihat Detail
                                             </a>
                                             @if(strtolower($item->status ?? 'pending') === 'pending')
+                                                <a href="#" class="action-dropdown-item text-success"
+                                                   onclick="terimaPengirimanDB({{ $item->id }}, 'dikirim')">
+                                                    <i class="fas fa-check"></i>
+                                                    Terima
+                                                </a>
+                                                <a href="#" class="action-dropdown-item text-danger"
+                                                   onclick="tolakPengirimanDB({{ $item->id }}, 'ditolak')">
+                                                    <i class="fas fa-times"></i>
+                                                    Tolak
+                                                </a>
                                                 <a href="{{ route('gudang.pengiriman.edit', $item->id) }}" class="action-dropdown-item">
                                                     <i class="fas fa-edit"></i>
                                                     Edit Pengiriman
+                                                </a>
+                                            @elseif(in_array(strtolower($item->status ?? 'pending'), ['dikirim', 'siap_kirim']))
+                                                <a href="#" class="action-dropdown-item text-success"
+                                                   onclick="mulaiPengirimanDB({{ $item->id }}, 'dalam_perjalanan')">
+                                                    <i class="fas fa-truck"></i>
+                                                    Siap Kirim
+                                                </a>
+                                                <a href="#" class="action-dropdown-item text-primary"
+                                                   onclick="selesaiPengirimanDB({{ $item->id }}, 'selesai')">
+                                                    <i class="fas fa-check-circle"></i>
+                                                    Selesai Pengiriman
+                                                </a>
+                                            @elseif(strtolower($item->status ?? 'pending') === 'dalam_perjalanan')
+                                                <a href="#" class="action-dropdown-item text-primary"
+                                                   onclick="selesaiPengirimanDB({{ $item->id }}, 'selesai')">
+                                                    <i class="fas fa-check-circle"></i>
+                                                    Selesai Pengiriman
                                                 </a>
                                             @endif
                                         </div>
@@ -899,6 +961,24 @@ body.dark-mode .modal-body .form-control:focus {
     </div>
 </div>
 
+<!-- Alert Container untuk Notifikasi -->
+<div id="alertContainer" style="position: fixed; top: 20px; right: 20px; z-index: 9999;"></div>
+
+<!-- Display success/error messages -->
+@if(session('success'))
+<div class="alert alert-success alert-dismissible fade show" role="alert" style="position: fixed; top: 20px; right: 20px; z-index: 9999;">
+    <i class="fas fa-check-circle"></i> {{ session('success') }}
+    <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+</div>
+@endif
+
+@if(session('error'))
+<div class="alert alert-danger alert-dismissible fade show" role="alert" style="position: fixed; top: 20px; right: 20px; z-index: 9999;">
+    <i class="fas fa-exclamation-triangle"></i> {{ session('error') }}
+    <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+</div>
+@endif
+
 <!-- Modal Tambah Pengiriman -->
 <div class="modal fade" id="tambahPengirimanModal" tabindex="-1" aria-labelledby="tambahPengirimanModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-lg">
@@ -911,69 +991,63 @@ body.dark-mode .modal-body .form-control:focus {
                 <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                <form>
+                <form id="tambahPengirimanForm" method="POST" action="{{ route('gudang.pengiriman.store') }}">
+                    @csrf
                     <div class="row">
                         <div class="col-md-6">
                             <div class="form-group mb-3">
-                                <label for="order_id">Order ID</label>
-                                <select class="form-control" id="order_id" required>
-                                    <option value="">Pilih Order</option>
-                                    <option value="ORD-2024-004">ORD-2024-004 - Jakarta</option>
-                                    <option value="ORD-2024-005">ORD-2024-005 - Medan</option>
-                                    <option value="ORD-2024-006">ORD-2024-006 - Denpasar</option>
+                                <label for="id_produk">Produk *</label>
+                                <select class="form-control" id="id_produk" name="id_produk" required>
+                                    <option value="">Pilih Produk</option>
+                                    @if(isset($produkList))
+                                        @foreach($produkList as $produk)
+                                            <option value="{{ $produk->id_produk }}" data-stok="{{ $produk->jumlah }}">
+                                                {{ $produk->nama_produk }} (Stok: {{ $produk->jumlah }})
+                                            </option>
+                                        @endforeach
+                                    @endif
                                 </select>
                             </div>
                         </div>
                         <div class="col-md-6">
                             <div class="form-group mb-3">
-                                <label for="ekspedisi_baru">Ekspedisi</label>
-                                <select class="form-control" id="ekspedisi_baru" required>
-                                    <option value="">Pilih Ekspedisi</option>
-                                    <option value="jne">JNE</option>
-                                    <option value="pos">POS Indonesia</option>
-                                    <option value="tiki">TIKI</option>
-                                    <option value="jnt">J&T Express</option>
-                                    <option value="sicepat">SiCepat</option>
-                                </select>
+                                <label for="tujuan">Tujuan *</label>
+                                <input type="text" class="form-control" id="tujuan" name="tujuan" placeholder="Alamat tujuan" required>
                             </div>
                         </div>
                     </div>
                     <div class="row">
                         <div class="col-md-6">
                             <div class="form-group mb-3">
-                                <label for="layanan">Layanan</label>
-                                <select class="form-control" id="layanan" required>
-                                    <option value="">Pilih Layanan</option>
-                                    <option value="reg">Regular</option>
-                                    <option value="express">Express</option>
-                                    <option value="priority">Priority</option>
-                                </select>
+                                <label for="jumlah">Jumlah *</label>
+                                <input type="number" class="form-control" id="jumlah" name="jumlah" min="1" placeholder="Jumlah produk" required>
+                                <small class="form-text text-muted">Stok tersedia: <span id="stok-tersedia">0</span></small>
                             </div>
                         </div>
                         <div class="col-md-6">
                             <div class="form-group mb-3">
-                                <label for="estimasi">Estimasi Pengiriman</label>
-                                <input type="text" class="form-control" id="estimasi" placeholder="contoh: 2-3 hari" required>
+                                <label for="tanggal_kirim">Tanggal Kirim *</label>
+                                <input type="date" class="form-control" id="tanggal_kirim" name="tanggal_kirim" required>
                             </div>
                         </div>
                     </div>
                     <div class="row">
                         <div class="col-md-6">
                             <div class="form-group mb-3">
-                                <label for="biaya_kirim">Biaya Pengiriman</label>
-                                <input type="number" class="form-control" id="biaya_kirim" placeholder="0" required>
+                                <label for="status">Status *</label>
+                                <select class="form-control" id="status" name="status" required>
+                                    <option value="pending">Pending</option>
+                                    <option value="dikirim">Dikirim</option>
+                                    <option value="selesai">Selesai</option>
+                                </select>
                             </div>
                         </div>
                         <div class="col-md-6">
                             <div class="form-group mb-3">
-                                <label for="asuransi">Biaya Asuransi</label>
-                                <input type="number" class="form-control" id="asuransi" placeholder="0">
+                                <label for="keterangan">Keterangan</label>
+                                <input type="text" class="form-control" id="keterangan" name="keterangan" placeholder="Keterangan tambahan">
                             </div>
                         </div>
-                    </div>
-                    <div class="form-group mb-3">
-                        <label for="catatan">Catatan Pengiriman</label>
-                        <textarea class="form-control" id="catatan" rows="3" placeholder="Catatan khusus untuk pengiriman..."></textarea>
                     </div>
                 </form>
             </div>
@@ -982,9 +1056,13 @@ body.dark-mode .modal-body .form-control:focus {
                     <i class="fas fa-times"></i>
                     Batal
                 </button>
-                <button type="submit" class="btn btn-primary">
+                <button type="button" class="btn btn-primary" onclick="submitPengiriman(event)">
                     <i class="fas fa-save"></i>
                     Simpan Pengiriman
+                </button>
+                <button type="submit" class="btn btn-warning" style="display: none;" id="fallbackSubmit">
+                    <i class="fas fa-save"></i>
+                    Submit (Fallback)
                 </button>
             </div>
         </div>
@@ -1068,10 +1146,260 @@ body.dark-mode .modal-body .form-control:focus {
     </div>
 </div>
 
+<!-- Modal Tolak Pengiriman -->
+<div class="modal fade" id="tolakPengirimanModal" tabindex="-1" aria-labelledby="tolakPengirimanModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header" style="background: linear-gradient(135deg, #dc3545 0%, #c82333 100%); color: white;">
+                <h5 class="modal-title" id="tolakPengirimanModalLabel">
+                    <i class="fas fa-times-circle"></i>
+                    Tolak Pengiriman
+                </h5>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form id="tolakPengirimanForm">
+                    <div class="form-group mb-3">
+                        <label for="alasan_tolak">Alasan Penolakan *</label>
+                        <textarea class="form-control" id="alasan_tolak" name="alasan_tolak" rows="4" 
+                                  placeholder="Masukkan alasan penolakan pengiriman..." required></textarea>
+                        <div class="form-text">Berikan alasan yang jelas mengapa pengiriman ini ditolak.</div>
+                    </div>
+                    <input type="hidden" id="pengiriman_id_tolak" name="pengiriman_id">
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+                    <i class="fas fa-times"></i>
+                    Batal
+                </button>
+                <button type="button" class="btn btn-danger" onclick="confirmTolakPengiriman()">
+                    <i class="fas fa-times-circle"></i>
+                    Tolak Pengiriman
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Load Bootstrap JS first -->
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 
 <script>
-// Action Dropdown Toggle Function
+// Ensure CSRF token is available for all AJAX requests
+$(document).ready(function() {
+    $.ajaxSetup({
+        headers: {
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+        }
+    });
+});
+
+// Function to show dynamic alerts
+function showAlert(message, type = 'success') {
+    const alertContainer = document.getElementById('alertContainer');
+    const alertId = 'alert-' + Date.now();
+    
+    const alertHtml = `
+        <div id="${alertId}" class="alert alert-${type} alert-dismissible fade show" role="alert">
+            <i class="fas fa-${type === 'success' ? 'check-circle' : 'exclamation-triangle'}"></i> ${message}
+            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+        </div>
+    `;
+    
+    alertContainer.insertAdjacentHTML('beforeend', alertHtml);
+    
+    // Auto remove after 5 seconds
+    setTimeout(() => {
+        const alert = document.getElementById(alertId);
+        if (alert) {
+            alert.remove();
+        }
+    }, 5000);
+}
+
+// Initialize tooltips and modals
+document.addEventListener('DOMContentLoaded', function() {
+    // Initialize tooltips
+    var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'));
+    var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
+        return new bootstrap.Tooltip(tooltipTriggerEl);
+    });
+    
+    // Initialize modals
+    var modalElements = document.querySelectorAll('.modal');
+    modalElements.forEach(function(modalElement) {
+        var modal = new bootstrap.Modal(modalElement);
+    });
+    
+    // Initialize dropdown functionality
+    initializeDropdowns();
+    
+    // Set default date to today
+    const today = new Date().toISOString().split('T')[0];
+    document.getElementById('tanggal_kirim').value = today;
+    
+    // Handle product selection change
+    document.getElementById('id_produk').addEventListener('change', function() {
+        const selectedOption = this.options[this.selectedIndex];
+        const stok = selectedOption.getAttribute('data-stok') || 0;
+        document.getElementById('stok-tersedia').textContent = stok;
+        
+        // Reset and set max value for quantity input
+        const jumlahInput = document.getElementById('jumlah');
+        jumlahInput.value = '';
+        jumlahInput.max = stok;
+    });
+});
+
+// Function to initialize dropdown functionality
+function initializeDropdowns() {
+    console.log('Initializing dropdowns...');
+    
+    // Toggle dropdown when clicking action button
+    document.addEventListener('click', function(event) {
+        if (event.target.closest('.action-btn')) {
+            event.preventDefault();
+            event.stopPropagation();
+            
+            console.log('Dropdown button clicked');
+            
+            const btn = event.target.closest('.action-btn');
+            const dropdown = btn.nextElementSibling;
+            const allDropdowns = document.querySelectorAll('.action-dropdown-menu');
+            
+            console.log('Dropdown element found:', dropdown);
+            
+            // Close all other dropdowns
+            allDropdowns.forEach(menu => {
+                if (menu !== dropdown) {
+                    menu.classList.remove('show');
+                }
+            });
+            
+            // Toggle current dropdown
+            dropdown.classList.toggle('show');
+            
+            console.log('Dropdown show class toggled. Has show class:', dropdown.classList.contains('show'));
+        }
+    });
+    
+    // Close dropdown when clicking outside
+    document.addEventListener('click', function(event) {
+        if (!event.target.closest('.action-dropdown')) {
+            document.querySelectorAll('.action-dropdown-menu').forEach(menu => {
+                menu.classList.remove('show');
+            });
+        }
+    });
+    
+    // Close dropdown when clicking on menu item
+    document.addEventListener('click', function(event) {
+        if (event.target.closest('.action-dropdown-item')) {
+            document.querySelectorAll('.action-dropdown-menu').forEach(menu => {
+                menu.classList.remove('show');
+            });
+        }
+    });
+}
+});
+
+// Function to submit pengiriman form with proper validation
+function submitPengiriman(event) {
+    event.preventDefault();
+    console.log('submitPengiriman function called');
+    
+    const form = document.getElementById('tambahPengirimanForm');
+    const formData = new FormData(form);
+    
+    console.log('Form data prepared');
+    console.log('Form action:', form.action);
+    
+    // Debug form data
+    for (let [key, value] of formData.entries()) {
+        console.log(key, value);
+    }
+    
+    // Validate stock availability
+    const selectedProduct = document.getElementById('id_produk');
+    const selectedOption = selectedProduct.options[selectedProduct.selectedIndex];
+    const availableStock = parseInt(selectedOption.getAttribute('data-stok') || 0);
+    const requestedQty = parseInt(formData.get('jumlah'));
+    
+    console.log('Stock validation:', {
+        available: availableStock,
+        requested: requestedQty
+    });
+    
+    if (requestedQty > availableStock) {
+        console.log('Stock validation failed');
+        showAlert(`Jumlah yang diminta (${requestedQty}) melebihi stok yang tersedia (${availableStock})`, 'danger');
+        return false;
+    }
+    
+    // Show loading state
+    const submitBtn = event.target;
+    const originalText = submitBtn.innerHTML;
+    submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Menyimpan...';
+    submitBtn.disabled = true;
+    
+    console.log('Starting AJAX request to:', form.action);
+    
+    // Submit via AJAX for better error handling
+    fetch(form.action, {
+        method: 'POST',
+        body: formData,
+        headers: {
+            'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content'),
+            'Accept': 'application/json'
+        }
+    })
+    .then(response => {
+        console.log('Response received:', response.status, response.statusText);
+        if (!response.ok) {
+            return response.json().then(err => {
+                console.log('Error response:', err);
+                return Promise.reject(err);
+            });
+        }
+        return response.json();
+    })
+    .then(data => {
+        console.log('Success response:', data);
+        if (data.success || data.redirect) {
+            showAlert('Data pengiriman berhasil disimpan!', 'success');
+            setTimeout(() => {
+                window.location.reload();
+            }, 1500);
+        } else {
+            throw new Error(data.message || 'Terjadi kesalahan');
+        }
+    })
+    .catch(error => {
+        console.error('Error:', error);
+        let errorMessage = 'Terjadi kesalahan saat menyimpan data';
+        
+        if (error.errors) {
+            // Laravel validation errors
+            const errorList = Object.values(error.errors).flat();
+            errorMessage = errorList.join('\n');
+        } else if (error.message) {
+            errorMessage = error.message;
+        }
+        
+        console.log('Showing fallback submit button');
+        document.getElementById('fallbackSubmit').style.display = 'inline-block';
+        showAlert(errorMessage + '\n\nCoba gunakan tombol Submit (Fallback) jika AJAX gagal.', 'danger');
+    })
+    .finally(() => {
+        // Reset button state
+        submitBtn.innerHTML = originalText;
+        submitBtn.disabled = false;
+    });
+}
+
+// Action Dropdown Toggle Function with better event handling
 function toggleActionDropdown(button) {
     // Close all other dropdowns first
     document.querySelectorAll('.action-dropdown-menu').forEach(menu => {
@@ -1085,108 +1413,408 @@ function toggleActionDropdown(button) {
     menu.classList.toggle('show');
 }
 
-// Close dropdown when clicking outside
-document.addEventListener('click', function(event) {
-    if (!event.target.closest('.action-dropdown')) {
-        document.querySelectorAll('.action-dropdown-menu').forEach(menu => {
-            menu.classList.remove('show');
-        });
+// Functions for Terima/Tolak Pengiriman (Session Data)
+function terimaPengiriman(idPengiriman, index) {
+    if (confirm('Apakah Anda yakin ingin menerima pengiriman ini?')) {
+        updatePengirimanStatus(idPengiriman, index, 'Siap Kirim');
     }
-});
+}
 
-// Close dropdown when clicking on menu item
-document.querySelectorAll('.action-dropdown-item').forEach(item => {
-    item.addEventListener('click', function() {
-        document.querySelectorAll('.action-dropdown-menu').forEach(menu => {
-            menu.classList.remove('show');
-        });
+function tolakPengiriman(idPengiriman, index) {
+    document.getElementById('pengiriman_id_tolak').value = idPengiriman;
+    document.getElementById('alasan_tolak').value = '';
+    
+    // Store index for later use
+    window.currentPengirimanIndex = index;
+    
+    const modal = new bootstrap.Modal(document.getElementById('tolakPengirimanModal'));
+    modal.show();
+}
+
+// Functions for Terima/Tolak Pengiriman (Database Data)
+function terimaPengirimanDB(id, newStatus) {
+    if (confirm('Apakah Anda yakin ingin menerima pengiriman ini?')) {
+        updatePengirimanDBStatus(id, newStatus);
+    }
+}
+
+function tolakPengirimanDB(id, newStatus) {
+    document.getElementById('pengiriman_id_tolak').value = id;
+    document.getElementById('alasan_tolak').value = '';
+    
+    // Store new status for later use
+    window.currentNewStatus = newStatus;
+    window.currentPengirimanType = 'database';
+    
+    const modal = new bootstrap.Modal(document.getElementById('tolakPengirimanModal'));
+    modal.show();
+}
+
+function mulaiPengirimanDB(id, newStatus) {
+    if (confirm('Mulai pengiriman untuk item ini?')) {
+        updatePengirimanDBStatus(id, newStatus);
+    }
+}
+
+function selesaiPengirimanDB(id, newStatus) {
+    if (confirm('Apakah Anda yakin pengiriman ini sudah selesai?')) {
+        updatePengirimanDBStatus(id, newStatus);
+    }
+}
+
+// Function untuk confirm tolak pengiriman
+function confirmTolakPengiriman() {
+    const id = document.getElementById('pengiriman_id_tolak').value;
+    const alasan = document.getElementById('alasan_tolak').value.trim();
+    
+    if (!alasan) {
+        showAlert('Harap masukkan alasan penolakan!', 'warning');
+        return;
+    }
+    
+    // Close modal first
+    const modal = bootstrap.Modal.getInstance(document.getElementById('tolakPengirimanModal'));
+    modal.hide();
+    
+    // Check if this is for session data or database data
+    if (window.currentPengirimanType === 'database') {
+        updatePengirimanDBStatusWithReason(id, window.currentNewStatus || 'ditolak', alasan);
+    } else {
+        updatePengirimanStatusWithReason(id, window.currentPengirimanIndex, 'Ditolak', alasan);
+    }
+    
+    // Clean up global variables
+    delete window.currentPengirimanIndex;
+    delete window.currentNewStatus;
+    delete window.currentPengirimanType;
+}
+
+// Function to update session status with reason
+function updatePengirimanStatusWithReason(idPengiriman, index, newStatus, reason) {
+    const loadingAlert = document.createElement('div');
+    loadingAlert.className = 'alert alert-info';
+    loadingAlert.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Memperbarui status...';
+    document.body.appendChild(loadingAlert);
+    
+    fetch(`/gudang/pengiriman/update-session-status`, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content'),
+            'Accept': 'application/json'
+        },
+        body: JSON.stringify({
+            id_pengiriman: idPengiriman,
+            status: newStatus,
+            index: index,
+            reason: reason
+        })
+    })
+    .then(response => {
+        if (!response.ok) {
+            throw new Error('Network response was not ok');
+        }
+        return response.json();
+    })
+    .then(data => {
+        document.body.removeChild(loadingAlert);
+        
+        if (data.success) {
+            showAlert(`Status berhasil diperbarui menjadi: ${newStatus}`, 'success');
+            setTimeout(() => {
+                location.reload();
+            }, 1500);
+        } else {
+            showAlert('Error: ' + (data.message || 'Gagal memperbarui status'), 'danger');
+        }
+    })
+    .catch(error => {
+        document.body.removeChild(loadingAlert);
+        console.error('Error:', error);
+        showAlert('Terjadi kesalahan saat memperbarui status. Silakan coba lagi.', 'danger');
     });
-});
+}
 
-// Filter functionality
+// Function to update database status
+function updatePengirimanDBStatus(id, newStatus) {
+    const loadingAlert = document.createElement('div');
+    loadingAlert.className = 'alert alert-info';
+    loadingAlert.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Memperbarui status...';
+    document.body.appendChild(loadingAlert);
+    
+    fetch(`/gudang/pengiriman/${id}/update-status`, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content'),
+            'Accept': 'application/json'
+        },
+        body: JSON.stringify({
+            status: newStatus
+        })
+    })
+    .then(response => {
+        if (!response.ok) {
+            throw new Error('Network response was not ok');
+        }
+        return response.json();
+    })
+    .then(data => {
+        document.body.removeChild(loadingAlert);
+        
+        if (data.success) {
+            showAlert(`Status berhasil diperbarui menjadi: ${newStatus}`, 'success');
+            setTimeout(() => {
+                location.reload();
+            }, 1500);
+        } else {
+            showAlert('Error: ' + (data.message || 'Gagal memperbarui status'), 'danger');
+        }
+    })
+    .catch(error => {
+        document.body.removeChild(loadingAlert);
+        console.error('Error:', error);
+        showAlert('Terjadi kesalahan saat memperbarui status. Silakan coba lagi.', 'danger');
+    });
+}
+
+// Function to update database status with reason
+function updatePengirimanDBStatusWithReason(id, newStatus, reason) {
+    const loadingAlert = document.createElement('div');
+    loadingAlert.className = 'alert alert-info';
+    loadingAlert.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Memperbarui status...';
+    document.body.appendChild(loadingAlert);
+    
+    fetch(`/gudang/pengiriman/${id}/update-status`, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content'),
+            'Accept': 'application/json'
+        },
+        body: JSON.stringify({
+            status: newStatus,
+            reason: reason
+        })
+    })
+    .then(response => {
+        if (!response.ok) {
+            throw new Error('Network response was not ok');
+        }
+        return response.json();
+    })
+    .then(data => {
+        document.body.removeChild(loadingAlert);
+        
+        if (data.success) {
+            showAlert(`Status berhasil diperbarui menjadi: ${newStatus}${reason ? ' dengan alasan: ' + reason : ''}`, 'success');
+            setTimeout(() => {
+                location.reload();
+            }, 1500);
+        } else {
+            showAlert('Error: ' + (data.message || 'Gagal memperbarui status'), 'danger');
+        }
+    })
+    .catch(error => {
+        document.body.removeChild(loadingAlert);
+        console.error('Error:', error);
+        showAlert('Terjadi kesalahan saat memperbarui status. Silakan coba lagi.', 'danger');
+    });
+}
+
+// Filter functionality with proper form handling
 document.querySelector('.btn-primary').addEventListener('click', function() {
-    // Implement filter logic here
-    console.log('Filter applied');
+    const status = document.getElementById('status').value;
+    const ekspedisi = document.getElementById('ekspedisi').value;
+    const tanggalDari = document.getElementById('tanggal_dari').value;
+    const tanggalSampai = document.getElementById('tanggal_sampai').value;
+    
+    // Build query string
+    const params = new URLSearchParams();
+    if (status) params.append('status', status);
+    if (ekspedisi) params.append('ekspedisi', ekspedisi);
+    if (tanggalDari) params.append('tanggal_dari', tanggalDari);
+    if (tanggalSampai) params.append('tanggal_sampai', tanggalSampai);
+    
+    // Redirect with filter parameters
+    window.location.href = window.location.pathname + '?' + params.toString();
 });
 
-// Action functions for pengiriman
+// Action functions for pengiriman with improved error handling
 function lihatDetailPengiriman(idPengiriman, index) {
     console.log('Detail pengiriman:', idPengiriman, 'Index:', index);
-    // Add modal to show pengiriman details
-    alert('Fitur detail pengiriman untuk ID: ' + idPengiriman);
+    
+    // Create dynamic modal for detail view
+    showPengirimanDetail(idPengiriman, index);
 }
 
 function mulaiPengiriman(idPengiriman, index) {
     if (confirm('Mulai pengiriman untuk ID: ' + idPengiriman + '?')) {
-        // Update status to "Dalam Perjalanan"
         updatePengirimanStatus(idPengiriman, index, 'Dalam Perjalanan');
     }
 }
 
 function selesaiPengiriman(idPengiriman, index) {
     if (confirm('Selesaikan pengiriman untuk ID: ' + idPengiriman + '?')) {
-        // Update status to "Selesai"
         updatePengirimanStatus(idPengiriman, index, 'Selesai');
     }
 }
 
 function updatePengirimanStatus(idPengiriman, index, newStatus) {
-    // Update session data
+    // Show loading
+    const loadingAlert = document.createElement('div');
+    loadingAlert.className = 'alert alert-info';
+    loadingAlert.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Memperbarui status...';
+    document.body.appendChild(loadingAlert);
+    
+    // Make AJAX request to update status
+    fetch(`/gudang/pengiriman/update-session-status`, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content'),
+            'Accept': 'application/json'
+        },
+        body: JSON.stringify({
+            id_pengiriman: idPengiriman,
+            status: newStatus,
+            index: index
+        })
+    })
+    .then(response => {
+        if (!response.ok) {
+            throw new Error('Network response was not ok');
+        }
+        return response.json();
+    })
+    .then(data => {
+        document.body.removeChild(loadingAlert);
+        
+        if (data.success) {
+            showAlert('Status berhasil diperbarui!', 'success');
+            setTimeout(() => {
+                location.reload();
+            }, 1500);
+        } else {
+            showAlert('Error: ' + (data.message || 'Gagal memperbarui status'), 'danger');
+        }
+    })
+    .catch(error => {
+        document.body.removeChild(loadingAlert);
+        console.error('Error:', error);
+        showAlert('Terjadi kesalahan saat memperbarui status. Silakan coba lagi.', 'danger');
+    });
+}
+
+function showPengirimanDetail(idPengiriman, index) {
+    // Get pengiriman data from session
     const sessionPengiriman = @json($sessionPengiriman ?? []);
+    
     if (sessionPengiriman[index]) {
-        // Make AJAX request to update status
-        fetch(`/gudang/pengiriman/${idPengiriman}/update-status`, {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-                'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
-            },
-            body: JSON.stringify({
-                status: newStatus,
-                index: index
-            })
-        })
-        .then(response => response.json())
-        .then(data => {
-            if (data.success) {
-                location.reload(); // Reload to show updated status
-            } else {
-                alert('Error: ' + data.message);
-            }
-        })
-        .catch(error => {
-            console.error('Error:', error);
-            alert('Terjadi kesalahan saat update status');
+        const data = sessionPengiriman[index];
+        
+        // Create modal content
+        const modalContent = `
+            <div class="modal fade" id="detailModalDynamic" tabindex="-1">
+                <div class="modal-dialog modal-lg">
+                    <div class="modal-content">
+                        <div class="modal-header" style="background: linear-gradient(135deg, #f26b37 0%, #e55827 100%); color: white;">
+                            <h5 class="modal-title">
+                                <i class="fas fa-info-circle"></i>
+                                Detail Pengiriman - ${data.id_pengiriman}
+                            </h5>
+                            <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+                        </div>
+                        <div class="modal-body">
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <h6 class="fw-bold text-primary">Informasi Pengiriman</h6>
+                                    <table class="table table-sm">
+                                        <tr><td class="fw-semibold">No. Permintaan:</td><td>${data.no_permintaan}</td></tr>
+                                        <tr><td class="fw-semibold">ID Pengiriman:</td><td>${data.id_pengiriman}</td></tr>
+                                        <tr><td class="fw-semibold">Produk:</td><td>${data.produk}</td></tr>
+                                        <tr><td class="fw-semibold">Status:</td><td><span class="badge bg-info">${data.status}</span></td></tr>
+                                    </table>
+                                </div>
+                                <div class="col-md-6">
+                                    <h6 class="fw-bold text-primary">Detail Pengiriman</h6>
+                                    <table class="table table-sm">
+                                        <tr><td class="fw-semibold">Tujuan:</td><td>${data.tujuan}</td></tr>
+                                        <tr><td class="fw-semibold">Penanggung Jawab:</td><td>${data.penanggung_jawab}</td></tr>
+                                        <tr><td class="fw-semibold">Total Items:</td><td>${data.total_items}</td></tr>
+                                        <tr><td class="fw-semibold">Prioritas:</td><td>${data.prioritas}</td></tr>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Tutup</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        `;
+        
+        // Remove existing dynamic modal if any
+        const existingModal = document.getElementById('detailModalDynamic');
+        if (existingModal) {
+            existingModal.remove();
+        }
+        
+        // Add modal to body
+        document.body.insertAdjacentHTML('beforeend', modalContent);
+        
+        // Show modal
+        const modal = new bootstrap.Modal(document.getElementById('detailModalDynamic'));
+        modal.show();
+        
+        // Remove modal from DOM when hidden
+        document.getElementById('detailModalDynamic').addEventListener('hidden.bs.modal', function() {
+            this.remove();
         });
+    } else {
+        alert('Data pengiriman tidak ditemukan');
     }
 }
 
-// Action buttons for pengiriman
-document.querySelectorAll('.detail-btn').forEach(btn => {
-    btn.addEventListener('click', function() {
-        const pengirimanId = this.getAttribute('data-id');
-        console.log('Detail pengiriman:', pengirimanId);
-        // Add detail functionality here
-    });
-});
-
-document.querySelectorAll('.proses-btn').forEach(btn => {
-    btn.addEventListener('click', function() {
-        const pengirimanId = this.getAttribute('data-id');
-        console.log('Proses pengiriman:', pengirimanId);
-        // Add processing functionality here
-    });
-});
-
+// Reset filter functionality
 document.querySelector('.btn-secondary').addEventListener('click', function() {
     // Reset all form fields
     document.getElementById('status').value = '';
     document.getElementById('ekspedisi').value = '';
     document.getElementById('tanggal_dari').value = '';
     document.getElementById('tanggal_sampai').value = '';
-    console.log('Filter reset');
+    
+    // Redirect to clear filters
+    window.location.href = window.location.pathname;
+});
+
+// Handle form validation
+document.getElementById('jumlah').addEventListener('input', function() {
+    const max = parseInt(this.max);
+    const value = parseInt(this.value);
+    
+    if (value > max) {
+        this.setCustomValidity(`Jumlah tidak boleh melebihi stok yang tersedia (${max})`);
+    } else {
+        this.setCustomValidity('');
+    }
+});
+
+// Add simple form submission handler as backup
+document.getElementById('tambahPengirimanForm').addEventListener('submit', function(e) {
+    e.preventDefault();
+    console.log('Form submitted via event listener');
+    
+    // Show simple confirmation
+    if (confirm('Apakah Anda yakin ingin menyimpan data pengiriman ini?')) {
+        console.log('User confirmed, proceeding with form submission');
+        
+        // Remove event listener to prevent infinite loop and submit normally
+        this.removeEventListener('submit', arguments.callee);
+        this.submit();
+    }
 });
 </script>
 
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 @endsection

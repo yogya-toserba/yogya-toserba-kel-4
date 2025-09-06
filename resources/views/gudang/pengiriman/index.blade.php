@@ -175,33 +175,43 @@
                         </tr>
                     </thead>
                     <tbody>
-                        @forelse($pengiriman as $index => $item)
+                        @forelse($sessionPengiriman as $index => $item)
                         <tr>
-                            <td class="ps-4">{{ $pengiriman->firstItem() + $index }}</td>
+                            <td class="ps-4">{{ $index + 1 }}</td>
                             <td>
-                                <div class="fw-medium">{{ $item->nama_produk }}</div>
+                                <div class="fw-medium">{{ $item['nama_produk'] ?? 'N/A' }}</div>
                             </td>
                             <td>
-                                <div class="fw-medium">{{ $item->tujuan }}</div>
+                                <div class="fw-medium">{{ $item['tujuan'] ?? 'N/A' }}</div>
                             </td>
                             <td>
-                                <span class="badge bg-primary">{{ number_format($item->jumlah) }} pcs</span>
+                                <span class="badge bg-primary">{{ number_format($item['jumlah'] ?? 0) }} pcs</span>
                             </td>
                             <td>
-                                {{ \Carbon\Carbon::parse($item->tanggal_kirim)->format('d M Y') }}
+                                {{ isset($item['tanggal_kirim']) ? \Carbon\Carbon::parse($item['tanggal_kirim'])->format('d M Y') : date('d M Y') }}
                             </td>
                             <td>
                                 <div class="dropdown">
                                     <button class="btn btn-sm p-0 border-0 bg-transparent" 
                                             type="button" data-bs-toggle="dropdown">
-                                        {!! $item->status_label !!}
+                                        @php
+                                            $status = $item['status'] ?? 'Menunggu';
+                                            $statusClass = [
+                                                'Menunggu' => 'bg-warning text-dark',
+                                                'Siap Kirim' => 'bg-info text-white',
+                                                'Dalam Perjalanan' => 'bg-primary text-white',
+                                                'Dikirim' => 'bg-success text-white',
+                                                'Diterima' => 'bg-success text-white'
+                                            ][$status] ?? 'bg-secondary text-white';
+                                        @endphp
+                                        <span class="badge {{ $statusClass }}">{{ $status }}</span>
                                     </button>
                                     <ul class="dropdown-menu">
                                         @foreach($statusOptions as $value => $label)
                                             <li>
                                                 <a class="dropdown-item update-status" 
                                                    href="#" 
-                                                   data-id="{{ $item->id }}" 
+                                                   data-id="{{ $index }}" 
                                                    data-status="{{ $value }}">
                                                     {{ $label }}
                                                 </a>
@@ -211,23 +221,29 @@
                                 </div>
                             </td>
                             <td class="text-center">
-                                <div class="btn-group" role="group">
-                                    <a href="{{ route('gudang.pengiriman.show', $item->id) }}" 
-                                       class="btn btn-sm btn-outline-info" 
-                                       data-bs-toggle="tooltip" title="Lihat Detail">
-                                        <i class="fas fa-eye"></i>
-                                    </a>
-                                    <a href="{{ route('gudang.pengiriman.edit', $item->id) }}" 
-                                       class="btn btn-sm btn-outline-warning" 
-                                       data-bs-toggle="tooltip" title="Edit">
-                                        <i class="fas fa-edit"></i>
-                                    </a>
-                                    <button type="button" 
-                                            class="btn btn-sm btn-outline-danger delete-btn" 
-                                            data-id="{{ $item->id }}"
-                                            data-bs-toggle="tooltip" title="Hapus">
-                                        <i class="fas fa-trash"></i>
+                                <div class="dropdown">
+                                    <button class="btn btn-sm btn-outline-secondary" 
+                                            type="button" 
+                                            data-bs-toggle="dropdown" 
+                                            aria-expanded="false">
+                                        <i class="fas fa-ellipsis-v"></i>
                                     </button>
+                                    <ul class="dropdown-menu">
+                                        <li>
+                                            <a class="dropdown-item" href="#" onclick="lihatDetail({{ $index }})">
+                                                <i class="fas fa-eye me-2"></i>Lihat Detail
+                                            </a>
+                                        </li>
+                                        @if(($item['status'] ?? 'Menunggu') === 'Siap Kirim')
+                                            <li>
+                                                <a class="dropdown-item text-primary" 
+                                                   href="#" 
+                                                   onclick="kirimPengiriman({{ $index }})">
+                                                    <i class="fas fa-shipping-fast me-2"></i>Kirim
+                                                </a>
+                                            </li>
+                                        @endif
+                                    </ul>
                                 </div>
                             </td>
                         </tr>
@@ -337,26 +353,191 @@ $(document).ready(function() {
             }
         });
     });
-
-    // Show success/error messages
-    @if(session('success'))
-        Swal.fire({
-            title: 'Berhasil!',
-            text: '{{ session("success") }}',
-            icon: 'success',
-            timer: 3000,
-            showConfirmButton: false
-        });
-    @endif
-
-    @if(session('error'))
-        Swal.fire({
-            title: 'Error!',
-            text: '{{ session("error") }}',
-            icon: 'error'
-        });
-    @endif
 });
+
+// Function untuk terima pengiriman
+function terimaPengiriman(id) {
+    Swal.fire({
+        title: 'Terima Pengiriman?',
+        text: 'Apakah Anda yakin ingin menerima pengiriman ini?',
+        icon: 'question',
+        showCancelButton: true,
+        confirmButtonColor: '#28a745',
+        cancelButtonColor: '#6c757d',
+        confirmButtonText: 'Ya, Terima',
+        cancelButtonText: 'Batal'
+    }).then((result) => {
+        if (result.isConfirmed) {
+            updateStatus(id, 'dikirim', 'Pengiriman berhasil diterima!');
+        }
+    });
+}
+
+// Function untuk tolak pengiriman
+function tolakPengiriman(id) {
+    Swal.fire({
+        title: 'Tolak Pengiriman?',
+        text: 'Masukkan alasan penolakan:',
+        input: 'textarea',
+        inputPlaceholder: 'Alasan penolakan...',
+        showCancelButton: true,
+        confirmButtonColor: '#dc3545',
+        cancelButtonColor: '#6c757d',
+        confirmButtonText: 'Ya, Tolak',
+        cancelButtonText: 'Batal',
+        inputValidator: (value) => {
+            if (!value) {
+                return 'Alasan penolakan harus diisi!'
+            }
+        }
+    }).then((result) => {
+        if (result.isConfirmed) {
+            updateStatusWithReason(id, 'ditolak', result.value, 'Pengiriman berhasil ditolak!');
+        }
+    });
+}
+
+// Function untuk update status
+function updateStatus(id, status, successMessage) {
+    $.ajax({
+        url: '/gudang/pengiriman/' + id + '/update-status',
+        type: 'POST',
+        data: {
+            _token: '{{ csrf_token() }}',
+            status: status
+        },
+        success: function(response) {
+            if(response.success) {
+                Swal.fire({
+                    title: 'Berhasil!',
+                    text: successMessage,
+                    icon: 'success',
+                    timer: 1500,
+                    showConfirmButton: false
+                }).then(() => {
+                    location.reload();
+                });
+            }
+        },
+        error: function() {
+            Swal.fire({
+                title: 'Error!',
+                text: 'Terjadi kesalahan saat mengupdate status',
+                icon: 'error'
+            });
+        }
+    });
+}
+
+// Function untuk update status dengan alasan
+function updateStatusWithReason(id, status, reason, successMessage) {
+    $.ajax({
+        url: '/gudang/pengiriman/' + id + '/update-status',
+        type: 'POST',
+        data: {
+            _token: '{{ csrf_token() }}',
+            status: status,
+            reason: reason
+        },
+        success: function(response) {
+            if(response.success) {
+                Swal.fire({
+                    title: 'Berhasil!',
+                    text: successMessage,
+                    icon: 'success',
+                    timer: 1500,
+                    showConfirmButton: false
+                }).then(() => {
+                    location.reload();
+                });
+            }
+        },
+        error: function() {
+            Swal.fire({
+                title: 'Error!',
+                text: 'Terjadi kesalahan saat mengupdate status',
+                icon: 'error'
+            });
+        }
+    });
+}
+
+function kirimPengiriman(index) {
+    Swal.fire({
+        title: 'Kirim Pengiriman?',
+        text: 'Pengiriman akan dikirim dan masuk ke sistem penerimaan',
+        icon: 'question',
+        showCancelButton: true,
+        confirmButtonColor: '#28a745',
+        cancelButtonColor: '#6c757d',
+        confirmButtonText: 'Ya, Kirim!',
+        cancelButtonText: 'Batal'
+    }).then((result) => {
+        if (result.isConfirmed) {
+            $.ajax({
+                url: '{{ route("gudang.pengiriman.kirim") }}',
+                type: 'POST',
+                data: {
+                    _token: '{{ csrf_token() }}',
+                    index: index
+                },
+                success: function(response) {
+                    if (response.success) {
+                        Swal.fire({
+                            title: 'Berhasil!',
+                            text: response.message,
+                            icon: 'success',
+                            timer: 2000,
+                            showConfirmButton: false
+                        }).then(() => {
+                            if (response.redirect) {
+                                window.location.href = response.redirect;
+                            } else {
+                                location.reload();
+                            }
+                        });
+                    } else {
+                        Swal.fire({
+                            title: 'Error!',
+                            text: response.message,
+                            icon: 'error'
+                        });
+                    }
+                },
+                error: function() {
+                    Swal.fire({
+                        title: 'Error!',
+                        text: 'Terjadi kesalahan saat mengirim pengiriman',
+                        icon: 'error'
+                    });
+                }
+            });
+        }
+    });
+}
+
+function lihatDetail(index) {
+    alert('Detail untuk item index: ' + index);
+}
+
+// Show success/error messages
+@if(session('success'))
+    Swal.fire({
+        title: 'Berhasil!',
+        text: '{{ session("success") }}',
+        icon: 'success',
+        timer: 3000,
+        showConfirmButton: false
+    });
+@endif
+
+@if(session('error'))
+    Swal.fire({
+        title: 'Error!',
+        text: '{{ session("error") }}',
+        icon: 'error'
+    });
+@endif
 </script>
 @endpush
 @endsection

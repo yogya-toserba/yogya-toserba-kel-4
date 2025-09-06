@@ -17,7 +17,10 @@ class Pengiriman extends Model
     'tujuan',
     'jumlah',
     'tanggal_kirim',
-    'status'
+    'status',
+    'keterangan',
+    'tanggal_diterima',
+    'tanggal_ditolak'
   ];
 
   protected $dates = [

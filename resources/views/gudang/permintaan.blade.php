@@ -596,51 +596,44 @@ body.dark-mode .action-dropdown-item:hover {
                                 <span class="badge {{ $statusClass }}">{{ $status }}</span>
                             </td>
                             <td>
-                                <div class="d-flex gap-2">
-                                    @if($status === 'Menunggu')
-                                        <!-- Tombol Terima -->
-                                        <button class="btn btn-success btn-sm" 
-                                                onclick="terimaPermintaan('{{ $permintaan['id_permintaan'] }}', {{ $index }})"
-                                                title="Terima Permintaan">
-                                            <i class="fas fa-check"></i> Terima
-                                        </button>
-                                        <button class="btn btn-danger btn-sm" 
-                                                onclick="tolakPermintaan('{{ $permintaan['id_permintaan'] }}', {{ $index }})"
-                                                title="Tolak Permintaan">
-                                            <i class="fas fa-times"></i> Tolak
-                                        </button>
-                                    @endif
-
-                                    <!-- Dropdown Menu -->
-                                    <div class="action-dropdown">
-                                        <button class="action-btn">
-                                            <i class="fas fa-ellipsis-v"></i>
-                                        </button>
-                                        <div class="action-dropdown-menu">
-                                            <a href="#" class="action-dropdown-item" data-bs-toggle="modal" data-bs-target="#detailModal{{ $index }}">
-                                                <i class="fas fa-eye"></i>
-                                                Lihat Detail
-                                            </a>
-                                            
-                                            @if(in_array($status, ['Diterima', 'Siap Kirim']))
-                                                <a href="#" class="action-dropdown-item" 
-                                                   onclick="kirimPermintaan('{{ $permintaan['id_permintaan'] }}', {{ $index }})">
-                                                    <i class="fas fa-shipping-fast"></i>
-                                                    Kirim Permintaan
-                                                </a>
-                                            @endif
-                                            
-                                            @if($status !== 'Dikirim')
-                                                <a href="#" class="action-dropdown-item">
-                                                    <i class="fas fa-edit"></i>
-                                                    Edit Permintaan
-                                                </a>
-                                            @endif
-                                        </div>
-                                    </div>
-                                </div>
-                            </td>     
+                                <!-- Dropdown Menu Only -->
+                                <div class="action-dropdown">
+                                    <button class="action-btn">
+                                        <i class="fas fa-ellipsis-v"></i>
+                                    </button>
+                                    <div class="action-dropdown-menu">
+                                        <a href="#" class="action-dropdown-item" data-bs-toggle="modal" data-bs-target="#detailModal{{ $index }}">
+                                            <i class="fas fa-eye"></i>
+                                            Lihat Detail
                                         </a>
+                                        
+                                        @if($status === 'Menunggu')
+                                            <a href="#" class="action-dropdown-item text-success" 
+                                               onclick="terimaPermintaan('{{ $permintaan['id_permintaan'] }}', {{ $index }})">
+                                                <i class="fas fa-check"></i>
+                                                Terima
+                                            </a>
+                                            <a href="#" class="action-dropdown-item text-danger" 
+                                               onclick="tolakPermintaan('{{ $permintaan['id_permintaan'] }}', {{ $index }})">
+                                                <i class="fas fa-times"></i>
+                                                Tolak
+                                            </a>
+                                        @endif
+                                        
+                                        @if(in_array($status, ['Diterima', 'Siap Kirim']))
+                                            <a href="#" class="action-dropdown-item" 
+                                               onclick="kirimPermintaan('{{ $permintaan['id_permintaan'] }}', {{ $index }})">
+                                                <i class="fas fa-shipping-fast"></i>
+                                                Kirim Permintaan
+                                            </a>
+                                        @endif
+                                        
+                                        @if($status !== 'Dikirim')
+                                            <a href="#" class="action-dropdown-item">
+                                                <i class="fas fa-edit"></i>
+                                                Edit Permintaan
+                                            </a>
+                                        @endif
                                     </div>
                                 </div>
                             </td>
@@ -954,6 +947,16 @@ function tolakPermintaan(permintaanId, index) {
 // Function untuk kirim permintaan ke pengiriman
 function kirimPermintaan(permintaanId, index) {
     if (confirm('Apakah Anda yakin ingin mengirim permintaan ini ke bagian pengiriman?')) {
+        // Ambil data permintaan dari array
+        const allPermintaan = @json($allPermintaan ?? []);
+        const permintaanData = allPermintaan[index];
+        
+        if (!permintaanData) {
+            alert('Data permintaan tidak ditemukan!');
+            return;
+        }
+        
+        // Kirim data ke controller untuk dipindahkan ke pengiriman
         fetch('{{ route("gudang.permintaan.kirim") }}', {
             method: 'POST',
             headers: {
@@ -962,14 +965,16 @@ function kirimPermintaan(permintaanId, index) {
             },
             body: JSON.stringify({
                 permintaan_id: permintaanId,
-                index: index
+                index: index,
+                data_permintaan: permintaanData
             })
         })
         .then(response => response.json())
         .then(data => {
             if (data.success) {
                 alert('Permintaan berhasil dikirim ke bagian pengiriman!');
-                location.reload();
+                // Redirect ke halaman pengiriman
+                window.location.href = '{{ route("gudang.pengiriman.index") }}';
             } else {
                 alert('Gagal mengirim permintaan: ' + data.message);
             }
