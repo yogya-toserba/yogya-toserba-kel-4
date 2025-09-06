@@ -172,11 +172,11 @@ class Karyawan extends Model
         ];
     }
 
-    // Relationship with Shift table (commented until Shift model is created)
-    // public function shift()
-    // {
-    //     return $this->belongsTo(Shift::class, 'id_shift', 'id_shift');
-    // }
+    // Relationship with Shift table
+    public function shift()
+    {
+        return $this->belongsTo(Shift::class, 'id_shift', 'id_shift');
+    }
 
     // Accessor for formatted phone number
     public function getFormattedPhoneAttribute()

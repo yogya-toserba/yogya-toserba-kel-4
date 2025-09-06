@@ -13,13 +13,14 @@ class Absensi extends Model
     protected $primaryKey = 'id_absensi';
 
     protected $fillable = [
-        'id_karyawan',
         'id_jadwal',
+        'id_karyawan',
         'status',
         'keterangan',
         'tanggal',
         'jam_masuk',
         'jam_keluar',
+        'durasi_kerja_jam',
         'terlambat_menit',
         'pulang_awal_menit',
         'foto_masuk',
@@ -45,7 +46,12 @@ class Absensi extends Model
 
     public function karyawan()
     {
-        return $this->belongsTo(Karyawan::class, 'id_karyawan');
+        return $this->belongsTo(Karyawan::class, 'id_karyawan', 'id_karyawan');
+    }
+
+    public function shift()
+    {
+        return $this->belongsTo(Shift::class, 'id_shift');
     }
 
     // Accessor untuk mendapatkan data shift melalui jadwal kerja
@@ -114,7 +120,7 @@ class Absensi extends Model
 
     public function scopeAlfa($query)
     {
-        return $query->whereIn('status', ['Alfa', 'Tidak Hadir']);
+        return $query->whereIn('status', ['Alfa', 'Alpa', 'Tidak Hadir']);
     }
 
     public function scopeIzin($query)

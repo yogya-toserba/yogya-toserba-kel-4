@@ -31,7 +31,7 @@ class Jabatan extends Model
     // Relationship
     public function karyawan()
     {
-        return $this->hasMany(Karyawan::class);
+        return $this->hasMany(Karyawan::class, 'jabatan_id');
     }
 
     // Scope

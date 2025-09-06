@@ -34,26 +34,26 @@ class AbsensiController extends Controller
         $perPage = $request->get('per_page', 15);
 
         // Base query dengan relasi yang benar
-        $query = Absensi::with(['karyawan.jabatan', 'jadwalKerja.shift']);
+        $query = Absensi::with(['karyawan.jabatan']);
 
         // Filter berdasarkan parameter
         if ($request->filled('tanggal')) {
-            $query->whereDate('absensi.tanggal', $tanggal);
+            $query->whereDate('tanggal', $tanggal);
         } else {
-            $query->whereYear('absensi.tanggal', $tahun)
-                ->whereMonth('absensi.tanggal', $bulan);
+            $query->whereYear('tanggal', $tahun)
+                ->whereMonth('tanggal', $bulan);
         }
 
         if ($karyawan_id) {
-            $query->where('absensi.id_karyawan', $karyawan_id);
+            $query->where('id_karyawan', $karyawan_id);
         }
 
         if ($status) {
-            $query->where('absensi.status', $status);
+            $query->where('status', $status);
         }
 
-        $absensiList = $query->orderBy('absensi.tanggal', 'desc')
-            ->orderBy('absensi.jam_masuk', 'asc')
+        $absensiList = $query->orderBy('tanggal', 'desc')
+            ->orderBy('jam_masuk', 'asc')
             ->paginate($perPage);
 
         // Append query parameters
@@ -85,7 +85,7 @@ class AbsensiController extends Controller
             'total_izin' => $statsQuery->clone()->izin()->count(),
             'total_sakit' => $statsQuery->clone()->sakit()->count(),
             'total_terlambat' => $statsQuery->clone()->terlambat()->count(),
-            'rata_durasi_kerja' => round($statsQuery->clone()->hadir()->avg(DB::raw('TIMESTAMPDIFF(MINUTE, jam_masuk, jam_keluar)')) / 60, 2) ?? 0,
+            'rata_durasi_kerja' => round($statsQuery->clone()->hadir()->avg('durasi_kerja_jam'), 2) ?? 0,
             'total_menit_terlambat' => $statsQuery->clone()->sum('terlambat_menit') ?? 0
         ];
 
@@ -160,6 +160,29 @@ class AbsensiController extends Controller
     }
 
     /**
+     * Display the specified resource for API (AJAX).
+     */
+    public function showApi($id)
+    {
+        try {
+            $absensi = Absensi::with(['karyawan.jabatan', 'jadwalKerja.shift'])->findOrFail($id);
+
+            $html = view('admin.absensi.partials.detail', compact('absensi'))->render();
+
+            return response()->json([
+                'success' => true,
+                'html' => $html,
+                'data' => $absensi
+            ]);
+        } catch (\Exception $e) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Data absensi tidak ditemukan: ' . $e->getMessage()
+            ], 404);
+        }
+    }
+
+    /**
      * Show the form for editing the specified resource.
      */
     public function edit($id)
@@ -169,6 +192,31 @@ class AbsensiController extends Controller
         $shiftList = Shift::all();
 
         return view('admin.absensi.edit', compact('absensi', 'karyawanList', 'shiftList'));
+    }
+
+    /**
+     * Show the form for editing the specified resource for API (AJAX).
+     */
+    public function editApi($id)
+    {
+        try {
+            $absensi = Absensi::with(['karyawan'])->findOrFail($id);
+            $karyawanList = Karyawan::where('status', 'aktif')->get();
+            $shiftList = Shift::all();
+
+            $html = view('admin.absensi.partials.edit-form', compact('absensi', 'karyawanList', 'shiftList'))->render();
+
+            return response()->json([
+                'success' => true,
+                'html' => $html,
+                'data' => $absensi
+            ]);
+        } catch (\Exception $e) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Data absensi tidak ditemukan: ' . $e->getMessage()
+            ], 404);
+        }
     }
 
     /**
@@ -183,11 +231,33 @@ class AbsensiController extends Controller
             'keterangan' => 'nullable|string|max:500'
         ]);
 
-        $absensi = Absensi::findOrFail($id);
-        $absensi->update($request->all());
+        try {
+            $absensi = Absensi::findOrFail($id);
+            $absensi->update($request->all());
 
-        return redirect()->route('admin.absensi.index')
-            ->with('success', 'Data absensi berhasil diperbarui.');
+            if ($request->ajax() || $request->wantsJson()) {
+                return response()->json([
+                    'success' => true,
+                    'message' => 'Data absensi berhasil diperbarui.',
+                    'data' => $absensi
+                ]);
+            }
+
+            return redirect()->route('admin.absensi.index')
+                ->with('success', 'Data absensi berhasil diperbarui.');
+                
+        } catch (\Exception $e) {
+            if ($request->ajax() || $request->wantsJson()) {
+                return response()->json([
+                    'success' => false,
+                    'message' => 'Gagal memperbarui data absensi: ' . $e->getMessage()
+                ], 500);
+            }
+            
+            return redirect()->back()
+                ->withInput()
+                ->withErrors(['error' => 'Gagal memperbarui data absensi: ' . $e->getMessage()]);
+        }
     }
 
     /**

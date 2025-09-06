@@ -65,7 +65,7 @@
             width: var(--sidebar-width);
             background: var(--light-sidebar-bg);
             border-right: 2px solid var(--light-border);
-            z-index: 1000;
+            z-index: 1040;
             overflow-y: auto;
             transition: all 0.3s ease;
             box-shadow: 4px 0 20px rgba(0, 0, 0, 0.1);
@@ -575,7 +575,7 @@
             height: 70px;
             background: var(--light-card-bg);
             border-bottom: 1px solid var(--light-border);
-            z-index: 1000;
+            z-index: 1040;
             display: flex;
             align-items: center;
             box-shadow: 0 2px 10px var(--light-shadow);
@@ -882,7 +882,8 @@
         }
 
         .main-content {
-            margin-top: 70px; /* Account for fixed header */
+            margin-top: 70px;
+            /* Account for fixed header */
         }
 
         /* RESPONSIVE */
@@ -890,47 +891,47 @@
             .top-header {
                 left: 0;
             }
-            
+
             .header-center {
                 flex: 1;
                 margin: 0 15px;
             }
-            
+
             .search-container {
                 max-width: none;
             }
-            
+
             .admin-name {
                 display: none;
             }
 
-        /* RESPONSIVE */
-        @media (max-width: 768px) {
-            .sidebar {
-                width: 80px;
-                margin-left: -280px;
-                transition: margin-left 0.3s ease;
-            }
+            /* RESPONSIVE */
+            @media (max-width: 768px) {
+                .sidebar {
+                    width: 80px;
+                    margin-left: -280px;
+                    transition: margin-left 0.3s ease;
+                }
 
-            .sidebar.active {
-                margin-left: 0;
-            }
+                .sidebar.active {
+                    margin-left: 0;
+                }
 
-            .main-content {
-                margin-left: 0;
-            }
+                .main-content {
+                    margin-left: 0;
+                }
 
-            .nav-text,
-            .brand-text,
-            .admin-info {
-                display: none;
-            }
+                .nav-text,
+                .brand-text,
+                .admin-info {
+                    display: none;
+                }
 
-            .nav-link {
-                justify-content: center;
-                padding: 12px 10px;
+                .nav-link {
+                    justify-content: center;
+                    padding: 12px 10px;
+                }
             }
-        }
     </style>
 </head>
 
@@ -964,8 +965,7 @@
                 </a>
 
                 <!-- Manajemen Karyawan Dropdown -->
-                <div
-                    id="karyawan-dropdown"
+                <div id="karyawan-dropdown"
                     class="dropdown-nav {{ Request::is('admin/data-karyawan*') || Request::is('admin/penggajian*') || Request::is('admin/absensi*') ? 'show' : '' }}">
                     <div class="dropdown-toggle-nav {{ Request::is('admin/data-karyawan*') || Request::is('admin/penggajian*') || Request::is('admin/absensi*') ? 'active' : '' }}"
                         onclick="toggleKaryawanDropdown()">
@@ -986,7 +986,7 @@
                             class="nav-link {{ Request::is('admin/penggajian-otomatis*') ? 'active' : '' }}">
                             <i class="fas fa-robot"></i> Penggajian Otomatis
                         </a> -->
-                        <a href="{{ route('admin.absensi') }}"
+                        <a href="{{ route('admin.absensi.index') }}"
                             class="nav-link {{ Request::is('admin/absensi*') ? 'active' : '' }}">
                             <i class="fas fa-user-check"></i> Absensi
                         </a>
@@ -994,16 +994,13 @@
                 </div>
 
                 <!-- Keuangan Dropdown -->
-                <div
-                    id="keuangan-dropdown"
-                    class="dropdown-nav {{ Request::is('admin/keuangan*') ? 'show' : '' }}">
+                <div id="keuangan-dropdown" class="dropdown-nav {{ Request::is('admin/keuangan*') ? 'show' : '' }}">
                     <div class="dropdown-toggle-nav {{ Request::is('admin/keuangan*') ? 'active' : '' }}"
                         onclick="toggleDropdown()">
                         <span><i class="fas fa-chart-pie"></i> Keuangan</span>
                         <i class="fas fa-chevron-down dropdown-arrow"></i>
                     </div>
-                    <div
-                        class="submenu {{ Request::is('admin/keuangan*') ? 'show' : '' }}">
+                    <div class="submenu {{ Request::is('admin/keuangan*') ? 'show' : '' }}">
                         <a href="{{ route('admin.keuangan.laporan') }}"
                             class="nav-link {{ Request::is('admin/keuangan/laporan*') ? 'active' : '' }}">
                             <i class="fas fa-file-alt"></i> Laporan
@@ -1020,8 +1017,7 @@
                 </div>
 
                 <!-- Manajemen Pengguna Dropdown -->
-                <div
-                    id="pengguna-dropdown"
+                <div id="pengguna-dropdown"
                     class="dropdown-nav {{ Request::is('admin/daftar-pengguna*') || Request::is('admin/membership*') || Request::is('admin/log-aktivitas*') ? 'show' : '' }}">
                     <div class="dropdown-toggle-nav {{ Request::is('admin/daftar-pengguna*') || Request::is('admin/membership*') || Request::is('admin/log-aktivitas*') ? 'active' : '' }}"
                         onclick="togglePenggunaDropdown()">
@@ -1046,23 +1042,22 @@
                 </div>
 
                 <!-- Manajemen Gudang Dropdown -->
-                <div id="gudang-dropdown" class="dropdown-nav {{ Request::is('admin/data-pengawai-gudang*') || Request::is('admin/lokasi-gudang*') || Request::is('admin/data-barang*') ? 'show' : '' }}">
-                    <div class="dropdown-toggle-nav {{ Request::is('admin/data-pengawai-gudang*') || Request::is('admin/lokasi-gudang*') || Request::is('admin/data-barang*') ? 'active' : '' }}" onclick="toggleGudangDropdown()">
+                <div id="gudang-dropdown"
+                    class="dropdown-nav {{ Request::is('admin/data-pengawai-gudang*') || Request::is('admin/lokasi-gudang*') || Request::is('admin/data-barang*') ? 'show' : '' }}">
+                    <div class="dropdown-toggle-nav {{ Request::is('admin/data-pengawai-gudang*') || Request::is('admin/lokasi-gudang*') || Request::is('admin/data-barang*') ? 'active' : '' }}"
+                        onclick="toggleGudangDropdown()">
                         <span><i class="fas fa-warehouse"></i> Manajemen Gudang</span>
                         <i class="fas fa-chevron-down dropdown-arrow"></i>
                     </div>
                     <div
                         class="submenu {{ Request::is('admin/data-pengawai-gudang*') || Request::is('admin/lokasi-gudang*') || Request::is('admin/data-barang*') ? 'show' : '' }}">
-                        <a href="#"
-                            class="nav-link disabled">
+                        <a href="#" class="nav-link disabled">
                             <i class="fas fa-users-cog"></i> Data Pengawai Gudang
                         </a>
-                        <a href="#"
-                            class="nav-link disabled">
+                        <a href="#" class="nav-link disabled">
                             <i class="fas fa-map-marker-alt"></i> Lokasi Gudang
                         </a>
-                        <a href="#"
-                            class="nav-link disabled">
+                        <a href="#" class="nav-link disabled">
                             <i class="fas fa-boxes"></i> Data Barang
                         </a>
                     </div>
@@ -1157,16 +1152,13 @@
                         <h5 class="mb-0">@yield('page-title', 'Analisis')</h5>
                     </div>
                 </div>
-                
+
                 <div class="header-center">
                     <div class="search-container">
                         <form class="search-form" id="globalSearchForm">
                             <div class="search-input-group">
-                                <input type="text" 
-                                       class="search-input" 
-                                       id="globalSearch" 
-                                       placeholder="Cari produk, pelanggan, transaksi..."
-                                       autocomplete="off">
+                                <input type="text" class="search-input" id="globalSearch"
+                                    placeholder="Cari produk, pelanggan, transaksi..." autocomplete="off">
                                 <button type="submit" class="search-btn">
                                     <i class="fas fa-search"></i>
                                 </button>
@@ -1175,7 +1167,7 @@
                         </form>
                     </div>
                 </div>
-                
+
                 <div class="header-right">
                     <div class="header-actions">
                         <button class="action-btn notification-btn" title="Notifikasi">
@@ -1186,7 +1178,8 @@
                             <i class="fas fa-moon" id="theme-icon"></i>
                         </button>
                         <div class="admin-profile">
-                            <img src="https://ui-avatars.com/api/?name={{ urlencode(Auth::guard('admin')->user()->username ?? 'Admin') }}&background=f26b37&color=fff&size=30" alt="Admin" class="admin-avatar">
+                            <img src="https://ui-avatars.com/api/?name={{ urlencode(Auth::guard('admin')->user()->username ?? 'Admin') }}&background=f26b37&color=fff&size=30"
+                                alt="Admin" class="admin-avatar">
                             <span class="admin-name">{{ Auth::guard('admin')->user()->username ?? 'Admin' }}</span>
                         </div>
                     </div>
@@ -1410,13 +1403,13 @@
                 // Create form for logout with CSRF token
                 const form = document.createElement('form');
                 form.method = 'POST';
-                form.action = '{{ route("admin.logout") }}';
-                
+                form.action = '{{ route('admin.logout') }}';
+
                 const csrfToken = document.createElement('input');
                 csrfToken.type = 'hidden';
                 csrfToken.name = '_token';
                 csrfToken.value = '{{ csrf_token() }}';
-                
+
                 form.appendChild(csrfToken);
                 document.body.appendChild(form);
                 form.submit();
@@ -1481,9 +1474,12 @@
                         method: 'POST',
                         headers: {
                             'Content-Type': 'application/json',
-                            'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+                            'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute(
+                                'content')
                         },
-                        body: JSON.stringify({ query: query })
+                        body: JSON.stringify({
+                            query: query
+                        })
                     });
 
                     const data = await response.json();
@@ -1542,7 +1538,7 @@
                     data.results.forEach(item => {
                         html += this.createResultItem(item);
                     });
-                    
+
                     if (data.hasMore) {
                         html += `
                             <div class="search-result-item" onclick="globalSearch.performDetailedSearch('${this.searchInput.value}')">
@@ -1556,7 +1552,7 @@
                             </div>
                         `;
                     }
-                    
+
                     this.searchResults.innerHTML = html;
                 }
                 this.showResults();
@@ -1565,7 +1561,7 @@
             createResultItem(item) {
                 const iconColor = this.getIconColor(item.type);
                 const icon = this.getIcon(item.type);
-                
+
                 return `
                     <div class="search-result-item" onclick="globalSearch.navigateToResult('${item.url}')">
                         <div class="search-result-icon" style="background: ${iconColor};">
@@ -1623,9 +1619,9 @@
         function toggleTheme() {
             const body = document.body;
             const themeIcon = document.getElementById('theme-icon');
-            
+
             body.classList.toggle('dark-mode');
-            
+
             if (body.classList.contains('dark-mode')) {
                 themeIcon.className = 'fas fa-sun';
                 localStorage.setItem('theme', 'dark');
@@ -1639,7 +1635,7 @@
         function initTheme() {
             const savedTheme = localStorage.getItem('theme');
             const themeIcon = document.getElementById('theme-icon');
-            
+
             if (savedTheme === 'dark') {
                 document.body.classList.add('dark-mode');
                 if (themeIcon) themeIcon.className = 'fas fa-sun';
@@ -1656,16 +1652,16 @@
         document.addEventListener('DOMContentLoaded', function() {
             // Initialize theme
             initTheme();
-            
+
             // Initialize device info and time updates
             getDeviceInfo();
             updateRealTimeData();
-            
+
             // Initialize search functionality
             if (document.getElementById('globalSearch')) {
                 window.globalSearch = new GlobalSearch();
             }
-            
+
             // Update time every second
             setInterval(updateRealTimeData, 1000);
         });

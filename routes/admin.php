@@ -47,8 +47,13 @@ Route::prefix('admin')->name('admin.')->group(function () {
         Route::get('penggajian', [PenggajianController::class, 'index'])->name('penggajian');
         Route::get('penggajian/create', [PenggajianController::class, 'create'])->name('penggajian.create');
         Route::post('penggajian/store', [PenggajianController::class, 'store'])->name('penggajian.store');
-        Route::post('penggajian/proses-otomatis', [PenggajianController::class, 'prosesOtomatis'])->name('penggajian.proses-otomatis');
-        Route::post('penggajian/preview', [PenggajianController::class, 'preview'])->name('penggajian.preview');
+        Route::get('penggajian/{id}', [PenggajianController::class, 'show'])->name('penggajian.show');
+        Route::get('penggajian/{id}/api', [PenggajianController::class, 'showApi'])->name('penggajian.show.api');
+        Route::get('penggajian/{id}/edit', [PenggajianController::class, 'edit'])->name('penggajian.edit');
+        Route::put('penggajian/{id}', [PenggajianController::class, 'update'])->name('penggajian.update');
+        Route::delete('penggajian/{id}', [PenggajianController::class, 'destroy'])->name('penggajian.destroy');
+        Route::post('penggajian/proses-otomatis', [PenggajianController::class, 'generateGaji'])->name('penggajian.proses-otomatis');
+        Route::post('penggajian/preview', [PenggajianController::class, 'previewGaji'])->name('penggajian.preview');
         Route::get('penggajian/konfigurasi', [PenggajianController::class, 'konfigurasi'])->name('penggajian.konfigurasi');
         Route::get('penggajian/karyawan/{id}/gaji', [PenggajianController::class, 'getGajiByKaryawan'])->name('penggajian.gaji-by-karyawan');
         Route::get('penggajian/detail-absensi', [PenggajianController::class, 'getDetailAbsensi'])->name('penggajian.detail-absensi');
@@ -60,13 +65,19 @@ Route::prefix('admin')->name('admin.')->group(function () {
         Route::get('absensi', [AbsensiController::class, 'index'])->name('absensi.index');
         Route::get('absensi/create', [AbsensiController::class, 'create'])->name('absensi.create');
         Route::post('absensi', [AbsensiController::class, 'store'])->name('absensi.store');
+        Route::get('absensi/export', [AbsensiController::class, 'export'])->name('absensi.export');
+        Route::post('absensi/import', [AbsensiController::class, 'import'])->name('absensi.import');
+        Route::post('absensi/bulk-update', [AbsensiController::class, 'bulkUpdate'])->name('absensi.bulk-update');
+        
+        // API Routes (must come before parameterized routes)
+        Route::get('absensi/api/{id}/detail', [AbsensiController::class, 'showApi'])->name('absensi.api.detail');
+        Route::get('absensi/api/{id}/edit', [AbsensiController::class, 'editApi'])->name('absensi.api.edit');
+        
+        // Parameterized routes
         Route::get('absensi/{id}', [AbsensiController::class, 'show'])->name('absensi.show');
         Route::get('absensi/{id}/edit', [AbsensiController::class, 'edit'])->name('absensi.edit');
         Route::put('absensi/{id}', [AbsensiController::class, 'update'])->name('absensi.update');
         Route::delete('absensi/{id}', [AbsensiController::class, 'destroy'])->name('absensi.destroy');
-        Route::post('absensi/import', [AbsensiController::class, 'import'])->name('absensi.import');
-        Route::get('absensi/export', [AbsensiController::class, 'export'])->name('absensi.export');
-        Route::post('absensi/bulk-update', [AbsensiController::class, 'bulkUpdate'])->name('absensi.bulk-update');
 
         // Absensi System Routes (New Complete System)
         Route::post('absensi/check-in', [AbsensiController::class, 'checkIn'])->name('absensi.check-in');
