@@ -140,6 +140,23 @@ Route::prefix('api')->group(function () {
     Route::get('/tren-penjualan', [ProdukTerlarisController::class, 'getTrenPenjualanHarian'])->name('api.tren.penjualan');
 });
 
+// Load separate route files
+require __DIR__ . '/pelanggan.php';
+require __DIR__ . '/gudang.php';
+require __DIR__ . '/admin.php';
+
+// Route kategori - cleaned up without duplicates
+
+<<<<<<< HEAD
+    Route::get('/statistik-penjualan', [ProdukTerlarisController::class, 'getStatistikPenjualan'])->name('api.statistik.penjualan');
+    Route::get('/tren-penjualan', [ProdukTerlarisController::class, 'getTrenPenjualanHarian'])->name('api.tren.penjualan');
+});
+
+// Load separate route files
+require __DIR__ . '/pelanggan.php';
+require __DIR__ . '/gudang.php';
+require __DIR__ . '/admin.php';
+=======
 // Pelanggan Routes - login dan register dengan controller
 Route::prefix('pelanggan')->name('pelanggan.')->group(function () {
     Route::get('/login', [PelangganController::class, 'showLogin'])->name('login');
@@ -340,20 +357,10 @@ Route::prefix('gudang')->name('gudang.')->group(function () {
         Route::resource('produk', ProductController::class);
     });
 });
+>>>>>>> 28128fa (...)
 
 // Route kategori - cleaned up without duplicates
 Route::prefix('kategori')->name('kategori.')->group(function () {
-    Route::get('/elektronik', [CategoryController::class, 'elektronik'])->name('elektronik');
-    Route::get('/fashion', [CategoryController::class, 'fashion'])->name('fashion');
-    Route::get('/makanan', [CategoryController::class, 'makanan'])->name('makanan');
-    Route::get('/makanan-minuman', [CategoryController::class, 'makanan'])->name('makanan-minuman');
-    Route::get('/otomotif', [CategoryController::class, 'otomotif'])->name('otomotif');
-    Route::get('/kesehatan-kecantikan', [CategoryController::class, 'kesehatan'])->name('kesehatan-kecantikan');
-    Route::get('/rumah-tangga', [CategoryController::class, 'rumahTangga'])->name('rumah-tangga');
-    Route::get('/olahraga', [CategoryController::class, 'olahraga'])->name('olahraga');
-    Route::get('/buku', [CategoryController::class, 'buku'])->name('buku');
-    Route::get('/perawatan', [CategoryController::class, 'perawatan'])->name('perawatan');
-});
 
 // Route keranjang belanja
 Route::get('/keranjang', function () {
