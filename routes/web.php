@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Mail;
 use App\Http\Controllers\PelangganController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\ProductController;
@@ -18,10 +19,26 @@ use App\Http\Controllers\PenggajianOtomatisController;
 use App\Http\Controllers\PemasokController;
 use App\Http\Controllers\KaryawanAbsensiController;
 
+// Debug routes (temporary)
+if (config('app.debug')) {
+    require __DIR__ . '/debug.php';
+}
+
 // Global login route - redirects to admin login
 Route::get('/login', function () {
     return redirect()->route('admin.login');
 })->name('login');
+
+// Forgot Password Routes
+Route::prefix('password')->name('password.')->group(function () {
+    Route::get('/forgot', [App\Http\Controllers\Auth\ForgotPasswordController::class, 'showForgotForm'])->name('request');
+    Route::post('/send-otp', [App\Http\Controllers\Auth\ForgotPasswordController::class, 'sendOTP'])->name('send.otp');
+    Route::get('/verify', [App\Http\Controllers\Auth\ForgotPasswordController::class, 'showVerifyForm'])->name('verify.form');
+    Route::post('/verify-otp', [App\Http\Controllers\Auth\ForgotPasswordController::class, 'verifyOTP'])->name('verify.otp');
+    Route::get('/reset', [App\Http\Controllers\Auth\ForgotPasswordController::class, 'showResetForm'])->name('reset.form');
+    Route::post('/reset', [App\Http\Controllers\Auth\ForgotPasswordController::class, 'resetPassword'])->name('reset');
+    Route::post('/resend-otp', [App\Http\Controllers\Auth\ForgotPasswordController::class, 'resendOTP'])->name('resend.otp');
+});
 
 // Karyawan Routes (Public - tidak perlu login admin)
 Route::prefix('karyawan')->name('karyawan.')->group(function () {
@@ -494,4 +511,57 @@ Route::prefix('supplier')->group(function () {
 // Fallback route untuk halaman yang tidak ditemukan (404)
 Route::fallback(function () {
     return response()->view('errors.404', [], 404);
+});
+
+
+Route::get('/tes-email', function () {
+    $mailConfig = [];
+    try {
+        // Debug configuration
+        $mailConfig = [
+            'MAIL_MAILER' => config('mail.default'),
+            'MAIL_HOST' => config('mail.mailers.smtp.host'),
+            'MAIL_PORT' => config('mail.mailers.smtp.port'),
+            'MAIL_USERNAME' => config('mail.mailers.smtp.username'),
+            'MAIL_FROM_ADDRESS' => config('mail.from.address'),
+            'MAIL_FROM_NAME' => config('mail.from.name'),
+        ];
+
+        // Validate email addresses
+        $fromAddress = config('mail.from.address');
+        $toAddress = 'vikrialvapratama27@gmail.com';
+
+        if (!filter_var($fromAddress, FILTER_VALIDATE_EMAIL)) {
+            return response()->json([
+                'error' => 'Invalid FROM email address: ' . $fromAddress,
+                'config' => $mailConfig
+            ], 400);
+        }
+
+        if (!filter_var($toAddress, FILTER_VALIDATE_EMAIL)) {
+            return response()->json([
+                'error' => 'Invalid TO email address: ' . $toAddress,
+                'config' => $mailConfig
+            ], 400);
+        }
+
+        Mail::raw('hai titit    ' . now(), function ($message) use ($toAddress) {
+            $message->to($toAddress)
+                ->subject('Tes Email Laravel - ' . now()->format('Y-m-d H:i:s'));
+        });
+
+        return response()->json([
+            'success' => true,
+            'message' => 'Email berhasil dikirim!',
+            'config' => $mailConfig,
+            'sent_to' => $toAddress
+        ]);
+    } catch (\Exception $e) {
+        return response()->json([
+            'error' => $e->getMessage(),
+            'line' => $e->getLine(),
+            'file' => $e->getFile(),
+            'config' => $mailConfig
+        ], 500);
+    }
 });

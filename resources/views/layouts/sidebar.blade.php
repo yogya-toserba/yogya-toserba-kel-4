@@ -64,16 +64,6 @@
       @endif
     </a>
 
-    <a href="{{ route('gudang.logistik') }}" class="nav-item {{ request()->routeIs('gudang.logistik') ? 'active' : '' }}">
-      <div class="nav-icon">
-        <i class="fas fa-route"></i>
-      </div>
-      <span class="nav-text">Logistik</span>
-      @if(request()->routeIs('gudang.logistik'))
-        <div class="nav-indicator"></div>
-      @endif
-    </a>
-
     <a href="{{ route('gudang.pemasok.index') }}" class="nav-item {{ request()->routeIs('gudang.pemasok*') ? 'active' : '' }}">
       <div class="nav-icon">
         <i class="fas fa-handshake"></i>
@@ -110,16 +100,6 @@
       </div>
       <span class="nav-text">Chat Supplier</span>
       @if(request()->routeIs('gudang.chat*'))
-        <div class="nav-indicator"></div>
-      @endif
-    </a>
-
-    <a href="{{ route('gudang.resiko') }}" class="nav-item {{ request()->routeIs('gudang.resiko') ? 'active' : '' }}">
-      <div class="nav-icon">
-        <i class="fas fa-exclamation-triangle"></i>
-      </div>
-      <span class="nav-text">Risiko</span>
-      @if(request()->routeIs('gudang.resiko'))
         <div class="nav-indicator"></div>
       @endif
     </a>
@@ -170,7 +150,7 @@
     <div class="sidebar-info">
       <p class="app-version">
         <i class="fas fa-code-branch"></i>
-        v2.1.3
+        v1.0.0
       </p>
       <p class="last-login">
         <i class="fas fa-clock"></i>

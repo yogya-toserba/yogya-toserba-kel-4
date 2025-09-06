@@ -6,78 +6,50 @@
     </div>
     <div class="brand-text">
       <h3>My<span class="brand-highlight">YOGYA</span></h3>
-      <p class="brand-subtitle">Rantai Pasok</p>
+      <p class="brand-subtitle">Supplier Panel</p>
+    </div>
+  </div>
+
+  <!-- NOTIFICATION SECTION -->
+  <div class="notification-section">
+    <div class="notification-header">
+      <i class="fas fa-bell"></i>
+      <span>Notifikasi</span>
+      <span class="notification-count" id="notificationCount">0</span>
+    </div>
+    <div class="notification-list" id="notificationList">
+      <!-- Notifikasi akan dimuat di sini -->
     </div>
   </div>
 
   <!-- NAVIGATION MENU -->
   <div class="sidebar-nav">
-    <a href="{{ route('gudang.inventori.dashboard') }}" class="nav-item {{ request()->routeIs('gudang.inventori.dashboard') ? 'active' : '' }}">
+    <a href="{{ route('supplier.dashboard') }}" class="nav-item {{ request()->routeIs('supplier.dashboard') ? 'active' : '' }}">
       <div class="nav-icon">
         <i class="fas fa-chart-line"></i>
       </div>
       <span class="nav-text">Dashboard</span>
-      @if(request()->routeIs('gudang.inventori.dashboard'))
+      @if(request()->routeIs('supplier.dashboard'))
         <div class="nav-indicator"></div>
       @endif
     </a>
 
-    <a href="{{ route('gudang.inventori.index') }}" class="nav-item {{ request()->routeIs('gudang.inventori.index') ? 'active' : '' }}">
+    <a href="{{ route('supplier.profile') }}" class="nav-item {{ request()->routeIs('supplier.profile') ? 'active' : '' }}">
       <div class="nav-icon">
-        <i class="fas fa-boxes"></i>
+        <i class="fas fa-user"></i>
       </div>
-      <span class="nav-text">Inventori</span>
-      @if(request()->routeIs('gudang.inventori.index'))
+      <span class="nav-text">Profil</span>
+      @if(request()->routeIs('supplier.profile'))
         <div class="nav-indicator"></div>
       @endif
     </a>
 
-    <a href="{{ route('gudang.inventori.permintaan.inventori') }}" class="nav-item {{ request()->routeIs('gudang.inventori.permintaan.inventori') ? 'active' : '' }}">
+    <a href="{{ route('supplier.chat') }}" class="nav-item {{ request()->routeIs('supplier.chat*') ? 'active' : '' }}">
       <div class="nav-icon">
-        <i class="fas fa-warehouse"></i>
+        <i class="fas fa-comments"></i>
       </div>
-      <span class="nav-text">Permintaan</span>
-      @if(request()->routeIs('gudang.inventori.permintaan.inventori'))
-        <div class="nav-indicator"></div>
-      @endif
-    </a>
-
-    <a href="{{ route('gudang.pengiriman.index') }}" class="nav-item {{ request()->routeIs('gudang.pengiriman*') ? 'active' : '' }}">
-      <div class="nav-icon">
-        <i class="fas fa-truck"></i>
-      </div>
-      <span class="nav-text">Penerimaan</span>
-      @if(request()->routeIs('gudang.pengiriman*'))
-        <div class="nav-indicator"></div>
-      @endif
-    </a>
-
-    <a href="{{ route('gudang.logistik') }}" class="nav-item {{ request()->routeIs('gudang.logistik') ? 'active' : '' }}">
-      <div class="nav-icon">
-        <i class="fas fa-route"></i>
-      </div>
-      <span class="nav-text">Logistik</span>
-      @if(request()->routeIs('gudang.logistik'))
-        <div class="nav-indicator"></div>
-      @endif
-    </a>
-
-    <a href="{{ route('gudang.pemasok.index') }}" class="nav-item {{ request()->routeIs('gudang.pemasok.*') ? 'active' : '' }}">
-      <div class="nav-icon">
-        <i class="fas fa-handshake"></i>
-      </div>
-      <span class="nav-text">Pemasok</span>
-      @if(request()->routeIs('gudang.pemasok.*'))
-        <div class="nav-indicator"></div>
-      @endif
-    </a>
-
-    <a href="{{ route('gudang.resiko') }}" class="nav-item {{ request()->routeIs('gudang.resiko') ? 'active' : '' }}">
-      <div class="nav-icon">
-        <i class="fas fa-exclamation-triangle"></i>
-      </div>
-      <span class="nav-text">Risiko</span>
-      @if(request()->routeIs('gudang.resiko'))
+      <span class="nav-text">Chat Gudang</span>
+      @if(request()->routeIs('supplier.chat*'))
         <div class="nav-indicator"></div>
       @endif
     </a>
@@ -89,13 +61,13 @@
       <div class="admin-profile" onclick="toggleAdminDropdown()">
         <div class="admin-avatar">
           <div class="avatar-circle">
-            <i class="fas fa-user"></i>
+            <i class="fas fa-truck"></i>
           </div>
           <div class="user-status online"></div>
         </div>
         <div class="admin-info">
-          <h5 class="admin-name">Admin Gudang</h5>
-          <p class="admin-role">Supervisor</p>
+          <h5 class="admin-name">Supplier</h5>
+          <p class="admin-role">{{ Auth::guard('pemasok')->user()->nama_lengkap ?? 'Supplier User' }}</p>
         </div>
         <div class="admin-actions">
           <!-- Mode Toggle Button -->
@@ -277,41 +249,38 @@
 
   .nav-item:hover {
     background: var(--light-nav-hover);
+    color: var(--yogya-orange);
+    text-decoration: none;
     transform: translateX(2px);
-    box-shadow: 0 1px 4px var(--light-shadow);
   }
 
   body.dark-mode .nav-item:hover {
     background: var(--dark-nav-hover);
-    box-shadow: 0 1px 4px var(--dark-shadow);
+    color: var(--yogya-orange);
   }
 
   .nav-item.active {
     background: var(--yogya-gradient);
     color: white;
+    box-shadow: 0 4px 8px rgba(242, 107, 55, 0.3);
     font-weight: 600;
-    box-shadow: 0 2px 8px rgba(242, 107, 55, 0.4);
   }
 
   .nav-item.active:hover {
-    transform: translateX(0);
+    color: white;
+    transform: none;
   }
 
   .nav-icon {
     width: 18px;
-    height: 18px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-  }
-
-  .nav-icon i {
-    font-size: 15px;
+    text-align: center;
+    font-size: 16px;
+    position: relative;
   }
 
   .nav-text {
     font-size: 14px;
-    flex: 1;
+    letter-spacing: 0.2px;
   }
 
   .nav-indicator {
@@ -319,21 +288,105 @@
     right: 0;
     top: 50%;
     transform: translateY(-50%);
-    width: 3px;
+    width: 4px;
     height: 20px;
     background: white;
-    border-radius: 2px;
+    border-radius: 2px 0 0 2px;
+  }
+
+  .chat-badge {
+    position: absolute;
+    top: -3px;
+    right: -3px;
+    background: #dc3545;
+    color: white;
+    font-size: 9px;
+    font-weight: 700;
+    padding: 2px 5px;
+    border-radius: 8px;
+    min-width: 16px;
+    text-align: center;
+    line-height: 1;
+    border: 1px solid var(--light-sidebar-bg);
+  }
+
+  body.dark-mode .chat-badge {
+    border-color: var(--dark-sidebar-bg);
+  }
+
+  .notification-section {
+    margin: 20px 15px 10px 15px;
+    background: var(--light-card-bg);
+    border-radius: 12px;
+    border: 1px solid var(--light-border);
+    overflow: hidden;
+  }
+
+  body.dark-mode .notification-section {
+    background: var(--dark-card-bg);
+    border-color: var(--dark-border);
+  }
+
+  .notification-header {
+    display: flex;
+    align-items: center;
+    padding: 12px 15px;
+    background: var(--yogya-gradient);
+    color: white;
+    font-size: 13px;
+    font-weight: 600;
+  }
+
+  .notification-header i {
+    margin-right: 8px;
+  }
+
+  .notification-count {
+    margin-left: auto;
+    background: rgba(255, 255, 255, 0.3);
+    padding: 2px 8px;
+    border-radius: 12px;
+    font-size: 11px;
+  }
+
+  .notification-list {
+    max-height: 200px;
+    overflow-y: auto;
+  }
+
+  .notification-item {
+    padding: 12px 15px;
+    border-bottom: 1px solid var(--light-border);
+    cursor: pointer;
+    transition: background 0.3s ease;
+  }
+
+  body.dark-mode .notification-item {
+    border-bottom-color: var(--dark-border);
+  }
+
+  .notification-item:hover {
+    background: var(--light-nav-hover);
+  }
+
+  body.dark-mode .notification-item:hover {
+    background: var(--dark-nav-hover);
+  }
+
+  .notification-item:last-child {
+    border-bottom: none;
   }
 
   .sidebar-footer {
-    padding: 18px;
+    margin-top: auto;
+    padding: 15px;
     border-top: 2px solid var(--light-border);
     background: var(--light-card-bg);
   }
 
   body.dark-mode .sidebar-footer {
-    border-top-color: var(--dark-border);
     background: var(--dark-card-bg);
+    border-top-color: var(--dark-border);
   }
 
   .admin-dropdown {
@@ -343,13 +396,13 @@
   .admin-profile {
     display: flex;
     align-items: center;
-    padding: 12px;
-    background: var(--light-bg);
-    border-radius: 8px;
-    border: 2px solid var(--light-border);
+    gap: 10px;
+    padding: 10px;
+    border-radius: 10px;
     cursor: pointer;
     transition: all 0.3s ease;
-    gap: 10px;
+    background: var(--light-bg);
+    border: 1px solid var(--light-border);
   }
 
   body.dark-mode .admin-profile {
@@ -358,12 +411,12 @@
   }
 
   .admin-profile:hover {
-    transform: translateY(-1px);
-    box-shadow: 0 2px 6px var(--light-shadow);
+    background: var(--light-nav-hover);
+    border-color: var(--yogya-orange);
   }
 
   body.dark-mode .admin-profile:hover {
-    box-shadow: 0 2px 6px var(--dark-shadow);
+    background: var(--dark-nav-hover);
   }
 
   .admin-avatar {
@@ -371,15 +424,15 @@
   }
 
   .avatar-circle {
-    width: 38px;
-    height: 38px;
-    background: var(--yogya-gradient);
+    width: 36px;
+    height: 36px;
     border-radius: 50%;
+    background: var(--yogya-gradient);
     display: flex;
     align-items: center;
     justify-content: center;
     color: white;
-    font-size: 15px;
+    font-size: 14px;
     box-shadow: 0 2px 6px rgba(242, 107, 55, 0.3);
   }
 
@@ -389,19 +442,27 @@
     right: 0;
     width: 10px;
     height: 10px;
-    background: #22c55e;
     border-radius: 50%;
     border: 2px solid white;
   }
 
+  .user-status.online {
+    background: #10b981;
+  }
+
+  body.dark-mode .user-status {
+    border-color: var(--dark-card-bg);
+  }
+
   .admin-info {
     flex: 1;
+    min-width: 0;
   }
 
   .admin-name {
-    font-size: 14px;
-    font-weight: 700;
-    margin: 0;
+    font-size: 13px;
+    font-weight: 600;
+    margin: 0 0 2px 0;
     color: var(--light-text);
     line-height: 1.2;
   }
@@ -411,15 +472,13 @@
   }
 
   .admin-role {
-    font-size: 12px;
-    font-weight: 400;
+    font-size: 11px;
     color: var(--light-text-secondary);
-    margin: 2px 0 0 0;
+    margin: 0;
     line-height: 1.2;
-  }
-
-  body.dark-mode .admin-role {
-    color: var(--dark-text-secondary);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
   }
 
   body.dark-mode .admin-role {
@@ -429,35 +488,47 @@
   .admin-actions {
     display: flex;
     align-items: center;
-    gap: 5px;
+    gap: 6px;
   }
 
   .mode-toggle-btn {
     width: 28px;
     height: 28px;
-    background: var(--yogya-gradient);
-    color: white;
-    border: none;
     border-radius: 6px;
-    cursor: pointer;
+    border: 1px solid var(--light-border);
+    background: var(--light-bg);
+    color: var(--light-text-secondary);
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 12px;
+    cursor: pointer;
     transition: all 0.3s ease;
-    box-shadow: 0 1px 4px rgba(242, 107, 55, 0.3);
+    font-size: 11px;
+  }
+
+  body.dark-mode .mode-toggle-btn {
+    border-color: var(--dark-border);
+    background: var(--dark-bg);
+    color: var(--dark-text-secondary);
   }
 
   .mode-toggle-btn:hover {
-    transform: scale(1.1);
-    box-shadow: 0 2px 6px rgba(242, 107, 55, 0.4);
+    background: var(--yogya-orange);
+    border-color: var(--yogya-orange);
+    color: white;
   }
 
   .dropdown-arrow {
+    color: var(--light-text-secondary);
+    font-size: 10px;
     transition: transform 0.3s ease;
   }
 
-  .dropdown-arrow.rotated {
+  body.dark-mode .dropdown-arrow {
+    color: var(--dark-text-secondary);
+  }
+
+  .admin-dropdown.open .dropdown-arrow {
     transform: rotate(180deg);
   }
 
@@ -466,25 +537,25 @@
     bottom: 100%;
     left: 0;
     right: 0;
-    background: var(--light-card-bg);
-    border: 2px solid var(--light-border);
-    border-radius: 8px;
-    box-shadow: 0 4px 12px var(--light-shadow);
+    background: var(--light-bg);
+    border: 1px solid var(--light-border);
+    border-radius: 10px;
+    box-shadow: 0 6px 20px var(--light-shadow);
+    margin-bottom: 8px;
     opacity: 0;
     visibility: hidden;
     transform: translateY(10px);
     transition: all 0.3s ease;
-    z-index: 1001;
-    margin-bottom: 5px;
+    z-index: 1000;
   }
 
   body.dark-mode .dropdown-menu {
     background: var(--dark-card-bg);
     border-color: var(--dark-border);
-    box-shadow: 0 4px 12px var(--dark-shadow);
+    box-shadow: 0 6px 20px var(--dark-shadow);
   }
 
-  .dropdown-menu.show {
+  .admin-dropdown.open .dropdown-menu {
     opacity: 1;
     visibility: visible;
     transform: translateY(0);
@@ -493,44 +564,49 @@
   .dropdown-item {
     display: flex;
     align-items: center;
-    padding: 10px 15px;
-    cursor: pointer;
-    transition: all 0.3s ease;
     gap: 10px;
+    padding: 10px 12px;
+    color: var(--light-text);
+    text-decoration: none;
+    transition: all 0.3s ease;
+    cursor: pointer;
+    border: none;
+    background: none;
+    width: 100%;
+    text-align: left;
+    font-size: 12px;
+  }
+
+  body.dark-mode .dropdown-item {
+    color: var(--dark-text);
   }
 
   .dropdown-item:hover {
     background: var(--light-nav-hover);
+    color: var(--yogya-orange);
   }
 
   body.dark-mode .dropdown-item:hover {
     background: var(--dark-nav-hover);
   }
 
+  .dropdown-item:first-child {
+    border-radius: 10px 10px 0 0;
+  }
+
+  .dropdown-item:last-child {
+    border-radius: 0 0 10px 10px;
+  }
+
   .dropdown-item i {
-    width: 16px;
-    font-size: 13px;
-    color: var(--light-text-secondary);
-  }
-
-  body.dark-mode .dropdown-item i {
-    color: var(--dark-text-secondary);
-  }
-
-  .dropdown-item span {
-    flex: 1;
-    font-size: 13px;
-    font-weight: 500;
-    color: var(--light-text);
-  }
-
-  body.dark-mode .dropdown-item span {
-    color: var(--dark-text);
+    width: 14px;
+    text-align: center;
   }
 
   .dropdown-item small {
-    font-size: 11px;
+    margin-left: auto;
     color: var(--light-text-secondary);
+    font-size: 10px;
   }
 
   body.dark-mode .dropdown-item small {
@@ -547,29 +623,40 @@
     background: var(--dark-border);
   }
 
-  .logout-item:hover {
-    background: #fef2f2 !important;
+  .logout-item {
+    color: #dc2626 !important;
   }
 
-  body.dark-mode .logout-item:hover {
-    background: #1a0f0f !important;
+  .logout-item:hover {
+    background: rgba(220, 38, 38, 0.1) !important;
+    color: #dc2626 !important;
   }
 
   .sidebar-info {
     text-align: center;
-    padding-top: 8px;
+    padding: 15px;
+    margin-top: auto;
+    background: transparent;
     border-top: 1px solid var(--light-border);
-    margin-top: 10px;
   }
 
   body.dark-mode .sidebar-info {
+    background: transparent;
     border-top-color: var(--dark-border);
+  }
+
+  .sidebar-info p {
+    border: none !important;
+    outline: none !important;
+    box-shadow: none !important;
   }
 
   .app-version, .last-login {
     font-size: 10px;
     color: var(--light-text-secondary);
     margin: 2px 0;
+    border: none !important;
+    outline: none !important;
   }
 
   body.dark-mode .app-version,
@@ -577,104 +664,128 @@
     color: var(--dark-text-secondary);
   }
 
+  /* RESPONSIVE */
   @media (max-width: 768px) {
     .sidebar {
-      width: 80px;
+      transform: translateX(-100%);
     }
     
-    .nav-text, .brand-text, .admin-info {
-      display: none;
+    .sidebar.open {
+      transform: translateX(0);
     }
-    
-    .nav-item {
-      justify-content: center;
-      padding: 12px 10px;
-    }
+  }
+
+  /* SCROLLBAR */
+  .sidebar::-webkit-scrollbar {
+    width: 4px;
+  }
+
+  .sidebar::-webkit-scrollbar-track {
+    background: transparent;
+  }
+
+  .sidebar::-webkit-scrollbar-thumb {
+    background: var(--light-border);
+    border-radius: 2px;
+  }
+
+  body.dark-mode .sidebar::-webkit-scrollbar-thumb {
+    background: var(--dark-border);
+  }
+
+  .sidebar::-webkit-scrollbar-thumb:hover {
+    background: var(--yogya-orange);
   }
 </style>
 
 <script>
-  function toggleDarkMode(event) {
-    if (event) {
-      event.stopPropagation();
-    }
-    
-    const body = document.body;
-    const modeIcon = document.getElementById('mode-icon');
-    
-    body.classList.toggle('dark-mode');
-    
-    if (body.classList.contains('dark-mode')) {
-      modeIcon.className = 'fas fa-sun';
-      localStorage.setItem('theme', 'dark');
-    } else {
-      modeIcon.className = 'fas fa-moon';
-      localStorage.setItem('theme', 'light');
-    }
+// Toggle admin dropdown
+function toggleAdminDropdown() {
+  const dropdown = document.querySelector('.admin-dropdown');
+  dropdown.classList.toggle('open');
+}
+
+// Close dropdown when clicking outside
+document.addEventListener('click', function(event) {
+  const dropdown = document.querySelector('.admin-dropdown');
+  if (!dropdown.contains(event.target)) {
+    dropdown.classList.remove('open');
   }
+});
 
-  function toggleAdminDropdown() {
-    const dropdown = document.getElementById('admin-dropdown');
-    const arrow = document.getElementById('dropdown-icon');
-    
-    dropdown.classList.toggle('show');
-    arrow.parentElement.classList.toggle('rotated');
+// Dark mode toggle
+function toggleDarkMode(event) {
+  event.stopPropagation();
+  document.body.classList.toggle('dark-mode');
+  
+  const icon = document.getElementById('mode-icon');
+  if (document.body.classList.contains('dark-mode')) {
+    icon.className = 'fas fa-sun';
+    localStorage.setItem('darkMode', 'true');
+  } else {
+    icon.className = 'fas fa-moon';
+    localStorage.setItem('darkMode', 'false');
   }
+}
 
-  document.addEventListener('click', function(event) {
-    const dropdown = document.getElementById('admin-dropdown');
-    const adminProfile = document.querySelector('.admin-profile');
-    
-    if (dropdown && adminProfile && !adminProfile.contains(event.target)) {
-      dropdown.classList.remove('show');
-      document.getElementById('dropdown-icon').parentElement.classList.remove('rotated');
-    }
-  });
+// Load dark mode preference
+document.addEventListener('DOMContentLoaded', function() {
+  const darkMode = localStorage.getItem('darkMode');
+  const icon = document.getElementById('mode-icon');
+  
+  if (darkMode === 'true') {
+    document.body.classList.add('dark-mode');
+    icon.className = 'fas fa-sun';
+  }
+  
+  // Update current time
+  updateCurrentTime();
+  setInterval(updateCurrentTime, 60000); // Update every minute
+});
 
-  document.addEventListener('DOMContentLoaded', function() {
-    const savedTheme = localStorage.getItem('theme');
-    const body = document.body;
-    const modeIcon = document.getElementById('mode-icon');
-    
-    if (savedTheme === 'dark') {
-      body.classList.add('dark-mode');
-      modeIcon.className = 'fas fa-sun';
-    }
-    
-    updateTime();
-    setInterval(updateTime, 1000);
-  });
-
-  function updateTime() {
+// Update current time
+function updateCurrentTime() {
+  const timeElement = document.getElementById('current-time');
+  if (timeElement) {
     const now = new Date();
     const timeString = now.toLocaleTimeString('id-ID', {
       hour: '2-digit',
       minute: '2-digit'
     });
-    
-    const timeElement = document.getElementById('current-time');
-    if (timeElement) {
-      timeElement.textContent = timeString;
-    }
+    timeElement.textContent = timeString;
   }
+}
 
-  function handleAbsensi() {
-    const dropdown = document.getElementById('admin-dropdown');
-    dropdown.classList.remove('show');
-    document.getElementById('dropdown-icon').parentElement.classList.remove('rotated');
-    
-    if (confirm('Apakah Anda yakin ingin melakukan absensi sekarang?')) {
-      alert('Absensi berhasil! Waktu: ' + new Date().toLocaleString('id-ID'));
-    }
-  }
+// Handle absensi
+function handleAbsensi() {
+  alert('Fitur absensi akan segera tersedia');
+}
 
-  function handleLogout() {
-    const dropdown = document.getElementById('admin-dropdown');
-    dropdown.classList.remove('show');
-    document.getElementById('dropdown-icon').parentElement.classList.remove('rotated');
+// Handle logout
+function handleLogout() {
+  if (confirm('Apakah Anda yakin ingin logout?')) {
+    // Create a form and submit it
+    const form = document.createElement('form');
+    form.method = 'POST';
+    form.action = '{{ route("supplier.logout") }}';
     
-    if (confirm('Apakah Anda yakin ingin logout dari sistem?')) {
-      window.location.href = '/logout';
-    }
+    const csrfToken = document.createElement('input');
+    csrfToken.type = 'hidden';
+    csrfToken.name = '_token';
+    csrfToken.value = '{{ csrf_token() }}';
+    
+    form.appendChild(csrfToken);
+    document.body.appendChild(form);
+    form.submit();
   }
+}
+
+// Load notifications (placeholder)
+function loadNotifications() {
+  // This can be implemented with actual notification data
+  document.getElementById('notificationCount').textContent = '0';
+}
+
+// Initialize
+loadNotifications();
 </script>

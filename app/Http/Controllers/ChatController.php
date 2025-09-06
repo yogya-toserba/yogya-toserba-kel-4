@@ -10,6 +10,7 @@ use App\Models\Admin;
 use App\Models\Gudang;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Log;
 
 class ChatController extends Controller
 {
@@ -67,6 +68,14 @@ class ChatController extends Controller
     public function sendMessage(Request $request, $roomId)
     {
         try {
+            // Debug logging
+            Log::info('Chat sendMessage called', [
+                'roomId' => $roomId,
+                'request_data' => $request->all(),
+                'auth_guard' => Auth::guard('gudang')->check(),
+                'user_id' => Auth::guard('gudang')->id()
+            ]);
+
             $request->validate([
                 'message' => 'required|string|max:1000',
                 'message_type' => 'in:text,product_request',
@@ -75,12 +84,16 @@ class ChatController extends Controller
 
             $gudang = $this->getAuthenticatedGudang();
 
+            Log::info('Gudang authenticated', ['gudang_id' => $gudang->id_gudang]);
+
             $chatRoom = ChatRoom::where('id', $roomId)
                 ->where(function ($query) use ($gudang) {
                     $query->where('gudang_id', $gudang->id_gudang)
                         ->orWhereNull('gudang_id');
                 })
                 ->firstOrFail();
+
+            Log::info('Chat room found', ['chat_room_id' => $chatRoom->id]);
 
             $message = ChatMessage::create([
                 'chat_room_id' => $roomId,
@@ -90,6 +103,8 @@ class ChatController extends Controller
                 'message_type' => $request->message_type ?? 'text',
                 'product_data' => $request->product_data
             ]);
+
+            Log::info('Message created', ['message_id' => $message->id]);
 
             // Update last message time
             $chatRoom->update(['last_message_at' => now()]);
@@ -108,7 +123,7 @@ class ChatController extends Controller
                     break;
             }
 
-            return response()->json([
+            $response = [
                 'success' => true,
                 'message' => [
                     'id' => $message->id,
@@ -119,8 +134,17 @@ class ChatController extends Controller
                     'created_at' => $message->created_at,
                     'message_type' => $message->message_type
                 ]
-            ]);
+            ];
+
+            Log::info('Sending response', $response);
+
+            return response()->json($response);
         } catch (\Exception $e) {
+            Log::error('Chat sendMessage error', [
+                'error' => $e->getMessage(),
+                'trace' => $e->getTraceAsString()
+            ]);
+
             return response()->json([
                 'success' => false,
                 'error' => 'Gagal mengirim pesan: ' . $e->getMessage()
@@ -246,5 +270,71 @@ class ChatController extends Controller
 
         return redirect()->route('gudang.chat.show', $roomId)
             ->with('success', 'Request produk berhasil dikirim');
+    }
+
+    // Method untuk mengambil pesan baru via AJAX
+    public function getMessages(Request $request, $roomId)
+    {
+        try {
+            $gudang = $this->getAuthenticatedGudang();
+
+            $chatRoom = ChatRoom::where('id', $roomId)
+                ->where(function ($query) use ($gudang) {
+                    $query->where('gudang_id', $gudang->id_gudang)
+                        ->orWhereNull('gudang_id');
+                })
+                ->first();
+
+            if (!$chatRoom) {
+                return response()->json([
+                    'success' => false,
+                    'message' => 'Chat room tidak ditemukan'
+                ], 404);
+            }
+
+            $afterId = $request->get('after', 0);
+
+            $messages = ChatMessage::where('chat_room_id', $roomId)
+                ->where('id', '>', $afterId)
+                ->orderBy('created_at', 'asc')
+                ->get();
+
+            // Transform messages to include sender data
+            $transformedMessages = $messages->map(function ($message) {
+                $senderData = null;
+                switch ($message->sender_type) {
+                    case 'gudang':
+                        $senderData = Gudang::find($message->sender_id);
+                        break;
+                    case 'pemasok':
+                        $senderData = PemasokUser::find($message->sender_id);
+                        break;
+                    case 'admin':
+                        $senderData = Admin::find($message->sender_id);
+                        break;
+                }
+
+                return [
+                    'id' => $message->id,
+                    'message' => $message->message,
+                    'sender_type' => $message->sender_type,
+                    'sender_id' => $message->sender_id,
+                    'sender' => $senderData,
+                    'created_at' => $message->created_at,
+                    'message_type' => $message->message_type
+                ];
+            });
+
+            return response()->json([
+                'success' => true,
+                'messages' => $transformedMessages
+            ]);
+        } catch (\Exception $e) {
+            Log::error('Error getting messages: ' . $e->getMessage());
+            return response()->json([
+                'success' => false,
+                'message' => 'Terjadi kesalahan saat mengambil pesan'
+            ], 500);
+        }
     }
 }

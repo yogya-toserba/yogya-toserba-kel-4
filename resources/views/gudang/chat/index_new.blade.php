@@ -145,14 +145,15 @@ body.dark-mode .card-title-modern {
     color: white;
 }
 
-/* Chat Room Cards - WhatsApp Style */
+/* Chat Room Cards */
 .chat-room-card {
     background: white;
-    border-radius: 8px;
+    border-radius: 12px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.08);
     border: 1px solid #e2e8f0;
-    transition: all 0.2s ease;
+    transition: all 0.3s ease;
     overflow: hidden;
-    margin-bottom: 8px;
+    position: relative;
 }
 
 body.dark-mode .chat-room-card {
@@ -161,207 +162,71 @@ body.dark-mode .chat-room-card {
 }
 
 .chat-room-card:hover {
-    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
-    border-color: #f26b37;
+    transform: translateY(-2px);
+    box-shadow: 0 8px 25px rgba(0,0,0,0.15);
 }
 
-.chat-room-item {
-    display: flex;
-    align-items: center;
-    padding: 12px 16px;
-    text-decoration: none;
-    color: inherit;
-    border-bottom: 1px solid #f1f5f9;
-}
-
-body.dark-mode .chat-room-item {
-    border-bottom-color: #3a3d4a;
-}
-
-.chat-room-item:last-child {
-    border-bottom: none;
-}
-
-.chat-room-item:hover {
+.chat-room-header {
     background: #f8fafc;
-    text-decoration: none;
-    color: inherit;
-}
-
-body.dark-mode .chat-room-item:hover {
-    background: #252837;
-}
-
-.chat-avatar {
-    width: 48px;
-    height: 48px;
-    border-radius: 50%;
-    background: linear-gradient(135deg, #f26b37, #e55827);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    color: white;
-    font-weight: 600;
-    font-size: 18px;
-    margin-right: 12px;
-    flex-shrink: 0;
-}
-
-.chat-content {
-    flex: 1;
-    min-width: 0;
-}
-
-.chat-room-name {
-    font-weight: 600;
-    font-size: 15px;
-    color: #1e293b;
-    margin-bottom: 2px;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-}
-
-body.dark-mode .chat-room-name {
-    color: #e2e8f0;
-}
-
-.chat-company {
-    font-size: 13px;
-    color: #64748b;
-    margin-bottom: 4px;
-}
-
-body.dark-mode .chat-company {
-    color: #94a3b8;
-}
-
-.chat-last-message {
-    font-size: 13px;
-    color: #64748b;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    max-width: 200px;
-}
-
-body.dark-mode .chat-last-message {
-    color: #94a3b8;
-}
-
-.chat-meta {
-    display: flex;
-    flex-direction: column;
-    align-items: flex-end;
-    gap: 4px;
-    margin-left: 8px;
-}
-
-.chat-time {
-    font-size: 11px;
-    color: #64748b;
-    white-space: nowrap;
-}
-
-body.dark-mode .chat-time {
-    color: #94a3b8;
-}
-
-.unread-badge {
-    background: #f26b37;
-    color: white;
-    border-radius: 50%;
-    min-width: 20px;
-    height: 20px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 11px;
-    font-weight: 600;
-}
-
-.quick-actions {
-    display: flex;
-    gap: 4px;
-    margin-top: 4px;
-}
-
-.quick-btn {
-    background: transparent;
-    border: 1px solid #e2e8f0;
-    color: #64748b;
-    padding: 4px 8px;
-    border-radius: 12px;
-    font-size: 11px;
-    transition: all 0.2s ease;
-    text-decoration: none;
-}
-
-.quick-btn:hover {
-    background: #f26b37;
-    color: white;
-    border-color: #f26b37;
-    text-decoration: none;
-}
-
-body.dark-mode .quick-btn {
-    border-color: #3a3d4a;
-    color: #94a3b8;
-}
-
-body.dark-mode .quick-btn:hover {
-    background: #f26b37;
-    color: white;
-    border-color: #f26b37;
-}
-
-/* Sidebar Cards with Better Spacing */
-.sidebar-card {
-    background: white;
-    border-radius: 12px;
-    box-shadow: 0 2px 8px rgba(0,0,0,0.08);
-    border: 1px solid #e2e8f0;
-    overflow: hidden;
-    margin-bottom: 20px;
-}
-
-body.dark-mode .sidebar-card {
-    background: #2a2d3f;
-    border-color: #3a3d4a;
-}
-
-.sidebar-card-header {
-    background: #f8fafc;
-    padding: 16px 20px;
+    padding: 15px 20px;
     border-bottom: 1px solid #e2e8f0;
+    display: flex;
+    justify-content: between;
+    align-items: center;
 }
 
-body.dark-mode .sidebar-card-header {
+body.dark-mode .chat-room-header {
     background: #252837;
     border-bottom-color: #3a3d4a;
 }
 
-.sidebar-card-title {
-    font-size: 14px;
+.chat-room-title {
+    font-size: 1rem;
     font-weight: 600;
     color: #1e293b;
     margin: 0;
 }
 
-body.dark-mode .sidebar-card-title {
+body.dark-mode .chat-room-title {
     color: #e2e8f0;
 }
 
-.sidebar-card-body {
+.chat-room-body {
     padding: 20px;
 }
 
-.form-group-spaced {
-    margin-bottom: 16px;
+.unread-badge {
+    background: linear-gradient(135deg, #dc2626, #b91c1c);
+    color: white;
+    padding: 4px 8px;
+    border-radius: 12px;
+    font-size: 0.75rem;
+    font-weight: 600;
+    min-width: 20px;
+    text-align: center;
 }
 
-.form-group-spaced:last-child {
-    margin-bottom: 0;
+.company-name {
+    color: #f26b37;
+    font-weight: 600;
+    font-size: 0.9rem;
+}
+
+body.dark-mode .company-name {
+    color: #f26b37;
+}
+
+.last-message {
+    background: #f8fafc;
+    padding: 12px;
+    border-radius: 8px;
+    margin: 12px 0;
+    border-left: 3px solid #f26b37;
+}
+
+body.dark-mode .last-message {
+    background: #252837;
+    border-left-color: #f26b37;
 }
 
 .form-label-modern {
@@ -478,48 +343,61 @@ body.dark-mode .no-data-icon {
                 </div>
                 <div class="card-body p-0">
                     @if($chatRooms->count() > 0)
-                        @foreach($chatRooms as $room)
-                            <div class="chat-room-item d-flex align-items-center">
-                                <div class="chat-avatar">
-                                    {{ strtoupper(substr($room->pemasok->nama_perusahaan, 0, 2)) }}
-                                </div>
-                                <div class="chat-content">
-                                    <div class="chat-room-name">{{ $room->nama_room }}</div>
-                                    <div class="chat-company">
-                                        <i class="fas fa-building me-1"></i> {{ $room->pemasok->nama_perusahaan }}
-                                    </div>
-                                    @if($room->lastMessage)
-                                        <div class="chat-last-message">
-                                            <strong>{{ $room->lastMessage->sender_name }}:</strong>
-                                            {{ Str::limit($room->lastMessage->message, 40) }}
+                        <div class="row g-0">
+                            @foreach($chatRooms as $room)
+                            <div class="col-12 p-3 border-bottom">
+                                <div class="chat-room-card">
+                                    <div class="chat-room-header">
+                                        <div class="d-flex justify-content-between align-items-center w-100">
+                                            <div>
+                                                <h6 class="chat-room-title">{{ $room->nama_room }}</h6>
+                                                <div class="company-name">
+                                                    <i class="fas fa-building"></i> {{ $room->pemasok->nama_perusahaan }}
+                                                </div>
+                                            </div>
+                                            @if($room->unreadMessagesCount('gudang', $gudang->id_gudang) > 0)
+                                                <span class="unread-badge">
+                                                    {{ $room->unreadMessagesCount('gudang', $gudang->id_gudang) }}
+                                                </span>
+                                            @endif
                                         </div>
-                                    @else
-                                        <div class="chat-last-message">Belum ada pesan</div>
-                                    @endif
-                                    <div class="quick-actions mt-2">
-                                        <a href="{{ route('gudang.chat.show', $room->id) }}" class="quick-btn">
-                                            <i class="fas fa-comment me-1"></i>Chat
-                                        </a>
-                                        <a href="{{ route('gudang.chat.request-product', $room->id) }}" class="quick-btn">
-                                            <i class="fas fa-box me-1"></i>Request
-                                        </a>
-                                        <button class="quick-btn" onclick="sendQuickMessage({{ $room->id }}, 'Halo, saya butuh informasi produk')">
-                                            <i class="fas fa-bolt me-1"></i>Quick
-                                        </button>
                                     </div>
-                                </div>
-                                <div class="chat-meta">
-                                    @if($room->lastMessage)
-                                        <div class="chat-time">{{ $room->lastMessage->created_at->format('H:i') }}</div>
-                                    @endif
-                                    @if($room->unreadMessagesCount('gudang', $gudang->id_gudang) > 0)
-                                        <div class="unread-badge">
-                                            {{ $room->unreadMessagesCount('gudang', $gudang->id_gudang) }}
+                                    <div class="chat-room-body">
+                                        @if($room->deskripsi)
+                                            <p class="text-muted small mb-2">{{ Str::limit($room->deskripsi, 100) }}</p>
+                                        @endif
+                                        
+                                        @if($room->lastMessage)
+                                            <div class="last-message">
+                                                <div class="d-flex justify-content-between align-items-start mb-1">
+                                                    <strong class="text-primary">{{ $room->lastMessage->sender_name }}</strong>
+                                                    <small class="text-muted">
+                                                        {{ $room->lastMessage->created_at->diffForHumans() }}
+                                                    </small>
+                                                </div>
+                                                <div class="text-muted">{{ Str::limit($room->lastMessage->message, 80) }}</div>
+                                            </div>
+                                        @else
+                                            <div class="last-message">
+                                                <div class="text-muted">Belum ada pesan</div>
+                                            </div>
+                                        @endif
+                                        
+                                        <div class="d-flex gap-2 mt-3">
+                                            <a href="{{ route('gudang.chat.show', $room->id) }}" class="btn btn-modern flex-fill">
+                                                <i class="fas fa-comment"></i>
+                                                Buka Chat
+                                            </a>
+                                            <a href="{{ route('gudang.chat.request-product', $room->id) }}" class="btn btn-outline-modern">
+                                                <i class="fas fa-box"></i>
+                                                Request
+                                            </a>
                                         </div>
-                                    @endif
+                                    </div>
                                 </div>
                             </div>
-                        @endforeach
+                            @endforeach
+                        </div>
                     @else
                         <div class="no-data-state">
                             <i class="fas fa-comments no-data-icon"></i>
@@ -537,17 +415,17 @@ body.dark-mode .no-data-icon {
 
         <!-- Create Chat Room Sidebar -->
         <div class="col-lg-4">
-            <div class="sidebar-card">
-                <div class="sidebar-card-header">
-                    <h6 class="sidebar-card-title">
-                        <i class="fas fa-plus" style="color: #f26b37; margin-right: 8px;"></i>
+            <div class="modern-card">
+                <div class="card-header-modern">
+                    <h6 class="card-title-modern">
+                        <i class="fas fa-plus" style="color: #f26b37; margin-right: 10px;"></i>
                         Buat Chat Room Baru
                     </h6>
                 </div>
-                <div class="sidebar-card-body">
+                <div class="card-body">
                     <form action="{{ route('gudang.chat.create') }}" method="POST">
                         @csrf
-                        <div class="form-group-spaced">
+                        <div class="mb-3">
                             <label for="pemasok_id" class="form-label-modern">Pilih Pemasok</label>
                             <select class="form-control form-control-modern" name="pemasok_id" id="pemasok_id" required>
                                 <option value="">Pilih Pemasok...</option>
@@ -557,12 +435,12 @@ body.dark-mode .no-data-icon {
                             </select>
                         </div>
                         
-                        <div class="form-group-spaced">
+                        <div class="mb-3">
                             <label for="nama_room" class="form-label-modern">Nama Room</label>
                             <input type="text" class="form-control form-control-modern" name="nama_room" id="nama_room" required>
                         </div>
                         
-                        <div class="form-group-spaced">
+                        <div class="mb-3">
                             <label for="deskripsi" class="form-label-modern">Deskripsi</label>
                             <textarea class="form-control form-control-modern" name="deskripsi" id="deskripsi" rows="3"></textarea>
                         </div>
@@ -576,14 +454,14 @@ body.dark-mode .no-data-icon {
             </div>
 
             <!-- Quick Stats Card -->
-            <div class="sidebar-card">
-                <div class="sidebar-card-header">
-                    <h6 class="sidebar-card-title">
-                        <i class="fas fa-chart-bar" style="color: #f26b37; margin-right: 8px;"></i>
+            <div class="modern-card mt-4">
+                <div class="card-header-modern">
+                    <h6 class="card-title-modern">
+                        <i class="fas fa-chart-bar" style="color: #f26b37; margin-right: 10px;"></i>
                         Aktivitas Chat
                     </h6>
                 </div>
-                <div class="sidebar-card-body">
+                <div class="card-body">
                     <div class="row text-center">
                         <div class="col-12 mb-3">
                             <div class="stat-number" style="font-size: 1.5rem;">
@@ -634,57 +512,5 @@ body.dark-mode .no-data-icon {
             // location.reload();
         }, 30000);
     });
-
-    // Quick message function
-    function sendQuickMessage(roomId, message) {
-        if (confirm('Kirim pesan: "' + message + '"?')) {
-            const csrfToken = $('meta[name="csrf-token"]').attr('content');
-            
-            $.ajax({
-                url: '/gudang/chat/' + roomId + '/message',
-                method: 'POST',
-                data: {
-                    _token: csrfToken,
-                    message: message
-                },
-                success: function(response) {
-                    if (response.success) {
-                        // Show success notification
-                        showNotification('Pesan berhasil dikirim!', 'success');
-                        
-                        // Redirect to chat room
-                        setTimeout(function() {
-                            window.location.href = '/gudang/chat/' + roomId;
-                        }, 1000);
-                    } else {
-                        showNotification('Gagal mengirim pesan: ' + response.message, 'error');
-                    }
-                },
-                error: function(xhr) {
-                    console.error('Error:', xhr);
-                    showNotification('Terjadi kesalahan saat mengirim pesan.', 'error');
-                }
-            });
-        }
-    }
-
-    // Simple notification function
-    function showNotification(message, type) {
-        const alertClass = type === 'success' ? 'alert-success' : 'alert-danger';
-        const notification = `
-            <div class="alert ${alertClass} alert-dismissible fade show position-fixed" 
-                 style="top: 20px; right: 20px; z-index: 9999; min-width: 300px;" role="alert">
-                ${message}
-                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-            </div>
-        `;
-        
-        $('body').append(notification);
-        
-        // Auto remove after 3 seconds
-        setTimeout(function() {
-            $('.alert').fadeOut();
-        }, 3000);
-    }
 </script>
 @endpush

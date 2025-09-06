@@ -29,6 +29,24 @@ class SupplierController extends Controller
         return view('supplier.dashboard', compact('supplier', 'chatRooms', 'unreadCount'));
     }
 
+    // Menampilkan halaman chat atau redirect ke chat room pertama
+    public function chat()
+    {
+        $supplier = Auth::guard('pemasok')->user();
+
+        $chatRoom = ChatRoom::with(['lastMessage', 'admin', 'gudang'])
+            ->where('pemasok_id', $supplier->pemasok_id)
+            ->orderBy('last_message_at', 'desc')
+            ->first();
+
+        if ($chatRoom) {
+            return redirect()->route('supplier.chat.show', $chatRoom->id);
+        }
+
+        // Jika tidak ada chat room, buat yang baru atau tampilkan halaman kosong
+        return view('supplier.chat-empty', compact('supplier'));
+    }
+
     // Menampilkan chat room untuk supplier
     public function chatShow($roomId)
     {

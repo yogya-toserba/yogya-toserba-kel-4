@@ -26,6 +26,7 @@ Route::middleware('auth:pemasok')->group(function () {
   Route::put('/profile', [SupplierController::class, 'updateProfile'])->name('supplier.profile.update');
 
   // Chat
+  Route::get('/chat', [SupplierController::class, 'chat'])->name('supplier.chat');
   Route::get('/chat/{roomId}', [SupplierController::class, 'chatShow'])->name('supplier.chat.show');
   Route::post('/chat/{roomId}/message', [SupplierController::class, 'sendMessage'])->name('supplier.chat.message');
 

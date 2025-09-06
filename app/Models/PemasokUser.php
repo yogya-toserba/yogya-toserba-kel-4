@@ -17,6 +17,7 @@ class PemasokUser extends Authenticatable
         'username',
         'email',
         'password',
+        'plain_password',
         'nama_lengkap',
         'telepon',
         'status',
@@ -55,5 +56,30 @@ class PemasokUser extends Authenticatable
     public function scopeNonAktif($query)
     {
         return $query->where('status', 'non-aktif');
+    }
+
+    /**
+     * Get original password for display purposes
+     * Note: This is for admin viewing only
+     */
+    public function getOriginalPasswordAttribute()
+    {
+        // For security reasons, we'll show masked password
+        // If you need to show actual password, you need to store it separately
+        return '••••••••';
+    }
+
+    /**
+     * Generate a temporary password for display
+     * This should be called when creating/updating user
+     */
+    public function generateDisplayPassword($length = 8)
+    {
+        $characters = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
+        $password = '';
+        for ($i = 0; $i < $length; $i++) {
+            $password .= $characters[rand(0, strlen($characters) - 1)];
+        }
+        return $password;
     }
 }

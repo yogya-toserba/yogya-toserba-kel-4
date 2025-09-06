@@ -77,7 +77,7 @@ Route::prefix('gudang')->name('gudang.')->group(function () {
         })->name('inventori.permintaan.inventori');
 
         Route::post('/permintaan-submit', [GudangController::class, 'submitPermintaan'])->name('permintaan.submit');
-        
+
         // Permintaan workflow routes
         Route::post('/permintaan/terima', [GudangController::class, 'terimaPermintaan'])->name('permintaan.terima');
         Route::post('/permintaan/tolak', [GudangController::class, 'tolakPermintaan'])->name('permintaan.tolak');
@@ -110,6 +110,7 @@ Route::prefix('gudang')->name('gudang.')->group(function () {
         Route::get('/pemasok/export', [PemasokController::class, 'export'])->name('pemasok.export.alt');
         Route::get('/pemasok-data', [PemasokController::class, 'getData'])->name('pemasok.data');
         Route::post('/pemasok/{id}/reset-password', [PemasokController::class, 'resetPassword'])->name('pemasok.reset-password');
+        Route::post('/pemasok/{id}/create-account', [PemasokController::class, 'createAccount'])->name('pemasok.create-account');
 
         Route::resource('pemasok', PemasokController::class)->names([
             'index' => 'pemasok.index',
@@ -142,6 +143,7 @@ Route::prefix('gudang')->name('gudang.')->group(function () {
         Route::prefix('chat')->name('chat.')->group(function () {
             Route::get('/', [ChatController::class, 'index'])->name('index');
             Route::get('/{roomId}', [ChatController::class, 'show'])->name('show');
+            Route::get('/{roomId}/messages', [ChatController::class, 'getMessages'])->name('messages');
             Route::post('/{roomId}/message', [ChatController::class, 'sendMessage'])->name('message');
             Route::post('/create-room', [ChatController::class, 'createRoom'])->name('create');
             Route::get('/{roomId}/request-product', [ChatController::class, 'requestProduct'])->name('request-product');
