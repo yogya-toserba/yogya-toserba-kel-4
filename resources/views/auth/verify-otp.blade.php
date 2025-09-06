@@ -15,18 +15,19 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            padding: 20px;
+            padding: 10px;
+            margin: 0;
         }
         
         .verification-container {
             width: 100%;
-            max-width: 480px;
+            max-width: 450px;
         }
         
         .card {
             border: none;
-            border-radius: 20px;
-            box-shadow: 0 25px 50px rgba(242, 107, 55, 0.15);
+            border-radius: 15px;
+            box-shadow: 0 15px 35px rgba(242, 107, 55, 0.15);
             background: #ffffff;
             overflow: hidden;
         }
@@ -34,34 +35,34 @@
         .card-header {
             background: linear-gradient(135deg, #F26B37 0%, #E55827 100%);
             color: white;
-            padding: 40px 30px;
+            padding: 25px 25px;
             text-align: center;
             border: none;
         }
         
         .logo {
-            width: 70px;
-            height: 70px;
-            margin: 0 auto 20px;
+            width: 50px;
+            height: 50px;
+            margin: 0 auto 15px;
             background: rgba(255, 255, 255, 0.2);
             border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
             color: white;
-            font-size: 24px;
+            font-size: 20px;
         }
         
         .card-body {
-            padding: 40px 30px;
+            padding: 25px 25px;
         }
         
         .email-display {
             background: linear-gradient(135deg, #fff5f0 0%, #fff8f5 100%);
-            padding: 15px 20px;
-            border-radius: 12px;
+            padding: 12px 15px;
+            border-radius: 10px;
             border-left: 4px solid #F26B37;
-            margin-bottom: 30px;
+            margin-bottom: 20px;
         }
         
         .email-display small {
@@ -72,14 +73,14 @@
         .form-label {
             color: #F26B37;
             font-weight: 600;
-            margin-bottom: 10px;
+            margin-bottom: 8px;
         }
         
         .form-control {
             border: 2px solid #e9ecef;
-            border-radius: 12px;
-            padding: 15px 20px;
-            font-size: 1.4rem;
+            border-radius: 10px;
+            padding: 12px 15px;
+            font-size: 1.3rem;
             letter-spacing: 0.3em;
             text-align: center;
             font-weight: 600;
@@ -96,24 +97,24 @@
         .btn-primary {
             background: linear-gradient(135deg, #F26B37 0%, #E55827 100%);
             border: none;
-            border-radius: 12px;
-            padding: 15px 30px;
+            border-radius: 10px;
+            padding: 12px 25px;
             font-weight: 600;
-            font-size: 16px;
+            font-size: 15px;
             transition: all 0.3s ease;
-            box-shadow: 0 8px 20px rgba(242, 107, 55, 0.3);
+            box-shadow: 0 6px 15px rgba(242, 107, 55, 0.3);
         }
         
         .btn-primary:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 15px 30px rgba(242, 107, 55, 0.4);
+            transform: translateY(-1px);
+            box-shadow: 0 10px 20px rgba(242, 107, 55, 0.4);
         }
         
         .btn-outline-secondary {
             border: 2px solid #F26B37;
             color: #F26B37;
-            border-radius: 12px;
-            padding: 10px 25px;
+            border-radius: 10px;
+            padding: 8px 20px;
             font-weight: 600;
             transition: all 0.3s ease;
         }
@@ -132,13 +133,13 @@
         .alert-success {
             background: linear-gradient(135deg, #d4edda 0%, #c3e6cb 100%);
             border: 1px solid #28a745;
-            border-radius: 12px;
+            border-radius: 10px;
         }
         
         .alert-danger {
             background: linear-gradient(135deg, #f8d7da 0%, #f5c6cb 100%);
             border: 1px solid #dc3545;
-            border-radius: 12px;
+            border-radius: 10px;
         }
         
         .back-link {
@@ -153,22 +154,22 @@
         
         .footer-text {
             color: #6c757d;
-            margin-top: 30px;
+            margin-top: 15px;
             text-align: center;
         }
         
         @media (max-width: 576px) {
             .card-header {
-                padding: 30px 20px;
+                padding: 20px 15px;
             }
             
             .card-body {
-                padding: 30px 20px;
+                padding: 20px 15px;
             }
             
             .form-control {
-                font-size: 1.2rem;
-                padding: 12px 15px;
+                font-size: 1.1rem;
+                padding: 10px 12px;
             }
         }
     </style>
@@ -180,8 +181,8 @@
                 <div class="logo">
                     <i class="fas fa-shield-alt"></i>
                 </div>
-                <h4 class="mb-2" style="font-weight: 700; font-size: 28px;">Verifikasi OTP</h4>
-                <p class="mb-0" style="opacity: 0.9; font-weight: 300;">Masukkan kode 6 digit yang telah dikirim ke email Anda</p>
+                <h4 class="mb-1" style="font-weight: 700; font-size: 24px;">Verifikasi OTP</h4>
+                <p class="mb-0" style="opacity: 0.9; font-weight: 300; font-size: 14px;">Masukkan kode 6 digit yang telah dikirim ke email Anda</p>
             </div>
 
             <div class="card-body">
@@ -210,7 +211,7 @@
                     @csrf
                     <input type="hidden" name="email" value="{{ session('email') }}">
                     
-                    <div class="mb-4">
+                    <div class="mb-3">
                         <label for="otp" class="form-label">
                             <i class="fas fa-lock me-1"></i>Kode OTP
                         </label>
@@ -220,21 +221,21 @@
                         @error('otp')
                             <div class="invalid-feedback">{{ $message }}</div>
                         @enderror
-                        <div class="form-text mt-2">
+                        <div class="form-text mt-1">
                             <i class="fas fa-info-circle me-1"></i>
                             Kode akan kedaluwarsa dalam <span class="countdown" id="countdown">15:00</span>
                         </div>
                     </div>
 
-                    <div class="d-grid mb-4">
+                    <div class="d-grid mb-3">
                         <button type="submit" class="btn btn-primary">
                             <i class="fas fa-check me-2"></i>Verifikasi Kode
                         </button>
                     </div>
                 </form>
 
-                <div class="text-center mb-3">
-                    <p class="text-muted mb-2">Tidak menerima kode?</p>
+                <div class="text-center mb-2">
+                    <p class="text-muted mb-1">Tidak menerima kode?</p>
                     <form action="{{ route('password.resend.otp') }}" method="POST" style="display: inline;">
                         @csrf
                         <input type="hidden" name="email" value="{{ session('email') }}">
