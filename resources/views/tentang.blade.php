@@ -16,11 +16,33 @@
     <link href="{{ asset('css/dashboard.css') }}" rel="stylesheet">
     
     <style>
+        /* Reset default margins and paddings */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        html, body {
+            margin: 0 !important;
+            padding: 0 !important;
+            height: 100%;
+            overflow-x: hidden;
+        }
+
+        /* Remove any top spacing */
+        body {
+            padding-top: 0 !important;
+            margin-top: 0 !important;
+        }
+
         /* About Page Styles */
         .about-hero {
+            margin-top: 0 !important;
+            padding-top: 50px;
             background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
             color: white;
-            padding: 100px 0;
+            padding: 50px 0 100px 0;
             position: relative;
             overflow: hidden;
         }
