@@ -128,7 +128,7 @@
     <div class="sidebar-info">
       <p class="app-version">
         <i class="fas fa-code-branch"></i>
-        v2.1.3
+        v1.0.0
       </p>
       <p class="last-login">
         <i class="fas fa-clock"></i>

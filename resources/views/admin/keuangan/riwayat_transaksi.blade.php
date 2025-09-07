@@ -482,7 +482,7 @@ body.dark-mode .btn-menu:hover {
     color: #d1d5db !important;
 }
 
-/* PAGINATION - SAME AS DATA PENGAWAI GUDANG */
+/* PAGINATION - ENHANCED FOR BETTER FUNCTIONALITY */
 .pagination-container {
     display: flex;
     justify-content: space-between;
@@ -491,15 +491,18 @@ body.dark-mode .btn-menu:hover {
     padding: 20px 25px;
     flex-wrap: wrap;
     background: white !important;
+    border-top: 1px solid #e5e7eb;
 }
 
 body.dark-mode .pagination-container {
     background: #2a2d3f !important;
+    border-top-color: #374151;
 }
 
 .pagination-info {
     color: #64748b;
     font-size: 0.9rem;
+    font-weight: 500;
 }
 
 body.dark-mode .pagination-info {
@@ -513,6 +516,14 @@ body.dark-mode .pagination-info {
 
 .pagination {
     margin: 0;
+    display: flex;
+    list-style: none;
+    padding: 0;
+    gap: 4px;
+}
+
+.page-item {
+    display: inline-block;
 }
 
 .page-link {
@@ -520,22 +531,40 @@ body.dark-mode .pagination-info {
     background: white;
     border: 1px solid #d1d5db;
     padding: 8px 12px;
-    margin: 0 2px;
     border-radius: 6px;
     font-size: 0.875rem;
+    font-weight: 500;
     transition: all 0.2s ease;
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 36px;
+    height: 36px;
+    position: relative;
+    cursor: pointer;
 }
 
 .page-link:hover {
     background: #f8fafc;
     border-color: #f26b37;
     color: #f26b37;
+    text-decoration: none;
+    transform: translateY(-1px);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
 .page-item.active .page-link {
     background: linear-gradient(135deg, #f26b37 0%, #e55827 100%);
     border-color: #f26b37;
     color: white;
+    font-weight: 600;
+    box-shadow: 0 2px 8px rgba(242, 107, 55, 0.3);
+}
+
+.page-item.active .page-link:hover {
+    background: linear-gradient(135deg, #e55827 0%, #d4511e 100%);
+    transform: none;
 }
 
 .page-item.disabled .page-link {
@@ -543,11 +572,40 @@ body.dark-mode .pagination-info {
     background: #f9fafb;
     border-color: #e5e7eb;
     cursor: not-allowed;
+    opacity: 0.6;
+}
+
+.page-item.disabled .page-link:hover {
+    color: #9ca3af;
+    background: #f9fafb;
+    border-color: #e5e7eb;
+    transform: none;
+    box-shadow: none;
 }
 
 body.dark-mode .page-link {
     background: #374151;
     border-color: #4b5563;
+    color: #f9fafb;
+}
+
+body.dark-mode .page-link:hover {
+    background: #4b5563;
+    border-color: #f26b37;
+    color: #f26b37;
+}
+
+body.dark-mode .page-item.active .page-link {
+    background: linear-gradient(135deg, #f26b37 0%, #e55827 100%);
+    border-color: #f26b37;
+    color: white;
+}
+
+body.dark-mode .page-item.disabled .page-link {
+    color: #6b7280;
+    background: #2a2d3f;
+    border-color: #374151;
+}
     color: #f9fafb;
 }
 
@@ -606,7 +664,56 @@ body.dark-mode .page-item.disabled .page-link {
         flex-direction: column;
         gap: 15px;
         text-align: center;
+        padding: 15px;
     }
+    
+    .pagination-info {
+        font-size: 0.8rem;
+        order: 2;
+    }
+    
+    .pagination-wrapper {
+        order: 1;
+        justify-content: center;
+        width: 100%;
+    }
+    
+    .pagination {
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 2px;
+    }
+    
+    .page-link {
+        padding: 6px 10px;
+        font-size: 0.8rem;
+        min-width: 32px;
+        height: 32px;
+    }
+}
+
+@media (max-width: 480px) {
+    .pagination {
+        gap: 1px;
+    }
+    
+    .page-link {
+        padding: 4px 8px;
+        font-size: 0.75rem;
+        min-width: 28px;
+        height: 28px;
+    }
+    
+    .pagination-info {
+        font-size: 0.75rem;
+        line-height: 1.4;
+    }
+    
+    /* Hide pagination text on very small screens, show only numbers */
+    .pagination-wrapper .text-muted {
+        display: none;
+    }
+}
     
     .table tbody td {
         font-size: 0.8rem;
@@ -813,14 +920,14 @@ body.dark-mode .dropdown-item:hover {
                     </select>
                 </div>
                 <div class="col-md-2">
-                    <div class="d-flex gap-2">
+                    <!--<div class="d-flex gap-2">
                         <button type="submit" class="search-btn">
                             <i class="fas fa-search"></i> Cari
                         </button>
                         <a href="{{ route('admin.keuangan.riwayat') }}" class="btn-outline-secondary">
                             <i class="fas fa-undo"></i> Reset
                         </a>
-                    </div>
+                    </div>-->
                 </div>
             </div>
         </form>
@@ -934,123 +1041,7 @@ body.dark-mode .dropdown-item:hover {
                         </table>
                         </tr>
                         <tr>
-                            <td>3</td>
-                            <td>
-                                <div class="d-flex align-items-center">
-                                    <div class="avatar-fallback me-3">BP</div>
-                                    <div>
-                                        <div class="d-flex flex-column justify-content-center">
-                                            <strong>Budi Pratama</strong>
-                                        </div>
-                                    </div>
-                                </div>
-                            </td>
-                            <td>
-                                <div class="d-flex flex-column justify-content-center">
-                                    <strong>TRX003</strong>
-                                </div>
-                            </td>
-                            <td>
-                                <div class="d-flex flex-column justify-content-center">
-                                    <strong>Transfer</strong>
-                                </div>
-                            </td>
-                            <td>
-                                <div class="d-flex flex-column justify-content-center">
-                                    <strong>01 Sep 2025</strong>
-                                </div>
-                            </td>
-                            <td>
-                                <span class="badge" style="background: #fef3c7; color: #d97706; padding: 4px 8px; border-radius: 12px; font-size: 0.75rem;">Pending</span>
-                            </td>
-                            <td>
-                                <div class="d-flex flex-column justify-content-center">
-                                    <strong>Rp 520.000</strong>
-                                </div>
-                            </td>
-                            <td>
-                                <button class="btn-menu">
-                                    <i class="fas fa-ellipsis-v"></i>
-                                </button>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>4</td>
-                            <td>
-                                <div class="d-flex align-items-center">
-                                    <div class="avatar-fallback me-3">DF</div>
-                                    <div>
-                                        <div class="d-flex flex-column justify-content-center">
-                                            <strong>Dewi Fortuna</strong>
-                                        </div>
-                                    </div>
-                                </div>
-                            </td>
-                            <td>
-                                <div class="d-flex flex-column justify-content-center">
-                                    <strong>TRX004</strong>
-                                </div>
-                            </td>
-                            <td>
-                                <div class="d-flex flex-column justify-content-center">
-                                    <strong>E-Wallet</strong>
-                                </div>
-                            </td>
-                            <td>
-                                <div class="d-flex flex-column justify-content-center">
-                                    <strong>01 Sep 2025</strong>
-                                </div>
-                            </td>
-                            <td>
-                                <span class="badge" style="background: #dcfce7; color: #15803d; padding: 4px 8px; border-radius: 12px; font-size: 0.75rem;">Berhasil</span>
-                            </td>
-                            <td>
-                                <div class="d-flex flex-column justify-content-center">
-                                    <strong>Rp 89.900</strong>
-                                </div>
-                            </td>
-                            <td>
-                                <button class="btn-menu">
-                                    <i class="fas fa-ellipsis-v"></i>
-                                </button>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>5</td>
-                            <td>
-                                <div class="d-flex align-items-center">
-                                    <div class="avatar-fallback me-3">RH</div>
-                                    <div>
-                                        <div class="d-flex flex-column justify-content-center">
-                                            <strong>Rizky Hamdani</strong>
-                                        </div>
-                                    </div>
-                                </div>
-                            </td>
-                            <td>
-                                <div class="d-flex flex-column justify-content-center">
-                                    <strong>TRX005</strong>
-                                </div>
-                            </td>
-                            <td>
-                                <div class="d-flex flex-column justify-content-center">
-                                    <strong>Kartu</strong>
-                                </div>
-                            </td>
-                            <td>
-                                <div class="d-flex flex-column justify-content-center">
-                                    <strong>31 Agu 2025</strong>
-                                </div>
-                            </td>
-                            <td>
-                                <span class="badge" style="background: #fee2e2; color: #dc2626; padding: 4px 8px; border-radius: 12px; font-size: 0.75rem;">Gagal</span>
-                            </td>
-                            <td>
-                                <div class="d-flex flex-column justify-content-center">
-                                    <strong>Rp 750.000</strong>
-                                </div>
-                            </td>
-                            <td>
+                            
                                 <button class="btn-menu">
                                     <i class="fas fa-ellipsis-v"></i>
                                 </button>
@@ -1063,18 +1054,26 @@ body.dark-mode .dropdown-item:hover {
                     <!-- Pagination -->
                     <div class="pagination-container">
                         <div class="pagination-info">
-                            @if($transaksi->total() > 0)
+                            @if(isset($transaksi) && $transaksi->count() > 0)
                                 Menampilkan {{ $transaksi->firstItem() }} - {{ $transaksi->lastItem() }} dari {{ number_format($transaksi->total()) }} riwayat transaksi
                                 @if(request()->hasAny(['search', 'periode', 'status', 'metode']))
                                     <span class="text-muted"> (hasil pencarian/filter)</span>
                                 @endif
-                            @else
+                            @elseif(isset($transaksi))
                                 Tidak ada riwayat transaksi yang ditemukan
+                                @if(request()->hasAny(['search', 'periode', 'status', 'metode']))
+                                    <span class="text-muted"> - coba ubah filter pencarian</span>
+                                @endif
+                            @else
+                                <span class="text-danger">Error: Data tidak dapat dimuat</span>
                             @endif
                         </div>
-                        @if($transaksi->hasPages())
+                        @if(isset($transaksi) && $transaksi->hasPages())
                             <div class="pagination-wrapper">
-                                {{ $transaksi->appends(request()->query())->links() }}
+                                <div class="d-flex align-items-center gap-2">
+                                    <span class="text-muted me-2" style="font-size: 0.8rem;">Halaman:</span>
+                                    {{ $transaksi->appends(request()->query())->onEachSide(2)->links('custom.pagination') }}
+                                </div>
                             </div>
                         @endif
                     </div>
@@ -1128,5 +1127,95 @@ function resetForm() {
     document.getElementById('status').value = '';
     document.getElementById('metode').value = '';
 }
+
+// Enhanced Pagination Functionality
+document.addEventListener('DOMContentLoaded', function() {
+    // Add loading state for pagination links
+    const paginationLinks = document.querySelectorAll('.pagination .page-link');
+    
+    paginationLinks.forEach(link => {
+        link.addEventListener('click', function(e) {
+            // Don't prevent default, but add loading state
+            if (!this.closest('.page-item').classList.contains('disabled')) {
+                // Add loading indicator
+                const originalContent = this.innerHTML;
+                this.innerHTML = '<i class="fas fa-spinner fa-spin"></i>';
+                
+                // Show loading on the table
+                const tableContainer = document.querySelector('.new-table-container');
+                if (tableContainer) {
+                    tableContainer.style.opacity = '0.6';
+                    tableContainer.style.pointerEvents = 'none';
+                }
+                
+                // Reset if page doesn't load (fallback)
+                setTimeout(() => {
+                    this.innerHTML = originalContent;
+                    if (tableContainer) {
+                        tableContainer.style.opacity = '1';
+                        tableContainer.style.pointerEvents = 'auto';
+                    }
+                }, 10000); // 10 second timeout
+            }
+        });
+    });
+    
+    // Add smooth scroll to top when pagination is clicked
+    const paginationContainer = document.querySelector('.pagination-container');
+    if (paginationContainer) {
+        paginationContainer.addEventListener('click', function(e) {
+            if (e.target.closest('.page-link') && !e.target.closest('.page-item').classList.contains('disabled')) {
+                setTimeout(() => {
+                    window.scrollTo({
+                        top: document.querySelector('.new-table-container').offsetTop - 100,
+                        behavior: 'smooth'
+                    });
+                }, 100);
+            }
+        });
+    }
+    
+    // Keyboard navigation for pagination
+    document.addEventListener('keydown', function(e) {
+        if (e.ctrlKey) {
+            const currentPage = document.querySelector('.page-item.active .page-link');
+            let targetLink = null;
+            
+            switch(e.key) {
+                case 'ArrowLeft':
+                    // Previous page
+                    targetLink = document.querySelector('.pagination .page-item:first-child .page-link');
+                    break;
+                case 'ArrowRight':
+                    // Next page
+                    targetLink = document.querySelector('.pagination .page-item:last-child .page-link');
+                    break;
+            }
+            
+            if (targetLink && !targetLink.closest('.page-item').classList.contains('disabled')) {
+                e.preventDefault();
+                targetLink.click();
+            }
+        }
+    });
+    
+    // Add tooltip for pagination info
+    const paginationInfo = document.querySelector('.pagination-info');
+    if (paginationInfo) {
+        paginationInfo.title = 'Informasi halaman saat ini';
+    }
+    
+    // Preserve scroll position when returning from other pages
+    const scrollPosition = sessionStorage.getItem('riwayat_scroll_position');
+    if (scrollPosition) {
+        window.scrollTo(0, parseInt(scrollPosition));
+        sessionStorage.removeItem('riwayat_scroll_position');
+    }
+    
+    // Save scroll position before leaving
+    window.addEventListener('beforeunload', function() {
+        sessionStorage.setItem('riwayat_scroll_position', window.scrollY);
+    });
+});
 </script>
 @endsection

@@ -713,7 +713,7 @@
                             <li>Familiar dengan responsive design</li>
                             <li>Memahami version control (Git)</li>
                         </ul>
-                        <a href="mailto:hr@myyogya.com?subject=Lamaran Frontend Developer" class="apply-btn">
+                        <a href="mailto:yogyatoserba@gmail.com?subject=Lamaran Frontend Developer" class="apply-btn">
                             <i class="fas fa-paper-plane me-2"></i>Lamar Sekarang
                         </a>
                     </div>
@@ -738,8 +738,9 @@
                             <li>Menguasai Google Ads, Facebook Ads</li>
                             <li>Familiar dengan SEO/SEM</li>
                             <li>Kreatif dan analitis</li>
+                            <li>Mampu bekerja dalam tim</li>
                         </ul>
-                        <a href="mailto:hr@myyogya.com?subject=Lamaran Digital Marketing Specialist" class="apply-btn">
+                        <a href="mailto:yogyatoserba@gmail.com?subject=Lamaran Digital Marketing Specialist" class="apply-btn">
                             <i class="fas fa-paper-plane me-2"></i>Lamar Sekarang
                         </a>
                     </div>
@@ -765,7 +766,7 @@
                             <li>Bisa bekerja shift</li>
                             <li>Pengalaman customer service diutamakan</li>
                         </ul>
-                        <a href="mailto:hr@myyogya.com?subject=Lamaran Customer Service Representative" class="apply-btn">
+                        <a href="mailto:yogyatoserba@gmail.com?subject=Lamaran Customer Service Representative" class="apply-btn">
                             <i class="fas fa-paper-plane me-2"></i>Lamar Sekarang
                         </a>
                     </div>
@@ -791,7 +792,7 @@
                             <li>Bisa bekerja tim</li>
                             <li>Pengalaman warehouse diutamakan</li>
                         </ul>
-                        <a href="mailto:hr@myyogya.com?subject=Lamaran Warehouse Staff" class="apply-btn">
+                        <a href="mailto:yogyatoserba@gmail.com?subject=Lamaran Warehouse Staff" class="apply-btn">
                             <i class="fas fa-paper-plane me-2"></i>Lamar Sekarang
                         </a>
                     </div>
@@ -852,11 +853,11 @@
                     <h4>Tidak Menemukan Posisi yang Sesuai?</h4>
                     <p>Kirim CV Anda kepada kami. Kami akan menghubungi Anda ketika ada posisi yang sesuai dengan kualifikasi Anda.</p>
                     <div class="contact-buttons">
-                        <a href="mailto:hr@myyogya.com?subject=Initiave Application" class="btn btn-primary me-3">
-                            <i class="fas fa-envelope me-2"></i>hr@myyogya.com
+                        <a href="mailto:yogya.toserba@gmail.com?subject=Initiave Application" class="btn btn-primary me-3">
+                            <i class="fas fa-envelope me-2"></i>yogya.toserba@gmail.com
                         </a>
-                        <a href="tel:0852-1551-4124" class="btn btn-outline-primary">
-                            <i class="fas fa-phone me-2"></i>0852-1551-4124
+                        <a href="tel:0851-8909-4514" class="btn btn-outline-primary">
+                            <i class="fas fa-phone me-2"></i>0851-8909-4514
                         </a>
                     </div>
                 </div>

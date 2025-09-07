@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\PelangganController;
+use App\Http\Controllers\PelangganForgotPasswordController;
 
 // Pelanggan Routes - login and register with controller
 Route::prefix('pelanggan')->name('pelanggan.')->group(function () {
@@ -12,10 +13,18 @@ Route::prefix('pelanggan')->name('pelanggan.')->group(function () {
     Route::post('/register', [PelangganController::class, 'register'])->name('register.submit');
 
     Route::post('/logout', [PelangganController::class, 'logout'])->name('logout');
-    
+
+    // Forgot Password Routes
+    Route::get('/forgot-password', [PelangganForgotPasswordController::class, 'showForgotPasswordForm'])->name('password.request');
+    Route::post('/forgot-password', [PelangganForgotPasswordController::class, 'sendResetCode'])->name('password.email');
+    Route::get('/verify-code', [PelangganForgotPasswordController::class, 'showVerifyCodeForm'])->name('verify.code.form');
+    Route::post('/verify-code', [PelangganForgotPasswordController::class, 'verifyCode'])->name('verify.code');
+    Route::get('/reset-password/{token}', [PelangganForgotPasswordController::class, 'showResetPasswordForm'])->name('password.reset');
+    Route::post('/reset-password', [PelangganForgotPasswordController::class, 'resetPassword'])->name('password.update');
+
     // Search route (available to all customers)
     Route::get('/search', [PelangganController::class, 'search'])->name('search');
-    
+
     // Protected pelanggan routes
     Route::middleware('auth:pelanggan')->group(function () {
         Route::get('/dashboard', [PelangganController::class, 'dashboard'])->name('dashboard');

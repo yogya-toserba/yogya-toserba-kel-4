@@ -7,7 +7,7 @@
   <title>@yield('title', 'Dashboard Rantai Pasok - MyYOGYA')</title>
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
   <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+  <!-- Bootstrap JS dipindah ke footer -->
   
 
   <style>
@@ -618,6 +618,33 @@
       border: 1px solid #e3e6f0;
     }
 
+    /* Chat Badge Styling */
+    .chat-badge {
+      position: absolute;
+      top: -5px;
+      right: -8px;
+      background: #dc3545;
+      color: white;
+      border-radius: 50%;
+      min-width: 18px;
+      height: 18px;
+      font-size: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: bold;
+      z-index: 10;
+      border: 2px solid #ffffff;
+    }
+
+    .nav-icon {
+      position: relative;
+    }
+
+    body.dark-mode .chat-badge {
+      border-color: #2a2d3f;
+    }
+
     /* RESPONSIVE SIDEBAR */
     @media (max-width: 1200px) {
       .main-content {
@@ -645,9 +672,13 @@
   <div class="main-content">
     @yield('content')
   </div>
-     @stack('scripts')
+  
+  <!-- jQuery - REQUIRED for chat functionality -->
+  <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+  <!-- Bootstrap -->
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+  
+  @stack('scripts')
 
 </body>
 </html>

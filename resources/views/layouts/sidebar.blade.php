@@ -64,16 +64,6 @@
       @endif
     </a>
 
-    <a href="{{ route('gudang.logistik') }}" class="nav-item {{ request()->routeIs('gudang.logistik') ? 'active' : '' }}">
-      <div class="nav-icon">
-        <i class="fas fa-route"></i>
-      </div>
-      <span class="nav-text">Logistik</span>
-      @if(request()->routeIs('gudang.logistik'))
-        <div class="nav-indicator"></div>
-      @endif
-    </a>
-
     <a href="{{ route('gudang.pemasok.index') }}" class="nav-item {{ request()->routeIs('gudang.pemasok*') ? 'active' : '' }}">
       <div class="nav-icon">
         <i class="fas fa-handshake"></i>
@@ -84,12 +74,32 @@
       @endif
     </a>
 
-    <a href="{{ route('gudang.resiko') }}" class="nav-item {{ request()->routeIs('gudang.resiko') ? 'active' : '' }}">
+    <a href="{{ route('gudang.chat.index') }}" class="nav-item {{ request()->routeIs('gudang.chat*') ? 'active' : '' }}">
       <div class="nav-icon">
-        <i class="fas fa-exclamation-triangle"></i>
+        <i class="fas fa-comments"></i>
+        @php
+          $unreadCount = 0;
+          try {
+            $gudang = Auth::guard('gudang')->user();
+            if ($gudang) {
+              $chatRooms = \App\Models\ChatRoom::with('messages')
+                  ->where('gudang_id', $gudang->id_gudang)
+                  ->orWhereNull('gudang_id')
+                  ->get();
+              $unreadCount = $chatRooms->sum(function($room) use ($gudang) {
+                  return $room->unreadMessagesCount('gudang', $gudang->id_gudang);
+              });
+            }
+          } catch (\Exception $e) {
+            // Ignore errors to prevent layout breaking
+          }
+        @endphp
+        @if($unreadCount > 0)
+          <span class="chat-badge">{{ $unreadCount > 99 ? '99+' : $unreadCount }}</span>
+        @endif
       </div>
-      <span class="nav-text">Risiko</span>
-      @if(request()->routeIs('gudang.resiko'))
+      <span class="nav-text">Chat Supplier</span>
+      @if(request()->routeIs('gudang.chat*'))
         <div class="nav-indicator"></div>
       @endif
     </a>
@@ -140,7 +150,7 @@
     <div class="sidebar-info">
       <p class="app-version">
         <i class="fas fa-code-branch"></i>
-        v2.1.3
+        v1.0.0
       </p>
       <p class="last-login">
         <i class="fas fa-clock"></i>

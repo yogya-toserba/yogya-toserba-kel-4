@@ -215,4 +215,61 @@ class KaryawanAbsensiController extends Controller
             ]
         ]);
     }
+
+    public function submitIzinSakit(Request $request)
+    {
+        try {
+            $request->validate([
+                'id_karyawan' => 'required|exists:karyawan,id_karyawan',
+                'jenis' => 'required|in:Izin,Sakit',
+                'keterangan' => 'required|string|max:255',
+                'tanggal' => 'required|date'
+            ]);
+
+            $tanggal = Carbon::parse($request->tanggal);
+            $today = Carbon::today();
+
+            // Validasi tanggal tidak boleh masa lalu (kecuali hari ini)
+            if ($tanggal->lt($today)) {
+                return response()->json([
+                    'success' => false,
+                    'message' => 'Tidak dapat mengajukan izin/sakit untuk tanggal yang sudah berlalu.'
+                ]);
+            }
+
+            // Cek apakah sudah ada absensi di tanggal tersebut
+            $existingAbsensi = Absensi::where('id_karyawan', $request->id_karyawan)
+                ->where('tanggal', $tanggal)
+                ->first();
+
+            if ($existingAbsensi) {
+                return response()->json([
+                    'success' => false,
+                    'message' => 'Sudah ada catatan absensi untuk tanggal tersebut.'
+                ]);
+            }
+
+            // Buat record absensi baru
+            $absensi = Absensi::create([
+                'id_karyawan' => $request->id_karyawan,
+                'tanggal' => $tanggal,
+                'status' => $request->jenis,
+                'keterangan' => $request->keterangan,
+                'jam_masuk' => null,
+                'jam_keluar' => null,
+                'terlambat_menit' => 0
+            ]);
+
+            return response()->json([
+                'success' => true,
+                'message' => "Pengajuan {$request->jenis} berhasil disubmit untuk tanggal " . $tanggal->format('d/m/Y'),
+                'data' => $absensi
+            ]);
+        } catch (\Exception $e) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Terjadi kesalahan: ' . $e->getMessage()
+            ]);
+        }
+    }
 }

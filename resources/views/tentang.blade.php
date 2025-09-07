@@ -16,11 +16,33 @@
     <link href="{{ asset('css/dashboard.css') }}" rel="stylesheet">
     
     <style>
+        /* Reset default margins and paddings */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        html, body {
+            margin: 0 !important;
+            padding: 0 !important;
+            height: 100%;
+            overflow-x: hidden;
+        }
+
+        /* Remove any top spacing */
+        body {
+            padding-top: 0 !important;
+            margin-top: 0 !important;
+        }
+
         /* About Page Styles */
         .about-hero {
+            margin-top: 0 !important;
+            padding-top: 50px;
             background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
             color: white;
-            padding: 100px 0;
+            padding: 50px 0 100px 0;
             position: relative;
             overflow: hidden;
         }
@@ -224,69 +246,159 @@
 
         .team-card {
             background: white;
-            border-radius: 16px;
+            border-radius: 24px;
             overflow: hidden;
-            box-shadow: 0 8px 32px rgba(0,0,0,0.1);
-            transition: var(--transition);
+            box-shadow: 0 10px 40px rgba(0,0,0,0.08);
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+            border: 1px solid rgba(0, 0, 0, 0.05);
         }
 
         .team-card:hover {
             transform: translateY(-8px);
-            box-shadow: 0 16px 48px rgba(0,0,0,0.15);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+            border-color: rgba(0, 0, 0, 0.1);
         }
 
         .team-image {
             position: relative;
             overflow: hidden;
-            height: 200px;
+            height: 320px; /* Increased height for portrait aspect ratio */
+            background: linear-gradient(135deg, #f8f9fa, #e9ecef);
+        }
+
+        .team-image::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(135deg, rgba(0, 0, 0, 0.05), rgba(0, 0, 0, 0.02));
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            z-index: 1;
+        }
+
+        .team-card:hover .team-image::before {
+            opacity: 1;
         }
 
         .team-image img {
             width: 100%;
             height: 100%;
             object-fit: cover;
+            object-position: center top;
+            transition: transform 0.4s ease;
+            border-radius: 0;
+        }
+
+        .team-card:hover .team-image img {
+            transform: scale(1.05);
+        }
+
+        /* Portrait photo frame effect */
+        .team-image::after {
+            content: '';
+            position: absolute;
+            top: 15px;
+            left: 15px;
+            right: 15px;
+            bottom: 15px;
+            border: 3px solid rgba(255, 255, 255, 0.8);
+            border-radius: 16px;
+            pointer-events: none;
+            transition: all 0.3s ease;
+            z-index: 2;
+        }
+
+        .team-card:hover .team-image::after {
+            border-color: rgba(255, 255, 255, 0.9);
+            top: 12px;
+            left: 12px;
+            right: 12px;
+            bottom: 12px;
         }
 
         .team-info {
-            padding: 1.5rem;
+            padding: 2rem 1.5rem 1.5rem;
             text-align: center;
+            background: white;
+            position: relative;
+        }
+
+        .team-info::before {
+            content: '';
+            position: absolute;
+            top: -1px;
+            left: 0;
+            right: 0;
+            height: 2px;
+            background: linear-gradient(90deg, transparent, rgba(0, 0, 0, 0.1), transparent);
         }
 
         .team-name {
-            font-weight: 600;
+            font-weight: 700;
             margin-bottom: 0.5rem;
             color: var(--dark-color);
-            font-size: 1rem;
+            font-size: 1.1rem;
+            letter-spacing: -0.02em;
         }
 
         .team-position {
-            color: var(--gray-600);
-            font-size: 0.85rem;
-            margin-bottom: 1rem;
+            color: #666;
+            font-size: 0.9rem;
+            font-weight: 500;
+            margin-bottom: 1.5rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
         }
 
         .team-social {
             display: flex;
             justify-content: center;
-            gap: 0.5rem;
+            gap: 0.75rem;
         }
 
         .team-social a {
-            width: 36px;
-            height: 36px;
-            background: var(--gray-100);
-            border-radius: 50%;
+            width: 42px;
+            height: 42px;
+            background: rgba(0, 0, 0, 0.05);
+            border: 2px solid rgba(0, 0, 0, 0.1);
+            border-radius: 12px;
             display: flex;
             align-items: center;
             justify-content: center;
-            color: var(--gray-600);
+            color: #666;
             text-decoration: none;
-            transition: var(--transition);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            font-size: 1.1rem;
         }
 
         .team-social a:hover {
-            background: var(--primary-color);
+            background: #f8f9fa;
+            color: #333;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            border-color: rgba(0, 0, 0, 0.15);
+        }
+
+        .team-social a:nth-child(1):hover {
+            background: #0077b5;
             color: white;
+            border-color: #0077b5;
+        }
+
+        .team-social a:nth-child(2):hover {
+            background: #333;
+            color: white;
+            border-color: #333;
+        }
+
+        .team-social a:nth-child(3):hover {
+            background: #e4405f;
+            color: white;
+            border-color: #e4405f;
         }
 
         .contact-buttons {
@@ -395,7 +507,7 @@
             border-color: var(--primary-color);
         }
 
-        /* Responsive */
+        /* Responsive Improvements */
         @media (max-width: 768px) {
             .hero-stats {
                 flex-direction: column;
@@ -412,6 +524,88 @@
             
             .achievement-number {
                 font-size: 2rem;
+            }
+
+            .team-image {
+                height: 280px; /* Slightly smaller on mobile */
+            }
+
+            .team-info {
+                padding: 1.5rem 1rem 1rem;
+            }
+
+            .team-name {
+                font-size: 1rem;
+            }
+
+            .team-position {
+                font-size: 0.85rem;
+            }
+
+            .team-social a {
+                width: 38px;
+                height: 38px;
+                font-size: 1rem;
+            }
+        }
+
+        /* Enhanced Section Styling */
+        .team-section {
+            background: linear-gradient(135deg, #f8f9fa 0%, #ffffff 50%, #f8f9fa 100%);
+            position: relative;
+        }
+
+        .team-section::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23f26b37' fill-opacity='0.02'%3E%3Ccircle cx='30' cy='30' r='1'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E") repeat;
+        }
+
+        .team-section .container {
+            position: relative;
+            z-index: 1;
+        }
+
+        /* Enhanced Grid Layout */
+        .team-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 2rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        /* Center the last item if it's alone */
+        .team-grid .team-card:nth-child(7) {
+            grid-column: 2;
+        }
+
+        @media (max-width: 992px) {
+            .team-grid {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 1.5rem;
+            }
+            
+            .team-grid .team-card:nth-child(7) {
+                grid-column: span 2;
+                max-width: 350px;
+                margin: 0 auto;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .team-grid {
+                grid-template-columns: 1fr;
+                gap: 1.5rem;
+            }
+            
+            .team-grid .team-card:nth-child(7) {
+                grid-column: 1;
+                max-width: 100%;
             }
         }
 
@@ -706,109 +900,129 @@
             </div>
         </div>
         
-        <div class="row g-4">
-            <div class="col-lg-4 col-md-6">
-                <div class="team-card">
-                    <div class="team-image">
-                        <img src="{{ asset('image/tim_kami/haikal.jpg') }}" alt="Muhammad Fikri Haikal" class="img-fluid">
-                    </div>
-                    <div class="team-info">
-                        <h5 class="team-name">Muhammad Fikri Haikal</h5>
-                        <p class="team-position">Project Manager</p>
-                        <div class="team-social">
-                            <a href="#"><i class="fab fa-linkedin-in"></i></a>
-                            <a href="#"><i class="fab fa-twitter"></i></a>
-                        </div>
+        <div class="team-grid">
+            <div class="team-card">
+                <div class="team-image">
+                    <img src="{{ asset('image/tim_kami/haikal.jpg') }}" alt="Muhammad Fikri Haikal">
+                </div>
+                <div class="team-info">
+                    <h5 class="team-name">Muhammad Fikri Haikal</h5>
+                    <p class="team-position">Project Manager</p>
+                    <div class="team-social">
+                        <a href="https://www.linkedin.com/in/fikriihaikall" title="LinkedIn" aria-label="LinkedIn Muhammad Fikri Haikal" target="_blank" rel="noopener">
+                            <i class="fab fa-linkedin-in"></i>
+                        </a>
+                        <a href="https://github.com/fikrihaikal17" title="GitHub" aria-label="GitHub Muhammad Fikri Haikal" target="_blank" rel="noopener">
+                            <i class="fab fa-github"></i>
+                        </a>
                     </div>
                 </div>
             </div>
-            <div class="col-lg-4 col-md-6">
-                <div class="team-card">
-                    <div class="team-image">
-                        <img src="{{ asset('image/placeholder.png') }}" alt="Erfan Eka Maulana" class="img-fluid">
-                    </div>
-                    <div class="team-info">
-                        <h5 class="team-name">Erfan Eka Maulana</h5>
-                        <p class="team-position">UI/UX Designer</p>
-                        <div class="team-social">
-                            <a href="#"><i class="fab fa-linkedin-in"></i></a>
-                            <a href="#"><i class="fab fa-github"></i></a>
-                        </div>
+            
+            <div class="team-card">
+                <div class="team-image">
+                    <img src="{{ asset('image/tim_kami/erfan.jpg') }}" alt="Erfan Eka Maulana">
+                </div>
+                <div class="team-info">
+                    <h5 class="team-name">Erfan Eka Maulana</h5>
+                    <p class="team-position">UI/UX Designer</p>
+                    <div class="team-social">
+                        <a href="https://www.linkedin.com/in/erfan-maulana-7a94a42b2/" title="LinkedIn" aria-label="LinkedIn Erfan Eka Maulana" target="_blank" rel="noopener">
+                            <i class="fab fa-linkedin-in"></i>
+                        </a>
+                        <a href="https://github.com/ErfanMaulana" title="GitHub" aria-label="GitHub Erfan Eka Maulana" target="_blank" rel="noopener">
+                            <i class="fab fa-github"></i>
+                        </a>
                     </div>
                 </div>
             </div>
-            <div class="col-lg-4 col-md-6">
-                <div class="team-card">
-                    <div class="team-image">
-                        <img src="{{ asset('image/placeholder.png') }}" alt="Nabil Cahyadi Abdillah" class="img-fluid">
-                    </div>
-                    <div class="team-info">
-                        <h5 class="team-name">Nabil Cahyadi Abdillah</h5>
-                        <p class="team-position">Backend Developer</p>
-                        <div class="team-social">
-                            <a href="#"><i class="fab fa-linkedin-in"></i></a>
-                            <a href="#"><i class="fab fa-instagram"></i></a>
-                        </div> 
+            
+            <div class="team-card">
+                <div class="team-image">
+                    <img src="{{ asset('image/tim_kami/nabil.jpg') }}" alt="Nabil Cahyadi Abdillah">
+                </div>
+                <div class="team-info">
+                    <h5 class="team-name">Nabil Cahyadi Abdillah</h5>
+                    <p class="team-position">Backend Developer</p>
+                    <div class="team-social">
+                        <a href="https://www.linkedin.com/in/nabil-cahyadi-636b16308/" title="LinkedIn" aria-label="LinkedIn Nabil Cahyadi Abdillah" target="_blank" rel="noopener">
+                            <i class="fab fa-linkedin-in"></i>
+                        </a>
+                        <a href="https://github.com/NabilCahyadi" title="GitHub" aria-label="GitHub Nabil Cahyadi Abdillah" target="_blank" rel="noopener">
+                            <i class="fab fa-github"></i>
+                        </a>
+                    </div> 
+                </div>
+            </div>
+            
+            <div class="team-card">
+                <div class="team-image">
+                    <img src="{{ asset('image/tim_kami/mahesa.jpg') }}" alt="Mahesa Putra Faturrohman">
+                </div>
+                <div class="team-info">
+                    <h5 class="team-name">Mahesa Putra Faturrohman</h5>
+                    <p class="team-position">Frontend Developer</p>
+                    <div class="team-social">
+                        <a href="https://www.instagram.com/mahesaptraa24_/" title="Instagram" aria-label="Instagram Mahesa Putra Faturrohman" target="_blank" rel="noopener">
+                            <i class="fab fa-instagram"></i>
+                        </a>
+                        <a href="https://github.com/mahesapf" title="GitHub" aria-label="GitHub Mahesa Putra Faturrohman" target="_blank" rel="noopener">
+                            <i class="fab fa-github"></i>
+                        </a>
                     </div>
                 </div>
             </div>
-            <div class="col-lg-4 col-md-6">
-                <div class="team-card">
-                    <div class="team-image">
-                        <img src="{{ asset('image/placeholder.png') }}" alt="Mahesa Putra Faturrohman" class="img-fluid">
-                    </div>
-                    <div class="team-info">
-                        <h5 class="team-name">Mahesa Putra Faturrohman</h5>
-                        <p class="team-position">Frontend Developer</p>
-                        <div class="team-social">
-                            <a href="#"><i class="fab fa-linkedin-in"></i></a>
-                            <a href="#"><i class="fab fa-twitter"></i></a>
-                        </div>
+            
+            <div class="team-card">
+                <div class="team-image">
+                    <img src="{{ asset('image/tim_kami/yazdi.jpg') }}" alt="Yazdi Prayogi Apriana">
+                </div>
+                <div class="team-info">
+                    <h5 class="team-name">Yazdi Prayogi Apriana</h5>
+                    <p class="team-position">Quality Assurance</p>
+                    <div class="team-social">
+                        <a href="https://www.linkedin.com/in/yazdi-prayogi-a56a2830a/" title="LinkedIn" aria-label="LinkedIn Yazdi Prayogi Apriana" target="_blank" rel="noopener">
+                            <i class="fab fa-linkedin-in"></i>
+                        </a>
+                        <a href="https://github.com/prayogi762" title="GitHub" aria-label="GitHub Yazdi Prayogi Apriana" target="_blank" rel="noopener">
+                            <i class="fab fa-github"></i>
+                        </a>
                     </div>
                 </div>
             </div>
-            <div class="col-lg-4 col-md-6">
-                <div class="team-card">
-                    <div class="team-image">
-                        <img src="{{ asset('image/placeholder.png') }}" alt="Yazdi Prayogi Aprianal" class="img-fluid">
-                    </div>
-                    <div class="team-info">
-                        <h5 class="team-name">Yazdi Prayogi Apriana</h5>
-                        <p class="team-position">Quality Assurance</p>
-                        <div class="team-social">
-                            <a href="#"><i class="fab fa-linkedin-in"></i></a>
-                            <a href="#"><i class="fab fa-twitter"></i></a>
-                        </div>
+            
+            <div class="team-card">
+                <div class="team-image">
+                    <img src="{{ asset('image/tim_kami/ikmal.jpg') }}" alt="Ikmal Suryana Putra">
+                </div>
+                <div class="team-info">
+                    <h5 class="team-name">Ikmal Suryana Putra</h5>
+                    <p class="team-position">Documentation Specialist</p>
+                    <div class="team-social">
+                        <a href="https://www.linkedin.com/in/ikmal-suryana-putra-619556325/" title="LinkedIn" aria-label="LinkedIn Ikmal Suryana Putra" target="_blank" rel="noopener">
+                            <i class="fab fa-linkedin-in"></i>
+                        </a>
+                        <a href="https://www.instagram.com/mal_kunn/" title="Instagram" aria-label="Instagram Ikmal Suryana Putra" target="_blank" rel="noopener">
+                            <i class="fab fa-instagram"></i>
+                        </a>
                     </div>
                 </div>
             </div>
-            <div class="col-lg-4 col-md-6">
-                <div class="team-card">
-                    <div class="team-image">
-                        <img src="{{ asset('image/placeholder.png') }}" alt="Ikmal Suryana Putra" class="img-fluid">
-                    </div>
-                    <div class="team-info">
-                        <h5 class="team-name">Ikmal Suryana Putra</h5>
-                        <p class="team-position">Documentation Specialist</p>
-                        <div class="team-social">
-                            <a href="#"><i class="fab fa-linkedin-in"></i></a>
-                            <a href="#"><i class="fab fa-github"></i></a>
-                        </div>
-                    </div>
+            
+            <div class="team-card">
+                <div class="team-image">
+                    <img src="{{ asset('image/tim_kami/vikri.jpg') }}" alt="Vikri Alva Pratama">
                 </div>
-            </div>
-            <div class="col-lg-4 col-md-6">
-                <div class="team-card">
-                    <div class="team-image">
-                        <img src="{{ asset('image/placeholder.png') }}" alt="Vikri Alva Pratama" class="img-fluid">
-                    </div>
-                    <div class="team-info">
-                        <h5 class="team-name">Vikri Alva Pratama</h5>
-                        <p class="team-position">Database Administrator</p>
-                        <div class="team-social">
-                            <a href="#"><i class="fab fa-linkedin-in"></i></a>
-                            <a href="#"><i class="fab fa-instagram"></i></a>
-                        </div>
+                <div class="team-info">
+                    <h5 class="team-name">Vikri Alva Pratama</h5>
+                    <p class="team-position">Database Administrator</p>
+                    <div class="team-social">
+                        <a href="https://www.instagram.com/himelll3" title="Instagram" aria-label="Instagram Vikri Alva Pratama" target="_blank" rel="noopener">
+                            <i class="fab fa-instagram"></i>
+                        </a>
+                        <a href="https://github.com/Vikrialva" title="GitHub" aria-label="GitHub Vikri Alva Pratama" target="_blank" rel="noopener">
+                            <i class="fab fa-github"></i>
+                        </a>
                     </div>
                 </div>
             </div>
@@ -824,11 +1038,11 @@
                 <h2 class="section-title mb-4">Mari Berkenalan Lebih Dekat</h2>
                 <p class="section-subtitle mb-4">Punya pertanyaan atau ingin bekerjasama dengan kami? Jangan ragu untuk menghubungi tim MyYOGYA.</p>
                 <div class="contact-buttons">
-                    <a href="mailto:info@myyogya.com" class="btn btn-primary me-3">
+                    <a href="mailto:yogya.toserbaa@gmail.com" class="btn btn-primary me-3">
                         <i class="fas fa-envelope me-2"></i>Hubungi Kami
                     </a>
-                    <a href="tel:0852-1551-4124" class="btn btn-outline-primary">
-                        <i class="fas fa-phone me-2"></i>0852-1551-4124
+                    <a href="tel:08518904514" class="btn btn-outline-primary">
+                        <i class="fas fa-phone me-2"></i>0851-8904-514
                     </a>
                 </div>
             </div>
