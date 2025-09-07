@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="id">
 <head>
     <meta charset="UTF-8">
@@ -15,11 +15,33 @@
     <link href="{{ asset('css/dashboard.css') }}" rel="stylesheet">
     
     <style>
+        /* Reset default margins and paddings */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        html, body {
+            margin: 0 !important;
+            padding: 0 !important;
+            height: 100%;
+            overflow-x: hidden;
+        }
+
+        /* Remove any top spacing */
+        body {
+            padding-top: 0 !important;
+            margin-top: 0 !important;
+        }
+
         /* Terms Page Styles */
         .terms-hero {
+            margin-top: 0 !important;
+            padding-top: 50px;
             background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
             color: white;
-            padding: 100px 0;
+            padding: 50px 0 100px 0;
             position: relative;
             overflow: hidden;
         }
@@ -381,6 +403,8 @@
         /* Responsive */
         @media (max-width: 768px) {
             .terms-hero {
+            margin-top: 0 !important;
+            padding-top: 50px;
                 padding: 60px 0;
             }
             
@@ -406,81 +430,6 @@
         /* Smooth scrolling */
         html {
             scroll-behavior: smooth;
-        }
-
-        /* Elegant Back to Top Button */
-        .back-to-top {
-            position: fixed;
-            bottom: 30px;
-            right: 30px;
-            width: 60px;
-            height: 60px;
-            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
-            color: white;
-            border: none;
-            border-radius: 50%;
-            cursor: pointer;
-            opacity: 0;
-            visibility: hidden;
-            transform: translateY(20px);
-            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-            box-shadow: 0 8px 32px rgba(242, 107, 55, 0.3);
-            z-index: 1000;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 20px;
-            backdrop-filter: blur(10px);
-            border: 2px solid rgba(255, 255, 255, 0.1);
-        }
-
-        .back-to-top.show {
-            opacity: 1;
-            visibility: visible;
-            transform: translateY(0);
-        }
-
-        .back-to-top:hover {
-            transform: translateY(-5px) scale(1.1);
-            box-shadow: 0 12px 40px rgba(242, 107, 55, 0.4);
-            background: linear-gradient(135deg, var(--secondary-color), var(--primary-color));
-        }
-
-        .back-to-top:active {
-            transform: translateY(-3px) scale(1.05);
-        }
-
-        /* Elegant arrow animation */
-        .back-to-top i {
-            transition: transform 0.3s ease;
-        }
-
-        .back-to-top:hover i {
-            transform: translateY(-2px);
-            animation: bounce 1s infinite;
-        }
-
-        @keyframes bounce {
-            0%, 20%, 50%, 80%, 100% {
-                transform: translateY(-2px);
-            }
-            40% {
-                transform: translateY(-6px);
-            }
-            60% {
-                transform: translateY(-4px);
-            }
-        }
-
-        /* Mobile responsive */
-        @media (max-width: 768px) {
-            .back-to-top {
-                width: 50px;
-                height: 50px;
-                bottom: 20px;
-                right: 20px;
-                font-size: 18px;
-            }
         }
     </style>
 </head>
@@ -821,7 +770,7 @@
                     <a href="https://www.facebook.com/toserbayogyaciamis57/" target="_blank" rel="noopener" title="Facebook Toserba YOGYA Ciamis" aria-label="Facebook">
                         <i class="fab fa-facebook-f"></i>
                     </a>
-                    <a href="https://www.google.com/maps?q=Jl.%20Perintis%20Kemerdekaan%20No.57%2C%20Ciamis%2C%20Kec.%20Ciamis%2C%20Kabupaten%20Ciamis%2C%20Jawa%20Barat%2046211%2C%20Indonesia" target="_blank" rel="noopener" title="Lihat lokasi di Google Maps (Jl. Perintis Kemerdekaan No.57, Ciamis · +62 265 777779)" aria-label="Lokasi">
+                    <a href="https://www.google.com/maps?q=Jl.%20Perintis%20Kemerdekaan%20No.57%2C%20Ciamis%2C%20Kec.%20Ciamis%2C%20Kabupaten%20Ciamis%2C%20Jawa%20Barat%2046211%2C%20Indonesia" target="_blank" rel="noopener" title="Lihat lokasi di Google Maps (Jl. Perintis Kemerdekaan No.57, Ciamis Â· +62 265 777779)" aria-label="Lokasi">
                         <i class="fas fa-map-marker-alt"></i>
                     </a>
                     <a href="https://www.instagram.com/yogya_ciamis/reels/" target="_blank" rel="noopener" title="Instagram YOGYA Ciamis" aria-label="Instagram">
@@ -924,40 +873,10 @@ document.addEventListener('DOMContentLoaded', function() {
             }
         });
     });
-
-    // Elegant Back to Top Functionality
-    const backToTopButton = document.getElementById('backToTop');
-    
-    // Show/hide button based on scroll position
-    function toggleBackToTop() {
-        if (window.pageYOffset > 300) {
-            backToTopButton.classList.add('show');
-        } else {
-            backToTopButton.classList.remove('show');
-        }
-    }
-    
-    // Smooth scroll to top
-    function scrollToTop() {
-        window.scrollTo({
-            top: 0,
-            behavior: 'smooth'
-        });
-    }
-    
-    // Event listeners for back to top
-    window.addEventListener('scroll', toggleBackToTop);
-    backToTopButton.addEventListener('click', scrollToTop);
-    
-    // Initial check
-    toggleBackToTop();
 });
 </script>
 
-<!-- Back to Top Button -->
-<button class="back-to-top" id="backToTop" aria-label="Kembali ke atas">
-    <i class="fas fa-chevron-up"></i>
-</button>
 
 </body>
 </html>
+
