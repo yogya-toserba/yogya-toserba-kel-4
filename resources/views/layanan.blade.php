@@ -632,7 +632,7 @@
                     </div>
                     <h6 class="contact-title">Live Chat</h6>
                     <div class="contact-info">
-                        <a href="#" class="contact-link" onclick="openLiveChat()">Mulai Chat</a><br>
+                        <a href="layanan" class="contact-link" onclick="openLiveChat()">Mulai Chat</a><br>
                         <small class="text-muted">Real-time support</small>
                     </div>
                 </div>

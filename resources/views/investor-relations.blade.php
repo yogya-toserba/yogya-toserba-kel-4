@@ -786,14 +786,6 @@
                             <li>Peningkatan customer base 25%</li>
                             <li>ROE mencapai 12.5%</li>
                         </ul>
-                        <div class="report-buttons">
-                            <a href="#" class="download-btn">
-                                <i class="fas fa-download me-2"></i>Download PDF
-                            </a>
-                            <a href="#" class="view-btn">
-                                <i class="fas fa-eye me-2"></i>View Online
-                            </a>
-                        </div>
                     </div>
                 </div>
             </div>
@@ -817,14 +809,6 @@
                             <li>Net profit Rp 52B</li>
                             <li>Cash flow positif</li>
                         </ul>
-                        <div class="report-buttons">
-                            <a href="#" class="download-btn">
-                                <i class="fas fa-download me-2"></i>Download PDF
-                            </a>
-                            <a href="#" class="view-btn">
-                                <i class="fas fa-eye me-2"></i>View Online
-                            </a>
-                        </div>
                     </div>
                 </div>
             </div>
@@ -848,14 +832,6 @@
                             <li>Profil manajemen dan komisaris</li>
                             <li>Faktor risiko investasi</li>
                         </ul>
-                        <div class="report-buttons">
-                            <a href="#" class="download-btn">
-                                <i class="fas fa-download me-2"></i>Download PDF
-                            </a>
-                            <a href="#" class="view-btn">
-                                <i class="fas fa-eye me-2"></i>View Online
-                            </a>
-                        </div>
                     </div>
                 </div>
             </div>
@@ -879,14 +855,6 @@
                             <li>Carbon footprint reduction</li>
                             <li>Employee welfare programs</li>
                         </ul>
-                        <div class="report-buttons">
-                            <a href="#" class="download-btn">
-                                <i class="fas fa-download me-2"></i>Download PDF
-                            </a>
-                            <a href="#" class="view-btn">
-                                <i class="fas fa-eye me-2"></i>View Online
-                            </a>
-                        </div>
                     </div>
                 </div>
             </div>
@@ -1062,11 +1030,11 @@
                     </div>
                     
                     <div class="text-center">
-                        <a href="mailto:investor@myyogya.com" class="btn btn-primary me-3">
+                        <a href="mailto:yogya.toserbaa@gmail.com" class="btn btn-primary me-3">
                             <i class="fas fa-envelope me-2"></i>Email Investor Relations
                         </a>
-                        <a href="tel:0852-1551-4124" class="btn btn-outline-primary">
-                            <i class="fas fa-phone me-2"></i>0852-1551-4124
+                        <a href="tel:0851-8909-4514" class="btn btn-outline-primary">
+                            <i class="fas fa-phone me-2"></i>0851-8909-4514
                         </a>
                     </div>
                 </div>
