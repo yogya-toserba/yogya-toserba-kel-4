@@ -141,6 +141,7 @@
             border-radius: 16px;
             box-shadow: 0 8px 32px rgba(0,0,0,0.1);
             height: 100%;
+            text-align: center;
         }
 
         .vm-icon {
@@ -154,6 +155,8 @@
             margin-bottom: 1.5rem;
             font-size: 1.5rem;
             color: white;
+            margin-left: auto;
+            margin-right: auto;
         }
 
         .vm-title {
@@ -172,6 +175,8 @@
             list-style: none;
             padding: 0;
             margin: 0;
+            text-align: left;
+            display: inline-block;
         }
 
         .mission-list li {
@@ -909,11 +914,11 @@
                     <h5 class="team-name">Muhammad Fikri Haikal</h5>
                     <p class="team-position">Project Manager</p>
                     <div class="team-social">
-                        <a href="#" title="LinkedIn" aria-label="LinkedIn Muhammad Fikri Haikal">
+                        <a href="https://www.linkedin.com/in/fikriihaikall" title="LinkedIn" aria-label="LinkedIn Muhammad Fikri Haikal" target="_blank" rel="noopener">
                             <i class="fab fa-linkedin-in"></i>
                         </a>
-                        <a href="#" title="Twitter" aria-label="Twitter Muhammad Fikri Haikal">
-                            <i class="fab fa-twitter"></i>
+                        <a href="https://github.com/fikrihaikal17" title="GitHub" aria-label="GitHub Muhammad Fikri Haikal" target="_blank" rel="noopener">
+                            <i class="fab fa-github"></i>
                         </a>
                     </div>
                 </div>
@@ -927,10 +932,10 @@
                     <h5 class="team-name">Erfan Eka Maulana</h5>
                     <p class="team-position">UI/UX Designer</p>
                     <div class="team-social">
-                        <a href="#" title="LinkedIn" aria-label="LinkedIn Erfan Eka Maulana">
+                        <a href="https://www.linkedin.com/in/erfan-maulana-7a94a42b2/" title="LinkedIn" aria-label="LinkedIn Erfan Eka Maulana" target="_blank" rel="noopener">
                             <i class="fab fa-linkedin-in"></i>
                         </a>
-                        <a href="#" title="GitHub" aria-label="GitHub Erfan Eka Maulana">
+                        <a href="https://github.com/ErfanMaulana" title="GitHub" aria-label="GitHub Erfan Eka Maulana" target="_blank" rel="noopener">
                             <i class="fab fa-github"></i>
                         </a>
                     </div>
@@ -945,11 +950,11 @@
                     <h5 class="team-name">Nabil Cahyadi Abdillah</h5>
                     <p class="team-position">Backend Developer</p>
                     <div class="team-social">
-                        <a href="#" title="LinkedIn" aria-label="LinkedIn Nabil Cahyadi Abdillah">
+                        <a href="https://www.linkedin.com/in/nabil-cahyadi-636b16308/" title="LinkedIn" aria-label="LinkedIn Nabil Cahyadi Abdillah" target="_blank" rel="noopener">
                             <i class="fab fa-linkedin-in"></i>
                         </a>
-                        <a href="#" title="Instagram" aria-label="Instagram Nabil Cahyadi Abdillah">
-                            <i class="fab fa-instagram"></i>
+                        <a href="https://github.com/NabilCahyadi" title="GitHub" aria-label="GitHub Nabil Cahyadi Abdillah" target="_blank" rel="noopener">
+                            <i class="fab fa-github"></i>
                         </a>
                     </div> 
                 </div>
@@ -963,11 +968,11 @@
                     <h5 class="team-name">Mahesa Putra Faturrohman</h5>
                     <p class="team-position">Frontend Developer</p>
                     <div class="team-social">
-                        <a href="#" title="LinkedIn" aria-label="LinkedIn Mahesa Putra Faturrohman">
-                            <i class="fab fa-linkedin-in"></i>
+                        <a href="https://www.instagram.com/mahesaptraa24_/" title="Instagram" aria-label="Instagram Mahesa Putra Faturrohman" target="_blank" rel="noopener">
+                            <i class="fab fa-instagram"></i>
                         </a>
-                        <a href="#" title="Twitter" aria-label="Twitter Mahesa Putra Faturrohman">
-                            <i class="fab fa-twitter"></i>
+                        <a href="https://github.com/mahesapf" title="GitHub" aria-label="GitHub Mahesa Putra Faturrohman" target="_blank" rel="noopener">
+                            <i class="fab fa-github"></i>
                         </a>
                     </div>
                 </div>
@@ -981,11 +986,11 @@
                     <h5 class="team-name">Yazdi Prayogi Apriana</h5>
                     <p class="team-position">Quality Assurance</p>
                     <div class="team-social">
-                        <a href="#" title="LinkedIn" aria-label="LinkedIn Yazdi Prayogi Apriana">
+                        <a href="https://www.linkedin.com/in/yazdi-prayogi-a56a2830a/" title="LinkedIn" aria-label="LinkedIn Yazdi Prayogi Apriana" target="_blank" rel="noopener">
                             <i class="fab fa-linkedin-in"></i>
                         </a>
-                        <a href="#" title="Twitter" aria-label="Twitter Yazdi Prayogi Apriana">
-                            <i class="fab fa-twitter"></i>
+                        <a href="https://github.com/prayogi762" title="GitHub" aria-label="GitHub Yazdi Prayogi Apriana" target="_blank" rel="noopener">
+                            <i class="fab fa-github"></i>
                         </a>
                     </div>
                 </div>
@@ -999,11 +1004,11 @@
                     <h5 class="team-name">Ikmal Suryana Putra</h5>
                     <p class="team-position">Documentation Specialist</p>
                     <div class="team-social">
-                        <a href="#" title="LinkedIn" aria-label="LinkedIn Ikmal Suryana Putra">
+                        <a href="https://www.linkedin.com/in/ikmal-suryana-putra-619556325/" title="LinkedIn" aria-label="LinkedIn Ikmal Suryana Putra" target="_blank" rel="noopener">
                             <i class="fab fa-linkedin-in"></i>
                         </a>
-                        <a href="#" title="GitHub" aria-label="GitHub Ikmal Suryana Putra">
-                            <i class="fab fa-github"></i>
+                        <a href="https://www.instagram.com/mal_kunn/" title="Instagram" aria-label="Instagram Ikmal Suryana Putra" target="_blank" rel="noopener">
+                            <i class="fab fa-instagram"></i>
                         </a>
                     </div>
                 </div>
@@ -1017,11 +1022,11 @@
                     <h5 class="team-name">Vikri Alva Pratama</h5>
                     <p class="team-position">Database Administrator</p>
                     <div class="team-social">
-                        <a href="#" title="LinkedIn" aria-label="LinkedIn Vikri Alva Pratama">
-                            <i class="fab fa-linkedin-in"></i>
-                        </a>
-                        <a href="#" title="Instagram" aria-label="Instagram Vikri Alva Pratama">
+                        <a href="https://www.instagram.com/himelll3" title="Instagram" aria-label="Instagram Vikri Alva Pratama" target="_blank" rel="noopener">
                             <i class="fab fa-instagram"></i>
+                        </a>
+                        <a href="https://github.com/Vikrialva" title="GitHub" aria-label="GitHub Vikri Alva Pratama" target="_blank" rel="noopener">
+                            <i class="fab fa-github"></i>
                         </a>
                     </div>
                 </div>
