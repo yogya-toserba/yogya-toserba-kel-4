@@ -16,11 +16,33 @@
     <link href="{{ asset('css/dashboard.css') }}" rel="stylesheet">
     
     <style>
+        /* Reset default margins and paddings */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        html, body {
+            margin: 0 !important;
+            padding: 0 !important;
+            height: 100%;
+            overflow-x: hidden;
+        }
+
+        /* Remove any top spacing */
+        body {
+            padding-top: 0 !important;
+            margin-top: 0 !important;
+        }
+
         /* Investor Relations Page Styles */
         .investor-hero {
+            margin-top: 0 !important;
+            padding-top: 50px;
             background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
             color: white;
-            padding: 100px 0;
+            padding: 50px 0 100px 0;
             position: relative;
             overflow: hidden;
         }
@@ -550,81 +572,6 @@
                 font-size: 2rem;
             }
         }
-
-        /* Elegant Back to Top Button */
-        .back-to-top {
-            position: fixed;
-            bottom: 30px;
-            right: 30px;
-            width: 60px;
-            height: 60px;
-            background: linear-gradient(135deg, #ff6b37, #f26b37);
-            color: white;
-            border: none;
-            border-radius: 50%;
-            cursor: pointer;
-            opacity: 0;
-            visibility: hidden;
-            transform: translateY(20px);
-            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-            box-shadow: 0 10px 40px rgba(242, 107, 55, 0.5);
-            z-index: 99999;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 20px;
-            backdrop-filter: blur(10px);
-            border: 3px solid rgba(255, 255, 255, 0.2);
-        }
-
-        .back-to-top.show {
-            opacity: 1 !important;
-            visibility: visible !important;
-            transform: translateY(0) !important;
-        }
-
-        .back-to-top:hover {
-            transform: translateY(-5px) scale(1.1);
-            box-shadow: 0 15px 50px rgba(242, 107, 55, 0.6);
-            background: linear-gradient(135deg, #f26b37, #ff6b37);
-        }
-
-        .back-to-top:active {
-            transform: translateY(-3px) scale(1.05);
-        }
-
-        /* Elegant arrow animation */
-        .back-to-top i {
-            transition: transform 0.3s ease;
-        }
-
-        .back-to-top:hover i {
-            transform: translateY(-2px);
-            animation: bounce 1s infinite;
-        }
-
-        @keyframes bounce {
-            0%, 20%, 50%, 80%, 100% {
-                transform: translateY(-2px);
-            }
-            40% {
-                transform: translateY(-6px);
-            }
-            60% {
-                transform: translateY(-4px);
-            }
-        }
-
-        /* Mobile responsive */
-        @media (max-width: 768px) {
-            .back-to-top {
-                width: 50px;
-                height: 50px;
-                bottom: 20px;
-                right: 20px;
-                font-size: 18px;
-            }
-        }
     </style>
 </head>
 <body>
@@ -662,7 +609,7 @@
             </div>
             <div class="col-lg-6">
                 <div class="hero-image">
-                    <img src="{{ asset('image/placeholder.png') }}" alt="Investor Relations MyYOGYA" class="img-fluid rounded-4 shadow-lg">
+                    <img src="{{ asset('/image/tim_kami/hehe.jpg') }}" alt="Investor Relations MyYOGYA" class="img-fluid rounded-4 shadow-lg">
                 </div>
             </div>
         </div>
@@ -1161,41 +1108,7 @@ document.querySelectorAll('.view-btn').forEach(btn => {
         alert(`Membuka: ${reportTitle}\n\nDalam implementasi nyata, ini akan membuka PDF di tab baru.`);
     });
 });
-
-// Elegant Back to Top Functionality
-document.addEventListener('DOMContentLoaded', function() {
-    const backToTopButton = document.getElementById('backToTop');
-    
-    // Show/hide button based on scroll position
-    function toggleBackToTop() {
-        if (window.pageYOffset > 300) {
-            backToTopButton.classList.add('show');
-        } else {
-            backToTopButton.classList.remove('show');
-        }
-    }
-    
-    // Smooth scroll to top
-    function scrollToTop() {
-        window.scrollTo({
-            top: 0,
-            behavior: 'smooth'
-        });
-    }
-    
-    // Event listeners for back to top
-    window.addEventListener('scroll', toggleBackToTop);
-    backToTopButton.addEventListener('click', scrollToTop);
-    
-    // Initial check
-    toggleBackToTop();
-});
 </script>
-
-<!-- Back to Top Button -->
-<button class="back-to-top" id="backToTop" aria-label="Kembali ke atas">
-    <i class="fas fa-chevron-up"></i>
-</button>
 
 </body>
 </html>

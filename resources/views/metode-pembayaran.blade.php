@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="id">
 <head>
     <meta charset="UTF-8">
@@ -15,11 +15,33 @@
     <link href="{{ asset('css/dashboard.css') }}" rel="stylesheet">
     
     <style>
+        /* Reset default margins and paddings */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        html, body {
+            margin: 0 !important;
+            padding: 0 !important;
+            height: 100%;
+            overflow-x: hidden;
+        }
+
+        /* Remove any top spacing */
+        body {
+            padding-top: 0 !important;
+            margin-top: 0 !important;
+        }
+
         /* Payment Page Styles */
         .payment-hero {
+            margin-top: 0 !important;
+            padding-top: 50px;
             background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
             color: white;
-            padding: 100px 0;
+            padding: 50px 0 100px 0;
             position: relative;
             overflow: hidden;
         }
@@ -169,7 +191,7 @@
         }
 
         .payment-options li::before {
-            content: '•';
+            content: 'â€¢';
             color: var(--primary-color);
             font-weight: bold;
             font-size: 1.2rem;
@@ -482,6 +504,8 @@
             }
             
             .payment-hero {
+            margin-top: 0 !important;
+            padding-top: 50px;
                 padding: 60px 0;
             }
             
@@ -1084,7 +1108,7 @@
     <div class="container">
         <div class="promo-payment">
             <div class="promo-content">
-                <h3 class="mb-3 fw-bold">💳 PROMO PAYMENT SPECIAL! 💳</h3>
+                <h3 class="mb-3 fw-bold">ðŸ’³ PROMO PAYMENT SPECIAL! ðŸ’³</h3>
                 <p class="mb-4 lead">Cashback 5% untuk pembayaran dengan e-wallet dan potongan biaya admin kartu kredit!</p>
                 <div class="d-flex justify-content-center gap-3 flex-wrap">
                     <a href="{{ route('dashboard') }}" class="btn btn-light btn-lg px-4">
@@ -1144,7 +1168,7 @@
                     <a href="https://www.facebook.com/toserbayogyaciamis57/" target="_blank" rel="noopener" title="Facebook Toserba YOGYA Ciamis" aria-label="Facebook">
                         <i class="fab fa-facebook-f"></i>
                     </a>
-                    <a href="https://www.google.com/maps?q=Jl.%20Perintis%20Kemerdekaan%20No.57%2C%20Ciamis%2C%20Kec.%20Ciamis%2C%20Kabupaten%20Ciamis%2C%20Jawa%20Barat%2046211%2C%20Indonesia" target="_blank" rel="noopener" title="Lihat lokasi di Google Maps (Jl. Perintis Kemerdekaan No.57, Ciamis · +62 265 777779)" aria-label="Lokasi">
+                    <a href="https://www.google.com/maps?q=Jl.%20Perintis%20Kemerdekaan%20No.57%2C%20Ciamis%2C%20Kec.%20Ciamis%2C%20Kabupaten%20Ciamis%2C%20Jawa%20Barat%2046211%2C%20Indonesia" target="_blank" rel="noopener" title="Lihat lokasi di Google Maps (Jl. Perintis Kemerdekaan No.57, Ciamis Â· +62 265 777779)" aria-label="Lokasi">
                         <i class="fas fa-map-marker-alt"></i>
                     </a>
                     <a href="https://www.instagram.com/yogya_ciamis/reels/" target="_blank" rel="noopener" title="Instagram YOGYA Ciamis" aria-label="Instagram">
@@ -1228,3 +1252,4 @@ document.addEventListener('DOMContentLoaded', function() {
 
 </body>
 </html>
+
