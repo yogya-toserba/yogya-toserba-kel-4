@@ -141,7 +141,6 @@
             border-radius: 16px;
             box-shadow: 0 8px 32px rgba(0,0,0,0.1);
             height: 100%;
-            text-align: center;
         }
 
         .vm-icon {
@@ -155,8 +154,6 @@
             margin-bottom: 1.5rem;
             font-size: 1.5rem;
             color: white;
-            margin-left: auto;
-            margin-right: auto;
         }
 
         .vm-title {
@@ -175,8 +172,6 @@
             list-style: none;
             padding: 0;
             margin: 0;
-            text-align: left;
-            display: inline-block;
         }
 
         .mission-list li {
@@ -1043,11 +1038,11 @@
                 <h2 class="section-title mb-4">Mari Berkenalan Lebih Dekat</h2>
                 <p class="section-subtitle mb-4">Punya pertanyaan atau ingin bekerjasama dengan kami? Jangan ragu untuk menghubungi tim MyYOGYA.</p>
                 <div class="contact-buttons">
-                    <a href="mailto:info@myyogya.com" class="btn btn-primary me-3">
+                    <a href="mailto:yogya.toserbaa@gmail.com" class="btn btn-primary me-3">
                         <i class="fas fa-envelope me-2"></i>Hubungi Kami
                     </a>
-                    <a href="tel:0852-1551-4124" class="btn btn-outline-primary">
-                        <i class="fas fa-phone me-2"></i>0852-1551-4124
+                    <a href="tel:08518904514" class="btn btn-outline-primary">
+                        <i class="fas fa-phone me-2"></i>0851-8904-514
                     </a>
                 </div>
             </div>
