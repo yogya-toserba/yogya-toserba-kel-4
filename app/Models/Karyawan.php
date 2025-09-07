@@ -160,7 +160,8 @@ class Karyawan extends Model
             'potongan_absen_tambahan' => $potonganAbsenTambahan,
             'total_potongan' => $totalPotongan,
             'jumlah_gaji' => $perhitunganGaji['gaji_pokok'] + $perhitunganGaji['tunjangan_jabatan'] + $perhitunganGaji['bonus_kehadiran'] - $totalPotongan,
-            'status' => 'pending',
+            'status_pembayaran' => 'paid',
+            'tanggal_bayar' => now(),
             'is_auto_generated' => true,
             'keterangan' => sprintf(
                 'Gaji otomatis - Hadir: %d hari, Absen: %d hari, Terlambat: %d menit - %s',

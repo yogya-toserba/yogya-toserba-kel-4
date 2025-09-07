@@ -394,10 +394,17 @@ Route::prefix('admin')->name('admin.')->group(function () {
         Route::get('penggajian', [PenggajianController::class, 'index'])->name('penggajian');
         Route::get('penggajian/create', [PenggajianController::class, 'create'])->name('penggajian.create');
         Route::post('penggajian/store', [PenggajianController::class, 'store'])->name('penggajian.store');
-        Route::get('penggajian/karyawan/{id}/gaji', [PenggajianController::class, 'getGajiByKaryawan'])->name('penggajian.gaji-by-karyawan');
-        Route::post('penggajian/bulk-action', [PenggajianController::class, 'bulkAction'])->name('penggajian.bulk-action');
+        Route::get('penggajian/preview', [PenggajianController::class, 'previewGaji'])->name('penggajian.preview');
         Route::post('penggajian/generate', [PenggajianController::class, 'generateSlipGaji'])->name('penggajian.generate');
         Route::post('penggajian/export', [PenggajianController::class, 'exportData'])->name('penggajian.export');
+        Route::post('penggajian/bulk-action', [PenggajianController::class, 'bulkAction'])->name('penggajian.bulk-action');
+        Route::get('penggajian/karyawan/{id}/gaji', [PenggajianController::class, 'getGajiByKaryawan'])->name('penggajian.gaji-by-karyawan');
+        Route::get('penggajian/{id}', [PenggajianController::class, 'show'])->name('penggajian.show');
+        Route::get('penggajian/{id}/api', [PenggajianController::class, 'showApi'])->name('penggajian.api');
+        Route::get('penggajian/{id}/edit', [PenggajianController::class, 'edit'])->name('penggajian.edit');
+        Route::put('penggajian/{id}', [PenggajianController::class, 'update'])->name('penggajian.update');
+        Route::delete('penggajian/{id}', [PenggajianController::class, 'destroy'])->name('penggajian.destroy');
+        Route::post('penggajian-otomatis/generate', [PenggajianController::class, 'generateGaji'])->name('penggajian.generate-gaji');
 
         // Penggajian Otomatis Routes
         Route::get('penggajian-otomatis', [PenggajianOtomatisController::class, 'index'])->name('penggajian-otomatis');

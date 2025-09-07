@@ -62,7 +62,7 @@ class PenggajianController extends Controller
 
         try {
             $periode = Carbon::create($request->tahun, $request->bulan, 1);
-            
+
             // Generate gaji otomatis (simplified version)
             $results = $this->generateGajiOtomatisSimple($periode);
 
@@ -168,16 +168,16 @@ class PenggajianController extends Controller
     {
         try {
             $gaji = Gaji::with(['karyawan.jabatan', 'karyawan.shift'])->findOrFail($id);
-            
+
             // Calculate totals
             $total_gaji = $gaji->gaji_pokok + $gaji->uang_makan + $gaji->uang_transport + $gaji->uang_lembur;
             $total_potongan = $gaji->potongan_bpjs + $gaji->potongan_pajak;
             $gaji_bersih = $total_gaji - $total_potongan;
-            
+
             // Format tanggal
             $periode = \Carbon\Carbon::parse($gaji->tanggal_gaji)->translatedFormat('F Y');
             $tanggal_gaji = \Carbon\Carbon::parse($gaji->tanggal_gaji)->translatedFormat('d F Y');
-            
+
             // Build HTML for modal
             $html = '
             <div class="row">
@@ -290,7 +290,7 @@ class PenggajianController extends Controller
                     </div>
                 </div>
             </div>';
-            
+
             return response()->json([
                 'success' => true,
                 'html' => $html,
@@ -532,11 +532,11 @@ class PenggajianController extends Controller
     private function generateGajiOtomatisSimple($periode)
     {
         $results = [];
-        
+
         try {
             // Get all active karyawan
             $karyawan = Karyawan::with(['jabatan'])->where('status', true)->get();
-            
+
             foreach ($karyawan as $kar) {
                 try {
                     // Check if gaji already exists for this period
@@ -565,7 +565,8 @@ class PenggajianController extends Controller
                         'bonus' => $bonus,
                         'potongan' => $potongan,
                         'jumlah_gaji' => $jumlahGaji,
-                        'status_pembayaran' => 'pending',
+                        'status_pembayaran' => 'paid',
+                        'tanggal_bayar' => now(),
                         'is_auto_generated' => true
                     ]);
 
@@ -579,5 +580,24 @@ class PenggajianController extends Controller
         }
 
         return $results;
+    }
+
+    /**
+     * Generate slip gaji (HTML printable version)
+     */
+    public function generateSlipGaji(Request $request)
+    {
+        $request->validate([
+            'gaji_id' => 'required|exists:gaji,id_gaji'
+        ]);
+
+        try {
+            $gaji = Gaji::with(['karyawan.jabatan'])->findOrFail($request->gaji_id);
+
+            // Return HTML view for printing
+            return view('admin.penggajian.slip', compact('gaji'));
+        } catch (\Exception $e) {
+            return redirect()->back()->with('error', 'Gagal generate slip gaji: ' . $e->getMessage());
+        }
     }
 }

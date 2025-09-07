@@ -265,7 +265,6 @@ class KaryawanAbsensiController extends Controller
                 'message' => "Pengajuan {$request->jenis} berhasil disubmit untuk tanggal " . $tanggal->format('d/m/Y'),
                 'data' => $absensi
             ]);
-
         } catch (\Exception $e) {
             return response()->json([
                 'success' => false,

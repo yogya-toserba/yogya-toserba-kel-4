@@ -240,6 +240,7 @@
 
         /* ===== RESPONSIVE DESIGN ===== */
         @media (max-width: 768px) {
+
             .search-card,
             .karyawan-info,
             .status-info,
@@ -275,6 +276,7 @@
                 opacity: 0;
                 transform: translateY(30px);
             }
+
             to {
                 opacity: 1;
                 transform: translateY(0);
@@ -285,9 +287,11 @@
             0% {
                 box-shadow: 0 0 0 0 rgba(102, 126, 234, 0.7);
             }
+
             70% {
                 box-shadow: 0 0 0 10px rgba(102, 126, 234, 0);
             }
+
             100% {
                 box-shadow: 0 0 0 0 rgba(102, 126, 234, 0);
             }
@@ -504,7 +508,8 @@
                         </div>
                         <div class="mb-3">
                             <label for="keteranganIzin" class="form-label">Keterangan</label>
-                            <textarea class="form-control" id="keteranganIzin" rows="4" placeholder="Masukkan alasan izin/sakit..." required></textarea>
+                            <textarea class="form-control" id="keteranganIzin" rows="4" placeholder="Masukkan alasan izin/sakit..."
+                                required></textarea>
                         </div>
                     </form>
                 </div>
@@ -743,48 +748,50 @@
 
             // Konfirmasi sebelum submit
             const tanggalFormat = new Date(tanggal).toLocaleDateString('id-ID');
-            if (!confirm(`Apakah Anda yakin ingin mengajukan ${jenis.toLowerCase()} untuk tanggal ${tanggalFormat}?`)) {
+            if (!confirm(
+                    `Apakah Anda yakin ingin mengajukan ${jenis.toLowerCase()} untuk tanggal ${tanggalFormat}?`)) {
                 return;
             }
 
             $(this).prop('disabled', true).html('<i class="fas fa-spinner fa-spin me-2"></i>Memproses...');
 
             $.post('{{ route('karyawan.izin-sakit') }}', {
-                id_karyawan: selectedKaryawan.id_karyawan,
-                jenis: jenis,
-                tanggal: tanggal,
-                keterangan: keterangan,
-                _token: '{{ csrf_token() }}'
-            })
-            .done(function(response) {
-                if (response.success) {
-                    alert('✅ ' + response.message);
-                    $('#izinSakitModal').modal('hide');
-                    $('#izinSakitForm')[0].reset();
-                    // Refresh data if needed
-                    if (typeof loadStatusHariIni === 'function') {
-                        loadStatusHariIni();
+                    id_karyawan: selectedKaryawan.id_karyawan,
+                    jenis: jenis,
+                    tanggal: tanggal,
+                    keterangan: keterangan,
+                    _token: '{{ csrf_token() }}'
+                })
+                .done(function(response) {
+                    if (response.success) {
+                        alert('✅ ' + response.message);
+                        $('#izinSakitModal').modal('hide');
+                        $('#izinSakitForm')[0].reset();
+                        // Refresh data if needed
+                        if (typeof loadStatusHariIni === 'function') {
+                            loadStatusHariIni();
+                        }
+                    } else {
+                        alert('❌ ' + (response.message || 'Terjadi kesalahan'));
                     }
-                } else {
-                    alert('❌ ' + (response.message || 'Terjadi kesalahan'));
-                }
-            })
-            .fail(function(xhr) {
-                const response = xhr.responseJSON;
-                let errorMessage = 'Terjadi kesalahan sistem';
-                
-                if (response && response.errors) {
-                    // Laravel validation errors
-                    errorMessage = Object.values(response.errors).flat().join('\n');
-                } else if (response && response.message) {
-                    errorMessage = response.message;
-                }
-                
-                alert('❌ ' + errorMessage);
-            })
-            .always(function() {
-                $('#btnSubmitIzinSakit').prop('disabled', false).html('<i class="fas fa-paper-plane me-2"></i>Ajukan');
-            });
+                })
+                .fail(function(xhr) {
+                    const response = xhr.responseJSON;
+                    let errorMessage = 'Terjadi kesalahan sistem';
+
+                    if (response && response.errors) {
+                        // Laravel validation errors
+                        errorMessage = Object.values(response.errors).flat().join('\n');
+                    } else if (response && response.message) {
+                        errorMessage = response.message;
+                    }
+
+                    alert('❌ ' + errorMessage);
+                })
+                .always(function() {
+                    $('#btnSubmitIzinSakit').prop('disabled', false).html(
+                        '<i class="fas fa-paper-plane me-2"></i>Ajukan');
+                });
         });
 
         // Konfirmasi absensi

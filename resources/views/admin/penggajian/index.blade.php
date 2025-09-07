@@ -358,16 +358,37 @@
                                         <td><strong>Rp {{ number_format($gaji->jumlah_gaji ?? 0, 0, ',', '.') }}</strong>
                                         </td>
                                         <td>
-                                            @if (isset($gaji->status_pembayaran))
-                                                @if ($gaji->status_pembayaran == 'paid')
-                                                    <span class="badge bg-success">Dibayar</span>
-                                                @elseif($gaji->status_pembayaran == 'pending')
-                                                    <span class="badge bg-warning">Pending</span>
-                                                @else
-                                                    <span class="badge bg-danger">Dibatalkan</span>
-                                                @endif
+                                            @php
+                                                $status = strtolower($gaji->status_pembayaran ?? 'pending');
+                                            @endphp
+
+                                            @if (in_array($status, ['paid', 'sudah_dibayar', 'dibayar']))
+                                                <span class="badge bg-success">
+                                                    <i class="fas fa-check-circle me-1"></i>Sudah Dibayar
+                                                </span>
+                                            @elseif (in_array($status, ['pending', 'belum_dibayar', 'menunggu']))
+                                                <span class="badge bg-warning text-dark">
+                                                    <i class="fas fa-clock me-1"></i>Pending
+                                                </span>
+                                            @elseif (in_array($status, ['cancelled', 'dibatalkan', 'batal']))
+                                                <span class="badge bg-danger">
+                                                    <i class="fas fa-times-circle me-1"></i>Dibatalkan
+                                                </span>
+                                            @elseif (in_array($status, ['processing', 'diproses']))
+                                                <span class="badge bg-info">
+                                                    <i class="fas fa-sync-alt me-1"></i>Diproses
+                                                </span>
                                             @else
-                                                <span class="badge bg-secondary">N/A</span>
+                                                <span class="badge bg-secondary">
+                                                    <i
+                                                        class="fas fa-question-circle me-1"></i>{{ $status ?: 'Tidak Diketahui' }}
+                                                </span>
+                                            @endif
+
+                                            @if ($gaji->tanggal_bayar)
+                                                <small class="d-block text-muted mt-1">
+                                                    {{ \Carbon\Carbon::parse($gaji->tanggal_bayar)->format('d/m/Y') }}
+                                                </small>
                                             @endif
                                         </td>
                                         <td class="text-center">
@@ -377,31 +398,26 @@
                                                     onclick="console.log('Direct click - view detail', {{ $gaji->id_gaji ?? 0 }}); viewDetail({{ $gaji->id_gaji ?? 0 }});">
                                                     <i class="fas fa-eye"></i>
                                                 </button>
-                                                <button class="btn btn-sm btn-outline-warning" title="Edit Gaji"
-                                                    data-action="edit-gaji" data-id="{{ $gaji->id_gaji ?? 0 }}"
-                                                    onclick="console.log('Direct click - edit gaji', {{ $gaji->id_gaji ?? 0 }}); editGaji({{ $gaji->id_gaji ?? 0 }});">
-                                                    <i class="fas fa-edit"></i>
-                                                </button>
-                                                @if ($gaji->status_pembayaran == 'pending' || $gaji->status_pembayaran == 'belum_dibayar')
+
+                                                @php
+                                                    $status = strtolower($gaji->status_pembayaran ?? 'pending');
+                                                @endphp
+
+                                                @if (in_array($status, ['pending', 'belum_dibayar', 'menunggu']))
                                                     <button class="btn btn-sm btn-outline-success" title="Tandai Dibayar"
                                                         data-action="mark-paid" data-id="{{ $gaji->id_gaji ?? 0 }}"
                                                         onclick="console.log('Direct click - mark paid', {{ $gaji->id_gaji ?? 0 }}); markAsPaid({{ $gaji->id_gaji ?? 0 }});">
                                                         <i class="fas fa-check"></i>
                                                     </button>
                                                 @endif
-                                                @if ($gaji->status_pembayaran == 'paid' || $gaji->status_pembayaran == 'sudah_dibayar')
+
+                                                @if (in_array($status, ['paid', 'sudah_dibayar', 'dibayar']))
                                                     <button class="btn btn-sm btn-outline-primary" title="Cetak Slip"
                                                         data-action="generate-slip" data-id="{{ $gaji->id_gaji ?? 0 }}"
                                                         onclick="console.log('Direct click - generate slip', {{ $gaji->id_gaji ?? 0 }}); generateSlip({{ $gaji->id_gaji ?? 0 }});">
                                                         <i class="fas fa-file-pdf"></i>
                                                     </button>
                                                 @endif
-                                                <button class="btn btn-sm btn-outline-danger" title="Hapus"
-                                                    data-action="delete-gaji" data-id="{{ $gaji->id_gaji ?? 0 }}"
-                                                    data-name="{{ $gaji->karyawan->nama ?? 'N/A' }}"
-                                                    onclick="console.log('Direct click - delete gaji', {{ $gaji->id_gaji ?? 0 }}); deleteGaji({{ $gaji->id_gaji ?? 0 }}, '{{ $gaji->karyawan->nama ?? 'N/A' }}');">
-                                                    <i class="fas fa-trash"></i>
-                                                </button>
                                             </div>
                                         </td>
                                     </tr>
@@ -503,9 +519,12 @@
                 <form action="{{ route('admin.penggajian.proses-otomatis') }}" method="POST">
                     @csrf
                     <div class="modal-body">
-                        <div class="alert alert-info">
-                            <i class="fas fa-info-circle"></i>
-                            Proses ini akan menghitung gaji berdasarkan shift, absensi, dan jabatan karyawan.
+                        <div class="alert alert-success">
+                            <i class="fas fa-check-circle"></i>
+                            <strong>Proses Gaji Otomatis</strong><br>
+                            Sistem akan menghitung gaji berdasarkan shift, absensi, dan jabatan karyawan.<br>
+                            <small class="text-muted">✅ Gaji akan langsung ditandai sebagai <strong>"SUDAH
+                                    DIBAYAR"</strong> setelah proses selesai.</small>
                         </div>
 
                         <div class="row">
@@ -852,62 +871,6 @@
             printWindow.print();
         }
 
-        function editGaji(id) {
-            console.log('editGaji function called with ID:', id);
-
-            if (!id) {
-                alert('ID gaji tidak valid');
-                return;
-            }
-
-            // Redirect ke halaman edit
-            const editUrl = `{{ route('admin.penggajian') }}/${id}/edit`;
-            console.log('Redirecting to:', editUrl);
-            window.location.href = editUrl;
-        }
-
-        function deleteGaji(id, namaKaryawan) {
-            console.log('deleteGaji function called with ID:', id, 'Name:', namaKaryawan);
-
-            if (!id) {
-                alert('ID gaji tidak valid');
-                return;
-            }
-
-            const confirmMessage = `Apakah Anda yakin ingin menghapus data gaji untuk ${namaKaryawan || 'karyawan ini'}?`;
-
-            if (confirm(confirmMessage)) {
-                try {
-                    // Create form untuk delete
-                    const form = document.createElement('form');
-                    form.method = 'POST';
-                    form.action = `{{ route('admin.penggajian') }}/${id}`;
-                    form.style.display = 'none';
-
-                    // CSRF token
-                    const csrfInput = document.createElement('input');
-                    csrfInput.type = 'hidden';
-                    csrfInput.name = '_token';
-                    csrfInput.value = '{{ csrf_token() }}';
-                    form.appendChild(csrfInput);
-
-                    // Method spoofing untuk DELETE
-                    const methodInput = document.createElement('input');
-                    methodInput.type = 'hidden';
-                    methodInput.name = '_method';
-                    methodInput.value = 'DELETE';
-                    form.appendChild(methodInput);
-
-                    document.body.appendChild(form);
-                    console.log('Submitting delete form...');
-                    form.submit();
-                } catch (error) {
-                    console.error('Delete error:', error);
-                    alert('Terjadi kesalahan saat menghapus data: ' + error.message);
-                }
-            }
-        }
-
         function markAsPaid(id) {
             console.log('markAsPaid function called with ID:', id);
 
@@ -928,7 +891,7 @@
                             'X-Requested-With': 'XMLHttpRequest'
                         },
                         body: JSON.stringify({
-                            status_pembayaran: 'sudah_dibayar'
+                            status_pembayaran: 'paid'
                         })
                     })
                     .then(response => {
@@ -967,7 +930,7 @@
                 try {
                     const form = document.createElement('form');
                     form.method = 'POST';
-                    form.action = `{{ route('admin.penggajian') }}/generate`;
+                    form.action = `{{ route('admin.penggajian.generate') }}`;
                     form.target = '_blank';
                     form.style.display = 'none';
 
@@ -1184,9 +1147,7 @@
 
         // Make functions globally available
         window.viewDetail = viewDetail;
-        window.editGaji = editGaji;
         window.markAsPaid = markAsPaid;
         window.generateSlip = generateSlip;
-        window.deleteGaji = deleteGaji;
     </script>
 @endsection
