@@ -149,10 +149,10 @@ Route::prefix('pelanggan')->name('pelanggan.')->group(function () {
     Route::post('/register', [PelangganController::class, 'register'])->name('register.submit');
 
     Route::post('/logout', [PelangganController::class, 'logout'])->name('logout');
-    
+
     // Search route (available to all customers)
     Route::get('/search', [PelangganController::class, 'search'])->name('search');
-    
+
     // Protected pelanggan routes
     Route::middleware('auth:pelanggan')->group(function () {
         Route::get('/dashboard', [PelangganController::class, 'dashboard'])->name('dashboard');
@@ -199,7 +199,7 @@ Route::prefix('gudang')->name('gudang.')->group(function () {
     // Dashboard Inventori Routes (no authentication required)
     Route::get('/inventori/dashboard', [App\Http\Controllers\InventoriDashboardController::class, 'index'])
         ->name('inventori.dashboard');
-    
+
     Route::get('/inventori/statistics', [App\Http\Controllers\InventoriDashboardController::class, 'getStatistics'])
         ->name('inventori.statistics');
 
@@ -243,18 +243,18 @@ Route::prefix('gudang')->name('gudang.')->group(function () {
 
         // Main stok route for sidebar
         Route::get('/stok-main', [StokGudangPusatController::class, 'index'])->name('stok');
-        
+
         // Other gudang routes
         Route::get('/permintaan', [GudangController::class, 'permintaan'])->name('permintaan');
-        
+
         Route::get('/permintaan-inventori', function () {
             return view('gudang.permintaan_inventori');
         })->name('permintaan.inventori');
-        
+
         Route::get('/inventori/permintaan-inventori', function () {
             return view('gudang.inventori.permintaan_inventori');
         })->name('inventori.permintaan.inventori');
-        
+
         Route::post('/permintaan-submit', [GudangController::class, 'submitPermintaan'])->name('permintaan.submit');
 
         // Pengiriman routes
@@ -380,11 +380,11 @@ Route::prefix('admin')->name('admin.')->group(function () {
         Route::get('/data-karyawan/tambah', [AdminController::class, 'tambahKaryawan'])->name('data-karyawan.tambah');
         Route::post('/data-karyawan', [AdminController::class, 'storeKaryawan'])->name('data-karyawan.store');
         Route::post('/karyawan/{id}/toggle-status', [AdminController::class, 'toggleKaryawanStatus'])->name('karyawan.toggle-status');
-        
+
         // Search Routes
         Route::post('/search', [AdminController::class, 'search'])->name('search');
         Route::get('/search-results', [AdminController::class, 'searchResults'])->name('search-results');
-        
+
         // Profile Routes
         Route::get('/profile', [AdminController::class, 'profile'])->name('profile');
         Route::put('/profile', [AdminController::class, 'updateProfile'])->name('profile.update');
@@ -462,6 +462,9 @@ Route::prefix('admin')->name('admin.')->group(function () {
         })->name('keuangan');
     });
 });
+
+// Include Karyawan Routes
+require __DIR__ . '/karyawan.php';
 
 // Fallback route untuk halaman yang tidak ditemukan (404)
 Route::fallback(function () {

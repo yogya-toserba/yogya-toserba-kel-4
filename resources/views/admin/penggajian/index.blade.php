@@ -24,6 +24,24 @@
             border-radius: 0.35rem;
         }
 
+        /* Custom action buttons styling */
+        .btn[data-action] {
+            cursor: pointer !important;
+            pointer-events: auto !important;
+            min-width: 32px;
+            border-radius: 4px;
+        }
+
+        .btn[data-action]:hover {
+            transform: scale(1.05);
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .btn[data-action] i {
+            pointer-events: none;
+            /* Prevent icon from blocking click */
+        }
+
         /* Custom dropdown styling - Bootstrap 5.3.0 compatible */
         .dropdown-toggle::after {
             display: none !important;
@@ -60,7 +78,7 @@
         .table-responsive {
             overflow: visible !important;
         }
-        
+
         .table-responsive .dropdown-menu {
             position: fixed !important;
         }
@@ -70,6 +88,7 @@
                 opacity: 0;
                 transform: translateY(-10px);
             }
+
             100% {
                 opacity: 1;
                 transform: translateY(0);
@@ -172,9 +191,6 @@
                 </button>
                 <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#prosesModal">
                     <i class="fas fa-calculator"></i> Proses Gaji Otomatis
-                </button>
-                <button onclick="testDropdowns()" class="btn btn-info ms-2" title="Test dropdown functionality">
-                    <i class="fas fa-bug me-2"></i>Test Dropdowns
                 </button>
             </div>
         </div>
@@ -355,59 +371,37 @@
                                             @endif
                                         </td>
                                         <td class="text-center">
-                                            <div class="dropdown">
-                                                <button class="btn btn-sm btn-outline-secondary dropdown-toggle" 
-                                                    type="button" 
-                                                    id="dropdownMenuButton{{ $gaji->id_gaji ?? 0 }}"
-                                                    data-bs-toggle="dropdown" 
-                                                    aria-expanded="false"
-                                                    title="Menu Aksi">
-                                                    <i class="fas fa-ellipsis-v"></i>
+                                            <div class="d-flex flex-wrap gap-1 justify-content-center">
+                                                <button class="btn btn-sm btn-outline-info" title="Lihat Detail"
+                                                    data-action="view-detail" data-id="{{ $gaji->id_gaji ?? 0 }}"
+                                                    onclick="console.log('Direct click - view detail', {{ $gaji->id_gaji ?? 0 }}); viewDetail({{ $gaji->id_gaji ?? 0 }});">
+                                                    <i class="fas fa-eye"></i>
                                                 </button>
-                                                <ul class="dropdown-menu dropdown-menu-end shadow-sm" 
-                                                    aria-labelledby="dropdownMenuButton{{ $gaji->id_gaji ?? 0 }}">
-                                                    <li>
-                                                        <a class="dropdown-item" href="javascript:void(0)" 
-                                                           data-action="view-detail" 
-                                                           data-id="{{ $gaji->id_gaji ?? 0 }}">
-                                                            <i class="fas fa-eye text-info me-2"></i>Lihat Detail
-                                                        </a>
-                                                    </li>
-                                                    <li>
-                                                        <a class="dropdown-item" href="javascript:void(0)" 
-                                                           data-action="edit-gaji" 
-                                                           data-id="{{ $gaji->id_gaji ?? 0 }}">
-                                                            <i class="fas fa-edit text-warning me-2"></i>Edit Gaji
-                                                        </a>
-                                                    </li>
-                                                    @if($gaji->status_pembayaran == 'pending' || $gaji->status_pembayaran == 'belum_dibayar')
-                                                    <li>
-                                                        <a class="dropdown-item" href="javascript:void(0)" 
-                                                           data-action="mark-paid" 
-                                                           data-id="{{ $gaji->id_gaji ?? 0 }}">
-                                                            <i class="fas fa-check text-success me-2"></i>Tandai Dibayar
-                                                        </a>
-                                                    </li>
-                                                    @endif
-                                                    @if($gaji->status_pembayaran == 'paid' || $gaji->status_pembayaran == 'sudah_dibayar')
-                                                    <li>
-                                                        <a class="dropdown-item" href="javascript:void(0)" 
-                                                           data-action="generate-slip" 
-                                                           data-id="{{ $gaji->id_gaji ?? 0 }}">
-                                                            <i class="fas fa-file-pdf text-primary me-2"></i>Cetak Slip
-                                                        </a>
-                                                    </li>
-                                                    @endif
-                                                    <li><hr class="dropdown-divider"></li>
-                                                    <li>
-                                                        <a class="dropdown-item text-danger" href="javascript:void(0)" 
-                                                           data-action="delete-gaji" 
-                                                           data-id="{{ $gaji->id_gaji ?? 0 }}" 
-                                                           data-name="{{ $gaji->karyawan->nama ?? 'N/A' }}">
-                                                            <i class="fas fa-trash me-2"></i>Hapus
-                                                        </a>
-                                                    </li>
-                                                </ul>
+                                                <button class="btn btn-sm btn-outline-warning" title="Edit Gaji"
+                                                    data-action="edit-gaji" data-id="{{ $gaji->id_gaji ?? 0 }}"
+                                                    onclick="console.log('Direct click - edit gaji', {{ $gaji->id_gaji ?? 0 }}); editGaji({{ $gaji->id_gaji ?? 0 }});">
+                                                    <i class="fas fa-edit"></i>
+                                                </button>
+                                                @if ($gaji->status_pembayaran == 'pending' || $gaji->status_pembayaran == 'belum_dibayar')
+                                                    <button class="btn btn-sm btn-outline-success" title="Tandai Dibayar"
+                                                        data-action="mark-paid" data-id="{{ $gaji->id_gaji ?? 0 }}"
+                                                        onclick="console.log('Direct click - mark paid', {{ $gaji->id_gaji ?? 0 }}); markAsPaid({{ $gaji->id_gaji ?? 0 }});">
+                                                        <i class="fas fa-check"></i>
+                                                    </button>
+                                                @endif
+                                                @if ($gaji->status_pembayaran == 'paid' || $gaji->status_pembayaran == 'sudah_dibayar')
+                                                    <button class="btn btn-sm btn-outline-primary" title="Cetak Slip"
+                                                        data-action="generate-slip" data-id="{{ $gaji->id_gaji ?? 0 }}"
+                                                        onclick="console.log('Direct click - generate slip', {{ $gaji->id_gaji ?? 0 }}); generateSlip({{ $gaji->id_gaji ?? 0 }});">
+                                                        <i class="fas fa-file-pdf"></i>
+                                                    </button>
+                                                @endif
+                                                <button class="btn btn-sm btn-outline-danger" title="Hapus"
+                                                    data-action="delete-gaji" data-id="{{ $gaji->id_gaji ?? 0 }}"
+                                                    data-name="{{ $gaji->karyawan->nama ?? 'N/A' }}"
+                                                    onclick="console.log('Direct click - delete gaji', {{ $gaji->id_gaji ?? 0 }}); deleteGaji({{ $gaji->id_gaji ?? 0 }}, '{{ $gaji->karyawan->nama ?? 'N/A' }}');">
+                                                    <i class="fas fa-trash"></i>
+                                                </button>
                                             </div>
                                         </td>
                                     </tr>
@@ -646,12 +640,12 @@
 
         function viewDetail(id) {
             console.log('viewDetail function called with ID:', id);
-            
+
             if (!id) {
                 alert('ID gaji tidak valid');
                 return;
             }
-            
+
             // Buka modal dan load data detail
             const modalElement = document.getElementById('detailModal');
             if (!modalElement) {
@@ -659,18 +653,18 @@
                 console.error('detailModal element not found');
                 return;
             }
-            
+
             console.log('Modal element found, initializing...');
-            
+
             try {
                 const modal = new bootstrap.Modal(modalElement);
                 const content = document.getElementById('detailContent');
-                
+
                 if (!content) {
                     alert('Konten modal tidak ditemukan');
                     return;
                 }
-                
+
                 // Reset content dan tampilkan loading
                 content.innerHTML = `
                     <div class="loading-container">
@@ -680,7 +674,7 @@
                         </div>
                     </div>
                 `;
-                
+
                 // Set edit button action
                 const editBtn = document.getElementById('editFromModal');
                 if (editBtn) {
@@ -688,7 +682,7 @@
                         window.location.href = `{{ route('admin.penggajian') }}/${id}/edit`;
                     };
                 }
-                
+
                 // Set print button action
                 const printBtn = document.getElementById('printFromModal');
                 if (printBtn) {
@@ -696,47 +690,49 @@
                         printGajiDetail();
                     };
                 }
-                
+
                 // Show modal
                 console.log('Showing modal...');
                 modal.show();
-                
+
                 // Fetch detail data
                 console.log('Fetching data from API...');
                 const apiUrl = `{{ route('admin.penggajian') }}/${id}/api`;
                 console.log('API URL:', apiUrl);
-                
+
                 fetch(apiUrl, {
-                    method: 'GET',
-                    headers: {
-                        'Accept': 'application/json',
-                        'X-CSRF-TOKEN': '{{ csrf_token() }}',
-                        'X-Requested-With': 'XMLHttpRequest'
-                    }
-                })
-                .then(response => {
-                    console.log('API Response status:', response.status);
-                    if (!response.ok) {
-                        throw new Error(`HTTP ${response.status}: ${response.statusText}`);
-                    }
-                    return response.json();
-                })
-                .then(data => {
-                    console.log('API Response data:', data);
-                    if (data.success) {
-                        content.innerHTML = data.html;
-                        // Store data for printing
-                        window.currentGajiData = data.data;
-                        console.log('Detail loaded successfully');
-                    } else {
-                        content.innerHTML = '<div class="alert alert-danger">Gagal memuat detail: ' + (data.message || 'Unknown error') + '</div>';
-                    }
-                })
-                .catch(error => {
-                    console.error('Fetch Error:', error);
-                    content.innerHTML = '<div class="alert alert-danger">Terjadi kesalahan: ' + error.message + '</div>';
-                });
-                
+                        method: 'GET',
+                        headers: {
+                            'Accept': 'application/json',
+                            'X-CSRF-TOKEN': '{{ csrf_token() }}',
+                            'X-Requested-With': 'XMLHttpRequest'
+                        }
+                    })
+                    .then(response => {
+                        console.log('API Response status:', response.status);
+                        if (!response.ok) {
+                            throw new Error(`HTTP ${response.status}: ${response.statusText}`);
+                        }
+                        return response.json();
+                    })
+                    .then(data => {
+                        console.log('API Response data:', data);
+                        if (data.success) {
+                            content.innerHTML = data.html;
+                            // Store data for printing
+                            window.currentGajiData = data.data;
+                            console.log('Detail loaded successfully');
+                        } else {
+                            content.innerHTML = '<div class="alert alert-danger">Gagal memuat detail: ' + (data
+                                .message || 'Unknown error') + '</div>';
+                        }
+                    })
+                    .catch(error => {
+                        console.error('Fetch Error:', error);
+                        content.innerHTML = '<div class="alert alert-danger">Terjadi kesalahan: ' + error.message +
+                            '</div>';
+                    });
+
             } catch (error) {
                 console.error('Modal initialization error:', error);
                 alert('Gagal membuka modal: ' + error.message);
@@ -748,15 +744,16 @@
                 alert('Data tidak tersedia untuk dicetak');
                 return;
             }
-            
+
             const data = window.currentGajiData;
             const printWindow = window.open('', '_blank');
-            
+
             // Calculate totals
-            const totalGaji = (data.gaji_pokok || 0) + (data.uang_makan || 0) + (data.uang_transport || 0) + (data.uang_lembur || 0);
+            const totalGaji = (data.gaji_pokok || 0) + (data.uang_makan || 0) + (data.uang_transport || 0) + (data
+                .uang_lembur || 0);
             const totalPotongan = (data.potongan_bpjs || 0) + (data.potongan_pajak || 0);
             const gajiBersih = totalGaji - totalPotongan;
-            
+
             printWindow.document.write(`
                 <html>
                     <head>
@@ -857,12 +854,12 @@
 
         function editGaji(id) {
             console.log('editGaji function called with ID:', id);
-            
+
             if (!id) {
                 alert('ID gaji tidak valid');
                 return;
             }
-            
+
             // Redirect ke halaman edit
             const editUrl = `{{ route('admin.penggajian') }}/${id}/edit`;
             console.log('Redirecting to:', editUrl);
@@ -871,14 +868,14 @@
 
         function deleteGaji(id, namaKaryawan) {
             console.log('deleteGaji function called with ID:', id, 'Name:', namaKaryawan);
-            
+
             if (!id) {
                 alert('ID gaji tidak valid');
                 return;
             }
-            
+
             const confirmMessage = `Apakah Anda yakin ingin menghapus data gaji untuk ${namaKaryawan || 'karyawan ini'}?`;
-            
+
             if (confirm(confirmMessage)) {
                 try {
                     // Create form untuk delete
@@ -913,15 +910,15 @@
 
         function markAsPaid(id) {
             console.log('markAsPaid function called with ID:', id);
-            
+
             if (!id) {
                 alert('ID gaji tidak valid');
                 return;
             }
-            
+
             if (confirm('Tandai gaji ini sebagai sudah dibayar?')) {
                 console.log('Sending mark as paid request...');
-                
+
                 fetch(`{{ route('admin.penggajian') }}/${id}`, {
                         method: 'PUT',
                         headers: {
@@ -959,12 +956,12 @@
 
         function generateSlip(id) {
             console.log('generateSlip function called with ID:', id);
-            
+
             if (!id) {
                 alert('ID gaji tidak valid');
                 return;
             }
-            
+
             // Generate dan download slip gaji
             if (confirm('Generate slip gaji untuk karyawan ini?')) {
                 try {
@@ -973,25 +970,25 @@
                     form.action = `{{ route('admin.penggajian') }}/generate`;
                     form.target = '_blank';
                     form.style.display = 'none';
-                    
+
                     // CSRF token
                     const csrfInput = document.createElement('input');
                     csrfInput.type = 'hidden';
                     csrfInput.name = '_token';
                     csrfInput.value = '{{ csrf_token() }}';
                     form.appendChild(csrfInput);
-                    
+
                     // ID Gaji
                     const idInput = document.createElement('input');
                     idInput.type = 'hidden';
                     idInput.name = 'gaji_id';
                     idInput.value = id;
                     form.appendChild(idInput);
-                    
+
                     document.body.appendChild(form);
                     console.log('Submitting slip generation form...');
                     form.submit();
-                    
+
                     // Clean up
                     setTimeout(() => {
                         document.body.removeChild(form);
@@ -1005,8 +1002,10 @@
 
         // Initialize Bootstrap dropdowns when page loads
         document.addEventListener('DOMContentLoaded', function() {
-            console.log('DOM loaded, initializing dropdowns...');
-            
+            console.log('🚀 DOM loaded, initializing penggajian actions...');
+            console.log('Action buttons found:', document.querySelectorAll('[data-action]').length);
+            console.log('Bootstrap available:', typeof bootstrap !== 'undefined');
+
             // Wait for Bootstrap to be fully loaded
             if (typeof bootstrap === 'undefined') {
                 console.error('Bootstrap is not loaded');
@@ -1019,55 +1018,66 @@
                 }, 2000);
                 return;
             }
-            
+
             initializeDropdowns();
             setupEventDelegation();
+
+            console.log('✅ All penggajian actions initialized');
         });
-        
+
         function setupEventDelegation() {
-            console.log('Setting up event delegation for dropdown actions...');
-            
+            console.log('Setting up event delegation for penggajian actions...');
+
             // Use event delegation for dropdown actions
             document.addEventListener('click', function(e) {
+                console.log('Click detected on:', e.target);
+
                 const target = e.target.closest('[data-action]');
+                console.log('Target with data-action:', target);
+
                 if (!target) return;
-                
+
                 e.preventDefault();
                 e.stopPropagation();
-                
+
                 const action = target.getAttribute('data-action');
                 const id = target.getAttribute('data-id');
                 const name = target.getAttribute('data-name');
-                
-                console.log(`Action clicked: ${action}, ID: ${id}`);
-                
-                switch(action) {
+
+                console.log(`Action clicked: ${action}, ID: ${id}, Name: ${name}`);
+
+                switch (action) {
                     case 'view-detail':
+                        console.log('Calling viewDetail with ID:', id);
                         viewDetail(id);
                         break;
                     case 'edit-gaji':
+                        console.log('Calling editGaji with ID:', id);
                         editGaji(id);
                         break;
                     case 'mark-paid':
+                        console.log('Calling markAsPaid with ID:', id);
                         markAsPaid(id);
                         break;
                     case 'generate-slip':
+                        console.log('Calling generateSlip with ID:', id);
                         generateSlip(id);
                         break;
                     case 'delete-gaji':
+                        console.log('Calling deleteGaji with ID:', id, 'Name:', name);
                         deleteGaji(id, name);
                         break;
                     default:
                         console.warn('Unknown action:', action);
                 }
             });
-            
+
             console.log('✅ Event delegation setup complete');
         }
-        
+
         function initializeDropdowns() {
             console.log('Initializing Bootstrap dropdowns...');
-            
+
             // Clear any existing dropdown instances first
             document.querySelectorAll('.dropdown-toggle').forEach(function(element) {
                 const existingInstance = bootstrap.Dropdown.getInstance(element);
@@ -1075,20 +1085,20 @@
                     existingInstance.dispose();
                 }
             });
-            
+
             try {
                 // Initialize all dropdown buttons with proper error handling
                 const dropdownElementList = [].slice.call(document.querySelectorAll('.dropdown-toggle'));
                 console.log('Found dropdown elements:', dropdownElementList.length);
-                
-                const dropdownList = dropdownElementList.map(function (dropdownToggleEl, index) {
+
+                const dropdownList = dropdownElementList.map(function(dropdownToggleEl, index) {
                     try {
                         const dropdown = new bootstrap.Dropdown(dropdownToggleEl, {
                             boundary: 'viewport',
                             display: 'dynamic',
                             autoClose: true
                         });
-                        
+
                         console.log(`Dropdown ${index + 1} (${dropdownToggleEl.id}) initialized successfully`);
                         return dropdown;
                     } catch (e) {
@@ -1096,9 +1106,9 @@
                         return null;
                     }
                 }).filter(dropdown => dropdown !== null);
-                
+
                 console.log('Bootstrap dropdowns initialized successfully:', dropdownList.length);
-                
+
                 // Add global event listeners for debugging and functionality
                 document.addEventListener('show.bs.dropdown', function(event) {
                     console.log('Dropdown showing:', event.target.id);
@@ -1115,39 +1125,37 @@
                         }
                     });
                 });
-                
+
                 document.addEventListener('shown.bs.dropdown', function(event) {
                     console.log('Dropdown shown:', event.target.id);
                 });
-                
+
                 document.addEventListener('hide.bs.dropdown', function(event) {
                     console.log('Dropdown hiding:', event.target.id);
                 });
-                
+
                 document.addEventListener('hidden.bs.dropdown', function(event) {
                     console.log('Dropdown hidden:', event.target.id);
                 });
-                
-                // Test dropdown functionality
-                console.log('Testing dropdown click handlers...');
+
                 dropdownElementList.forEach(function(toggle, index) {
                     toggle.addEventListener('click', function(e) {
                         console.log(`Dropdown ${index + 1} clicked:`, this.id);
                     });
                 });
-                
+
             } catch (error) {
                 console.error('Error initializing dropdowns:', error);
-                
+
                 // Fallback: try manual event handling
                 console.log('Attempting fallback dropdown handling...');
                 document.querySelectorAll('.dropdown-toggle').forEach(function(toggle) {
                     toggle.addEventListener('click', function(e) {
                         e.preventDefault();
                         e.stopPropagation();
-                        
+
                         console.log('Fallback: Manual dropdown toggle clicked');
-                        
+
                         const menu = this.nextElementSibling;
                         if (menu && menu.classList.contains('dropdown-menu')) {
                             // Close all other dropdowns
@@ -1156,13 +1164,13 @@
                                     otherMenu.classList.remove('show');
                                 }
                             });
-                            
+
                             // Toggle current dropdown
                             menu.classList.toggle('show');
                         }
                     });
                 });
-                
+
                 // Close dropdowns when clicking outside
                 document.addEventListener('click', function(e) {
                     if (!e.target.closest('.dropdown')) {
@@ -1173,31 +1181,12 @@
                 });
             }
         }
-        
-        // Test function to verify dropdown functionality
-        function testDropdowns() {
-            console.log('=== DROPDOWN TEST ===');
-            const dropdowns = document.querySelectorAll('.dropdown-toggle');
-            console.log('Total dropdowns found:', dropdowns.length);
-            
-            dropdowns.forEach(function(dropdown, index) {
-                console.log(`Dropdown ${index + 1}:`, {
-                    id: dropdown.id,
-                    hasBootstrapInstance: !!bootstrap.Dropdown.getInstance(dropdown),
-                    nextSibling: dropdown.nextElementSibling?.className
-                });
-            });
-            
-            console.log('Bootstrap version:', bootstrap?.Tooltip?.VERSION || 'Unknown');
-            console.log('===================');
-        }
-        
+
         // Make functions globally available
         window.viewDetail = viewDetail;
         window.editGaji = editGaji;
         window.markAsPaid = markAsPaid;
         window.generateSlip = generateSlip;
         window.deleteGaji = deleteGaji;
-        window.testDropdowns = testDropdowns;
     </script>
 @endsection

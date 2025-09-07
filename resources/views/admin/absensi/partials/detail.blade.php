@@ -31,7 +31,7 @@
             </div>
         </div>
     </div>
-    
+
     <div class="col-md-6">
         <div class="card">
             <div class="card-header">
@@ -48,7 +48,7 @@
                 <div class="mb-3">
                     <label class="fw-bold">Jam Masuk:</label>
                     <div>
-                        @if($absensi->jam_masuk)
+                        @if ($absensi->jam_masuk)
                             <span class="badge bg-success">{{ $absensi->jam_masuk }}</span>
                         @else
                             <span class="badge bg-secondary">Belum masuk</span>
@@ -58,7 +58,7 @@
                 <div class="mb-3">
                     <label class="fw-bold">Jam Keluar:</label>
                     <div>
-                        @if($absensi->jam_keluar)
+                        @if ($absensi->jam_keluar)
                             <span class="badge bg-info">{{ $absensi->jam_keluar }}</span>
                         @else
                             <span class="badge bg-secondary">Belum keluar</span>
@@ -71,64 +71,69 @@
                         @switch($absensi->status)
                             @case('hadir')
                                 <span class="badge bg-success">Hadir</span>
-                                @break
+                            @break
+
                             @case('terlambat')
                                 <span class="badge bg-warning">Terlambat</span>
-                                @break
+                            @break
+
                             @case('alpha')
                                 <span class="badge bg-danger">Alpha</span>
-                                @break
+                            @break
+
                             @case('izin')
                                 <span class="badge bg-info">Izin</span>
-                                @break
+                            @break
+
                             @case('sakit')
                                 <span class="badge bg-secondary">Sakit</span>
-                                @break
+                            @break
+
                             @default
                                 <span class="badge bg-dark">{{ ucfirst($absensi->status) }}</span>
                         @endswitch
                     </div>
                 </div>
-                @if($absensi->keterangan)
-                <div class="mb-3">
-                    <label class="fw-bold">Keterangan:</label>
-                    <div class="bg-light p-2 rounded">{{ $absensi->keterangan }}</div>
-                </div>
+                @if ($absensi->keterangan)
+                    <div class="mb-3">
+                        <label class="fw-bold">Keterangan:</label>
+                        <div class="bg-light p-2 rounded">{{ $absensi->keterangan }}</div>
+                    </div>
                 @endif
             </div>
         </div>
     </div>
 </div>
 
-@if($absensi->jadwalKerja && $absensi->jadwalKerja->shift)
-<div class="row mt-3">
-    <div class="col-12">
-        <div class="card">
-            <div class="card-header">
-                <h5 class="card-title mb-0">
-                    <i class="fas fa-calendar-alt me-2"></i>
-                    Informasi Jadwal & Shift
-                </h5>
-            </div>
-            <div class="card-body">
-                <div class="row">
-                    <div class="col-md-4">
-                        <label class="fw-bold">Nama Shift:</label>
-                        <div>{{ $absensi->jadwalKerja->shift->nama_shift }}</div>
-                    </div>
-                    <div class="col-md-4">
-                        <label class="fw-bold">Jam Mulai Shift:</label>
-                        <div>{{ $absensi->jadwalKerja->shift->jam_mulai }}</div>
-                    </div>
-                    <div class="col-md-4">
-                        <label class="fw-bold">Jam Selesai Shift:</label>
-                        <div>{{ $absensi->jadwalKerja->shift->jam_selesai }}</div>
+@if ($absensi->jadwalKerja && $absensi->jadwalKerja->shift)
+    <div class="row mt-3">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-header">
+                    <h5 class="card-title mb-0">
+                        <i class="fas fa-calendar-alt me-2"></i>
+                        Informasi Jadwal & Shift
+                    </h5>
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-4">
+                            <label class="fw-bold">Nama Shift:</label>
+                            <div>{{ $absensi->jadwalKerja->shift->nama_shift }}</div>
+                        </div>
+                        <div class="col-md-4">
+                            <label class="fw-bold">Jam Mulai Shift:</label>
+                            <div>{{ $absensi->jadwalKerja->shift->jam_mulai }}</div>
+                        </div>
+                        <div class="col-md-4">
+                            <label class="fw-bold">Jam Selesai Shift:</label>
+                            <div>{{ $absensi->jadwalKerja->shift->jam_selesai }}</div>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
-</div>
 @endif
 
 <div class="row mt-3">
