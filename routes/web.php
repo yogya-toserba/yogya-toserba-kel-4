@@ -460,7 +460,9 @@ Route::prefix('admin')->name('admin.')->group(function () {
             Route::get('export-pdf', [KeuanganController::class, 'exportPDF'])->name('export.pdf');
 
             // AJAX Routes
-            Route::get('detail-transaksi/{id}', [KeuanganController::class, 'getDetailTransaksi'])->name('detail.transaksi');
+            Route::get('detail-transaksi/{id}', [KeuanganController::class, 'detailTransaksi'])->name('detail.transaksi');
+            Route::delete('hapus-transaksi/{id}', [KeuanganController::class, 'hapusTransaksi'])->name('hapus.transaksi');
+            Route::get('cetak-struk/{id}', [KeuanganController::class, 'cetakStruk'])->name('cetak.struk');
             Route::get('export-riwayat', [KeuanganController::class, 'exportRiwayatTransaksi'])->name('export.riwayat');
         });
 

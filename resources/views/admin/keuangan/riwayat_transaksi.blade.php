@@ -1057,7 +1057,7 @@ body.dark-mode .dropdown-item:hover {
                             <thead>
                                 <tr>
                                     <th>#</th>
-                                    <th>TRANSAKSI</th>
+                                    <th>NAMA PELANGGAN</th>
                                     <th>ID TRANSAKSI</th>
                                     <th>METODE</th>
                                     <th>TANGGAL</th>
@@ -1145,10 +1145,10 @@ body.dark-mode .dropdown-item:hover {
                                         <i class="fas fa-ellipsis-v"></i>
                                     </button>
                                     <ul class="dropdown-menu">
-                                        <li><a class="dropdown-item" href="#"><i class="fas fa-eye me-2"></i>Lihat Detail</a></li>
-                                        <li><a class="dropdown-item" href="#"><i class="fas fa-print me-2"></i>Cetak Struk</a></li>
+                                        <li><a class="dropdown-item" href="#" onclick="lihatDetail({{ $t->id_transaksi }})"><i class="fas fa-eye me-2"></i>Lihat Detail</a></li>
+                                        <li><a class="dropdown-item" href="#" onclick="cetakStruk({{ $t->id_transaksi }})"><i class="fas fa-print me-2"></i>Cetak Struk</a></li>
                                         <li><hr class="dropdown-divider"></li>
-                                        <li><a class="dropdown-item text-danger" href="#"><i class="fas fa-trash me-2"></i>Hapus</a></li>
+                                        <li><a class="dropdown-item text-danger" href="#" onclick="hapusTransaksi({{ $t->id_transaksi }})"><i class="fas fa-trash me-2"></i>Hapus</a></li>
                                     </ul>
                                 </div>
                             </td>
@@ -1207,6 +1207,45 @@ body.dark-mode .dropdown-item:hover {
     </div>
 </div>
 
+<!-- Modal Detail Transaksi -->
+<div class="modal fade" id="detailModal" tabindex="-1" aria-labelledby="detailModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="detailModalLabel">Detail Transaksi</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body" id="detailModalBody">
+                <div class="text-center">
+                    <div class="spinner-border" role="status">
+                        <span class="visually-hidden">Loading...</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal Konfirmasi Hapus -->
+<div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="deleteModalLabel">Konfirmasi Hapus</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <p>Apakah Anda yakin ingin menghapus transaksi ini?</p>
+                <p class="text-danger"><small>Tindakan ini tidak dapat dibatalkan.</small></p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
+                <button type="button" class="btn btn-danger" id="confirmDeleteBtn">Hapus</button>
+            </div>
+        </div>
+    </div>
+</div>
+
 <script>
 // Real Time Clock and Date - HEADER ONLY
 function updateDateTime() {
@@ -1252,8 +1291,227 @@ function resetForm() {
     document.getElementById('metode').value = '';
 }
 
+// Lihat Detail Transaksi
+function lihatDetail(idTransaksi) {
+    const modal = new bootstrap.Modal(document.getElementById('detailModal'));
+    const modalBody = document.getElementById('detailModalBody');
+    
+    // Show loading
+    modalBody.innerHTML = `
+        <div class="text-center">
+            <div class="spinner-border" role="status">
+                <span class="visually-hidden">Loading...</span>
+            </div>
+            <p class="mt-2">Memuat detail transaksi...</p>
+        </div>
+    `;
+    
+    modal.show();
+    
+    // Fetch data from server
+    fetch(`/admin/keuangan/detail-transaksi/${idTransaksi}`)
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                const transaksi = data.data.transaksi;
+                const detail = data.data.detail;
+                
+                let detailRows = '';
+                if (detail && detail.length > 0) {
+                    detail.forEach(item => {
+                        detailRows += `
+                            <tr>
+                                <td>${item.nama_barang}</td>
+                                <td>${item.jumlah_barang}</td>
+                                <td>Rp ${parseInt(item.harga_satuan).toLocaleString('id-ID')}</td>
+                                <td>Rp ${parseInt(item.total_harga).toLocaleString('id-ID')}</td>
+                            </tr>
+                        `;
+                    });
+                } else {
+                    detailRows = '<tr><td colspan="4" class="text-center">Tidak ada detail produk</td></tr>';
+                }
+                
+                modalBody.innerHTML = `
+                    <div class="row">
+                        <div class="col-md-6">
+                            <h6>Informasi Transaksi</h6>
+                            <table class="table table-borderless">
+                                <tr><td><strong>ID Transaksi:</strong></td><td>#${transaksi.id_transaksi}</td></tr>
+                                <tr><td><strong>Tanggal:</strong></td><td>${new Date(transaksi.tanggal_transaksi).toLocaleDateString('id-ID')}</td></tr>
+                                <tr><td><strong>Jenis:</strong></td><td>${transaksi.jenis_transaksi || 'PENJUALAN'}</td></tr>
+                                <tr><td><strong>Keterangan:</strong></td><td>${transaksi.keterangan || 'Penjualan toko'}</td></tr>
+                            </table>
+                        </div>
+                        <div class="col-md-6">
+                            <h6>Informasi Pelanggan</h6>
+                            <table class="table table-borderless">
+                                <tr><td><strong>Nama:</strong></td><td>${transaksi.nama_pelanggan}</td></tr>
+                                <tr><td><strong>Cabang:</strong></td><td>${transaksi.nama_cabang}</td></tr>
+                                <tr><td><strong>Total:</strong></td><td><strong>Rp ${parseInt(transaksi.total_belanja).toLocaleString('id-ID')}</strong></td></tr>
+                            </table>
+                        </div>
+                    </div>
+                    <hr>
+                    <h6>Detail Produk</h6>
+                    <div class="table-responsive">
+                        <table class="table table-sm">
+                            <thead>
+                                <tr>
+                                    <th>Produk</th>
+                                    <th>Qty</th>
+                                    <th>Harga</th>
+                                    <th>Subtotal</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                ${detailRows}
+                            </tbody>
+                        </table>
+                    </div>
+                `;
+            } else {
+                modalBody.innerHTML = `
+                    <div class="alert alert-danger">
+                        <i class="fas fa-exclamation-triangle me-2"></i>
+                        ${data.error || 'Gagal memuat detail transaksi'}
+                    </div>
+                `;
+            }
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            modalBody.innerHTML = `
+                <div class="alert alert-danger">
+                    <i class="fas fa-exclamation-triangle me-2"></i>
+                    Terjadi kesalahan saat memuat data
+                </div>
+            `;
+        });
+}
+
+// Cetak Struk
+function cetakStruk(idTransaksi) {
+    // Show loading toast
+    showToast('Menyiapkan struk untuk dicetak...', 'info');
+    
+    // Open print window directly from server
+    const printUrl = `/admin/keuangan/cetak-struk/${idTransaksi}`;
+    const printWindow = window.open(printUrl, '_blank', 'width=800,height=600');
+    
+    if (printWindow) {
+        printWindow.addEventListener('load', function() {
+            setTimeout(() => {
+                printWindow.print();
+                showToast('Struk berhasil dicetak!', 'success');
+            }, 1000);
+        });
+    } else {
+        showToast('Popup diblokir. Silakan izinkan popup untuk mencetak struk.', 'error');
+    }
+}
+
+// Hapus Transaksi
+let deleteTransaksiId = null;
+
+function hapusTransaksi(idTransaksi) {
+    deleteTransaksiId = idTransaksi;
+    const modal = new bootstrap.Modal(document.getElementById('deleteModal'));
+    modal.show();
+}
+
+// Toast notification function
+function showToast(message, type = 'info') {
+    // Create toast container if it doesn't exist
+    let toastContainer = document.getElementById('toastContainer');
+    if (!toastContainer) {
+        toastContainer = document.createElement('div');
+        toastContainer.id = 'toastContainer';
+        toastContainer.className = 'toast-container position-fixed top-0 end-0 p-3';
+        toastContainer.style.zIndex = '9999';
+        document.body.appendChild(toastContainer);
+    }
+    
+    // Create toast
+    const toastId = 'toast-' + Date.now();
+    const bgClass = type === 'success' ? 'bg-success' : type === 'error' ? 'bg-danger' : 'bg-info';
+    
+    const toastHtml = `
+        <div id="${toastId}" class="toast ${bgClass} text-white" role="alert" aria-live="assertive" aria-atomic="true">
+            <div class="toast-header ${bgClass} text-white border-0">
+                <i class="fas fa-${type === 'success' ? 'check-circle' : type === 'error' ? 'exclamation-triangle' : 'info-circle'} me-2"></i>
+                <strong class="me-auto">Notifikasi</strong>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="toast"></button>
+            </div>
+            <div class="toast-body">
+                ${message}
+            </div>
+        </div>
+    `;
+    
+    toastContainer.insertAdjacentHTML('beforeend', toastHtml);
+    
+    // Show toast
+    const toastElement = new bootstrap.Toast(document.getElementById(toastId));
+    toastElement.show();
+    
+    // Remove toast element after it's hidden
+    document.getElementById(toastId).addEventListener('hidden.bs.toast', function() {
+        this.remove();
+    });
+}
+
 // Enhanced Pagination Functionality
 document.addEventListener('DOMContentLoaded', function() {
+    // Konfirmasi hapus event listener
+    const confirmDeleteBtn = document.getElementById('confirmDeleteBtn');
+    if (confirmDeleteBtn) {
+        confirmDeleteBtn.addEventListener('click', function() {
+            if (deleteTransaksiId) {
+                // Show loading
+                this.innerHTML = '<span class="spinner-border spinner-border-sm me-2"></span>Menghapus...';
+                this.disabled = true;
+                
+                // AJAX call to delete
+                fetch(`/admin/keuangan/hapus-transaksi/${deleteTransaksiId}`, {
+                    method: 'DELETE',
+                    headers: {
+                        'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content'),
+                        'Content-Type': 'application/json',
+                    }
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        showToast('Transaksi berhasil dihapus!', 'success');
+                        
+                        // Close modal
+                        bootstrap.Modal.getInstance(document.getElementById('deleteModal')).hide();
+                        
+                        // Reload page after short delay
+                        setTimeout(() => {
+                            window.location.reload();
+                        }, 1000);
+                    } else {
+                        showToast(data.error || 'Gagal menghapus transaksi', 'error');
+                        
+                        // Reset button state
+                        this.innerHTML = 'Hapus';
+                        this.disabled = false;
+                    }
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    showToast('Terjadi kesalahan saat menghapus transaksi', 'error');
+                    
+                    // Reset button state
+                    this.innerHTML = 'Hapus';
+                    this.disabled = false;
+                });
+            }
+        });
+    }
+    
     // Add loading state for pagination links
     const paginationLinks = document.querySelectorAll('.pagination .page-link');
     
