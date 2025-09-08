@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Collection;
 use App\Models\Pelanggan;
 
 class PelangganController extends Controller
@@ -125,7 +126,7 @@ class PelangganController extends Controller
         ]
     ];
 
-    $categories = [
+    $categories = collect([
         ['name' => 'Elektronik', 'icon' => 'fas fa-laptop', 'color' => '#3498db', 'url' => route('kategori.elektronik'), 'count' => '150'],
         ['name' => 'Fashion', 'icon' => 'fas fa-tshirt', 'color' => '#e74c3c', 'url' => route('kategori.fashion'), 'count' => '320'],
         ['name' => 'Rumah Tangga', 'icon' => 'fas fa-home', 'color' => '#2ecc71', 'url' => route('kategori.rumah-tangga'), 'count' => '95'],
@@ -134,9 +135,9 @@ class PelangganController extends Controller
         ['name' => 'Makanan', 'icon' => 'fas fa-utensils', 'color' => '#ff9800', 'url' => route('kategori.makanan'), 'count' => '250'],
         ['name' => 'Buku', 'icon' => 'fas fa-book', 'color' => '#9c27b0', 'url' => route('kategori.buku'), 'count' => '65'],
         ['name' => 'Perawatan', 'icon' => 'fas fa-spa', 'color' => '#607d8b', 'url' => route('kategori.perawatan'), 'count' => '120']
-    ];
+    ]);
 
-    $popularProducts = [
+    $popularProducts = collect([
         [
             'id' => 1,
             'name' => 'Smartphone Flagship Terbaru',
@@ -169,7 +170,7 @@ class PelangganController extends Controller
             'rating' => 4.6,
             'sold' => 3200
         ]
-    ];
+    ]);
 
     return view('pelanggan.dashboard', compact('promoSlides', 'categories', 'popularProducts'));
   }
