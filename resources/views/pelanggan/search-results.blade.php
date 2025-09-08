@@ -1,4 +1,4 @@
-@extends('layouts.customer')
+@extends('layouts.search')
 
 @section('title', 'Hasil Pencarian - ' . $query)
 

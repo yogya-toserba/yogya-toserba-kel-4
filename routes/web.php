@@ -152,6 +152,7 @@ Route::prefix('pelanggan')->name('pelanggan.')->group(function () {
 
     // Search route (available to all customers)
     Route::get('/search', [PelangganController::class, 'search'])->name('search');
+    Route::get('/search/suggestions', [PelangganController::class, 'searchSuggestions'])->name('search.suggestions');
 
     // Protected pelanggan routes
     Route::middleware('auth:pelanggan')->group(function () {
