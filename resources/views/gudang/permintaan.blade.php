@@ -295,14 +295,137 @@ body.dark-mode .priority-rendah {
 
 body.dark-mode .filter-section {
     background: #2a2d3f;
+    border: 1px solid #3a3d4a;
 }
 
-.filter-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-    gap: 15px;
+/* Filter Specific Styles */
+.filter-container {
+    background: white;
+    border-radius: 12px;
+    padding: 25px;
+    margin-bottom: 25px;
+    box-shadow: 0 2px 12px rgba(0,0,0,0.08);
+    border: 1px solid #e5e7eb;
+}
+
+body.dark-mode .filter-container {
+    background: #2a2d3f;
+    border-color: #3a3d4a;
+}
+
+.filter-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
     align-items: end;
 }
+
+.filter-col {
+    flex: 1;
+    min-width: 200px;
+}
+
+.filter-col-auto {
+    flex: 0 0 auto;
+    min-width: 140px;
+}
+
+.filter-label {
+    display: block;
+    font-weight: 600;
+    color: #374151;
+    margin-bottom: 8px;
+    font-size: 0.9rem;
+}
+
+body.dark-mode .filter-label {
+    color: #e2e8f0;
+}
+
+.filter-input, .filter-select {
+    width: 100%;
+    padding: 10px 12px;
+    border: 2px solid #e5e7eb;
+    border-radius: 8px;
+    font-size: 0.95rem;
+    transition: all 0.3s ease;
+    background: white;
+}
+
+body.dark-mode .filter-input,
+body.dark-mode .filter-select {
+    background: #374151;
+    border-color: #4b5563;
+    color: #e2e8f0;
+}
+
+.filter-input:focus, .filter-select:focus {
+    outline: none;
+    border-color: #3b82f6;
+    box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+}
+
+.filter-btn {
+    padding: 10px 16px;
+    border: none;
+    border-radius: 8px;
+    font-weight: 600;
+    font-size: 0.9rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    text-decoration: none;
+    white-space: nowrap;
+}
+
+.filter-btn-primary {
+    background: linear-gradient(135deg, #3b82f6, #2563eb);
+    color: white;
+}
+
+.filter-btn-primary:hover {
+    background: linear-gradient(135deg, #2563eb, #1d4ed8);
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(59, 130, 246, 0.3);
+}
+
+.filter-btn-secondary {
+    background: #f3f4f6;
+    color: #6b7280;
+    border: 1px solid #d1d5db;
+}
+
+.filter-btn-secondary:hover {
+    background: #e5e7eb;
+    color: #374151;
+}
+
+body.dark-mode .filter-btn-secondary {
+    background: #374151;
+    color: #d1d5db;
+    border-color: #4b5563;
+}
+
+body.dark-mode .filter-btn-secondary:hover {
+    background: #4b5563;
+    color: #e5e7eb;
+}
+
+.filter-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 4px 8px;
+    border-radius: 6px;
+    font-size: 0.8rem;
+    font-weight: 500;
+}
+
+.filter-badge-primary { background: #dbeafe; color: #1e40af; }
+.filter-badge-warning { background: #fef3c7; color: #92400e; }
+.filter-badge-info { background: #ddd6fe; color: #5b21b6; }
 
 .form-label-modern {
     font-weight: 600;
@@ -448,10 +571,32 @@ body.dark-mode .action-dropdown-item:hover {
         grid-template-columns: 1fr;
     }
     
+    .filter-row {
+        flex-direction: column;
+        gap: 15px;
+    }
+    
+    .filter-col,
+    .filter-col-auto {
+        min-width: 100%;
+        flex: 1;
+    }
+    
+    .filter-col-auto > div {
+        justify-content: center;
+    }
+    
     .card-header-modern {
         padding: 15px 20px;
         flex-direction: column;
         gap: 10px;
+    }
+    
+    /* Responsive filter layout */
+    .row.g-3 .col-md-2 {
+        flex: 0 0 auto;
+        width: 50%;
+        margin-bottom: 15px;
     }
 }
 </style>
@@ -483,43 +628,58 @@ body.dark-mode .action-dropdown-item:hover {
         </div>
     </div>
 
-    <!-- Filter Section -->
-    <div class="filter-section">
-        <div class="filter-grid">
-            <div>
-                <label class="form-label-modern">Status</label>
-                <select class="form-control form-control-modern">
-                    <option>Semua Status</option>
-                    <option>Menunggu</option>
-                    <option>Diproses</option>
-                    <option>Selesai</option>
-                </select>
-            </div>
-            <div>
-                <label class="form-label-modern">Cabang</label>
-                <select class="form-control form-control-modern">
-                    <option>Semua Cabang</option>
-                    <option>Cabang Bandung</option>
-                    <option>Cabang Jakarta</option>
-                    <option>Cabang Surabaya</option>
-                </select>
-            </div>
-            <div>
-                <label class="form-label-modern">Prioritas</label>
-                <select class="form-control form-control-modern">
-                    <option>Semua Prioritas</option>
-                    <option>Tinggi</option>
-                    <option>Sedang</option>
-                    <option>Rendah</option>
-                </select>
-            </div>
-            <div>
-                <label class="form-label-modern">&nbsp;</label>
-                <button class="btn btn-modern w-100 form-control-modern" style="height: 48px;">
-                    <i class="fas fa-search"></i>
-                    Filter
-                </button>
-            </div>
+    <!-- Filter Section - Layout Horizontal Compact -->
+    <div class="modern-card mb-3">
+        <div class="card-header-modern">
+            <h5 class="card-title-modern">
+                <i class="fas fa-filter" style="color: #f26b37; margin-right: 10px;"></i>
+                Filter Permintaan
+            </h5>
+        </div>
+        <div style="padding: 20px;">
+            <form id="filter-form-permintaan" method="GET" action="{{ route('gudang.permintaan') }}">
+                <div class="row g-3 align-items-end">
+                    <div class="col-md-2">
+                        <label class="form-label-modern">Status</label>
+                        <select name="status" class="form-control form-control-modern">
+                            <option value="">Semua Status</option>
+                            <option value="Pending" {{ request('status') == 'Pending' ? 'selected' : '' }}>Pending</option>
+                            <option value="Diproses" {{ request('status') == 'Diproses' ? 'selected' : '' }}>Diproses</option>
+                            <option value="Siap Kirim" {{ request('status') == 'Siap Kirim' ? 'selected' : '' }}>Siap Kirim</option>
+                            <option value="Selesai" {{ request('status') == 'Selesai' ? 'selected' : '' }}>Selesai</option>
+                        </select>
+                    </div>
+                    <div class="col-md-2">
+                        <label class="form-label-modern">Prioritas</label>
+                        <select name="prioritas" class="form-control form-control-modern">
+                            <option value="">Semua Prioritas</option>
+                            <option value="Tinggi" {{ request('prioritas') == 'Tinggi' ? 'selected' : '' }}>Tinggi</option>
+                            <option value="Sedang" {{ request('prioritas') == 'Sedang' ? 'selected' : '' }}>Sedang</option>
+                            <option value="Rendah" {{ request('prioritas') == 'Rendah' ? 'selected' : '' }}>Rendah</option>
+                        </select>
+                    </div>
+                    <div class="col-md-2">
+                        <label class="form-label-modern">Tanggal Dari</label>
+                        <input type="date" name="tanggal_dari" value="{{ request('tanggal_dari') }}" class="form-control form-control-modern">
+                    </div>
+                    <div class="col-md-2">
+                        <label class="form-label-modern">Tanggal Sampai</label>
+                        <input type="date" name="tanggal_sampai" value="{{ request('tanggal_sampai') }}" class="form-control form-control-modern">
+                    </div>
+                    <div class="col-md-2">
+                        <button type="submit" class="btn btn-modern w-100" style="height: 48px;">
+                            <i class="fas fa-search"></i>
+                            Filter
+                        </button>
+                    </div>
+                    <div class="col-md-2">
+                        <button type="button" onclick="resetFilterPermintaan()" class="btn btn-outline-modern w-100" style="height: 48px;">
+                            <i class="fas fa-refresh"></i>
+                            Reset
+                        </button>
+                    </div>
+                </div>
+            </form>
         </div>
     </div>
 
@@ -545,6 +705,10 @@ body.dark-mode .action-dropdown-item:hover {
                 </button>
             </div>
         </div>
+        
+        <div class="table-responsive">
+        </div>
+        
         <div class="table-responsive">
             <table class="table modern-table">
                 <thead>
@@ -985,5 +1149,92 @@ function kirimPermintaan(permintaanId, index) {
         });
     }
 }
+
+// Filter functionality for Permintaan
+function applyFilterPermintaan() {
+    console.log('Applying filter...');
+    const form = document.querySelector('#filter-form-permintaan');
+    if (form) {
+        console.log('Form found, submitting...');
+        form.submit();
+    } else {
+        console.error('Filter form not found!');
+    }
+}
+
+function resetFilterPermintaan() {
+    console.log('Resetting filter...');
+    try {
+        // Clear all form inputs with better error handling
+        const statusSelect = document.querySelector('#filter-form-permintaan select[name="status"]');
+        const prioritasSelect = document.querySelector('#filter-form-permintaan select[name="prioritas"]');
+        const tanggalDari = document.querySelector('#filter-form-permintaan input[name="tanggal_dari"]');
+        const tanggalSampai = document.querySelector('#filter-form-permintaan input[name="tanggal_sampai"]');
+        
+        if (statusSelect) statusSelect.value = '';
+        if (prioritasSelect) prioritasSelect.value = '';
+        if (tanggalDari) tanggalDari.value = '';
+        if (tanggalSampai) tanggalSampai.value = '';
+        
+        // Redirect to clear filters
+        const form = document.querySelector('#filter-form-permintaan');
+        if (form) {
+            window.location.href = form.action;
+        }
+    } catch (error) {
+        console.error('Error resetting filter:', error);
+    }
+}
+
+// Real-time filter setup
+document.addEventListener('DOMContentLoaded', function() {
+    console.log('Setting up filter event listeners...');
+    
+    try {
+        // Auto-submit on status change
+        const statusSelect = document.querySelector('#filter-form-permintaan select[name="status"]');
+        if (statusSelect) {
+            statusSelect.addEventListener('change', function() {
+                console.log('Status changed:', this.value);
+                setTimeout(applyFilterPermintaan, 100);
+            });
+            console.log('Status select listener added');
+        }
+        
+        // Auto-submit on prioritas change
+        const prioritasSelect = document.querySelector('#filter-form-permintaan select[name="prioritas"]');
+        if (prioritasSelect) {
+            prioritasSelect.addEventListener('change', function() {
+                console.log('Prioritas changed:', this.value);
+                setTimeout(applyFilterPermintaan, 100);
+            });
+            console.log('Prioritas select listener added');
+        }
+        
+        // Auto-submit on date change with debouncing
+        const dateInputs = document.querySelectorAll('#filter-form-permintaan input[type="date"]');
+        dateInputs.forEach(function(input) {
+            input.addEventListener('change', function() {
+                console.log('Date changed:', this.name, this.value);
+                setTimeout(applyFilterPermintaan, 200);
+            });
+        });
+        console.log(`Date input listeners added (${dateInputs.length} inputs)`);
+        
+        // Manual filter button
+        const filterBtn = document.querySelector('#filter-form-permintaan button[type="submit"]');
+        if (filterBtn) {
+            filterBtn.addEventListener('click', function(e) {
+                e.preventDefault();
+                console.log('Manual filter button clicked');
+                applyFilterPermintaan();
+            });
+            console.log('Filter button listener added');
+        }
+        
+    } catch (error) {
+        console.error('Error setting up filter listeners:', error);
+    }
+});
 </script>
 @endsection

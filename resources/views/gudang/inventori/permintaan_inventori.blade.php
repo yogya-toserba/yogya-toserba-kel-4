@@ -295,8 +295,7 @@
             </div>
         </div>
     </div>
-
-                    <form method="POST" action="{{ route('gudang.permintaan.submit') }}" id="permintaanForm">
+    <form method="POST" action="{{ route('gudang.permintaan.submit') }}" id="permintaanForm">
         @csrf
         
         <!-- Informasi Umum -->

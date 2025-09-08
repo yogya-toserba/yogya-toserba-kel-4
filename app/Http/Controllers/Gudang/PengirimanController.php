@@ -17,13 +17,50 @@ class PengirimanController extends Controller
     // Ambil data pengiriman dari session (data dari permintaan yang dikirim)
     $sessionPengiriman = session('all_pengiriman', []);
     
-    // Buat pagination kosong untuk menghindari error hasPages()
+    // Apply filters
+    $filteredPengiriman = collect($sessionPengiriman);
+    
+    // Filter by status
+    if ($request->filled('status')) {
+      $filteredPengiriman = $filteredPengiriman->where('status', $request->status);
+    }
+    
+    // Filter by date range
+    if ($request->filled('tanggal_dari')) {
+      $filteredPengiriman = $filteredPengiriman->filter(function($item) use ($request) {
+        $itemDate = $item['tanggal_kirim'] ?? date('Y-m-d');
+        return $itemDate >= $request->tanggal_dari;
+      });
+    }
+    
+    if ($request->filled('tanggal_sampai')) {
+      $filteredPengiriman = $filteredPengiriman->filter(function($item) use ($request) {
+        $itemDate = $item['tanggal_kirim'] ?? date('Y-m-d');
+        return $itemDate <= $request->tanggal_sampai;
+      });
+    }
+    
+    // Convert back to array for pagination
+    $filteredArray = $filteredPengiriman->values()->toArray();
+    
+    // Buat pagination
+    $perPage = 10;
+    $currentPage = $request->get('page', 1);
+    $total = count($filteredArray);
+    $offset = ($currentPage - 1) * $perPage;
+    $currentItems = array_slice($filteredArray, $offset, $perPage);
+    
     $pengiriman = new \Illuminate\Pagination\LengthAwarePaginator(
-      collect([]), // items
-      0, // total
-      10, // per page
-      1, // current page
-      ['path' => request()->url(), 'pageName' => 'page']
+      $currentItems, // items
+      $total, // total
+      $perPage, // per page
+      $currentPage, // current page
+      [
+        'path' => $request->url(),
+        'pageName' => 'page',
+        'fragment' => null,
+        'query' => $request->query()
+      ]
     );
 
     // Statistik hanya dari session data
