@@ -108,16 +108,19 @@ class PelangganController extends Controller
         [
             'title' => 'Flash Sale Spektakuler!',
             'description' => 'Diskon hingga 70% untuk produk pilihan',
+            'discount' => 'Diskon 70%',
             'button_text' => 'Belanja Sekarang'
         ],
         [
             'title' => 'Gratis Ongkir Se-Indonesia',
             'description' => 'Minimum pembelian Rp 100.000',
+            'discount' => 'Gratis Ongkir',
             'button_text' => 'Mulai Belanja'
         ],
         [
             'title' => 'Member Baru? Dapat Voucher!',
             'description' => 'Dapatkan voucher 50% untuk pembelian pertama',
+            'discount' => 'Voucher 50%',
             'button_text' => 'Daftar Sekarang'
         ]
     ];
