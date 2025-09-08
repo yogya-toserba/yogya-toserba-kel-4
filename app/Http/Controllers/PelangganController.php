@@ -1,3 +1,4 @@
+
 <?php
 
 namespace App\Http\Controllers;
@@ -107,17 +108,17 @@ class PelangganController extends Controller
     $promoSlides = [
         [
             'title' => 'Flash Sale Spektakuler!',
-            'subtitle' => 'Diskon hingga 70% untuk produk pilihan',
+            'description' => 'Diskon hingga 70% untuk produk pilihan',
             'button_text' => 'Belanja Sekarang'
         ],
         [
             'title' => 'Gratis Ongkir Se-Indonesia',
-            'subtitle' => 'Minimum pembelian Rp 100.000',
+            'description' => 'Minimum pembelian Rp 100.000',
             'button_text' => 'Mulai Belanja'
         ],
         [
             'title' => 'Member Baru? Dapat Voucher!',
-            'subtitle' => 'Dapatkan voucher 50% untuk pembelian pertama',
+            'description' => 'Dapatkan voucher 50% untuk pembelian pertama',
             'button_text' => 'Daftar Sekarang'
         ]
     ];
