@@ -130,6 +130,10 @@ body.dark-mode .new-pengguna {
     position: relative !important;
     overflow: hidden !important;
     text-align: center !important;
+    height: 240px !important;
+    display: flex !important;
+    flex-direction: column !important;
+    justify-content: center !important;
 }
 
 .new-stat-card:hover {
@@ -169,6 +173,21 @@ body.dark-mode .new-stat-card:hover {
     color: #1e293b !important;
     line-height: 1 !important;
     text-align: center !important;
+    white-space: nowrap !important;
+    overflow: hidden !important;
+}
+
+/* Responsive font size untuk angka panjang */
+.new-stat-number.long-number {
+    font-size: 1.6rem !important;
+}
+
+.new-stat-number.very-long-number {
+    font-size: 1.3rem !important;
+}
+
+.new-stat-number.extra-long-number {
+    font-size: 1.1rem !important;
 }
 
 body.dark-mode .new-stat-number {
@@ -764,6 +783,43 @@ body.dark-mode .page-item.disabled .page-link {
         padding: 8px 12px !important;
         font-size: 0.75rem !important;
     }
+    
+    /* Responsive font sizes untuk mobile */
+    .new-stat-card {
+        height: 180px !important;
+        padding: 20px !important;
+    }
+    
+    .new-stat-number {
+        font-size: 1.5rem !important;
+    }
+    
+    .new-stat-number.long-number {
+        font-size: 1.2rem !important;
+    }
+    
+    .new-stat-number.very-long-number {
+        font-size: 1rem !important;
+    }
+    
+    .new-stat-number.extra-long-number {
+        font-size: 0.9rem !important;
+    }
+}
+
+/* Additional responsive breakpoints untuk tablets */
+@media (min-width: 577px) and (max-width: 768px) {
+    .new-stat-number.long-number {
+        font-size: 1.4rem !important;
+    }
+    
+    .new-stat-number.very-long-number {
+        font-size: 1.2rem !important;
+    }
+    
+    .new-stat-number.extra-long-number {
+        font-size: 1rem !important;
+    }
 }
 
 /* ADDITIONAL IMPROVEMENTS */
@@ -1203,6 +1259,49 @@ document.addEventListener('DOMContentLoaded', function() {
     const paginationInfo = document.querySelector('.pagination-info');
     if (paginationInfo) {
         paginationInfo.title = 'Informasi halaman saat ini';
+    }
+    
+    // Responsive font sizing untuk angka panjang
+    function adjustNumberFontSize() {
+        const numberElements = document.querySelectorAll('.new-stat-number');
+        
+        numberElements.forEach(function(element) {
+            const text = element.textContent.trim();
+            const length = text.length;
+            
+            // Reset classes
+            element.classList.remove('long-number', 'very-long-number', 'extra-long-number');
+            
+            // Apply appropriate class based on length
+            if (length > 20) {
+                element.classList.add('extra-long-number');
+            } else if (length > 15) {
+                element.classList.add('very-long-number');
+            } else if (length > 12) {
+                element.classList.add('long-number');
+            }
+        });
+    }
+    
+    // Run on page load
+    adjustNumberFontSize();
+    
+    // Run again after any dynamic content updates
+    const observer = new MutationObserver(function(mutations) {
+        mutations.forEach(function(mutation) {
+            if (mutation.type === 'childList') {
+                adjustNumberFontSize();
+            }
+        });
+    });
+    
+    // Start observing
+    const statsContainer = document.querySelector('.row.g-4');
+    if (statsContainer) {
+        observer.observe(statsContainer, {
+            childList: true,
+            subtree: true
+        });
     }
     
     // Preserve scroll position when returning from other pages
