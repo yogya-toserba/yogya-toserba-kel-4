@@ -649,7 +649,7 @@
                 </form>
 
                 <div class="text-center mb-3">
-                    <small><a href="{{ route('password.request') }}" style="color: #667eea; text-decoration: none; transition: color 0.3s ease;">Lupa kata sandi?</a></small>
+                    <small><a href="{{ route('pelanggan.password.request') }}" style="color: #667eea; text-decoration: none; transition: color 0.3s ease;">Lupa kata sandi?</a></small>
                 </div>
 
                 <div class="register-link">

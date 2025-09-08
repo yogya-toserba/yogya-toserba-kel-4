@@ -77,7 +77,7 @@ class ForgotPasswordController extends Controller
     public function showVerifyForm()
     {
         if (!session('email')) {
-            return redirect()->route('password.request');
+            return redirect()->route('pelanggan.password.request');
         }
 
         return view('auth.verify-otp');
@@ -131,7 +131,7 @@ class ForgotPasswordController extends Controller
     public function showResetForm()
     {
         if (!session('email') || !session('token')) {
-            return redirect()->route('password.request');
+            return redirect()->route('pelanggan.password.request');
         }
 
         return view('auth.reset-password');
