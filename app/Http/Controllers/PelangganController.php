@@ -89,8 +89,9 @@ class PelangganController extends Controller
       return view('pelanggan.search-results', ['results' => [], 'query' => '']);
     }
 
-    // Example: search products by name
+    // Search products by name from stok_produk table
     $results = \DB::table('stok_produk')
+      ->select('id_produk', 'nama_barang', 'harga_jual as harga', 'stok', 'foto')
       ->where('nama_barang', 'like', "%{$query}%")
       ->limit(10)
       ->get();

@@ -140,6 +140,10 @@ Route::prefix('api')->group(function () {
     Route::get('/tren-penjualan', [ProdukTerlarisController::class, 'getTrenPenjualanHarian'])->name('api.tren.penjualan');
 });
 
+// Search route (available to all customers)
+Route::get('/search', [PelangganController::class, 'search'])->name('pelanggan.search');
+Route::get('/search/suggestions', [PelangganController::class, 'searchSuggestions'])->name('search.suggestions');
+
 // Pelanggan Routes - login dan register dengan controller
 Route::prefix('pelanggan')->name('pelanggan.')->group(function () {
     Route::get('/login', [PelangganController::class, 'showLogin'])->name('login');
@@ -149,10 +153,6 @@ Route::prefix('pelanggan')->name('pelanggan.')->group(function () {
     Route::post('/register', [PelangganController::class, 'register'])->name('register.submit');
 
     Route::post('/logout', [PelangganController::class, 'logout'])->name('logout');
-
-    // Search route (available to all customers)
-    Route::get('/search', [PelangganController::class, 'search'])->name('search');
-    Route::get('/search/suggestions', [PelangganController::class, 'searchSuggestions'])->name('search.suggestions');
 
     // Protected pelanggan routes
     Route::middleware('auth:pelanggan')->group(function () {
