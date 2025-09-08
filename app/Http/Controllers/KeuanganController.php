@@ -65,10 +65,13 @@ class KeuanganController extends Controller
         $query = DB::table('transaksi')
             ->join('pelanggan', 'transaksi.id_pelanggan', '=', 'pelanggan.id_pelanggan')
             ->join('cabang', 'transaksi.id_cabang', '=', 'cabang.id_cabang')
+            ->leftJoin('kas', 'transaksi.id_kas', '=', 'kas.id_kas')
             ->select(
                 'transaksi.*',
                 'pelanggan.nama_pelanggan',
-                'cabang.nama_cabang'
+                'cabang.nama_cabang',
+                'kas.jenis_transaksi',
+                'kas.keterangan'
             );
 
         // Filter berdasarkan pencarian
@@ -77,7 +80,8 @@ class KeuanganController extends Controller
             $query->where(function($q) use ($search) {
                 $q->where('transaksi.id_transaksi', 'like', "%{$search}%")
                   ->orWhere('pelanggan.nama_pelanggan', 'like', "%{$search}%")
-                  ->orWhere('transaksi.metode_pembayaran', 'like', "%{$search}%");
+                  ->orWhere('kas.jenis_transaksi', 'like', "%{$search}%")
+                  ->orWhere('kas.keterangan', 'like', "%{$search}%");
             });
         }
 
@@ -100,14 +104,51 @@ class KeuanganController extends Controller
             }
         }
 
-        // Filter berdasarkan status
+        // Filter berdasarkan status (mapping logic for demo purposes)
         if ($request->filled('status')) {
-            $query->where('transaksi.status_transaksi', $request->status);
+            $status = $request->status;
+            // Since we don't have actual status column, we'll simulate based on ID pattern
+            switch(strtolower($status)) {
+                case 'berhasil':
+                    $query->where(DB::raw('transaksi.id_transaksi % 4'), '=', 0);
+                    break;
+                case 'pending':
+                    $query->where(DB::raw('transaksi.id_transaksi % 4'), '=', 1);
+                    break;
+                case 'gagal':
+                    $query->where(DB::raw('transaksi.id_transaksi % 4'), '=', 2);
+                    break;
+                case 'dibatalkan':
+                    $query->where(DB::raw('transaksi.id_transaksi % 4'), '=', 3);
+                    break;
+            }
         }
 
-        // Filter berdasarkan metode pembayaran
+        // Filter berdasarkan metode pembayaran (mapping logic)
         if ($request->filled('metode')) {
-            $query->where('transaksi.metode_pembayaran', $request->metode);
+            $metode = $request->metode;
+            // Since we're using a mapping logic in the view, we'll filter based on ID pattern for demo
+            // In real application, you would have a proper metode_pembayaran column
+            switch(strtolower($metode)) {
+                case 'tunai':
+                    $query->where(DB::raw('transaksi.id_transaksi % 5'), '=', 0);
+                    break;
+                case 'transfer':
+                    $query->where(DB::raw('transaksi.id_transaksi % 5'), '=', 1);
+                    break;
+                case 'kartu':
+                    $query->where(DB::raw('transaksi.id_transaksi % 5'), '=', 2);
+                    break;
+                case 'e-wallet':
+                    $query->where(DB::raw('transaksi.id_transaksi % 5'), '=', 3);
+                    break;
+                case 'qris':
+                    $query->where(DB::raw('transaksi.id_transaksi % 5'), '=', 4);
+                    break;
+                default:
+                    // Fallback to keterangan search
+                    $query->where('kas.keterangan', 'like', "%{$metode}%");
+            }
         }
 
         $transaksi = $query->orderByDesc('tanggal_transaksi')->paginate(20);
