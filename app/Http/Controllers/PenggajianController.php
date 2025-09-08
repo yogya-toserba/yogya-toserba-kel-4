@@ -594,7 +594,7 @@ class PenggajianController extends Controller
         try {
             $gaji = Gaji::with(['karyawan.jabatan'])->findOrFail($request->gaji_id);
 
-            // Return HTML view for printing
+            // Return HTML view for printing.
             return view('admin.penggajian.slip', compact('gaji'));
         } catch (\Exception $e) {
             return redirect()->back()->with('error', 'Gagal generate slip gaji: ' . $e->getMessage());
