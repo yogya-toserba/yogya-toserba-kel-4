@@ -407,4 +407,111 @@ class KeuanganController extends Controller
         // Generate PDF
         return view('admin.keuangan.laporan_pdf', compact('data', 'jenisLaporan', 'periodeText'));
     }
+
+    public function detailTransaksi($id)
+    {
+        try {
+            $transaksi = DB::table('transaksi')
+                ->join('pelanggan', 'transaksi.id_pelanggan', '=', 'pelanggan.id_pelanggan')
+                ->join('cabang', 'transaksi.id_cabang', '=', 'cabang.id_cabang')
+                ->leftJoin('kas', 'transaksi.id_kas', '=', 'kas.id_kas')
+                ->where('transaksi.id_transaksi', $id)
+                ->select(
+                    'transaksi.*',
+                    'pelanggan.nama_pelanggan',
+                    'cabang.nama_cabang',
+                    'kas.jenis_transaksi',
+                    'kas.keterangan'
+                )
+                ->first();
+
+            if (!$transaksi) {
+                return response()->json(['error' => 'Transaksi tidak ditemukan'], 404);
+            }
+
+            // Get detail transaksi (items)
+            $detailTransaksi = DB::table('detail_transaksi')
+                ->where('detail_transaksi.id_transaksi', $id)
+                ->select(
+                    'detail_transaksi.nama_barang',
+                    'detail_transaksi.jumlah_barang',
+                    'detail_transaksi.total_harga',
+                    DB::raw('ROUND(detail_transaksi.total_harga / detail_transaksi.jumlah_barang, 0) as harga_satuan')
+                )
+                ->get();
+
+            return response()->json([
+                'success' => true,
+                'data' => [
+                    'transaksi' => $transaksi,
+                    'detail' => $detailTransaksi
+                ]
+            ]);
+
+        } catch (\Exception $e) {
+            return response()->json(['error' => 'Terjadi kesalahan: ' . $e->getMessage()], 500);
+        }
+    }
+
+    public function hapusTransaksi($id)
+    {
+        try {
+            // Check if transaction exists
+            $transaksi = DB::table('transaksi')->where('id_transaksi', $id)->first();
+            
+            if (!$transaksi) {
+                return response()->json(['error' => 'Transaksi tidak ditemukan'], 404);
+            }
+
+            // Delete detail transaksi first (foreign key constraint)
+            DB::table('detail_transaksi')->where('id_transaksi', $id)->delete();
+            
+            // Delete main transaction
+            DB::table('transaksi')->where('id_transaksi', $id)->delete();
+
+            return response()->json([
+                'success' => true,
+                'message' => 'Transaksi berhasil dihapus'
+            ]);
+
+        } catch (\Exception $e) {
+            return response()->json(['error' => 'Terjadi kesalahan: ' . $e->getMessage()], 500);
+        }
+    }
+
+    public function cetakStruk($id)
+    {
+        try {
+            $transaksi = DB::table('transaksi')
+                ->join('pelanggan', 'transaksi.id_pelanggan', '=', 'pelanggan.id_pelanggan')
+                ->join('cabang', 'transaksi.id_cabang', '=', 'cabang.id_cabang')
+                ->where('transaksi.id_transaksi', $id)
+                ->select(
+                    'transaksi.*',
+                    'pelanggan.nama_pelanggan',
+                    'cabang.nama_cabang'
+                )
+                ->first();
+
+            if (!$transaksi) {
+                return response()->json(['error' => 'Transaksi tidak ditemukan'], 404);
+            }
+
+            // Get detail transaksi untuk struk
+            $detailTransaksi = DB::table('detail_transaksi')
+                ->where('detail_transaksi.id_transaksi', $id)
+                ->select(
+                    'detail_transaksi.nama_barang',
+                    'detail_transaksi.jumlah_barang',
+                    'detail_transaksi.total_harga',
+                    DB::raw('ROUND(detail_transaksi.total_harga / detail_transaksi.jumlah_barang, 0) as harga_satuan')
+                )
+                ->get();
+
+            return view('admin.keuangan.struk_print', compact('transaksi', 'detailTransaksi'));
+
+        } catch (\Exception $e) {
+            return response()->json(['error' => 'Terjadi kesalahan: ' . $e->getMessage()], 500);
+        }
+    }
 }
