@@ -5,7 +5,6 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Collection;
 use App\Models\Pelanggan;
 
 class PelangganController extends Controller
@@ -108,36 +107,33 @@ class PelangganController extends Controller
     $promoSlides = [
         [
             'title' => 'Flash Sale Spektakuler!',
-            'description' => 'Diskon hingga 70% untuk produk pilihan',
-            'discount' => 'Diskon 70%',
+            'subtitle' => 'Diskon hingga 70% untuk produk pilihan',
             'button_text' => 'Belanja Sekarang'
         ],
         [
             'title' => 'Gratis Ongkir Se-Indonesia',
-            'description' => 'Minimum pembelian Rp 100.000',
-            'discount' => 'Gratis Ongkir',
+            'subtitle' => 'Minimum pembelian Rp 100.000',
             'button_text' => 'Mulai Belanja'
         ],
         [
             'title' => 'Member Baru? Dapat Voucher!',
-            'description' => 'Dapatkan voucher 50% untuk pembelian pertama',
-            'discount' => 'Voucher 50%',
+            'subtitle' => 'Dapatkan voucher 50% untuk pembelian pertama',
             'button_text' => 'Daftar Sekarang'
         ]
     ];
 
-    $categories = collect([
-        ['name' => 'Elektronik', 'icon' => 'fas fa-laptop', 'color' => '#3498db', 'url' => route('kategori.elektronik'), 'count' => '150'],
-        ['name' => 'Fashion', 'icon' => 'fas fa-tshirt', 'color' => '#e74c3c', 'url' => route('kategori.fashion'), 'count' => '320'],
-        ['name' => 'Rumah Tangga', 'icon' => 'fas fa-home', 'color' => '#2ecc71', 'url' => route('kategori.rumah-tangga'), 'count' => '95'],
-        ['name' => 'Olahraga', 'icon' => 'fas fa-dumbbell', 'color' => '#f39c12', 'url' => route('kategori.olahraga'), 'count' => '75'],
-        ['name' => 'Kecantikan', 'icon' => 'fas fa-heart', 'color' => '#e91e63', 'url' => route('kategori.kesehatan-kecantikan'), 'count' => '180'],
-        ['name' => 'Makanan', 'icon' => 'fas fa-utensils', 'color' => '#ff9800', 'url' => route('kategori.makanan'), 'count' => '250'],
-        ['name' => 'Buku', 'icon' => 'fas fa-book', 'color' => '#9c27b0', 'url' => route('kategori.buku'), 'count' => '65'],
-        ['name' => 'Perawatan', 'icon' => 'fas fa-spa', 'color' => '#607d8b', 'url' => route('kategori.perawatan'), 'count' => '120']
-    ]);
+    $categories = [
+        ['name' => 'Elektronik', 'icon' => 'fas fa-laptop', 'color' => '#3498db', 'url' => '#'],
+        ['name' => 'Fashion', 'icon' => 'fas fa-tshirt', 'color' => '#e74c3c', 'url' => '#'],
+        ['name' => 'Rumah Tangga', 'icon' => 'fas fa-home', 'color' => '#2ecc71', 'url' => '#'],
+        ['name' => 'Olahraga', 'icon' => 'fas fa-dumbbell', 'color' => '#f39c12', 'url' => '#'],
+        ['name' => 'Kecantikan', 'icon' => 'fas fa-heart', 'color' => '#e91e63', 'url' => '#'],
+        ['name' => 'Makanan', 'icon' => 'fas fa-utensils', 'color' => '#ff9800', 'url' => '#'],
+        ['name' => 'Buku', 'icon' => 'fas fa-book', 'color' => '#9c27b0', 'url' => '#'],
+        ['name' => 'Perawatan', 'icon' => 'fas fa-spa', 'color' => '#607d8b', 'url' => '#']
+    ];
 
-    $popularProducts = collect([
+    $popularProducts = [
         [
             'id' => 1,
             'name' => 'Smartphone Flagship Terbaru',
@@ -170,9 +166,9 @@ class PelangganController extends Controller
             'rating' => 4.6,
             'sold' => 3200
         ]
-    ]);
+    ];
 
-    return view('pelanggan.dashboard', compact('promoSlides', 'categories', 'popularProducts'));
+    return view('dashboard.index', compact('promoSlides', 'categories', 'popularProducts'));
   }
 
   public function profile()
