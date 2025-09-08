@@ -474,6 +474,9 @@ Route::prefix('admin')->name('admin.')->group(function () {
 // Include Karyawan Routes
 require __DIR__ . '/karyawan.php';
 
+// Include Pelanggan Routes
+require __DIR__ . '/pelanggan.php';
+
 // Fallback route untuk halaman yang tidak ditemukan (404)
 Route::fallback(function () {
     return response()->view('errors.404', [], 404);
