@@ -246,7 +246,7 @@
                 </div>
 
                 <div class="text-center">
-                    <a href="{{ route('password.request') }}" class="back-link">
+                    <a href="{{ route('pelanggan.password.request') }}" class="back-link">
                         <i class="fas fa-arrow-left me-1"></i>Kembali
                     </a>
                 </div>
