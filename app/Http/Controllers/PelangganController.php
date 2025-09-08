@@ -123,14 +123,14 @@ class PelangganController extends Controller
     ];
 
     $categories = [
-        ['name' => 'Elektronik', 'icon' => 'fas fa-laptop', 'color' => '#3498db', 'url' => '#'],
-        ['name' => 'Fashion', 'icon' => 'fas fa-tshirt', 'color' => '#e74c3c', 'url' => '#'],
-        ['name' => 'Rumah Tangga', 'icon' => 'fas fa-home', 'color' => '#2ecc71', 'url' => '#'],
-        ['name' => 'Olahraga', 'icon' => 'fas fa-dumbbell', 'color' => '#f39c12', 'url' => '#'],
-        ['name' => 'Kecantikan', 'icon' => 'fas fa-heart', 'color' => '#e91e63', 'url' => '#'],
-        ['name' => 'Makanan', 'icon' => 'fas fa-utensils', 'color' => '#ff9800', 'url' => '#'],
-        ['name' => 'Buku', 'icon' => 'fas fa-book', 'color' => '#9c27b0', 'url' => '#'],
-        ['name' => 'Perawatan', 'icon' => 'fas fa-spa', 'color' => '#607d8b', 'url' => '#']
+        ['name' => 'Elektronik', 'icon' => 'fas fa-laptop', 'color' => '#3498db', 'url' => route('kategori.elektronik'), 'count' => '150'],
+        ['name' => 'Fashion', 'icon' => 'fas fa-tshirt', 'color' => '#e74c3c', 'url' => route('kategori.fashion'), 'count' => '320'],
+        ['name' => 'Rumah Tangga', 'icon' => 'fas fa-home', 'color' => '#2ecc71', 'url' => route('kategori.rumah-tangga'), 'count' => '95'],
+        ['name' => 'Olahraga', 'icon' => 'fas fa-dumbbell', 'color' => '#f39c12', 'url' => route('kategori.olahraga'), 'count' => '75'],
+        ['name' => 'Kecantikan', 'icon' => 'fas fa-heart', 'color' => '#e91e63', 'url' => route('kategori.kesehatan-kecantikan'), 'count' => '180'],
+        ['name' => 'Makanan', 'icon' => 'fas fa-utensils', 'color' => '#ff9800', 'url' => route('kategori.makanan'), 'count' => '250'],
+        ['name' => 'Buku', 'icon' => 'fas fa-book', 'color' => '#9c27b0', 'url' => route('kategori.buku'), 'count' => '65'],
+        ['name' => 'Perawatan', 'icon' => 'fas fa-spa', 'color' => '#607d8b', 'url' => route('kategori.perawatan'), 'count' => '120']
     ];
 
     $popularProducts = [
@@ -168,7 +168,7 @@ class PelangganController extends Controller
         ]
     ];
 
-    return view('dashboard.index', compact('promoSlides', 'categories', 'popularProducts'));
+    return view('pelanggan.dashboard', compact('promoSlides', 'categories', 'popularProducts'));
   }
 
   public function profile()

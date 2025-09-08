@@ -534,18 +534,10 @@ if (typeof bootstrap !== "undefined") {
 // Category card click handlers
 document.addEventListener("click", function (e) {
     if (e.target.closest(".category-card")) {
-        const categoryCard = e.target.closest(".category-card");
-        const categoryLink = categoryCard.closest("a");
-        
-        if (categoryLink && categoryLink.href) {
-            // Show toast notification
-            const categoryName = categoryCard.querySelector(".category-name").textContent;
-            showToast(`Menuju ke kategori: ${categoryName}`, "info");
-            
-            // Allow the default link behavior to proceed
-            // No need to prevent default or manually redirect
-            return true;
-        }
+        const categoryName = e.target
+            .closest(".category-card")
+            .querySelector(".category-name").textContent;
+        showToast(`Navigasi ke kategori: ${categoryName}`, "info");
     }
 });
 

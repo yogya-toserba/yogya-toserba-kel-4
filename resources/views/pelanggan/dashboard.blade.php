@@ -117,7 +117,7 @@
                     <div class="row">
                         @foreach($categories->take(6) as $category)
                         <div class="col-6 mb-3">
-                            <a href="#" class="text-decoration-none">
+                            <a href="{{ $category['url'] }}" class="text-decoration-none">
                                 <div class="p-3 bg-light rounded-3 text-center hover-shadow-sm">
                                     <i class="fas fa-cube text-primary mb-2"></i>
                                     <div class="small fw-medium">{{ $category['name'] }}</div>
