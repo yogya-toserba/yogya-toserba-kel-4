@@ -15,6 +15,9 @@ class KaryawanSeeder extends Seeder
             $this->call(ShiftSeeder::class);
         }
 
+        // Clear existing karyawan data
+        Karyawan::truncate();
+
         // Generate 300 data karyawan menggunakan factory
         Karyawan::factory()->count(300)->create();
         
