@@ -12,15 +12,15 @@ class PelangganResetPasswordNotification extends Notification
     use Queueable;
 
     protected $token;
-    protected $email;
+    protected $expires_in;
 
     /**
      * Create a new notification instance.
      */
-    public function __construct($token, $email)
+    public function __construct($token, $expires_in = 15)
     {
         $this->token = $token;
-        $this->email = $email;
+        $this->expires_in = $expires_in;
     }
 
     /**
@@ -38,21 +38,13 @@ class PelangganResetPasswordNotification extends Notification
      */
     public function toMail(object $notifiable): MailMessage
     {
-        $resetUrl = url(route('pelanggan.password.reset', [
-            'token' => $this->token,
-            'email' => $this->email,
-        ], false));
-
         return (new MailMessage)
-            ->subject('Reset Password - Yogya Toserba')
-            ->greeting('Halo ' . $notifiable->nama_pelanggan . '!')
-            ->line('Anda menerima email ini karena kami menerima permintaan reset password untuk akun Anda.')
-            ->line('Kode verifikasi Anda adalah: **' . $this->token . '**')
-            ->line('Atau klik tombol di bawah ini untuk reset password:')
-            ->action('Reset Password', $resetUrl)
-            ->line('Link reset password ini akan berlaku selama 60 menit.')
-            ->line('Jika Anda tidak meminta reset password, abaikan email ini.')
-            ->salutation('Terima kasih, Tim Yogya Toserba');
+            ->subject('Kode Reset Password - MyYOGYA')
+            ->view('emails.password-reset-otp', [
+                'user' => $notifiable,
+                'otp' => $this->token,
+                'expires_in' => $this->expires_in
+            ]);
     }
 
     /**

@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\PelangganController;
+use App\Http\Controllers\PelangganForgotPasswordController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\AdminController;
@@ -20,6 +21,31 @@ use App\Http\Controllers\PemasokController;
 Route::get('/login', function () {
     return redirect()->route('admin.login');
 })->name('login');
+
+// Route untuk lupa sandi (forgot password)
+Route::get('/forgot-password', [PelangganForgotPasswordController::class, 'showForgotPasswordForm'])->name('password.request');
+Route::post('/forgot-password', [PelangganForgotPasswordController::class, 'sendResetCode'])->name('password.send.otp');
+Route::post('/resend-otp', [PelangganForgotPasswordController::class, 'sendResetCode'])->name('password.resend.otp');
+Route::get('/verify-code', [PelangganForgotPasswordController::class, 'showVerifyCodeForm'])->name('password.verify.form');
+Route::post('/verify-code', [PelangganForgotPasswordController::class, 'verifyCode'])->name('password.verify')
+    ->middleware('App\Http\Middleware\LogPostRequests');
+
+// Test route untuk debug 
+Route::get('/test-verify-debug', function (Request $request) {
+    \Log::info('DEBUG: GET Test verify route hit');
+    return response()->json(['status' => 'GET Test route works']);
+});
+
+Route::post('/test-verify-debug', function (Request $request) {
+    \Log::info('DEBUG: POST Test verify route hit', [
+        'data' => $request->all(),
+        'method' => $request->method()
+    ]);
+    return response()->json(['status' => 'POST Test route works', 'data' => $request->all()]);
+});
+
+Route::get('/reset-password/{token?}', [PelangganForgotPasswordController::class, 'showResetPasswordForm'])->name('password.reset.form');
+Route::post('/reset-password', [PelangganForgotPasswordController::class, 'resetPassword'])->name('password.update');
 
 // Route untuk testing error pages
 Route::get('/test-errors', function () {

@@ -147,98 +147,52 @@ require __DIR__ . '/admin.php';
 
 // Route kategori - cleaned up without duplicates
 
-<<<<<<< HEAD
-    Route::get('/statistik-penjualan', [ProdukTerlarisController::class, 'getStatistikPenjualan'])->name('api.statistik.penjualan');
-    Route::get('/tren-penjualan', [ProdukTerlarisController::class, 'getTrenPenjualanHarian'])->name('api.tren.penjualan');
-});
-
 // Load separate route files
 require __DIR__ . '/pelanggan.php';
 require __DIR__ . '/gudang.php';
 require __DIR__ . '/admin.php';
-=======
-// Pelanggan Routes - login dan register dengan controller
-Route::prefix('pelanggan')->name('pelanggan.')->group(function () {
-    Route::get('/login', [PelangganController::class, 'showLogin'])->name('login');
-    Route::post('/login', [PelangganController::class, 'login'])->name('login.submit');
 
-    Route::get('/register', [PelangganController::class, 'showRegister'])->name('register');
-    Route::post('/register', [PelangganController::class, 'register'])->name('register.submit');
+// Public routes (accessible without authentication)
+Route::get('/manual', function () {
+    return view('gudang.manual');
+})->name('manual');
 
-    Route::post('/logout', [PelangganController::class, 'logout'])->name('logout');
-    
-    // Search route (available to all customers)
-    Route::get('/search', [PelangganController::class, 'search'])->name('search');
-    
-    // Protected pelanggan routes
-    Route::middleware('auth:pelanggan')->group(function () {
-        Route::get('/dashboard', [PelangganController::class, 'dashboard'])->name('dashboard');
-        Route::get('/profile', [PelangganController::class, 'profile'])->name('profile');
-        Route::post('/profile', [PelangganController::class, 'updateProfile'])->name('profile.update');
-        Route::post('/profile/password', [PelangganController::class, 'updatePassword'])->name('profile.password');
-    });
+Route::get('/bantuan-it', function () {
+    return view('gudang.bantuan-it');
+})->name('bantuan-it');
 
-    // Public routes for customer help
-    Route::get('/manual', function () {
-        return view('pelanggan.manual');
-    })->name('manual');
+Route::get('/kontak-admin', function () {
+    return view('gudang.kontak-admin');
+})->name('kontak-admin');
 
-    Route::get('/bantuan-it', function () {
-        return view('pelanggan.bantuan-it');
-    })->name('bantuan-it');
+// Dashboard Inventori Routes (no authentication required)
+Route::get('/inventori/dashboard', [App\Http\Controllers\InventoriDashboardController::class, 'index'])
+    ->name('inventori.dashboard');
 
-    Route::get('/kontak-admin', function () {
-        return view('pelanggan.kontak-admin');
-    })->name('kontak-admin');
+Route::get('/inventori/statistics', [App\Http\Controllers\InventoriDashboardController::class, 'getStatistics'])
+    ->name('inventori.statistics');
+
+// Debug route (public, no auth required)
+Route::get('/debug-test', function () {
+    return response()->json([
+        'message' => 'Debug route working!',
+        'pemasok_count' => \App\Models\Pemasok::count(),
+        'timestamp' => now()
+    ]);
 });
 
-// Gudang Routes
+// Simple pemasok test route (no auth required)
+Route::get('/test-pemasok/{id}', function ($id) {
+    $pemasok = \App\Models\Pemasok::where('id_pemasok', $id)->first();
+    return response()->json([
+        'found' => $pemasok ? true : false,
+        'data' => $pemasok,
+        'total_count' => \App\Models\Pemasok::count()
+    ]);
+});
+
+// Gudang Routes with authentication
 Route::prefix('gudang')->name('gudang.')->group(function () {
-    // Authentication routes
-    Route::get('/login', [GudangController::class, 'showLogin'])->name('login');
-    Route::post('/login', [GudangController::class, 'login'])->name('login.submit');
-    Route::post('/logout', [GudangController::class, 'logout'])->name('logout');
-
-    // Public routes (accessible without authentication)
-    Route::get('/manual', function () {
-        return view('gudang.manual');
-    })->name('manual');
-
-    Route::get('/bantuan-it', function () {
-        return view('gudang.bantuan-it');
-    })->name('bantuan-it');
-
-    Route::get('/kontak-admin', function () {
-        return view('gudang.kontak-admin');
-    })->name('kontak-admin');
-
-
-    // Dashboard Inventori Routes (no authentication required)
-    Route::get('/inventori/dashboard', [App\Http\Controllers\InventoriDashboardController::class, 'index'])
-        ->name('inventori.dashboard');
-    
-    Route::get('/inventori/statistics', [App\Http\Controllers\InventoriDashboardController::class, 'getStatistics'])
-        ->name('inventori.statistics');
-
-    // Debug route (public, no auth required)
-    Route::get('/debug-test', function () {
-        return response()->json([
-            'message' => 'Debug route working!',
-            'pemasok_count' => \App\Models\Pemasok::count(),
-            'timestamp' => now()
-        ]);
-    });
-
-    // Simple pemasok test route (no auth required)
-    Route::get('/test-pemasok/{id}', function ($id) {
-        $pemasok = \App\Models\Pemasok::where('id_pemasok', $id)->first();
-        return response()->json([
-            'found' => $pemasok ? true : false,
-            'data' => $pemasok,
-            'total_count' => \App\Models\Pemasok::count()
-        ]);
-    });
-
     // Protected routes (require gudang authentication)
     Route::middleware(['auth.gudang'])->group(function () {
         Route::get('/dashboard', [GudangController::class, 'dashboard'])->name('dashboard');
@@ -357,7 +311,6 @@ Route::prefix('gudang')->name('gudang.')->group(function () {
         Route::resource('produk', ProductController::class);
     });
 });
->>>>>>> 28128fa (...)
 
 // Route kategori - cleaned up without duplicates
 Route::prefix('kategori')->name('kategori.')->group(function () {

@@ -104,7 +104,7 @@
         </div>
         
         <div class="content">
-            <h2>Halo, {{ $user->name ?? 'Pelanggan' }}!</h2>
+            <h2>Halo, {{ $user->nama_pelanggan ?? 'Pelanggan' }}!</h2>
             
             <p>Kami menerima permintaan untuk mereset password akun Anda. Gunakan kode OTP di bawah ini untuk melanjutkan proses reset password:</p>
             
@@ -128,7 +128,7 @@
             
             <div style="text-align: center;">
                 <p>Atau klik tombol di bawah untuk langsung ke halaman verifikasi:</p>
-                <a href="{{ url('/password/verify') }}" class="btn">Verifikasi Sekarang</a>
+                <a href="{{ route('password.verify.form') }}" class="btn">Verifikasi Sekarang</a>
             </div>
             
             <div class="security-tips">
