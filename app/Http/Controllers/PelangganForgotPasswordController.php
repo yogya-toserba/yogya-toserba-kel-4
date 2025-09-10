@@ -18,7 +18,7 @@ class PelangganForgotPasswordController extends Controller
      */
     public function showForgotPasswordForm()
     {
-        return view('pelanggan.forgot-password');
+        return view('auth.forgot-password');
     }
 
     /**

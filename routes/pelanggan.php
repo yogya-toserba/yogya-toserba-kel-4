@@ -17,6 +17,7 @@ Route::prefix('pelanggan')->name('pelanggan.')->group(function () {
     // Forgot Password Routes
     Route::get('/forgot-password', [PelangganForgotPasswordController::class, 'showForgotPasswordForm'])->name('password.request');
     Route::post('/forgot-password', [PelangganForgotPasswordController::class, 'sendResetCode'])->name('password.email');
+    Route::post('/send-otp', [PelangganForgotPasswordController::class, 'sendResetCode'])->name('password.send.otp');
     Route::get('/verify-code', [PelangganForgotPasswordController::class, 'showVerifyCodeForm'])->name('verify.code.form');
     Route::post('/verify-code', [PelangganForgotPasswordController::class, 'verifyCode'])->name('verify.code');
     Route::get('/reset-password/{token}', [PelangganForgotPasswordController::class, 'showResetPasswordForm'])->name('password.reset');

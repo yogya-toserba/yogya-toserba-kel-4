@@ -608,6 +608,66 @@
                 max-width: 100%;
             }
         }
+
+        /* Back to Top Button Styles */
+        .back-to-top-btn {
+            position: fixed !important;
+            bottom: 30px !important;
+            right: 30px !important;
+            width: 60px;
+            height: 60px;
+            background: linear-gradient(135deg, #e74c3c, #c0392b);
+            color: white;
+            border: none;
+            border-radius: 50%;
+            font-size: 20px;
+            cursor: pointer;
+            z-index: 9999 !important;
+            opacity: 1 !important; /* Force visible for testing */
+            visibility: visible !important; /* Force visible for testing */
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            box-shadow: 0 8px 25px rgba(231, 76, 60, 0.3);
+            display: flex !important;
+            align-items: center;
+            justify-content: center;
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            pointer-events: auto;
+        }
+
+        .back-to-top-btn.show {
+            opacity: 1 !important;
+            visibility: visible !important;
+            pointer-events: auto !important;
+        }
+
+        .back-to-top-btn:hover {
+            transform: translateY(-5px) scale(1.1);
+            box-shadow: 0 12px 35px rgba(231, 76, 60, 0.4);
+            background: linear-gradient(135deg, #c0392b, #e74c3c);
+        }
+
+        .back-to-top-btn:active {
+            transform: translateY(-2px) scale(1.05);
+        }
+
+        /* Responsive adjustments */
+        @media (max-width: 768px) {
+            .back-to-top-btn {
+                bottom: 20px !important;
+                right: 20px !important;
+                width: 50px;
+                height: 50px;
+                font-size: 18px;
+            }
+        }
+
+        /* Pastikan tidak ada elemen lain yang menghalangi */
+        .back-to-top-btn {
+            -webkit-transform: translateZ(0);
+            transform: translateZ(0);
+            will-change: transform, opacity;
+        }
     </style>
 </head>
 <body>
@@ -1041,12 +1101,188 @@
     </div>
 </footer>
 
+<!-- Back to Top Button -->
+<button id="backToTopBtn" class="back-to-top-btn" 
+        title="Kembali ke atas" aria-label="Kembali ke atas halaman" tabindex="0"
+        style="position: fixed !important; bottom: 30px !important; right: 30px !important; 
+               width: 60px; height: 60px; background: #e74c3c !important; 
+               color: white; border: 2px solid white; border-radius: 50%; font-size: 24px; cursor: pointer; 
+               z-index: 9999 !important; opacity: 1 !important; visibility: visible !important; 
+               display: flex !important; align-items: center; justify-content: center; 
+               box-shadow: 0 8px 25px rgba(231, 76, 60, 0.5); font-weight: bold;">
+    ↑
+</button>
+
 <!-- Bootstrap JS -->
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 <!-- Custom JS -->
 <script src="{{ asset('js/dashboard.js') }}"></script>
 
 <script>
+// Back to Top Button Functionality
+document.addEventListener('DOMContentLoaded', function() {
+    const backToTopBtn = document.getElementById('backToTopBtn');
+    
+    // Debug: Pastikan button ditemukan
+    if (!backToTopBtn) {
+        console.error('Back to top button not found!');
+        return;
+    }
+    
+    console.log('Back to top button initialized');
+    
+    // Smooth scroll to top function
+    function scrollToTop() {
+        console.log('Scroll to top clicked!');
+        
+        // Simple smooth scroll
+        window.scrollTo({
+            top: 0,
+            behavior: 'smooth'
+        });
+        
+        // Fallback for older browsers
+        if (!('scrollBehavior' in document.documentElement.style)) {
+            const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+            const step = scrollTop / 25;
+            
+            function smoothScroll() {
+                const currentTop = window.pageYOffset || document.documentElement.scrollTop;
+                if (currentTop > 0) {
+                    window.scrollTo(0, currentTop - step);
+                    setTimeout(smoothScroll, 15);
+                }
+            }
+            smoothScroll();
+        }
+    }
+    
+    // Add click event listener
+    backToTopBtn.addEventListener('click', scrollToTop);
+    
+    // Show/hide button based on scroll position
+    function toggleBackToTopButton() {
+        const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+        
+        if (scrollTop > 200) {
+            backToTopBtn.classList.add('show');
+        } else {
+            backToTopBtn.classList.remove('show');
+        }
+    }
+    
+    // Initial check
+    toggleBackToTopButton();
+    
+    // Listen to scroll events
+    let ticking = false;
+    window.addEventListener('scroll', function() {
+        if (!ticking) {
+            requestAnimationFrame(function() {
+                toggleBackToTopButton();
+                ticking = false;
+            });
+            ticking = true;
+        }
+    });
+    
+    // Add keyboard accessibility
+    backToTopBtn.addEventListener('keydown', function(e) {
+        if (e.key === 'Enter' || e.key === ' ') {
+            e.preventDefault();
+            scrollToTop();
+        }
+    });
+    
+    // Test function - dapat dipanggil dari console
+    window.testScrollToTop = scrollToTop;
+    console.log('Button ready! Test dengan: testScrollToTop()');
+});
+</script>
+
+<!-- SIMPLE BACK TO TOP BUTTON - INDEPENDENT -->
+<div id="simpleBackToTop" style="
+    position: fixed !important;
+    bottom: 30px !important;
+    right: 30px !important;
+    width: 60px !important;
+    height: 60px !important;
+    background-color: #e74c3c !important;
+    color: white !important;
+    border: 3px solid white !important;
+    border-radius: 50% !important;
+    cursor: pointer !important;
+    z-index: 99999 !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    font-size: 28px !important;
+    font-weight: bold !important;
+    box-shadow: 0 4px 20px rgba(231, 76, 60, 0.6) !important;
+    transition: all 0.3s ease !important;
+    text-align: center !important;
+    line-height: 1 !important;
+    user-select: none !important;
+">↑</div>
+
+<script>
+(function() {
+    'use strict';
+    
+    // Wait for page to load completely
+    window.addEventListener('load', function() {
+        const btn = document.getElementById('simpleBackToTop');
+        
+        if (btn) {
+            console.log('Simple back to top button found and ready');
+            
+            // Add click handler
+            btn.addEventListener('click', function(e) {
+                e.preventDefault();
+                e.stopPropagation();
+                console.log('Simple button clicked - scrolling to top');
+                
+                // Enhanced smooth scroll with custom animation
+                const startPosition = window.pageYOffset;
+                const startTime = performance.now();
+                const duration = 800; // 800ms animation
+                
+                function easeInOutCubic(t) {
+                    return t < 0.5 ? 4 * t * t * t : (t - 1) * (2 * t - 2) * (2 * t - 2) + 1;
+                }
+                
+                function animateScroll(currentTime) {
+                    const timeElapsed = currentTime - startTime;
+                    const progress = Math.min(timeElapsed / duration, 1);
+                    const ease = easeInOutCubic(progress);
+                    
+                    window.scrollTo(0, startPosition * (1 - ease));
+                    
+                    if (progress < 1) {
+                        requestAnimationFrame(animateScroll);
+                    }
+                }
+                
+                requestAnimationFrame(animateScroll);
+            });
+            
+            // Add hover effect
+            btn.addEventListener('mouseenter', function() {
+                this.style.transform = 'scale(1.1)';
+                this.style.boxShadow = '0 6px 25px rgba(231, 76, 60, 0.8)';
+            });
+            
+            btn.addEventListener('mouseleave', function() {
+                this.style.transform = 'scale(1)';
+                this.style.boxShadow = '0 4px 20px rgba(231, 76, 60, 0.6)';
+            });
+            
+            console.log('Simple back to top button handlers attached');
+        } else {
+            console.error('Simple back to top button not found');
+        }
+    });
+})();
 </script>
 
 </body>

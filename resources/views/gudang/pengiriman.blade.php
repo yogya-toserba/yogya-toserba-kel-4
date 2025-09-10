@@ -8,7 +8,6 @@
 <!-- Add CSRF token for AJAX requests -->
 <meta name="csrf-token" content="{{ csrf_token() }}"
 <style>
-/* Modern Pengiriman Styles - Same as Permintaan */
 .pengiriman-header {
     background: linear-gradient(135deg, #f26b37 0%, #e55827 100%);
     color: white;
@@ -393,6 +392,7 @@ body.dark-mode .action-dropdown-item:hover {
         gap: 10px;
     }
 }
+
 </style>
 
 <div class="pengiriman-container">
@@ -1667,7 +1667,7 @@ body.dark-mode .modal-body .form-control:focus {
                             <td colspan="7" class="text-center py-4">
                                 <div class="text-muted">
                                     <i class="fas fa-inbox fa-3x mb-3 opacity-50"></i>
-                                    <p class="mb-0">Belum ada data pengiriman</p>
+                                    <p class="mb-0">Belum adaa data pengiriman</p>
                                     <small>Permintaan yang sudah diterima dan dikirim akan muncul di sini</small>
                                 </div>
                             </td>

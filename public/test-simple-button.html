@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test Simple Button</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+</head>
+<body style="height: 200vh; background: linear-gradient(to bottom, #fff, #ccc);">
+    
+    <div style="padding: 50px; text-align: center;">
+        <h1>Test Halaman dengan Button Back to Top</h1>
+        <p>Scroll down untuk melihat button di pojok kanan bawah</p>
+        <br><br><br><br><br><br><br><br><br><br>
+        <h2>Tengah Halaman</h2>
+        <p>Button seharusnya terlihat di pojok kanan bawah layar</p>
+        <br><br><br><br><br><br><br><br><br><br>
+        <h2>Bawah Halaman</h2>
+        <p>Klik button untuk kembali ke atas</p>
+    </div>
+
+    <!-- Button Back to Top -->
+    <button onclick="window.scrollTo({top: 0, behavior: 'smooth'})"
+            style="position: fixed; bottom: 30px; right: 30px; 
+                   width: 60px; height: 60px; 
+                   background: linear-gradient(135deg, #e74c3c, #c0392b); 
+                   color: white; border: none; border-radius: 50%; 
+                   font-size: 20px; cursor: pointer; z-index: 9999; 
+                   box-shadow: 0 8px 25px rgba(231, 76, 60, 0.3);
+                   display: flex; align-items: center; justify-content: center;">
+        <i class="fas fa-chevron-up"></i>
+    </button>
+
+    <script>
+        console.log('Test page loaded with back to top button');
+    </script>
+</body>
+</html>

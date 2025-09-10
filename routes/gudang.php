@@ -6,6 +6,7 @@ use App\Http\Controllers\StokGudangPusatController;
 use App\Http\Controllers\PemasokController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\ChatController;
+use App\Http\Controllers\Gudang\PenerimaanController;
 
 // Test route untuk menambah data session
 Route::get('/test-data', function () {
@@ -200,19 +201,19 @@ Route::prefix('gudang')->name('gudang.')->group(function () {
             ->name('pengiriman.kirim');
 
         // Penerimaan routes (via Gudang Dashboard)
-        Route::get('/penerimaan', [App\Http\Controllers\Gudang\PenerimaanController::class, 'index'])
+        Route::get('/penerimaan', [PenerimaanController::class, 'index'])
             ->name('penerimaan.index');
-        Route::post('/penerimaan/terima', [App\Http\Controllers\Gudang\PenerimaanController::class, 'terimaPenerimaan'])
+        Route::post('/penerimaan/terima', [PenerimaanController::class, 'terimaPenerimaan'])
             ->name('penerimaan.terima');
-        Route::post('/penerimaan/update-status', [App\Http\Controllers\Gudang\PenerimaanController::class, 'updateStatus'])
+        Route::post('/penerimaan/update-status', [PenerimaanController::class, 'updateStatus'])
             ->name('penerimaan.update-status');
             
         // Keep inventori routes for backward compatibility
-        Route::get('/inventori/penerimaan', [App\Http\Controllers\Gudang\PenerimaanController::class, 'index'])
+        Route::get('/inventori/penerimaan', [PenerimaanController::class, 'index'])
             ->name('inventori.penerimaan.index');
-        Route::post('/inventori/penerimaan/terima', [App\Http\Controllers\Gudang\PenerimaanController::class, 'terimaPenerimaan'])
+        Route::post('/inventori/penerimaan/terima', [PenerimaanController::class, 'terimaPenerimaan'])
             ->name('inventori.penerimaan.terima');
-        Route::post('/inventori/penerimaan/update-status', [App\Http\Controllers\Gudang\PenerimaanController::class, 'updateStatus'])
+        Route::post('/inventori/penerimaan/update-status', [PenerimaanController::class, 'updateStatus'])
             ->name('inventori.penerimaan.update-status');
         Route::post('/pengiriman/update-session-status', [App\Http\Controllers\Gudang\PengirimanController::class, 'updateSessionStatus'])
             ->name('pengiriman.updateSessionStatus');

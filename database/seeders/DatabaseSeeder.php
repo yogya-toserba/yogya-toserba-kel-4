@@ -14,6 +14,9 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
+        // Disable foreign key checks
+        \DB::statement('SET FOREIGN_KEY_CHECKS=0;');
+        
         // Hapus data lama
         User::truncate();
         Admin::truncate();
@@ -40,5 +43,8 @@ class DatabaseSeeder extends Seeder
             PelangganSeeder::class,
             TransaksiKecilSeeder::class,     // Transaksi dengan nominal kecil
         ]);
+        
+        // Re-enable foreign key checks
+        \DB::statement('SET FOREIGN_KEY_CHECKS=1;');
     }
 }

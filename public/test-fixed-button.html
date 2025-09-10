@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test Back to Top - Fixed Position</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: Arial, sans-serif;
+            background: #f8f9fa;
+        }
+
+        .content {
+            height: 300vh; /* Make page very long to test scrolling */
+            padding: 50px;
+            background: linear-gradient(to bottom, #fff, #e9ecef);
+        }
+
+        .section {
+            padding: 100px 20px;
+            margin: 50px 0;
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            text-align: center;
+        }
+
+        /* Back to Top Button - Enhanced */
+        .back-to-top-btn {
+            position: fixed !important;
+            bottom: 30px !important;
+            right: 30px !important;
+            width: 60px;
+            height: 60px;
+            background: linear-gradient(135deg, #e74c3c, #c0392b);
+            color: white;
+            border: none;
+            border-radius: 50%;
+            font-size: 20px;
+            cursor: pointer;
+            z-index: 9999 !important;
+            opacity: 1; /* Always visible for testing */
+            visibility: visible;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            box-shadow: 0 8px 25px rgba(231, 76, 60, 0.3);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            pointer-events: auto;
+            transform: translateZ(0);
+            will-change: transform, opacity;
+        }
+
+        .back-to-top-btn:hover {
+            transform: translateY(-5px) scale(1.1);
+            box-shadow: 0 12px 35px rgba(231, 76, 60, 0.4);
+            background: linear-gradient(135deg, #c0392b, #e74c3c);
+        }
+
+        .back-to-top-btn:active {
+            transform: translateY(-2px) scale(1.05);
+        }
+
+        @media (max-width: 768px) {
+            .back-to-top-btn {
+                bottom: 20px !important;
+                right: 20px !important;
+                width: 50px;
+                height: 50px;
+                font-size: 18px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="content">
+        <div class="section">
+            <h1>Back to Top Test</h1>
+            <p>Button should be visible di pojok kanan bawah layar</p>
+        </div>
+        
+        <div class="section">
+            <h2>Scroll Down</h2>
+            <p>Button tetap di pojok kanan bawah saat scroll</p>
+        </div>
+        
+        <div class="section">
+            <h2>Keep Scrolling</h2>
+            <p>Button mengikuti layar (fixed position)</p>
+        </div>
+        
+        <div class="section">
+            <h2>Almost There</h2>
+            <p>Click button untuk kembali ke atas</p>
+        </div>
+        
+        <div class="section">
+            <h2>End of Page</h2>
+            <p>Button should be floating here ➡️</p>
+        </div>
+    </div>
+
+    <!-- Back to Top Button -->
+    <button id="backToTopBtn" class="back-to-top-btn" onclick="scrollToTop()" 
+            title="Kembali ke atas" aria-label="Kembali ke atas halaman">
+        <i class="fas fa-chevron-up"></i>
+    </button>
+
+    <script>
+        function scrollToTop() {
+            window.scrollTo({
+                top: 0,
+                behavior: 'smooth'
+            });
+        }
+
+        // Log position for debugging
+        window.addEventListener('scroll', function() {
+            console.log('Scroll position:', window.pageYOffset);
+        });
+
+        console.log('Test page loaded - button should be visible');
+    </script>
+</body>
+</html>

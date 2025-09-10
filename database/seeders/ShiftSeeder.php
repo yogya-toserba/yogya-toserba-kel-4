@@ -12,6 +12,9 @@ class ShiftSeeder extends Seeder
    */
   public function run(): void
   {
+    // Truncate table first
+    DB::table('shift')->truncate();
+    
     DB::table('shift')->insert([
       [
         'id_shift' => 1,

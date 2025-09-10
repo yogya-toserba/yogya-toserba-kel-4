@@ -4,6 +4,54 @@
 
 @push('styles')
     <style>
+        /* CSS VARIABLES FOR DYNAMIC THEMING */
+        :root {
+            --table-bg: #ffffff;
+            --table-text: #1e293b;
+            --table-header-bg: #f8fafc;
+            --table-border: #e2e8f0;
+        }
+
+        body.dark-mode {
+            --table-bg: #2a2d3f !important;
+            --table-text: #e2e8f0 !important;
+            --table-header-bg: #3a3d4a !important;
+            --table-border: #3a3d4a !important;
+        }
+
+        /* ULTIMATE DARK MODE OVERRIDE - HIGHEST PRIORITY */
+        body.dark-mode * {
+            border-color: #3a3d4a !important;
+        }
+
+        body.dark-mode .new-penggajian-dashboard {
+            background: #1a1d29 !important;
+        }
+
+        body.dark-mode .new-card,
+        body.dark-mode .new-card *:not(.badge):not(.btn) {
+            background: var(--table-bg) !important;
+            color: var(--table-text) !important;
+            border-color: var(--table-border) !important;
+        }
+
+        body.dark-mode .table,
+        body.dark-mode .table *,
+        body.dark-mode .table-responsive {
+            background: var(--table-bg) !important;
+            color: var(--table-text) !important;
+            border-color: var(--table-border) !important;
+        }
+
+        body.dark-mode .table thead th {
+            background: var(--table-header-bg) !important;
+            color: #94a3b8 !important;
+        }
+
+        body.dark-mode .table tbody tr:hover {
+            background: var(--table-header-bg) !important;
+        }
+
         /* AGGRESSIVE RESET FOR FORM ELEMENTS */
         * {
             box-sizing: border-box !important;
@@ -80,7 +128,7 @@
         }
 
         .btn[data-action]:hover {
-            transform: scale(1.05);
+            transform: scale(1.02);
             box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
         }
 
@@ -123,11 +171,16 @@
 
         /* Fix for table overflow issues with dropdowns */
         .table-responsive {
-            overflow: visible !important;
+            overflow-x: auto !important;
+            overflow-y: visible !important;
+            position: relative !important;
         }
 
         .table-responsive .dropdown-menu {
-            position: fixed !important;
+            position: absolute !important;
+            z-index: 1060 !important;
+            max-height: 200px !important;
+            overflow-y: auto !important;
         }
 
         @keyframes dropdownFadeIn {
@@ -172,7 +225,7 @@
             background-color: #5a5c69 !important;
             border-color: #5a5c69 !important;
             color: white !important;
-            transform: scale(1.05);
+            transform: scale(1.02);
         }
 
         .dropdown-item.text-danger:hover {
@@ -224,6 +277,955 @@
             align-items: center;
             justify-content: center;
         }
+
+        /* DARK MODE STYLING FOR TABLES - MATCHING DATA KARYAWAN */
+        body.dark-mode .table-responsive {
+            background: #2a2d3f !important;
+        }
+
+        body.dark-mode .table {
+            background: #2a2d3f !important;
+            color: #e2e8f0 !important;
+        }
+
+        body.dark-mode .table thead {
+            background: #2a2d3f !important;
+        }
+
+        body.dark-mode .table th {
+            color: #94a3b8 !important;
+            background: #2a2d3f !important;
+            border-color: #3a3d4a !important;
+        }
+
+        body.dark-mode .table td {
+            color: #e2e8f0 !important;
+            background: #2a2d3f !important;
+            border-color: #3a3d4a !important;
+        }
+
+        body.dark-mode .table tbody tr {
+            background: #2a2d3f !important;
+        }
+
+        body.dark-mode .table tbody tr:hover {
+            background: #3a3d4a !important;
+        }
+
+        /* TABLE TEXT COLORS DARK MODE */
+        body.dark-mode .table strong {
+            color: #e2e8f0 !important;
+        }
+
+        body.dark-mode .table small {
+            color: #94a3b8 !important;
+        }
+
+        /* Detail table dark mode */
+        body.dark-mode .detail-table {
+            background: #2a2d3f !important;
+            color: #e2e8f0 !important;
+        }
+
+        body.dark-mode .detail-table td {
+            color: #e2e8f0 !important;
+            border-color: #3a3d4a !important;
+        }
+
+        body.dark-mode .detail-table tr:nth-child(even) {
+            background-color: #3a3d4a !important;
+        }
+
+        /* Badge styles dark mode */
+        body.dark-mode .badge-success {
+            background: #065f46 !important;
+            color: #a7f3d0 !important;
+        }
+
+        body.dark-mode .badge-warning {
+            background: #92400e !important;
+            color: #fde68a !important;
+        }
+
+        body.dark-mode .badge-danger {
+            background: #991b1b !important;
+            color: #fecaca !important;
+        }
+
+        /* Dropdown menu dark mode */
+        body.dark-mode .dropdown-menu {
+            background: #2a2d3f !important;
+            border-color: #3a3d4a !important;
+        }
+
+        body.dark-mode .dropdown-item {
+            color: #e2e8f0 !important;
+        }
+
+        body.dark-mode .dropdown-item:hover {
+            background: #3a3d4a !important;
+            color: #e2e8f0 !important;
+        }
+
+        /* Modal dark mode */
+        body.dark-mode .modal-content {
+            background: #2a2d3f !important;
+            border-color: #3a3d4a !important;
+        }
+
+        body.dark-mode .modal-header {
+            border-color: #3a3d4a !important;
+        }
+
+        body.dark-mode .modal-body {
+            color: #e2e8f0 !important;
+        }
+
+        body.dark-mode .modal-title {
+            color: #e2e8f0 !important;
+        }
+
+        body.dark-mode .btn-close {
+            filter: invert(1) grayscale(100%) brightness(200%);
+        }
+
+        /* TABLE STYLING - MATCHING DATA KARYAWAN EXACTLY */
+        .new-card {
+            background: white !important;
+            border-radius: 15px !important;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1) !important;
+            border: 1px solid #e2e8f0 !important;
+            margin-bottom: 25px !important;
+            transition: all 0.3s ease !important;
+        }
+
+        body.dark-mode .new-card {
+            background: #2a2d3f !important;
+            border-color: #3a3d4a !important;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.3) !important;
+        }
+
+        .new-card-header {
+            background: #f8fafc !important;
+            border-bottom: 1px solid #e2e8f0 !important;
+            padding: 20px 25px !important;
+            border-radius: 15px 15px 0 0 !important;
+        }
+
+        body.dark-mode .new-card-header {
+            background: #2a2d3f !important;
+            border-color: #3a3d4a !important;
+        }
+
+        .new-card-title {
+            font-size: 1.25rem !important;
+            font-weight: 600 !important;
+            color: #1e293b !important;
+            margin: 0 !important;
+            display: flex !important;
+            align-items: center !important;
+        }
+
+        body.dark-mode .new-card-title {
+            color: #e2e8f0 !important;
+        }
+
+        .new-card-body {
+            padding: 25px !important;
+            position: relative !important;
+            overflow: visible !important;
+        }
+
+        .new-card-footer {
+            background: #f8fafc !important;
+            border-top: 1px solid #e2e8f0 !important;
+            padding: 20px 25px !important;
+            border-radius: 0 0 15px 15px !important;
+        }
+
+        body.dark-mode .new-card-footer {
+            background: #2a2d3f !important;
+            border-color: #3a3d4a !important;
+        }
+
+        /* Table Styling */
+        .table-responsive {
+            border-radius: 10px !important;
+            overflow: hidden !important;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.05) !important;
+        }
+
+        .table {
+            margin-bottom: 0 !important;
+            background: white !important;
+            border-collapse: separate !important;
+            border-spacing: 0 !important;
+        }
+
+        /* OVERRIDE TABLE BACKGROUND FOR DARK MODE */
+        body.dark-mode .table {
+            background: #2a2d3f !important;
+        }
+
+        .table thead th {
+            background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%) !important;
+            color: #475569 !important;
+            font-weight: 600 !important;
+            font-size: 0.875rem !important;
+            text-transform: uppercase !important;
+            letter-spacing: 0.025em !important;
+            padding: 16px 12px !important;
+            border: none !important;
+            border-bottom: 2px solid #e2e8f0 !important;
+            white-space: nowrap !important;
+        }
+
+        .table tbody td {
+            padding: 16px 12px !important;
+            border: none !important;
+            border-bottom: 1px solid #f1f5f9 !important;
+            vertical-align: middle !important;
+            font-size: 0.875rem !important;
+            color: #334155 !important;
+        }
+
+        .table tbody tr {
+            transition: all 0.2s ease !important;
+        }
+
+        .table tbody tr:hover {
+            background: #f8fafc !important;
+            transform: translateY(-1px) !important;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.05) !important;
+        }
+
+        .table tbody tr:last-child td {
+            border-bottom: none !important;
+        }
+
+        /* Dark mode table styling */
+        body.dark-mode .table {
+            background: #2a2d3f !important;
+            color: #e2e8f0 !important;
+        }
+
+        body.dark-mode .table thead th {
+            background: linear-gradient(135deg, #2a2d3f 0%, #3a3d4a 100%) !important;
+            color: #94a3b8 !important;
+            border-color: #3a3d4a !important;
+        }
+
+        body.dark-mode .table tbody td {
+            color: #e2e8f0 !important;
+            border-color: #3a3d4a !important;
+        }
+
+        body.dark-mode .table tbody tr:hover {
+            background: #3a3d4a !important;
+        }
+
+        /* Ensure table responsive wrapper is also dark */
+        body.dark-mode .table-responsive {
+            background: #2a2d3f !important;
+        }
+
+        /* Badge styling matching data karyawan */
+        .badge {
+            font-size: 0.75rem !important;
+            font-weight: 600 !important;
+            padding: 6px 12px !important;
+            border-radius: 20px !important;
+            text-transform: uppercase !important;
+            letter-spacing: 0.025em !important;
+            display: inline-flex !important;
+            align-items: center !important;
+            gap: 4px !important;
+        }
+
+        .badge.bg-success {
+            background: linear-gradient(135deg, #10b981 0%, #059669 100%) !important;
+            color: white !important;
+        }
+
+        .badge.bg-warning {
+            background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%) !important;
+            color: white !important;
+        }
+
+        .badge.bg-danger {
+            background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%) !important;
+            color: white !important;
+        }
+
+        .badge.bg-info {
+            background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%) !important;
+            color: white !important;
+        }
+
+        .badge.bg-secondary {
+            background: linear-gradient(135deg, #6b7280 0%, #4b5563 100%) !important;
+            color: white !important;
+        }
+
+        /* Dropdown gear button styling */
+        .gear-dropdown {
+            background: white !important;
+            border: 1px solid #e2e8f0 !important;
+            color: #64748b !important;
+            border-radius: 8px !important;
+            padding: 8px !important;
+            transition: all 0.2s ease !important;
+            width: 36px !important;
+            height: 36px !important;
+            display: flex !important;
+            align-items: center !important;
+            justify-content: center !important;
+        }
+
+        .gear-dropdown:hover {
+            background: #f8fafc !important;
+            border-color: #cbd5e1 !important;
+            transform: translateY(-1px) !important;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1) !important;
+        }
+
+        body.dark-mode .gear-dropdown {
+            background: #3a3d4a !important;
+            border-color: #4a4d5a !important;
+            color: #e2e8f0 !important;
+        }
+
+        body.dark-mode .gear-dropdown:hover {
+            background: #4a4d5a !important;
+            border-color: #5a5d6a !important;
+        }
+
+        /* Table container overflow control */
+        .table-responsive {
+            overflow-x: auto !important;
+            overflow-y: hidden !important;
+            position: relative !important;
+            contain: layout style !important;
+        }
+
+        .table td, .table th {
+            overflow: hidden !important;
+            position: relative !important;
+        }
+
+        .dropdown {
+            position: relative !important;
+            contain: layout !important;
+        }
+
+        /* Specific positioning for action column dropdown */
+        .table td:last-child .dropdown {
+            position: static !important;
+        }
+
+        .table td:last-child .dropdown-menu {
+            position: absolute !important;
+            right: 0 !important;
+            left: auto !important;
+            transform: none !important;
+            margin-top: 5px !important;
+        }
+
+        /* Prevent dropdown from extending beyond viewport */
+        .dropdown-menu {
+            max-width: 180px !important;
+            white-space: nowrap !important;
+        }
+
+        /* Force dropdown to stay within table bounds */
+        .table-responsive .dropdown {
+            position: static !important;
+        }
+
+        .table-responsive .dropdown-menu {
+            position: absolute !important;
+            right: 5px !important;
+            top: 100% !important;
+            left: auto !important;
+            transform: translateX(0) !important;
+            margin-top: 2px !important;
+            max-width: 160px !important;
+            width: 160px !important;
+            max-height: 200px !important;
+            overflow-y: auto !important;
+            z-index: 1050 !important;
+        }
+
+        /* Aggressive containment for action column */
+        .table td:last-child {
+            position: relative !important;
+            overflow: hidden !important;
+            contain: layout style !important;
+        }
+
+        .table td:last-child .dropdown {
+            position: relative !important;
+            contain: layout !important;
+        }
+
+        .table td:last-child .dropdown-menu {
+            position: absolute !important;
+            right: 5px !important;
+            top: calc(100% + 2px) !important;
+            left: auto !important;
+            max-width: 150px !important;
+            width: 150px !important;
+            margin: 0 !important;
+            transform: none !important;
+            clip-path: inset(0 0 0 0) !important;
+        }
+
+        /* Ensure new-card has proper containing */
+        .new-card {
+            position: relative !important;
+            overflow: hidden !important;
+            contain: layout style !important;
+        }
+
+        /* Table wrapper absolute containment */
+        .table-responsive {
+            position: relative !important;
+            overflow-x: auto !important;
+            overflow-y: hidden !important;
+            contain: layout style !important;
+        }
+
+        #penggajian-table-wrapper {
+            position: relative !important;
+            overflow: hidden !important;
+            contain: layout style !important;
+            border-radius: 10px !important;
+        }
+
+        /* Ensure row containers don't clip hover effects */
+        .row.g-4 {
+            overflow: visible !important;
+        }
+
+        .col-lg-3, .col-md-6, .col-md-3, .col-md-2, .col-12 {
+            overflow: visible !important;
+        }
+
+        /* PAGINATION STYLING TO MATCH DATA KARYAWAN */
+        .pagination {
+            margin: 0 !important;
+        }
+
+        .pagination .page-link {
+            color: #64748b !important;
+            background: white !important;
+            border: 1px solid #e2e8f0 !important;
+            padding: 8px 12px !important;
+            margin: 0 2px !important;
+            border-radius: 6px !important;
+            font-size: 0.875rem !important;
+            font-weight: 500 !important;
+            transition: all 0.2s ease !important;
+        }
+
+        .pagination .page-link:hover {
+            color: #f26b37 !important;
+            background: #fef2e7 !important;
+            border-color: #f26b37 !important;
+            transform: translateY(-1px) !important;
+        }
+
+        .pagination .page-item.active .page-link {
+            color: white !important;
+            background: linear-gradient(135deg, #f26b37 0%, #e55827 100%) !important;
+            border-color: #f26b37 !important;
+            box-shadow: 0 2px 8px rgba(242, 107, 55, 0.3) !important;
+        }
+
+        .pagination .page-item.disabled .page-link {
+            color: #94a3b8 !important;
+            background: #f1f5f9 !important;
+            border-color: #e2e8f0 !important;
+        }
+
+        /* Dark mode pagination */
+        body.dark-mode .pagination .page-link {
+            color: #e2e8f0 !important;
+            background: #3a3d4a !important;
+            border-color: #4a4d5a !important;
+        }
+
+        body.dark-mode .pagination .page-link:hover {
+            background: #4a4d5a !important;
+            border-color: #f26b37 !important;
+        }
+
+        body.dark-mode .pagination .page-item.disabled .page-link {
+            color: #64748b !important;
+            background: #2a2d3f !important;
+            border-color: #3a3d4a !important;
+        }
+
+        /* DataTables info styling */
+        .dataTables_info {
+            color: #64748b !important;
+            font-size: 0.875rem !important;
+            font-weight: 500 !important;
+        }
+
+        body.dark-mode .dataTables_info {
+            color: #94a3b8 !important;
+        }
+
+        /* Empty state styling */
+        .text-center.py-4 {
+            padding: 4rem 2rem !important;
+        }
+
+        .text-center.py-4 .fa-inbox {
+            color: #cbd5e1 !important;
+            margin-bottom: 1rem !important;
+        }
+
+        body.dark-mode .text-center.py-4 .fa-inbox {
+            color: #64748b !important;
+        }
+
+        /* ADDITIONAL AGGRESSIVE DARK MODE OVERRIDES */
+        body.dark-mode .new-penggajian-dashboard,
+        body.dark-mode .new-penggajian-dashboard .new-card,
+        body.dark-mode .new-penggajian-dashboard .new-card-body,
+        body.dark-mode .new-penggajian-dashboard .new-card-header,
+        body.dark-mode .new-penggajian-dashboard .new-card-footer,
+        body.dark-mode .new-penggajian-dashboard .table-responsive,
+        body.dark-mode .new-penggajian-dashboard .table {
+            background: #2a2d3f !important;
+            color: #e2e8f0 !important;
+        }
+
+        /* Force all text elements in dark mode */
+        body.dark-mode .new-penggajian-dashboard td,
+        body.dark-mode .new-penggajian-dashboard th,
+        body.dark-mode .new-penggajian-dashboard span,
+        body.dark-mode .new-penggajian-dashboard div:not(.badge),
+        body.dark-mode .new-penggajian-dashboard small {
+            color: #e2e8f0 !important;
+        }
+
+        /* Force table cells background */
+        body.dark-mode .table tbody tr {
+            background: #2a2d3f !important;
+        }
+
+        body.dark-mode .table tbody tr:hover {
+            background: #3a3d4a !important;
+        }
+
+        /* Force badge text to stay white */
+        body.dark-mode .badge {
+            color: white !important;
+        }
+
+        /* Force card headers in dark mode */
+        body.dark-mode .new-card-header {
+            background: #2a2d3f !important;
+            border-color: #3a3d4a !important;
+            color: #e2e8f0 !important;
+        }
+
+        /* Force card footers in dark mode */
+        body.dark-mode .new-card-footer {
+            background: #2a2d3f !important;
+            border-color: #3a3d4a !important;
+        }
+
+        /* FINAL OVERRIDE - HIGHEST SPECIFICITY FOR DARK MODE */
+        body.dark-mode .new-penggajian-dashboard .new-card .table {
+            background: #2a2d3f !important;
+        }
+
+        body.dark-mode .new-penggajian-dashboard .new-card .table-responsive {
+            background: #2a2d3f !important;
+        }
+
+        body.dark-mode .new-penggajian-dashboard .table tbody tr {
+            background: #2a2d3f !important;
+        }
+
+        body.dark-mode .new-penggajian-dashboard .table tbody tr:hover {
+            background: #3a3d4a !important;
+        }
+
+        /* Override transparent backgrounds */
+        body.dark-mode .table {
+            background: #2a2d3f !important;
+        }
+
+        body.dark-mode .table th {
+            background: #3a3d4a !important;
+        }
+
+        body.dark-mode .table td {
+            background: transparent !important;
+        }
+
+        /* ULTIMATE DARK MODE OVERRIDE - NUCLEAR OPTION */
+        body.dark-mode .new-penggajian-dashboard .new-card .new-card-body .table-responsive .table,
+        body.dark-mode .new-penggajian-dashboard .new-card .new-card-body .table-responsive,
+        body.dark-mode .new-penggajian-dashboard .new-card .new-card-body {
+            background: #2a2d3f !important;
+        }
+
+        body.dark-mode .new-penggajian-dashboard .new-card .new-card-body .table-responsive .table thead th {
+            background: #3a3d4a !important;
+        }
+
+        body.dark-mode .new-penggajian-dashboard .new-card .new-card-body .table-responsive .table tbody tr {
+            background: #2a2d3f !important;
+        }
+
+        body.dark-mode .new-penggajian-dashboard .new-card .new-card-body .table-responsive .table tbody tr:hover {
+            background: #3a3d4a !important;
+        }
+
+        /* ULTIMATE FORCE - OVERRIDE ALL BOOTSTRAP TABLE CLASSES */
+        body.dark-mode .table,
+        body.dark-mode .table-striped > tbody > tr:nth-of-type(odd) > td,
+        body.dark-mode .table-striped > tbody > tr:nth-of-type(odd) > th,
+        body.dark-mode .table-hover > tbody > tr:hover > td,
+        body.dark-mode .table-hover > tbody > tr:hover > th {
+            background: #2a2d3f !important;
+            color: #e2e8f0 !important;
+        }
+
+        body.dark-mode .table-responsive {
+            background: #2a2d3f !important;
+        }
+
+        /* Force override any remaining white backgrounds */
+        body.dark-mode * {
+            border-color: #3a3d4a !important;
+        }
+
+        body.dark-mode .table tbody tr:hover {
+            background-color: #3a3d4a !important;
+        }
+
+        /* MAXIMUM SPECIFICITY DARK MODE OVERRIDE */
+        html body.dark-mode .new-penggajian-dashboard .new-card .new-card-body .table-responsive {
+            background-color: #2a2d3f !important;
+        }
+
+        html body.dark-mode .new-penggajian-dashboard .new-card .new-card-body .table-responsive .table {
+            background-color: #2a2d3f !important;
+        }
+
+        html body.dark-mode .new-penggajian-dashboard .new-card .new-card-body .table-responsive .table tbody tr {
+            background-color: #2a2d3f !important;
+        }
+
+        html body.dark-mode .new-penggajian-dashboard .new-card .new-card-body .table-responsive .table tbody tr td {
+            background-color: transparent !important;
+        }
+
+        html body.dark-mode .new-penggajian-dashboard .new-card .new-card-body .table-responsive .table thead tr th {
+            background-color: #3a3d4a !important;
+        }
+
+        /* ANTI-BOOTSTRAP OVERRIDE */
+        body.dark-mode .table:not(.table-dark) {
+            background-color: #2a2d3f !important;
+        }
+
+        body.dark-mode .table:not(.table-dark) > tbody > tr > td {
+            background-color: transparent !important;
+            color: #e2e8f0 !important;
+        }
+
+        body.dark-mode .table:not(.table-dark) > thead > tr > th {
+            background-color: #3a3d4a !important;
+            color: #94a3b8 !important;
+        }
+
+        /* FINAL ULTIMATE OVERRIDE - NUCLEAR OPTION */
+        body.dark-mode .table,
+        body.dark-mode .table.table-striped,
+        body.dark-mode .table.table-hover,
+        body.dark-mode .table.table-bordered {
+            background-color: #2a2d3f !important;
+            color: #e2e8f0 !important;
+        }
+
+        body.dark-mode .table-responsive {
+            background-color: #2a2d3f !important;
+        }
+
+        body.dark-mode .new-card .table {
+            background-color: #2a2d3f !important;
+        }
+
+        body.dark-mode .new-card .table-responsive {
+            background-color: #2a2d3f !important;
+        }
+
+        /* ULTRA HIGH SPECIFICITY CSS - NUCLEAR OPTION */
+        html body.dark-mode .new-penggajian-dashboard .new-card .new-card-body .table-responsive,
+        html body.dark-mode .new-penggajian-dashboard .new-card .new-card-body .table-responsive .table,
+        html body.dark-mode .new-penggajian-dashboard .new-card .new-card-body .table,
+        html body.dark-mode .table,
+        html body.dark-mode table {
+            background-color: #2a2d3f !important;
+            background-image: none !important;
+            background: #2a2d3f !important;
+        }
+
+        /* Use CSS selector with maximum specificity */
+        html body.dark-mode div.new-penggajian-dashboard div.new-card div.new-card-body div.table-responsive table.table {
+            background-color: #2a2d3f !important;
+        }
+
+        html body.dark-mode div.new-penggajian-dashboard div.new-card div.new-card-body div.table-responsive {
+            background-color: #2a2d3f !important;
+        }
+
+        /* TARGET SPECIFIC TABLE IDS */
+        body.dark-mode #penggajian-table-wrapper,
+        body.dark-mode #penggajian-table {
+            background-color: #2a2d3f !important;
+            background: #2a2d3f !important;
+        }
+
+        /* ATTRIBUTE SELECTOR OVERRIDE */
+        body.dark-mode [data-dark-mode="true"] {
+            background-color: #2a2d3f !important;
+            background: #2a2d3f !important;
+        }
+
+        /* LAST RESORT - OVERRIDE BOOTSTRAP DIRECTLY */
+        body.dark-mode .table:not(.table-dark) {
+            --bs-table-bg: #2a2d3f !important;
+            --bs-table-color: #e2e8f0 !important;
+            background-color: #2a2d3f !important;
+        }
+
+        /* Force ALL possible table selectors */
+        body.dark-mode table,
+        body.dark-mode table.table,
+        body.dark-mode .table {
+            background: #2a2d3f !important;
+        }
+    </style>
+
+    <!-- JAVASCRIPT FORCE DARK MODE -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            function forceDarkModeTable() {
+                if (document.body.classList.contains('dark-mode')) {
+                    console.log('Applying dark mode to tables...');
+                    
+                    // Remove all conflicting styles first
+                    const style = document.createElement('style');
+                    style.innerHTML = `
+                        body.dark-mode .table,
+                        body.dark-mode .table-responsive,
+                        body.dark-mode #penggajian-table,
+                        body.dark-mode #penggajian-table-wrapper {
+                            background: #2a2d3f !important;
+                            color: #e2e8f0 !important;
+                        }
+                        body.dark-mode .table thead th {
+                            background: #3a3d4a !important;
+                            color: #94a3b8 !important;
+                        }
+                        body.dark-mode .table tbody tr:hover {
+                            background: #3a3d4a !important;
+                        }
+                        body.dark-mode .new-card,
+                        body.dark-mode .new-card-body {
+                            background: #2a2d3f !important;
+                        }
+                    `;
+                    document.head.appendChild(style);
+                    
+                    // Override ALL white backgrounds by force
+                    const allElements = document.querySelectorAll('*');
+                    allElements.forEach(el => {
+                        const computedStyle = window.getComputedStyle(el);
+                        if (computedStyle.backgroundColor === 'rgb(255, 255, 255)' || 
+                            computedStyle.backgroundColor === 'white' ||
+                            el.style.backgroundColor === 'white' ||
+                            el.style.backgroundColor === '#ffffff' ||
+                            el.style.backgroundColor === '#fff') {
+                            if (el.closest('.table, .table-responsive, .new-card')) {
+                                el.style.setProperty('background-color', '#2a2d3f', 'important');
+                                el.style.setProperty('background', '#2a2d3f', 'important');
+                            }
+                        }
+                    });
+                    
+                    // Force direct styling as backup
+                    const tables = document.querySelectorAll('.table, .table-responsive, #penggajian-table, #penggajian-table-wrapper');
+                    tables.forEach(table => {
+                        table.style.setProperty('background-color', '#2a2d3f', 'important');
+                        table.style.setProperty('background', '#2a2d3f', 'important');
+                        table.style.setProperty('color', '#e2e8f0', 'important');
+                        table.setAttribute('data-dark-mode', 'true');
+                    });
+                    
+                    // Force table rows
+                    const rows = document.querySelectorAll('.table tbody tr');
+                    rows.forEach(row => {
+                        row.style.setProperty('background-color', '#2a2d3f', 'important');
+                        row.style.setProperty('background', '#2a2d3f', 'important');
+                    });
+                    
+                    // Force table headers
+                    const headers = document.querySelectorAll('.table thead th');
+                    headers.forEach(header => {
+                        header.style.setProperty('background-color', '#3a3d4a', 'important');
+                        header.style.setProperty('background', '#3a3d4a', 'important');
+                        header.style.setProperty('color', '#94a3b8', 'important');
+                    });
+                    
+                    // Force table cells
+                    const cells = document.querySelectorAll('.table td');
+                    cells.forEach(cell => {
+                        cell.style.setProperty('background-color', 'transparent', 'important');
+                        cell.style.setProperty('color', '#e2e8f0', 'important');
+                    });
+                    
+                    // Force cards
+                    const cards = document.querySelectorAll('.new-card, .new-card-body');
+                    cards.forEach(card => {
+                        card.style.setProperty('background-color', '#2a2d3f', 'important');
+                        card.style.setProperty('background', '#2a2d3f', 'important');
+                    });
+                    
+                    console.log('Dark mode applied to', tables.length, 'tables');
+                    
+                    // BRUTAL FORCE - Remove all style attributes and reapply
+                    setTimeout(() => {
+                        const table = document.querySelector('#penggajian-table');
+                        const wrapper = document.querySelector('#penggajian-table-wrapper');
+                        
+                        if (table && wrapper) {
+                            // Force wrapper
+                            wrapper.style.backgroundColor = '#2a2d3f';
+                            wrapper.style.color = '#e2e8f0';
+                            
+                            // Force table
+                            table.style.backgroundColor = '#2a2d3f';
+                            table.style.color = '#e2e8f0';
+                            
+                            // Force all table elements
+                            table.querySelectorAll('*').forEach(el => {
+                                if (el.tagName === 'THEAD' || el.tagName === 'TH') {
+                                    el.style.backgroundColor = '#3a3d4a';
+                                    el.style.color = '#94a3b8';
+                                } else if (el.tagName === 'TBODY' || el.tagName === 'TR' || el.tagName === 'TD') {
+                                    if (el.tagName === 'TD') {
+                                        el.style.backgroundColor = 'transparent';
+                                        el.style.color = '#e2e8f0';
+                                    } else {
+                                        el.style.backgroundColor = '#2a2d3f';
+                                        el.style.color = '#e2e8f0';
+                                    }
+                                }
+                            });
+                            
+                            // Force text elements inside cells
+                            table.querySelectorAll('td small, td div, td strong, td span').forEach(el => {
+                                if (!el.classList.contains('badge')) {
+                                    el.style.color = '#e2e8f0';
+                                }
+                            });
+                            
+                            console.log('Brutal force styling applied');
+                        }
+                    }, 100);
+                    
+                } else {
+                    console.log('Not in dark mode, skipping table styling');
+                }
+            }
+            
+            // Run immediately
+            forceDarkModeTable();
+            
+            // Run every 500ms to catch dynamic changes
+            const interval = setInterval(forceDarkModeTable, 500);
+            
+            // Stop after 10 seconds to prevent infinite loop
+            setTimeout(() => clearInterval(interval), 10000);
+            
+            // Listen for dark mode toggle
+            const observer = new MutationObserver(function(mutations) {
+                mutations.forEach(function(mutation) {
+                    if (mutation.type === 'attributes' && mutation.attributeName === 'class') {
+                        console.log('Body class changed, applying dark mode...');
+                        setTimeout(forceDarkModeTable, 50);
+                    }
+                });
+            });
+            
+            observer.observe(document.body, {
+                attributes: true,
+                attributeFilter: ['class']
+            });
+            
+            // Force on window load
+            window.addEventListener('load', function() {
+                console.log('Window loaded, applying dark mode...');
+                forceDarkModeTable();
+            });
+        });
+    </script>
+
+    <!-- FINAL NUCLEAR CSS OVERRIDE -->
+    <style id="dark-mode-nuclear-override">
+        /* NUCLEAR OPTION - FORCE DARK MODE WITH MAXIMUM SPECIFICITY */
+        body.dark-mode #penggajian-table-wrapper,
+        body.dark-mode #penggajian-table,
+        body.dark-mode #penggajian-table thead,
+        body.dark-mode #penggajian-table tbody,
+        body.dark-mode #penggajian-table tr,
+        body.dark-mode #penggajian-table td,
+        body.dark-mode #penggajian-table th {
+            background: #2a2d3f !important;
+            color: #e2e8f0 !important;
+        }
+
+        body.dark-mode #penggajian-table thead th {
+            background: #3a3d4a !important;
+            color: #94a3b8 !important;
+        }
+
+        body.dark-mode #penggajian-table tbody tr:hover {
+            background: #3a3d4a !important;
+        }
+
+        body.dark-mode #penggajian-table tbody tr:hover td {
+            background: transparent !important;
+        }
+
+        /* Override any Bootstrap classes */
+        body.dark-mode .table-responsive.table-responsive,
+        body.dark-mode .table.table {
+            background-color: #2a2d3f !important;
+        }
+
+        /* Force all text elements in table */
+        body.dark-mode #penggajian-table td *:not(.badge),
+        body.dark-mode #penggajian-table td small,
+        body.dark-mode #penggajian-table td div,
+        body.dark-mode #penggajian-table td strong,
+        body.dark-mode #penggajian-table td span {
+            color: #e2e8f0 !important;
+        }
+
+        body.dark-mode #penggajian-table .text-muted {
+            color: #94a3b8 !important;
+        }
     </style>
 @endpush
 
@@ -244,6 +1246,11 @@
     box-sizing: border-box !important;
     position: relative !important;
     overflow-x: hidden !important;
+}
+
+/* DARK MODE OVERRIDE FOR MAIN CONTENT */
+body.dark-mode .main-content {
+    background: #1a1d29 !important;
 }
 
 /* Ensure no parent container interferes */
@@ -287,6 +1294,28 @@
 /* Dark Mode Support */
 body.dark-mode .main-content {
     background: #1a1d29 !important;
+}
+
+/* CRITICAL DARK MODE TABLE OVERRIDE - PLACED HERE FOR HIGHER PRIORITY */
+body.dark-mode .table,
+body.dark-mode .table-responsive,
+body.dark-mode #penggajian-table,
+body.dark-mode #penggajian-table-wrapper {
+    background: #2a2d3f !important;
+    color: #e2e8f0 !important;
+}
+
+body.dark-mode .table thead th {
+    background: #3a3d4a !important;
+    color: #94a3b8 !important;
+}
+
+body.dark-mode .new-card,
+body.dark-mode .new-card-body,
+body.dark-mode .new-card-header,
+body.dark-mode .new-card-footer {
+    background: #2a2d3f !important;
+    color: #e2e8f0 !important;
 }
 
 /* FORCE NEW DASHBOARD STYLES - EXACT COPY */
@@ -368,8 +1397,8 @@ body.dark-mode .new-penggajian-dashboard {
 
 .new-action-btn:hover {
     background: rgba(255, 255, 255, 0.3) !important;
-    transform: translateY(-2px) !important;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2) !important;
+    transform: translateY(-1px) !important;
+    box-shadow: 0 3px 10px rgba(0, 0, 0, 0.2) !important;
     color: white !important;
 }
 
@@ -397,8 +1426,8 @@ body.dark-mode .new-stat-card {
 }
 
 .new-stat-card:hover {
-    transform: translateY(-2px) !important;
-    box-shadow: 0 8px 25px rgba(242, 107, 55, 0.15) !important;
+    transform: translateY(-1px) !important;
+    box-shadow: 0 6px 20px rgba(242, 107, 55, 0.15) !important;
 }
 
 .new-stat-icon {
@@ -469,6 +1498,13 @@ body.dark-mode .new-stat-label {
     border: 1px solid #e2e8f0 !important;
     overflow: hidden !important;
     transition: all 0.3s ease !important;
+}
+
+/* FORCE DARK MODE CARDS - HIGHER SPECIFICITY */
+body.dark-mode .new-card {
+    background: #2a2d3f !important;
+    border-color: #3a3d4a !important;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.3) !important;
 }
 
 body.dark-mode .new-card {
@@ -639,17 +1675,7 @@ body.dark-mode .table-responsive {
     overflow: visible !important;
 }
 
-/* Table styling */
-.table {
-    margin-bottom: 0 !important;
-    background: transparent !important;
-    color: #1e293b !important;
-    font-size: 0.875rem !important;
-}
-
-body.dark-mode .table {
-    color: #e2e8f0 !important;
-}
+/* REMOVED DUPLICATE TABLE STYLING - USING THE FIRST ONE WITH PROPER DARK MODE OVERRIDE */
 
 .table th {
     background: #f8fafc !important;
@@ -1073,6 +2099,67 @@ body.dark-mode .currency-badge {
     background-size: 16px 12px !important;
 }
 
+/* Dark mode form controls */
+body.dark-mode .form-select,
+body.dark-mode .form-control {
+    background-color: #2a2d3f !important;
+    border-color: #3a3d4a !important;
+    color: #e2e8f0 !important;
+}
+
+body.dark-mode .form-select:focus,
+body.dark-mode .form-control:focus {
+    background-color: #2a2d3f !important;
+    border-color: #f26b37 !important;
+    color: #e2e8f0 !important;
+}
+
+/* Dark mode card styling */
+body.dark-mode .new-card {
+    background: #2a2d3f !important;
+    border-color: #3a3d4a !important;
+    color: #e2e8f0 !important;
+}
+
+body.dark-mode .new-card-header {
+    background: #2a2d3f !important;
+    border-color: #3a3d4a !important;
+    color: #e2e8f0 !important;
+}
+
+body.dark-mode .new-card-body {
+    background: #2a2d3f !important;
+    color: #e2e8f0 !important;
+}
+
+/* Dark mode labels */
+body.dark-mode .form-label {
+    color: #e2e8f0 !important;
+}
+
+body.dark-mode .text-muted {
+    color: #9ca3af !important;
+}
+
+/* Dark mode pagination */
+body.dark-mode .pagination .page-link {
+    background: #2a2d3f !important;
+    border-color: #3a3d4a !important;
+    color: #e2e8f0 !important;
+}
+
+body.dark-mode .pagination .page-link:hover {
+    background: #3a3d4a !important;
+    border-color: #4a4d5a !important;
+    color: #e2e8f0 !important;
+}
+
+body.dark-mode .pagination .page-item.active .page-link {
+    background: #f26b37 !important;
+    border-color: #f26b37 !important;
+    color: white !important;
+}
+
 /* Custom dropdown arrow for select */
 .form-select {
     background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3e%3cpath fill='none' stroke='%23343a40' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='m1 6 6.25 6.25a.75.75 0 0 0 1.06 0L15 6'/%3e%3c/svg%3e") !important;
@@ -1449,13 +2536,22 @@ select.form-select.new-card-body,
     box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15) !important;
     padding: 0.5rem 0 !important;
     min-width: 180px !important;
+    max-width: 180px !important;
     animation: dropdownSlideIn 0.2s ease-out !important;
+    position: absolute !important;
+    right: 0 !important;
+    left: auto !important;
+    transform: none !important;
+    margin-top: 0.125rem !important;
+    z-index: 1060 !important;
+    contain: layout !important;
+    overflow: hidden !important;
 }
 
 @keyframes dropdownSlideIn {
     0% {
         opacity: 0;
-        transform: translateY(-10px) scale(0.95);
+        transform: translateY(-5px) scale(0.98);
     }
     100% {
         opacity: 1;
@@ -1521,6 +2617,511 @@ body.dark-mode .dropdown-item:hover {
 body.dark-mode .dropdown-divider {
     border-color: #3a3d4a !important;
 }
+
+/* MODAL FORM FIX - Remove all visual artifacts */
+.modal .form-select,
+.modal select,
+.modal-body .form-select,
+.modal-body select {
+    background: #ffffff !important;
+    border: 1px solid #d1d3e2 !important;
+    border-radius: 8px !important;
+    color: #374151 !important;
+    padding: 8px 12px !important;
+    font-size: 14px !important;
+    line-height: 1.5 !important;
+    appearance: none !important;
+    -webkit-appearance: none !important;
+    -moz-appearance: none !important;
+    background-image: none !important;
+    background-repeat: no-repeat !important;
+    background-position: right 12px center !important;
+    background-size: 12px !important;
+    outline: none !important;
+    box-shadow: none !important;
+    text-decoration: none !important;
+    border-image: none !important;
+    background-attachment: scroll !important;
+    background-origin: padding-box !important;
+    background-clip: border-box !important;
+}
+
+/* Add simple CSS arrow */
+.modal .form-select::after,
+.modal select::after,
+.modal-body .form-select::after,
+.modal-body select::after {
+    content: '▼' !important;
+    position: absolute !important;
+    right: 12px !important;
+    top: 50% !important;
+    transform: translateY(-50%) !important;
+    font-size: 10px !important;
+    color: #6b7280 !important;
+    pointer-events: none !important;
+}
+
+.modal .form-select:focus,
+.modal select:focus,
+.modal-body .form-select:focus,
+.modal-body select:focus {
+    border-color: #f26b37 !important;
+    box-shadow: 0 0 0 0.2rem rgba(242, 107, 55, 0.25) !important;
+    outline: none !important;
+}
+
+/* Remove all webkit/moz artifacts for modal forms */
+.modal select::-webkit-inner-spin-button,
+.modal select::-webkit-outer-spin-button,
+.modal select::-webkit-search-decoration,
+.modal select::-webkit-search-cancel-button,
+.modal select::-webkit-search-results-button,
+.modal select::-webkit-search-results-decoration,
+.modal select::-webkit-calendar-picker-indicator,
+.modal .form-select::-webkit-inner-spin-button,
+.modal .form-select::-webkit-outer-spin-button,
+.modal .form-select::-webkit-search-decoration,
+.modal .form-select::-webkit-search-cancel-button,
+.modal .form-select::-webkit-search-results-button,
+.modal .form-select::-webkit-search-results-decoration,
+.modal .form-select::-webkit-calendar-picker-indicator {
+    -webkit-appearance: none !important;
+    display: none !important;
+    opacity: 0 !important;
+    visibility: hidden !important;
+}
+
+.modal select::-moz-focus-inner,
+.modal .form-select::-moz-focus-inner {
+    border: 0 !important;
+    padding: 0 !important;
+}
+
+/* Force clean modal form styling */
+.modal-body .row,
+.modal-body .col-md-6,
+.modal-body .col-md-4 {
+    border: none !important;
+    outline: none !important;
+    background: transparent !important;
+    box-shadow: none !important;
+}
+
+/* Modal form label styling */
+.modal .form-label,
+.modal-body .form-label {
+    color: #374151 !important;
+    font-weight: 600 !important;
+    margin-bottom: 8px !important;
+    font-size: 14px !important;
+}
+
+/* Modal button styling */
+.modal .btn,
+.modal-body .btn {
+    border-radius: 8px !important;
+    padding: 8px 16px !important;
+    font-size: 14px !important;
+    font-weight: 600 !important;
+    border: none !important;
+    outline: none !important;
+    transition: all 0.3s ease !important;
+}
+
+.modal .btn-primary,
+.modal-body .btn-primary {
+    background: linear-gradient(135deg, #f26b37, #e55827) !important;
+    color: white !important;
+}
+
+.modal .btn-primary:hover,
+.modal-body .btn-primary:hover {
+    background: linear-gradient(135deg, #e55827, #d94515) !important;
+    transform: translateY(-1px) !important;
+}
+
+/* Remove any remaining artifacts */
+.modal *,
+.modal *::before,
+.modal *::after {
+    border-image: none !important;
+    border-image-source: none !important;
+    border-image-slice: initial !important;
+    border-image-width: initial !important;
+    border-image-outset: initial !important;
+    border-image-repeat: initial !important;
+    text-decoration: none !important;
+}
+
+/* ULTIMATE FORM CLEANUP - Nuclear option for form artifacts */
+.modal select,
+.modal .form-select,
+.modal input,
+.modal textarea {
+    all: unset !important;
+    display: block !important;
+    width: 100% !important;
+    box-sizing: border-box !important;
+    background: #ffffff !important;
+    border: 1px solid #d1d3e2 !important;
+    border-radius: 8px !important;
+    padding: 8px 12px !important;
+    font-size: 14px !important;
+    color: #374151 !important;
+    font-family: inherit !important;
+    line-height: 1.5 !important;
+    cursor: pointer !important;
+}
+
+.modal select:focus,
+.modal .form-select:focus {
+    border-color: #f26b37 !important;
+    box-shadow: 0 0 0 0.2rem rgba(242, 107, 55, 0.25) !important;
+    outline: none !important;
+}
+
+/* Force override any browser default styling */
+.modal select option {
+    background: #ffffff !important;
+    color: #374151 !important;
+    padding: 4px 8px !important;
+}
+
+/* Additional cleanup for container elements */
+.modal .form-group,
+.modal .mb-3,
+.modal .row,
+.modal .col-md-6,
+.modal .col-md-4 {
+    border: none !important;
+    outline: none !important;
+    background: transparent !important;
+    box-shadow: none !important;
+    border-image: none !important;
+    text-decoration: none !important;
+}
+
+/* Override any bootstrap interference */
+.modal .form-control,
+.modal .form-select {
+    border: 1px solid #d1d3e2 !important;
+    background-color: #ffffff !important;
+    background-image: none !important;
+    background-clip: padding-box !important;
+    appearance: none !important;
+    -webkit-appearance: none !important;
+    -moz-appearance: none !important;
+}
+
+/* SPECIFIC FIX FOR PROSES MODAL */
+#prosesModal select,
+#prosesModal .form-select,
+#previewModal select,
+#previewModal .form-select {
+    background: #ffffff !important;
+    border: 1px solid #d1d3e2 !important;
+    border-radius: 8px !important;
+    color: #374151 !important;
+    padding: 8px 12px !important;
+    font-size: 14px !important;
+    line-height: 1.5 !important;
+    outline: none !important;
+    box-shadow: none !important;
+    appearance: none !important;
+    -webkit-appearance: none !important;
+    -moz-appearance: none !important;
+    background-image: none !important;
+    background-repeat: no-repeat !important;
+    background-position: right 12px center !important;
+    background-size: 12px !important;
+    border-image: none !important;
+    text-decoration: none !important;
+    background-attachment: scroll !important;
+    background-origin: padding-box !important;
+    background-clip: border-box !important;
+    width: 100% !important;
+    font-family: inherit !important;
+    cursor: pointer !important;
+}
+
+#prosesModal select:focus,
+#prosesModal .form-select:focus,
+#previewModal select:focus,
+#previewModal .form-select:focus {
+    border-color: #f26b37 !important;
+    box-shadow: 0 0 0 0.2rem rgba(242, 107, 55, 0.25) !important;
+    outline: none !important;
+    background-color: #ffffff !important;
+}
+
+/* Remove all webkit artifacts for these specific modals */
+#prosesModal select::-webkit-inner-spin-button,
+#prosesModal select::-webkit-outer-spin-button,
+#prosesModal select::-webkit-search-decoration,
+#prosesModal select::-webkit-search-cancel-button,
+#prosesModal select::-webkit-search-results-button,
+#prosesModal select::-webkit-search-results-decoration,
+#prosesModal select::-webkit-calendar-picker-indicator,
+#prosesModal .form-select::-webkit-inner-spin-button,
+#prosesModal .form-select::-webkit-outer-spin-button,
+#prosesModal .form-select::-webkit-search-decoration,
+#prosesModal .form-select::-webkit-search-cancel-button,
+#prosesModal .form-select::-webkit-search-results-button,
+#prosesModal .form-select::-webkit-search-results-decoration,
+#prosesModal .form-select::-webkit-calendar-picker-indicator,
+#previewModal select::-webkit-inner-spin-button,
+#previewModal select::-webkit-outer-spin-button,
+#previewModal select::-webkit-search-decoration,
+#previewModal select::-webkit-search-cancel-button,
+#previewModal select::-webkit-search-results-button,
+#previewModal select::-webkit-search-results-decoration,
+#previewModal select::-webkit-calendar-picker-indicator,
+#previewModal .form-select::-webkit-inner-spin-button,
+#previewModal .form-select::-webkit-outer-spin-button,
+#previewModal .form-select::-webkit-search-decoration,
+#previewModal .form-select::-webkit-search-cancel-button,
+#previewModal .form-select::-webkit-search-results-button,
+#previewModal .form-select::-webkit-search-results-decoration,
+#previewModal .form-select::-webkit-calendar-picker-indicator {
+    -webkit-appearance: none !important;
+    display: none !important;
+    opacity: 0 !important;
+    visibility: hidden !important;
+}
+
+#prosesModal select::-moz-focus-inner,
+#prosesModal .form-select::-moz-focus-inner,
+#previewModal select::-moz-focus-inner,
+#previewModal .form-select::-moz-focus-inner {
+    border: 0 !important;
+    padding: 0 !important;
+}
+
+/* Force clean containers for proses modal */
+#prosesModal .modal-body .row,
+#prosesModal .modal-body .col-md-6,
+#previewModal .modal-body .row,
+#previewModal .modal-body .col-md-4 {
+    border: none !important;
+    outline: none !important;
+    background: transparent !important;
+    box-shadow: none !important;
+    border-image: none !important;
+    text-decoration: none !important;
+}
+
+/* Form labels in proses modal */
+#prosesModal .form-label,
+#previewModal .form-label {
+    color: #374151 !important;
+    font-weight: 600 !important;
+    margin-bottom: 8px !important;
+    font-size: 14px !important;
+    border: none !important;
+    background: transparent !important;
+}
+
+/* Button styling in proses modal */
+#prosesModal .btn,
+#previewModal .btn {
+    border-radius: 8px !important;
+    padding: 8px 16px !important;
+    font-size: 14px !important;
+    font-weight: 600 !important;
+    border: none !important;
+    outline: none !important;
+    transition: all 0.3s ease !important;
+}
+
+#prosesModal .btn-success {
+    background: linear-gradient(135deg, #10b981, #059669) !important;
+    color: white !important;
+}
+
+#prosesModal .btn-success:hover {
+    background: linear-gradient(135deg, #059669, #047857) !important;
+    transform: translateY(-1px) !important;
+}
+
+#prosesModal .btn-secondary {
+    background: #6c757d !important;
+    color: white !important;
+}
+
+#prosesModal .btn-secondary:hover {
+    background: #5a6268 !important;
+}
+
+/* Nuclear option for prosesModal forms */
+#prosesModal *,
+#prosesModal *::before,
+#prosesModal *::after,
+#previewModal *,
+#previewModal *::before,
+#previewModal *::after {
+    border-image: none !important;
+    border-image-source: none !important;
+    border-image-slice: initial !important;
+    border-image-width: initial !important;
+    border-image-outset: initial !important;
+    border-image-repeat: initial !important;
+    text-decoration: none !important;
+}
+
+/* DARK MODE FOR MODALS */
+body.dark-mode .modal-content {
+    background: #2a2d3f !important;
+    border-color: #3a3d4a !important;
+    color: #e2e8f0 !important;
+}
+
+body.dark-mode .modal-header {
+    background: #2a2d3f !important;
+    border-color: #3a3d4a !important;
+    color: #e2e8f0 !important;
+}
+
+body.dark-mode .modal-body {
+    background: #2a2d3f !important;
+    color: #e2e8f0 !important;
+}
+
+body.dark-mode .modal-footer {
+    background: #2a2d3f !important;
+    border-color: #3a3d4a !important;
+}
+
+body.dark-mode .modal-title {
+    color: #e2e8f0 !important;
+}
+
+/* DARK MODE FOR MODAL FORMS */
+body.dark-mode #prosesModal select,
+body.dark-mode #prosesModal .form-select,
+body.dark-mode #previewModal select,
+body.dark-mode #previewModal .form-select,
+body.dark-mode .modal select,
+body.dark-mode .modal .form-select {
+    background: #374151 !important;
+    border: 1px solid #4a5568 !important;
+    border-radius: 8px !important;
+    color: #e2e8f0 !important;
+    padding: 8px 12px !important;
+    font-size: 14px !important;
+    line-height: 1.5 !important;
+    outline: none !important;
+    box-shadow: none !important;
+    appearance: none !important;
+    -webkit-appearance: none !important;
+    -moz-appearance: none !important;
+    background-image: none !important;
+    border-image: none !important;
+    text-decoration: none !important;
+    width: 100% !important;
+    font-family: inherit !important;
+    cursor: pointer !important;
+}
+
+body.dark-mode #prosesModal select:focus,
+body.dark-mode #prosesModal .form-select:focus,
+body.dark-mode #previewModal select:focus,
+body.dark-mode #previewModal .form-select:focus,
+body.dark-mode .modal select:focus,
+body.dark-mode .modal .form-select:focus {
+    border-color: #f26b37 !important;
+    box-shadow: 0 0 0 0.2rem rgba(242, 107, 55, 0.25) !important;
+    outline: none !important;
+    background-color: #374151 !important;
+    color: #e2e8f0 !important;
+}
+
+body.dark-mode #prosesModal select option,
+body.dark-mode #previewModal select option,
+body.dark-mode .modal select option {
+    background: #374151 !important;
+    color: #e2e8f0 !important;
+    padding: 4px 8px !important;
+}
+
+/* DARK MODE FOR MODAL LABELS */
+body.dark-mode #prosesModal .form-label,
+body.dark-mode #previewModal .form-label,
+body.dark-mode .modal .form-label {
+    color: #e2e8f0 !important;
+    font-weight: 600 !important;
+    margin-bottom: 8px !important;
+    font-size: 14px !important;
+}
+
+/* DARK MODE FOR MODAL BUTTONS */
+body.dark-mode #prosesModal .btn-secondary,
+body.dark-mode .modal .btn-secondary {
+    background: #4a5568 !important;
+    border-color: #4a5568 !important;
+    color: #e2e8f0 !important;
+}
+
+body.dark-mode #prosesModal .btn-secondary:hover,
+body.dark-mode .modal .btn-secondary:hover {
+    background: #2d3748 !important;
+    border-color: #2d3748 !important;
+    color: #e2e8f0 !important;
+}
+
+body.dark-mode #prosesModal .btn-success {
+    background: linear-gradient(135deg, #10b981, #059669) !important;
+    border: none !important;
+    color: white !important;
+}
+
+body.dark-mode #prosesModal .btn-success:hover {
+    background: linear-gradient(135deg, #059669, #047857) !important;
+    transform: translateY(-1px) !important;
+}
+
+/* DARK MODE FOR ALERT IN MODAL */
+body.dark-mode #prosesModal .alert-success {
+    background: linear-gradient(135deg, #10b981, #059669) !important;
+    border: none !important;
+    color: white !important;
+}
+
+body.dark-mode #prosesModal .text-muted {
+    color: #9ca3af !important;
+}
+
+/* DARK MODE FOR MODAL CONTAINERS */
+body.dark-mode #prosesModal .modal-body .row,
+body.dark-mode #prosesModal .modal-body .col-md-6,
+body.dark-mode #previewModal .modal-body .row,
+body.dark-mode #previewModal .modal-body .col-md-4,
+body.dark-mode .modal .row,
+body.dark-mode .modal .col-md-6,
+body.dark-mode .modal .col-md-4 {
+    border: none !important;
+    outline: none !important;
+    background: transparent !important;
+    box-shadow: none !important;
+    border-image: none !important;
+    text-decoration: none !important;
+}
+
+/* DARK MODE FOR CLOSE BUTTON */
+body.dark-mode .modal .btn-close {
+    filter: invert(1) grayscale(100%) brightness(200%) !important;
+}
+
+/* DARK MODE FOR PREVIEW BUTTON */
+body.dark-mode #previewModal .btn-primary {
+    background: linear-gradient(135deg, #f26b37, #e55827) !important;
+    border: none !important;
+    color: white !important;
+}
+
+body.dark-mode #previewModal .btn-primary:hover {
+    background: linear-gradient(135deg, #e55827, #d94515) !important;
+    transform: translateY(-1px) !important;
+}
 </style>
 
 <div class="new-penggajian-dashboard">
@@ -1541,7 +3142,7 @@ body.dark-mode .dropdown-divider {
                     </button>
                 </div>
                 <div id="realTimeClock" style="font-weight: 600; color: white; font-size: 1rem; margin-top: 10px;"></div>
-                <small id="currentDate" style="opacity: 0.8;"></small>
+                <div><small id="currentDate" style="opacity: 0.8;"></small></div>
             </div>
         </div>
     </div>
@@ -1581,7 +3182,7 @@ body.dark-mode .dropdown-divider {
             </div>
             <div class="col-lg-3 col-md-6">
                 <div class="new-stat-card">
-                    <div class="new-stat-icon" style="background: linear-gradient(135deg, #10b981, #059669) !important;">
+                    <div class="new-stat-icon">
                         <i class="fas fa-users"></i>
                     </div>
                     <div class="new-stat-number">{{ $stats['total_karyawan'] ?? 0 }}</div>
@@ -1593,7 +3194,7 @@ body.dark-mode .dropdown-divider {
             </div>
             <div class="col-lg-3 col-md-6">
                 <div class="new-stat-card">
-                    <div class="new-stat-icon" style="background: linear-gradient(135deg, #f59e0b, #d97706) !important;">
+                    <div class="new-stat-icon">
                         <i class="fas fa-chart-line"></i>
                     </div>
                     <div class="new-stat-number" style="font-size: 1.8rem;">{{ number_format($stats['rata_rata_gaji'] ?? 0, 0, ',', '.') }}</div>
@@ -1605,7 +3206,7 @@ body.dark-mode .dropdown-divider {
             </div>
             <div class="col-lg-3 col-md-6">
                 <div class="new-stat-card">
-                    <div class="new-stat-icon" style="background: linear-gradient(135deg, #8b5cf6, #7c3aed) !important;">
+                    <div class="new-stat-icon">
                         <i class="fas fa-crown"></i>
                     </div>
                     <div class="new-stat-number" style="font-size: 1.8rem;">{{ number_format($stats['gaji_tertinggi'] ?? 0, 0, ',', '.') }}</div>
@@ -1686,39 +3287,41 @@ body.dark-mode .dropdown-divider {
         <div class="new-card">
             <div class="new-card-header">
                 <div class="new-card-title">
-                    <i class="fas fa-table"></i>
+                    <i class="fas fa-table me-2"></i>
                     Data Gaji - {{ Carbon\Carbon::create(null, $bulan, 1)->format('F') }} {{ $tahun }}
                 </div>
             </div>
             <div class="new-card-body">
                 @if ($gajiList->count() > 0)
-                    <div class="table-responsive">
-                        <table class="table table-bordered">
-                            <thead>
+                    <div class="table-responsive" id="penggajian-table-wrapper" 
+                         style="background: #2a2d3f !important; color: #e2e8f0 !important;">
+                        <table class="table" id="penggajian-table" 
+                               style="background: #2a2d3f !important; color: #e2e8f0 !important;">
+                            <thead style="background: #3a3d4a !important;">
                                 <tr>
-                                    <th>No</th>
-                                    <th>Nama Karyawan</th>
-                                    <th>Jabatan</th>
-                                    <th>Absensi</th>
-                                    <th>Gaji Pokok</th>
-                                    <th>Tunjangan</th>
-                                    <th>Potongan</th>
-                                    <th>Total Gaji</th>
-                                    <th>Status</th>
-                                    <th width="80" class="text-center">Aksi</th>
+                                    <th style="width: 5%; background: #3a3d4a !important; color: #94a3b8 !important;">#</th>
+                                    <th style="width: 20%; background: #3a3d4a !important; color: #94a3b8 !important;">Nama Karyawan</th>
+                                    <th style="width: 12%; background: #3a3d4a !important; color: #94a3b8 !important;">Jabatan</th>
+                                    <th style="width: 12%; background: #3a3d4a !important; color: #94a3b8 !important;">Absensi</th>
+                                    <th style="width: 12%; background: #3a3d4a !important; color: #94a3b8 !important;">Gaji Pokok</th>
+                                    <th style="width: 12%; background: #3a3d4a !important; color: #94a3b8 !important;">Tunjangan</th>
+                                    <th style="width: 12%; background: #3a3d4a !important; color: #94a3b8 !important;">Potongan</th>
+                                    <th style="width: 12%; background: #3a3d4a !important; color: #94a3b8 !important;">Total Gaji</th>
+                                    <th style="width: 10%; background: #3a3d4a !important; color: #94a3b8 !important;">Status</th>
+                                    <th style="width: 8%; background: #3a3d4a !important; color: #94a3b8 !important;">Aksi</th>
                                 </tr>
                             </thead>
-                            <tbody>
+                            <tbody style="background: #2a2d3f !important;">
                                 @foreach ($gajiList as $index => $gaji)
                                     @php
                                         $statsAbsensi = $gaji->karyawan->getStatistikAbsensiBulan($tahun, $bulan);
                                     @endphp
-                                    <tr>
-                                        <td>{{ $gajiList->firstItem() + $index }}</td>
-                                        <td>{{ $gaji->karyawan->nama ?? 'N/A' }}</td>
-                                        <td>{{ $gaji->karyawan->jabatan->nama_jabatan ?? 'N/A' }}</td>
-                                        <td>
-                                            <small class="text-muted">
+                                    <tr style="background: #2a2d3f !important; color: #e2e8f0 !important;">
+                                        <td style="background: transparent !important; color: #e2e8f0 !important;">{{ $gajiList->firstItem() + $index }}</td>
+                                        <td style="background: transparent !important; color: #e2e8f0 !important;">{{ $gaji->karyawan->nama ?? 'N/A' }}</td>
+                                        <td style="background: transparent !important; color: #e2e8f0 !important;">{{ $gaji->karyawan->jabatan->nama_jabatan ?? 'N/A' }}</td>
+                                        <td style="background: transparent !important; color: #e2e8f0 !important;">
+                                            <small class="text-muted" style="color: #94a3b8 !important;">
                                                 <div><strong>Hadir:</strong> {{ $statsAbsensi['total_hadir'] }} hari</div>
                                                 <div><strong>Absen:</strong> {{ $statsAbsensi['total_absen'] }} hari</div>
                                                 <div><strong>Kehadiran:</strong>
@@ -1729,16 +3332,16 @@ body.dark-mode .dropdown-divider {
                                                 @endif
                                             </small>
                                         </td>
-                                        <td>Rp {{ number_format($gaji->gaji_pokok ?? 0, 0, ',', '.') }}</td>
-                                        <td>Rp
+                                        <td style="background: transparent !important; color: #e2e8f0 !important;">Rp {{ number_format($gaji->gaji_pokok ?? 0, 0, ',', '.') }}</td>
+                                        <td style="background: transparent !important; color: #e2e8f0 !important;">Rp
                                             {{ number_format(($gaji->tunjangan_jabatan ?? 0) + ($gaji->tunjangan_kehadiran ?? 0) + ($gaji->tunjangan_lainnya ?? 0), 0, ',', '.') }}
                                         </td>
-                                        <td>Rp
+                                        <td style="background: transparent !important; color: #e2e8f0 !important;">Rp
                                             {{ number_format(($gaji->potongan_absensi ?? 0) + ($gaji->potongan_lainnya ?? 0), 0, ',', '.') }}
                                         </td>
-                                        <td><strong>Rp {{ number_format($gaji->jumlah_gaji ?? 0, 0, ',', '.') }}</strong>
+                                        <td style="background: transparent !important; color: #e2e8f0 !important;"><strong>Rp {{ number_format($gaji->jumlah_gaji ?? 0, 0, ',', '.') }}</strong>
                                         </td>
-                                        <td>
+                                        <td style="background: transparent !important; color: #e2e8f0 !important;">
                                             @php
                                                 $status = strtolower($gaji->status_pembayaran ?? 'pending');
                                             @endphp
@@ -1772,15 +3375,15 @@ body.dark-mode .dropdown-divider {
                                                 </small>
                                             @endif
                                         </td>
-                                        <td class="text-center">
+                                        <td class="text-center" style="background: transparent !important; color: #e2e8f0 !important;">
                                             <div class="dropdown">
-                                                <button class="btn btn-sm btn-outline-secondary dropdown-toggle gear-dropdown" 
+                                                <button class="gear-dropdown" 
                                                         type="button" 
                                                         id="dropdownMenuButton{{ $gaji->id_gaji ?? 0 }}" 
                                                         data-bs-toggle="dropdown" 
                                                         aria-expanded="false"
                                                         title="Aksi">
-                                                    <i class="fas fa-cog gear-icon"></i>
+                                                    <i class="fas fa-cog"></i>
                                                 </button>
                                                 <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="dropdownMenuButton{{ $gaji->id_gaji ?? 0 }}">
                                                     <li>
@@ -1829,7 +3432,7 @@ body.dark-mode .dropdown-divider {
                     </div>
 
                     <!-- Pagination Info dan Controls -->
-                    <div class="card-footer bg-light">
+                    <div class="new-card-footer">
                         <div class="row align-items-center">
                             <div class="col-md-6">
                                 <div class="dataTables_info">
@@ -2418,6 +4021,35 @@ document.addEventListener('DOMContentLoaded', function() {
             console.log('Action buttons found:', document.querySelectorAll('[data-action]').length);
             console.log('Bootstrap available:', typeof bootstrap !== 'undefined');
 
+            // Clean modal forms immediately
+            cleanModalForms();
+
+            // Additional immediate cleanup for specific modals
+            setTimeout(() => {
+                const prosesSelects = document.querySelectorAll('#prosesModal select, #prosesModal .form-select');
+                const previewSelects = document.querySelectorAll('#previewModal select, #previewModal .form-select');
+                
+                [...prosesSelects, ...previewSelects].forEach(select => {
+                    select.style.cssText = `
+                        background: #ffffff !important;
+                        border: 1px solid #d1d3e2 !important;
+                        border-radius: 8px !important;
+                        color: #374151 !important;
+                        padding: 8px 12px !important;
+                        font-size: 14px !important;
+                        outline: none !important;
+                        box-shadow: none !important;
+                        appearance: none !important;
+                        -webkit-appearance: none !important;
+                        -moz-appearance: none !important;
+                        background-image: none !important;
+                        border-image: none !important;
+                        text-decoration: none !important;
+                        width: 100% !important;
+                    `;
+                });
+            }, 500);
+
             // Wait for Bootstrap to be fully loaded
             if (typeof bootstrap === 'undefined') {
                 console.error('Bootstrap is not loaded');
@@ -2435,6 +4067,283 @@ document.addEventListener('DOMContentLoaded', function() {
             setupEventDelegation();
 
             console.log('✅ All penggajian actions initialized');
+        });
+
+        // Function to clean modal forms from visual artifacts
+        function cleanModalForms() {
+            console.log('Cleaning modal forms...');
+            
+            // Apply immediate fix to all selects in modals
+            const modalSelects = document.querySelectorAll('.modal select, .modal .form-select');
+            modalSelects.forEach(select => {
+                // Remove all visual artifacts
+                select.style.cssText = `
+                    background: #ffffff !important;
+                    border: 1px solid #d1d3e2 !important;
+                    border-radius: 8px !important;
+                    color: #374151 !important;
+                    padding: 8px 12px !important;
+                    font-size: 14px !important;
+                    line-height: 1.5 !important;
+                    appearance: none !important;
+                    -webkit-appearance: none !important;
+                    -moz-appearance: none !important;
+                    background-image: none !important;
+                    background-repeat: no-repeat !important;
+                    background-position: right 12px center !important;
+                    background-size: 12px !important;
+                    outline: none !important;
+                    box-shadow: none !important;
+                    text-decoration: none !important;
+                    border-image: none !important;
+                    background-attachment: scroll !important;
+                    background-origin: padding-box !important;
+                    background-clip: border-box !important;
+                `;
+            });
+
+            // Clean modal containers
+            const modalContainers = document.querySelectorAll('.modal-body .row, .modal-body .col-md-6, .modal-body .col-md-4');
+            modalContainers.forEach(container => {
+                container.style.cssText = `
+                    border: none !important;
+                    outline: none !important;
+                    background: transparent !important;
+                    box-shadow: none !important;
+                    border-image: none !important;
+                    text-decoration: none !important;
+                `;
+            });
+
+            // Observer to clean new modal elements
+            const observer = new MutationObserver(function(mutations) {
+                mutations.forEach(function(mutation) {
+                    if (mutation.type === 'childList') {
+                        mutation.addedNodes.forEach(function(node) {
+                            if (node.nodeType === 1 && (node.classList?.contains('modal') || node.querySelector?.('.modal'))) {
+                                setTimeout(() => cleanModalForms(), 100);
+                            }
+                        });
+                    }
+                });
+            });
+
+            observer.observe(document.body, {
+                childList: true,
+                subtree: true
+            });
+
+            console.log('Modal forms cleaned');
+        }
+
+        // Add modal event listeners to clean forms when modals open
+        document.addEventListener('DOMContentLoaded', function() {
+            // Listen for modal show events
+            const modals = document.querySelectorAll('.modal');
+            modals.forEach(modal => {
+                modal.addEventListener('shown.bs.modal', function() {
+                    console.log('Modal opened, cleaning forms...');
+                    setTimeout(() => {
+                        cleanModalForms();
+                        
+                        // Additional cleanup for this specific modal
+                        const modalSelects = this.querySelectorAll('select, .form-select');
+                        modalSelects.forEach(select => {
+                            // Force clean styling
+                            select.style.setProperty('background', '#ffffff', 'important');
+                            select.style.setProperty('border', '1px solid #d1d3e2', 'important');
+                            select.style.setProperty('border-radius', '8px', 'important');
+                            select.style.setProperty('outline', 'none', 'important');
+                            select.style.setProperty('box-shadow', 'none', 'important');
+                            select.style.setProperty('appearance', 'none', 'important');
+                            select.style.setProperty('-webkit-appearance', 'none', 'important');
+                            select.style.setProperty('-moz-appearance', 'none', 'important');
+                            select.style.setProperty('background-image', 'none', 'important');
+                            select.style.setProperty('border-image', 'none', 'important');
+                            select.style.setProperty('text-decoration', 'none', 'important');
+                        });
+                    }, 100);
+                });
+            });
+
+            // Special handling for prosesModal
+            const prosesModal = document.getElementById('prosesModal');
+            const previewModal = document.getElementById('previewModal');
+            
+            if (prosesModal) {
+                prosesModal.addEventListener('shown.bs.modal', function() {
+                    console.log('Proses modal opened, applying special cleanup...');
+                    setTimeout(() => {
+                        // Force clean all form elements in proses modal
+                        const prosesSelects = prosesModal.querySelectorAll('select, .form-select');
+                        prosesSelects.forEach(select => {
+                            // Check if dark mode is active
+                            if (document.body.classList.contains('dark-mode')) {
+                                select.style.cssText = `
+                                    background: #374151 !important;
+                                    border: 1px solid #4a5568 !important;
+                                    border-radius: 8px !important;
+                                    color: #e2e8f0 !important;
+                                    padding: 8px 12px !important;
+                                    font-size: 14px !important;
+                                    line-height: 1.5 !important;
+                                    outline: none !important;
+                                    box-shadow: none !important;
+                                    appearance: none !important;
+                                    -webkit-appearance: none !important;
+                                    -moz-appearance: none !important;
+                                    background-image: none !important;
+                                    border-image: none !important;
+                                    text-decoration: none !important;
+                                    width: 100% !important;
+                                    font-family: inherit !important;
+                                    cursor: pointer !important;
+                                `;
+                            } else {
+                                select.style.cssText = `
+                                    background: #ffffff !important;
+                                    border: 1px solid #d1d3e2 !important;
+                                    border-radius: 8px !important;
+                                    color: #374151 !important;
+                                    padding: 8px 12px !important;
+                                    font-size: 14px !important;
+                                    line-height: 1.5 !important;
+                                    outline: none !important;
+                                    box-shadow: none !important;
+                                    appearance: none !important;
+                                    -webkit-appearance: none !important;
+                                    -moz-appearance: none !important;
+                                    background-image: none !important;
+                                    border-image: none !important;
+                                    text-decoration: none !important;
+                                    width: 100% !important;
+                                    font-family: inherit !important;
+                                    cursor: pointer !important;
+                                `;
+                            }
+                        });
+
+                        // Clean containers
+                        const containers = prosesModal.querySelectorAll('.row, .col-md-6, .modal-body');
+                        containers.forEach(container => {
+                            container.style.setProperty('border', 'none', 'important');
+                            container.style.setProperty('outline', 'none', 'important');
+                            container.style.setProperty('background', 'transparent', 'important');
+                            container.style.setProperty('box-shadow', 'none', 'important');
+                            container.style.setProperty('border-image', 'none', 'important');
+                            container.style.setProperty('text-decoration', 'none', 'important');
+                        });
+
+                        // Apply dark mode to modal content if dark mode is active
+                        if (document.body.classList.contains('dark-mode')) {
+                            const modalContent = prosesModal.querySelector('.modal-content');
+                            const modalHeader = prosesModal.querySelector('.modal-header');
+                            const modalBody = prosesModal.querySelector('.modal-body');
+                            const modalFooter = prosesModal.querySelector('.modal-footer');
+                            
+                            if (modalContent) {
+                                modalContent.style.setProperty('background', '#2a2d3f', 'important');
+                                modalContent.style.setProperty('color', '#e2e8f0', 'important');
+                                modalContent.style.setProperty('border-color', '#3a3d4a', 'important');
+                            }
+                            
+                            if (modalHeader) {
+                                modalHeader.style.setProperty('background', '#2a2d3f', 'important');
+                                modalHeader.style.setProperty('border-color', '#3a3d4a', 'important');
+                            }
+                            
+                            if (modalBody) {
+                                modalBody.style.setProperty('background', '#2a2d3f', 'important');
+                                modalBody.style.setProperty('color', '#e2e8f0', 'important');
+                            }
+                            
+                            if (modalFooter) {
+                                modalFooter.style.setProperty('background', '#2a2d3f', 'important');
+                                modalFooter.style.setProperty('border-color', '#3a3d4a', 'important');
+                            }
+                        }
+                    }, 200);
+                });
+            }
+
+            if (previewModal) {
+                previewModal.addEventListener('shown.bs.modal', function() {
+                    console.log('Preview modal opened, applying special cleanup...');
+                    setTimeout(() => {
+                        // Force clean all form elements in preview modal
+                        const previewSelects = previewModal.querySelectorAll('select, .form-select');
+                        previewSelects.forEach(select => {
+                            // Check if dark mode is active
+                            if (document.body.classList.contains('dark-mode')) {
+                                select.style.cssText = `
+                                    background: #374151 !important;
+                                    border: 1px solid #4a5568 !important;
+                                    border-radius: 8px !important;
+                                    color: #e2e8f0 !important;
+                                    padding: 8px 12px !important;
+                                    font-size: 14px !important;
+                                    line-height: 1.5 !important;
+                                    outline: none !important;
+                                    box-shadow: none !important;
+                                    appearance: none !important;
+                                    -webkit-appearance: none !important;
+                                    -moz-appearance: none !important;
+                                    background-image: none !important;
+                                    border-image: none !important;
+                                    text-decoration: none !important;
+                                    width: 100% !important;
+                                    font-family: inherit !important;
+                                    cursor: pointer !important;
+                                `;
+                            } else {
+                                select.style.cssText = `
+                                    background: #ffffff !important;
+                                    border: 1px solid #d1d3e2 !important;
+                                    border-radius: 8px !important;
+                                    color: #374151 !important;
+                                    padding: 8px 12px !important;
+                                    font-size: 14px !important;
+                                    line-height: 1.5 !important;
+                                    outline: none !important;
+                                    box-shadow: none !important;
+                                    appearance: none !important;
+                                    -webkit-appearance: none !important;
+                                    -moz-appearance: none !important;
+                                    background-image: none !important;
+                                    border-image: none !important;
+                                    text-decoration: none !important;
+                                    width: 100% !important;
+                                    font-family: inherit !important;
+                                    cursor: pointer !important;
+                                `;
+                            }
+                        });
+
+                        // Apply dark mode to modal content if dark mode is active
+                        if (document.body.classList.contains('dark-mode')) {
+                            const modalContent = previewModal.querySelector('.modal-content');
+                            const modalHeader = previewModal.querySelector('.modal-header');
+                            const modalBody = previewModal.querySelector('.modal-body');
+                            
+                            if (modalContent) {
+                                modalContent.style.setProperty('background', '#2a2d3f', 'important');
+                                modalContent.style.setProperty('color', '#e2e8f0', 'important');
+                                modalContent.style.setProperty('border-color', '#3a3d4a', 'important');
+                            }
+                            
+                            if (modalHeader) {
+                                modalHeader.style.setProperty('background', '#2a2d3f', 'important');
+                                modalHeader.style.setProperty('border-color', '#3a3d4a', 'important');
+                            }
+                            
+                            if (modalBody) {
+                                modalBody.style.setProperty('background', '#2a2d3f', 'important');
+                                modalBody.style.setProperty('color', '#e2e8f0', 'important');
+                            }
+                        }
+                    }, 200);
+                });
+            }
         });
 
         function setupEventDelegation() {
@@ -2589,6 +4498,32 @@ document.addEventListener('DOMContentLoaded', function() {
                         document.querySelectorAll('.dropdown-menu.show').forEach(function(menu) {
                             menu.classList.remove('show');
                         });
+                    }
+                });
+
+                // Prevent dropdown overflow - force position within bounds
+                document.addEventListener('shown.bs.dropdown', function(e) {
+                    const dropdown = e.target.querySelector('.dropdown-menu');
+                    if (dropdown) {
+                        const rect = dropdown.getBoundingClientRect();
+                        const tableRect = document.querySelector('#penggajian-table-wrapper').getBoundingClientRect();
+                        
+                        // Force dropdown to stay within table bounds
+                        if (rect.right > tableRect.right) {
+                            dropdown.style.right = '5px';
+                            dropdown.style.left = 'auto';
+                            dropdown.style.transform = 'none';
+                        }
+                        
+                        // Ensure it doesn't go below table
+                        if (rect.bottom > tableRect.bottom) {
+                            dropdown.style.top = 'auto';
+                            dropdown.style.bottom = '100%';
+                        }
+                        
+                        // Force maximum width
+                        dropdown.style.maxWidth = '150px';
+                        dropdown.style.width = '150px';
                     }
                 });
             }
