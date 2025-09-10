@@ -418,6 +418,31 @@
             color: var(--dark-text);
         }
 
+        /* Active submenu item styling */
+        .submenu .nav-link.active {
+            background: var(--yogya-gradient) !important;
+            color: white !important;
+            font-weight: 600 !important;
+            box-shadow: 0 2px 8px rgba(242, 107, 55, 0.4) !important;
+            padding-left: 16px !important;
+        }
+
+        .submenu .nav-link.active:hover {
+            background: var(--yogya-gradient) !important;
+            color: white !important;
+            transform: none !important;
+        }
+
+        body.dark-mode .submenu .nav-link.active {
+            background: var(--yogya-gradient) !important;
+            color: white !important;
+        }
+
+        body.dark-mode .submenu .nav-link.active:hover {
+            background: var(--yogya-gradient) !important;
+            color: white !important;
+        }
+
         /* SIDEBAR FOOTER */
         .sidebar-footer {
             padding: 18px;

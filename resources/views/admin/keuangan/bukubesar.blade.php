@@ -470,6 +470,67 @@ body.dark-mode .btn-menu:hover {
     color: #d1d5db !important;
 }
 
+/* Dropdown Menu Styling */
+.dropdown-menu {
+    border: none !important;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.1) !important;
+    border-radius: 8px !important;
+    min-width: 160px !important;
+}
+
+body.dark-mode .dropdown-menu {
+    background: #374151 !important;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.3) !important;
+}
+
+.dropdown-item {
+    padding: 8px 16px !important;
+    transition: all 0.3s ease !important;
+    color: #374151 !important;
+    font-size: 0.9rem !important;
+}
+
+.dropdown-item:hover {
+    background: #f8fafc !important;
+    color: #f26b37 !important;
+}
+
+.dropdown-item.text-danger {
+    color: #dc2626 !important;
+}
+
+.dropdown-item.text-danger:hover {
+    background: #fee2e2 !important;
+    color: #dc2626 !important;
+}
+
+body.dark-mode .dropdown-item {
+    color: #f9fafb !important;
+}
+
+body.dark-mode .dropdown-item:hover {
+    background: #4b5563 !important;
+    color: #f26b37 !important;
+}
+
+body.dark-mode .dropdown-item.text-danger {
+    color: #f87171 !important;
+}
+
+body.dark-mode .dropdown-item.text-danger:hover {
+    background: #7f1d1d !important;
+    color: #f87171 !important;
+}
+
+.dropdown-divider {
+    margin: 4px 0 !important;
+    border-top: 1px solid #e5e7eb !important;
+}
+
+body.dark-mode .dropdown-divider {
+    border-top-color: #4b5563 !important;
+}
+
 /* Avatar fallback styling */
 .avatar-fallback {
     width: 40px;
@@ -661,7 +722,7 @@ body.dark-mode .btn-menu:hover {
                                     <td>1</td>
                                     <td>
                                         <div class="d-flex align-items-center">
-                                            <div class="avatar-fallback me-3">TB</div>
+                                            <div class="avatar-fallback me-3">--</div>
                                             <div>
                                                 <div class="d-flex flex-column justify-content-center">
                                                     <strong>Penjualan Produk</strong>
@@ -694,16 +755,25 @@ body.dark-mode .btn-menu:hover {
                                         </div>
                                     </td>
                                     <td>
-                                        <button class="btn-menu">
-                                            <i class="fas fa-ellipsis-v"></i>
-                                        </button>
+                                        <div class="dropdown">
+                                            <button class="btn-menu" type="button" data-bs-toggle="dropdown">
+                                                <i class="fas fa-ellipsis-v"></i>
+                                            </button>
+                                            <ul class="dropdown-menu">
+                                                <li><a class="dropdown-item" href="#" onclick="lihatDetail('TRX001/2025')"><i class="fas fa-eye me-2"></i>Lihat Detail</a></li>
+                                                <li><a class="dropdown-item" href="#" onclick="cetakJurnal('TRX001/2025')"><i class="fas fa-print me-2"></i>Cetak Jurnal</a></li>
+                                                <li><hr class="dropdown-divider"></li>
+                                                <li><a class="dropdown-item" href="#" onclick="editTransaksi('TRX001/2025')"><i class="fas fa-edit me-2"></i>Edit</a></li>
+                                                <li><a class="dropdown-item text-danger" href="#" onclick="hapusTransaksi('TRX001/2025')"><i class="fas fa-trash me-2"></i>Hapus</a></li>
+                                            </ul>
+                                        </div>
                                     </td>
                                 </tr>
                                 <tr>
                                     <td>2</td>
                                     <td>
                                         <div class="d-flex align-items-center">
-                                            <div class="avatar-fallback me-3">PB</div>
+                                            <div class="avatar-fallback me-3">--</div>
                                             <div>
                                                 <div class="d-flex flex-column justify-content-center">
                                                     <strong>Pembelian Stok</strong>
@@ -736,16 +806,25 @@ body.dark-mode .btn-menu:hover {
                                         </div>
                                     </td>
                                     <td>
-                                        <button class="btn-menu">
-                                            <i class="fas fa-ellipsis-v"></i>
-                                        </button>
+                                        <div class="dropdown">
+                                            <button class="btn-menu" type="button" data-bs-toggle="dropdown">
+                                                <i class="fas fa-ellipsis-v"></i>
+                                            </button>
+                                            <ul class="dropdown-menu">
+                                                <li><a class="dropdown-item" href="#" onclick="lihatDetail('TRX002/2025')"><i class="fas fa-eye me-2"></i>Lihat Detail</a></li>
+                                                <li><a class="dropdown-item" href="#" onclick="cetakJurnal('TRX002/2025')"><i class="fas fa-print me-2"></i>Cetak Jurnal</a></li>
+                                                <li><hr class="dropdown-divider"></li>
+                                                <li><a class="dropdown-item" href="#" onclick="editTransaksi('TRX002/2025')"><i class="fas fa-edit me-2"></i>Edit</a></li>
+                                                <li><a class="dropdown-item text-danger" href="#" onclick="hapusTransaksi('TRX002/2025')"><i class="fas fa-trash me-2"></i>Hapus</a></li>
+                                            </ul>
+                                        </div>
                                     </td>
                                 </tr>
                                 <tr>
                                     <td>3</td>
                                     <td>
                                         <div class="d-flex align-items-center">
-                                            <div class="avatar-fallback me-3">BL</div>
+                                            <div class="avatar-fallback me-3">--</div>
                                             <div>
                                                 <div class="d-flex flex-column justify-content-center">
                                                     <strong>Bayar Listrik</strong>
@@ -778,7 +857,18 @@ body.dark-mode .btn-menu:hover {
                                         </div>
                                     </td>
                                     <td>
-                                        <button class="btn-menu">
+                                        <div class="dropdown">
+                                            <button class="btn-menu" type="button" data-bs-toggle="dropdown">
+                                                <i class="fas fa-ellipsis-v"></i>
+                                            </button>
+                                            <ul class="dropdown-menu">
+                                                <li><a class="dropdown-item" href="#" onclick="lihatDetail('TRX003/2025')"><i class="fas fa-eye me-2"></i>Lihat Detail</a></li>
+                                                <li><a class="dropdown-item" href="#" onclick="cetakJurnal('TRX003/2025')"><i class="fas fa-print me-2"></i>Cetak Jurnal</a></li>
+                                                <li><hr class="dropdown-divider"></li>
+                                                <li><a class="dropdown-item" href="#" onclick="editTransaksi('TRX003/2025')"><i class="fas fa-edit me-2"></i>Edit</a></li>
+                                                <li><a class="dropdown-item text-danger" href="#" onclick="hapusTransaksi('TRX003/2025')"><i class="fas fa-trash me-2"></i>Hapus</a></li>
+                                            </ul>
+                                        </div>
                                             <i class="fas fa-ellipsis-v"></i>
                                         </button>
                                     </td>
@@ -787,7 +877,7 @@ body.dark-mode .btn-menu:hover {
                                     <td>4</td>
                                     <td>
                                         <div class="d-flex align-items-center">
-                                            <div class="avatar-fallback me-3">PJ</div>
+                                            <div class="avatar-fallback me-3">--</div>
                                             <div>
                                                 <div class="d-flex flex-column justify-content-center">
                                                     <strong>Penjualan Online</strong>
@@ -820,16 +910,25 @@ body.dark-mode .btn-menu:hover {
                                         </div>
                                     </td>
                                     <td>
-                                        <button class="btn-menu">
-                                            <i class="fas fa-ellipsis-v"></i>
-                                        </button>
+                                        <div class="dropdown">
+                                            <button class="btn-menu" type="button" data-bs-toggle="dropdown">
+                                                <i class="fas fa-ellipsis-v"></i>
+                                            </button>
+                                            <ul class="dropdown-menu">
+                                                <li><a class="dropdown-item" href="#" onclick="lihatDetail('TRX004/2025')"><i class="fas fa-eye me-2"></i>Lihat Detail</a></li>
+                                                <li><a class="dropdown-item" href="#" onclick="cetakJurnal('TRX004/2025')"><i class="fas fa-print me-2"></i>Cetak Jurnal</a></li>
+                                                <li><hr class="dropdown-divider"></li>
+                                                <li><a class="dropdown-item" href="#" onclick="editTransaksi('TRX004/2025')"><i class="fas fa-edit me-2"></i>Edit</a></li>
+                                                <li><a class="dropdown-item text-danger" href="#" onclick="hapusTransaksi('TRX004/2025')"><i class="fas fa-trash me-2"></i>Hapus</a></li>
+                                            </ul>
+                                        </div>
                                     </td>
                                 </tr>
                                 <tr>
                                     <td>5</td>
                                     <td>
                                         <div class="d-flex align-items-center">
-                                            <div class="avatar-fallback me-3">GA</div>
+                                            <div class="avatar-fallback me-3">--</div>
                                             <div>
                                                 <div class="d-flex flex-column justify-content-center">
                                                     <strong>Gaji Karyawan</strong>
@@ -862,16 +961,25 @@ body.dark-mode .btn-menu:hover {
                                         </div>
                                     </td>
                                     <td>
-                                        <button class="btn-menu">
-                                            <i class="fas fa-ellipsis-v"></i>
-                                        </button>
+                                        <div class="dropdown">
+                                            <button class="btn-menu" type="button" data-bs-toggle="dropdown">
+                                                <i class="fas fa-ellipsis-v"></i>
+                                            </button>
+                                            <ul class="dropdown-menu">
+                                                <li><a class="dropdown-item" href="#" onclick="lihatDetail('TRX005/2025')"><i class="fas fa-eye me-2"></i>Lihat Detail</a></li>
+                                                <li><a class="dropdown-item" href="#" onclick="cetakJurnal('TRX005/2025')"><i class="fas fa-print me-2"></i>Cetak Jurnal</a></li>
+                                                <li><hr class="dropdown-divider"></li>
+                                                <li><a class="dropdown-item" href="#" onclick="editTransaksi('TRX005/2025')"><i class="fas fa-edit me-2"></i>Edit</a></li>
+                                                <li><a class="dropdown-item text-danger" href="#" onclick="hapusTransaksi('TRX005/2025')"><i class="fas fa-trash me-2"></i>Hapus</a></li>
+                                            </ul>
+                                        </div>
                                     </td>
                                 </tr>
                                 <tr>
                                     <td>6</td>
                                     <td>
                                         <div class="d-flex align-items-center">
-                                            <div class="avatar-fallback me-3">SV</div>
+                                            <div class="avatar-fallback me-3">--</div>
                                             <div>
                                                 <div class="d-flex flex-column justify-content-center">
                                                     <strong>Service & Maintenance</strong>
@@ -904,16 +1012,25 @@ body.dark-mode .btn-menu:hover {
                                         </div>
                                     </td>
                                     <td>
-                                        <button class="btn-menu">
-                                            <i class="fas fa-ellipsis-v"></i>
-                                        </button>
+                                        <div class="dropdown">
+                                            <button class="btn-menu" type="button" data-bs-toggle="dropdown">
+                                                <i class="fas fa-ellipsis-v"></i>
+                                            </button>
+                                            <ul class="dropdown-menu">
+                                                <li><a class="dropdown-item" href="#" onclick="lihatDetail('TRX006/2025')"><i class="fas fa-eye me-2"></i>Lihat Detail</a></li>
+                                                <li><a class="dropdown-item" href="#" onclick="cetakJurnal('TRX006/2025')"><i class="fas fa-print me-2"></i>Cetak Jurnal</a></li>
+                                                <li><hr class="dropdown-divider"></li>
+                                                <li><a class="dropdown-item" href="#" onclick="editTransaksi('TRX006/2025')"><i class="fas fa-edit me-2"></i>Edit</a></li>
+                                                <li><a class="dropdown-item text-danger" href="#" onclick="hapusTransaksi('TRX006/2025')"><i class="fas fa-trash me-2"></i>Hapus</a></li>
+                                            </ul>
+                                        </div>
                                     </td>
                                 </tr>
                                 <tr>
                                     <td>7</td>
                                     <td>
                                         <div class="d-flex align-items-center">
-                                            <div class="avatar-fallback me-3">BN</div>
+                                            <div class="avatar-fallback me-3">--</div>
                                             <div>
                                                 <div class="d-flex flex-column justify-content-center">
                                                     <strong>Bonus Penjualan</strong>
@@ -946,16 +1063,25 @@ body.dark-mode .btn-menu:hover {
                                         </div>
                                     </td>
                                     <td>
-                                        <button class="btn-menu">
-                                            <i class="fas fa-ellipsis-v"></i>
-                                        </button>
+                                        <div class="dropdown">
+                                            <button class="btn-menu" type="button" data-bs-toggle="dropdown">
+                                                <i class="fas fa-ellipsis-v"></i>
+                                            </button>
+                                            <ul class="dropdown-menu">
+                                                <li><a class="dropdown-item" href="#" onclick="lihatDetail('TRX007/2025')"><i class="fas fa-eye me-2"></i>Lihat Detail</a></li>
+                                                <li><a class="dropdown-item" href="#" onclick="cetakJurnal('TRX007/2025')"><i class="fas fa-print me-2"></i>Cetak Jurnal</a></li>
+                                                <li><hr class="dropdown-divider"></li>
+                                                <li><a class="dropdown-item" href="#" onclick="editTransaksi('TRX007/2025')"><i class="fas fa-edit me-2"></i>Edit</a></li>
+                                                <li><a class="dropdown-item text-danger" href="#" onclick="hapusTransaksi('TRX007/2025')"><i class="fas fa-trash me-2"></i>Hapus</a></li>
+                                            </ul>
+                                        </div>
                                     </td>
                                 </tr>
                                 <tr>
                                     <td>8</td>
                                     <td>
                                         <div class="d-flex align-items-center">
-                                            <div class="avatar-fallback me-3">RT</div>
+                                            <div class="avatar-fallback me-3">--</div>
                                             <div>
                                                 <div class="d-flex flex-column justify-content-center">
                                                     <strong>Return Produk</strong>
@@ -988,9 +1114,18 @@ body.dark-mode .btn-menu:hover {
                                         </div>
                                     </td>
                                     <td>
-                                        <button class="btn-menu">
-                                            <i class="fas fa-ellipsis-v"></i>
-                                        </button>
+                                        <div class="dropdown">
+                                            <button class="btn-menu" type="button" data-bs-toggle="dropdown">
+                                                <i class="fas fa-ellipsis-v"></i>
+                                            </button>
+                                            <ul class="dropdown-menu">
+                                                <li><a class="dropdown-item" href="#" onclick="lihatDetail('TRX008/2025')"><i class="fas fa-eye me-2"></i>Lihat Detail</a></li>
+                                                <li><a class="dropdown-item" href="#" onclick="cetakJurnal('TRX008/2025')"><i class="fas fa-print me-2"></i>Cetak Jurnal</a></li>
+                                                <li><hr class="dropdown-divider"></li>
+                                                <li><a class="dropdown-item" href="#" onclick="editTransaksi('TRX008/2025')"><i class="fas fa-edit me-2"></i>Edit</a></li>
+                                                <li><a class="dropdown-item text-danger" href="#" onclick="hapusTransaksi('TRX008/2025')"><i class="fas fa-trash me-2"></i>Hapus</a></li>
+                                            </ul>
+                                        </div>
                                     </td>
                                 </tr>
                             </tbody>
@@ -1039,6 +1174,166 @@ function resetForm() {
     document.getElementById('periode').selectedIndex = 0;
     document.getElementById('jenis').selectedIndex = 0;
     document.getElementById('metode').selectedIndex = 0;
+}
+
+// Function to generate initials from transaction name
+function generateInitials(transactionName) {
+    return transactionName
+        .split(' ')
+        .map(word => word.charAt(0).toUpperCase())
+        .join('');
+}
+
+// Function to update all avatars automatically
+function updateAvatarsAutomatically() {
+    // Get all transaction names and their corresponding avatars
+    const transactionRows = document.querySelectorAll('tbody tr');
+    
+    transactionRows.forEach(row => {
+        const transactionNameElement = row.querySelector('strong');
+        const avatarElement = row.querySelector('.avatar-fallback');
+        
+        if (transactionNameElement && avatarElement) {
+            const transactionName = transactionNameElement.textContent.trim();
+            const initials = generateInitials(transactionName);
+            avatarElement.textContent = initials;
+        }
+    });
+}
+
+// Call the function when page loads
+document.addEventListener('DOMContentLoaded', function() {
+    updateAvatarsAutomatically();
+});
+
+// Dropdown Action Functions
+function lihatDetail(noTransaksi) {
+    // Show loading toast
+    showToast('Loading...', 'info');
+    
+    // Simulate detail view action
+    setTimeout(() => {
+        showToast(`Menampilkan detail transaksi ${noTransaksi}`, 'success');
+        
+        // Here you would typically open a modal or redirect to detail page
+        console.log('Lihat Detail:', noTransaksi);
+    }, 500);
+}
+
+function cetakJurnal(noTransaksi) {
+    showToast('Memproses cetak jurnal...', 'info');
+    
+    // Simulate print action
+    setTimeout(() => {
+        showToast(`Jurnal transaksi ${noTransaksi} berhasil dicetak`, 'success');
+        
+        // Here you would typically open print dialog or generate PDF
+        console.log('Cetak Jurnal:', noTransaksi);
+    }, 1000);
+}
+
+function editTransaksi(noTransaksi) {
+    showToast('Membuka form edit...', 'info');
+    
+    // Simulate edit action
+    setTimeout(() => {
+        showToast(`Mengedit transaksi ${noTransaksi}`, 'success');
+        
+        // Here you would typically redirect to edit form or open modal
+        console.log('Edit Transaksi:', noTransaksi);
+    }, 500);
+}
+
+function hapusTransaksi(noTransaksi) {
+    // Show confirmation dialog
+    if (confirm(`Apakah Anda yakin ingin menghapus transaksi ${noTransaksi}?\n\nTindakan ini tidak dapat dibatalkan.`)) {
+        showToast('Menghapus transaksi...', 'info');
+        
+        // Simulate delete action
+        setTimeout(() => {
+            showToast(`Transaksi ${noTransaksi} berhasil dihapus`, 'success');
+            
+            // Here you would typically send delete request to server
+            console.log('Hapus Transaksi:', noTransaksi);
+        }, 1000);
+    }
+}
+
+// Toast notification function
+function showToast(message, type = 'success') {
+    // Remove existing toasts
+    const existingToasts = document.querySelectorAll('.toast-notification');
+    existingToasts.forEach(toast => toast.remove());
+    
+    // Create toast element
+    const toast = document.createElement('div');
+    toast.className = `toast-notification toast-${type}`;
+    
+    const icon = type === 'success' ? 'fa-check-circle' : 
+                 type === 'error' ? 'fa-exclamation-circle' : 
+                 type === 'info' ? 'fa-info-circle' : 'fa-check-circle';
+    
+    toast.innerHTML = `
+        <i class="fas ${icon}"></i>
+        <span>${message}</span>
+    `;
+    
+    // Add CSS styles
+    toast.style.cssText = `
+        position: fixed;
+        top: 20px;
+        right: 20px;
+        background: ${type === 'success' ? '#10b981' : type === 'error' ? '#ef4444' : '#3b82f6'};
+        color: white;
+        padding: 12px 16px;
+        border-radius: 8px;
+        box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+        z-index: 9999;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        font-size: 14px;
+        font-weight: 500;
+        animation: slideIn 0.3s ease;
+    `;
+    
+    // Add animation styles to head if not exists
+    if (!document.querySelector('#toast-styles')) {
+        const style = document.createElement('style');
+        style.id = 'toast-styles';
+        style.textContent = `
+            @keyframes slideIn {
+                from {
+                    transform: translateX(100%);
+                    opacity: 0;
+                }
+                to {
+                    transform: translateX(0);
+                    opacity: 1;
+                }
+            }
+            @keyframes slideOut {
+                from {
+                    transform: translateX(0);
+                    opacity: 1;
+                }
+                to {
+                    transform: translateX(100%);
+                    opacity: 0;
+                }
+            }
+        `;
+        document.head.appendChild(style);
+    }
+    
+    // Add to document
+    document.body.appendChild(toast);
+    
+    // Auto remove after 3 seconds
+    setTimeout(() => {
+        toast.style.animation = 'slideOut 0.3s ease';
+        setTimeout(() => toast.remove(), 300);
+    }, 3000);
 }
 </script>
 
