@@ -418,15 +418,25 @@ body.dark-mode .action-dropdown-item:hover {
         </div>
     </div>
 
+    <!-- Action Buttons -->
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h4 class="mb-0">Daftar Pengiriman</h4>
+        <a href="{{ route('gudang.pengiriman.create') }}" class="btn btn-modern">
+            <i class="fas fa-plus"></i>
+            Tambah Pengiriman
+        </a>
+    </div>
+
     <!-- Filter Section -->
     <div class="filter-section">
-        <form method="GET" action="{{ route('gudang.pengiriman.index') }}">
+        <form id="filter-form" method="GET" action="{{ route('gudang.pengiriman.index') }}">
             <div class="filter-grid">
                 <div>
                     <label class="form-label-modern">Status</label>
                     <select name="status" class="form-control form-control-modern">
                         <option value="">Semua Status</option>
-                        <option value="Pending" {{ request('status') == 'Pending' ? 'selected' : '' }}>Pending</option>
+                        <option value="Menunggu" {{ request('status') == 'Menunggu' ? 'selected' : '' }}>Menunggu</option>
+                        <option value="Siap Kirim" {{ request('status') == 'Siap Kirim' ? 'selected' : '' }}>Siap Kirim</option>
                         <option value="Dikirim" {{ request('status') == 'Dikirim' ? 'selected' : '' }}>Dikirim</option>
                         <option value="Selesai" {{ request('status') == 'Selesai' ? 'selected' : '' }}>Selesai</option>
                     </select>
@@ -441,16 +451,42 @@ body.dark-mode .action-dropdown-item:hover {
                 </div>
                 <div>
                     <label class="form-label-modern">&nbsp;</label>
-                    <button type="submit" class="btn btn-modern w-100 form-control-modern" style="height: 48px;">
-                        <i class="fas fa-search"></i>
-                        Filter
-                    </button>
+                    <div class="d-flex gap-2">
+                        <button type="submit" class="btn btn-modern flex-fill" style="height: 48px;">
+                            <i class="fas fa-search"></i>
+                            Filter
+                        </button>
+                        <button type="button" onclick="resetFilter()" class="btn btn-outline-modern" style="height: 48px;">
+                            <i class="fas fa-refresh"></i>
+                            Reset
+                        </button>
+                    </div>
                 </div>
             </div>
         </form>
+        
+        <!-- Filter Indicators -->
+        @if(request()->hasAny(['status', 'tanggal_dari', 'tanggal_sampai']))
+        <div class="mt-3">
+            <div class="d-flex align-items-center gap-2 flex-wrap">
+                <small class="text-muted">Filter aktif:</small>
+                @if(request('status'))
+                    <span class="badge bg-primary">Status: {{ request('status') }}</span>
+                @endif
+                @if(request('tanggal_dari'))
+                    <span class="badge bg-info">Dari: {{ request('tanggal_dari') }}</span>
+                @endif
+                @if(request('tanggal_sampai'))
+                    <span class="badge bg-info">Sampai: {{ request('tanggal_sampai') }}</span>
+                @endif
+                <button type="button" onclick="resetFilter()" class="btn btn-sm btn-outline-secondary">
+                    <i class="fas fa-times"></i> Hapus Filter
+                </button>
+            </div>
+        </div>
+        @endif
     </div>
 
-<<<<<<< HEAD
     <!-- Data Table -->
     <div class="new-card">
         <div class="new-card-body p-0">
@@ -552,42 +588,6 @@ body.dark-mode .action-dropdown-item:hover {
                         @endforelse
                     </tbody>
                 </table>
-=======
-    <!-- Main Table -->
-    <div class="modern-card">
-        <div class="card-header-modern">
-            <h5 class="card-title-modern">
-                <i class="fas fa-shipping-fast" style="color: #f26b37; margin-right: 10px;"></i>
-                Daftar Pengiriman
-            </h5>
-            <div class="d-flex gap-2">
-                <a href="{{ route('gudang.pengiriman.create') }}" class="btn btn-modern">
-                    <i class="fas fa-plus"></i>
-                    Buat Pengiriman
-                </a>
-                <button class="btn btn-outline-modern">
-                    <i class="fas fa-download"></i>
-                    Export
-                </button>
-                <button class="btn btn-modern">
-                    <i class="fas fa-sync-alt"></i>
-                    Refresh
-                </button>
->>>>>>> 909461ccad411fae92dd5458fe38260247f835ae
-            </div>
-        </div>
-        <div class="table-responsive">
-            <table class="table modern-table">
-                <thead>
-                    <tr>
-                        <th>No</th>
-                        <th>Produk</th>
-                        <th>Tujuan</th>
-                        <th>Jumlah</th>
-                        <th>Tanggal Kirim</th>
-                        <th>Status</th>
-                        <th>Aksi</th>
-                    </tr>
                 </thead>
                 <tbody>
                     @if($pengiriman->count() > 0)
@@ -656,19 +656,6 @@ body.dark-mode .action-dropdown-item:hover {
                             </td>
                         </tr>
                         @endforeach
-                    @else
-                        <tr>
-                            <td colspan="7" class="text-center py-4">
-                                <div class="text-muted">
-                                    <i class="fas fa-box-open fa-3x mb-3"></i>
-                                    <p>Belum ada data pengiriman</p>
-                                    <a href="{{ route('gudang.pengiriman.create') }}" class="btn btn-modern">
-                                        <i class="fas fa-plus"></i>
-                                        Tambah Pengiriman Pertama
-                                    </a>
-                                </div>
-                            </td>
-                        </tr>
                     @endif
                 </tbody>
             </table>
@@ -697,8 +684,7 @@ function toggleDropdown(button) {
     }
 }
 
-<<<<<<< HEAD
-    // Delete confirmation
+// Delete confirmation
     $('.delete-btn').on('click', function() {
         var id = $(this).data('id');
         var form = $('#deleteForm');
@@ -926,7 +912,7 @@ function lihatDetail(index) {
         icon: 'error'
     });
 @endif
-=======
+
 // Close dropdown when clicking outside
 document.addEventListener('click', function(event) {
     if (!event.target.closest('.action-dropdown')) {
@@ -965,6 +951,46 @@ function confirmDelete(id) {
         form.submit();
     }
 }
->>>>>>> 909461ccad411fae92dd5458fe38260247f835ae
+
+// Filter functionality
+function applyFilter() {
+    const form = document.querySelector('#filter-form');
+    if (form) {
+        form.submit();
+    }
+}
+
+function resetFilter() {
+    // Clear all form inputs
+    document.querySelector('select[name="status"]').value = '';
+    document.querySelector('input[name="tanggal_dari"]').value = '';
+    document.querySelector('input[name="tanggal_sampai"]').value = '';
+    
+    // Submit form to clear filters
+    const form = document.querySelector('#filter-form');
+    if (form) {
+        // Remove all query parameters by submitting form without data
+        window.location.href = form.action;
+    }
+}
+
+// Real-time filter on change
+document.addEventListener('DOMContentLoaded', function() {
+    // Auto-submit on status change
+    const statusSelect = document.querySelector('select[name="status"]');
+    if (statusSelect) {
+        statusSelect.addEventListener('change', function() {
+            applyFilter();
+        });
+    }
+    
+    // Auto-submit on date change
+    const dateInputs = document.querySelectorAll('input[name="tanggal_dari"], input[name="tanggal_sampai"]');
+    dateInputs.forEach(function(input) {
+        input.addEventListener('change', function() {
+            applyFilter();
+        });
+    });
+});
 </script>
 @endsection

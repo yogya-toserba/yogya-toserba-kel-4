@@ -110,13 +110,48 @@ class GudangController extends BaseController
         return redirect()->route('gudang.login');
     }
 
-    public function permintaan()
+    public function permintaan(Request $request)
     {
         // Ambil semua data permintaan dari session
         $allPermintaan = session('all_permintaan', []);
 
+        // Apply filters
+        $filteredPermintaan = collect($allPermintaan);
+        
+        // Filter by status
+        if ($request->filled('status')) {
+            $filteredPermintaan = $filteredPermintaan->where('status', $request->status);
+        }
+        
+        // Filter by prioritas
+        if ($request->filled('prioritas')) {
+            $filteredPermintaan = $filteredPermintaan->where('prioritas', $request->prioritas);
+        }
+        
+        // Filter by date range
+        if ($request->filled('tanggal_dari')) {
+            $filteredPermintaan = $filteredPermintaan->filter(function($item) use ($request) {
+                $itemDate = $item['tanggal'] ?? date('Y-m-d');
+                return $itemDate >= $request->tanggal_dari;
+            });
+        }
+        
+        if ($request->filled('tanggal_sampai')) {
+            $filteredPermintaan = $filteredPermintaan->filter(function($item) use ($request) {
+                $itemDate = $item['tanggal'] ?? date('Y-m-d');
+                return $itemDate <= $request->tanggal_sampai;
+            });
+        }
+        
+        // Convert back to array for view
+        $allPermintaan = $filteredPermintaan->values()->toArray();
+
         // Debug logging
-        Log::info('Displaying permintaan page:', ['count' => count($allPermintaan)]);
+        Log::info('Displaying permintaan page:', [
+            'total_count' => count(session('all_permintaan', [])),
+            'filtered_count' => count($allPermintaan),
+            'filters' => $request->only(['status', 'prioritas', 'tanggal_dari', 'tanggal_sampai'])
+        ]);
 
         return view('gudang.permintaan', compact('allPermintaan'));
     }
