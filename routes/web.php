@@ -149,6 +149,7 @@ Route::prefix('keranjang')->name('keranjang.')->group(function () {
     Route::delete('/remove', [KeranjangController::class, 'remove'])->name('remove');
     Route::delete('/clear', [KeranjangController::class, 'clear'])->name('clear');
     Route::get('/data', [KeranjangController::class, 'getCart'])->name('data');
+    Route::post('/sync', [KeranjangController::class, 'syncCart'])->name('sync');
 });
 
 // Product Detail Routes

@@ -617,6 +617,147 @@
                 });
             }
         }
+
+        // Cart functionality
+        let cart = JSON.parse(localStorage.getItem('cart') || '[]');
+
+        // Update cart badge in navbar
+        function updateCartBadge() {
+            const cartBadge = document.querySelector('.cart-badge');
+            if (cartBadge) {
+                const totalItems = cart.reduce((sum, item) => sum + item.quantity, 0);
+                cartBadge.textContent = totalItems;
+                cartBadge.style.display = totalItems > 0 ? 'inline' : 'none';
+            }
+        }
+
+        // Add to cart function
+        function addToCart(event, product) {
+            event.preventDefault();
+            event.stopPropagation();
+            
+            // Check if product already exists in cart
+            const existingProductIndex = cart.findIndex(item => 
+                item.id === product.id && item.name === product.name
+            );
+
+            if (existingProductIndex > -1) {
+                // If product exists, increase quantity
+                cart[existingProductIndex].quantity += 1;
+            } else {
+                // If new product, add to cart
+                product.quantity = 1;
+                cart.push(product);
+            }
+
+            // Save to localStorage
+            localStorage.setItem('cart', JSON.stringify(cart));
+
+            // Update cart counter in navbar
+            updateCartBadge();
+
+            // Also save to session via AJAX
+            saveCartToSession(cart);
+
+            // Show success toast
+            showToast(`${product.name} berhasil ditambahkan ke keranjang!`, 'success');
+        }
+
+        // Save cart to session
+        function saveCartToSession(cartData) {
+            fetch('/keranjang/sync', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+                },
+                body: JSON.stringify({ cart: cartData })
+            })
+            .then(response => response.json())
+            .then(data => {
+                console.log('Cart synced to session:', data);
+            })
+            .catch(error => {
+                console.error('Error syncing cart:', error);
+            });
+        }
+
+        // Toast notification function
+        function showToast(message, type = 'success') {
+            // Create toast element
+            const toastHtml = `
+                <div class="toast align-items-center text-white bg-${type} border-0" role="alert" aria-live="assertive" aria-atomic="true">
+                    <div class="d-flex">
+                        <div class="toast-body">
+                            <i class="fas fa-${type === 'success' ? 'check-circle' : type === 'danger' ? 'exclamation-triangle' : 'info-circle'} me-2"></i>${message}
+                        </div>
+                        <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"></button>
+                    </div>
+                </div>
+            `;
+
+            // Create toast container if it doesn't exist
+            let toastContainer = document.getElementById('toast-container');
+            if (!toastContainer) {
+                toastContainer = document.createElement('div');
+                toastContainer.id = 'toast-container';
+                toastContainer.className = 'toast-container position-fixed top-0 end-0 p-3';
+                toastContainer.style.zIndex = '9999';
+                document.body.appendChild(toastContainer);
+            }
+
+            // Add toast to container
+            toastContainer.insertAdjacentHTML('beforeend', toastHtml);
+
+            // Initialize and show toast
+            const toastElement = toastContainer.lastElementChild;
+            const toast = new bootstrap.Toast(toastElement, {
+                autohide: true,
+                delay: 3000
+            });
+            toast.show();
+
+            // Remove toast element after it's hidden
+            toastElement.addEventListener('hidden.bs.toast', function() {
+                toastElement.remove();
+            });
+        }
+
+        // Initialize cart badge and event listeners
+        document.addEventListener('DOMContentLoaded', function() {
+            updateCartBadge();
+            
+            // Add event listeners to add to cart buttons
+            document.querySelectorAll('.btn-add-cart').forEach(function(button) {
+                button.addEventListener('click', function(event) {
+                    const productData = @json($popularProducts);
+                    const productId = parseInt(this.dataset.productId);
+                    const product = productData.find(p => p.id === productId);
+                    
+                    if (product) {
+                        const cartProduct = {
+                            id: product.id,
+                            name: product.name,
+                            price: product.price,
+                            image: '{{ asset("image/illustration.png") }}',
+                            category: 'Produk Populer',
+                            stock: 100, // Default stock
+                            size: null,
+                            color: null
+                        };
+                        addToCart(event, cartProduct);
+                    }
+                });
+            });
+        });
+
+        // Update cart badge when storage changes (from other tabs)
+        window.addEventListener('storage', function(e) {
+            if (e.key === 'cart') {
+                cart = JSON.parse(e.newValue || '[]');
+                updateCartBadge();
+            }
+        });
     </script>
 </body>
 </html>

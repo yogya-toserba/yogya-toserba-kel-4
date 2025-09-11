@@ -150,4 +150,39 @@ class KeranjangController extends Controller
             }, $cart))
         ]);
     }
+
+    /**
+     * Sync cart from localStorage to session
+     */
+    public function syncCart(Request $request)
+    {
+        $cartData = $request->input('cart', []);
+        
+        // Convert to session format
+        $sessionCart = [];
+        
+        foreach ($cartData as $item) {
+            $itemKey = $item['id'] . '_' . ($item['size'] ?? 'default') . '_' . ($item['color'] ?? 'default');
+            $sessionCart[$itemKey] = [
+                'id' => $item['id'],
+                'name' => $item['name'],
+                'price' => $item['price'],
+                'image' => $item['image'],
+                'size' => $item['size'] ?? null,
+                'color' => $item['color'] ?? null,
+                'category' => $item['category'] ?? 'Produk',
+                'stock' => $item['stock'] ?? 0,
+                'quantity' => $item['quantity'],
+                'added_at' => now()
+            ];
+        }
+        
+        Session::put('cart', $sessionCart);
+        
+        return response()->json([
+            'status' => 'success',
+            'message' => 'Cart synced successfully',
+            'cart_count' => array_sum(array_column($sessionCart, 'quantity'))
+        ]);
+    }
 }

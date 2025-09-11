@@ -663,7 +663,7 @@
 
                 <!-- Cart -->
                 <div class="nav-item">
-                    <a href="{{ route('keranjang') }}" class="nav-link" id="cart-nav-link">
+                    <a href="{{ route('keranjang.index') }}" class="nav-link" id="cart-nav-link">
                         <div class="nav-icon-wrapper">
                             <i class="fas fa-shopping-cart"></i>
                             <span class="cart-badge" id="cart-badge">0</span>
