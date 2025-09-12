@@ -136,7 +136,7 @@
                                                     onclick="addToCart(event, {
                                                         id: {{ $product->id_produk }},
                                                         name: '{{ addslashes($product->nama_barang) }}',
-                                                        price: {{ $product->harga_jual }},
+                                                        price: {{ $product->harga }},
                                                         image: '{{ $product->foto ? (str_starts_with($product->foto, 'http') ? $product->foto : (str_starts_with($product->foto, 'images/') || str_starts_with($product->foto, 'image/') ? asset($product->foto) : asset('storage/' . $product->foto))) : asset('images/produk/default-product.svg') }}',
                                                         category: '{{ $product->kategori ?? 'Produk' }}',
                                                         stock: {{ $product->stok }},

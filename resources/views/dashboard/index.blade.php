@@ -16,6 +16,128 @@
     <link href="{{ asset('css/dashboard.css') }}" rel="stylesheet">
     <!-- Google Fonts - Roboto Mono -->
     <link href="https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+    
+    <style>
+        /* Modal stability fixes */
+        .modal {
+            position: fixed !important;
+            top: 0 !important;
+            left: 0 !important;
+            z-index: 1055 !important;
+            width: 100% !important;
+            height: 100% !important;
+            overflow: hidden !important;
+        }
+        
+        .modal-dialog {
+            position: relative !important;
+            width: auto !important;
+            margin: 1.75rem auto !important;
+            pointer-events: none !important;
+            transform: none !important;
+            transition: none !important;
+        }
+        
+        .modal-content {
+            position: relative !important;
+            display: flex !important;
+            flex-direction: column !important;
+            width: 100% !important;
+            pointer-events: auto !important;
+            background-color: #fff !important;
+            background-clip: padding-box !important;
+            border: 1px solid rgba(0,0,0,.2) !important;
+            border-radius: 0.5rem !important;
+            outline: 0 !important;
+            transform: none !important;
+            transition: none !important;
+        }
+        
+        .modal.show .modal-dialog {
+            transform: none !important;
+        }
+        
+        .modal-backdrop {
+            position: fixed !important;
+            top: 0 !important;
+            left: 0 !important;
+            z-index: 1050 !important;
+            width: 100vw !important;
+            height: 100vh !important;
+            background-color: rgba(0, 0, 0, 0.5) !important;
+        }
+        
+        body.modal-open {
+            overflow: hidden !important;
+            padding-right: 0 !important;
+        }
+        
+        /* Ensure modal content is responsive and centered */
+        .modal-content {
+            position: relative !important;
+            display: flex !important;
+            flex-direction: column !important;
+            width: 100% !important;
+            pointer-events: auto !important;
+            background-color: #fff !important;
+            background-clip: padding-box !important;
+            border: 1px solid rgba(0, 0, 0, 0.2) !important;
+            border-radius: 0.3rem !important;
+            outline: 0 !important;
+        }
+        
+        /* Immediate backdrop and stable modal */
+        .modal {
+            position: fixed !important;
+            top: 0 !important;
+            left: 0 !important;
+            width: 100vw !important;
+            height: 100vh !important;
+            z-index: 1055 !important;
+            background-color: rgba(0, 0, 0, 0.5) !important;
+            display: none !important;
+            align-items: center !important;
+            justify-content: center !important;
+        }
+        
+        .modal.show {
+            display: flex !important;
+        }
+        
+        .modal-dialog {
+            position: relative !important;
+            margin: 0 !important;
+            transform: none !important;
+            animation: none !important;
+            transition: none !important;
+            max-width: 500px !important;
+            width: 90% !important;
+            z-index: 1056 !important;
+        }
+        
+        .modal-dialog-centered {
+            display: block !important;
+            margin: 0 auto !important;
+            position: relative !important;
+            top: auto !important;
+            left: auto !important;
+            transform: none !important;
+        }
+        
+        /* Override Bootstrap modal-dialog-centered */
+        .modal .modal-dialog-centered {
+            display: block !important;
+            margin: 0 auto !important;
+            min-height: auto !important;
+            position: relative !important;
+        }
+        
+        /* Keep internal content animations */
+        .promo-icon, .welcome-icon, .voucher-section, .modal-buttons {
+            animation: initial !important;
+            transition: all 0.3s ease !important;
+        }
+    </style>
 </head>
 <body>
     <!-- Ultra Elegant Login Required Modal -->
@@ -50,7 +172,7 @@
                 </div>
             </div>
         </div>
-    </div>
+    </div> 
 
     <!-- Enhanced Promo Notification Modal -->
     <div class="modal" id="promoModal" tabindex="-1" aria-labelledby="promoModalLabel" aria-hidden="true">
@@ -453,45 +575,94 @@
     <script src="{{ asset('js/dashboard.js') }}"></script>
     
     <script>
-        // Enhanced navbar scroll effect
+        // Enhanced navbar scroll effect (optimized for performance)
         document.addEventListener('DOMContentLoaded', function() {
             const navbar = document.querySelector('.navbar');
-            let lastScrollTop = 0;
+            let ticking = false;
             
             function handleScroll() {
-                const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
-                
-                if (scrollTop > 100) {
-                    navbar.classList.add('scrolled');
-                } else {
-                    navbar.classList.remove('scrolled');
+                if (!ticking) {
+                    requestAnimationFrame(function() {
+                        const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+                        
+                        if (scrollTop > 100) {
+                            navbar.classList.add('scrolled');
+                        } else {
+                            navbar.classList.remove('scrolled');
+                        }
+                        
+                        ticking = false;
+                    });
+                    ticking = true;
                 }
-                
-                lastScrollTop = scrollTop <= 0 ? 0 : scrollTop;
             }
             
             window.addEventListener('scroll', handleScroll, { passive: true });
             
-            // Enhanced modal functionality with smooth animations
-            const promoModal = new bootstrap.Modal(document.getElementById('promoModal'));
-            const loginRequiredModal = new bootstrap.Modal(document.getElementById('loginRequiredModal'));
+            // Simple and direct modal control
+            const promoModalElement = document.getElementById('promoModal');
+            const loginRequiredModalElement = document.getElementById('loginRequiredModal');
             
-            // Show modal on page load for guests only with delay for better UX
+            // Custom modal show/hide functions
+            function showModal(modalElement) {
+                document.body.style.overflow = 'hidden';
+                modalElement.classList.add('show');
+                modalElement.style.display = 'flex';
+                modalElement.setAttribute('aria-hidden', 'false');
+            }
+            
+            function hideModal(modalElement) {
+                document.body.style.overflow = '';
+                modalElement.classList.remove('show');
+                modalElement.style.display = 'none';
+                modalElement.setAttribute('aria-hidden', 'true');
+            }
+            
+            // Show modal for guests
             @guest
-                setTimeout(() => {
-                    promoModal.show();
-                    
-                    // Add entrance sound effect (optional)
-                    setTimeout(() => {
-                        const modalBody = document.querySelector('#promoModal .modal-body');
-                        modalBody.style.filter = 'drop-shadow(0 0 20px rgba(242, 107, 55, 0.3))';
-                    }, 600);
-                }, 800);
+                if (document.readyState === 'complete') {
+                    setTimeout(() => showModal(promoModalElement), 100);
+                } else {
+                    window.addEventListener('load', function() {
+                        setTimeout(() => showModal(promoModalElement), 100);
+                    });
+                }
             @endguest
             
-            // Login required functionality - trigger when user tries to access restricted features
+            // Close button functionality
+            document.querySelectorAll('[data-bs-dismiss="modal"]').forEach(button => {
+                button.addEventListener('click', function() {
+                    const modal = this.closest('.modal');
+                    if (modal) {
+                        hideModal(modal);
+                    }
+                });
+            });
+            
+            // Close on backdrop click
+            [promoModalElement, loginRequiredModalElement].forEach(modal => {
+                if (modal) {
+                    modal.addEventListener('click', function(e) {
+                        if (e.target === this) {
+                            hideModal(this);
+                        }
+                    });
+                }
+            });
+            
+            // Close on ESC key
+            document.addEventListener('keydown', function(e) {
+                if (e.key === 'Escape') {
+                    const visibleModal = document.querySelector('.modal.show');
+                    if (visibleModal) {
+                        hideModal(visibleModal);
+                    }
+                }
+            });
+            
+            // Login required functionality
             window.showLoginRequired = function() {
-                loginRequiredModal.show();
+                showModal(loginRequiredModalElement);
             };
             
             // Add click handlers for restricted features
@@ -503,101 +674,25 @@
                     @endguest
                 });
             });
-            
-            // Enhanced modal event handlers with animation controls
-            function setupModalEvents(modalElement) {
-                modalElement.addEventListener('show.bs.modal', function() {
-                    document.body.style.overflow = 'hidden';
-                    
-                    // Add entrance animation class
-                    setTimeout(() => {
-                        modalElement.classList.add('modal-entering');
-                    }, 100);
-                });
-                
-                modalElement.addEventListener('shown.bs.modal', function() {
-                    // Trigger sequential animations for modal content
-                    const elements = modalElement.querySelectorAll('.welcome-title, .brand-title, .platform-subtitle, .features-highlight, .voucher-section, .modal-buttons');
-                    
-                    elements.forEach((element, index) => {
-                        setTimeout(() => {
-                            element.style.opacity = '1';
-                            element.style.transform = 'translateY(0)';
-                        }, index * 200);
-                    });
-                    
-                    // Add interactive hover effects
-                    const voucherCode = modalElement.querySelector('.voucher-code');
-                    if (voucherCode) {
-                        voucherCode.addEventListener('click', function() {
-                            // Copy to clipboard effect
-                            this.style.transform = 'scale(0.95)';
-                            setTimeout(() => {
-                                this.style.transform = 'scale(1)';
-                            }, 150);
-                        });
-                    }
-                });
-                
-                modalElement.addEventListener('hide.bs.modal', function() {
-                    document.body.style.overflow = 'auto';
-                    modalElement.classList.remove('modal-entering');
-                    document.body.style.paddingRight = '0px';
-                });
-                
-                modalElement.addEventListener('hidden.bs.modal', function() {
-                    document.body.style.overflow = '';
-                    document.body.style.paddingRight = '';
-                    
-                    // Force remove modal backdrop and body classes
-                    document.body.classList.remove('modal-open');
-                    const backdrop = document.querySelector('.modal-backdrop');
-                    if (backdrop) {
-                        backdrop.remove();
-                    }
-                    
-                    // Reset body styles completely
-                    document.body.removeAttribute('style');
-                });
-            }
-            
-            // Setup events for both modals
-            setupModalEvents(document.getElementById('promoModal'));
-            setupModalEvents(document.getElementById('loginRequiredModal'));
         });
         
-        // Enhanced modal animations with orange theme
+        // Stable modal setup without complex animations
         document.addEventListener('DOMContentLoaded', function() {
             const modals = document.querySelectorAll('.modal');
             
             modals.forEach(function(modal) {
                 modal.addEventListener('show.bs.modal', function() {
+                    // Simple backdrop setup
                     setTimeout(function() {
                         const backdrop = document.querySelector('.modal-backdrop');
                         if (backdrop) {
-                            backdrop.style.opacity = '1';
-                            backdrop.style.transition = 'opacity 0.3s ease';
-                            backdrop.style.background = 'rgba(0, 0, 0, 0.7)';
-                            backdrop.style.backdropFilter = 'blur(20px)';
-                            backdrop.style.webkitBackdropFilter = 'blur(20px)';
+                            backdrop.style.opacity = '0.5';
+                            backdrop.style.background = 'rgba(0, 0, 0, 0.5)';
                         }
                     }, 10);
                 });
             });
-            
-            // Add elegant entrance animation to product cards
-            const observer = new IntersectionObserver(function(entries) {
-                entries.forEach(function(entry) {
-                    if (entry.isIntersecting) {
-                        entry.target.style.opacity = '1';
-                        entry.target.style.transform = 'translateY(0)';
-                    }
-                });
-            }, { threshold: 0.1 });
-            
-            document.querySelectorAll('.product-card').forEach(function(card, index) {
-                card.style.opacity = '0';
-                card.style.transform = 'translateY(30px)';
+        });
                 card.style.transition = `opacity 0.6s ease ${index * 0.1}s, transform 0.6s ease ${index * 0.1}s`;
                 observer.observe(card);
             });
@@ -632,55 +727,81 @@
         }
 
         // Add to cart function
+        // Enhanced cart functionality with authentication
         function addToCart(event, product) {
             event.preventDefault();
             event.stopPropagation();
             
-            // Check if product already exists in cart
-            const existingProductIndex = cart.findIndex(item => 
-                item.id === product.id && item.name === product.name
-            );
-
-            if (existingProductIndex > -1) {
-                // If product exists, increase quantity
-                cart[existingProductIndex].quantity += 1;
-            } else {
-                // If new product, add to cart
-                product.quantity = 1;
-                cart.push(product);
-            }
-
-            // Save to localStorage
-            localStorage.setItem('cart', JSON.stringify(cart));
-
-            // Update cart counter in navbar
-            updateCartBadge();
-
-            // Also save to session via AJAX
-            saveCartToSession(cart);
-
-            // Show success toast
-            showToast(`${product.name} berhasil ditambahkan ke keranjang!`, 'success');
-        }
-
-        // Save cart to session
-        function saveCartToSession(cartData) {
-            fetch('/keranjang/sync', {
+            @guest
+                // User not logged in, show login modal
+                showLoginRequired();
+                return;
+            @endguest
+            
+            // User is logged in, proceed with adding to cart
+            const formData = {
+                id: product.id,
+                name: product.name,
+                price: product.price,
+                image: product.image,
+                category: product.category,
+                quantity: 1
+            };
+            
+            // Send to server
+            fetch('/keranjang/add', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
                     'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
                 },
-                body: JSON.stringify({ cart: cartData })
+                body: JSON.stringify(formData)
             })
             .then(response => response.json())
             .then(data => {
-                console.log('Cart synced to session:', data);
+                if (data.success) {
+                    // Update cart badge
+                    updateCartBadgeFromServer(data.cartCount);
+                    
+                    // Show success toast
+                    showToast(data.message, 'success');
+                } else if (data.requireLogin) {
+                    // Redirect to login or show login modal
+                    showLoginRequired();
+                } else {
+                    showToast(data.message || 'Gagal menambahkan ke keranjang', 'danger');
+                }
             })
             .catch(error => {
-                console.error('Error syncing cart:', error);
+                console.error('Error adding to cart:', error);
+                showToast('Terjadi kesalahan saat menambahkan ke keranjang', 'danger');
             });
         }
+
+        // Update cart badge from server response
+        function updateCartBadgeFromServer(count) {
+            const cartBadges = document.querySelectorAll('.cart-badge, .cart-count');
+            cartBadges.forEach(badge => {
+                badge.textContent = count;
+                badge.style.display = count > 0 ? 'inline' : 'none';
+            });
+        }
+
+        // Load cart count on page load for authenticated users
+        @auth('pelanggan')
+            document.addEventListener('DOMContentLoaded', function() {
+                fetch('/keranjang/data')
+                    .then(response => response.json())
+                    .then(data => {
+                        if (data.success) {
+                            updateCartBadgeFromServer(data.cartCount);
+                        }
+                    })
+                    .catch(error => {
+                        console.error('Error loading cart data:', error);
+                    });
+            });
+        @endauth
 
         // Toast notification function
         function showToast(message, type = 'success') {

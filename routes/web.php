@@ -383,11 +383,6 @@ Route::prefix('kategori')->name('kategori.')->group(function () {
     Route::get('/perawatan', [CategoryController::class, 'perawatan'])->name('perawatan');
 });
 
-// Route keranjang belanja
-Route::get('/keranjang', function () {
-    return view('dashboard.keranjang');
-})->name('keranjang');
-
 // Route checkout
 Route::get('/checkout', function () {
     return view('dashboard.checkout');

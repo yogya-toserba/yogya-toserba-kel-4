@@ -4,6 +4,9 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Session;
+use Illuminate\Support\Facades\Auth;
+use App\Models\Keranjang;
+use App\Models\Pelanggan;
 
 class KeranjangController extends Controller
 {
@@ -12,49 +15,76 @@ class KeranjangController extends Controller
      */
     public function index()
     {
-        return view('dashboard.keranjang');
+        // Check if user is authenticated
+        if (!Auth::guard('pelanggan')->check()) {
+            return redirect()->route('pelanggan.login')->with('error', 'Silakan login terlebih dahulu untuk melihat keranjang.');
+        }
+        
+        $pelanggan = Auth::guard('pelanggan')->user();
+        $keranjangItems = Keranjang::forPelanggan($pelanggan->id_pelanggan)->get();
+        
+        return view('dashboard.keranjang', compact('keranjangItems'));
     }
 
     /**
-     * Add item to cart
+     * Add item to cart - requires authentication
      */
     public function add(Request $request)
     {
+        // Check if user is authenticated
+        if (!Auth::guard('pelanggan')->check()) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Silakan login terlebih dahulu untuk menambahkan produk ke keranjang.',
+                'requireLogin' => true
+            ], 401);
+        }
+
         $request->validate([
-            'product_id' => 'required',
+            'id' => 'required',
             'name' => 'required|string',
             'price' => 'required|numeric',
-            'image' => 'required|string',
-            'size' => 'required|string',
-            'color' => 'required|string',
-            'quantity' => 'required|integer|min:1'
+            'image' => 'nullable|string',
+            'category' => 'nullable|string',
+            'quantity' => 'integer|min:1'
         ]);
 
-        $cart = Session::get('cart', []);
+        $pelanggan = Auth::guard('pelanggan')->user();
+        $quantity = $request->quantity ?? 1;
         
-        $itemKey = $request->product_id . '_' . $request->size . '_' . $request->color;
+        // Check if item already exists in cart
+        $existingItem = Keranjang::where('id_pelanggan', $pelanggan->id_pelanggan)
+                                ->where('id_produk', $request->id)
+                                ->first();
         
-        if (isset($cart[$itemKey])) {
-            $cart[$itemKey]['quantity'] += $request->quantity;
+        if ($existingItem) {
+            // Update quantity
+            $existingItem->jumlah += $quantity;
+            $existingItem->calculateSubtotal();
+            $existingItem->save();
         } else {
-            $cart[$itemKey] = [
-                'id' => $request->product_id,
-                'name' => $request->name,
-                'price' => $request->price,
-                'image' => $request->image,
-                'size' => $request->size,
-                'color' => $request->color,
-                'quantity' => $request->quantity,
-                'added_at' => now()
-            ];
+            // Create new cart item
+            $keranjang = new Keranjang([
+                'id_pelanggan' => $pelanggan->id_pelanggan,
+                'id_produk' => $request->id,
+                'nama_produk' => $request->name,
+                'harga' => $request->price,
+                'jumlah' => $quantity,
+                'gambar' => $request->image,
+                'kategori' => $request->category
+            ]);
+            
+            $keranjang->calculateSubtotal();
+            $keranjang->save();
         }
         
-        Session::put('cart', $cart);
+        // Get updated cart count
+        $cartCount = Keranjang::forPelanggan($pelanggan->id_pelanggan)->sum('jumlah');
         
         return response()->json([
-            'status' => 'success',
-            'message' => 'Produk berhasil ditambahkan ke keranjang',
-            'cart_count' => array_sum(array_column($cart, 'quantity'))
+            'success' => true,
+            'message' => 'Produk berhasil ditambahkan ke keranjang!',
+            'cartCount' => $cartCount
         ]);
     }
 
@@ -63,33 +93,47 @@ class KeranjangController extends Controller
      */
     public function update(Request $request)
     {
+        // Check if user is authenticated
+        if (!Auth::guard('pelanggan')->check()) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Silakan login terlebih dahulu.',
+                'requireLogin' => true
+            ], 401);
+        }
+
         $request->validate([
-            'item_key' => 'required|string',
-            'quantity' => 'required|integer|min:0'
+            'id' => 'required',
+            'quantity' => 'required|integer|min:1'
         ]);
 
-        $cart = Session::get('cart', []);
+        $pelanggan = Auth::guard('pelanggan')->user();
         
-        if (isset($cart[$request->item_key])) {
-            if ($request->quantity > 0) {
-                $cart[$request->item_key]['quantity'] = $request->quantity;
-            } else {
-                unset($cart[$request->item_key]);
-            }
-            
-            Session::put('cart', $cart);
-            
+        $keranjang = Keranjang::where('id_pelanggan', $pelanggan->id_pelanggan)
+                            ->where('id', $request->id)
+                            ->first();
+        
+        if (!$keranjang) {
             return response()->json([
-                'status' => 'success',
-                'message' => 'Keranjang berhasil diupdate',
-                'cart_count' => array_sum(array_column($cart, 'quantity'))
-            ]);
+                'success' => false,
+                'message' => 'Item tidak ditemukan di keranjang.'
+            ], 404);
         }
         
+        $keranjang->jumlah = $request->quantity;
+        $keranjang->calculateSubtotal();
+        $keranjang->save();
+        
+        $cartCount = Keranjang::forPelanggan($pelanggan->id_pelanggan)->sum('jumlah');
+        $cartTotal = Keranjang::forPelanggan($pelanggan->id_pelanggan)->sum('subtotal');
+        
         return response()->json([
-            'status' => 'error',
-            'message' => 'Item tidak ditemukan'
-        ], 404);
+            'success' => true,
+            'message' => 'Keranjang berhasil diupdate.',
+            'cartCount' => $cartCount,
+            'cartTotal' => $cartTotal,
+            'itemSubtotal' => $keranjang->subtotal
+        ]);
     }
 
     /**
@@ -97,27 +141,43 @@ class KeranjangController extends Controller
      */
     public function remove(Request $request)
     {
+        // Check if user is authenticated
+        if (!Auth::guard('pelanggan')->check()) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Silakan login terlebih dahulu.',
+                'requireLogin' => true
+            ], 401);
+        }
+
         $request->validate([
-            'item_key' => 'required|string'
+            'id' => 'required'
         ]);
 
-        $cart = Session::get('cart', []);
+        $pelanggan = Auth::guard('pelanggan')->user();
         
-        if (isset($cart[$request->item_key])) {
-            unset($cart[$request->item_key]);
-            Session::put('cart', $cart);
-            
+        $keranjang = Keranjang::where('id_pelanggan', $pelanggan->id_pelanggan)
+                            ->where('id', $request->id)
+                            ->first();
+        
+        if (!$keranjang) {
             return response()->json([
-                'status' => 'success',
-                'message' => 'Item berhasil dihapus dari keranjang',
-                'cart_count' => array_sum(array_column($cart, 'quantity'))
-            ]);
+                'success' => false,
+                'message' => 'Item tidak ditemukan di keranjang.'
+            ], 404);
         }
         
+        $keranjang->delete();
+        
+        $cartCount = Keranjang::forPelanggan($pelanggan->id_pelanggan)->sum('jumlah');
+        $cartTotal = Keranjang::forPelanggan($pelanggan->id_pelanggan)->sum('subtotal');
+        
         return response()->json([
-            'status' => 'error',
-            'message' => 'Item tidak ditemukan'
-        ], 404);
+            'success' => true,
+            'message' => 'Item berhasil dihapus dari keranjang.',
+            'cartCount' => $cartCount,
+            'cartTotal' => $cartTotal
+        ]);
     }
 
     /**
@@ -125,12 +185,24 @@ class KeranjangController extends Controller
      */
     public function clear()
     {
-        Session::forget('cart');
+        // Check if user is authenticated
+        if (!Auth::guard('pelanggan')->check()) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Silakan login terlebih dahulu.',
+                'requireLogin' => true
+            ], 401);
+        }
+
+        $pelanggan = Auth::guard('pelanggan')->user();
+        
+        Keranjang::where('id_pelanggan', $pelanggan->id_pelanggan)->delete();
         
         return response()->json([
-            'status' => 'success',
-            'message' => 'Keranjang berhasil dikosongkan',
-            'cart_count' => 0
+            'success' => true,
+            'message' => 'Keranjang berhasil dikosongkan.',
+            'cartCount' => 0,
+            'cartTotal' => 0
         ]);
     }
 
@@ -139,50 +211,43 @@ class KeranjangController extends Controller
      */
     public function getCart()
     {
-        $cart = Session::get('cart', []);
+        // Check if user is authenticated
+        if (!Auth::guard('pelanggan')->check()) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Silakan login terlebih dahulu.',
+                'requireLogin' => true,
+                'cartItems' => [],
+                'cartCount' => 0,
+                'cartTotal' => 0
+            ], 401);
+        }
+
+        $pelanggan = Auth::guard('pelanggan')->user();
+        $keranjangItems = Keranjang::forPelanggan($pelanggan->id_pelanggan)->get();
+        
+        $cartCount = $keranjangItems->sum('jumlah');
+        $cartTotal = $keranjangItems->sum('subtotal');
         
         return response()->json([
-            'status' => 'success',
-            'cart' => array_values($cart),
-            'cart_count' => array_sum(array_column($cart, 'quantity')),
-            'subtotal' => array_sum(array_map(function($item) {
-                return $item['price'] * $item['quantity'];
-            }, $cart))
+            'success' => true,
+            'cartItems' => $keranjangItems,
+            'cartCount' => $cartCount,
+            'cartTotal' => $cartTotal
         ]);
     }
 
     /**
-     * Sync cart from localStorage to session
+     * Sync cart from localStorage to session (deprecated - now using database)
      */
     public function syncCart(Request $request)
     {
-        $cartData = $request->input('cart', []);
-        
-        // Convert to session format
-        $sessionCart = [];
-        
-        foreach ($cartData as $item) {
-            $itemKey = $item['id'] . '_' . ($item['size'] ?? 'default') . '_' . ($item['color'] ?? 'default');
-            $sessionCart[$itemKey] = [
-                'id' => $item['id'],
-                'name' => $item['name'],
-                'price' => $item['price'],
-                'image' => $item['image'],
-                'size' => $item['size'] ?? null,
-                'color' => $item['color'] ?? null,
-                'category' => $item['category'] ?? 'Produk',
-                'stock' => $item['stock'] ?? 0,
-                'quantity' => $item['quantity'],
-                'added_at' => now()
-            ];
-        }
-        
-        Session::put('cart', $sessionCart);
+        // This method is deprecated since we're now using database
+        // But keeping for backward compatibility
         
         return response()->json([
-            'status' => 'success',
-            'message' => 'Cart synced successfully',
-            'cart_count' => array_sum(array_column($sessionCart, 'quantity'))
+            'success' => true,
+            'message' => 'Cart sync tidak diperlukan, menggunakan database'
         ]);
     }
 }

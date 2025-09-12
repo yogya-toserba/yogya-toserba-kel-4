@@ -3,20 +3,137 @@
 @section('title', 'Keranjang Belanja - MyYOGYA')
 
 @section('content')
-<div class="cart-page">
-    <div class="container">
-        <!-- Header -->
-        <div class="cart-header">
-            <nav class="breadcrumb-custom">
-                <a href="{{ route('dashboard') }}">Beranda</a>
-                <span class="mx-2">/</span>
-                <span>Keranjang Belanja</span>
-            </nav>
-            <h2 class="cart-title">
-                <i class="fas fa-shopping-cart me-2"></i>
-                Keranjang Belanja
-            </h2>
+<div class="container mt-5 pt-5">
+    <div class="row">
+        <div class="col-12">
+            <div class="d-flex justify-content-between align-items-center mb-4">
+                <h2><i class="fas fa-shopping-cart me-2"></i>Keranjang Belanja</h2>
+                <a href="{{ route('dashboard') }}" class="btn btn-outline-primary">
+                    <i class="fas fa-arrow-left me-2"></i>Lanjut Belanja
+                </a>
+            </div>
+            
+            @if(isset($keranjangItems) && $keranjangItems->count() > 0)
+                <div class="row">
+                    <!-- Cart Items -->
+                    <div class="col-lg-8">
+                        <div class="card">
+                            <div class="card-header">
+                                <h5 class="mb-0">Item Keranjang ({{ $keranjangItems->sum('jumlah') }} produk)</h5>
+                            </div>
+                            <div class="card-body p-0">
+                                @foreach($keranjangItems as $item)
+                                    <div class="cart-item" data-item-id="{{ $item->id }}">
+                                        <div class="row align-items-center p-3 border-bottom">
+                                            <div class="col-md-2">
+                                                <img src="{{ $item->gambar ? asset($item->gambar) : asset('images/produk/default-product.svg') }}" 
+                                                     alt="{{ $item->nama_produk }}" class="img-fluid rounded">
+                                            </div>
+                                            <div class="col-md-4">
+                                                <h6 class="mb-1">{{ $item->nama_produk }}</h6>
+                                                <small class="text-muted">{{ $item->kategori ?? 'Produk' }}</small>
+                                            </div>
+                                            <div class="col-md-2">
+                                                <strong>Rp {{ number_format($item->harga, 0, ',', '.') }}</strong>
+                                            </div>
+                                            <div class="col-md-2">
+                                                <div class="quantity-controls">
+                                                    <button class="btn btn-sm btn-outline-secondary" onclick="updateQuantity({{ $item->id }}, {{ $item->jumlah - 1 }})">
+                                                        <i class="fas fa-minus"></i>
+                                                    </button>
+                                                    <span class="quantity mx-2">{{ $item->jumlah }}</span>
+                                                    <button class="btn btn-sm btn-outline-secondary" onclick="updateQuantity({{ $item->id }}, {{ $item->jumlah + 1 }})">
+                                                        <i class="fas fa-plus"></i>
+                                                    </button>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-1">
+                                                <strong class="item-subtotal">Rp {{ number_format($item->subtotal, 0, ',', '.') }}</strong>
+                                            </div>
+                                            <div class="col-md-1">
+                                                <button class="btn btn-sm btn-outline-danger" onclick="removeItem({{ $item->id }})">
+                                                    <i class="fas fa-trash"></i>
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                @endforeach
+                            </div>
+                        </div>
+                        
+                        <!-- Action Buttons -->
+                        <div class="d-flex justify-content-between mt-3">
+                            <button class="btn btn-outline-danger" onclick="clearCart()">
+                                <i class="fas fa-trash me-2"></i>Kosongkan Keranjang
+                            </button>
+                            <button class="btn btn-outline-secondary" onclick="updateAllCart()">
+                                <i class="fas fa-sync me-2"></i>Update Keranjang
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <!-- Cart Summary -->
+                    <div class="col-lg-4">
+                        <div class="card">
+                            <div class="card-header">
+                                <h5 class="mb-0">Ringkasan Pesanan</h5>
+                            </div>
+                            <div class="card-body">
+                                <div class="d-flex justify-content-between mb-2">
+                                    <span>Subtotal ({{ $keranjangItems->sum('jumlah') }} item)</span>
+                                    <strong id="cart-subtotal">Rp {{ number_format($keranjangItems->sum('subtotal'), 0, ',', '.') }}</strong>
+                                </div>
+                                <div class="d-flex justify-content-between mb-2">
+                                    <span>Ongkos Kirim</span>
+                                    <span class="text-success">GRATIS</span>
+                                </div>
+                                <hr>
+                                <div class="d-flex justify-content-between mb-3">
+                                    <strong>Total</strong>
+                                    <strong class="text-primary" id="cart-total">Rp {{ number_format($keranjangItems->sum('subtotal'), 0, ',', '.') }}</strong>
+                                </div>
+                                
+                                <button class="btn btn-primary w-100 btn-lg" onclick="proceedToCheckout()">
+                                    <i class="fas fa-credit-card me-2"></i>Checkout
+                                </button>
+                                
+                                <div class="mt-3 text-center">
+                                    <small class="text-muted">
+                                        <i class="fas fa-shield-alt me-1"></i>
+                                        Transaksi aman dan terpercaya
+                                    </small>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Promo Code -->
+                        <div class="card mt-3">
+                            <div class="card-body">
+                                <h6>Kode Promo</h6>
+                                <div class="input-group">
+                                    <input type="text" class="form-control" placeholder="Masukkan kode promo">
+                                    <button class="btn btn-outline-primary" type="button">Gunakan</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            @else
+                <!-- Empty Cart -->
+                <div class="text-center py-5">
+                    <div class="empty-cart-illustration mb-4">
+                        <i class="fas fa-shopping-cart fa-4x text-muted"></i>
+                    </div>
+                    <h4>Keranjang Anda Kosong</h4>
+                    <p class="text-muted mb-4">Sepertinya Anda belum menambahkan produk ke keranjang.</p>
+                    <a href="{{ route('dashboard') }}" class="btn btn-primary">
+                        <i class="fas fa-shopping-bag me-2"></i>Mulai Belanja
+                    </a>
+                </div>
+            @endif
         </div>
+    </div>
+</div>
 
         <div class="row">
             <!-- Cart Items -->
@@ -850,15 +967,135 @@ function toggleSelectAll() {
 }
 
 function updateSelection() {
-    const itemCheckboxes = document.querySelectorAll('.item-checkbox');
-    const checkedItems = document.querySelectorAll('.item-checkbox:checked');
-    const selectAll = document.getElementById('selectAll');
-    const deleteBtn = document.getElementById('deleteSelected');
-    const checkoutBtn = document.getElementById('checkoutBtn');
-    const selectedCount = document.getElementById('selectedCount');
+<style>
+.cart-item:hover {
+    background-color: #f8f9fa;
+}
+
+.quantity-controls {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.quantity {
+    min-width: 40px;
+    text-align: center;
+    font-weight: bold;
+}
+
+.empty-cart-illustration {
+    opacity: 0.5;
+}
+
+.card {
+    box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075);
+    border: 1px solid rgba(0, 0, 0, 0.125);
+}
+
+.btn-lg {
+    font-weight: 600;
+}
+</style>
+
+<script>
+// Update quantity
+function updateQuantity(itemId, newQuantity) {
+    if (newQuantity < 1) {
+        removeItem(itemId);
+        return;
+    }
     
-    selectAll.checked = itemCheckboxes.length > 0 && checkedItems.length === itemCheckboxes.length;
-    deleteBtn.disabled = checkedItems.length === 0;
+    fetch('/keranjang/update', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+        },
+        body: JSON.stringify({
+            id: itemId,
+            quantity: newQuantity
+        })
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.success) {
+            location.reload(); // Reload to update all totals
+        } else {
+            alert(data.message || 'Gagal update quantity');
+        }
+    })
+    .catch(error => {
+        console.error('Error:', error);
+        alert('Terjadi kesalahan');
+    });
+}
+
+// Remove item
+function removeItem(itemId) {
+    if (confirm('Yakin ingin menghapus item ini?')) {
+        fetch('/keranjang/remove', {
+            method: 'DELETE',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+            },
+            body: JSON.stringify({
+                id: itemId
+            })
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                location.reload();
+            } else {
+                alert(data.message || 'Gagal menghapus item');
+            }
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            alert('Terjadi kesalahan');
+        });
+    }
+}
+
+// Clear cart
+function clearCart() {
+    if (confirm('Yakin ingin mengosongkan seluruh keranjang?')) {
+        fetch('/keranjang/clear', {
+            method: 'DELETE',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+            }
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                location.reload();
+            } else {
+                alert(data.message || 'Gagal mengosongkan keranjang');
+            }
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            alert('Terjadi kesalahan');
+        });
+    }
+}
+
+// Proceed to checkout
+function proceedToCheckout() {
+    // For now, just alert. You can implement actual checkout flow
+    alert('Fitur checkout akan segera tersedia!');
+}
+
+// Update all cart (refresh)
+function updateAllCart() {
+    location.reload();
+}
+</script>
+@endsection
     checkoutBtn.disabled = checkedItems.length === 0;
     selectedCount.textContent = checkedItems.length;
     
