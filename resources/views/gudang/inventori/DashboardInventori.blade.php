@@ -4,7 +4,6 @@
 <style>
 /* Modern Dashboard Styling */
 .dashboard-modern {
-    
     min-height: 100vh;
     padding: 2rem;
     position: relative;
@@ -29,13 +28,13 @@
 }
 
 .dashboard-header {
-    background: rgba(255, 255, 255, 0.15);
+    background: linear-gradient(135deg, #f26b37, #e55827);
     backdrop-filter: blur(20px);
     border: 1px solid rgba(255, 255, 255, 0.2);
     border-radius: 20px;
     padding: 2rem;
     margin-bottom: 2rem;
-    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 8px 32px rgba(242, 107, 55, 0.3);
     color: white;
     text-align: center;
     position: relative;
@@ -517,7 +516,7 @@
 
         <!-- Quick Actions -->
         <div class="quick-actions">
-            <div class="action-card" onclick="location.href='{{ route('gudang.inventori.index') }}'">
+            <div class="action-card" onclick="openTambahProdukModal()">
                 <div class="action-icon primary">
                     <i class="fas fa-plus"></i>
                 </div>
@@ -525,7 +524,7 @@
                 <div class="action-desc">Tambahkan produk baru ke inventori</div>
             </div>
 
-            <div class="action-card" onclick="location.href='#'">
+            <div class="action-card" onclick="location.href='{{ route('gudang.inventori.index') }}'">
                 <div class="action-icon success">
                     <i class="fas fa-search"></i>
                 </div>
@@ -533,7 +532,7 @@
                 <div class="action-desc">Pencarian dan filter produk</div>
             </div>
 
-            <div class="action-card" onclick="location.href='#'">
+            <div class="action-card" onclick="location.href='{{ route('gudang.inventori.index') }}'">
                 <div class="action-icon warning">
                     <i class="fas fa-download"></i>
                 </div>
@@ -541,7 +540,7 @@
                 <div class="action-desc">Download laporan inventori</div>
             </div>
 
-            <div class="action-card" onclick="location.href='#'">
+            <div class="action-card" onclick="location.href='{{ route('gudang.inventori.index') }}'">
                 <div class="action-icon danger">
                     <i class="fas fa-cog"></i>
                 </div>
@@ -620,8 +619,7 @@
                     </div>
                     @endif
                 </div>
-            </div>
-
+            </div> 
             <div class="chart-card">
                 <div class="chart-header">
                     <h3 class="chart-title">
@@ -673,27 +671,354 @@
     </div>
 </div>
 
-<!-- Floating Action Button -->
-<div class="fixed bottom-6 right-6 z-50">
-    <div class="relative group">
-        <button class="bg-gradient-to-r from-purple-500 to-indigo-600 text-white p-4 rounded-full shadow-2xl hover:shadow-3xl transition-all duration-300 hover:scale-110 group-hover:rotate-45">
-            <i class="fas fa-plus text-xl"></i>
+<!-- Modal Tambah Produk -->
+<dialog id="modalTambahProduk" class="modal modal-middle">
+  <div class="modal-box max-w-4xl">
+    <form method="POST" action="{{ route('gudang.inventori.store') }}" enctype="multipart/form-data" id="tambahProdukFormDashboard">
+      @csrf
+      <h3 class="font-bold text-lg mb-4 text-orange-600">
+        <i class="fas fa-plus-circle mr-2"></i>Tambah Produk Baru
+      </h3>
+      
+      <!-- Grid Layout untuk Form -->
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <!-- Kolom Kiri -->
+        <div class="space-y-4">
+          <!-- Nama Barang -->
+          <div>
+            <label class="label">
+              <span class="label-text font-semibold">Nama Barang *</span>
+            </label>
+            <input type="text" name="nama_barang" placeholder="Masukkan nama barang" 
+                   class="input input-bordered w-full border-orange-200 focus:border-orange-500 focus:ring-orange-500" required>
+          </div>
+
+          <!-- SKU -->
+          <div>
+            <label class="label">
+              <span class="label-text font-semibold">SKU *</span>
+              <span class="label-text-alt text-orange-500">Auto-generate berdasarkan kategori</span>
+            </label>
+            <input type="text" name="sku" id="skuInput" placeholder="Pilih kategori untuk auto-generate SKU" 
+                   class="input input-bordered w-full border-orange-200 focus:border-orange-500 focus:ring-orange-500 bg-gray-50" 
+                   readonly required>
+          </div>
+
+          <!-- Kategori -->
+          <div>
+            <label class="label">
+              <span class="label-text font-semibold">Kategori *</span>
+            </label>
+            <select name="kategori" id="kategoriSelect" class="select select-bordered w-full border-orange-200 focus:border-orange-500 focus:ring-orange-500" required>
+              <option disabled selected>Pilih kategori</option>
+              <option value="makanan">Makanan</option>
+              <option value="minuman">Minuman</option>
+              <option value="elektronik">Elektronik</option>
+              <option value="fashion">Fashion</option>
+              <option value="kesehatan">Kesehatan</option>
+              <option value="rumah_tangga">Rumah Tangga</option>
+              <option value="olahraga">Olahraga</option>
+              <option value="lainnya">Lainnya</option>
+            </select>
+          </div>
+
+          <!-- Jumlah Barang -->
+          <div>
+            <label class="label">
+              <span class="label-text font-semibold">Jumlah Barang *</span>
+            </label>
+            <input type="number" name="jumlah_barang" placeholder="0" min="1" 
+                   class="input input-bordered w-full border-orange-200 focus:border-orange-500 focus:ring-orange-500" required>
+          </div>
+
+          <!-- Stok -->
+          <div>
+            <label class="label">
+              <span class="label-text font-semibold">Stok *</span>
+            </label>
+            <input type="number" name="stok" placeholder="0" min="0" 
+                   class="input input-bordered w-full border-orange-200 focus:border-orange-500 focus:ring-orange-500" required>
+          </div>
+        </div>
+
+        <!-- Kolom Kanan -->
+        <div class="space-y-4">
+          <!-- Harga Beli -->
+          <div>
+            <label class="label">
+              <span class="label-text font-semibold">Harga Beli (Rp) *</span>
+            </label>
+            <input type="number" name="harga_beli" placeholder="0" min="0" step="0.01" 
+                   class="input input-bordered w-full border-orange-200 focus:border-orange-500 focus:ring-orange-500" required>
+          </div>
+
+          <!-- Harga Jual -->
+          <div>
+            <label class="label">
+              <span class="label-text font-semibold">Harga Jual (Rp) *</span>
+            </label>
+            <input type="number" name="harga_jual" placeholder="0" min="0" step="0.01" 
+                   class="input input-bordered w-full border-orange-200 focus:border-orange-500 focus:ring-orange-500" required>
+          </div>
+
+          <!-- Foto Produk -->
+          <div>
+            <label class="label">
+              <span class="label-text font-semibold">Foto Produk</span>
+            </label>
+            <input type="file" name="foto" accept="image/*" 
+                   class="file-input file-input-bordered w-full border-orange-200">
+            <div class="label">
+              <span class="label-text-alt text-gray-500">Format: JPG, PNG, maksimal 2MB</span>
+            </div>
+          </div>
+
+          <!-- Deskripsi -->
+          <div>
+            <label class="label">
+              <span class="label-text font-semibold">Deskripsi</span>
+            </label>
+            <textarea name="deskripsi" placeholder="Deskripsi produk (opsional)" 
+                      class="textarea textarea-bordered w-full h-20 border-orange-200 focus:border-orange-500 focus:ring-orange-500"></textarea>
+          </div>
+
+          <!-- Status -->
+          <div>
+            <label class="label">
+              <span class="label-text font-semibold">Status *</span>
+            </label>
+            <select name="status" class="select select-bordered w-full border-orange-200 focus:border-orange-500 focus:ring-orange-500" required>
+              <option value="aktif" selected>Aktif</option>
+              <option value="nonaktif">Nonaktif</option>
+            </select>
+          </div>
+        </div>
+      </div>
+
+      <div class="modal-action">
+        <button type="button" class="btn btn-ghost" onclick="modalTambahProduk.close()">
+          <i class="fas fa-times mr-2"></i>Batal
         </button>
+        <button type="submit" class="btn bg-orange-500 hover:bg-orange-600 text-white">
+          <i class="fas fa-save mr-2"></i>Simpan Produk
+        </button>
+      </div>
+    </form>
+  </div>
+</dialog>
+
+<!-- Panduan Fitur Inventori -->
+<div class="chart-card">
+    <div class="chart-header">
+        <h3 class="chart-title">
+            <i class="fas fa-graduation-cap text-orange-500 mr-2"></i>Panduan Penggunaan Sistem Inventori
+        </h3>
+        <p class="chart-subtitle">Pelajari cara menggunakan fitur-fitur inventori dengan mudah</p>
+    </div>
+
+    <ul class="timeline timeline-snap-icon max-md:timeline-compact timeline-vertical">
+        <!-- Tambah Produk -->
+        <li>
+            <div class="timeline-middle">
+                <div class="w-8 h-8 bg-orange-400 rounded-full flex items-center justify-center shadow-sm">
+                    <i class="fas fa-plus text-white text-sm"></i>
+                </div>
+            </div>
+            <div class="timeline-start mb-10 md:text-end">
+                <time class="font-medium text-orange-500 text-sm">Tambah Produk</time>
+                <div class="text-lg font-semibold text-gray-800 mb-2">Menambah Produk Baru</div>
+                <div class="text-gray-600 text-sm leading-relaxed">
+                    Klik tombol "Tambah Produk" untuk menambahkan produk baru ke inventori. 
+                    Isi informasi seperti nama produk, kategori, jumlah stok, harga beli, dan harga jual. 
+                    Pastikan data yang dimasukkan akurat untuk menjaga kualitas data inventori.
+                </div>
+            </div>
+            <hr class="border-orange-100" />
+        </li>
+
+        <!-- Kelola Stok -->
+        <li>
+            <hr class="border-orange-100" />
+            <div class="timeline-middle">
+                <div class="w-8 h-8 bg-blue-400 rounded-full flex items-center justify-center shadow-sm">
+                    <i class="fas fa-boxes text-white text-sm"></i>
+                </div>
+            </div>
+            <div class="timeline-end md:mb-10">
+                <time class="font-medium text-blue-500 text-sm">Kelola Stok</time>
+                <div class="text-lg font-semibold text-gray-800 mb-2">Mengelola Stok Produk</div>
+                <div class="text-gray-600 text-sm leading-relaxed">
+                    Pantau dan kelola stok produk dengan mudah. Gunakan fitur "Edit" 
+                    untuk mengubah informasi produk atau update jumlah stok. Sistem akan otomatis 
+                    menandai produk dengan stok rendah untuk membantu restock tepat waktu.
+                </div>
+            </div>
+            <hr class="border-orange-100" />
+        </li>
+
+        <!-- Monitoring Dashboard -->
+        <li>
+            <hr class="border-orange-100" />
+            <div class="timeline-middle">
+                <div class="w-8 h-8 bg-green-400 rounded-full flex items-center justify-center shadow-sm">
+                    <i class="fas fa-chart-line text-white text-sm"></i>
+                </div>
+            </div>
+            <div class="timeline-start mb-10 md:text-end">
+                <time class="font-medium text-green-500 text-sm">Dashboard</time>
+                <div class="text-lg font-semibold text-gray-800 mb-2">Monitoring Dashboard</div>
+                <div class="text-gray-600 text-sm leading-relaxed">
+                    Gunakan dashboard untuk memantau statistik inventori. Lihat total produk, 
+                    total stok, dan total nilai inventori. Dashboard memberikan gambaran 
+                    menyeluruh tentang kondisi inventori secara real-time.
+                </div>
+            </div>
+            <hr class="border-orange-100" />
+        </li>
+
+        <!-- Filter dan Pencarian -->
+        <li>
+            <hr class="border-orange-100" />
+            <div class="timeline-middle">
+                <div class="w-8 h-8 bg-purple-400 rounded-full flex items-center justify-center shadow-sm">
+                    <i class="fas fa-search text-white text-sm"></i>
+                </div>
+            </div>
+            <div class="timeline-end md:mb-10">
+                <time class="font-medium text-purple-500 text-sm">Pencarian</time>
+                <div class="text-lg font-semibold text-gray-800 mb-2">Filter dan Pencarian</div>
+                <div class="text-gray-600 text-sm leading-relaxed">
+                    Temukan produk dengan cepat menggunakan fitur pencarian dan filter. 
+                    Anda dapat mencari berdasarkan nama produk, filter berdasarkan kategori, 
+                    atau mengurutkan berdasarkan stok, harga, atau tanggal ditambahkan.
+                </div>
+            </div>
+            <hr class="border-orange-100" />
+        </li>
+
+        <!-- Peringatan Stok -->
+        <li>
+            <hr class="border-orange-100" />
+            <div class="timeline-middle">
+                <div class="w-8 h-8 bg-red-400 rounded-full flex items-center justify-center shadow-sm">
+                    <i class="fas fa-exclamation-triangle text-white text-sm"></i>
+                </div>
+            </div>
+            <div class="timeline-start mb-10 md:text-end">
+                <time class="font-medium text-red-500 text-sm">Peringatan</time>
+                <div class="text-lg font-semibold text-gray-800 mb-2">Peringatan Stok Rendah</div>
+                <div class="text-gray-600 text-sm leading-relaxed">
+                    Sistem akan otomatis menampilkan peringatan stok rendah 
+                    untuk produk yang stoknya kurang dari batas minimum. Gunakan informasi 
+                    ini untuk melakukan pemesanan ulang dan menghindari kehabisan stok.
+                </div>
+            </div>
+            <hr class="border-orange-100" />
+        </li>
+
+        <!-- Keamanan Data -->
+        <li>
+            <hr class="border-orange-100" />
+            <div class="timeline-middle">
+                <div class="w-8 h-8 bg-indigo-400 rounded-full flex items-center justify-center shadow-sm">
+                    <i class="fas fa-shield-alt text-white text-sm"></i>
+                </div>
+            </div>
+            <div class="timeline-end md:mb-10">
+                <time class="font-medium text-indigo-500 text-sm">Keamanan</time>
+                <div class="text-lg font-semibold text-gray-800 mb-2">Keamanan Data</div>
+                <div class="text-gray-600 text-sm leading-relaxed">
+                    Semua data inventori tersimpan dengan aman dan terbackup otomatis. 
+                    Sistem dilengkapi dengan fitur keamanan tingkat tinggi untuk melindungi 
+                    data bisnis dari kehilangan atau akses yang tidak sah.
+                </div>
+            </div>
+        </li>
+    </ul>
+
+    <!-- Tips Tambahan -->
+    <div class="mt-6 p-4 bg-orange-50 rounded-lg border-l-4 border-orange-400">
+        <div class="flex items-start">
+            <i class="fas fa-lightbulb text-orange-500 text-lg mr-3 mt-1"></i>
+            <div>
+                <h4 class="font-semibold text-orange-800 mb-2">Tips Penggunaan Optimal:</h4>
+                <ul class="text-gray-700 space-y-1 text-sm">
+                    <li>• Lakukan update stok secara berkala untuk menjaga akurasi data</li>
+                    <li>• Gunakan kategori produk untuk mempermudah pengelompokan dan pencarian</li>
+                    <li>• Perhatikan peringatan stok rendah dan lakukan restock sebelum kehabisan</li>
+                    <li>• Manfaatkan fitur filter untuk analisis produk berdasarkan kriteria tertentu</li>
+                    <li>• Backup data secara rutin untuk menjaga keamanan informasi inventori</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Alert Konfirmasi Universal -->
+<div id="confirmAlert" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 hidden">
+    <div class="bg-white rounded-xl shadow-2xl max-w-md w-mx-4 transform transition-all duration-300 scale-95 opacity-0" id="confirmModal">
+        <!-- Header -->
+        <div class="px-6 py-4 border-b border-gray-200">
+            <div class="flex items-center">
+                <div class="w-10 h-10 bg-orange-100 rounded-full flex items-center justify-center mr-3">
+                    <i id="confirmIcon" class="fas fa-question-circle text-orange-500 text-lg"></i>
+                </div>
+                <h3 id="confirmTitle" class="text-lg font-semibold text-gray-800">Konfirmasi Aksi</h3>
+            </div>
+        </div>
         
-        <!-- Mini FAB Menu -->
-        <div class="absolute bottom-16 right-0 space-y-3 transform scale-0 group-hover:scale-100 transition-transform duration-300 origin-bottom">
-            <button class="bg-blue-500 text-white p-3 rounded-full shadow-lg hover:bg-blue-600 transition-colors" title="Tambah Produk">
-                <i class="fas fa-box"></i>
+        <!-- Body -->
+        <div class="px-6 py-4">
+            <p id="confirmMessage" class="text-gray-600 mb-4">Apakah Anda yakin ingin melanjutkan aksi ini?</p>
+            <div class="bg-orange-50 border-l-4 border-orange-400 p-3 rounded">
+                <div class="flex">
+                    <i class="fas fa-info-circle text-orange-500 mr-2 mt-0.5"></i>
+                    <p class="text-sm text-orange-700" id="confirmDetails">Pastikan data yang Anda masukkan sudah benar sebelum melanjutkan.</p>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Footer -->
+        <div class="px-6 py-4 bg-gray-50 rounded-b-xl flex justify-end space-x-3">
+            <button type="button" 
+                    class="px-4 py-2 text-gray-600 bg-white border border-gray-300 rounded-lg hover:bg-gray-50 transition-colors duration-200" 
+                    onclick="hideConfirmAlert()">
+                <i class="fas fa-times mr-1"></i>
+                <span id="cancelText">Batalkan</span>
             </button>
-            <button class="bg-green-500 text-white p-3 rounded-full shadow-lg hover:bg-green-600 transition-colors" title="Scan Barcode">
-                <i class="fas fa-qrcode"></i>
-            </button>
-            <button class="bg-yellow-500 text-white p-3 rounded-full shadow-lg hover:bg-yellow-600 transition-colors" title="Import Data">
-                <i class="fas fa-upload"></i>
+            <button type="button" 
+                    class="px-4 py-2 bg-orange-500 text-white rounded-lg hover:bg-orange-600 transition-colors duration-200" 
+                    id="confirmButton">
+                <i id="confirmButtonIcon" class="fas fa-check mr-1"></i>
+                <span id="confirmButtonText">Lanjutkan</span>
             </button>
         </div>
     </div>
 </div>
+
+<!-- Alert konfirmasi khusus dengan DaisyUI style -->
+<div id="daisyConfirmAlert" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 hidden">
+    <div role="alert" class="alert alert-warning max-w-md transform transition-all duration-300 scale-95 opacity-0" id="daisyModal">
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" class="stroke-current h-6 w-6 shrink-0">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v3.75m-9.303 3.376c-.866 1.5.217 3.374 1.948 3.374h14.71c1.73 0 2.813-1.874 1.948-3.374L13.949 3.378c-.866-1.5-3.032-1.5-3.898 0L2.697 16.126zM12 15.75h.007v.008H12v-.008z"></path>
+        </svg>
+        <div>
+            <h3 class="font-bold" id="daisyTitle">Konfirmasi Aksi</h3>
+            <div class="text-xs" id="daisyMessage">Apakah Anda yakin ingin melanjutkan?</div>
+        </div>
+        <div class="flex space-x-2">
+            <button class="btn btn-sm btn-ghost" onclick="hideDaisyConfirmAlert()">
+                <span id="daisyCancelText">Batalkan</span>
+            </button>
+            <button class="btn btn-sm btn-primary" id="daisyConfirmButton">
+                <span id="daisyConfirmText">Ya, Lanjutkan</span>
+            </button>
+        </div>
+    </div>
+</div>
+
+<!-- Floating Action Button -->
+
 @endsection
 
 @push('scripts')
@@ -982,6 +1307,272 @@ document.querySelectorAll('[title]').forEach(element => {
         this.addEventListener('mouseleave', function() {
             document.body.removeChild(tooltip);
         });
+    });
+});
+
+// ============= ALERT KONFIRMASI UNIVERSAL =============
+let confirmCallback = null;
+
+function showConfirmAlert(options = {}) {
+    const {
+        title = 'Konfirmasi Aksi',
+        message = 'Apakah Anda yakin ingin melanjutkan aksi ini?',
+        details = 'Pastikan data yang Anda masukkan sudah benar sebelum melanjutkan.',
+        confirmText = 'Lanjutkan',
+        cancelText = 'Batalkan',
+        icon = 'fas fa-question-circle',
+        iconColor = 'text-orange-500',
+        confirmColor = 'bg-orange-500 hover:bg-orange-600',
+        onConfirm = null
+    } = options;
+
+    // Set content
+    document.getElementById('confirmTitle').textContent = title;
+    document.getElementById('confirmMessage').textContent = message;
+    document.getElementById('confirmDetails').textContent = details;
+    document.getElementById('confirmButtonText').textContent = confirmText;
+    document.getElementById('cancelText').textContent = cancelText;
+    
+    // Set icon
+    const iconElement = document.getElementById('confirmIcon');
+    iconElement.className = `${icon} ${iconColor} text-lg`;
+    
+    // Set button colors
+    const confirmButton = document.getElementById('confirmButton');
+    confirmButton.className = `px-4 py-2 ${confirmColor} text-white rounded-lg transition-colors duration-200`;
+    
+    // Store callback
+    confirmCallback = onConfirm;
+    
+    // Show modal
+    const alertElement = document.getElementById('confirmAlert');
+    const modalElement = document.getElementById('confirmModal');
+    
+    alertElement.classList.remove('hidden');
+    
+    // Animate in
+    setTimeout(() => {
+        modalElement.classList.remove('scale-95', 'opacity-0');
+        modalElement.classList.add('scale-100', 'opacity-100');
+    }, 10);
+}
+
+function hideConfirmAlert() {
+    const alertElement = document.getElementById('confirmAlert');
+    const modalElement = document.getElementById('confirmModal');
+    
+    // Animate out
+    modalElement.classList.remove('scale-100', 'opacity-100');
+    modalElement.classList.add('scale-95', 'opacity-0');
+    
+    setTimeout(() => {
+        alertElement.classList.add('hidden');
+        confirmCallback = null;
+    }, 300);
+}
+
+function showDaisyConfirmAlert(options = {}) {
+    const {
+        title = 'Konfirmasi Aksi',
+        message = 'Apakah Anda yakin ingin melanjutkan?',
+        confirmText = 'Ya, Lanjutkan',
+        cancelText = 'Batalkan',
+        onConfirm = null
+    } = options;
+
+    // Set content
+    document.getElementById('daisyTitle').textContent = title;
+    document.getElementById('daisyMessage').textContent = message;
+    document.getElementById('daisyConfirmText').textContent = confirmText;
+    document.getElementById('daisyCancelText').textContent = cancelText;
+    
+    // Store callback
+    confirmCallback = onConfirm;
+    
+    // Show modal
+    const alertElement = document.getElementById('daisyConfirmAlert');
+    const modalElement = document.getElementById('daisyModal');
+    
+    alertElement.classList.remove('hidden');
+    
+    // Animate in
+    setTimeout(() => {
+        modalElement.classList.remove('scale-95', 'opacity-0');
+        modalElement.classList.add('scale-100', 'opacity-100');
+    }, 10);
+}
+
+function hideDaisyConfirmAlert() {
+    const alertElement = document.getElementById('daisyConfirmAlert');
+    const modalElement = document.getElementById('daisyModal');
+    
+    // Animate out
+    modalElement.classList.remove('scale-100', 'opacity-100');
+    modalElement.classList.add('scale-95', 'opacity-0');
+    
+    setTimeout(() => {
+        alertElement.classList.add('hidden');
+        confirmCallback = null;
+    }, 300);
+}
+
+// Event listeners untuk tombol konfirmasi
+document.getElementById('confirmButton').addEventListener('click', function() {
+    if (confirmCallback) {
+        confirmCallback();
+    }
+    hideConfirmAlert();
+});
+
+document.getElementById('daisyConfirmButton').addEventListener('click', function() {
+    if (confirmCallback) {
+        confirmCallback();
+    }
+    hideDaisyConfirmAlert();
+});
+
+// Close modal when clicking backdrop
+document.getElementById('confirmAlert').addEventListener('click', function(e) {
+    if (e.target === this) {
+        hideConfirmAlert();
+    }
+});
+
+document.getElementById('daisyConfirmAlert').addEventListener('click', function(e) {
+    if (e.target === this) {
+        hideDaisyConfirmAlert();
+    }
+});
+
+// ESC key to close modal
+document.addEventListener('keydown', function(e) {
+    if (e.key === 'Escape') {
+        hideConfirmAlert();
+        hideDaisyConfirmAlert();
+    }
+});
+
+// ============= MODAL TAMBAH PRODUK =============
+function openTambahProdukModal() {
+    modalTambahProduk.showModal();
+}
+
+// ============= AUTO-GENERATE SKU =============
+const kategoriToSKU = {
+    'makanan': 'MKN',
+    'minuman': 'MNM',
+    'elektronik': 'ELK',
+    'fashion': 'FSH',
+    'kesehatan': 'KSH',
+    'rumah_tangga': 'RMH',
+    'olahraga': 'OLH',
+    'lainnya': 'LNY'
+};
+
+// Simpan counter SKU untuk setiap kategori di localStorage
+function getNextSKUNumber(kategori) {
+    const storageKey = `sku_counter_${kategori}`;
+    let counter = localStorage.getItem(storageKey);
+    
+    if (!counter) {
+        counter = 1;
+    } else {
+        counter = parseInt(counter) + 1;
+    }
+    
+    localStorage.setItem(storageKey, counter);
+    return counter.toString().padStart(4, '0');
+}
+
+// Generate SKU berdasarkan kategori
+function generateSKU(kategori) {
+    if (!kategori || !kategoriToSKU[kategori]) {
+        return '';
+    }
+    
+    const prefix = kategoriToSKU[kategori];
+    const number = getNextSKUNumber(kategori);
+    return `${prefix}-${number}`;
+}
+
+// Event listener untuk perubahan kategori
+document.addEventListener('DOMContentLoaded', function() {
+    const kategoriSelect = document.getElementById('kategoriSelect');
+    const skuInput = document.getElementById('skuInput');
+    
+    if (kategoriSelect && skuInput) {
+        kategoriSelect.addEventListener('change', function() {
+            const selectedKategori = this.value;
+            
+            if (selectedKategori && selectedKategori !== '') {
+                const newSKU = generateSKU(selectedKategori);
+                skuInput.value = newSKU;
+                skuInput.style.backgroundColor = '#f0f9ff'; // Light blue background
+                skuInput.style.color = '#1e40af'; // Blue text
+                
+                // Tambahkan efek animasi
+                skuInput.classList.add('animate-pulse');
+                setTimeout(() => {
+                    skuInput.classList.remove('animate-pulse');
+                }, 1000);
+            } else {
+                skuInput.value = '';
+                skuInput.style.backgroundColor = '#f9fafb'; // Default gray
+                skuInput.style.color = '#6b7280'; // Default gray text
+            }
+        });
+    }
+});
+
+// Reset modal ketika ditutup
+document.addEventListener('DOMContentLoaded', function() {
+    const modal = document.getElementById('modalTambahProduk');
+    if (modal) {
+        modal.addEventListener('close', function() {
+            // Reset form
+            const form = document.getElementById('tambahProdukFormDashboard');
+            if (form) {
+                form.reset();
+                
+                // Reset SKU field
+                const skuInput = document.getElementById('skuInput');
+                if (skuInput) {
+                    skuInput.value = '';
+                    skuInput.style.backgroundColor = '#f9fafb';
+                    skuInput.style.color = '#6b7280';
+                }
+            }
+        });
+    }
+});
+
+// Form submission dengan konfirmasi
+document.getElementById('tambahProdukFormDashboard').addEventListener('submit', function(e) {
+    e.preventDefault();
+    const form = this;
+    
+    // Ambil data form untuk preview
+    const formData = new FormData(form);
+    const namaBarang = formData.get('nama_barang');
+    const kategori = formData.get('kategori');
+    const stok = formData.get('stok');
+    const hargaJual = formData.get('harga_jual');
+    
+    showConfirmAlert({
+        title: 'Tambah Produk Baru',
+        message: `Apakah Anda yakin ingin menambahkan produk "${namaBarang}" ke inventori?`,
+        details: `Kategori: ${kategori} • Stok: ${stok} unit • Harga: Rp ${parseInt(hargaJual).toLocaleString('id-ID')}`,
+        confirmText: 'Tambah Produk',
+        cancelText: 'Batalkan',
+        icon: 'fas fa-plus-circle',
+        iconColor: 'text-green-500',
+        confirmColor: 'bg-green-500 hover:bg-green-600',
+        onConfirm: function() {
+            // Tutup modal produk dulu
+            modalTambahProduk.close();
+            // Submit form
+            form.submit();
+        }
     });
 });
 </script>

@@ -71,9 +71,12 @@ class ProductController extends Controller
         
         $validated = $request->validate([
             'nama_barang' => 'required|string|max:255',
-            'jumlah_barang' => 'required|integer',
-            'stok' => 'required|integer',
-            'harga_jual' => 'required|numeric',
+            'kategori' => 'required|string|max:100',
+            'sku' => 'required|string|max:50|unique:stok_produk,sku',
+            'harga_beli' => 'required|numeric|min:0',
+            'harga_jual' => 'required|numeric|min:0',
+            'stok' => 'required|integer|min:0',
+            'deskripsi' => 'nullable|string|max:1000',
             'foto' => 'nullable|image|mimes:jpg,jpeg,png|max:2048',
         ]);
 
@@ -95,27 +98,37 @@ class ProductController extends Controller
             ]);
         }
 
-        // Pastikan ada kategori default
-        $kategoriDefault = DB::table('kategori')->first();
-        if (!$kategoriDefault) {
-            // Buat kategori default jika belum ada
+        // Cari atau buat kategori berdasarkan string kategori
+        $kategoriData = DB::table('kategori')
+            ->where('nama_kategori', 'like', '%' . $validated['kategori'] . '%')
+            ->first();
+            
+        if (!$kategoriData) {
+            // Buat kategori baru jika belum ada
             $kategoriId = DB::table('kategori')->insertGetId([
-                'nama_kategori' => 'Umum',
-                'sub_kategori' => 'Produk Umum',
+                'nama_kategori' => ucfirst($validated['kategori']),
+                'sub_kategori' => 'Kategori ' . ucfirst($validated['kategori']),
                 'created_at' => now(),
                 'updated_at' => now()
             ]);
         } else {
-            $kategoriId = $kategoriDefault->id_kategori;
+            $kategoriId = $kategoriData->id_kategori;
         }
 
-        // Set ID cabang otomatis ke Cikoneng
+        // Set ID cabang dan kategori
         $validated['id_cabang'] = $cabangCikoneng->id_cabang;
         $validated['id_kategori'] = $kategoriId;
+        
+        // Set jumlah_barang sama dengan stok untuk produk baru
+        $validated['jumlah_barang'] = $validated['stok'];
 
+        // Handle upload foto
         if ($request->hasFile('foto')) {
             $validated['foto'] = $request->file('foto')->store('produk', 'public');
         }
+
+        // Remove kategori string dari data yang akan disimpan
+        unset($validated['kategori']);
 
         // Debug: Log final data before insert
         \Log::info('Final data before insert: ', $validated);
@@ -145,5 +158,16 @@ class ProductController extends Controller
 
         return redirect()->route('gudang.inventori.index')
             ->with('success', 'Produk berhasil dihapus');
+    }
+    
+    /**
+     * Get next product ID for SKU generation
+     */
+    public function getNextId()
+    {
+        // Hitung total produk yang ada + 1
+        $nextId = StokProduk::count() + 1;
+        
+        return response()->json(['next_id' => $nextId]);
     }
 }

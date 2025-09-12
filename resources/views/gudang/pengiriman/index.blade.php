@@ -417,14 +417,37 @@ body.dark-mode .action-dropdown-item:hover {
             <div class="stat-label">Selesai</div>
         </div>
     </div>
+    
+    <!-- Debug Info -->
+    @if(app()->environment('local'))
+    <div class="alert alert-info">
+        <strong>Debug Info:</strong> 
+        Session Data Count: {{ count($sessionPengiriman ?? []) }} | 
+        Siap Kirim: {{ collect($sessionPengiriman ?? [])->where('status', 'Siap Kirim')->count() }}
+    </div>
+    @endif
 
     <!-- Action Buttons -->
     <div class="d-flex justify-content-between align-items-center mb-4">
         <h4 class="mb-0">Daftar Pengiriman</h4>
-        <a href="{{ route('gudang.pengiriman.create') }}" class="btn btn-modern">
-            <i class="fas fa-plus"></i>
-            Tambah Pengiriman
-        </a>
+        <div>
+            <a href="{{ route('gudang.pengiriman.create') }}" class="btn btn-modern">
+                <i class="fas fa-plus"></i>
+                Tambah Pengiriman
+            </a>
+            <a href="/gudang/test-data" class="btn btn-warning ms-2">
+                <i class="fas fa-database"></i>
+                Generate Test Data
+            </a>
+            <button onclick="testKirimFunction()" class="btn btn-info ms-2">
+                <i class="fas fa-test"></i>
+                Test Kirim
+            </button>
+            <a href="/gudang/debug-kirim" class="btn btn-secondary ms-2">
+                <i class="fas fa-bug"></i>
+                Debug
+            </a>
+        </div>
     </div>
 
     <!-- Filter Section -->
@@ -565,11 +588,19 @@ body.dark-mode .action-dropdown-item:hover {
                                         </li>
                                         @if(($item['status'] ?? 'Menunggu') === 'Siap Kirim')
                                             <li>
-                                                <a class="dropdown-item text-primary" 
+                                                <a class="dropdown-item text-primary kirim-btn" 
                                                    href="#" 
-                                                   onclick="kirimPengiriman({{ $index }})">
+                                                   data-index="{{ $index }}"
+                                                   onclick="kirimPengiriman({{ $index }}); return false;">
                                                     <i class="fas fa-shipping-fast me-2"></i>Kirim
                                                 </a>
+                                            </li>
+                                        @endif
+                                        @if(($item['status'] ?? 'Menunggu') === 'Dikirim')
+                                            <li>
+                                                <span class="dropdown-item text-muted">
+                                                    <i class="fas fa-check me-2"></i>Sudah Dikirim
+                                                </span>
                                             </li>
                                         @endif
                                     </ul>
@@ -588,88 +619,19 @@ body.dark-mode .action-dropdown-item:hover {
                         @endforelse
                     </tbody>
                 </table>
-                </thead>
-                <tbody>
-                    @if($pengiriman->count() > 0)
-                        @foreach($pengiriman as $index => $item)
-                        <tr>
-                            <td>
-                                <div class="fw-semibold">{{ $pengiriman->firstItem() + $index }}</div>
-                            </td>
-                            <td>
-                                <div class="fw-semibold">{{ $item->nama_produk }}</div>
-                                <small class="text-muted">{{ $item->kategori ?? 'Produk' }}</small>
-                            </td>
-                            <td>
-                                <div class="fw-semibold">{{ $item->tujuan }}</div>
-                                <small class="text-muted">{{ $item->alamat ?? 'Alamat lengkap' }}</small>
-                            </td>
-                            <td>
-                                <div class="fw-semibold">{{ number_format($item->jumlah) }} pcs</div>
-                                <small class="text-muted">{{ $item->satuan ?? 'unit' }}</small>
-                            </td>
-                            <td>
-                                <div class="fw-semibold">{{ \Carbon\Carbon::parse($item->tanggal_kirim)->format('d/m/Y') }}</div>
-                                <small class="text-muted">{{ \Carbon\Carbon::parse($item->tanggal_kirim)->format('H:i') }}</small>
-                            </td>
-                            <td>
-                                @php
-                                    $statusClass = '';
-                                    switch(strtolower($item->status)) {
-                                        case 'pending': $statusClass = 'status-pending'; break;
-                                        case 'dikirim': $statusClass = 'status-dikirim'; break;
-                                        case 'selesai': $statusClass = 'status-selesai'; break;
-                                        case 'dibatalkan': $statusClass = 'status-dibatalkan'; break;
-                                        default: $statusClass = 'status-pending';
-                                    }
-                                @endphp
-                                <span class="status-badge {{ $statusClass }}">{{ $item->status }}</span>
-                            </td>
-                            <td>
-                                <div class="action-dropdown">
-                                    <button class="action-btn" onclick="toggleDropdown(this)">
-                                        <i class="fas fa-ellipsis-v"></i>
-                                    </button>
-                                    <div class="action-dropdown-menu">
-                                        <a href="{{ route('gudang.pengiriman.show', $item->id) }}" class="action-dropdown-item">
-                                            <i class="fas fa-eye"></i>
-                                            Detail
-                                        </a>
-                                        <a href="{{ route('gudang.pengiriman.edit', $item->id) }}" class="action-dropdown-item">
-                                            <i class="fas fa-edit"></i>
-                                            Edit
-                                        </a>
-                                        <a href="#" class="action-dropdown-item">
-                                            <i class="fas fa-print"></i>
-                                            Cetak Label
-                                        </a>
-                                        <a href="#" class="action-dropdown-item">
-                                            <i class="fas fa-truck"></i>
-                                            Lacak
-                                        </a>
-                                        <a href="#" class="action-dropdown-item text-danger" onclick="confirmDelete({{ $item->id }})">
-                                            <i class="fas fa-trash"></i>
-                                            Hapus
-                                        </a>
-                                    </div>
-                                </div>
-                            </td>
-                        </tr>
-                        @endforeach
-                    @endif
-                </tbody>
-            </table>
+            </div>
         </div>
-        
-        @if($pengiriman->hasPages())
-        <div style="padding: 20px 25px; border-top: 1px solid #f1f5f9;">
-            {{ $pengiriman->links() }}
-        </div>
-        @endif
     </div>
 </div>
 
 <script>
+// Set up CSRF token untuk semua AJAX requests
+$.ajaxSetup({
+    headers: {
+        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+    }
+});
+
 // Toggle dropdown function
 function toggleDropdown(button) {
     const dropdown = button.closest('.action-dropdown');
@@ -684,7 +646,119 @@ function toggleDropdown(button) {
     }
 }
 
+// Function untuk kirim pengiriman - GLOBAL SCOPE
+function kirimPengiriman(index) {
+    console.log('Function kirimPengiriman called with index:', index);
+    
+    // Cek apakah SweetAlert tersedia
+    if (typeof Swal === 'undefined') {
+        alert('SweetAlert tidak tersedia. Menggunakan confirm dialog.');
+        if (confirm('Apakah Anda yakin ingin mengirim pengiriman ini?')) {
+            prosesKirimPengiriman(index);
+        }
+        return;
+    }
+    
+    Swal.fire({
+        title: 'Kirim Pengiriman?',
+        text: 'Pengiriman akan dikirim dan masuk ke sistem penerimaan',
+        icon: 'question',
+        showCancelButton: true,
+        confirmButtonColor: '#28a745',
+        cancelButtonColor: '#6c757d',
+        confirmButtonText: 'Ya, Kirim!',
+        cancelButtonText: 'Batal'
+    }).then((result) => {
+        if (result.isConfirmed) {
+            prosesKirimPengiriman(index);
+        }
+    });
+}
+
+// Function untuk proses kirim pengiriman
+function prosesKirimPengiriman(index) {
+    console.log('Processing kirim pengiriman for index:', index);
+    
+    // Show loading
+    if (typeof Swal !== 'undefined') {
+        Swal.fire({
+            title: 'Mengirim...',
+            text: 'Sedang memproses pengiriman',
+            allowOutsideClick: false,
+            allowEscapeKey: false,
+            showConfirmButton: false,
+            didOpen: () => {
+                Swal.showLoading();
+            }
+        });
+    }
+
+    $.ajax({
+        url: '{{ route("gudang.pengiriman.kirim") }}',
+        type: 'POST',
+        data: {
+            _token: '{{ csrf_token() }}',
+            index: index
+        },
+        success: function(response) {
+            console.log('AJAX success:', response);
+            if (response.success) {
+                if (typeof Swal !== 'undefined') {
+                    Swal.fire({
+                        title: 'Berhasil!',
+                        text: response.message,
+                        icon: 'success',
+                        timer: 2000,
+                        showConfirmButton: false
+                    }).then(() => {
+                        if (response.redirect) {
+                            window.location.href = response.redirect;
+                        } else {
+                            location.reload();
+                        }
+                    });
+                } else {
+                    alert('Berhasil: ' + response.message);
+                    if (response.redirect) {
+                        window.location.href = response.redirect;
+                    } else {
+                        location.reload();
+                    }
+                }
+            } else {
+                if (typeof Swal !== 'undefined') {
+                    Swal.fire({
+                        title: 'Error!',
+                        text: response.message || 'Terjadi kesalahan',
+                        icon: 'error'
+                    });
+                } else {
+                    alert('Error: ' + (response.message || 'Terjadi kesalahan'));
+                }
+            }
+        },
+        error: function(xhr, status, error) {
+            console.error('AJAX error:', xhr, status, error);
+            let errorMessage = 'Terjadi kesalahan saat mengirim pengiriman';
+            if (xhr.responseJSON && xhr.responseJSON.message) {
+                errorMessage = xhr.responseJSON.message;
+            }
+            
+            if (typeof Swal !== 'undefined') {
+                Swal.fire({
+                    title: 'Error!',
+                    text: errorMessage,
+                    icon: 'error'
+                });
+            } else {
+                alert('Error: ' + errorMessage);
+            }
+        }
+    });
+}
+
 // Delete confirmation
+$(document).ready(function() {
     $('.delete-btn').on('click', function() {
         var id = $(this).data('id');
         var form = $('#deleteForm');
@@ -726,6 +800,22 @@ function toggleDropdown(button) {
                 });
             }
         });
+    });
+    
+    // Event listener untuk tombol kirim pengiriman (backup method)
+    $(document).on('click', '.kirim-pengiriman, .kirim-btn', function(e) {
+        e.preventDefault();
+        var index = $(this).data('index');
+        console.log('Kirim pengiriman clicked via event listener, index:', index);
+        kirimPengiriman(index);
+    });
+    
+    // Fallback click handler
+    $('.kirim-btn').click(function(e) {
+        e.preventDefault();
+        var index = $(this).data('index');
+        console.log('Kirim via fallback handler, index:', index);
+        kirimPengiriman(index);
     });
 });
 
@@ -836,62 +926,15 @@ function updateStatusWithReason(id, status, reason, successMessage) {
     });
 }
 
-function kirimPengiriman(index) {
-    Swal.fire({
-        title: 'Kirim Pengiriman?',
-        text: 'Pengiriman akan dikirim dan masuk ke sistem penerimaan',
-        icon: 'question',
-        showCancelButton: true,
-        confirmButtonColor: '#28a745',
-        cancelButtonColor: '#6c757d',
-        confirmButtonText: 'Ya, Kirim!',
-        cancelButtonText: 'Batal'
-    }).then((result) => {
-        if (result.isConfirmed) {
-            $.ajax({
-                url: '{{ route("gudang.pengiriman.kirim") }}',
-                type: 'POST',
-                data: {
-                    _token: '{{ csrf_token() }}',
-                    index: index
-                },
-                success: function(response) {
-                    if (response.success) {
-                        Swal.fire({
-                            title: 'Berhasil!',
-                            text: response.message,
-                            icon: 'success',
-                            timer: 2000,
-                            showConfirmButton: false
-                        }).then(() => {
-                            if (response.redirect) {
-                                window.location.href = response.redirect;
-                            } else {
-                                location.reload();
-                            }
-                        });
-                    } else {
-                        Swal.fire({
-                            title: 'Error!',
-                            text: response.message,
-                            icon: 'error'
-                        });
-                    }
-                },
-                error: function() {
-                    Swal.fire({
-                        title: 'Error!',
-                        text: 'Terjadi kesalahan saat mengirim pengiriman',
-                        icon: 'error'
-                    });
-                }
-            });
-        }
-    });
-}
-
 function lihatDetail(index) {
     alert('Detail untuk item index: ' + index);
+}
+
+// Test function untuk debug
+function testKirimFunction() {
+    console.log('Testing kirim function...');
+    alert('Testing kirim function - akan mencoba kirim index 0');
+    kirimPengiriman(0);
 }
 
 // Show success/error messages
@@ -976,6 +1019,8 @@ function resetFilter() {
 
 // Real-time filter on change
 document.addEventListener('DOMContentLoaded', function() {
+    console.log('DOM loaded, setting up filters and functions');
+    
     // Auto-submit on status change
     const statusSelect = document.querySelector('select[name="status"]');
     if (statusSelect) {
@@ -991,6 +1036,23 @@ document.addEventListener('DOMContentLoaded', function() {
             applyFilter();
         });
     });
+    
+    // Debug: Check if kirimPengiriman function exists
+    console.log('kirimPengiriman function available:', typeof window.kirimPengiriman);
+    
+    // Test click handlers
+    setTimeout(function() {
+        const kirimButtons = document.querySelectorAll('.kirim-btn');
+        console.log('Found kirim buttons:', kirimButtons.length);
+        
+        kirimButtons.forEach(function(btn, index) {
+            console.log('Button ' + index + ':', btn, 'data-index:', btn.getAttribute('data-index'));
+        });
+    }, 1000);
 });
+
+// Make function globally available
+window.kirimPengiriman = kirimPengiriman;
+window.prosesKirimPengiriman = prosesKirimPengiriman;
 </script>
 @endsection

@@ -17,9 +17,12 @@ class StokProduk extends Model
         'id_kategori', 
         'foto',
         'nama_barang',
+        'sku',
         'jumlah_barang',
+        'harga_beli',
         'harga_jual',
-        'stok'
+        'stok',
+        'deskripsi'
     ];
 
     // Relationship ke cabang
@@ -55,9 +58,10 @@ class StokProduk extends Model
         return $this->stok > 0 ? 'aktif' : 'nonaktif';
     }
 
-    // Accessor untuk SKU (generate dari ID)
-    public function getSkuAttribute()
+    // Accessor untuk backward compatibility
+    public function getSkuAttribute($value)
     {
-        return 'SKU-' . str_pad($this->id_produk, 6, '0', STR_PAD_LEFT);
+        // Jika ada SKU yang disimpan, gunakan itu. Jika tidak, generate dari ID
+        return $value ?: 'SKU-' . str_pad($this->id_produk, 6, '0', STR_PAD_LEFT);
     }
 }

@@ -4,6 +4,26 @@
 
 @section('content')
 <style>
+    /* Ensure proper body and container background */
+    body {
+        background-color: #f8fafc !important;
+    }
+    
+    .container {
+        background-color: transparent !important;
+        min-height: 100vh;
+        padding: 20px;
+    }
+    
+    /* Override any dark modal or dialog backgrounds */
+    .modal, .modal-backdrop, dialog {
+        background-color: rgba(0, 0, 0, 0.5) !important;
+    }
+    
+    .modal-content, .modal-box {
+        background-color: white !important;
+    }
+
     .form-header {
         background: linear-gradient(135deg, #f26b37 0%, #e55827 100%);
         color: white;
@@ -26,7 +46,7 @@
     }
 
     .modern-card {
-        background: white;
+        background: white !important;
         border-radius: 12px;
         box-shadow: 0 2px 8px rgba(0,0,0,0.08);
         border: 1px solid #e2e8f0;
@@ -36,12 +56,12 @@
     }
 
     body.dark-mode .modern-card {
-        background: #2a2d3f;
+        background: #2a2d3f !important;
         border-color: #3a3d4a;
     }
 
     .card-header-modern {
-        background: #f8fafc;
+        background: #f8fafc !important;
         padding: 20px 25px;
         border-bottom: 1px solid #e2e8f0;
         display: flex;
@@ -50,12 +70,17 @@
     }
 
     body.dark-mode .card-header-modern {
-        background: #252837;
+        background: #252837 !important;
         border-bottom-color: #3a3d4a;
     }
 
     .card-body-modern {
         padding: 25px;
+        background: white !important;
+    }
+
+    body.dark-mode .card-body-modern {
+        background: #2a2d3f !important;
     }
 
     /* Form Layout - Membuat form memanjang ke samping */
@@ -100,17 +125,20 @@
         border-radius: 8px;
         padding: 10px 12px;
         transition: all 0.3s ease;
+        background: white !important;
+        color: #374151 !important;
     }
 
     .form-control-modern:focus {
         border-color: #f26b37;
         box-shadow: 0 0 0 3px rgba(242, 107, 55, 0.1);
+        background: white !important;
     }
 
     body.dark-mode .form-control-modern {
-        background: #252837;
+        background: #252837 !important;
         border-color: #3a3d4a;
-        color: #e2e8f0;
+        color: #e2e8f0 !important;
     }
 
     .btn-modern {
@@ -145,10 +173,11 @@
 
     .modern-table {
         margin: 0;
+        background: white !important;
     }
 
     .modern-table th {
-        background: #f8fafc;
+        background: #f8fafc !important;
         border: none;
         padding: 15px;
         font-weight: 600;
@@ -157,7 +186,7 @@
     }
 
     body.dark-mode .modern-table th {
-        background: #252837;
+        background: #252837 !important;
         color: #e2e8f0;
     }
 
@@ -167,15 +196,22 @@
         border-bottom: 1px solid #f1f5f9;
         color: #374151;
         vertical-align: middle;
+        background: white !important;
     }
 
     body.dark-mode .modern-table td {
         border-bottom-color: #3a3d4a;
         color: #e2e8f0;
+        background: #2a2d3f !important;
     }
 
     .form-section {
         padding: 20px;
+        background: white !important;
+    }
+
+    body.dark-mode .form-section {
+        background: #2a2d3f !important;
     }
 
     .input-group-text {
@@ -193,13 +229,21 @@
     /* Product List Styles */
     .product-row {
         margin-bottom: 10px;
-        background-color: #f9fafb;
+        background-color: #f9fafb !important;
         border-radius: 8px;
         padding: 15px;
     }
 
     body.dark-mode .product-row {
-        background-color: #252837;
+        background-color: #252837 !important;
+    }
+
+    .product-row td {
+        background-color: #f9fafb !important;
+    }
+
+    body.dark-mode .product-row td {
+        background-color: #252837 !important;
     }
 
     .remove-product {
@@ -295,7 +339,8 @@
             </div>
         </div>
     </div>
-    <form method="POST" action="{{ route('gudang.permintaan.submit') }}" id="permintaanForm">
+
+                    <form method="POST" action="{{ route('gudang.permintaan.submit') }}" id="permintaanForm">
         @csrf
         
         <!-- Informasi Umum -->
@@ -521,9 +566,10 @@ document.addEventListener('DOMContentLoaded', function() {
         window.location.href = "{{ route('gudang.permintaan') }}";
     }
     
-    // Submit form dengan AJAX
+    // Submit form dengan konfirmasi alert
     document.getElementById('permintaanForm').addEventListener('submit', function(e) {
         e.preventDefault();
+        const form = this;
         
         // Validasi form
         const required = this.querySelectorAll('[required]');
@@ -542,58 +588,81 @@ document.addEventListener('DOMContentLoaded', function() {
             alert('Mohon lengkapi semua field yang diperlukan!');
             return;
         }
-        
-        // Disable submit button untuk mencegah double submit
-        const submitBtn = this.querySelector('button[type="submit"]');
-        const originalText = submitBtn.innerHTML;
-        submitBtn.disabled = true;
-        submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin me-1"></i> Mengirim...';
-        
-        // Kirim data dengan AJAX
-        fetch(this.action, {
-            method: 'POST',
-            body: new FormData(this),
-            headers: {
-                'X-Requested-With': 'XMLHttpRequest'
-            }
-        })
-        .then(response => {
-            console.log('Response status:', response.status);
-            if (!response.ok) {
-                throw new Error('Network response was not ok');
-            }
-            return response.json();
-        })
-        .then(data => {
-            console.log('Success response:', data);
-            if (data.success) {
-                // Update modal content dengan data response
-                document.getElementById('permintaanId').textContent = `ID Permintaan: ${data.data.id_permintaan}`;
-                document.getElementById('permintaanDetail').innerHTML = `
-                    Permintaan untuk <strong>${data.data.nama_cabang}</strong> dengan 
-                    <strong>${data.data.total_items} item</strong> telah berhasil dikirim.<br>
-                    <small class="text-muted">Prioritas: ${data.data.prioritas} | Tanggal dibutuhkan: ${data.data.tanggal_dibutuhkan}</small>
-                `;
+
+        // Hitung jumlah produk
+        const productRows = document.querySelectorAll('#productList .product-row');
+        const totalItems = productRows.length;
+        const cabang = form.querySelector('[name="id_cabang"]').selectedOptions[0]?.text || 'Tidak dipilih';
+        const prioritas = form.querySelector('[name="prioritas"]').value;
+        const tanggalDibutuhkan = form.querySelector('[name="tanggal_dibutuhkan"]').value;
+
+        // Tampilkan alert konfirmasi
+        showConfirmAlert({
+            title: 'Kirim Permintaan Stok',
+            message: `Apakah Anda yakin ingin mengirim permintaan stok ini?`,
+            details: `Permintaan untuk ${cabang} dengan ${totalItems} item akan dikirim ke gudang pusat. Prioritas: ${prioritas}, Dibutuhkan: ${tanggalDibutuhkan}`,
+            confirmText: 'Kirim Permintaan',
+            cancelText: 'Batalkan',
+            icon: 'fas fa-paper-plane',
+            iconColor: 'text-blue-500',
+            confirmColor: 'bg-blue-500 hover:bg-blue-600',
+            onConfirm: function() {
+                // Disable submit button untuk mencegah double submit
+                const submitBtn = form.querySelector('button[type="submit"]');
+                const originalText = submitBtn.innerHTML;
+                submitBtn.disabled = true;
+                submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin me-1"></i> Mengirim...';
                 
-                // Tampilkan modal success
-                const successModal = new bootstrap.Modal(document.getElementById('successModal'));
-                successModal.show();
-            } else {
-                alert('Terjadi kesalahan: ' + (data.message || 'Gagal mengirim permintaan'));
+                // Kirim data dengan AJAX
+                fetch(form.action, {
+                    method: 'POST',
+                    body: new FormData(form),
+                    headers: {
+                        'X-Requested-With': 'XMLHttpRequest'
+                    }
+                })
+                .then(response => {
+                    console.log('Response status:', response.status);
+                    if (!response.ok) {
+                        throw new Error('Network response was not ok');
+                    }
+                    return response.json();
+                })
+                .then(data => {
+                    console.log('Success response:', data);
+                    if (data.success) {
+                        // Update modal content dengan data response
+                        document.getElementById('permintaanId').textContent = `ID Permintaan: ${data.data.id_permintaan}`;
+                        document.getElementById('permintaanDetail').innerHTML = `
+                            Permintaan untuk <strong>${data.data.nama_cabang}</strong> dengan 
+                            <strong>${data.data.total_items} item</strong> telah berhasil dikirim.<br>
+                            <small class="text-muted">Prioritas: ${data.data.prioritas} | Tanggal dibutuhkan: ${data.data.tanggal_dibutuhkan}</small>
+                        `;
+                        
+                        // Tampilkan modal success
+                        const successModal = new bootstrap.Modal(document.getElementById('successModal'));
+                        successModal.show();
+                    } else {
+                        alert('Terjadi kesalahan: ' + (data.message || 'Gagal mengirim permintaan'));
+                    }
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    alert('Terjadi kesalahan saat mengirim permintaan. Silakan coba lagi.');
+                })
+                .finally(() => {
+                    // Reset submit button
+                    submitBtn.disabled = false;
+                    submitBtn.innerHTML = originalText;
+                });
             }
-        })
-        .catch(error => {
-            console.error('Error:', error);
-            alert('Terjadi kesalahan saat mengirim permintaan. Silakan coba lagi.');
-        })
-        .finally(() => {
-            // Reset submit button
-            submitBtn.disabled = false;
-            submitBtn.innerHTML = originalText;
         });
     });
 });
 </script>
+
+<!-- Include Alert Konfirmasi -->
+@include('components.confirm-alert')
 
 <!-- Bootstrap JS -->
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>

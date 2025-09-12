@@ -86,7 +86,9 @@ class PengirimanController extends Controller
     ];
     
     // Ambil produk dari session pengiriman untuk dropdown
-    $produkList = collect($sessionPengiriman)->pluck('nama_produk')->unique()->map(function($nama) {
+    $produkList = collect($sessionPengiriman)->map(function($item) {
+      return $item['nama_produk'] ?? 'Unknown Product';
+    })->unique()->map(function($nama) {
       return (object) ['nama_produk' => $nama];
     });
 
@@ -344,7 +346,30 @@ class PengirimanController extends Controller
 
       // Update status if index exists
       if (isset($sessionPengiriman[$index]) && $sessionPengiriman[$index]['id_pengiriman'] === $request->id_pengiriman) {
+        $oldStatus = $sessionPengiriman[$index]['status'];
         $sessionPengiriman[$index]['status'] = $request->status;
+        $sessionPengiriman[$index]['updated_at'] = now()->format('Y-m-d H:i:s');
+        
+        // Jika status berubah menjadi "Dikirim", transfer ke penerimaan
+        if ($request->status === 'Dikirim' && $oldStatus !== 'Dikirim') {
+          $item = $sessionPengiriman[$index];
+          $sessionPenerimaan = session('all_penerimaan', []);
+          
+          $penerimaanItem = [
+            'id' => $item['id'] ?? count($sessionPenerimaan) + 1,
+            'id_pengiriman' => $item['id_pengiriman'] ?? 'SHIP-' . (count($sessionPenerimaan) + 1),
+            'nama_produk' => $item['nama_produk'] ?? 'Unknown Product',
+            'tujuan' => $item['tujuan'] ?? 'Unknown Destination',
+            'jumlah' => $item['jumlah'] ?? 0,
+            'status' => 'Dalam Perjalanan',
+            'tanggal_kirim' => $item['tanggal_kirim'] ?? date('Y-m-d'),
+            'tanggal_kirim_aktual' => now()->format('Y-m-d H:i:s'),
+            'created_at' => now()->format('Y-m-d H:i:s')
+          ];
+          
+          $sessionPenerimaan[] = $penerimaanItem;
+          session(['all_penerimaan' => $sessionPenerimaan]);
+        }
         
         // Save back to session
         session(['all_pengiriman' => $sessionPengiriman]);
@@ -366,13 +391,21 @@ class PengirimanController extends Controller
 
   public function kirimPengiriman(Request $request)
   {
+    Log::info('=== KIRIM PENGIRIMAN START ===');
+    Log::info('Request data: ', $request->all());
+    
     try {
       $index = $request->input('index');
       $sessionPengiriman = session('all_pengiriman', []);
       
+      Log::info('Session pengiriman count: ' . count($sessionPengiriman));
+      Log::info('Index yang diminta: ' . $index);
+      
       if (isset($sessionPengiriman[$index])) {
         // Ambil data yang akan dikirim
         $item = $sessionPengiriman[$index];
+        
+        Log::info('Item yang akan dikirim: ', $item);
         
         // Update status pengiriman menjadi "Dikirim"
         $sessionPengiriman[$index]['status'] = 'Dikirim';
@@ -380,15 +413,41 @@ class PengirimanController extends Controller
         
         // Transfer data ke session penerimaan dengan status "Dalam Perjalanan"
         $sessionPenerimaan = session('all_penerimaan', []);
+        
+        // Generate contoh data produk untuk detail
+        $contohProduk = [
+            [
+                'nama' => $item['nama_produk'] ?? 'Product Mix A',
+                'kategori' => 'Makanan & Minuman',
+                'jumlah' => intval(($item['jumlah'] ?? 100) * 0.4),
+                'satuan' => 'pcs'
+            ],
+            [
+                'nama' => 'Product Mix B',
+                'kategori' => 'Perawatan Pribadi', 
+                'jumlah' => intval(($item['jumlah'] ?? 100) * 0.35),
+                'satuan' => 'pcs'
+            ],
+            [
+                'nama' => 'Product Mix C',
+                'kategori' => 'Peralatan Rumah Tangga',
+                'jumlah' => intval(($item['jumlah'] ?? 100) * 0.25),
+                'satuan' => 'pcs'
+            ]
+        ];
+        
         $penerimaanItem = [
           'id' => $item['id'] ?? count($sessionPenerimaan) + 1,
-          'nama_produk' => $item['nama_produk'],
-          'tujuan' => $item['tujuan'],
-          'jumlah' => $item['jumlah'],
+          'id_pengiriman' => $item['id_pengiriman'] ?? 'SHIP-' . (count($sessionPenerimaan) + 1),
+          'nama_produk' => $item['nama_produk'] ?? 'Unknown Product', // Backup untuk compatibility
+          'tujuan' => $item['tujuan'] ?? 'Unknown Branch', // Ini yang akan ditampilkan sebagai nama cabang
+          'nama_cabang' => $item['tujuan'] ?? 'Unknown Branch', // Explicit field untuk nama cabang
+          'jumlah' => $item['jumlah'] ?? 0,
           'status' => 'Dalam Perjalanan',
           'tanggal_kirim' => $item['tanggal_kirim'] ?? date('Y-m-d'),
           'tanggal_kirim_aktual' => now()->format('Y-m-d H:i:s'),
-          'created_at' => now()->format('Y-m-d H:i:s')
+          'created_at' => now()->format('Y-m-d H:i:s'),
+          'products' => $contohProduk // Detail produk yang dikirim
         ];
         
         $sessionPenerimaan[] = $penerimaanItem;
@@ -396,16 +455,30 @@ class PengirimanController extends Controller
         // Save kedua session
         session(['all_pengiriman' => $sessionPengiriman]);
         session(['all_penerimaan' => $sessionPenerimaan]);
+        session()->flash('from_pengiriman', true);
+        
+        Log::info('Session berhasil diupdate');
+        Log::info('Pengiriman count: ' . count($sessionPengiriman));
+        Log::info('Penerimaan count: ' . count($sessionPenerimaan));
         
         return response()->json([
           'success' => true,
           'message' => 'Pengiriman berhasil dikirim dan masuk ke sistem penerimaan!',
-          'redirect' => route('gudang.inventori.penerimaan.index')
+          'redirect' => route('gudang.inventori.penerimaan.index'),
+          'data' => [
+            'pengiriman_updated' => $sessionPengiriman[$index],
+            'penerimaan_added' => $penerimaanItem,
+            'total_penerimaan' => count($sessionPenerimaan)
+          ]
         ]);
       } else {
+        Log::error('Data pengiriman tidak ditemukan di index: ' . $index);
         throw new \Exception('Data pengiriman tidak ditemukan dalam session');
       }
     } catch (\Exception $e) {
+      Log::error('Error in kirimPengiriman: ' . $e->getMessage());
+      Log::error('Stack trace: ' . $e->getTraceAsString());
+      
       return response()->json([
         'success' => false,
         'message' => 'Terjadi kesalahan: ' . $e->getMessage()

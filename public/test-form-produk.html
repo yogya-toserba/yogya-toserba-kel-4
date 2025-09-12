@@ -1,0 +1,527 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test Form Tambah Produk</title>
+    <link href="https://cdn.jsdelivr.net/npm/daisyui@3.9.4/dist/full.css" rel="stylesheet" type="text/css" />
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        .form-container {
+            min-height: 100vh;
+            background: linear-gradient(135deg, #fff8f0 0%, #fff3e0 100%);
+        }
+        
+        .dashboard-container {
+            min-height: 100vh;
+            padding: 2rem;
+        }
+        
+        .header-card {
+            background: linear-gradient(135deg, #f26b37, #e55827);
+            border-radius: 16px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            color: white;
+        }
+        
+        .table-card {
+            background: white;
+            border-radius: 16px;
+            padding: 1.5rem;
+            box-shadow: 0 4px 24px rgba(255, 152, 0, 0.1);
+            overflow: hidden;
+        }
+        
+        .btn-orange {
+            background: linear-gradient(45deg, #ff9800, #ff6f00);
+            border: none;
+            color: white;
+            padding: 12px 24px;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: 600;
+        }
+        
+        .btn-orange:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(255, 152, 0, 0.3);
+        }
+        
+        .form-input-orange {
+            border: 2px solid #ffcc80;
+            border-radius: 8px;
+        }
+        
+        .form-input-orange:focus {
+            border-color: #ff9800;
+            box-shadow: 0 0 0 3px rgba(255, 152, 0, 0.1);
+        }
+        
+        .hidden {
+            display: none !important;
+        }
+        
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+        
+        .stat-card {
+            background: white;
+            border-radius: 12px;
+            padding: 1.5rem;
+            box-shadow: 0 4px 16px rgba(255, 152, 0, 0.1);
+            border-left: 4px solid #ff9800;
+            transition: transform 0.3s ease;
+        }
+        
+        .stat-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 8px 24px rgba(255, 152, 0, 0.2);
+        }
+    </style>
+</head>
+<body>
+    <!-- Halaman Daftar Produk -->
+    <div id="daftarProduk" class="dashboard-container">
+        <div class="header-card">
+            <div class="flex justify-between items-center">
+                <div>
+                    <h1 class="text-3xl font-bold mb-2">
+                        <i class="fas fa-cube mr-3"></i>Inventori Produk
+                    </h1>
+                    <p class="text-orange-100">Kelola stok dan produk Anda dengan mudah</p>
+                </div>
+                <div class="flex gap-3">
+                    <button class="bg-white bg-opacity-20 hover:bg-opacity-30 text-white px-4 py-2 rounded-lg transition-all duration-300">
+                        <i class="fas fa-download mr-2"></i>Export
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Quick Stats -->
+        <div class="stats-grid">
+            <div class="stat-card">
+                <div class="flex items-center justify-between">
+                    <div>
+                        <p class="text-gray-500 text-sm font-medium">Total Produk</p>
+                        <p class="text-2xl font-bold text-gray-900">24</p>
+                    </div>
+                    <div class="bg-blue-100 p-3 rounded-lg">
+                        <i class="fas fa-boxes text-blue-600 text-xl"></i>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="stat-card">
+                <div class="flex items-center justify-between">
+                    <div>
+                        <p class="text-gray-500 text-sm font-medium">Stok Rendah</p>
+                        <p class="text-2xl font-bold text-red-600">3</p>
+                    </div>
+                    <div class="bg-red-100 p-3 rounded-lg">
+                        <i class="fas fa-exclamation-triangle text-red-600 text-xl"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="table-card">
+            <div class="flex justify-between items-center mb-6">
+                <h2 class="text-xl font-bold text-gray-800">Daftar Produk</h2>
+                <div class="flex gap-3">
+                    <button class="bg-white border-2 border-orange-300 text-orange-600 px-4 py-2 rounded-lg hover:bg-orange-50 transition-all duration-300">
+                        <i class="fas fa-filter mr-2"></i>Filter
+                    </button>
+                    <button class="btn-orange" onclick="showTambahProdukForm()">
+                        <i class="fas fa-plus-circle mr-2"></i>Tambah Produk
+                    </button>
+                </div>
+            </div>
+
+            <!-- Sample Table -->
+            <div class="overflow-x-auto">
+                <table class="w-full">
+                    <thead>
+                        <tr class="bg-orange-50">
+                            <th class="text-left p-3 font-semibold text-gray-700">ID</th>
+                            <th class="text-left p-3 font-semibold text-gray-700">Nama Barang</th>
+                            <th class="text-left p-3 font-semibold text-gray-700">SKU</th>
+                            <th class="text-left p-3 font-semibold text-gray-700">Kategori</th>
+                            <th class="text-left p-3 font-semibold text-gray-700">Stok</th>
+                            <th class="text-left p-3 font-semibold text-gray-700">Aksi</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr class="border-b">
+                            <td class="p-3 font-bold">#001</td>
+                            <td class="p-3">Beras Premium</td>
+                            <td class="p-3 font-mono text-sm bg-gray-100 rounded px-2 py-1 inline-block">MKN-0001</td>
+                            <td class="p-3">Makanan</td>
+                            <td class="p-3">50 kg</td>
+                            <td class="p-3">
+                                <button class="bg-blue-500 text-white px-3 py-1 rounded text-sm hover:bg-blue-600">
+                                    <i class="fas fa-edit"></i>
+                                </button>
+                            </td>
+                        </tr>
+                        <tr class="border-b">
+                            <td class="p-3 font-bold">#002</td>
+                            <td class="p-3">Air Mineral</td>
+                            <td class="p-3 font-mono text-sm bg-gray-100 rounded px-2 py-1 inline-block">MNM-0001</td>
+                            <td class="p-3">Minuman</td>
+                            <td class="p-3">100 botol</td>
+                            <td class="p-3">
+                                <button class="bg-blue-500 text-white px-3 py-1 rounded text-sm hover:bg-blue-600">
+                                    <i class="fas fa-edit"></i>
+                                </button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <!-- Form Tambah Produk (disembunyikan secara default) -->
+    <div id="formTambahProduk" class="form-container hidden">
+        <div class="dashboard-container">
+            <div class="header-card">
+                <div class="flex justify-between items-center">
+                    <div>
+                        <h1 class="text-3xl font-bold mb-2">
+                            <i class="fas fa-plus-circle mr-3"></i>Tambah Produk Baru
+                        </h1>
+                        <p class="text-orange-100">Tambahkan produk baru ke inventori Anda</p>
+                    </div>
+                    <button onclick="hideTambahProdukForm()" class="bg-white bg-opacity-20 hover:bg-opacity-30 text-white px-4 py-2 rounded-lg transition-all duration-300">
+                        <i class="fas fa-arrow-left mr-2"></i>Kembali ke Daftar
+                    </button>
+                </div>
+            </div>
+
+            <div class="table-card">
+                <form id="tambahProdukFormBaru" onsubmit="handleFormSubmit(event)">
+                    <!-- Grid Layout untuk Form -->
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <!-- Kolom Kiri -->
+                        <div class="space-y-4">
+                            <!-- Nama Barang -->
+                            <div>
+                                <label class="block text-sm font-semibold text-gray-700 mb-2">Nama Barang *</label>
+                                <input type="text" name="nama_barang" placeholder="Masukkan nama barang" 
+                                       class="form-input-orange input input-bordered w-full" required>
+                            </div>
+
+                            <!-- Kategori (dipindah ke atas untuk SKU otomatis) -->
+                            <div>
+                                <label class="block text-sm font-semibold text-gray-700 mb-2">Kategori *</label>
+                                <select name="kategori" id="kategoriSelect" class="form-input-orange select select-bordered w-full" onchange="generateSKU()" required>
+                                    <option disabled selected>Pilih kategori</option>
+                                    <option value="makanan">Makanan</option>
+                                    <option value="minuman">Minuman</option>
+                                    <option value="elektronik">Elektronik</option>
+                                    <option value="fashion">Fashion</option>
+                                    <option value="kesehatan">Kesehatan</option>
+                                    <option value="rumah_tangga">Rumah Tangga</option>
+                                    <option value="olahraga">Olahraga</option>
+                                    <option value="lainnya">Lainnya</option>
+                                </select>
+                            </div>
+
+                            <!-- SKU (otomatis berdasarkan kategori) -->
+                            <div>
+                                <label class="block text-sm font-semibold text-gray-700 mb-2">SKU *</label>
+                                <div class="flex gap-2">
+                                    <input type="text" name="sku" id="skuInput" placeholder="Pilih kategori untuk generate SKU" 
+                                           class="form-input-orange input input-bordered flex-1" readonly required>
+                                    <button type="button" onclick="generateSKU()" class="bg-orange-500 hover:bg-orange-600 text-white px-3 py-2 rounded-lg transition-all duration-300">
+                                        <i class="fas fa-sync-alt"></i>
+                                    </button>
+                                </div>
+                                <p class="text-sm text-gray-500 mt-1">SKU akan dibuat otomatis berdasarkan kategori</p>
+                            </div>
+
+                            <!-- Deskripsi -->
+                            <div>
+                                <label class="block text-sm font-semibold text-gray-700 mb-2">Deskripsi</label>
+                                <textarea name="deskripsi" rows="3" placeholder="Deskripsi produk (opsional)" 
+                                          class="form-input-orange textarea textarea-bordered w-full"></textarea>
+                            </div>
+                        </div>
+                        
+                        <!-- Kolom Kanan -->
+                        <div class="space-y-4">
+                            <!-- Harga Beli -->
+                            <div>
+                                <label class="block text-sm font-semibold text-gray-700 mb-2">Harga Beli *</label>
+                                <input type="number" name="harga_beli" placeholder="0" step="0.01" 
+                                       class="form-input-orange input input-bordered w-full" required>
+                            </div>
+
+                            <!-- Harga Jual -->
+                            <div>
+                                <label class="block text-sm font-semibold text-gray-700 mb-2">Harga Jual *</label>
+                                <input type="number" name="harga_jual" placeholder="0" step="0.01" 
+                                       class="form-input-orange input input-bordered w-full" required>
+                            </div>
+
+                            <!-- Stok -->
+                            <div>
+                                <label class="block text-sm font-semibold text-gray-700 mb-2">Stok Awal *</label>
+                                <input type="number" name="stok" placeholder="0" 
+                                       class="form-input-orange input input-bordered w-full" required>
+                            </div>
+
+                            <!-- Upload Foto -->
+                            <div>
+                                <label class="block text-sm font-semibold text-gray-700 mb-2">Foto Produk</label>
+                                <input type="file" name="foto" accept="image/*" 
+                                       class="file-input file-input-bordered file-input-orange w-full">
+                                <p class="text-sm text-gray-500 mt-1">Format: JPG, PNG, maksimal 2MB</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Action Buttons -->
+                    <div class="flex justify-end gap-4 mt-8">
+                        <button type="button" onclick="hideTambahProdukForm()" class="bg-gray-500 hover:bg-gray-600 text-white px-6 py-2 rounded-lg transition-all duration-300">
+                            <i class="fas fa-times mr-2"></i>Batal
+                        </button>
+                        <button type="submit" class="btn-orange">
+                            <i class="fas fa-save mr-2"></i>Simpan Produk
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Custom Alert Modal -->
+    <div id="customAlert" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 hidden">
+        <div class="bg-white rounded-lg p-6 max-w-md w-full mx-4">
+            <div class="flex items-center mb-4">
+                <div id="alertIcon" class="mr-3 text-2xl"></div>
+                <h3 id="alertTitle" class="text-lg font-bold"></h3>
+            </div>
+            <p id="alertMessage" class="text-gray-600 mb-2"></p>
+            <p id="alertDetails" class="text-sm text-gray-500 mb-6"></p>
+            <div class="flex justify-end gap-3">
+                <button id="alertCancel" class="px-4 py-2 text-gray-600 hover:bg-gray-100 rounded">Batal</button>
+                <button id="alertConfirm" class="px-4 py-2 bg-green-500 text-white rounded hover:bg-green-600">Konfirmasi</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/js/all.min.js"></script>
+    <script>
+        // ============= FORM TOGGLE FUNCTIONS =============
+        function showTambahProdukForm() {
+            document.getElementById('daftarProduk').style.display = 'none';
+            document.getElementById('formTambahProduk').classList.remove('hidden');
+            
+            // Generate SKU otomatis ketika form dibuka
+            setTimeout(() => {
+                const kategoriSelect = document.getElementById('kategoriSelect');
+                if (kategoriSelect.value) {
+                    generateSKU();
+                }
+            }, 100);
+        }
+        
+        function hideTambahProdukForm() {
+            document.getElementById('daftarProduk').style.display = 'block';
+            document.getElementById('formTambahProduk').classList.add('hidden');
+            
+            // Reset form
+            const form = document.getElementById('tambahProdukFormBaru');
+            if (form) {
+                form.reset();
+                document.getElementById('skuInput').value = '';
+                document.getElementById('skuInput').style.backgroundColor = '';
+                document.getElementById('skuInput').style.color = '';
+                document.getElementById('skuInput').style.fontWeight = '';
+            }
+        }
+
+        // ============= AUTO-GENERATE SKU =============
+        const kategoriToSKU = {
+            'makanan': 'MKN',
+            'minuman': 'MNM',
+            'elektronik': 'ELK',
+            'fashion': 'FSH',
+            'kesehatan': 'KSH',
+            'rumah_tangga': 'RMH',
+            'olahraga': 'OLH',
+            'lainnya': 'LNY'
+        };
+
+        // Simpan counter SKU untuk setiap kategori di localStorage
+        function getNextSKUNumber(kategori) {
+            const storageKey = `sku_counter_${kategori}`;
+            let counter = localStorage.getItem(storageKey);
+            
+            if (!counter) {
+                counter = 1;
+            } else {
+                counter = parseInt(counter) + 1;
+            }
+            
+            localStorage.setItem(storageKey, counter);
+            return counter.toString().padStart(4, '0');
+        }
+
+        function generateSKU() {
+            const kategoriSelect = document.getElementById('kategoriSelect');
+            const skuInput = document.getElementById('skuInput');
+            
+            if (!kategoriSelect || !skuInput) {
+                console.error('Element kategori atau SKU tidak ditemukan');
+                return;
+            }
+            
+            const selectedKategori = kategoriSelect.value;
+            
+            if (selectedKategori && kategoriToSKU[selectedKategori]) {
+                const prefix = kategoriToSKU[selectedKategori];
+                const number = getNextSKUNumber(selectedKategori);
+                const sku = `${prefix}-${number}`;
+                
+                skuInput.value = sku;
+                
+                // Visual feedback
+                skuInput.style.backgroundColor = '#ecfdf5';
+                skuInput.style.color = '#065f46';
+                skuInput.style.fontWeight = 'bold';
+                
+                // Show success notification
+                showNotification(`SKU berhasil dibuat: ${sku}`, 'success');
+            } else {
+                skuInput.value = '';
+                skuInput.style.backgroundColor = '';
+                skuInput.style.color = '';
+                skuInput.style.fontWeight = '';
+            }
+        }
+
+        // ============= NOTIFICATION SYSTEM =============
+        function showNotification(message, type = 'info') {
+            const notification = document.createElement('div');
+            notification.className = `fixed top-4 right-4 z-50 p-4 rounded-lg shadow-lg transition-all duration-300 ${
+                type === 'success' ? 'bg-green-500 text-white' : 
+                type === 'error' ? 'bg-red-500 text-white' : 
+                'bg-blue-500 text-white'
+            }`;
+            notification.innerHTML = `
+                <div class="flex items-center">
+                    <i class="fas ${type === 'success' ? 'fa-check-circle' : type === 'error' ? 'fa-exclamation-circle' : 'fa-info-circle'} mr-2"></i>
+                    ${message}
+                </div>
+            `;
+            
+            document.body.appendChild(notification);
+            
+            setTimeout(() => {
+                notification.style.opacity = '0';
+                notification.style.transform = 'translateX(100%)';
+                setTimeout(() => {
+                    if (notification.parentNode) {
+                        notification.parentNode.removeChild(notification);
+                    }
+                }, 300);
+            }, 3000);
+        }
+
+        // ============= CUSTOM ALERT SYSTEM =============
+        function showConfirmAlert(options) {
+            const alertDiv = document.getElementById('customAlert');
+            const alertTitle = document.getElementById('alertTitle');
+            const alertMessage = document.getElementById('alertMessage');
+            const alertDetails = document.getElementById('alertDetails');
+            const alertIcon = document.getElementById('alertIcon');
+            const alertConfirm = document.getElementById('alertConfirm');
+            const alertCancel = document.getElementById('alertCancel');
+            
+            alertTitle.textContent = options.title || 'Konfirmasi';
+            alertMessage.textContent = options.message || 'Apakah Anda yakin?';
+            alertDetails.textContent = options.details || '';
+            alertIcon.innerHTML = `<i class="${options.icon || 'fas fa-question-circle'} ${options.iconColor || 'text-blue-500'}"></i>`;
+            alertConfirm.textContent = options.confirmText || 'Ya';
+            alertCancel.textContent = options.cancelText || 'Tidak';
+            
+            alertConfirm.className = `px-4 py-2 text-white rounded ${options.confirmColor || 'bg-blue-500 hover:bg-blue-600'}`;
+            
+            alertDiv.classList.remove('hidden');
+            
+            // Event listeners
+            alertConfirm.onclick = function() {
+                alertDiv.classList.add('hidden');
+                if (options.onConfirm) options.onConfirm();
+            };
+            
+            alertCancel.onclick = function() {
+                alertDiv.classList.add('hidden');
+                if (options.onCancel) options.onCancel();
+            };
+            
+            // Close on background click
+            alertDiv.onclick = function(e) {
+                if (e.target === alertDiv) {
+                    alertDiv.classList.add('hidden');
+                    if (options.onCancel) options.onCancel();
+                }
+            };
+        }
+
+        // ============= FORM SUBMIT HANDLER =============
+        function handleFormSubmit(e) {
+            e.preventDefault();
+            
+            const form = e.target;
+            const formData = new FormData(form);
+            const namaBarang = formData.get('nama_barang');
+            const kategori = formData.get('kategori');
+            const stok = formData.get('stok');
+            const hargaJual = formData.get('harga_jual');
+            const sku = formData.get('sku');
+            
+            // Validasi SKU
+            if (!sku || sku.trim() === '') {
+                showNotification('Silakan pilih kategori untuk generate SKU', 'error');
+                return;
+            }
+            
+            showConfirmAlert({
+                title: 'Tambah Produk Baru',
+                message: `Apakah Anda yakin ingin menambahkan produk "${namaBarang}" ke inventori?`,
+                details: `SKU: ${sku} • Kategori: ${kategori} • Stok: ${stok} unit • Harga: Rp ${parseInt(hargaJual).toLocaleString('id-ID')}`,
+                confirmText: 'Tambah Produk',
+                cancelText: 'Batalkan',
+                icon: 'fas fa-plus-circle',
+                iconColor: 'text-green-500',
+                confirmColor: 'bg-green-500 hover:bg-green-600',
+                onConfirm: function() {
+                    // Simulasi submit berhasil
+                    showNotification('Produk berhasil ditambahkan!', 'success');
+                    
+                    // Kembali ke daftar produk setelah 2 detik
+                    setTimeout(() => {
+                        hideTambahProdukForm();
+                    }, 2000);
+                }
+            });
+        }
+
+        // ============= INITIALIZATION =============
+        document.addEventListener('DOMContentLoaded', function() {
+            console.log('Form tambah produk siap!');
+            showNotification('Sistem siap digunakan', 'info');
+        });
+    </script>
+</body>
+</html>
