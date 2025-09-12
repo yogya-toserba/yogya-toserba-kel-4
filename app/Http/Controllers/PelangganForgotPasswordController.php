@@ -7,6 +7,7 @@ use App\Models\Pelanggan;
 use App\Models\PelangganPasswordResetToken;
 use App\Notifications\PelangganResetPasswordNotification;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Str;
 use Carbon\Carbon;
@@ -26,8 +27,8 @@ class PelangganForgotPasswordController extends Controller
      */
     public function sendResetCode(Request $request)
     {
-        \Log::info('Forgot password request received', ['email' => $request->email]);
-        
+        Log::info('Forgot password request received', ['email' => $request->email]);
+
         $validator = Validator::make($request->all(), [
             'email' => 'required|email|exists:pelanggan,email',
         ], [
@@ -37,7 +38,7 @@ class PelangganForgotPasswordController extends Controller
         ]);
 
         if ($validator->fails()) {
-            \Log::info('Validation failed', ['errors' => $validator->errors()]);
+            Log::info('Validation failed', ['errors' => $validator->errors()]);
             return back()->withErrors($validator)->withInput();
         }
 
@@ -60,16 +61,15 @@ class PelangganForgotPasswordController extends Controller
         // Send notification
         try {
             $pelanggan->notify(new PelangganResetPasswordNotification($token, $email));
-            \Log::info('OTP email sent successfully', ['email' => $email, 'token' => $token]);
-            
+            Log::info('OTP email sent successfully', ['email' => $email, 'token' => $token]);
+
             // Store email in session for verification step
             session(['reset_email' => $email]);
-            
+
             // Redirect to verification page
             return redirect()->route('password.verify.form')->with('status', 'Kode verifikasi telah dikirim ke email Anda.');
-            
         } catch (\Exception $e) {
-            \Log::error('Failed to send OTP email', ['error' => $e->getMessage()]);
+            Log::error('Failed to send OTP email', ['error' => $e->getMessage()]);
             return back()->with('error', 'Gagal mengirim kode OTP. Silakan coba lagi.');
         }
     }
@@ -95,7 +95,7 @@ class PelangganForgotPasswordController extends Controller
             return redirect()->route('password.request')
                 ->with('error', 'Session expired. Please request a new code.');
         }
-        
+
         return view('auth.verify-otp', ['email' => session('reset_email')]);
     }
 
@@ -104,7 +104,7 @@ class PelangganForgotPasswordController extends Controller
      */
     public function verifyCode(Request $request)
     {
-        \Log::info('=== VERIFY CODE REQUEST RECEIVED ===', [
+        Log::info('=== VERIFY CODE REQUEST RECEIVED ===', [
             'all_data' => $request->all(),
             'session_email' => session('reset_email'),
             'method' => $request->method(),

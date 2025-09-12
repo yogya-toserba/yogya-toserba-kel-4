@@ -4,24 +4,24 @@
 
 @push('styles')
     <style>
-        /* CSS VARIABLES FOR DYNAMIC THEMING */
+        /* CSS VARIABLES FOR DARK THEME TABLE */
         :root {
-            --table-bg: #ffffff;
-            --table-text: #1e293b;
-            --table-header-bg: #f8fafc;
-            --table-border: #e2e8f0;
+            --table-bg: #2c3e50;
+            --table-text: #ecf0f1;
+            --table-header-bg: #34495e;
+            --table-border: #3a4750;
         }
 
         body.dark-mode {
-            --table-bg: #2a2d3f !important;
-            --table-text: #e2e8f0 !important;
-            --table-header-bg: #3a3d4a !important;
-            --table-border: #3a3d4a !important;
+            --table-bg: #2c3e50 !important;
+            --table-text: #ecf0f1 !important;
+            --table-header-bg: #34495e !important;
+            --table-border: #3a4750 !important;
         }
 
-        /* ULTIMATE DARK MODE OVERRIDE - HIGHEST PRIORITY */
+        /* ULTIMATE DARK THEME TABLE - OVERRIDE ALL */
         body.dark-mode * {
-            border-color: #3a3d4a !important;
+            border-color: #3a4750 !important;
         }
 
         body.dark-mode .new-penggajian-dashboard {
@@ -45,11 +45,134 @@
 
         body.dark-mode .table thead th {
             background: var(--table-header-bg) !important;
-            color: #94a3b8 !important;
+            color: #bdc3c7 !important;
+            font-weight: 600;
         }
 
         body.dark-mode .table tbody tr:hover {
-            background: var(--table-header-bg) !important;
+            background: #34495e !important;
+        }
+
+        /* DARK THEME TABLE - OVERRIDE ALL WHITE SETTINGS */
+        .table,
+        .table *,
+        .table-responsive,
+        .table thead,
+        .table tbody,
+        .table tr,
+        .table th,
+        .table td {
+            background: #2c3e50 !important;
+            background-color: #2c3e50 !important;
+            color: #ecf0f1 !important;
+            border-color: #3a4750 !important;
+        }
+
+        .table thead th {
+            background: #34495e !important;
+            background-color: #34495e !important;
+            color: #bdc3c7 !important;
+            font-weight: 600;
+            border-bottom: 2px solid #3a4750 !important;
+        }
+
+        .table tbody tr:hover {
+            background: #34495e !important;
+            background-color: #34495e !important;
+        }
+
+        /* BADGE STYLES FOR DARK THEME */
+        .badge {
+            background: #27ae60 !important;
+            color: #ffffff !important;
+            border: 1px solid #2ecc71 !important;
+            padding: 0.375rem 0.75rem;
+            border-radius: 0.375rem;
+            font-weight: 500;
+        }
+
+        .badge.bg-success {
+            background: #27ae60 !important;
+            border-color: #2ecc71 !important;
+        }
+
+        .badge.bg-warning {
+            background: #f39c12 !important;
+            color: #ffffff !important;
+            border-color: #e67e22 !important;
+        }
+
+        .badge.bg-danger {
+            background: #e74c3c !important;
+            border-color: #c0392b !important;
+        }
+
+        /* BUTTON STYLES FOR DARK THEME */
+        .btn {
+            background: #34495e !important;
+            color: #ecf0f1 !important;
+            border: 1px solid #3a4750 !important;
+            border-radius: 0.375rem;
+        }
+
+        .btn:hover {
+            background: #3a4750 !important;
+            color: #ffffff !important;
+            transform: translateY(-1px);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+
+        .btn-outline-secondary {
+            background: transparent !important;
+            color: #bdc3c7 !important;
+            border: 1px solid #3a4750 !important;
+        }
+
+        .btn-outline-secondary:hover {
+            background: #34495e !important;
+            color: #ffffff !important;
+        }
+
+        /* CARD AND CONTAINER DARK THEME */
+        .new-card {
+            background: #2c3e50 !important;
+            color: #ecf0f1 !important;
+            border: 1px solid #3a4750 !important;
+            border-radius: 0.5rem;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+        }
+
+        .new-card-header {
+            background: #34495e !important;
+            color: #bdc3c7 !important;
+            border-bottom: 1px solid #3a4750 !important;
+        }
+
+        .new-card-body {
+            background: #2c3e50 !important;
+            color: #ecf0f1 !important;
+        }
+
+        /* PAGE BACKGROUND */
+        .new-penggajian-dashboard {
+            background: #1a252f !important;
+            min-height: 100vh;
+        }
+
+        /* FORM ELEMENTS DARK THEME */
+        .form-control,
+        .form-select {
+            background: #34495e !important;
+            color: #ecf0f1 !important;
+            border: 1px solid #3a4750 !important;
+        }
+
+        .form-control:focus,
+        .form-select:focus {
+            background: #34495e !important;
+            color: #ecf0f1 !important;
+            border-color: #3498db !important;
+            box-shadow: 0 0 0 0.2rem rgba(52, 152, 219, 0.25);
         }
 
         /* AGGRESSIVE RESET FOR FORM ELEMENTS */
@@ -393,7 +516,7 @@
         .new-card {
             background: white !important;
             border-radius: 15px !important;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.1) !important;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1) !important;
             border: 1px solid #e2e8f0 !important;
             margin-bottom: 25px !important;
             transition: all 0.3s ease !important;
@@ -402,7 +525,7 @@
         body.dark-mode .new-card {
             background: #2a2d3f !important;
             border-color: #3a3d4a !important;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.3) !important;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3) !important;
         }
 
         .new-card-header {
@@ -452,7 +575,7 @@
         .table-responsive {
             border-radius: 10px !important;
             overflow: hidden !important;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.05) !important;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05) !important;
         }
 
         .table {
@@ -496,7 +619,7 @@
         .table tbody tr:hover {
             background: #f8fafc !important;
             transform: translateY(-1px) !important;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.05) !important;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05) !important;
         }
 
         .table tbody tr:last-child td {
@@ -586,7 +709,7 @@
             background: #f8fafc !important;
             border-color: #cbd5e1 !important;
             transform: translateY(-1px) !important;
-            box-shadow: 0 4px 8px rgba(0,0,0,0.1) !important;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1) !important;
         }
 
         body.dark-mode .gear-dropdown {
@@ -608,7 +731,8 @@
             contain: layout style !important;
         }
 
-        .table td, .table th {
+        .table td,
+        .table th {
             overflow: hidden !important;
             position: relative !important;
         }
@@ -707,7 +831,11 @@
             overflow: visible !important;
         }
 
-        .col-lg-3, .col-md-6, .col-md-3, .col-md-2, .col-12 {
+        .col-lg-3,
+        .col-md-6,
+        .col-md-3,
+        .col-md-2,
+        .col-12 {
             overflow: visible !important;
         }
 
@@ -890,10 +1018,10 @@
 
         /* ULTIMATE FORCE - OVERRIDE ALL BOOTSTRAP TABLE CLASSES */
         body.dark-mode .table,
-        body.dark-mode .table-striped > tbody > tr:nth-of-type(odd) > td,
-        body.dark-mode .table-striped > tbody > tr:nth-of-type(odd) > th,
-        body.dark-mode .table-hover > tbody > tr:hover > td,
-        body.dark-mode .table-hover > tbody > tr:hover > th {
+        body.dark-mode .table-striped>tbody>tr:nth-of-type(odd)>td,
+        body.dark-mode .table-striped>tbody>tr:nth-of-type(odd)>th,
+        body.dark-mode .table-hover>tbody>tr:hover>td,
+        body.dark-mode .table-hover>tbody>tr:hover>th {
             background: #2a2d3f !important;
             color: #e2e8f0 !important;
         }
@@ -937,12 +1065,12 @@
             background-color: #2a2d3f !important;
         }
 
-        body.dark-mode .table:not(.table-dark) > tbody > tr > td {
+        body.dark-mode .table:not(.table-dark)>tbody>tr>td {
             background-color: transparent !important;
             color: #e2e8f0 !important;
         }
 
-        body.dark-mode .table:not(.table-dark) > thead > tr > th {
+        body.dark-mode .table:not(.table-dark)>thead>tr>th {
             background-color: #3a3d4a !important;
             color: #94a3b8 !important;
         }
@@ -1022,7 +1150,7 @@
             function forceDarkModeTable() {
                 if (document.body.classList.contains('dark-mode')) {
                     console.log('Applying dark mode to tables...');
-                    
+
                     // Remove all conflicting styles first
                     const style = document.createElement('style');
                     style.innerHTML = `
@@ -1046,12 +1174,12 @@
                         }
                     `;
                     document.head.appendChild(style);
-                    
+
                     // Override ALL white backgrounds by force
                     const allElements = document.querySelectorAll('*');
                     allElements.forEach(el => {
                         const computedStyle = window.getComputedStyle(el);
-                        if (computedStyle.backgroundColor === 'rgb(255, 255, 255)' || 
+                        if (computedStyle.backgroundColor === 'rgb(255, 255, 255)' ||
                             computedStyle.backgroundColor === 'white' ||
                             el.style.backgroundColor === 'white' ||
                             el.style.backgroundColor === '#ffffff' ||
@@ -1062,23 +1190,24 @@
                             }
                         }
                     });
-                    
+
                     // Force direct styling as backup
-                    const tables = document.querySelectorAll('.table, .table-responsive, #penggajian-table, #penggajian-table-wrapper');
+                    const tables = document.querySelectorAll(
+                        '.table, .table-responsive, #penggajian-table, #penggajian-table-wrapper');
                     tables.forEach(table => {
                         table.style.setProperty('background-color', '#2a2d3f', 'important');
                         table.style.setProperty('background', '#2a2d3f', 'important');
                         table.style.setProperty('color', '#e2e8f0', 'important');
                         table.setAttribute('data-dark-mode', 'true');
                     });
-                    
+
                     // Force table rows
                     const rows = document.querySelectorAll('.table tbody tr');
                     rows.forEach(row => {
                         row.style.setProperty('background-color', '#2a2d3f', 'important');
                         row.style.setProperty('background', '#2a2d3f', 'important');
                     });
-                    
+
                     // Force table headers
                     const headers = document.querySelectorAll('.table thead th');
                     headers.forEach(header => {
@@ -1086,43 +1215,44 @@
                         header.style.setProperty('background', '#3a3d4a', 'important');
                         header.style.setProperty('color', '#94a3b8', 'important');
                     });
-                    
+
                     // Force table cells
                     const cells = document.querySelectorAll('.table td');
                     cells.forEach(cell => {
                         cell.style.setProperty('background-color', 'transparent', 'important');
                         cell.style.setProperty('color', '#e2e8f0', 'important');
                     });
-                    
+
                     // Force cards
                     const cards = document.querySelectorAll('.new-card, .new-card-body');
                     cards.forEach(card => {
                         card.style.setProperty('background-color', '#2a2d3f', 'important');
                         card.style.setProperty('background', '#2a2d3f', 'important');
                     });
-                    
+
                     console.log('Dark mode applied to', tables.length, 'tables');
-                    
+
                     // BRUTAL FORCE - Remove all style attributes and reapply
                     setTimeout(() => {
                         const table = document.querySelector('#penggajian-table');
                         const wrapper = document.querySelector('#penggajian-table-wrapper');
-                        
+
                         if (table && wrapper) {
                             // Force wrapper
                             wrapper.style.backgroundColor = '#2a2d3f';
                             wrapper.style.color = '#e2e8f0';
-                            
+
                             // Force table
                             table.style.backgroundColor = '#2a2d3f';
                             table.style.color = '#e2e8f0';
-                            
+
                             // Force all table elements
                             table.querySelectorAll('*').forEach(el => {
                                 if (el.tagName === 'THEAD' || el.tagName === 'TH') {
                                     el.style.backgroundColor = '#3a3d4a';
                                     el.style.color = '#94a3b8';
-                                } else if (el.tagName === 'TBODY' || el.tagName === 'TR' || el.tagName === 'TD') {
+                                } else if (el.tagName === 'TBODY' || el.tagName === 'TR' || el
+                                    .tagName === 'TD') {
                                     if (el.tagName === 'TD') {
                                         el.style.backgroundColor = 'transparent';
                                         el.style.color = '#e2e8f0';
@@ -1132,32 +1262,32 @@
                                     }
                                 }
                             });
-                            
+
                             // Force text elements inside cells
                             table.querySelectorAll('td small, td div, td strong, td span').forEach(el => {
                                 if (!el.classList.contains('badge')) {
                                     el.style.color = '#e2e8f0';
                                 }
                             });
-                            
+
                             console.log('Brutal force styling applied');
                         }
                     }, 100);
-                    
+
                 } else {
                     console.log('Not in dark mode, skipping table styling');
                 }
             }
-            
+
             // Run immediately
             forceDarkModeTable();
-            
+
             // Run every 500ms to catch dynamic changes
             const interval = setInterval(forceDarkModeTable, 500);
-            
+
             // Stop after 10 seconds to prevent infinite loop
             setTimeout(() => clearInterval(interval), 10000);
-            
+
             // Listen for dark mode toggle
             const observer = new MutationObserver(function(mutations) {
                 mutations.forEach(function(mutation) {
@@ -1167,12 +1297,12 @@
                     }
                 });
             });
-            
+
             observer.observe(document.body, {
                 attributes: true,
                 attributeFilter: ['class']
             });
-            
+
             // Force on window load
             window.addEventListener('load', function() {
                 console.log('Window loaded, applying dark mode...');
@@ -1230,1932 +1360,1938 @@
 @endpush
 
 @section('content')
-<style>
-/* GLOBAL OVERRIDE - FORCE EXACT DASHBOARD LAYOUT */
-* {
-    box-sizing: border-box !important;
-}
-
-/* RESET ALL CONFLICTS - EXACT MATCH WITH DASHBOARD */
-.main-content {
-    margin-left: 250px !important;
-    padding: 25px 35px !important;
-    background: #f8fafc !important;
-    min-height: 100vh !important;
-    width: calc(100% - 250px) !important;
-    box-sizing: border-box !important;
-    position: relative !important;
-    overflow-x: hidden !important;
-}
-
-/* DARK MODE OVERRIDE FOR MAIN CONTENT */
-body.dark-mode .main-content {
-    background: #1a1d29 !important;
-}
-
-/* Ensure no parent container interferes */
-@media (min-width: 769px) {
-    .main-content {
-        margin-left: 250px !important;
-        width: calc(100% - 250px) !important;
-    }
-}
-
-/* Remove any extra padding or margin that might conflict */
-.main-content > * {
-    max-width: 100% !important;
-}
-
-/* DISABLE ALL BOOTSTRAP INTERFERENCE */
-.container,
-.container-fluid,
-.container-sm,
-.container-md,
-.container-lg,
-.container-xl,
-.container-xxl {
-    padding: 0 !important;
-    margin: 0 !important;
-    max-width: 100% !important;
-    width: 100% !important;
-}
-
-/* RESET BOOTSTRAP GRID SYSTEM */
-.row {
-    margin-left: 0 !important;
-    margin-right: 0 !important;
-}
-
-.row > * {
-    padding-left: 12px !important;
-    padding-right: 12px !important;
-}
-
-/* Dark Mode Support */
-body.dark-mode .main-content {
-    background: #1a1d29 !important;
-}
-
-/* CRITICAL DARK MODE TABLE OVERRIDE - PLACED HERE FOR HIGHER PRIORITY */
-body.dark-mode .table,
-body.dark-mode .table-responsive,
-body.dark-mode #penggajian-table,
-body.dark-mode #penggajian-table-wrapper {
-    background: #2a2d3f !important;
-    color: #e2e8f0 !important;
-}
-
-body.dark-mode .table thead th {
-    background: #3a3d4a !important;
-    color: #94a3b8 !important;
-}
-
-body.dark-mode .new-card,
-body.dark-mode .new-card-body,
-body.dark-mode .new-card-header,
-body.dark-mode .new-card-footer {
-    background: #2a2d3f !important;
-    color: #e2e8f0 !important;
-}
-
-/* FORCE NEW DASHBOARD STYLES - EXACT COPY */
-.new-penggajian-dashboard {
-    background: #f8fafc !important;
-    min-height: 100vh !important;
-    padding: 0 !important;
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif !important;
-    overflow-x: hidden !important;
-    width: 100% !important;
-    margin: 0 !important;
-}
-
-body.dark-mode .new-penggajian-dashboard {
-    background: #1a1d29 !important;
-}
-
-.new-header {
-    background: linear-gradient(135deg, #f26b37 0%, #e55827 100%) !important;
-    color: white !important;
-    padding: 35px 40px !important;
-    border-radius: 15px !important;
-    margin-bottom: 35px !important;
-    box-shadow: 0 4px 15px rgba(242, 107, 55, 0.3) !important;
-    position: relative !important;
-}
-
-.new-header h1 {
-    font-size: 2.5rem !important;
-    font-weight: bold !important;
-    margin: 0 !important;
-    color: white !important;
-}
-
-.new-header p {
-    font-size: 1.1rem !important;
-    opacity: 0.9 !important;
-    margin: 10px 0 0 0 !important;
-    color: white !important;
-}
-
-/* Real-time clock styling (same as dashboard) */
-#realTimeClock {
-    background: rgba(255, 255, 255, 0.2) !important;
-    padding: 8px 16px !important;
-    border-radius: 20px !important;
-    border: 1px solid rgba(255, 255, 255, 0.3) !important;
-    backdrop-filter: blur(10px) !important;
-    font-family: 'Courier New', monospace !important;
-    letter-spacing: 1px !important;
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1) !important;
-    transition: all 0.3s ease !important;
-    display: inline-block !important;
-    cursor: default !important;
-}
-
-#realTimeClock:hover {
-    background: rgba(255, 255, 255, 0.25) !important;
-    transform: translateY(-1px) !important;
-}
-
-/* Action buttons in header */
-.new-action-buttons {
-    display: flex !important;
-    gap: 12px !important;
-    align-items: center !important;
-}
-
-.new-action-btn {
-    background: rgba(255, 255, 255, 0.2) !important;
-    border: 1px solid rgba(255, 255, 255, 0.3) !important;
-    color: white !important;
-    padding: 10px 20px !important;
-    border-radius: 10px !important;
-    font-weight: 500 !important;
-    transition: all 0.3s ease !important;
-    backdrop-filter: blur(10px) !important;
-}
-
-.new-action-btn:hover {
-    background: rgba(255, 255, 255, 0.3) !important;
-    transform: translateY(-1px) !important;
-    box-shadow: 0 3px 10px rgba(0, 0, 0, 0.2) !important;
-    color: white !important;
-}
-
-/* Stats Cards */
-.new-stat-card {
-    background: white !important;
-    padding: 25px 20px !important;
-    border-radius: 15px !important;
-    box-shadow: 0 4px 15px rgba(0,0,0,0.1) !important;
-    border: 1px solid #e2e8f0 !important;
-    position: relative !important;
-    transition: all 0.3s ease !important;
-    min-height: 140px !important;
-    display: flex !important;
-    flex-direction: column !important;
-    align-items: center !important;
-    text-align: center !important;
-    overflow: hidden !important;
-}
-
-body.dark-mode .new-stat-card {
-    background: #2a2d3f !important;
-    border-color: #3a3d4a !important;
-    box-shadow: 0 4px 15px rgba(0,0,0,0.3) !important;
-}
-
-.new-stat-card:hover {
-    transform: translateY(-1px) !important;
-    box-shadow: 0 6px 20px rgba(242, 107, 55, 0.15) !important;
-}
-
-.new-stat-icon {
-    background: linear-gradient(135deg, #f26b37, #e55827) !important;
-    color: white !important;
-    border-radius: 15px !important;
-    width: 55px !important;
-    height: 55px !important;
-    display: flex !important;
-    align-items: center !important;
-    justify-content: center !important;
-    font-size: 20px !important;
-    margin-bottom: 15px !important;
-    box-shadow: 0 4px 12px rgba(242, 107, 55, 0.3) !important;
-}
-
-.new-stat-number {
-    font-size: 2.3rem !important;
-    font-weight: bold !important;
-    color: #1e293b !important;
-    margin: 12px 0 8px 0 !important;
-    line-height: 1.2 !important;
-}
-
-body.dark-mode .new-stat-number {
-    color: #e2e8f0 !important;
-}
-
-.new-stat-label {
-    color: #64748b !important;
-    font-weight: 500 !important;
-    font-size: 0.9rem !important;
-    line-height: 1.3 !important;
-}
-
-body.dark-mode .new-stat-label {
-    color: #94a3b8 !important;
-}
-
-.new-stat-change {
-    font-size: 0.75rem !important;
-    font-weight: 600 !important;
-    margin-top: 8px !important;
-    padding: 4px 8px !important;
-    border-radius: 12px !important;
-}
-
-.change-positive {
-    background: #dcfce7 !important;
-    color: #15803d !important;
-}
-
-.change-neutral {
-    background: #e0f2fe !important;
-    color: #0277bd !important;
-}
-
-.change-warning {
-    background: #fef3c7 !important;
-    color: #d97706 !important;
-}
-
-/* Cards */
-.new-card {
-    background: white !important;
-    border-radius: 15px !important;
-    box-shadow: 0 4px 15px rgba(0,0,0,0.1) !important;
-    border: 1px solid #e2e8f0 !important;
-    overflow: hidden !important;
-    transition: all 0.3s ease !important;
-}
-
-/* FORCE DARK MODE CARDS - HIGHER SPECIFICITY */
-body.dark-mode .new-card {
-    background: #2a2d3f !important;
-    border-color: #3a3d4a !important;
-    box-shadow: 0 4px 15px rgba(0,0,0,0.3) !important;
-}
-
-body.dark-mode .new-card {
-    background: #2a2d3f !important;
-    border-color: #3a3d4a !important;
-    box-shadow: 0 4px 15px rgba(0,0,0,0.3) !important;
-}
-
-.new-card:hover {
-    transform: translateY(-2px) !important;
-    box-shadow: 0 8px 25px rgba(0,0,0,0.15) !important;
-}
-
-.new-card-header {
-    background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%) !important;
-    padding: 20px 25px !important;
-    border-bottom: 1px solid #e2e8f0 !important;
-    display: flex !important;
-    justify-content: space-between !important;
-    align-items: center !important;
-}
-
-body.dark-mode .new-card-header {
-    background: linear-gradient(135deg, #374151 0%, #4b5563 100%) !important;
-    border-bottom-color: #3a3d4a !important;
-}
-
-.new-card-title {
-    font-size: 1.1rem !important;
-    font-weight: 600 !important;
-    color: #1e293b !important;
-    margin: 0 !important;
-    display: flex !important;
-    align-items: center !important;
-    gap: 10px !important;
-}
-
-body.dark-mode .new-card-title {
-    color: #e2e8f0 !important;
-}
-
-.new-card-body {
-    padding: 25px !important;
-}
-
-/* Search and Filter */
-.search-filter-bar {
-    background: white !important;
-    padding: 20px !important;
-    border-radius: 15px !important;
-    box-shadow: 0 4px 15px rgba(0,0,0,0.1) !important;
-    border: 1px solid #e2e8f0 !important;
-    margin-bottom: 25px !important;
-}
-
-body.dark-mode .search-filter-bar {
-    background: #2a2d3f !important;
-    border-color: #3a3d4a !important;
-}
-
-/* Form Controls */
-.form-control {
-    border: 1px solid #e2e8f0 !important;
-    border-radius: 10px !important;
-    padding: 8px 12px !important;
-    background: white !important;
-    color: #1e293b !important;
-    font-size: 0.9rem !important;
-    transition: all 0.3s ease !important;
-}
-
-.form-control:focus {
-    border-color: #f26b37 !important;
-    box-shadow: 0 0 0 3px rgba(242, 107, 55, 0.1) !important;
-    background: white !important;
-}
-
-body.dark-mode .form-control {
-    background: #374151 !important;
-    border-color: #4b5563 !important;
-    color: #e2e8f0 !important;
-}
-
-body.dark-mode .form-control:focus {
-    background: #374151 !important;
-    border-color: #f26b37 !important;
-    color: #e2e8f0 !important;
-    box-shadow: 0 0 0 3px rgba(242, 107, 55, 0.2) !important;
-}
-
-.form-select {
-    border: 1px solid #e2e8f0 !important;
-    border-radius: 10px !important;
-    padding: 8px 12px !important;
-    background: white !important;
-    color: #1e293b !important;
-    font-size: 0.9rem !important;
-}
-
-body.dark-mode .form-select {
-    background: #374151 !important;
-    border-color: #4b5563 !important;
-    color: #e2e8f0 !important;
-    background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3e%3cpath fill='none' stroke='%23ffffff' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M2 5l6 6 6-6'/%3e%3c/svg%3e") !important;
-}
-
-body.dark-mode .form-select option {
-    background: #374151 !important;
-    color: #e2e8f0 !important;
-}
-
-/* Buttons */
-.btn-primary {
-    background: linear-gradient(135deg, #f26b37, #e55827) !important;
-    border: none !important;
-    color: white !important;
-    font-weight: 500 !important;
-    padding: 8px 16px !important;
-    border-radius: 10px !important;
-    transition: all 0.3s ease !important;
-}
-
-.btn-primary:hover {
-    background: linear-gradient(135deg, #e55827, #d44a1a) !important;
-    transform: translateY(-1px) !important;
-}
-
-.btn-success {
-    background: linear-gradient(135deg, #10b981, #059669) !important;
-    border: none !important;
-    color: white !important;
-    font-weight: 500 !important;
-    padding: 8px 16px !important;
-    border-radius: 10px !important;
-    transition: all 0.3s ease !important;
-}
-
-.btn-success:hover {
-    background: linear-gradient(135deg, #059669, #047857) !important;
-    transform: translateY(-1px) !important;
-}
-
-/* TABLE STYLING - CONSISTENT WITH DATA KARYAWAN */
-.table-responsive {
-    border-radius: 8px !important;
-    background: white !important;
-    overflow-x: auto !important;
-    overflow-y: visible !important;
-    max-width: 100% !important;
-    width: 100% !important;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1) !important;
-    border: 1px solid #e2e8f0 !important;
-}
-
-body.dark-mode .table-responsive {
-    background: #2a2d3f !important;
-    border-color: #3a3d4a !important;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3) !important;
-}
-
-/* CRITICAL: Prevent pagination scrolling */
-.table-responsive .pagination-container {
-    overflow-x: visible !important;
-    overflow-y: visible !important;
-}
-
-.table-responsive .pagination-wrapper {
-    overflow: visible !important;
-}
-
-/* REMOVED DUPLICATE TABLE STYLING - USING THE FIRST ONE WITH PROPER DARK MODE OVERRIDE */
-
-.table th {
-    background: #f8fafc !important;
-    color: #374151 !important;
-    font-weight: 600 !important;
-    font-size: 0.8rem !important;
-    text-transform: uppercase !important;
-    letter-spacing: 0.025em !important;
-    padding: 12px 8px !important;
-    border-bottom: 2px solid #e2e8f0 !important;
-    border-top: none !important;
-    border-left: none !important;
-    border-right: none !important;
-    vertical-align: middle !important;
-}
-
-body.dark-mode .table th {
-    background: #374151 !important;
-    color: #94a3b8 !important;
-    border-color: #4b5563 !important;
-}
-
-.table td {
-    padding: 12px 8px !important;
-    border-bottom: 1px solid #f1f5f9 !important;
-    border-top: none !important;
-    border-left: none !important;
-    border-right: none !important;
-    vertical-align: middle !important;
-    color: #374151 !important;
-    font-size: 0.8rem !important;
-}
-
-body.dark-mode .table td {
-    border-color: #3a3d4a !important;
-    color: #e2e8f0 !important;
-}
-
-.table tbody tr:hover {
-    background-color: #f8fafc !important;
-    transition: background-color 0.2s ease !important;
-}
-
-body.dark-mode .table tbody tr:hover {
-    background-color: #3a3d4a !important;
-}
-
-.table tr:last-child td {
-    border-bottom: none !important;
-}
-
-/* Table column widths for better display */
-.table th:first-child,
-.table td:first-child {
-    width: 50px !important;
-    text-align: center !important;
-}
-
-.table th:last-child,
-.table td:last-child {
-    width: 80px !important;
-    text-align: center !important;
-}
-
-/* Badge styling for status */
-.badge {
-    font-size: 0.7rem !important;
-    padding: 4px 8px !important;
-    border-radius: 12px !important;
-    font-weight: 500 !important;
-    display: inline-flex !important;
-    align-items: center !important;
-    gap: 4px !important;
-}
-
-.badge.bg-success {
-    background: #dcfce7 !important;
-    color: #166534 !important;
-    border: 1px solid #bbf7d0 !important;
-}
-
-.badge.bg-warning {
-    background: #fef3c7 !important;
-    color: #d97706 !important;
-    border: 1px solid #fde68a !important;
-}
-
-.badge.bg-danger {
-    background: #fecaca !important;
-    color: #dc2626 !important;
-    border: 1px solid #fca5a5 !important;
-}
-
-.badge.bg-info {
-    background: #dbeafe !important;
-    color: #1d4ed8 !important;
-    border: 1px solid #bfdbfe !important;
-}
-
-.badge.bg-secondary {
-    background: #f1f5f9 !important;
-    color: #64748b !important;
-    border: 1px solid #e2e8f0 !important;
-}
-
-body.dark-mode .badge.bg-success {
-    background: #166534 !important;
-    color: #dcfce7 !important;
-    border-color: #166534 !important;
-}
-
-body.dark-mode .badge.bg-warning {
-    background: #d97706 !important;
-    color: #fef3c7 !important;
-    border-color: #d97706 !important;
-}
-
-body.dark-mode .badge.bg-danger {
-    background: #dc2626 !important;
-    color: #fecaca !important;
-    border-color: #dc2626 !important;
-}
-
-body.dark-mode .badge.bg-info {
-    background: #1d4ed8 !important;
-    color: #dbeafe !important;
-    border-color: #1d4ed8 !important;
-}
-
-body.dark-mode .badge.bg-secondary {
-    background: #64748b !important;
-    color: #f1f5f9 !important;
-    border-color: #64748b !important;
-}
-
-/* Responsive table behavior */
-@media (max-width: 992px) {
-    .table th,
-    .table td {
-        font-size: 0.75rem !important;
-        padding: 8px 6px !important;
-    }
-    
-    .badge {
-        font-size: 0.65rem !important;
-        padding: 2px 6px !important;
-    }
-}
-
-@media (max-width: 768px) {
-    .table th:nth-child(4),
-    .table td:nth-child(4),
-    .table th:nth-child(6),
-    .table td:nth-child(6),
-    .table th:nth-child(7),
-    .table td:nth-child(7) {
-        display: none !important;
-    }
-}
-
-/* PAGINATION STYLES - CONSISTENT WITH DATA KARYAWAN */
-.pagination-container {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-top: 20px;
-    padding: 15px 0;
-    flex-wrap: nowrap;
-    gap: 10px;
-    overflow: hidden;
-    max-width: 100%;
-}
-
-.pagination-info {
-    font-size: 0.875rem;
-    color: #64748b;
-    margin: 0;
-}
-
-body.dark-mode .pagination-info {
-    color: #9ca3af;
-}
-
-/* Laravel Pagination Styles */
-.pagination {
-    display: flex !important;
-    justify-content: center !important;
-    list-style: none !important;
-    margin: 0 !important;
-    padding: 0 !important;
-    gap: 1px !important;
-    align-items: center !important;
-    flex-wrap: nowrap !important;
-    overflow: hidden !important;
-    max-width: 100% !important;
-}
-
-.pagination .page-item {
-    margin: 0 !important;
-    display: inline-block !important;
-    flex-shrink: 0 !important;
-}
-
-.pagination .page-link {
-    display: inline-block !important;
-    padding: 6px 8px !important;
-    margin: 0 !important;
-    border: 1px solid #e2e8f0 !important;
-    background: white !important;
-    color: #64748b !important;
-    text-decoration: none !important;
-    border-radius: 4px !important;
-    font-size: 0.8rem !important;
-    transition: all 0.2s ease !important;
-    line-height: 1.2 !important;
-    min-width: 28px !important;
-    text-align: center !important;
-    white-space: nowrap !important;
-}
-
-.pagination .page-link:hover {
-    background: #f8fafc !important;
-    border-color: #cbd5e1 !important;
-    color: #1e293b !important;
-    text-decoration: none !important;
-    transform: none !important;
-}
-
-.pagination .page-link:focus {
-    box-shadow: 0 0 0 0.2rem rgba(242, 107, 55, 0.25) !important;
-    border-color: #f26b37 !important;
-    outline: none !important;
-}
-
-.pagination .page-item.active .page-link {
-    background: #f26b37 !important;
-    border-color: #f26b37 !important;
-    color: white !important;
-    z-index: 3 !important;
-}
-
-.pagination .page-item.disabled .page-link {
-    color: #6c757d !important;
-    pointer-events: none !important;
-    background-color: #fff !important;
-    border-color: #dee2e6 !important;
-    opacity: 0.5 !important;
-}
-
-/* Dark mode pagination */
-body.dark-mode .pagination .page-link {
-    background: #374151 !important;
-    border-color: #4b5563 !important;
-    color: #9ca3af !important;
-}
-
-body.dark-mode .pagination .page-link:hover {
-    background: #4b5563 !important;
-    border-color: #6b7280 !important;
-    color: #d1d5db !important;
-}
-
-body.dark-mode .pagination .page-item.active .page-link {
-    background: #f26b37 !important;
-    border-color: #f26b37 !important;
-    color: white !important;
-}
-
-body.dark-mode .pagination .page-item.disabled .page-link {
-    background: #374151 !important;
-    border-color: #4b5563 !important;
-    color: #6b7280 !important;
-}
-
-/* Improved card footer styling */
-.card-footer {
-    background: #f8fafc !important;
-    border-top: 1px solid #e2e8f0 !important;
-    padding: 15px 20px !important;
-    border-radius: 0 0 8px 8px !important;
-}
-
-body.dark-mode .card-footer {
-    background: #374151 !important;
-    border-color: #4b5563 !important;
-}
-
-.dataTables_info {
-    color: #64748b !important;
-    font-size: 0.875rem !important;
-    margin: 0 !important;
-    line-height: 1.5 !important;
-}
-
-body.dark-mode .dataTables_info {
-    color: #9ca3af !important;
-}
-
-/* Responsive pagination */
-@media (max-width: 576px) {
-    .pagination-container {
-        flex-direction: column;
-        text-align: center;
-        gap: 15px;
-    }
-    
-    .pagination .page-link {
-        padding: 4px 6px !important;
-        font-size: 0.75rem !important;
-        min-width: 24px !important;
-    }
-}
-
-/* Hide middle pagination items when there are too many pages */
-@media (max-width: 768px) {
-    .pagination .page-item:nth-child(n+5):nth-last-child(n+5) {
-        display: none !important;
-    }
-    
-    .pagination .page-item:first-child,
-    .pagination .page-item:nth-child(2),
-    .pagination .page-item.active,
-    .pagination .page-item:nth-last-child(2),
-    .pagination .page-item:last-child {
-        display: inline-block !important;
-    }
-}
-
-/* Pagination wrapper */
-.pagination-wrapper {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    overflow: hidden;
-    max-width: 100%;
-}
-
-.pagination-wrapper nav {
-    margin: 0;
-    max-width: 100%;
-}
-
-/* Override default Laravel pagination styles */
-.pagination-wrapper .pagination {
-    margin-bottom: 0 !important;
-    flex-wrap: nowrap !important;
-    overflow: hidden !important;
-    justify-content: center !important;
-}
-
-/* Responsive adjustments */
-@media (max-width: 1200px) {
-    .main-content {
-        margin-left: 0 !important;
-        width: 100% !important;
-        padding: 20px 15px !important;
-    }
-}
-
-@media (max-width: 768px) {
-    .main-content {
-        padding: 15px 10px !important;
-    }
-    
-    .new-header {
-        padding: 25px 20px !important;
-        text-align: center !important;
-    }
-    
-    .new-stat-card {
-        margin-bottom: 20px !important;
-    }
-    
-    .new-card-header {
-        padding: 15px 20px !important;
-    }
-    
-    .new-card-body {
-        padding: 20px !important;
-    }
-}
-
-/* Badge styles for currency */
-.currency-badge {
-    background: #dbeafe !important;
-    color: #1d4ed8 !important;
-    font-weight: 600 !important;
-    padding: 4px 8px !important;
-    border-radius: 12px !important;
-    font-size: 0.75rem !important;
-    display: inline-block !important;
-}
-
-.currency-large {
-    font-size: 0.85rem !important;
-    padding: 6px 10px !important;
-}
-
-body.dark-mode .currency-badge {
-    background: #1e3a8a !important;
-    color: #bfdbfe !important;
-}
-
-/* Fix form controls styling */
-.form-select,
-.form-control {
-    border: 1px solid #d1d3e2 !important;
-    border-radius: 8px !important;
-    padding: 0.5rem 0.75rem !important;
-    font-size: 0.875rem !important;
-    line-height: 1.5 !important;
-    background-color: #fff !important;
-    background-clip: padding-box !important;
-    background-image: none !important;
-    transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out !important;
-    appearance: none !important;
-    -webkit-appearance: none !important;
-    -moz-appearance: none !important;
-    background-repeat: no-repeat !important;
-    background-position: right 0.75rem center !important;
-    background-size: 16px 12px !important;
-}
-
-/* Dark mode form controls */
-body.dark-mode .form-select,
-body.dark-mode .form-control {
-    background-color: #2a2d3f !important;
-    border-color: #3a3d4a !important;
-    color: #e2e8f0 !important;
-}
-
-body.dark-mode .form-select:focus,
-body.dark-mode .form-control:focus {
-    background-color: #2a2d3f !important;
-    border-color: #f26b37 !important;
-    color: #e2e8f0 !important;
-}
-
-/* Dark mode card styling */
-body.dark-mode .new-card {
-    background: #2a2d3f !important;
-    border-color: #3a3d4a !important;
-    color: #e2e8f0 !important;
-}
-
-body.dark-mode .new-card-header {
-    background: #2a2d3f !important;
-    border-color: #3a3d4a !important;
-    color: #e2e8f0 !important;
-}
-
-body.dark-mode .new-card-body {
-    background: #2a2d3f !important;
-    color: #e2e8f0 !important;
-}
-
-/* Dark mode labels */
-body.dark-mode .form-label {
-    color: #e2e8f0 !important;
-}
-
-body.dark-mode .text-muted {
-    color: #9ca3af !important;
-}
-
-/* Dark mode pagination */
-body.dark-mode .pagination .page-link {
-    background: #2a2d3f !important;
-    border-color: #3a3d4a !important;
-    color: #e2e8f0 !important;
-}
-
-body.dark-mode .pagination .page-link:hover {
-    background: #3a3d4a !important;
-    border-color: #4a4d5a !important;
-    color: #e2e8f0 !important;
-}
-
-body.dark-mode .pagination .page-item.active .page-link {
-    background: #f26b37 !important;
-    border-color: #f26b37 !important;
-    color: white !important;
-}
-
-/* Custom dropdown arrow for select */
-.form-select {
-    background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3e%3cpath fill='none' stroke='%23343a40' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='m1 6 6.25 6.25a.75.75 0 0 0 1.06 0L15 6'/%3e%3c/svg%3e") !important;
-    padding-right: 2.25rem !important;
-}
-
-.form-select:focus,
-.form-control:focus {
-    border-color: #f26b37 !important;
-    outline: 0 !important;
-    box-shadow: 0 0 0 0.2rem rgba(242, 107, 55, 0.25) !important;
-}
-
-.form-label {
-    margin-bottom: 0.5rem !important;
-    font-weight: 600 !important;
-    color: #374151 !important;
-    font-size: 0.875rem !important;
-}
-
-/* Remove any unwanted borders and lines */
-.new-card-body form {
-    border: none !important;
-    outline: none !important;
-}
-
-.new-card-body .row {
-    border: none !important;
-    outline: none !important;
-    margin: 0 !important;
-}
-
-.new-card-body .col-md-3,
-.new-card-body .col-md-2 {
-    border: none !important;
-    outline: none !important;
-    padding: 0 0.75rem !important;
-}
-
-/* Remove any webkit styling that causes lines */
-.form-select::-webkit-scrollbar {
-    display: none !important;
-}
-
-.form-select::-webkit-search-decoration,
-.form-select::-webkit-search-cancel-button,
-.form-select::-webkit-search-results-button,
-.form-select::-webkit-search-results-decoration {
-    display: none !important;
-}
-
-/* Ensure no pseudo elements add lines */
-.form-select::before,
-.form-select::after {
-    display: none !important;
-    content: none !important;
-}
-
-/* Remove any default browser styling */
-.form-select option {
-    background: white !important;
-    color: #374151 !important;
-    border: none !important;
-}
-
-/* Dark mode form controls */
-body.dark-mode .form-select,
-body.dark-mode .form-control {
-    background-color: #2a2d3f !important;
-    border-color: #3a3d4a !important;
-    color: #e2e8f0 !important;
-    background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3e%3cpath fill='none' stroke='%23e2e8f0' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='m1 6 6.25 6.25a.75.75 0 0 0 1.06 0L15 6'/%3e%3c/svg%3e") !important;
-}
-
-body.dark-mode .form-select:focus,
-body.dark-mode .form-control:focus {
-    border-color: #f26b37 !important;
-    box-shadow: 0 0 0 0.2rem rgba(242, 107, 55, 0.25) !important;
-}
-
-body.dark-mode .form-label {
-    color: #94a3b8 !important;
-}
-
-body.dark-mode .form-select option {
-    background: #2a2d3f !important;
-    color: #e2e8f0 !important;
-}
-
-/* Additional cleanup for any remaining visual artifacts */
-.new-card-body * {
-    box-sizing: border-box !important;
-}
-
-/* Force clean appearance on all form elements */
-input[type="text"],
-input[type="email"],
-input[type="password"],
-input[type="number"],
-select,
-textarea {
-    -webkit-appearance: none !important;
-    -moz-appearance: none !important;
-    appearance: none !important;
-    background-image: none !important;
-    border-image: none !important;
-    border-image-source: none !important;
-    border-image-slice: 0 !important;
-    border-image-width: 0 !important;
-    border-image-outset: 0 !important;
-    border-image-repeat: stretch !important;
-}
-
-/* Clean select styling specifically */
-select.form-select {
-    background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3e%3cpath fill='none' stroke='%23343a40' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='m1 6 6.25 6.25a.75.75 0 0 0 1.06 0L15 6'/%3e%3c/svg%3e") !important;
-    background-repeat: no-repeat !important;
-    background-position: right 0.75rem center !important;
-    background-size: 16px 12px !important;
-    background-color: #fff !important;
-    border: 1px solid #d1d3e2 !important;
-    border-radius: 8px !important;
-    padding: 0.5rem 2.25rem 0.5rem 0.75rem !important;
-}
-
-/* ULTIMATE FORM ELEMENT RESET */
-.new-card-body select,
-.new-card-body input,
-.new-card-body button {
-    -webkit-appearance: none !important;
-    -moz-appearance: none !important;
-    appearance: none !important;
-    background: none !important;
-    border: none !important;
-    outline: none !important;
-    box-shadow: none !important;
-    text-decoration: none !important;
-    border-image: none !important;
-    background-image: none !important;
-    border-radius: 0 !important;
-    padding: 0 !important;
-    margin: 0 !important;
-}
-
-/* Reset all webkit and moz specific styling */
-.new-card-body select::-webkit-inner-spin-button,
-.new-card-body select::-webkit-outer-spin-button,
-.new-card-body select::-webkit-search-decoration,
-.new-card-body select::-webkit-search-cancel-button,
-.new-card-body select::-webkit-search-results-button,
-.new-card-body select::-webkit-search-results-decoration,
-.new-card-body select::-webkit-calendar-picker-indicator {
-    -webkit-appearance: none !important;
-    display: none !important;
-}
-
-.new-card-body select::-moz-focus-inner {
-    border: 0 !important;
-    padding: 0 !important;
-}
-
-/* Then apply clean styling */
-.new-card-body .form-select {
-    background: #fff !important;
-    border: 1px solid #d1d3e2 !important;
-    border-radius: 8px !important;
-    padding: 0.5rem 2.25rem 0.5rem 0.75rem !important;
-    font-size: 0.875rem !important;
-    color: #374151 !important;
-    font-family: inherit !important;
-    line-height: 1.5 !important;
-    width: 100% !important;
-    height: auto !important;
-    min-height: 38px !important;
-    cursor: pointer !important;
-    transition: border-color 0.15s ease-in-out !important;
-}
-
-/* Simple arrow without SVG that might cause issues */
-.new-card-body .form-select::after {
-    content: '▼' !important;
-    position: absolute !important;
-    right: 12px !important;
-    top: 50% !important;
-    transform: translateY(-50%) !important;
-    font-size: 12px !important;
-    color: #6b7280 !important;
-    pointer-events: none !important;
-}
-
-.new-card-body .form-select:focus {
-    border-color: #f26b37 !important;
-    outline: 0 !important;
-    box-shadow: 0 0 0 0.2rem rgba(242, 107, 55, 0.25) !important;
-}
-
-/* Force clean styling on select wrapper */
-.new-card-body .col-md-3,
-.new-card-body .col-md-2 {
-    position: relative !important;
-}
-
-.new-card-body .col-md-3 select,
-.new-card-body .col-md-2 select {
-    width: 100% !important;
-    position: relative !important;
-    z-index: 1 !important;
-}
-
-/* NUCLEAR OPTION - Complete reset of any browser default styling */
-.new-card-body select,
-.new-card-body select * {
-    all: unset !important;
-    display: block !important;
-    width: 100% !important;
-    box-sizing: border-box !important;
-}
-
-/* Rebuild select from scratch */
-.new-card-body .form-select {
-    display: block !important;
-    width: 100% !important;
-    padding: 0.5rem 0.75rem !important;
-    font-size: 0.875rem !important;
-    font-weight: 400 !important;
-    line-height: 1.5 !important;
-    color: #374151 !important;
-    background-color: #fff !important;
-    background-clip: padding-box !important;
-    border: 1px solid #d1d3e2 !important;
-    border-radius: 8px !important;
-    transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out !important;
-    cursor: pointer !important;
-    font-family: inherit !important;
-}
-
-.new-card-body .form-select:focus {
-    color: #374151 !important;
-    background-color: #fff !important;
-    border-color: #f26b37 !important;
-    outline: 0 !important;
-    box-shadow: 0 0 0 0.2rem rgba(242, 107, 55, 0.25) !important;
-}
-
-.new-card-body .form-select option {
-    color: #374151 !important;
-    background-color: #fff !important;
-}
-
-/* AGGRESSIVE FIX FOR DROPDOWN LINES - OVERRIDE EVERYTHING */
-.new-card-body select {
-    background-image: none !important;
-    background-repeat: no-repeat !important;
-    background-position: right !important;
-    background-size: auto !important;
-    background-attachment: scroll !important;
-    background-origin: padding-box !important;
-    background-clip: border-box !important;
-    -webkit-print-color-adjust: exact !important;
-    color-adjust: exact !important;
-}
-
-/* Force override any bootstrap/framework interference */
-.new-card-body .form-select,
-.new-card-body select.form-select,
-select.form-select.new-card-body,
-.row .form-select,
-.col-md-3 .form-select,
-.col-md-2 .form-select {
-    background: #ffffff !important;
-    border: 1px solid #d1d3e2 !important;
-    border-radius: 8px !important;
-    outline: none !important;
-    box-shadow: none !important;
-    appearance: none !important;
-    -webkit-appearance: none !important;
-    -moz-appearance: none !important;
-    background-image: none !important;
-    background-repeat: no-repeat !important;
-    background-position: center right 12px !important;
-    background-size: 12px !important;
-    padding: 8px 35px 8px 12px !important;
-    font-size: 14px !important;
-    line-height: 1.5 !important;
-    color: #374151 !important;
-    cursor: pointer !important;
-    transition: border-color 0.15s ease-in-out !important;
-}
-
-/* Add custom arrow using CSS only */
-.new-card-body .form-select {
-    background-image: linear-gradient(45deg, transparent 50%, #6b7280 50%), linear-gradient(135deg, #6b7280 50%, transparent 50%) !important;
-    background-position: calc(100% - 20px) calc(1em + 2px), calc(100% - 15px) calc(1em + 2px) !important;
-    background-size: 5px 5px, 5px 5px !important;
-    background-repeat: no-repeat !important;
-}
-
-.new-card-body .form-select:focus {
-    border-color: #f26b37 !important;
-    box-shadow: 0 0 0 0.2rem rgba(242, 107, 55, 0.25) !important;
-}
-
-.new-card-body .btn {
-    background: linear-gradient(135deg, #f26b37, #e55827) !important;
-    border: none !important;
-    border-radius: 8px !important;
-    color: white !important;
-    padding: 0.5rem 1rem !important;
-    font-size: 0.875rem !important;
-    font-weight: 600 !important;
-    transition: all 0.3s ease !important;
-}
-
-.new-card-body .btn.btn-success {
-    background: linear-gradient(135deg, #10b981, #059669) !important;
-}
-
-.new-card-body .btn:hover {
-    transform: translateY(-1px) !important;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15) !important;
-}
-
-/* Gear Dropdown Styling */
-.gear-dropdown {
-    border: 1px solid #d1d3e2 !important;
-    background: #fff !important;
-    color: #5a5c69 !important;
-    border-radius: 8px !important;
-    padding: 6px 12px !important;
-    transition: all 0.3s ease !important;
-    position: relative !important;
-    min-width: 40px !important;
-    height: 32px !important;
-    display: flex !important;
-    align-items: center !important;
-    justify-content: center !important;
-}
-
-.gear-dropdown:hover {
-    background: #f8f9fc !important;
-    border-color: #5a5c69 !important;
-    color: #5a5c69 !important;
-    transform: translateY(-1px) !important;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1) !important;
-}
-
-.gear-dropdown:focus {
-    box-shadow: 0 0 0 0.2rem rgba(90, 92, 105, 0.25) !important;
-    border-color: #5a5c69 !important;
-}
-
-.gear-dropdown::after {
-    display: none !important;
-}
-
-/* Gear Icon Animation */
-.gear-icon {
-    transition: transform 0.3s ease !important;
-    font-size: 14px !important;
-}
-
-.gear-dropdown:hover .gear-icon {
-    transform: rotate(90deg) !important;
-}
-
-.gear-dropdown[aria-expanded="true"] .gear-icon {
-    transform: rotate(180deg) !important;
-}
-
-/* Dropdown Menu Styling */
-.dropdown-menu {
-    border: 1px solid #e3e6f0 !important;
-    border-radius: 10px !important;
-    box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15) !important;
-    padding: 0.5rem 0 !important;
-    min-width: 180px !important;
-    max-width: 180px !important;
-    animation: dropdownSlideIn 0.2s ease-out !important;
-    position: absolute !important;
-    right: 0 !important;
-    left: auto !important;
-    transform: none !important;
-    margin-top: 0.125rem !important;
-    z-index: 1060 !important;
-    contain: layout !important;
-    overflow: hidden !important;
-}
-
-@keyframes dropdownSlideIn {
-    0% {
-        opacity: 0;
-        transform: translateY(-5px) scale(0.98);
-    }
-    100% {
-        opacity: 1;
-        transform: translateY(0) scale(1);
-    }
-}
-
-.dropdown-item {
-    padding: 0.75rem 1rem !important;
-    font-size: 0.875rem !important;
-    color: #5a5c69 !important;
-    transition: all 0.15s ease !important;
-    border: none !important;
-    background: none !important;
-    text-decoration: none !important;
-    display: flex !important;
-    align-items: center !important;
-}
-
-.dropdown-item:hover {
-    background: #f8f9fc !important;
-    color: #5a5c69 !important;
-    transform: translateX(5px) !important;
-}
-
-.dropdown-item i {
-    width: 16px !important;
-    text-align: center !important;
-    margin-right: 0.5rem !important;
-}
-
-.dropdown-divider {
-    margin: 0.25rem 0 !important;
-    border-color: #e3e6f0 !important;
-}
-
-/* Dark mode support for dropdown */
-body.dark-mode .gear-dropdown {
-    background: #2a2d3f !important;
-    border-color: #3a3d4a !important;
-    color: #e2e8f0 !important;
-}
-
-body.dark-mode .gear-dropdown:hover {
-    background: #3a3d4a !important;
-    border-color: #4a4d5a !important;
-}
-
-body.dark-mode .dropdown-menu {
-    background: #2a2d3f !important;
-    border-color: #3a3d4a !important;
-}
-
-body.dark-mode .dropdown-item {
-    color: #e2e8f0 !important;
-}
-
-body.dark-mode .dropdown-item:hover {
-    background: #3a3d4a !important;
-    color: #f1f5f9 !important;
-}
-
-body.dark-mode .dropdown-divider {
-    border-color: #3a3d4a !important;
-}
-
-/* MODAL FORM FIX - Remove all visual artifacts */
-.modal .form-select,
-.modal select,
-.modal-body .form-select,
-.modal-body select {
-    background: #ffffff !important;
-    border: 1px solid #d1d3e2 !important;
-    border-radius: 8px !important;
-    color: #374151 !important;
-    padding: 8px 12px !important;
-    font-size: 14px !important;
-    line-height: 1.5 !important;
-    appearance: none !important;
-    -webkit-appearance: none !important;
-    -moz-appearance: none !important;
-    background-image: none !important;
-    background-repeat: no-repeat !important;
-    background-position: right 12px center !important;
-    background-size: 12px !important;
-    outline: none !important;
-    box-shadow: none !important;
-    text-decoration: none !important;
-    border-image: none !important;
-    background-attachment: scroll !important;
-    background-origin: padding-box !important;
-    background-clip: border-box !important;
-}
-
-/* Add simple CSS arrow */
-.modal .form-select::after,
-.modal select::after,
-.modal-body .form-select::after,
-.modal-body select::after {
-    content: '▼' !important;
-    position: absolute !important;
-    right: 12px !important;
-    top: 50% !important;
-    transform: translateY(-50%) !important;
-    font-size: 10px !important;
-    color: #6b7280 !important;
-    pointer-events: none !important;
-}
-
-.modal .form-select:focus,
-.modal select:focus,
-.modal-body .form-select:focus,
-.modal-body select:focus {
-    border-color: #f26b37 !important;
-    box-shadow: 0 0 0 0.2rem rgba(242, 107, 55, 0.25) !important;
-    outline: none !important;
-}
-
-/* Remove all webkit/moz artifacts for modal forms */
-.modal select::-webkit-inner-spin-button,
-.modal select::-webkit-outer-spin-button,
-.modal select::-webkit-search-decoration,
-.modal select::-webkit-search-cancel-button,
-.modal select::-webkit-search-results-button,
-.modal select::-webkit-search-results-decoration,
-.modal select::-webkit-calendar-picker-indicator,
-.modal .form-select::-webkit-inner-spin-button,
-.modal .form-select::-webkit-outer-spin-button,
-.modal .form-select::-webkit-search-decoration,
-.modal .form-select::-webkit-search-cancel-button,
-.modal .form-select::-webkit-search-results-button,
-.modal .form-select::-webkit-search-results-decoration,
-.modal .form-select::-webkit-calendar-picker-indicator {
-    -webkit-appearance: none !important;
-    display: none !important;
-    opacity: 0 !important;
-    visibility: hidden !important;
-}
-
-.modal select::-moz-focus-inner,
-.modal .form-select::-moz-focus-inner {
-    border: 0 !important;
-    padding: 0 !important;
-}
-
-/* Force clean modal form styling */
-.modal-body .row,
-.modal-body .col-md-6,
-.modal-body .col-md-4 {
-    border: none !important;
-    outline: none !important;
-    background: transparent !important;
-    box-shadow: none !important;
-}
-
-/* Modal form label styling */
-.modal .form-label,
-.modal-body .form-label {
-    color: #374151 !important;
-    font-weight: 600 !important;
-    margin-bottom: 8px !important;
-    font-size: 14px !important;
-}
-
-/* Modal button styling */
-.modal .btn,
-.modal-body .btn {
-    border-radius: 8px !important;
-    padding: 8px 16px !important;
-    font-size: 14px !important;
-    font-weight: 600 !important;
-    border: none !important;
-    outline: none !important;
-    transition: all 0.3s ease !important;
-}
-
-.modal .btn-primary,
-.modal-body .btn-primary {
-    background: linear-gradient(135deg, #f26b37, #e55827) !important;
-    color: white !important;
-}
-
-.modal .btn-primary:hover,
-.modal-body .btn-primary:hover {
-    background: linear-gradient(135deg, #e55827, #d94515) !important;
-    transform: translateY(-1px) !important;
-}
-
-/* Remove any remaining artifacts */
-.modal *,
-.modal *::before,
-.modal *::after {
-    border-image: none !important;
-    border-image-source: none !important;
-    border-image-slice: initial !important;
-    border-image-width: initial !important;
-    border-image-outset: initial !important;
-    border-image-repeat: initial !important;
-    text-decoration: none !important;
-}
-
-/* ULTIMATE FORM CLEANUP - Nuclear option for form artifacts */
-.modal select,
-.modal .form-select,
-.modal input,
-.modal textarea {
-    all: unset !important;
-    display: block !important;
-    width: 100% !important;
-    box-sizing: border-box !important;
-    background: #ffffff !important;
-    border: 1px solid #d1d3e2 !important;
-    border-radius: 8px !important;
-    padding: 8px 12px !important;
-    font-size: 14px !important;
-    color: #374151 !important;
-    font-family: inherit !important;
-    line-height: 1.5 !important;
-    cursor: pointer !important;
-}
-
-.modal select:focus,
-.modal .form-select:focus {
-    border-color: #f26b37 !important;
-    box-shadow: 0 0 0 0.2rem rgba(242, 107, 55, 0.25) !important;
-    outline: none !important;
-}
-
-/* Force override any browser default styling */
-.modal select option {
-    background: #ffffff !important;
-    color: #374151 !important;
-    padding: 4px 8px !important;
-}
-
-/* Additional cleanup for container elements */
-.modal .form-group,
-.modal .mb-3,
-.modal .row,
-.modal .col-md-6,
-.modal .col-md-4 {
-    border: none !important;
-    outline: none !important;
-    background: transparent !important;
-    box-shadow: none !important;
-    border-image: none !important;
-    text-decoration: none !important;
-}
-
-/* Override any bootstrap interference */
-.modal .form-control,
-.modal .form-select {
-    border: 1px solid #d1d3e2 !important;
-    background-color: #ffffff !important;
-    background-image: none !important;
-    background-clip: padding-box !important;
-    appearance: none !important;
-    -webkit-appearance: none !important;
-    -moz-appearance: none !important;
-}
-
-/* SPECIFIC FIX FOR PROSES MODAL */
-#prosesModal select,
-#prosesModal .form-select,
-#previewModal select,
-#previewModal .form-select {
-    background: #ffffff !important;
-    border: 1px solid #d1d3e2 !important;
-    border-radius: 8px !important;
-    color: #374151 !important;
-    padding: 8px 12px !important;
-    font-size: 14px !important;
-    line-height: 1.5 !important;
-    outline: none !important;
-    box-shadow: none !important;
-    appearance: none !important;
-    -webkit-appearance: none !important;
-    -moz-appearance: none !important;
-    background-image: none !important;
-    background-repeat: no-repeat !important;
-    background-position: right 12px center !important;
-    background-size: 12px !important;
-    border-image: none !important;
-    text-decoration: none !important;
-    background-attachment: scroll !important;
-    background-origin: padding-box !important;
-    background-clip: border-box !important;
-    width: 100% !important;
-    font-family: inherit !important;
-    cursor: pointer !important;
-}
-
-#prosesModal select:focus,
-#prosesModal .form-select:focus,
-#previewModal select:focus,
-#previewModal .form-select:focus {
-    border-color: #f26b37 !important;
-    box-shadow: 0 0 0 0.2rem rgba(242, 107, 55, 0.25) !important;
-    outline: none !important;
-    background-color: #ffffff !important;
-}
-
-/* Remove all webkit artifacts for these specific modals */
-#prosesModal select::-webkit-inner-spin-button,
-#prosesModal select::-webkit-outer-spin-button,
-#prosesModal select::-webkit-search-decoration,
-#prosesModal select::-webkit-search-cancel-button,
-#prosesModal select::-webkit-search-results-button,
-#prosesModal select::-webkit-search-results-decoration,
-#prosesModal select::-webkit-calendar-picker-indicator,
-#prosesModal .form-select::-webkit-inner-spin-button,
-#prosesModal .form-select::-webkit-outer-spin-button,
-#prosesModal .form-select::-webkit-search-decoration,
-#prosesModal .form-select::-webkit-search-cancel-button,
-#prosesModal .form-select::-webkit-search-results-button,
-#prosesModal .form-select::-webkit-search-results-decoration,
-#prosesModal .form-select::-webkit-calendar-picker-indicator,
-#previewModal select::-webkit-inner-spin-button,
-#previewModal select::-webkit-outer-spin-button,
-#previewModal select::-webkit-search-decoration,
-#previewModal select::-webkit-search-cancel-button,
-#previewModal select::-webkit-search-results-button,
-#previewModal select::-webkit-search-results-decoration,
-#previewModal select::-webkit-calendar-picker-indicator,
-#previewModal .form-select::-webkit-inner-spin-button,
-#previewModal .form-select::-webkit-outer-spin-button,
-#previewModal .form-select::-webkit-search-decoration,
-#previewModal .form-select::-webkit-search-cancel-button,
-#previewModal .form-select::-webkit-search-results-button,
-#previewModal .form-select::-webkit-search-results-decoration,
-#previewModal .form-select::-webkit-calendar-picker-indicator {
-    -webkit-appearance: none !important;
-    display: none !important;
-    opacity: 0 !important;
-    visibility: hidden !important;
-}
-
-#prosesModal select::-moz-focus-inner,
-#prosesModal .form-select::-moz-focus-inner,
-#previewModal select::-moz-focus-inner,
-#previewModal .form-select::-moz-focus-inner {
-    border: 0 !important;
-    padding: 0 !important;
-}
-
-/* Force clean containers for proses modal */
-#prosesModal .modal-body .row,
-#prosesModal .modal-body .col-md-6,
-#previewModal .modal-body .row,
-#previewModal .modal-body .col-md-4 {
-    border: none !important;
-    outline: none !important;
-    background: transparent !important;
-    box-shadow: none !important;
-    border-image: none !important;
-    text-decoration: none !important;
-}
-
-/* Form labels in proses modal */
-#prosesModal .form-label,
-#previewModal .form-label {
-    color: #374151 !important;
-    font-weight: 600 !important;
-    margin-bottom: 8px !important;
-    font-size: 14px !important;
-    border: none !important;
-    background: transparent !important;
-}
-
-/* Button styling in proses modal */
-#prosesModal .btn,
-#previewModal .btn {
-    border-radius: 8px !important;
-    padding: 8px 16px !important;
-    font-size: 14px !important;
-    font-weight: 600 !important;
-    border: none !important;
-    outline: none !important;
-    transition: all 0.3s ease !important;
-}
-
-#prosesModal .btn-success {
-    background: linear-gradient(135deg, #10b981, #059669) !important;
-    color: white !important;
-}
-
-#prosesModal .btn-success:hover {
-    background: linear-gradient(135deg, #059669, #047857) !important;
-    transform: translateY(-1px) !important;
-}
-
-#prosesModal .btn-secondary {
-    background: #6c757d !important;
-    color: white !important;
-}
-
-#prosesModal .btn-secondary:hover {
-    background: #5a6268 !important;
-}
-
-/* Nuclear option for prosesModal forms */
-#prosesModal *,
-#prosesModal *::before,
-#prosesModal *::after,
-#previewModal *,
-#previewModal *::before,
-#previewModal *::after {
-    border-image: none !important;
-    border-image-source: none !important;
-    border-image-slice: initial !important;
-    border-image-width: initial !important;
-    border-image-outset: initial !important;
-    border-image-repeat: initial !important;
-    text-decoration: none !important;
-}
-
-/* DARK MODE FOR MODALS */
-body.dark-mode .modal-content {
-    background: #2a2d3f !important;
-    border-color: #3a3d4a !important;
-    color: #e2e8f0 !important;
-}
-
-body.dark-mode .modal-header {
-    background: #2a2d3f !important;
-    border-color: #3a3d4a !important;
-    color: #e2e8f0 !important;
-}
-
-body.dark-mode .modal-body {
-    background: #2a2d3f !important;
-    color: #e2e8f0 !important;
-}
-
-body.dark-mode .modal-footer {
-    background: #2a2d3f !important;
-    border-color: #3a3d4a !important;
-}
-
-body.dark-mode .modal-title {
-    color: #e2e8f0 !important;
-}
-
-/* DARK MODE FOR MODAL FORMS */
-body.dark-mode #prosesModal select,
-body.dark-mode #prosesModal .form-select,
-body.dark-mode #previewModal select,
-body.dark-mode #previewModal .form-select,
-body.dark-mode .modal select,
-body.dark-mode .modal .form-select {
-    background: #374151 !important;
-    border: 1px solid #4a5568 !important;
-    border-radius: 8px !important;
-    color: #e2e8f0 !important;
-    padding: 8px 12px !important;
-    font-size: 14px !important;
-    line-height: 1.5 !important;
-    outline: none !important;
-    box-shadow: none !important;
-    appearance: none !important;
-    -webkit-appearance: none !important;
-    -moz-appearance: none !important;
-    background-image: none !important;
-    border-image: none !important;
-    text-decoration: none !important;
-    width: 100% !important;
-    font-family: inherit !important;
-    cursor: pointer !important;
-}
-
-body.dark-mode #prosesModal select:focus,
-body.dark-mode #prosesModal .form-select:focus,
-body.dark-mode #previewModal select:focus,
-body.dark-mode #previewModal .form-select:focus,
-body.dark-mode .modal select:focus,
-body.dark-mode .modal .form-select:focus {
-    border-color: #f26b37 !important;
-    box-shadow: 0 0 0 0.2rem rgba(242, 107, 55, 0.25) !important;
-    outline: none !important;
-    background-color: #374151 !important;
-    color: #e2e8f0 !important;
-}
-
-body.dark-mode #prosesModal select option,
-body.dark-mode #previewModal select option,
-body.dark-mode .modal select option {
-    background: #374151 !important;
-    color: #e2e8f0 !important;
-    padding: 4px 8px !important;
-}
-
-/* DARK MODE FOR MODAL LABELS */
-body.dark-mode #prosesModal .form-label,
-body.dark-mode #previewModal .form-label,
-body.dark-mode .modal .form-label {
-    color: #e2e8f0 !important;
-    font-weight: 600 !important;
-    margin-bottom: 8px !important;
-    font-size: 14px !important;
-}
-
-/* DARK MODE FOR MODAL BUTTONS */
-body.dark-mode #prosesModal .btn-secondary,
-body.dark-mode .modal .btn-secondary {
-    background: #4a5568 !important;
-    border-color: #4a5568 !important;
-    color: #e2e8f0 !important;
-}
-
-body.dark-mode #prosesModal .btn-secondary:hover,
-body.dark-mode .modal .btn-secondary:hover {
-    background: #2d3748 !important;
-    border-color: #2d3748 !important;
-    color: #e2e8f0 !important;
-}
-
-body.dark-mode #prosesModal .btn-success {
-    background: linear-gradient(135deg, #10b981, #059669) !important;
-    border: none !important;
-    color: white !important;
-}
-
-body.dark-mode #prosesModal .btn-success:hover {
-    background: linear-gradient(135deg, #059669, #047857) !important;
-    transform: translateY(-1px) !important;
-}
-
-/* DARK MODE FOR ALERT IN MODAL */
-body.dark-mode #prosesModal .alert-success {
-    background: linear-gradient(135deg, #10b981, #059669) !important;
-    border: none !important;
-    color: white !important;
-}
-
-body.dark-mode #prosesModal .text-muted {
-    color: #9ca3af !important;
-}
-
-/* DARK MODE FOR MODAL CONTAINERS */
-body.dark-mode #prosesModal .modal-body .row,
-body.dark-mode #prosesModal .modal-body .col-md-6,
-body.dark-mode #previewModal .modal-body .row,
-body.dark-mode #previewModal .modal-body .col-md-4,
-body.dark-mode .modal .row,
-body.dark-mode .modal .col-md-6,
-body.dark-mode .modal .col-md-4 {
-    border: none !important;
-    outline: none !important;
-    background: transparent !important;
-    box-shadow: none !important;
-    border-image: none !important;
-    text-decoration: none !important;
-}
-
-/* DARK MODE FOR CLOSE BUTTON */
-body.dark-mode .modal .btn-close {
-    filter: invert(1) grayscale(100%) brightness(200%) !important;
-}
-
-/* DARK MODE FOR PREVIEW BUTTON */
-body.dark-mode #previewModal .btn-primary {
-    background: linear-gradient(135deg, #f26b37, #e55827) !important;
-    border: none !important;
-    color: white !important;
-}
-
-body.dark-mode #previewModal .btn-primary:hover {
-    background: linear-gradient(135deg, #e55827, #d94515) !important;
-    transform: translateY(-1px) !important;
-}
-</style>
-
-<div class="new-penggajian-dashboard">
-    <!-- Header Section -->
-    <div class="new-header">
-        <div style="display: flex; justify-content: space-between; align-items: center;">
-            <div>
-                <h1><i class="fas fa-calculator me-3"></i>Sistem Penggajian Otomatis</h1>
-                <p>Kelola dan proses penggajian karyawan MyYOGYA secara otomatis</p>
-            </div>
-            <div style="text-align: right;">
-                <div class="new-action-buttons">
-                    <button type="button" class="new-action-btn" data-bs-toggle="modal" data-bs-target="#previewModal">
-                        <i class="fas fa-eye me-2"></i>Preview Gaji
-                    </button>
-                    <button type="button" class="new-action-btn" data-bs-toggle="modal" data-bs-target="#prosesModal">
-                        <i class="fas fa-calculator me-2"></i>Proses Gaji Otomatis
-                    </button>
+    <style>
+        /* GLOBAL OVERRIDE - FORCE EXACT DASHBOARD LAYOUT */
+        * {
+            box-sizing: border-box !important;
+        }
+
+        /* RESET ALL CONFLICTS - EXACT MATCH WITH DASHBOARD */
+        .main-content {
+            margin-left: 250px !important;
+            padding: 25px 35px !important;
+            background: #f8fafc !important;
+            min-height: 100vh !important;
+            width: calc(100% - 250px) !important;
+            box-sizing: border-box !important;
+            position: relative !important;
+            overflow-x: hidden !important;
+        }
+
+        /* DARK MODE OVERRIDE FOR MAIN CONTENT */
+        body.dark-mode .main-content {
+            background: #1a1d29 !important;
+        }
+
+        /* Ensure no parent container interferes */
+        @media (min-width: 769px) {
+            .main-content {
+                margin-left: 250px !important;
+                width: calc(100% - 250px) !important;
+            }
+        }
+
+        /* Remove any extra padding or margin that might conflict */
+        .main-content>* {
+            max-width: 100% !important;
+        }
+
+        /* DISABLE ALL BOOTSTRAP INTERFERENCE */
+        .container,
+        .container-fluid,
+        .container-sm,
+        .container-md,
+        .container-lg,
+        .container-xl,
+        .container-xxl {
+            padding: 0 !important;
+            margin: 0 !important;
+            max-width: 100% !important;
+            width: 100% !important;
+        }
+
+        /* RESET BOOTSTRAP GRID SYSTEM */
+        .row {
+            margin-left: 0 !important;
+            margin-right: 0 !important;
+        }
+
+        .row>* {
+            padding-left: 12px !important;
+            padding-right: 12px !important;
+        }
+
+        /* Dark Mode Support */
+        body.dark-mode .main-content {
+            background: #1a1d29 !important;
+        }
+
+        /* CRITICAL DARK MODE TABLE OVERRIDE - PLACED HERE FOR HIGHER PRIORITY */
+        body.dark-mode .table,
+        body.dark-mode .table-responsive,
+        body.dark-mode #penggajian-table,
+        body.dark-mode #penggajian-table-wrapper {
+            background: #2a2d3f !important;
+            color: #e2e8f0 !important;
+        }
+
+        body.dark-mode .table thead th {
+            background: #3a3d4a !important;
+            color: #94a3b8 !important;
+        }
+
+        body.dark-mode .new-card,
+        body.dark-mode .new-card-body,
+        body.dark-mode .new-card-header,
+        body.dark-mode .new-card-footer {
+            background: #2a2d3f !important;
+            color: #e2e8f0 !important;
+        }
+
+        /* FORCE NEW DASHBOARD STYLES - EXACT COPY */
+        .new-penggajian-dashboard {
+            background: #f8fafc !important;
+            min-height: 100vh !important;
+            padding: 0 !important;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif !important;
+            overflow-x: hidden !important;
+            width: 100% !important;
+            margin: 0 !important;
+        }
+
+        body.dark-mode .new-penggajian-dashboard {
+            background: #1a1d29 !important;
+        }
+
+        .new-header {
+            background: linear-gradient(135deg, #f26b37 0%, #e55827 100%) !important;
+            color: white !important;
+            padding: 35px 40px !important;
+            border-radius: 15px !important;
+            margin-bottom: 35px !important;
+            box-shadow: 0 4px 15px rgba(242, 107, 55, 0.3) !important;
+            position: relative !important;
+        }
+
+        .new-header h1 {
+            font-size: 2.5rem !important;
+            font-weight: bold !important;
+            margin: 0 !important;
+            color: white !important;
+        }
+
+        .new-header p {
+            font-size: 1.1rem !important;
+            opacity: 0.9 !important;
+            margin: 10px 0 0 0 !important;
+            color: white !important;
+        }
+
+        /* Real-time clock styling (same as dashboard) */
+        #realTimeClock {
+            background: rgba(255, 255, 255, 0.2) !important;
+            padding: 8px 16px !important;
+            border-radius: 20px !important;
+            border: 1px solid rgba(255, 255, 255, 0.3) !important;
+            backdrop-filter: blur(10px) !important;
+            font-family: 'Courier New', monospace !important;
+            letter-spacing: 1px !important;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1) !important;
+            transition: all 0.3s ease !important;
+            display: inline-block !important;
+            cursor: default !important;
+        }
+
+        #realTimeClock:hover {
+            background: rgba(255, 255, 255, 0.25) !important;
+            transform: translateY(-1px) !important;
+        }
+
+        /* Action buttons in header */
+        .new-action-buttons {
+            display: flex !important;
+            gap: 12px !important;
+            align-items: center !important;
+        }
+
+        .new-action-btn {
+            background: rgba(255, 255, 255, 0.2) !important;
+            border: 1px solid rgba(255, 255, 255, 0.3) !important;
+            color: white !important;
+            padding: 10px 20px !important;
+            border-radius: 10px !important;
+            font-weight: 500 !important;
+            transition: all 0.3s ease !important;
+            backdrop-filter: blur(10px) !important;
+        }
+
+        .new-action-btn:hover {
+            background: rgba(255, 255, 255, 0.3) !important;
+            transform: translateY(-1px) !important;
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.2) !important;
+            color: white !important;
+        }
+
+        /* Stats Cards */
+        .new-stat-card {
+            background: white !important;
+            padding: 25px 20px !important;
+            border-radius: 15px !important;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1) !important;
+            border: 1px solid #e2e8f0 !important;
+            position: relative !important;
+            transition: all 0.3s ease !important;
+            min-height: 140px !important;
+            display: flex !important;
+            flex-direction: column !important;
+            align-items: center !important;
+            text-align: center !important;
+            overflow: hidden !important;
+        }
+
+        body.dark-mode .new-stat-card {
+            background: #2a2d3f !important;
+            border-color: #3a3d4a !important;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3) !important;
+        }
+
+        .new-stat-card:hover {
+            transform: translateY(-1px) !important;
+            box-shadow: 0 6px 20px rgba(242, 107, 55, 0.15) !important;
+        }
+
+        .new-stat-icon {
+            background: linear-gradient(135deg, #f26b37, #e55827) !important;
+            color: white !important;
+            border-radius: 15px !important;
+            width: 55px !important;
+            height: 55px !important;
+            display: flex !important;
+            align-items: center !important;
+            justify-content: center !important;
+            font-size: 20px !important;
+            margin-bottom: 15px !important;
+            box-shadow: 0 4px 12px rgba(242, 107, 55, 0.3) !important;
+        }
+
+        .new-stat-number {
+            font-size: 2.3rem !important;
+            font-weight: bold !important;
+            color: #1e293b !important;
+            margin: 12px 0 8px 0 !important;
+            line-height: 1.2 !important;
+        }
+
+        body.dark-mode .new-stat-number {
+            color: #e2e8f0 !important;
+        }
+
+        .new-stat-label {
+            color: #64748b !important;
+            font-weight: 500 !important;
+            font-size: 0.9rem !important;
+            line-height: 1.3 !important;
+        }
+
+        body.dark-mode .new-stat-label {
+            color: #94a3b8 !important;
+        }
+
+        .new-stat-change {
+            font-size: 0.75rem !important;
+            font-weight: 600 !important;
+            margin-top: 8px !important;
+            padding: 4px 8px !important;
+            border-radius: 12px !important;
+        }
+
+        .change-positive {
+            background: #dcfce7 !important;
+            color: #15803d !important;
+        }
+
+        .change-neutral {
+            background: #e0f2fe !important;
+            color: #0277bd !important;
+        }
+
+        .change-warning {
+            background: #fef3c7 !important;
+            color: #d97706 !important;
+        }
+
+        /* Cards */
+        .new-card {
+            background: white !important;
+            border-radius: 15px !important;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1) !important;
+            border: 1px solid #e2e8f0 !important;
+            overflow: hidden !important;
+            transition: all 0.3s ease !important;
+        }
+
+        /* FORCE DARK MODE CARDS - HIGHER SPECIFICITY */
+        body.dark-mode .new-card {
+            background: #2a2d3f !important;
+            border-color: #3a3d4a !important;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3) !important;
+        }
+
+        body.dark-mode .new-card {
+            background: #2a2d3f !important;
+            border-color: #3a3d4a !important;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3) !important;
+        }
+
+        .new-card:hover {
+            transform: translateY(-2px) !important;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15) !important;
+        }
+
+        .new-card-header {
+            background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%) !important;
+            padding: 20px 25px !important;
+            border-bottom: 1px solid #e2e8f0 !important;
+            display: flex !important;
+            justify-content: space-between !important;
+            align-items: center !important;
+        }
+
+        body.dark-mode .new-card-header {
+            background: linear-gradient(135deg, #374151 0%, #4b5563 100%) !important;
+            border-bottom-color: #3a3d4a !important;
+        }
+
+        .new-card-title {
+            font-size: 1.1rem !important;
+            font-weight: 600 !important;
+            color: #1e293b !important;
+            margin: 0 !important;
+            display: flex !important;
+            align-items: center !important;
+            gap: 10px !important;
+        }
+
+        body.dark-mode .new-card-title {
+            color: #e2e8f0 !important;
+        }
+
+        .new-card-body {
+            padding: 25px !important;
+        }
+
+        /* Search and Filter */
+        .search-filter-bar {
+            background: white !important;
+            padding: 20px !important;
+            border-radius: 15px !important;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1) !important;
+            border: 1px solid #e2e8f0 !important;
+            margin-bottom: 25px !important;
+        }
+
+        body.dark-mode .search-filter-bar {
+            background: #2a2d3f !important;
+            border-color: #3a3d4a !important;
+        }
+
+        /* Form Controls */
+        .form-control {
+            border: 1px solid #e2e8f0 !important;
+            border-radius: 10px !important;
+            padding: 8px 12px !important;
+            background: white !important;
+            color: #1e293b !important;
+            font-size: 0.9rem !important;
+            transition: all 0.3s ease !important;
+        }
+
+        .form-control:focus {
+            border-color: #f26b37 !important;
+            box-shadow: 0 0 0 3px rgba(242, 107, 55, 0.1) !important;
+            background: white !important;
+        }
+
+        body.dark-mode .form-control {
+            background: #374151 !important;
+            border-color: #4b5563 !important;
+            color: #e2e8f0 !important;
+        }
+
+        body.dark-mode .form-control:focus {
+            background: #374151 !important;
+            border-color: #f26b37 !important;
+            color: #e2e8f0 !important;
+            box-shadow: 0 0 0 3px rgba(242, 107, 55, 0.2) !important;
+        }
+
+        .form-select {
+            border: 1px solid #e2e8f0 !important;
+            border-radius: 10px !important;
+            padding: 8px 12px !important;
+            background: white !important;
+            color: #1e293b !important;
+            font-size: 0.9rem !important;
+        }
+
+        body.dark-mode .form-select {
+            background: #374151 !important;
+            border-color: #4b5563 !important;
+            color: #e2e8f0 !important;
+            background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3e%3cpath fill='none' stroke='%23ffffff' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M2 5l6 6 6-6'/%3e%3c/svg%3e") !important;
+        }
+
+        body.dark-mode .form-select option {
+            background: #374151 !important;
+            color: #e2e8f0 !important;
+        }
+
+        /* Buttons */
+        .btn-primary {
+            background: linear-gradient(135deg, #f26b37, #e55827) !important;
+            border: none !important;
+            color: white !important;
+            font-weight: 500 !important;
+            padding: 8px 16px !important;
+            border-radius: 10px !important;
+            transition: all 0.3s ease !important;
+        }
+
+        .btn-primary:hover {
+            background: linear-gradient(135deg, #e55827, #d44a1a) !important;
+            transform: translateY(-1px) !important;
+        }
+
+        .btn-success {
+            background: linear-gradient(135deg, #10b981, #059669) !important;
+            border: none !important;
+            color: white !important;
+            font-weight: 500 !important;
+            padding: 8px 16px !important;
+            border-radius: 10px !important;
+            transition: all 0.3s ease !important;
+        }
+
+        .btn-success:hover {
+            background: linear-gradient(135deg, #059669, #047857) !important;
+            transform: translateY(-1px) !important;
+        }
+
+        /* TABLE STYLING - CONSISTENT WITH DATA KARYAWAN */
+        .table-responsive {
+            border-radius: 8px !important;
+            background: white !important;
+            overflow-x: auto !important;
+            overflow-y: visible !important;
+            max-width: 100% !important;
+            width: 100% !important;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1) !important;
+            border: 1px solid #e2e8f0 !important;
+        }
+
+        body.dark-mode .table-responsive {
+            background: #2a2d3f !important;
+            border-color: #3a3d4a !important;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3) !important;
+        }
+
+        /* CRITICAL: Prevent pagination scrolling */
+        .table-responsive .pagination-container {
+            overflow-x: visible !important;
+            overflow-y: visible !important;
+        }
+
+        .table-responsive .pagination-wrapper {
+            overflow: visible !important;
+        }
+
+        /* REMOVED DUPLICATE TABLE STYLING - USING THE FIRST ONE WITH PROPER DARK MODE OVERRIDE */
+
+        .table th {
+            background: #f8fafc !important;
+            color: #374151 !important;
+            font-weight: 600 !important;
+            font-size: 0.8rem !important;
+            text-transform: uppercase !important;
+            letter-spacing: 0.025em !important;
+            padding: 12px 8px !important;
+            border-bottom: 2px solid #e2e8f0 !important;
+            border-top: none !important;
+            border-left: none !important;
+            border-right: none !important;
+            vertical-align: middle !important;
+        }
+
+        body.dark-mode .table th {
+            background: #374151 !important;
+            color: #94a3b8 !important;
+            border-color: #4b5563 !important;
+        }
+
+        .table td {
+            padding: 12px 8px !important;
+            border-bottom: 1px solid #f1f5f9 !important;
+            border-top: none !important;
+            border-left: none !important;
+            border-right: none !important;
+            vertical-align: middle !important;
+            color: #374151 !important;
+            font-size: 0.8rem !important;
+        }
+
+        body.dark-mode .table td {
+            border-color: #3a3d4a !important;
+            color: #e2e8f0 !important;
+        }
+
+        .table tbody tr:hover {
+            background-color: #f8fafc !important;
+            transition: background-color 0.2s ease !important;
+        }
+
+        body.dark-mode .table tbody tr:hover {
+            background-color: #3a3d4a !important;
+        }
+
+        .table tr:last-child td {
+            border-bottom: none !important;
+        }
+
+        /* Table column widths for better display */
+        .table th:first-child,
+        .table td:first-child {
+            width: 50px !important;
+            text-align: center !important;
+        }
+
+        .table th:last-child,
+        .table td:last-child {
+            width: 80px !important;
+            text-align: center !important;
+        }
+
+        /* Badge styling for status */
+        .badge {
+            font-size: 0.7rem !important;
+            padding: 4px 8px !important;
+            border-radius: 12px !important;
+            font-weight: 500 !important;
+            display: inline-flex !important;
+            align-items: center !important;
+            gap: 4px !important;
+        }
+
+        .badge.bg-success {
+            background: #dcfce7 !important;
+            color: #166534 !important;
+            border: 1px solid #bbf7d0 !important;
+        }
+
+        .badge.bg-warning {
+            background: #fef3c7 !important;
+            color: #d97706 !important;
+            border: 1px solid #fde68a !important;
+        }
+
+        .badge.bg-danger {
+            background: #fecaca !important;
+            color: #dc2626 !important;
+            border: 1px solid #fca5a5 !important;
+        }
+
+        .badge.bg-info {
+            background: #dbeafe !important;
+            color: #1d4ed8 !important;
+            border: 1px solid #bfdbfe !important;
+        }
+
+        .badge.bg-secondary {
+            background: #f1f5f9 !important;
+            color: #64748b !important;
+            border: 1px solid #e2e8f0 !important;
+        }
+
+        body.dark-mode .badge.bg-success {
+            background: #166534 !important;
+            color: #dcfce7 !important;
+            border-color: #166534 !important;
+        }
+
+        body.dark-mode .badge.bg-warning {
+            background: #d97706 !important;
+            color: #fef3c7 !important;
+            border-color: #d97706 !important;
+        }
+
+        body.dark-mode .badge.bg-danger {
+            background: #dc2626 !important;
+            color: #fecaca !important;
+            border-color: #dc2626 !important;
+        }
+
+        body.dark-mode .badge.bg-info {
+            background: #1d4ed8 !important;
+            color: #dbeafe !important;
+            border-color: #1d4ed8 !important;
+        }
+
+        body.dark-mode .badge.bg-secondary {
+            background: #64748b !important;
+            color: #f1f5f9 !important;
+            border-color: #64748b !important;
+        }
+
+        /* Responsive table behavior */
+        @media (max-width: 992px) {
+
+            .table th,
+            .table td {
+                font-size: 0.75rem !important;
+                padding: 8px 6px !important;
+            }
+
+            .badge {
+                font-size: 0.65rem !important;
+                padding: 2px 6px !important;
+            }
+        }
+
+        @media (max-width: 768px) {
+
+            .table th:nth-child(4),
+            .table td:nth-child(4),
+            .table th:nth-child(6),
+            .table td:nth-child(6),
+            .table th:nth-child(7),
+            .table td:nth-child(7) {
+                display: none !important;
+            }
+        }
+
+        /* PAGINATION STYLES - CONSISTENT WITH DATA KARYAWAN */
+        .pagination-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 20px;
+            padding: 15px 0;
+            flex-wrap: nowrap;
+            gap: 10px;
+            overflow: hidden;
+            max-width: 100%;
+        }
+
+        .pagination-info {
+            font-size: 0.875rem;
+            color: #64748b;
+            margin: 0;
+        }
+
+        body.dark-mode .pagination-info {
+            color: #9ca3af;
+        }
+
+        /* Laravel Pagination Styles */
+        .pagination {
+            display: flex !important;
+            justify-content: center !important;
+            list-style: none !important;
+            margin: 0 !important;
+            padding: 0 !important;
+            gap: 1px !important;
+            align-items: center !important;
+            flex-wrap: nowrap !important;
+            overflow: hidden !important;
+            max-width: 100% !important;
+        }
+
+        .pagination .page-item {
+            margin: 0 !important;
+            display: inline-block !important;
+            flex-shrink: 0 !important;
+        }
+
+        .pagination .page-link {
+            display: inline-block !important;
+            padding: 6px 8px !important;
+            margin: 0 !important;
+            border: 1px solid #e2e8f0 !important;
+            background: white !important;
+            color: #64748b !important;
+            text-decoration: none !important;
+            border-radius: 4px !important;
+            font-size: 0.8rem !important;
+            transition: all 0.2s ease !important;
+            line-height: 1.2 !important;
+            min-width: 28px !important;
+            text-align: center !important;
+            white-space: nowrap !important;
+        }
+
+        .pagination .page-link:hover {
+            background: #f8fafc !important;
+            border-color: #cbd5e1 !important;
+            color: #1e293b !important;
+            text-decoration: none !important;
+            transform: none !important;
+        }
+
+        .pagination .page-link:focus {
+            box-shadow: 0 0 0 0.2rem rgba(242, 107, 55, 0.25) !important;
+            border-color: #f26b37 !important;
+            outline: none !important;
+        }
+
+        .pagination .page-item.active .page-link {
+            background: #f26b37 !important;
+            border-color: #f26b37 !important;
+            color: white !important;
+            z-index: 3 !important;
+        }
+
+        .pagination .page-item.disabled .page-link {
+            color: #6c757d !important;
+            pointer-events: none !important;
+            background-color: #fff !important;
+            border-color: #dee2e6 !important;
+            opacity: 0.5 !important;
+        }
+
+        /* Dark mode pagination */
+        body.dark-mode .pagination .page-link {
+            background: #374151 !important;
+            border-color: #4b5563 !important;
+            color: #9ca3af !important;
+        }
+
+        body.dark-mode .pagination .page-link:hover {
+            background: #4b5563 !important;
+            border-color: #6b7280 !important;
+            color: #d1d5db !important;
+        }
+
+        body.dark-mode .pagination .page-item.active .page-link {
+            background: #f26b37 !important;
+            border-color: #f26b37 !important;
+            color: white !important;
+        }
+
+        body.dark-mode .pagination .page-item.disabled .page-link {
+            background: #374151 !important;
+            border-color: #4b5563 !important;
+            color: #6b7280 !important;
+        }
+
+        /* Improved card footer styling */
+        .card-footer {
+            background: #f8fafc !important;
+            border-top: 1px solid #e2e8f0 !important;
+            padding: 15px 20px !important;
+            border-radius: 0 0 8px 8px !important;
+        }
+
+        body.dark-mode .card-footer {
+            background: #374151 !important;
+            border-color: #4b5563 !important;
+        }
+
+        .dataTables_info {
+            color: #64748b !important;
+            font-size: 0.875rem !important;
+            margin: 0 !important;
+            line-height: 1.5 !important;
+        }
+
+        body.dark-mode .dataTables_info {
+            color: #9ca3af !important;
+        }
+
+        /* Responsive pagination */
+        @media (max-width: 576px) {
+            .pagination-container {
+                flex-direction: column;
+                text-align: center;
+                gap: 15px;
+            }
+
+            .pagination .page-link {
+                padding: 4px 6px !important;
+                font-size: 0.75rem !important;
+                min-width: 24px !important;
+            }
+        }
+
+        /* Hide middle pagination items when there are too many pages */
+        @media (max-width: 768px) {
+            .pagination .page-item:nth-child(n+5):nth-last-child(n+5) {
+                display: none !important;
+            }
+
+            .pagination .page-item:first-child,
+            .pagination .page-item:nth-child(2),
+            .pagination .page-item.active,
+            .pagination .page-item:nth-last-child(2),
+            .pagination .page-item:last-child {
+                display: inline-block !important;
+            }
+        }
+
+        /* Pagination wrapper */
+        .pagination-wrapper {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden;
+            max-width: 100%;
+        }
+
+        .pagination-wrapper nav {
+            margin: 0;
+            max-width: 100%;
+        }
+
+        /* Override default Laravel pagination styles */
+        .pagination-wrapper .pagination {
+            margin-bottom: 0 !important;
+            flex-wrap: nowrap !important;
+            overflow: hidden !important;
+            justify-content: center !important;
+        }
+
+        /* Responsive adjustments */
+        @media (max-width: 1200px) {
+            .main-content {
+                margin-left: 0 !important;
+                width: 100% !important;
+                padding: 20px 15px !important;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .main-content {
+                padding: 15px 10px !important;
+            }
+
+            .new-header {
+                padding: 25px 20px !important;
+                text-align: center !important;
+            }
+
+            .new-stat-card {
+                margin-bottom: 20px !important;
+            }
+
+            .new-card-header {
+                padding: 15px 20px !important;
+            }
+
+            .new-card-body {
+                padding: 20px !important;
+            }
+        }
+
+        /* Badge styles for currency */
+        .currency-badge {
+            background: #dbeafe !important;
+            color: #1d4ed8 !important;
+            font-weight: 600 !important;
+            padding: 4px 8px !important;
+            border-radius: 12px !important;
+            font-size: 0.75rem !important;
+            display: inline-block !important;
+        }
+
+        .currency-large {
+            font-size: 0.85rem !important;
+            padding: 6px 10px !important;
+        }
+
+        body.dark-mode .currency-badge {
+            background: #1e3a8a !important;
+            color: #bfdbfe !important;
+        }
+
+        /* Fix form controls styling */
+        .form-select,
+        .form-control {
+            border: 1px solid #d1d3e2 !important;
+            border-radius: 8px !important;
+            padding: 0.5rem 0.75rem !important;
+            font-size: 0.875rem !important;
+            line-height: 1.5 !important;
+            background-color: #fff !important;
+            background-clip: padding-box !important;
+            background-image: none !important;
+            transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out !important;
+            appearance: none !important;
+            -webkit-appearance: none !important;
+            -moz-appearance: none !important;
+            background-repeat: no-repeat !important;
+            background-position: right 0.75rem center !important;
+            background-size: 16px 12px !important;
+        }
+
+        /* Dark mode form controls */
+        body.dark-mode .form-select,
+        body.dark-mode .form-control {
+            background-color: #2a2d3f !important;
+            border-color: #3a3d4a !important;
+            color: #e2e8f0 !important;
+        }
+
+        body.dark-mode .form-select:focus,
+        body.dark-mode .form-control:focus {
+            background-color: #2a2d3f !important;
+            border-color: #f26b37 !important;
+            color: #e2e8f0 !important;
+        }
+
+        /* Dark mode card styling */
+        body.dark-mode .new-card {
+            background: #2a2d3f !important;
+            border-color: #3a3d4a !important;
+            color: #e2e8f0 !important;
+        }
+
+        body.dark-mode .new-card-header {
+            background: #2a2d3f !important;
+            border-color: #3a3d4a !important;
+            color: #e2e8f0 !important;
+        }
+
+        body.dark-mode .new-card-body {
+            background: #2a2d3f !important;
+            color: #e2e8f0 !important;
+        }
+
+        /* Dark mode labels */
+        body.dark-mode .form-label {
+            color: #e2e8f0 !important;
+        }
+
+        body.dark-mode .text-muted {
+            color: #9ca3af !important;
+        }
+
+        /* Dark mode pagination */
+        body.dark-mode .pagination .page-link {
+            background: #2a2d3f !important;
+            border-color: #3a3d4a !important;
+            color: #e2e8f0 !important;
+        }
+
+        body.dark-mode .pagination .page-link:hover {
+            background: #3a3d4a !important;
+            border-color: #4a4d5a !important;
+            color: #e2e8f0 !important;
+        }
+
+        body.dark-mode .pagination .page-item.active .page-link {
+            background: #f26b37 !important;
+            border-color: #f26b37 !important;
+            color: white !important;
+        }
+
+        /* Custom dropdown arrow for select */
+        .form-select {
+            background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3e%3cpath fill='none' stroke='%23343a40' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='m1 6 6.25 6.25a.75.75 0 0 0 1.06 0L15 6'/%3e%3c/svg%3e") !important;
+            padding-right: 2.25rem !important;
+        }
+
+        .form-select:focus,
+        .form-control:focus {
+            border-color: #f26b37 !important;
+            outline: 0 !important;
+            box-shadow: 0 0 0 0.2rem rgba(242, 107, 55, 0.25) !important;
+        }
+
+        .form-label {
+            margin-bottom: 0.5rem !important;
+            font-weight: 600 !important;
+            color: #374151 !important;
+            font-size: 0.875rem !important;
+        }
+
+        /* Remove any unwanted borders and lines */
+        .new-card-body form {
+            border: none !important;
+            outline: none !important;
+        }
+
+        .new-card-body .row {
+            border: none !important;
+            outline: none !important;
+            margin: 0 !important;
+        }
+
+        .new-card-body .col-md-3,
+        .new-card-body .col-md-2 {
+            border: none !important;
+            outline: none !important;
+            padding: 0 0.75rem !important;
+        }
+
+        /* Remove any webkit styling that causes lines */
+        .form-select::-webkit-scrollbar {
+            display: none !important;
+        }
+
+        .form-select::-webkit-search-decoration,
+        .form-select::-webkit-search-cancel-button,
+        .form-select::-webkit-search-results-button,
+        .form-select::-webkit-search-results-decoration {
+            display: none !important;
+        }
+
+        /* Ensure no pseudo elements add lines */
+        .form-select::before,
+        .form-select::after {
+            display: none !important;
+            content: none !important;
+        }
+
+        /* Remove any default browser styling */
+        .form-select option {
+            background: white !important;
+            color: #374151 !important;
+            border: none !important;
+        }
+
+        /* Dark mode form controls */
+        body.dark-mode .form-select,
+        body.dark-mode .form-control {
+            background-color: #2a2d3f !important;
+            border-color: #3a3d4a !important;
+            color: #e2e8f0 !important;
+            background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3e%3cpath fill='none' stroke='%23e2e8f0' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='m1 6 6.25 6.25a.75.75 0 0 0 1.06 0L15 6'/%3e%3c/svg%3e") !important;
+        }
+
+        body.dark-mode .form-select:focus,
+        body.dark-mode .form-control:focus {
+            border-color: #f26b37 !important;
+            box-shadow: 0 0 0 0.2rem rgba(242, 107, 55, 0.25) !important;
+        }
+
+        body.dark-mode .form-label {
+            color: #94a3b8 !important;
+        }
+
+        body.dark-mode .form-select option {
+            background: #2a2d3f !important;
+            color: #e2e8f0 !important;
+        }
+
+        /* Additional cleanup for any remaining visual artifacts */
+        .new-card-body * {
+            box-sizing: border-box !important;
+        }
+
+        /* Force clean appearance on all form elements */
+        input[type="text"],
+        input[type="email"],
+        input[type="password"],
+        input[type="number"],
+        select,
+        textarea {
+            -webkit-appearance: none !important;
+            -moz-appearance: none !important;
+            appearance: none !important;
+            background-image: none !important;
+            border-image: none !important;
+            border-image-source: none !important;
+            border-image-slice: 0 !important;
+            border-image-width: 0 !important;
+            border-image-outset: 0 !important;
+            border-image-repeat: stretch !important;
+        }
+
+        /* Clean select styling specifically */
+        select.form-select {
+            background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3e%3cpath fill='none' stroke='%23343a40' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='m1 6 6.25 6.25a.75.75 0 0 0 1.06 0L15 6'/%3e%3c/svg%3e") !important;
+            background-repeat: no-repeat !important;
+            background-position: right 0.75rem center !important;
+            background-size: 16px 12px !important;
+            background-color: #fff !important;
+            border: 1px solid #d1d3e2 !important;
+            border-radius: 8px !important;
+            padding: 0.5rem 2.25rem 0.5rem 0.75rem !important;
+        }
+
+        /* ULTIMATE FORM ELEMENT RESET */
+        .new-card-body select,
+        .new-card-body input,
+        .new-card-body button {
+            -webkit-appearance: none !important;
+            -moz-appearance: none !important;
+            appearance: none !important;
+            background: none !important;
+            border: none !important;
+            outline: none !important;
+            box-shadow: none !important;
+            text-decoration: none !important;
+            border-image: none !important;
+            background-image: none !important;
+            border-radius: 0 !important;
+            padding: 0 !important;
+            margin: 0 !important;
+        }
+
+        /* Reset all webkit and moz specific styling */
+        .new-card-body select::-webkit-inner-spin-button,
+        .new-card-body select::-webkit-outer-spin-button,
+        .new-card-body select::-webkit-search-decoration,
+        .new-card-body select::-webkit-search-cancel-button,
+        .new-card-body select::-webkit-search-results-button,
+        .new-card-body select::-webkit-search-results-decoration,
+        .new-card-body select::-webkit-calendar-picker-indicator {
+            -webkit-appearance: none !important;
+            display: none !important;
+        }
+
+        .new-card-body select::-moz-focus-inner {
+            border: 0 !important;
+            padding: 0 !important;
+        }
+
+        /* Then apply clean styling */
+        .new-card-body .form-select {
+            background: #fff !important;
+            border: 1px solid #d1d3e2 !important;
+            border-radius: 8px !important;
+            padding: 0.5rem 2.25rem 0.5rem 0.75rem !important;
+            font-size: 0.875rem !important;
+            color: #374151 !important;
+            font-family: inherit !important;
+            line-height: 1.5 !important;
+            width: 100% !important;
+            height: auto !important;
+            min-height: 38px !important;
+            cursor: pointer !important;
+            transition: border-color 0.15s ease-in-out !important;
+        }
+
+        /* Simple arrow without SVG that might cause issues */
+        .new-card-body .form-select::after {
+            content: '▼' !important;
+            position: absolute !important;
+            right: 12px !important;
+            top: 50% !important;
+            transform: translateY(-50%) !important;
+            font-size: 12px !important;
+            color: #6b7280 !important;
+            pointer-events: none !important;
+        }
+
+        .new-card-body .form-select:focus {
+            border-color: #f26b37 !important;
+            outline: 0 !important;
+            box-shadow: 0 0 0 0.2rem rgba(242, 107, 55, 0.25) !important;
+        }
+
+        /* Force clean styling on select wrapper */
+        .new-card-body .col-md-3,
+        .new-card-body .col-md-2 {
+            position: relative !important;
+        }
+
+        .new-card-body .col-md-3 select,
+        .new-card-body .col-md-2 select {
+            width: 100% !important;
+            position: relative !important;
+            z-index: 1 !important;
+        }
+
+        /* NUCLEAR OPTION - Complete reset of any browser default styling */
+        .new-card-body select,
+        .new-card-body select * {
+            all: unset !important;
+            display: block !important;
+            width: 100% !important;
+            box-sizing: border-box !important;
+        }
+
+        /* Rebuild select from scratch */
+        .new-card-body .form-select {
+            display: block !important;
+            width: 100% !important;
+            padding: 0.5rem 0.75rem !important;
+            font-size: 0.875rem !important;
+            font-weight: 400 !important;
+            line-height: 1.5 !important;
+            color: #374151 !important;
+            background-color: #fff !important;
+            background-clip: padding-box !important;
+            border: 1px solid #d1d3e2 !important;
+            border-radius: 8px !important;
+            transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out !important;
+            cursor: pointer !important;
+            font-family: inherit !important;
+        }
+
+        .new-card-body .form-select:focus {
+            color: #374151 !important;
+            background-color: #fff !important;
+            border-color: #f26b37 !important;
+            outline: 0 !important;
+            box-shadow: 0 0 0 0.2rem rgba(242, 107, 55, 0.25) !important;
+        }
+
+        .new-card-body .form-select option {
+            color: #374151 !important;
+            background-color: #fff !important;
+        }
+
+        /* AGGRESSIVE FIX FOR DROPDOWN LINES - OVERRIDE EVERYTHING */
+        .new-card-body select {
+            background-image: none !important;
+            background-repeat: no-repeat !important;
+            background-position: right !important;
+            background-size: auto !important;
+            background-attachment: scroll !important;
+            background-origin: padding-box !important;
+            background-clip: border-box !important;
+            -webkit-print-color-adjust: exact !important;
+            color-adjust: exact !important;
+        }
+
+        /* Force override any bootstrap/framework interference */
+        .new-card-body .form-select,
+        .new-card-body select.form-select,
+        select.form-select.new-card-body,
+        .row .form-select,
+        .col-md-3 .form-select,
+        .col-md-2 .form-select {
+            background: #ffffff !important;
+            border: 1px solid #d1d3e2 !important;
+            border-radius: 8px !important;
+            outline: none !important;
+            box-shadow: none !important;
+            appearance: none !important;
+            -webkit-appearance: none !important;
+            -moz-appearance: none !important;
+            background-image: none !important;
+            background-repeat: no-repeat !important;
+            background-position: center right 12px !important;
+            background-size: 12px !important;
+            padding: 8px 35px 8px 12px !important;
+            font-size: 14px !important;
+            line-height: 1.5 !important;
+            color: #374151 !important;
+            cursor: pointer !important;
+            transition: border-color 0.15s ease-in-out !important;
+        }
+
+        /* Add custom arrow using CSS only */
+        .new-card-body .form-select {
+            background-image: linear-gradient(45deg, transparent 50%, #6b7280 50%), linear-gradient(135deg, #6b7280 50%, transparent 50%) !important;
+            background-position: calc(100% - 20px) calc(1em + 2px), calc(100% - 15px) calc(1em + 2px) !important;
+            background-size: 5px 5px, 5px 5px !important;
+            background-repeat: no-repeat !important;
+        }
+
+        .new-card-body .form-select:focus {
+            border-color: #f26b37 !important;
+            box-shadow: 0 0 0 0.2rem rgba(242, 107, 55, 0.25) !important;
+        }
+
+        .new-card-body .btn {
+            background: linear-gradient(135deg, #f26b37, #e55827) !important;
+            border: none !important;
+            border-radius: 8px !important;
+            color: white !important;
+            padding: 0.5rem 1rem !important;
+            font-size: 0.875rem !important;
+            font-weight: 600 !important;
+            transition: all 0.3s ease !important;
+        }
+
+        .new-card-body .btn.btn-success {
+            background: linear-gradient(135deg, #10b981, #059669) !important;
+        }
+
+        .new-card-body .btn:hover {
+            transform: translateY(-1px) !important;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15) !important;
+        }
+
+        /* Gear Dropdown Styling */
+        .gear-dropdown {
+            border: 1px solid #d1d3e2 !important;
+            background: #fff !important;
+            color: #5a5c69 !important;
+            border-radius: 8px !important;
+            padding: 6px 12px !important;
+            transition: all 0.3s ease !important;
+            position: relative !important;
+            min-width: 40px !important;
+            height: 32px !important;
+            display: flex !important;
+            align-items: center !important;
+            justify-content: center !important;
+        }
+
+        .gear-dropdown:hover {
+            background: #f8f9fc !important;
+            border-color: #5a5c69 !important;
+            color: #5a5c69 !important;
+            transform: translateY(-1px) !important;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1) !important;
+        }
+
+        .gear-dropdown:focus {
+            box-shadow: 0 0 0 0.2rem rgba(90, 92, 105, 0.25) !important;
+            border-color: #5a5c69 !important;
+        }
+
+        .gear-dropdown::after {
+            display: none !important;
+        }
+
+        /* Gear Icon Animation */
+        .gear-icon {
+            transition: transform 0.3s ease !important;
+            font-size: 14px !important;
+        }
+
+        .gear-dropdown:hover .gear-icon {
+            transform: rotate(90deg) !important;
+        }
+
+        .gear-dropdown[aria-expanded="true"] .gear-icon {
+            transform: rotate(180deg) !important;
+        }
+
+        /* Dropdown Menu Styling */
+        .dropdown-menu {
+            border: 1px solid #e3e6f0 !important;
+            border-radius: 10px !important;
+            box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15) !important;
+            padding: 0.5rem 0 !important;
+            min-width: 180px !important;
+            max-width: 180px !important;
+            animation: dropdownSlideIn 0.2s ease-out !important;
+            position: absolute !important;
+            right: 0 !important;
+            left: auto !important;
+            transform: none !important;
+            margin-top: 0.125rem !important;
+            z-index: 1060 !important;
+            contain: layout !important;
+            overflow: hidden !important;
+        }
+
+        @keyframes dropdownSlideIn {
+            0% {
+                opacity: 0;
+                transform: translateY(-5px) scale(0.98);
+            }
+
+            100% {
+                opacity: 1;
+                transform: translateY(0) scale(1);
+            }
+        }
+
+        .dropdown-item {
+            padding: 0.75rem 1rem !important;
+            font-size: 0.875rem !important;
+            color: #5a5c69 !important;
+            transition: all 0.15s ease !important;
+            border: none !important;
+            background: none !important;
+            text-decoration: none !important;
+            display: flex !important;
+            align-items: center !important;
+        }
+
+        .dropdown-item:hover {
+            background: #f8f9fc !important;
+            color: #5a5c69 !important;
+            transform: translateX(5px) !important;
+        }
+
+        .dropdown-item i {
+            width: 16px !important;
+            text-align: center !important;
+            margin-right: 0.5rem !important;
+        }
+
+        .dropdown-divider {
+            margin: 0.25rem 0 !important;
+            border-color: #e3e6f0 !important;
+        }
+
+        /* Dark mode support for dropdown */
+        body.dark-mode .gear-dropdown {
+            background: #2a2d3f !important;
+            border-color: #3a3d4a !important;
+            color: #e2e8f0 !important;
+        }
+
+        body.dark-mode .gear-dropdown:hover {
+            background: #3a3d4a !important;
+            border-color: #4a4d5a !important;
+        }
+
+        body.dark-mode .dropdown-menu {
+            background: #2a2d3f !important;
+            border-color: #3a3d4a !important;
+        }
+
+        body.dark-mode .dropdown-item {
+            color: #e2e8f0 !important;
+        }
+
+        body.dark-mode .dropdown-item:hover {
+            background: #3a3d4a !important;
+            color: #f1f5f9 !important;
+        }
+
+        body.dark-mode .dropdown-divider {
+            border-color: #3a3d4a !important;
+        }
+
+        /* MODAL FORM FIX - Remove all visual artifacts */
+        .modal .form-select,
+        .modal select,
+        .modal-body .form-select,
+        .modal-body select {
+            background: #ffffff !important;
+            border: 1px solid #d1d3e2 !important;
+            border-radius: 8px !important;
+            color: #374151 !important;
+            padding: 8px 12px !important;
+            font-size: 14px !important;
+            line-height: 1.5 !important;
+            appearance: none !important;
+            -webkit-appearance: none !important;
+            -moz-appearance: none !important;
+            background-image: none !important;
+            background-repeat: no-repeat !important;
+            background-position: right 12px center !important;
+            background-size: 12px !important;
+            outline: none !important;
+            box-shadow: none !important;
+            text-decoration: none !important;
+            border-image: none !important;
+            background-attachment: scroll !important;
+            background-origin: padding-box !important;
+            background-clip: border-box !important;
+        }
+
+        /* Add simple CSS arrow */
+        .modal .form-select::after,
+        .modal select::after,
+        .modal-body .form-select::after,
+        .modal-body select::after {
+            content: '▼' !important;
+            position: absolute !important;
+            right: 12px !important;
+            top: 50% !important;
+            transform: translateY(-50%) !important;
+            font-size: 10px !important;
+            color: #6b7280 !important;
+            pointer-events: none !important;
+        }
+
+        .modal .form-select:focus,
+        .modal select:focus,
+        .modal-body .form-select:focus,
+        .modal-body select:focus {
+            border-color: #f26b37 !important;
+            box-shadow: 0 0 0 0.2rem rgba(242, 107, 55, 0.25) !important;
+            outline: none !important;
+        }
+
+        /* Remove all webkit/moz artifacts for modal forms */
+        .modal select::-webkit-inner-spin-button,
+        .modal select::-webkit-outer-spin-button,
+        .modal select::-webkit-search-decoration,
+        .modal select::-webkit-search-cancel-button,
+        .modal select::-webkit-search-results-button,
+        .modal select::-webkit-search-results-decoration,
+        .modal select::-webkit-calendar-picker-indicator,
+        .modal .form-select::-webkit-inner-spin-button,
+        .modal .form-select::-webkit-outer-spin-button,
+        .modal .form-select::-webkit-search-decoration,
+        .modal .form-select::-webkit-search-cancel-button,
+        .modal .form-select::-webkit-search-results-button,
+        .modal .form-select::-webkit-search-results-decoration,
+        .modal .form-select::-webkit-calendar-picker-indicator {
+            -webkit-appearance: none !important;
+            display: none !important;
+            opacity: 0 !important;
+            visibility: hidden !important;
+        }
+
+        .modal select::-moz-focus-inner,
+        .modal .form-select::-moz-focus-inner {
+            border: 0 !important;
+            padding: 0 !important;
+        }
+
+        /* Force clean modal form styling */
+        .modal-body .row,
+        .modal-body .col-md-6,
+        .modal-body .col-md-4 {
+            border: none !important;
+            outline: none !important;
+            background: transparent !important;
+            box-shadow: none !important;
+        }
+
+        /* Modal form label styling */
+        .modal .form-label,
+        .modal-body .form-label {
+            color: #374151 !important;
+            font-weight: 600 !important;
+            margin-bottom: 8px !important;
+            font-size: 14px !important;
+        }
+
+        /* Modal button styling */
+        .modal .btn,
+        .modal-body .btn {
+            border-radius: 8px !important;
+            padding: 8px 16px !important;
+            font-size: 14px !important;
+            font-weight: 600 !important;
+            border: none !important;
+            outline: none !important;
+            transition: all 0.3s ease !important;
+        }
+
+        .modal .btn-primary,
+        .modal-body .btn-primary {
+            background: linear-gradient(135deg, #f26b37, #e55827) !important;
+            color: white !important;
+        }
+
+        .modal .btn-primary:hover,
+        .modal-body .btn-primary:hover {
+            background: linear-gradient(135deg, #e55827, #d94515) !important;
+            transform: translateY(-1px) !important;
+        }
+
+        /* Remove any remaining artifacts */
+        .modal *,
+        .modal *::before,
+        .modal *::after {
+            border-image: none !important;
+            border-image-source: none !important;
+            border-image-slice: initial !important;
+            border-image-width: initial !important;
+            border-image-outset: initial !important;
+            border-image-repeat: initial !important;
+            text-decoration: none !important;
+        }
+
+        /* ULTIMATE FORM CLEANUP - Nuclear option for form artifacts */
+        .modal select,
+        .modal .form-select,
+        .modal input,
+        .modal textarea {
+            all: unset !important;
+            display: block !important;
+            width: 100% !important;
+            box-sizing: border-box !important;
+            background: #ffffff !important;
+            border: 1px solid #d1d3e2 !important;
+            border-radius: 8px !important;
+            padding: 8px 12px !important;
+            font-size: 14px !important;
+            color: #374151 !important;
+            font-family: inherit !important;
+            line-height: 1.5 !important;
+            cursor: pointer !important;
+        }
+
+        .modal select:focus,
+        .modal .form-select:focus {
+            border-color: #f26b37 !important;
+            box-shadow: 0 0 0 0.2rem rgba(242, 107, 55, 0.25) !important;
+            outline: none !important;
+        }
+
+        /* Force override any browser default styling */
+        .modal select option {
+            background: #ffffff !important;
+            color: #374151 !important;
+            padding: 4px 8px !important;
+        }
+
+        /* Additional cleanup for container elements */
+        .modal .form-group,
+        .modal .mb-3,
+        .modal .row,
+        .modal .col-md-6,
+        .modal .col-md-4 {
+            border: none !important;
+            outline: none !important;
+            background: transparent !important;
+            box-shadow: none !important;
+            border-image: none !important;
+            text-decoration: none !important;
+        }
+
+        /* Override any bootstrap interference */
+        .modal .form-control,
+        .modal .form-select {
+            border: 1px solid #d1d3e2 !important;
+            background-color: #ffffff !important;
+            background-image: none !important;
+            background-clip: padding-box !important;
+            appearance: none !important;
+            -webkit-appearance: none !important;
+            -moz-appearance: none !important;
+        }
+
+        /* SPECIFIC FIX FOR PROSES MODAL */
+        #prosesModal select,
+        #prosesModal .form-select,
+        #previewModal select,
+        #previewModal .form-select {
+            background: #ffffff !important;
+            border: 1px solid #d1d3e2 !important;
+            border-radius: 8px !important;
+            color: #374151 !important;
+            padding: 8px 12px !important;
+            font-size: 14px !important;
+            line-height: 1.5 !important;
+            outline: none !important;
+            box-shadow: none !important;
+            appearance: none !important;
+            -webkit-appearance: none !important;
+            -moz-appearance: none !important;
+            background-image: none !important;
+            background-repeat: no-repeat !important;
+            background-position: right 12px center !important;
+            background-size: 12px !important;
+            border-image: none !important;
+            text-decoration: none !important;
+            background-attachment: scroll !important;
+            background-origin: padding-box !important;
+            background-clip: border-box !important;
+            width: 100% !important;
+            font-family: inherit !important;
+            cursor: pointer !important;
+        }
+
+        #prosesModal select:focus,
+        #prosesModal .form-select:focus,
+        #previewModal select:focus,
+        #previewModal .form-select:focus {
+            border-color: #f26b37 !important;
+            box-shadow: 0 0 0 0.2rem rgba(242, 107, 55, 0.25) !important;
+            outline: none !important;
+            background-color: #ffffff !important;
+        }
+
+        /* Remove all webkit artifacts for these specific modals */
+        #prosesModal select::-webkit-inner-spin-button,
+        #prosesModal select::-webkit-outer-spin-button,
+        #prosesModal select::-webkit-search-decoration,
+        #prosesModal select::-webkit-search-cancel-button,
+        #prosesModal select::-webkit-search-results-button,
+        #prosesModal select::-webkit-search-results-decoration,
+        #prosesModal select::-webkit-calendar-picker-indicator,
+        #prosesModal .form-select::-webkit-inner-spin-button,
+        #prosesModal .form-select::-webkit-outer-spin-button,
+        #prosesModal .form-select::-webkit-search-decoration,
+        #prosesModal .form-select::-webkit-search-cancel-button,
+        #prosesModal .form-select::-webkit-search-results-button,
+        #prosesModal .form-select::-webkit-search-results-decoration,
+        #prosesModal .form-select::-webkit-calendar-picker-indicator,
+        #previewModal select::-webkit-inner-spin-button,
+        #previewModal select::-webkit-outer-spin-button,
+        #previewModal select::-webkit-search-decoration,
+        #previewModal select::-webkit-search-cancel-button,
+        #previewModal select::-webkit-search-results-button,
+        #previewModal select::-webkit-search-results-decoration,
+        #previewModal select::-webkit-calendar-picker-indicator,
+        #previewModal .form-select::-webkit-inner-spin-button,
+        #previewModal .form-select::-webkit-outer-spin-button,
+        #previewModal .form-select::-webkit-search-decoration,
+        #previewModal .form-select::-webkit-search-cancel-button,
+        #previewModal .form-select::-webkit-search-results-button,
+        #previewModal .form-select::-webkit-search-results-decoration,
+        #previewModal .form-select::-webkit-calendar-picker-indicator {
+            -webkit-appearance: none !important;
+            display: none !important;
+            opacity: 0 !important;
+            visibility: hidden !important;
+        }
+
+        #prosesModal select::-moz-focus-inner,
+        #prosesModal .form-select::-moz-focus-inner,
+        #previewModal select::-moz-focus-inner,
+        #previewModal .form-select::-moz-focus-inner {
+            border: 0 !important;
+            padding: 0 !important;
+        }
+
+        /* Force clean containers for proses modal */
+        #prosesModal .modal-body .row,
+        #prosesModal .modal-body .col-md-6,
+        #previewModal .modal-body .row,
+        #previewModal .modal-body .col-md-4 {
+            border: none !important;
+            outline: none !important;
+            background: transparent !important;
+            box-shadow: none !important;
+            border-image: none !important;
+            text-decoration: none !important;
+        }
+
+        /* Form labels in proses modal */
+        #prosesModal .form-label,
+        #previewModal .form-label {
+            color: #374151 !important;
+            font-weight: 600 !important;
+            margin-bottom: 8px !important;
+            font-size: 14px !important;
+            border: none !important;
+            background: transparent !important;
+        }
+
+        /* Button styling in proses modal */
+        #prosesModal .btn,
+        #previewModal .btn {
+            border-radius: 8px !important;
+            padding: 8px 16px !important;
+            font-size: 14px !important;
+            font-weight: 600 !important;
+            border: none !important;
+            outline: none !important;
+            transition: all 0.3s ease !important;
+        }
+
+        #prosesModal .btn-success {
+            background: linear-gradient(135deg, #10b981, #059669) !important;
+            color: white !important;
+        }
+
+        #prosesModal .btn-success:hover {
+            background: linear-gradient(135deg, #059669, #047857) !important;
+            transform: translateY(-1px) !important;
+        }
+
+        #prosesModal .btn-secondary {
+            background: #6c757d !important;
+            color: white !important;
+        }
+
+        #prosesModal .btn-secondary:hover {
+            background: #5a6268 !important;
+        }
+
+        /* Nuclear option for prosesModal forms */
+        #prosesModal *,
+        #prosesModal *::before,
+        #prosesModal *::after,
+        #previewModal *,
+        #previewModal *::before,
+        #previewModal *::after {
+            border-image: none !important;
+            border-image-source: none !important;
+            border-image-slice: initial !important;
+            border-image-width: initial !important;
+            border-image-outset: initial !important;
+            border-image-repeat: initial !important;
+            text-decoration: none !important;
+        }
+
+        /* DARK MODE FOR MODALS */
+        body.dark-mode .modal-content {
+            background: #2a2d3f !important;
+            border-color: #3a3d4a !important;
+            color: #e2e8f0 !important;
+        }
+
+        body.dark-mode .modal-header {
+            background: #2a2d3f !important;
+            border-color: #3a3d4a !important;
+            color: #e2e8f0 !important;
+        }
+
+        body.dark-mode .modal-body {
+            background: #2a2d3f !important;
+            color: #e2e8f0 !important;
+        }
+
+        body.dark-mode .modal-footer {
+            background: #2a2d3f !important;
+            border-color: #3a3d4a !important;
+        }
+
+        body.dark-mode .modal-title {
+            color: #e2e8f0 !important;
+        }
+
+        /* DARK MODE FOR MODAL FORMS */
+        body.dark-mode #prosesModal select,
+        body.dark-mode #prosesModal .form-select,
+        body.dark-mode #previewModal select,
+        body.dark-mode #previewModal .form-select,
+        body.dark-mode .modal select,
+        body.dark-mode .modal .form-select {
+            background: #374151 !important;
+            border: 1px solid #4a5568 !important;
+            border-radius: 8px !important;
+            color: #e2e8f0 !important;
+            padding: 8px 12px !important;
+            font-size: 14px !important;
+            line-height: 1.5 !important;
+            outline: none !important;
+            box-shadow: none !important;
+            appearance: none !important;
+            -webkit-appearance: none !important;
+            -moz-appearance: none !important;
+            background-image: none !important;
+            border-image: none !important;
+            text-decoration: none !important;
+            width: 100% !important;
+            font-family: inherit !important;
+            cursor: pointer !important;
+        }
+
+        body.dark-mode #prosesModal select:focus,
+        body.dark-mode #prosesModal .form-select:focus,
+        body.dark-mode #previewModal select:focus,
+        body.dark-mode #previewModal .form-select:focus,
+        body.dark-mode .modal select:focus,
+        body.dark-mode .modal .form-select:focus {
+            border-color: #f26b37 !important;
+            box-shadow: 0 0 0 0.2rem rgba(242, 107, 55, 0.25) !important;
+            outline: none !important;
+            background-color: #374151 !important;
+            color: #e2e8f0 !important;
+        }
+
+        body.dark-mode #prosesModal select option,
+        body.dark-mode #previewModal select option,
+        body.dark-mode .modal select option {
+            background: #374151 !important;
+            color: #e2e8f0 !important;
+            padding: 4px 8px !important;
+        }
+
+        /* DARK MODE FOR MODAL LABELS */
+        body.dark-mode #prosesModal .form-label,
+        body.dark-mode #previewModal .form-label,
+        body.dark-mode .modal .form-label {
+            color: #e2e8f0 !important;
+            font-weight: 600 !important;
+            margin-bottom: 8px !important;
+            font-size: 14px !important;
+        }
+
+        /* DARK MODE FOR MODAL BUTTONS */
+        body.dark-mode #prosesModal .btn-secondary,
+        body.dark-mode .modal .btn-secondary {
+            background: #4a5568 !important;
+            border-color: #4a5568 !important;
+            color: #e2e8f0 !important;
+        }
+
+        body.dark-mode #prosesModal .btn-secondary:hover,
+        body.dark-mode .modal .btn-secondary:hover {
+            background: #2d3748 !important;
+            border-color: #2d3748 !important;
+            color: #e2e8f0 !important;
+        }
+
+        body.dark-mode #prosesModal .btn-success {
+            background: linear-gradient(135deg, #10b981, #059669) !important;
+            border: none !important;
+            color: white !important;
+        }
+
+        body.dark-mode #prosesModal .btn-success:hover {
+            background: linear-gradient(135deg, #059669, #047857) !important;
+            transform: translateY(-1px) !important;
+        }
+
+        /* DARK MODE FOR ALERT IN MODAL */
+        body.dark-mode #prosesModal .alert-success {
+            background: linear-gradient(135deg, #10b981, #059669) !important;
+            border: none !important;
+            color: white !important;
+        }
+
+        body.dark-mode #prosesModal .text-muted {
+            color: #9ca3af !important;
+        }
+
+        /* DARK MODE FOR MODAL CONTAINERS */
+        body.dark-mode #prosesModal .modal-body .row,
+        body.dark-mode #prosesModal .modal-body .col-md-6,
+        body.dark-mode #previewModal .modal-body .row,
+        body.dark-mode #previewModal .modal-body .col-md-4,
+        body.dark-mode .modal .row,
+        body.dark-mode .modal .col-md-6,
+        body.dark-mode .modal .col-md-4 {
+            border: none !important;
+            outline: none !important;
+            background: transparent !important;
+            box-shadow: none !important;
+            border-image: none !important;
+            text-decoration: none !important;
+        }
+
+        /* DARK MODE FOR CLOSE BUTTON */
+        body.dark-mode .modal .btn-close {
+            filter: invert(1) grayscale(100%) brightness(200%) !important;
+        }
+
+        /* DARK MODE FOR PREVIEW BUTTON */
+        body.dark-mode #previewModal .btn-primary {
+            background: linear-gradient(135deg, #f26b37, #e55827) !important;
+            border: none !important;
+            color: white !important;
+        }
+
+        body.dark-mode #previewModal .btn-primary:hover {
+            background: linear-gradient(135deg, #e55827, #d94515) !important;
+            transform: translateY(-1px) !important;
+        }
+    </style>
+
+    <div class="new-penggajian-dashboard">
+        <!-- Header Section -->
+        <div class="new-header">
+            <div style="display: flex; justify-content: space-between; align-items: center;">
+                <div>
+                    <h1><i class="fas fa-calculator me-3"></i>Sistem Penggajian Otomatis</h1>
+                    <p>Kelola dan proses penggajian karyawan MyYOGYA secara otomatis</p>
                 </div>
-                <div id="realTimeClock" style="font-weight: 600; color: white; font-size: 1rem; margin-top: 10px;"></div>
-                <div><small id="currentDate" style="opacity: 0.8;"></small></div>
+                <div style="text-align: right;">
+                    <div class="new-action-buttons">
+                        <button type="button" class="new-action-btn" data-bs-toggle="modal" data-bs-target="#previewModal">
+                            <i class="fas fa-eye me-2"></i>Preview Gaji
+                        </button>
+                        <button type="button" class="new-action-btn" data-bs-toggle="modal" data-bs-target="#prosesModal">
+                            <i class="fas fa-calculator me-2"></i>Proses Gaji Otomatis
+                        </button>
+                    </div>
+                    <div id="realTimeClock" style="font-weight: 600; color: white; font-size: 1rem; margin-top: 10px;">
+                    </div>
+                    <div><small id="currentDate" style="opacity: 0.8;"></small></div>
+                </div>
             </div>
         </div>
-    </div>
 
         @if (session('success'))
-            <div class="alert alert-success alert-dismissible fade show" role="alert" style="border-radius: 10px; border: none; background: linear-gradient(135deg, #10b981, #059669); color: white;">
+            <div class="alert alert-success alert-dismissible fade show" role="alert"
+                style="border-radius: 10px; border: none; background: linear-gradient(135deg, #10b981, #059669); color: white;">
                 <i class="fas fa-check-circle me-2"></i>{{ session('success') }}
                 <button type="button" class="btn-close btn-close-white" data-bs-dismiss="alert"></button>
             </div>
         @endif
 
         @if ($errors->any())
-            <div class="alert alert-danger alert-dismissible fade show" role="alert" style="border-radius: 10px; border: none; background: linear-gradient(135deg, #ef4444, #dc2626); color: white;">
+            <div class="alert alert-danger alert-dismissible fade show" role="alert"
+                style="border-radius: 10px; border: none; background: linear-gradient(135deg, #ef4444, #dc2626); color: white;">
                 <i class="fas fa-exclamation-triangle me-2"></i>
                 <ul class="mb-0">
                     @foreach ($errors->all() as $error)
@@ -3197,7 +3333,8 @@ body.dark-mode #previewModal .btn-primary:hover {
                     <div class="new-stat-icon">
                         <i class="fas fa-chart-line"></i>
                     </div>
-                    <div class="new-stat-number" style="font-size: 1.8rem;">{{ number_format($stats['rata_rata_gaji'] ?? 0, 0, ',', '.') }}</div>
+                    <div class="new-stat-number" style="font-size: 1.8rem;">
+                        {{ number_format($stats['rata_rata_gaji'] ?? 0, 0, ',', '.') }}</div>
                     <div class="new-stat-label">Rata-rata Gaji (Rp)</div>
                     <div class="new-stat-change change-neutral">
                         <i class="fas fa-equals"></i> Normal
@@ -3209,7 +3346,8 @@ body.dark-mode #previewModal .btn-primary:hover {
                     <div class="new-stat-icon">
                         <i class="fas fa-crown"></i>
                     </div>
-                    <div class="new-stat-number" style="font-size: 1.8rem;">{{ number_format($stats['gaji_tertinggi'] ?? 0, 0, ',', '.') }}</div>
+                    <div class="new-stat-number" style="font-size: 1.8rem;">
+                        {{ number_format($stats['gaji_tertinggi'] ?? 0, 0, ',', '.') }}</div>
                     <div class="new-stat-label">Gaji Tertinggi (Rp)</div>
                     <div class="new-stat-change change-positive">
                         <i class="fas fa-trophy"></i> Maksimal
@@ -3293,22 +3431,32 @@ body.dark-mode #previewModal .btn-primary:hover {
             </div>
             <div class="new-card-body">
                 @if ($gajiList->count() > 0)
-                    <div class="table-responsive" id="penggajian-table-wrapper" 
-                         style="background: #2a2d3f !important; color: #e2e8f0 !important;">
-                        <table class="table" id="penggajian-table" 
-                               style="background: #2a2d3f !important; color: #e2e8f0 !important;">
+                    <div class="table-responsive" id="penggajian-table-wrapper"
+                        style="background: #2a2d3f !important; color: #e2e8f0 !important;">
+                        <table class="table" id="penggajian-table"
+                            style="background: #2a2d3f !important; color: #e2e8f0 !important;">
                             <thead style="background: #3a3d4a !important;">
                                 <tr>
-                                    <th style="width: 5%; background: #3a3d4a !important; color: #94a3b8 !important;">#</th>
-                                    <th style="width: 20%; background: #3a3d4a !important; color: #94a3b8 !important;">Nama Karyawan</th>
-                                    <th style="width: 12%; background: #3a3d4a !important; color: #94a3b8 !important;">Jabatan</th>
-                                    <th style="width: 12%; background: #3a3d4a !important; color: #94a3b8 !important;">Absensi</th>
-                                    <th style="width: 12%; background: #3a3d4a !important; color: #94a3b8 !important;">Gaji Pokok</th>
-                                    <th style="width: 12%; background: #3a3d4a !important; color: #94a3b8 !important;">Tunjangan</th>
-                                    <th style="width: 12%; background: #3a3d4a !important; color: #94a3b8 !important;">Potongan</th>
-                                    <th style="width: 12%; background: #3a3d4a !important; color: #94a3b8 !important;">Total Gaji</th>
-                                    <th style="width: 10%; background: #3a3d4a !important; color: #94a3b8 !important;">Status</th>
-                                    <th style="width: 8%; background: #3a3d4a !important; color: #94a3b8 !important;">Aksi</th>
+                                    <th style="width: 5%; background: #3a3d4a !important; color: #94a3b8 !important;">#
+                                    </th>
+                                    <th style="width: 20%; background: #3a3d4a !important; color: #94a3b8 !important;">Nama
+                                        Karyawan</th>
+                                    <th style="width: 12%; background: #3a3d4a !important; color: #94a3b8 !important;">
+                                        Jabatan</th>
+                                    <th style="width: 12%; background: #3a3d4a !important; color: #94a3b8 !important;">
+                                        Absensi</th>
+                                    <th style="width: 12%; background: #3a3d4a !important; color: #94a3b8 !important;">Gaji
+                                        Pokok</th>
+                                    <th style="width: 12%; background: #3a3d4a !important; color: #94a3b8 !important;">
+                                        Tunjangan</th>
+                                    <th style="width: 12%; background: #3a3d4a !important; color: #94a3b8 !important;">
+                                        Potongan</th>
+                                    <th style="width: 12%; background: #3a3d4a !important; color: #94a3b8 !important;">
+                                        Total Gaji</th>
+                                    <th style="width: 10%; background: #3a3d4a !important; color: #94a3b8 !important;">
+                                        Status</th>
+                                    <th style="width: 8%; background: #3a3d4a !important; color: #94a3b8 !important;">Aksi
+                                    </th>
                                 </tr>
                             </thead>
                             <tbody style="background: #2a2d3f !important;">
@@ -3317,9 +3465,12 @@ body.dark-mode #previewModal .btn-primary:hover {
                                         $statsAbsensi = $gaji->karyawan->getStatistikAbsensiBulan($tahun, $bulan);
                                     @endphp
                                     <tr style="background: #2a2d3f !important; color: #e2e8f0 !important;">
-                                        <td style="background: transparent !important; color: #e2e8f0 !important;">{{ $gajiList->firstItem() + $index }}</td>
-                                        <td style="background: transparent !important; color: #e2e8f0 !important;">{{ $gaji->karyawan->nama ?? 'N/A' }}</td>
-                                        <td style="background: transparent !important; color: #e2e8f0 !important;">{{ $gaji->karyawan->jabatan->nama_jabatan ?? 'N/A' }}</td>
+                                        <td style="background: transparent !important; color: #e2e8f0 !important;">
+                                            {{ $gajiList->firstItem() + $index }}</td>
+                                        <td style="background: transparent !important; color: #e2e8f0 !important;">
+                                            {{ $gaji->karyawan->nama ?? 'N/A' }}</td>
+                                        <td style="background: transparent !important; color: #e2e8f0 !important;">
+                                            {{ $gaji->karyawan->jabatan->nama_jabatan ?? 'N/A' }}</td>
                                         <td style="background: transparent !important; color: #e2e8f0 !important;">
                                             <small class="text-muted" style="color: #94a3b8 !important;">
                                                 <div><strong>Hadir:</strong> {{ $statsAbsensi['total_hadir'] }} hari</div>
@@ -3332,14 +3483,16 @@ body.dark-mode #previewModal .btn-primary:hover {
                                                 @endif
                                             </small>
                                         </td>
-                                        <td style="background: transparent !important; color: #e2e8f0 !important;">Rp {{ number_format($gaji->gaji_pokok ?? 0, 0, ',', '.') }}</td>
+                                        <td style="background: transparent !important; color: #e2e8f0 !important;">Rp
+                                            {{ number_format($gaji->gaji_pokok ?? 0, 0, ',', '.') }}</td>
                                         <td style="background: transparent !important; color: #e2e8f0 !important;">Rp
                                             {{ number_format(($gaji->tunjangan_jabatan ?? 0) + ($gaji->tunjangan_kehadiran ?? 0) + ($gaji->tunjangan_lainnya ?? 0), 0, ',', '.') }}
                                         </td>
                                         <td style="background: transparent !important; color: #e2e8f0 !important;">Rp
                                             {{ number_format(($gaji->potongan_absensi ?? 0) + ($gaji->potongan_lainnya ?? 0), 0, ',', '.') }}
                                         </td>
-                                        <td style="background: transparent !important; color: #e2e8f0 !important;"><strong>Rp {{ number_format($gaji->jumlah_gaji ?? 0, 0, ',', '.') }}</strong>
+                                        <td style="background: transparent !important; color: #e2e8f0 !important;">
+                                            <strong>Rp {{ number_format($gaji->jumlah_gaji ?? 0, 0, ',', '.') }}</strong>
                                         </td>
                                         <td style="background: transparent !important; color: #e2e8f0 !important;">
                                             @php
@@ -3375,50 +3528,52 @@ body.dark-mode #previewModal .btn-primary:hover {
                                                 </small>
                                             @endif
                                         </td>
-                                        <td class="text-center" style="background: transparent !important; color: #e2e8f0 !important;">
+                                        <td class="text-center"
+                                            style="background: transparent !important; color: #e2e8f0 !important;">
                                             <div class="dropdown">
-                                                <button class="gear-dropdown" 
-                                                        type="button" 
-                                                        id="dropdownMenuButton{{ $gaji->id_gaji ?? 0 }}" 
-                                                        data-bs-toggle="dropdown" 
-                                                        aria-expanded="false"
-                                                        title="Aksi">
-                                                    <i class="fas fa-cog"></i>
+                                                <button class="gear-dropdown" type="button"
+                                                    id="dropdownMenuButton{{ $gaji->id_gaji ?? 0 }}"
+                                                    data-bs-toggle="dropdown" aria-expanded="false" title="Aksi">
+                                                    <i class="fas fa-ellipsis-v"></i>
                                                 </button>
-                                                <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="dropdownMenuButton{{ $gaji->id_gaji ?? 0 }}">
+                                                <ul class="dropdown-menu dropdown-menu-end"
+                                                    aria-labelledby="dropdownMenuButton{{ $gaji->id_gaji ?? 0 }}">
                                                     <li>
-                                                        <a class="dropdown-item" href="#" 
-                                                           onclick="console.log('Dropdown click - view detail', {{ $gaji->id_gaji ?? 0 }}); viewDetail({{ $gaji->id_gaji ?? 0 }}); return false;">
+                                                        <a class="dropdown-item" href="#"
+                                                            onclick="console.log('Dropdown click - view detail', {{ $gaji->id_gaji ?? 0 }}); viewDetail({{ $gaji->id_gaji ?? 0 }}); return false;">
                                                             <i class="fas fa-eye text-info me-2"></i>Lihat Detail
                                                         </a>
                                                     </li>
-                                                    
+
                                                     @php
                                                         $status = strtolower($gaji->status_pembayaran ?? 'pending');
                                                     @endphp
 
                                                     @if (in_array($status, ['pending', 'belum_dibayar', 'menunggu']))
                                                         <li>
-                                                            <a class="dropdown-item" href="#" 
-                                                               onclick="console.log('Dropdown click - mark paid', {{ $gaji->id_gaji ?? 0 }}); markAsPaid({{ $gaji->id_gaji ?? 0 }}); return false;">
-                                                                <i class="fas fa-check text-success me-2"></i>Tandai Dibayar
+                                                            <a class="dropdown-item" href="#"
+                                                                onclick="console.log('Dropdown click - mark paid', {{ $gaji->id_gaji ?? 0 }}); markAsPaid({{ $gaji->id_gaji ?? 0 }}); return false;">
+                                                                <i class="fas fa-check text-success me-2"></i>Tandai
+                                                                Dibayar
                                                             </a>
                                                         </li>
                                                     @endif
 
                                                     @if (in_array($status, ['paid', 'sudah_dibayar', 'dibayar']))
                                                         <li>
-                                                            <a class="dropdown-item" href="#" 
-                                                               onclick="console.log('Dropdown click - generate slip', {{ $gaji->id_gaji ?? 0 }}); generateSlip({{ $gaji->id_gaji ?? 0 }}); return false;">
+                                                            <a class="dropdown-item" href="#"
+                                                                onclick="console.log('Dropdown click - generate slip', {{ $gaji->id_gaji ?? 0 }}); generateSlip({{ $gaji->id_gaji ?? 0 }}); return false;">
                                                                 <i class="fas fa-file-pdf text-primary me-2"></i>Cetak Slip
                                                             </a>
                                                         </li>
                                                     @endif
-                                                    
-                                                    <li><hr class="dropdown-divider"></li>
+
                                                     <li>
-                                                        <a class="dropdown-item text-muted" href="#" 
-                                                           onclick="console.log('Edit gaji', {{ $gaji->id_gaji ?? 0 }}); return false;">
+                                                        <hr class="dropdown-divider">
+                                                    </li>
+                                                    <li>
+                                                        <a class="dropdown-item text-muted" href="#"
+                                                            onclick="console.log('Edit gaji', {{ $gaji->id_gaji ?? 0 }}); return false;">
                                                             <i class="fas fa-edit me-2"></i>Edit Gaji
                                                         </a>
                                                     </li>
@@ -3601,52 +3756,52 @@ body.dark-mode #previewModal .btn-primary:hover {
         </div>
     </div>
 
-</div>
+    </div>
 
-<script>
-// Real-time clock function (same as dashboard)
-function updateRealTimeClock() {
-    const now = new Date();
-    
-    // Format jam dengan timezone WIB (UTC+7)
-    const options = {
-        timeZone: 'Asia/Jakarta',
-        hour12: false,
-        hour: '2-digit',
-        minute: '2-digit',
-        second: '2-digit'
-    };
-    
-    const timeString = now.toLocaleTimeString('id-ID', options);
-    
-    // Update clock
-    const clockElement = document.getElementById('realTimeClock');
-    if (clockElement) {
-        clockElement.textContent = timeString + ' WIB';
-    }
-    
-    // Update date
-    const dateElement = document.getElementById('currentDate');
-    if (dateElement) {
-        const dateOptions = { 
-            weekday: 'long', 
-            year: 'numeric', 
-            month: 'long', 
-            day: 'numeric',
-            timeZone: 'Asia/Jakarta'
-        };
-        const dateString = now.toLocaleDateString('id-ID', dateOptions);
-        dateElement.textContent = dateString;
-    }
-}
+    <script>
+        // Real-time clock function (same as dashboard)
+        function updateRealTimeClock() {
+            const now = new Date();
 
-// Initialize clock
-document.addEventListener('DOMContentLoaded', function() {
-    // Update clock immediately and then every second
-    updateRealTimeClock();
-    setInterval(updateRealTimeClock, 1000);
-});
-</script>
+            // Format jam dengan timezone WIB (UTC+7)
+            const options = {
+                timeZone: 'Asia/Jakarta',
+                hour12: false,
+                hour: '2-digit',
+                minute: '2-digit',
+                second: '2-digit'
+            };
+
+            const timeString = now.toLocaleTimeString('id-ID', options);
+
+            // Update clock
+            const clockElement = document.getElementById('realTimeClock');
+            if (clockElement) {
+                clockElement.textContent = timeString + ' WIB';
+            }
+
+            // Update date
+            const dateElement = document.getElementById('currentDate');
+            if (dateElement) {
+                const dateOptions = {
+                    weekday: 'long',
+                    year: 'numeric',
+                    month: 'long',
+                    day: 'numeric',
+                    timeZone: 'Asia/Jakarta'
+                };
+                const dateString = now.toLocaleDateString('id-ID', dateOptions);
+                dateElement.textContent = dateString;
+            }
+        }
+
+        // Initialize clock
+        document.addEventListener('DOMContentLoaded', function() {
+            // Update clock immediately and then every second
+            updateRealTimeClock();
+            setInterval(updateRealTimeClock, 1000);
+        });
+    </script>
 
 @endsection
 
@@ -4026,9 +4181,11 @@ document.addEventListener('DOMContentLoaded', function() {
 
             // Additional immediate cleanup for specific modals
             setTimeout(() => {
-                const prosesSelects = document.querySelectorAll('#prosesModal select, #prosesModal .form-select');
-                const previewSelects = document.querySelectorAll('#previewModal select, #previewModal .form-select');
-                
+                const prosesSelects = document.querySelectorAll(
+                    '#prosesModal select, #prosesModal .form-select');
+                const previewSelects = document.querySelectorAll(
+                    '#previewModal select, #previewModal .form-select');
+
                 [...prosesSelects, ...previewSelects].forEach(select => {
                     select.style.cssText = `
                         background: #ffffff !important;
@@ -4072,7 +4229,7 @@ document.addEventListener('DOMContentLoaded', function() {
         // Function to clean modal forms from visual artifacts
         function cleanModalForms() {
             console.log('Cleaning modal forms...');
-            
+
             // Apply immediate fix to all selects in modals
             const modalSelects = document.querySelectorAll('.modal select, .modal .form-select');
             modalSelects.forEach(select => {
@@ -4103,7 +4260,8 @@ document.addEventListener('DOMContentLoaded', function() {
             });
 
             // Clean modal containers
-            const modalContainers = document.querySelectorAll('.modal-body .row, .modal-body .col-md-6, .modal-body .col-md-4');
+            const modalContainers = document.querySelectorAll(
+                '.modal-body .row, .modal-body .col-md-6, .modal-body .col-md-4');
             modalContainers.forEach(container => {
                 container.style.cssText = `
                     border: none !important;
@@ -4120,7 +4278,8 @@ document.addEventListener('DOMContentLoaded', function() {
                 mutations.forEach(function(mutation) {
                     if (mutation.type === 'childList') {
                         mutation.addedNodes.forEach(function(node) {
-                            if (node.nodeType === 1 && (node.classList?.contains('modal') || node.querySelector?.('.modal'))) {
+                            if (node.nodeType === 1 && (node.classList?.contains('modal') || node
+                                    .querySelector?.('.modal'))) {
                                 setTimeout(() => cleanModalForms(), 100);
                             }
                         });
@@ -4145,22 +4304,33 @@ document.addEventListener('DOMContentLoaded', function() {
                     console.log('Modal opened, cleaning forms...');
                     setTimeout(() => {
                         cleanModalForms();
-                        
+
                         // Additional cleanup for this specific modal
                         const modalSelects = this.querySelectorAll('select, .form-select');
                         modalSelects.forEach(select => {
                             // Force clean styling
-                            select.style.setProperty('background', '#ffffff', 'important');
-                            select.style.setProperty('border', '1px solid #d1d3e2', 'important');
-                            select.style.setProperty('border-radius', '8px', 'important');
-                            select.style.setProperty('outline', 'none', 'important');
-                            select.style.setProperty('box-shadow', 'none', 'important');
-                            select.style.setProperty('appearance', 'none', 'important');
-                            select.style.setProperty('-webkit-appearance', 'none', 'important');
-                            select.style.setProperty('-moz-appearance', 'none', 'important');
-                            select.style.setProperty('background-image', 'none', 'important');
-                            select.style.setProperty('border-image', 'none', 'important');
-                            select.style.setProperty('text-decoration', 'none', 'important');
+                            select.style.setProperty('background', '#ffffff',
+                                'important');
+                            select.style.setProperty('border', '1px solid #d1d3e2',
+                                'important');
+                            select.style.setProperty('border-radius', '8px',
+                                'important');
+                            select.style.setProperty('outline', 'none',
+                                'important');
+                            select.style.setProperty('box-shadow', 'none',
+                                'important');
+                            select.style.setProperty('appearance', 'none',
+                                'important');
+                            select.style.setProperty('-webkit-appearance', 'none',
+                                'important');
+                            select.style.setProperty('-moz-appearance', 'none',
+                                'important');
+                            select.style.setProperty('background-image', 'none',
+                                'important');
+                            select.style.setProperty('border-image', 'none',
+                                'important');
+                            select.style.setProperty('text-decoration', 'none',
+                                'important');
                         });
                     }, 100);
                 });
@@ -4169,7 +4339,7 @@ document.addEventListener('DOMContentLoaded', function() {
             // Special handling for prosesModal
             const prosesModal = document.getElementById('prosesModal');
             const previewModal = document.getElementById('previewModal');
-            
+
             if (prosesModal) {
                 prosesModal.addEventListener('shown.bs.modal', function() {
                     console.log('Proses modal opened, applying special cleanup...');
@@ -4224,14 +4394,18 @@ document.addEventListener('DOMContentLoaded', function() {
                         });
 
                         // Clean containers
-                        const containers = prosesModal.querySelectorAll('.row, .col-md-6, .modal-body');
+                        const containers = prosesModal.querySelectorAll(
+                            '.row, .col-md-6, .modal-body');
                         containers.forEach(container => {
                             container.style.setProperty('border', 'none', 'important');
                             container.style.setProperty('outline', 'none', 'important');
-                            container.style.setProperty('background', 'transparent', 'important');
+                            container.style.setProperty('background', 'transparent',
+                                'important');
                             container.style.setProperty('box-shadow', 'none', 'important');
-                            container.style.setProperty('border-image', 'none', 'important');
-                            container.style.setProperty('text-decoration', 'none', 'important');
+                            container.style.setProperty('border-image', 'none',
+                                'important');
+                            container.style.setProperty('text-decoration', 'none',
+                                'important');
                         });
 
                         // Apply dark mode to modal content if dark mode is active
@@ -4240,26 +4414,30 @@ document.addEventListener('DOMContentLoaded', function() {
                             const modalHeader = prosesModal.querySelector('.modal-header');
                             const modalBody = prosesModal.querySelector('.modal-body');
                             const modalFooter = prosesModal.querySelector('.modal-footer');
-                            
+
                             if (modalContent) {
-                                modalContent.style.setProperty('background', '#2a2d3f', 'important');
+                                modalContent.style.setProperty('background', '#2a2d3f',
+                                    'important');
                                 modalContent.style.setProperty('color', '#e2e8f0', 'important');
-                                modalContent.style.setProperty('border-color', '#3a3d4a', 'important');
+                                modalContent.style.setProperty('border-color', '#3a3d4a',
+                                    'important');
                             }
-                            
+
                             if (modalHeader) {
                                 modalHeader.style.setProperty('background', '#2a2d3f', 'important');
-                                modalHeader.style.setProperty('border-color', '#3a3d4a', 'important');
+                                modalHeader.style.setProperty('border-color', '#3a3d4a',
+                                    'important');
                             }
-                            
+
                             if (modalBody) {
                                 modalBody.style.setProperty('background', '#2a2d3f', 'important');
                                 modalBody.style.setProperty('color', '#e2e8f0', 'important');
                             }
-                            
+
                             if (modalFooter) {
                                 modalFooter.style.setProperty('background', '#2a2d3f', 'important');
-                                modalFooter.style.setProperty('border-color', '#3a3d4a', 'important');
+                                modalFooter.style.setProperty('border-color', '#3a3d4a',
+                                    'important');
                             }
                         }
                     }, 200);
@@ -4271,7 +4449,8 @@ document.addEventListener('DOMContentLoaded', function() {
                     console.log('Preview modal opened, applying special cleanup...');
                     setTimeout(() => {
                         // Force clean all form elements in preview modal
-                        const previewSelects = previewModal.querySelectorAll('select, .form-select');
+                        const previewSelects = previewModal.querySelectorAll(
+                            'select, .form-select');
                         previewSelects.forEach(select => {
                             // Check if dark mode is active
                             if (document.body.classList.contains('dark-mode')) {
@@ -4324,18 +4503,21 @@ document.addEventListener('DOMContentLoaded', function() {
                             const modalContent = previewModal.querySelector('.modal-content');
                             const modalHeader = previewModal.querySelector('.modal-header');
                             const modalBody = previewModal.querySelector('.modal-body');
-                            
+
                             if (modalContent) {
-                                modalContent.style.setProperty('background', '#2a2d3f', 'important');
+                                modalContent.style.setProperty('background', '#2a2d3f',
+                                    'important');
                                 modalContent.style.setProperty('color', '#e2e8f0', 'important');
-                                modalContent.style.setProperty('border-color', '#3a3d4a', 'important');
+                                modalContent.style.setProperty('border-color', '#3a3d4a',
+                                    'important');
                             }
-                            
+
                             if (modalHeader) {
                                 modalHeader.style.setProperty('background', '#2a2d3f', 'important');
-                                modalHeader.style.setProperty('border-color', '#3a3d4a', 'important');
+                                modalHeader.style.setProperty('border-color', '#3a3d4a',
+                                    'important');
                             }
-                            
+
                             if (modalBody) {
                                 modalBody.style.setProperty('background', '#2a2d3f', 'important');
                                 modalBody.style.setProperty('color', '#e2e8f0', 'important');
@@ -4506,21 +4688,22 @@ document.addEventListener('DOMContentLoaded', function() {
                     const dropdown = e.target.querySelector('.dropdown-menu');
                     if (dropdown) {
                         const rect = dropdown.getBoundingClientRect();
-                        const tableRect = document.querySelector('#penggajian-table-wrapper').getBoundingClientRect();
-                        
+                        const tableRect = document.querySelector('#penggajian-table-wrapper')
+                            .getBoundingClientRect();
+
                         // Force dropdown to stay within table bounds
                         if (rect.right > tableRect.right) {
                             dropdown.style.right = '5px';
                             dropdown.style.left = 'auto';
                             dropdown.style.transform = 'none';
                         }
-                        
+
                         // Ensure it doesn't go below table
                         if (rect.bottom > tableRect.bottom) {
                             dropdown.style.top = 'auto';
                             dropdown.style.bottom = '100%';
                         }
-                        
+
                         // Force maximum width
                         dropdown.style.maxWidth = '150px';
                         dropdown.style.width = '150px';

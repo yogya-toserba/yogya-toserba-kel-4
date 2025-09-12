@@ -24,7 +24,7 @@ class AdminController extends BaseController
         if (!session()->has('_token')) {
             session()->regenerateToken();
         }
-        
+
         return view('admin.auth.login');
     }
 
@@ -56,7 +56,6 @@ class AdminController extends BaseController
             return back()->withErrors([
                 'email' => 'The provided credentials do not match our records.',
             ])->onlyInput('email');
-
         } catch (\Exception $e) {
             Log::error('Login error', [
                 'message' => $e->getMessage(),
@@ -806,7 +805,8 @@ class AdminController extends BaseController
 
     public function tambahKaryawan()
     {
-        return view('admin.karyawan.tambah-karyawan');
+        $shifts = \App\Models\Shift::all();
+        return view('admin.karyawan.tambah-karyawan', compact('shifts'));
     }
 
     public function storeKaryawan(Request $request)
@@ -820,6 +820,7 @@ class AdminController extends BaseController
                 'email' => ['required', 'email', 'unique:karyawan,email'],
                 'tanggal_lahir' => ['required', 'date', 'before:today'],
                 'nomer_telepon' => ['required', 'string', 'regex:/^08\d{8,11}$/'],
+                'foto' => ['nullable', 'image', 'mimes:jpeg,png,jpg,gif', 'max:2048'],
                 'id_shift' => ['required', 'integer', 'exists:shift,id_shift'],
                 'status' => ['required', 'in:Aktif,Non-Aktif']
             ], [
@@ -836,6 +837,9 @@ class AdminController extends BaseController
                 'tanggal_lahir.before' => 'Tanggal lahir harus sebelum hari ini',
                 'nomer_telepon.required' => 'Nomor telepon wajib diisi',
                 'nomer_telepon.regex' => 'Nomor telepon harus dimulai dengan 08 dan terdiri dari 10-13 digit',
+                'foto.image' => 'File harus berupa gambar',
+                'foto.mimes' => 'Format foto harus jpeg, png, jpg, atau gif',
+                'foto.max' => 'Ukuran foto maksimal 2MB',
                 'id_shift.required' => 'Shift kerja wajib dipilih',
                 'id_shift.integer' => 'Shift kerja tidak valid',
                 'id_shift.exists' => 'Shift yang dipilih tidak tersedia',
@@ -863,6 +867,14 @@ class AdminController extends BaseController
                 ]);
             }
 
+            // Handle foto upload
+            $fotoPath = null;
+            if ($request->hasFile('foto')) {
+                $foto = $request->file('foto');
+                $fotoName = time() . '_' . $foto->getClientOriginalName();
+                $fotoPath = $foto->storeAs('karyawan', $fotoName, 'public');
+            }
+
             // Create the karyawan record
             $karyawan = Karyawan::create([
                 'nama' => $validated['nama'],
@@ -871,6 +883,7 @@ class AdminController extends BaseController
                 'email' => $validated['email'],
                 'tanggal_lahir' => $validated['tanggal_lahir'],
                 'nomer_telepon' => $validated['nomer_telepon'],
+                'foto' => $fotoPath,
                 'id_shift' => $validated['id_shift'],
                 'status' => $validated['status']
             ]);
@@ -1109,9 +1122,9 @@ class AdminController extends BaseController
                 ->count();
 
             return view('admin.sistem.daftar-pengguna', compact(
-                'pelanggan', 
-                'totalPengguna', 
-                'penggunaBulanIni', 
+                'pelanggan',
+                'totalPengguna',
+                'penggunaBulanIni',
                 'penggunaAktif'
             ));
         } catch (\Exception $e) {

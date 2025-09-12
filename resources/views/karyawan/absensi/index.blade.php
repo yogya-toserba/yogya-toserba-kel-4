@@ -25,7 +25,7 @@
             width: 80px;
             height: 80px;
             border-radius: 50%;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            background: linear-gradient(135deg, #ff6b35 0%, #f7931e 100%);
             display: flex;
             align-items: center;
             justify-content: center;
@@ -72,37 +72,239 @@
         }
 
         .table th {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            background: linear-gradient(135deg, #ff6b35 0%, #f7931e 100%);
             color: white;
             border: none;
             font-weight: 600;
+            padding: 15px 20px;
+            text-align: center;
+            font-size: 0.9rem;
+            letter-spacing: 0.5px;
+            text-transform: uppercase;
+        }
+
+        .table td {
+            padding: 15px 20px;
+            border: none;
+            background: #ffffff;
+            color: #2d3748;
+            font-weight: 500;
+            text-align: center;
+            vertical-align: middle;
+        }
+
+        .table tbody tr {
+            background: #ffffff;
+            transition: all 0.3s ease;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+            margin-bottom: 8px;
+        }
+
+        .table tbody tr:hover {
+            background: linear-gradient(135deg, #fff3e0 0%, #ffe0b2 100%);
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(255, 107, 53, 0.2);
+        }
+
+        .table {
+            border-collapse: separate;
+            border-spacing: 0 8px;
+            background: transparent;
+        }
+
+        .table-responsive {
+            background: transparent;
+            border-radius: 15px;
+            padding: 10px;
         }
 
         .badge-status {
-            padding: 8px 15px;
-            border-radius: 20px;
+            padding: 8px 16px;
+            border-radius: 25px;
             font-weight: 600;
-            font-size: 0.85rem;
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            border: 2px solid transparent;
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+            transition: all 0.3s ease;
+        }
+
+        .badge-status:before {
+            content: '';
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+            display: inline-block;
         }
 
         .status-hadir {
-            background-color: #d4edda;
-            color: #155724;
+            background: linear-gradient(135deg, #ff8f00, #ff6f00);
+            color: white;
+            box-shadow: 0 4px 15px rgba(255, 143, 0, 0.3);
+        }
+
+        .status-hadir:before {
+            background: #ffffff;
         }
 
         .status-alfa {
-            background-color: #f8d7da;
-            color: #721c24;
+            background: linear-gradient(135deg, #f56565, #e53e3e);
+            color: white;
+            box-shadow: 0 4px 15px rgba(245, 101, 101, 0.3);
+        }
+
+        .status-alfa:before {
+            background: #ffffff;
         }
 
         .status-izin {
-            background-color: #d1ecf1;
-            color: #0c5460;
+            background: linear-gradient(135deg, #4299e1, #3182ce);
+            color: white;
+            box-shadow: 0 4px 15px rgba(66, 153, 225, 0.3);
+        }
+
+        .status-izin:before {
+            background: #ffffff;
         }
 
         .status-sakit {
-            background-color: #e2e3e5;
-            color: #383d41;
+            background: linear-gradient(135deg, #a0aec0, #718096);
+            color: white;
+            box-shadow: 0 4px 15px rgba(160, 174, 192, 0.3);
+        }
+
+        .status-sakit:before {
+            background: #ffffff;
+        }
+
+        /* Status Card Styling */
+        .status-card {
+            background: linear-gradient(135deg, #ffffff 0%, #f7fafc 100%);
+            border-radius: 15px;
+            padding: 20px;
+            text-align: center;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .status-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.15);
+        }
+
+        .status-icon {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 15px;
+            font-size: 1.2rem;
+            color: white;
+        }
+
+        .status-checkin {
+            background: linear-gradient(135deg, #ff8f00, #ff6f00);
+        }
+
+        .status-checkout {
+            background: linear-gradient(135deg, #ff5722, #d84315);
+        }
+
+        .status-break {
+            background: linear-gradient(135deg, #ffb74d, #ffa726);
+        }
+
+        .status-card h6 {
+            font-weight: 600;
+            color: #2d3748;
+            margin-bottom: 8px;
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .status-card p {
+            font-size: 1.2rem;
+            font-weight: 700;
+            color: #4a5568;
+            margin: 0;
+        }
+
+        /* Clock and Date Styling */
+        .clock-display {
+            font-size: 2rem;
+            font-weight: 700;
+            color: #2d3748;
+            text-align: center;
+            margin-bottom: 5px;
+            font-family: 'Courier New', monospace;
+        }
+
+        .date-display {
+            font-size: 0.9rem;
+            color: #718096;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        /* Custom Button Styling - Yogya Orange Theme */
+        .btn-primary {
+            background: linear-gradient(135deg, #ff6b35 0%, #f7931e 100%);
+            border: none;
+            border-radius: 10px;
+            font-weight: 600;
+            padding: 12px 24px;
+            box-shadow: 0 4px 15px rgba(255, 107, 53, 0.3);
+            transition: all 0.3s ease;
+        }
+
+        .btn-primary:hover {
+            background: linear-gradient(135deg, #ff5722 0%, #f57c00 100%);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(255, 107, 53, 0.4);
+        }
+
+        .btn-primary:focus,
+        .btn-primary:active {
+            background: linear-gradient(135deg, #ff5722 0%, #f57c00 100%);
+            box-shadow: 0 0 0 0.2rem rgba(255, 107, 53, 0.25);
+        }
+
+        /* Button Absen Custom Styling */
+        .btn-success {
+            background: linear-gradient(135deg, #ff8f00 0%, #ff6f00 100%);
+            border: none;
+            color: white;
+            font-weight: 600;
+        }
+
+        .btn-success:hover {
+            background: linear-gradient(135deg, #f57c00 0%, #ef6c00 100%);
+            transform: translateY(-2px);
+        }
+
+        .btn-warning {
+            background: linear-gradient(135deg, #ffb74d 0%, #ffa726 100%);
+            border: none;
+            color: white;
+            font-weight: 600;
+        }
+
+        .btn-warning:hover {
+            background: linear-gradient(135deg, #ffa726 0%, #ff9800 100%);
+            transform: translateY(-2px);
+        }
+
+        /* Input Focus Orange Theme */
+        .form-control:focus {
+            border-color: #ff6b35;
+            box-shadow: 0 0 0 0.2rem rgba(255, 107, 53, 0.25);
         }
     </style>
 @endpush
@@ -113,7 +315,7 @@
             <!-- Welcome Section -->
             <div class="text-center text-white mb-4">
                 <h1 class="display-4 fw-bold mb-3">
-                    <i class="fas fa-clock me-3"></i>Sistem Absensi Karyawan
+                    <i class="fas fa-clock me-3"></i>Absen Karyawan
                 </h1>
                 <p class="lead">Silakan masukkan ID atau nama Anda untuk melakukan absensi</p>
             </div>
@@ -313,7 +515,7 @@
                         $('#searchResults').html(html);
                     } else {
                         $('#searchResults').html(
-                        '<div class="alert alert-info">Karyawan tidak ditemukan</div>');
+                            '<div class="alert alert-info">Karyawan tidak ditemukan</div>');
                     }
                 })
                 .fail(function() {
@@ -352,7 +554,7 @@
         function loadStatusHariIni() {
             if (!selectedKaryawan) return;
 
-            $.get('{{ route('karyawan.absensi.status') }}', {
+            $.get('{{ route('karyawan.status') }}', {
                     id_karyawan: selectedKaryawan.id
                 })
                 .done(function(response) {
@@ -411,8 +613,8 @@
 
             const keterangan = $('#keteranganText').val();
             const url = currentAction === 'checkin' ?
-                '{{ route('karyawan.absensi.checkin') }}' :
-                '{{ route('karyawan.absensi.checkout') }}';
+                '{{ route('karyawan.checkin') }}' :
+                '{{ route('karyawan.checkout') }}';
 
             $(this).prop('disabled', true).html('<i class="fas fa-spinner fa-spin me-2"></i>Memproses...');
 
@@ -444,7 +646,7 @@
         $('#btnRiwayat').click(function() {
             if (!selectedKaryawan) return;
 
-            $.get('{{ route('karyawan.absensi.riwayat') }}', {
+            $.get('{{ route('karyawan.riwayat') }}', {
                     id_karyawan: selectedKaryawan.id
                 })
                 .done(function(response) {

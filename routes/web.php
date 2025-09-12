@@ -1,6 +1,8 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\Log;
+use Illuminate\Http\Request;
 use App\Http\Controllers\PelangganController;
 use App\Http\Controllers\PelangganForgotPasswordController;
 use App\Http\Controllers\DashboardController;
@@ -57,12 +59,12 @@ Route::post('/verify-code', [PelangganForgotPasswordController::class, 'verifyCo
 
 // Test route untuk debug 
 Route::get('/test-verify-debug', function (Request $request) {
-    \Log::info('DEBUG: GET Test verify route hit');
+    Log::info('DEBUG: GET Test verify route hit');
     return response()->json(['status' => 'GET Test route works']);
 });
 
 Route::post('/test-verify-debug', function (Request $request) {
-    \Log::info('DEBUG: POST Test verify route hit', [
+    Log::info('DEBUG: POST Test verify route hit', [
         'data' => $request->all(),
         'method' => $request->method()
     ]);
