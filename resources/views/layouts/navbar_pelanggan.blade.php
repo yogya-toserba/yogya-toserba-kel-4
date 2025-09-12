@@ -41,31 +41,31 @@
             @auth('pelanggan')
                 <!-- Logged in user -->
                 <div class="nav-item dropdown me-3">
-                    <a class="nav-link notification-link" href="#" id="notificationDropdown" role="button" data-bs-toggle="dropdown">
+                    <a class="nav-link notification-link" href="#" id="notificationDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                         <div class="nav-icon-wrapper">
                             <i class="fas fa-bell"></i>
                             <span class="notification-badge pulse">3</span>
                         </div>
                     </a>
-                    <ul class="dropdown-menu notification-dropdown">
+                    <ul class="dropdown-menu dropdown-menu-end notification-dropdown">
                         <li><h6 class="dropdown-header">
                             <i class="fas fa-bell me-2"></i>Notifikasi Terbaru
                         </h6></li>
                         <li><a class="dropdown-item" href="#">
                             <div class="notification-item">
-                                <i class="fas fa-shipping-fast text-success"></i>
+                                <i class="fas fa-shipping-fast text-success me-2"></i>
                                 <span>Pesanan Anda sedang dikirim</span>
                             </div>
                         </a></li>
                         <li><a class="dropdown-item" href="#">
                             <div class="notification-item">
-                                <i class="fas fa-bolt text-warning"></i>
+                                <i class="fas fa-bolt text-warning me-2"></i>
                                 <span>Flash Sale dimulai dalam 1 jam</span>
                             </div>
                         </a></li>
                         <li><a class="dropdown-item" href="#">
                             <div class="notification-item">
-                                <i class="fas fa-gift text-primary"></i>
+                                <i class="fas fa-gift text-primary me-2"></i>
                                 <span>Voucher baru tersedia</span>
                             </div>
                         </a></li>
@@ -84,7 +84,7 @@
                 </div>
 
                 <div class="nav-item dropdown">
-                    <a class="nav-link profile-link" href="#" id="profileDropdown" role="button" data-bs-toggle="dropdown">
+                    <a class="nav-link profile-link" href="#" id="profileDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                         <div class="profile-info">
                             <div class="avatar">
                                 <i class="fas fa-user"></i>
@@ -93,16 +93,15 @@
                                 <span class="user-name">{{ auth('pelanggan')->user()->nama }}</span>
                                 <span class="user-status">Premium Member</span>
                             </div>
-                            <i class="fas fa-chevron-down ms-2"></i>
                         </div>
                     </a>
-                    <ul class="dropdown-menu profile-dropdown">
+                    <ul class="dropdown-menu dropdown-menu-end profile-dropdown">
                         <li class="dropdown-header">
-                            <div class="profile-header">
+                            <div class="profile-header-dropdown">
                                 <div class="avatar-large">
                                     <i class="fas fa-user"></i>
                                 </div>
-                                <div>
+                                <div class="user-info">
                                     <h6 class="mb-0">{{ auth('pelanggan')->user()->nama }}</h6>
                                     <small class="text-muted">Premium Member</small>
                                 </div>
@@ -116,9 +115,9 @@
                         <li><a class="dropdown-item" href="#"><i class="fas fa-cog me-2"></i>Pengaturan</a></li>
                         <li><hr class="dropdown-divider"></li>
                         <li>
-                            <form action="{{ route('pelanggan.logout') }}" method="POST" class="d-inline">
+                            <form action="{{ route('pelanggan.logout') }}" method="POST" class="d-inline w-100">
                                 @csrf
-                                <button type="submit" class="dropdown-item text-danger"><i class="fas fa-sign-out-alt me-2"></i>Logout</button>
+                                <button type="submit" class="dropdown-item text-danger w-100 text-start border-0 bg-transparent"><i class="fas fa-sign-out-alt me-2"></i>Logout</button>
                             </form>
                         </li>
                     </ul>
@@ -142,6 +141,206 @@
 
 <!-- Search Styles & Functionality -->
 <style>
+    /* Remove all orange hover effects from navbar */
+    .navbar-actions .nav-link,
+    .notification-link,
+    .cart-link,
+    .profile-link {
+        transition: all 0.3s ease !important;
+        border: none !important;
+        outline: none !important;
+    }
+    
+    .navbar-actions .nav-link:hover,
+    .navbar-actions .nav-link:focus,
+    .notification-link:hover,
+    .cart-link:hover,
+    .profile-link:hover {
+        background: rgba(0, 0, 0, 0.05) !important;
+        color: #2c3e50 !important;
+        transform: translateY(-1px);
+        border: none !important;
+        outline: none !important;
+    }
+    
+    /* Remove icon color changes on hover */
+    .navbar-actions .fas,
+    .navbar-actions i {
+        color: #2c3e50 !important;
+        transition: none !important;
+    }
+    
+    .navbar-actions .nav-link:hover .fas,
+    .navbar-actions .nav-link:hover i {
+        color: #2c3e50 !important;
+        transform: none !important;
+    }
+
+    /* Hide Bootstrap dropdown arrows */
+    .dropdown-toggle::after {
+        display: none !important;
+    }
+    
+    .dropdown-toggle::before {
+        display: none !important;
+    }
+    
+    /* Remove any borders or boxes from navbar elements */
+    .navbar-actions .dropdown,
+    .navbar-actions .nav-item,
+    .navbar-actions .nav-link {
+        border: none !important;
+        box-shadow: none !important;
+        outline: none !important;
+    }
+    
+    /* Profile info styling without borders */
+    .profile-info {
+        border: none !important;
+        background: transparent !important;
+        box-shadow: none !important;
+    }
+
+    /* Enhanced Dropdown Styles */
+    .dropdown-menu {
+        border: none !important;
+        border-radius: 12px !important;
+        box-shadow: 0 10px 40px rgba(0,0,0,0.15) !important;
+        padding: 8px 0 !important;
+        margin-top: 8px !important;
+        min-width: 250px !important;
+        max-width: 320px !important;
+    }
+    
+    .dropdown-menu.dropdown-menu-end {
+        right: 0 !important;
+        left: auto !important;
+    }
+    
+    .dropdown-item {
+        padding: 12px 20px !important;
+        font-size: 0.9rem !important;
+        transition: all 0.2s ease !important;
+        border-radius: 8px !important;
+        margin: 2px 8px !important;
+        border: none !important;
+        background: transparent !important;
+        display: flex !important;
+        align-items: center !important;
+        white-space: nowrap !important;
+    }
+
+    .dropdown-item:hover,
+    .dropdown-item:focus {
+        background: rgba(0, 0, 0, 0.05) !important;
+        color: #2c3e50 !important;
+        transform: translateX(5px) !important;
+    }
+    
+    .dropdown-item i {
+        color: #6c757d !important;
+        width: 16px !important;
+        text-align: center !important;
+    }
+    
+    .dropdown-header {
+        padding: 15px 20px 10px !important;
+        margin-bottom: 0 !important;
+        font-size: 0.9rem !important;
+        font-weight: 600 !important;
+        color: #2c3e50 !important;
+        border-bottom: 1px solid #e9ecef !important;
+    }
+    
+    .dropdown-divider {
+        margin: 8px 12px !important;
+        border-color: #e9ecef !important;
+    }
+
+    /* Profile Dropdown Specific Styles */
+    .profile-dropdown {
+        min-width: 280px !important;
+    }
+    
+    .profile-header-dropdown {
+        display: flex !important;
+        align-items: center !important;
+        gap: 12px !important;
+        padding: 5px 0 !important;
+    }
+    
+    .avatar-large {
+        background: linear-gradient(135deg, var(--yogya-orange) 0%, var(--yogya-yellow) 100%) !important;
+        width: 45px !important;
+        height: 45px !important;
+        border-radius: 50% !important;
+        display: flex !important;
+        align-items: center !important;
+        justify-content: center !important;
+        color: white !important;
+        font-size: 1.1rem !important;
+        flex-shrink: 0 !important;
+    }
+    
+    .user-info h6 {
+        font-size: 0.9rem !important;
+        font-weight: 600 !important;
+        color: #2c3e50 !important;
+        margin: 0 !important;
+    }
+    
+    .user-info small {
+        color: #6c757d !important;
+        font-size: 0.75rem !important;
+    }
+
+    /* Notification Dropdown Specific Styles */
+    .notification-dropdown {
+        min-width: 300px !important;
+        max-width: 350px !important;
+    }
+    
+    .notification-item {
+        display: flex !important;
+        align-items: center !important;
+        gap: 8px !important;
+        width: 100% !important;
+    }
+    
+    .notification-item i {
+        font-size: 0.9rem !important;
+        flex-shrink: 0 !important;
+    }
+    
+    .notification-item span {
+        font-size: 0.85rem !important;
+        line-height: 1.3 !important;
+        flex-grow: 1 !important;
+    }
+
+    /* Responsive dropdown fixes */
+    @media (max-width: 768px) {
+        .dropdown-menu {
+            position: static !important;
+            float: none !important;
+            width: 100% !important;
+            margin-top: 10px !important;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.1) !important;
+        }
+        
+        .dropdown-menu.dropdown-menu-end {
+            right: auto !important;
+            left: 0 !important;
+        }
+        
+        .profile-dropdown,
+        .notification-dropdown {
+            min-width: 100% !important;
+            max-width: 100% !important;
+        }
+    }
+
+    /* Search suggestions styling */
     .search-suggestions-dropdown {
         position: absolute;
         top: 100%;
@@ -168,8 +367,8 @@
     
     .search-suggestion-item:hover,
     .search-suggestion-item.active {
-        background: rgba(242, 107, 55, 0.1);
-        color: var(--yogya-orange, #f26b37);
+        background: rgba(0, 0, 0, 0.05);
+        color: #2c3e50;
     }
     
     .search-suggestion-item:last-child {
@@ -182,7 +381,7 @@
     }
     
     .suggestion-icon {
-        color: var(--yogya-orange, #f26b37);
+        color: #6c757d;
         margin-right: 10px;
         width: 20px;
     }
@@ -203,7 +402,7 @@
     }
     
     .suggestion-tag:hover {
-        background: var(--yogya-orange, #f26b37);
+        background: #6c757d;
         color: white;
         transform: translateY(-2px);
     }

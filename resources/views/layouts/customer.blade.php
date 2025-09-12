@@ -119,8 +119,8 @@
         }
 
         .search-btn:hover {
-            background: var(--yogya-orange);
-            transform: translateY(-50%) scale(1.1);
+            background: #1976d2;
+            transform: translateY(-50%) scale(1.05);
         }
 
         /* Search Suggestions */
@@ -132,8 +132,8 @@
         }
 
         .suggestion-tag {
-            background: rgba(242, 107, 55, 0.1);
-            color: var(--yogya-orange);
+            background: rgba(108, 117, 125, 0.1);
+            color: #6c757d;
             padding: 4px 12px;
             border-radius: 15px;
             font-size: 0.8rem;
@@ -143,7 +143,7 @@
         }
 
         .suggestion-tag:hover {
-            background: var(--yogya-orange);
+            background: #6c757d;
             color: white;
             transform: translateY(-1px);
         }
@@ -246,7 +246,7 @@
         }
 
         .btn-nav-outline:hover {
-            background: var(--yogya-orange);
+            background: #6c757d;
             color: white;
             transform: translateY(-1px);
         }
@@ -262,8 +262,8 @@
         }
 
         .btn-nav-primary:hover {
-            background: var(--yogya-orange-dark);
-            border-color: var(--yogya-orange-dark);
+            background: #5a6268;
+            border-color: #5a6268;
             color: white;
             transform: translateY(-1px);
         }
@@ -320,7 +320,7 @@
         }
         
         .nav-link:hover {
-            color: var(--yogya-orange) !important;
+            color: #2c3e50 !important;
         }
         
         .dropdown-menu {
@@ -338,8 +338,8 @@
         }
         
         .dropdown-item:hover {
-            background: rgba(242, 107, 55, 0.1);
-            color: var(--yogya-orange);
+            background: rgba(0, 0, 0, 0.05);
+            color: #2c3e50;
         }
         
         .dropdown-divider {
@@ -352,8 +352,8 @@
         }
         
         .btn-outline-primary:hover {
-            background-color: var(--yogya-orange);
-            border-color: var(--yogya-orange);
+            background-color: #6c757d;
+            border-color: #6c757d;
         }
         
         .btn-primary {
@@ -362,8 +362,8 @@
         }
         
         .btn-primary:hover {
-            background-color: var(--yogya-orange-dark);
-            border-color: var(--yogya-orange-dark);
+            background-color: #5a6268;
+            border-color: #5a6268;
         }
         
         .search-container {
@@ -402,7 +402,7 @@
         
         .search-btn:hover {
             transform: translateY(-50%) scale(1.05);
-            box-shadow: 0 5px 15px rgba(242, 107, 55, 0.3);
+            box-shadow: 0 5px 15px rgba(33, 150, 243, 0.3);
         }
         
         .user-avatar {
@@ -427,7 +427,7 @@
         }
         
         .back-link:hover {
-            color: var(--yogya-orange-dark);
+            color: #2c3e50;
             transform: translateX(-5px);
         }
         
