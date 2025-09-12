@@ -110,6 +110,16 @@ Route::get('/500', function () {
     return response()->view('errors.500', [], 500);
 });
 
+// Test route for guest access blocking
+Route::get('/test-guest', function () {
+    if (auth('pelanggan')->check()) {
+        auth('pelanggan')->logout();
+        session()->invalidate();
+        session()->regenerateToken();
+    }
+    return redirect('/')->with('success', 'You are now viewing as guest. Try clicking cart or notification icons.');
+});
+
 // Dashboard utama
 Route::get('/', [DashboardController::class, 'index'])->name('dashboard');
 

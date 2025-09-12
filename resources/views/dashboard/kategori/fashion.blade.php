@@ -259,9 +259,6 @@
                         @if($product['discount'])
                             <span class="discount-badge">-{{ $product['discount'] }}</span>
                         @endif
-                        <button class="wishlist-btn" type="button" tabindex="-1">
-                            <i class="far fa-heart"></i>
-                        </button>
                     </div>
                     <div class="product-info">
                         <h6 class="product-title">{{ $product['name'] }}</h6>
@@ -499,13 +496,8 @@
                     </div>
                 </div>
                 <div class="modal-footer border-0 pt-0">
-                    <div class="d-flex gap-2 w-100">
-                        <button type="button" class="btn btn-outline-primary flex-fill" onclick="addToWishlist()">
-                            <i class="far fa-heart me-2"></i>Wishlist
-                        </button>
-                        <button type="button" class="btn btn-primary flex-fill" onclick="addToCartFromModal()" id="addToCartModalBtn">
-                            <i class="fas fa-shopping-cart me-2"></i>Tambah ke Keranjang
-                        </button>
+                    <div class="text-center w-100">
+                        <p class="text-muted mb-0">Lihat detail produk untuk informasi lengkap</p>
                     </div>
                 </div>
             </div>
@@ -536,12 +528,6 @@
 
     .product-image img {
         transition: transform 0.3s ease;
-    }
-
-    /* Wishlist button should not interfere with card click */
-    .wishlist-btn {
-        z-index: 10;
-        position: relative;
     }
 
     /* Product Modal Styles */
@@ -752,75 +738,14 @@
             height: 35px;
         }
     }
-
-    /* Add to Cart Button Styles */
-    .btn-add-to-cart {
-        width: 100%;
-        padding: 10px 15px;
-        background: #f26b37;
-        color: white;
-        border: none;
-        border-radius: 8px;
-        font-weight: 600;
-        font-size: 14px;
-        transition: all 0.3s ease;
-        margin-top: 10px;
-        cursor: pointer;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        position: relative;
-        z-index: 10;
-    }
-
-    .btn-add-to-cart:hover {
-        background: #e55827;
-        transform: translateY(-2px);
-        box-shadow: 0 5px 15px rgba(242, 107, 55, 0.3);
-        color: white;
-    }
-
-    .btn-add-to-cart:active {
-        transform: translateY(0);
-        box-shadow: 0 2px 5px rgba(242, 107, 55, 0.3);
-    }
-
-    .btn-add-to-cart i {
-        font-size: 13px;
-    }
-
-    /* Prevent modal opening when clicking add to cart */
-    .btn-add-to-cart {
-        pointer-events: auto;
-    }
-
-    .product-card .product-info {
-        pointer-events: none;
-    }
-
-    .product-card .product-info > * {
-        pointer-events: auto;
-    }
     </style>
 @endpush
 
 @push('scripts')
     <script>
-    // Global cart array
-    let cart = JSON.parse(localStorage.getItem('cart')) || [];
-
     // Pagination variables
     let currentPage = 1;
     const totalPages = 20; // Total halaman yang tersedia
-
-    // Update cart badge
-    function updateCartBadge() {
-        const cartBadge = document.querySelector('.cart-badge');
-        if (cartBadge) {
-            const totalItems = cart.reduce((sum, item) => sum + item.quantity, 0);
-            cartBadge.textContent = totalItems;
-        }
-    }
 
     // Pagination functions
     function updatePagination() {
@@ -1003,54 +928,7 @@
 
     }
 
-    // Add to wishlist function
-    function addToWishlist() {
-        const modal = document.getElementById('productModal');
-        const productName = modal.getAttribute('data-product-name');
-
-        showToast(`${productName} berhasil ditambahkan ke wishlist!`, 'success');
-    }
-
-    // Add to cart from modal function
-    function addToCartFromModal() {
-        const modal = document.getElementById('productModal');
-        const productTitle = modal.querySelector('.modal-title').textContent;
-        const selectedSize = modal.querySelector('input[name="size"]:checked')?.value;
-        const selectedColor = modal.querySelector('input[name="color"]:checked')?.value;
-        const quantityInput = document.getElementById('quantity');
-        const quantity = parseInt(quantityInput?.value || 1);
-        
-        if (!selectedSize) {
-            showToast('Pilih ukuran terlebih dahulu!', 'error');
-            return;
-        }
-        
-        if (!selectedColor) {
-            showToast('Pilih warna terlebih dahulu!', 'error');
-            return;
-        }
-        
-        // Data produk yang akan ditambahkan ke keranjang
-        const product = {
-            id: Date.now(), // Generate unique ID
-            name: productTitle,
-            price: 129000, // Harga dari modal
-            size: selectedSize,
-            color: selectedColor,
-            quantity: quantity,
-            image: modal.querySelector('.product-image').src
-        };
-        
-        addToCart(product);
-        
-        // Tutup modal
-        const modalInstance = bootstrap.Modal.getInstance(modal);
-        modalInstance.hide();
-        
-        showToast('Produk berhasil ditambahkan ke keranjang!', 'success');
-    }
-
-    // Quantity functions
+    // Quantity functions (kept for display purposes only)
     function increaseQuantity() {
         const quantityInput = document.getElementById('quantity');
         const currentValue = parseInt(quantityInput.value);
@@ -1070,46 +948,6 @@
             quantityInput.value = currentValue - 1;
         }
     }
-
-    // Add to cart function
-    function addToCart(event, product) {
-        event.stopPropagation(); // Prevent modal from opening
-        
-        // Get existing cart from localStorage
-        let cart = JSON.parse(localStorage.getItem('cart') || '[]');
-        
-        // Check if product already exists in cart
-        const existingProductIndex = cart.findIndex(item => 
-            item.id === product.id && item.name === product.name
-        );
-        
-        if (existingProductIndex > -1) {
-            // If product exists, increase quantity
-            cart[existingProductIndex].quantity += 1;
-        } else {
-            // If new product, add to cart
-            product.quantity = 1;
-            cart.push(product);
-        }
-        
-        // Save to localStorage
-        localStorage.setItem('cart', JSON.stringify(cart));
-        
-        // Update cart counter in navbar (use global function from layout)
-        if (typeof updateCartBadge === 'function') {
-            updateCartBadge();
-        }
-        
-        // Show success toast
-        showToast(`${product.name} berhasil ditambahkan ke keranjang!`, 'success');
-    }
-    
-    // Initialize cart counter on page load
-    document.addEventListener('DOMContentLoaded', function() {
-        if (typeof updateCartBadge === 'function') {
-            updateCartBadge();
-        }
-    });
 
     // Toast notification function
     function showToast(message, type = 'success') {
@@ -1151,30 +989,6 @@
             toastElement.remove();
         });
     }
-
-    // Prevent wishlist button from triggering modal
-    document.addEventListener('click', function(e) {
-        if (e.target.closest('.wishlist-btn')) {
-            e.stopPropagation();
-            e.preventDefault();
-
-            // Handle wishlist functionality here
-            const btn = e.target.closest('.wishlist-btn');
-            const icon = btn.querySelector('i');
-
-            if (icon.classList.contains('far')) {
-                icon.classList.remove('far');
-                icon.classList.add('fas');
-                btn.style.color = '#e74c3c';
-                showToast('Produk ditambahkan ke wishlist!', 'success');
-            } else {
-                icon.classList.remove('fas');
-                icon.classList.add('far');
-                btn.style.color = '';
-                showToast('Produk dihapus dari wishlist!', 'warning');
-            }
-        }
-    });
     </script>
 
     <!-- Pagination functionality disabled as requested -->
