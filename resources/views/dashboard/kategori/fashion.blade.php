@@ -330,14 +330,14 @@
                     <div class="row">
                         <!-- Product Images -->
                         <div class="col-md-6">
-                            <div class="product-image-gallery">
-                                <!-- Main Product Image -->
+                            <div class="product-image-gallery text-center">
+                                <!-- Main Product Image - Centered -->
                                 <div class="main-image-container mb-3">
-                                    <img id="modalProductImage" src="" alt="" class="img-fluid rounded main-product-image">
+                                    <img id="modalProductImage" src="/image/kategori/fashion/kemeja_formal.png" alt="Product Image" class="img-fluid rounded main-product-image">
                                 </div>
 
-                                <!-- Thumbnail Images -->
-                                <div class="thumbnail-images d-flex gap-2">
+                                <!-- Thumbnail Images - Below main image -->
+                                <div class="thumbnail-images d-flex justify-content-center gap-2">
                                     <div class="thumbnail-item active">
                                         <img id="thumb1" src="/image/kategori/fashion/kemeja_formal.png" alt="" class="img-fluid rounded thumbnail-img">
                                     </div>
@@ -407,23 +407,6 @@
                                     </div>
                                 </div>
 
-                                <!-- Product Description -->
-                                <div class="product-description mb-4">
-                                    <h6 class="fw-semibold mb-2">Deskripsi Produk:</h6>
-                                    <p id="modalProductDescription" class="text-muted mb-3"></p>
-
-                                    <!-- Product Features -->
-                                    <div class="product-features">
-                                        <h6 class="fw-semibold mb-2">Keunggulan:</h6>
-                                        <ul class="feature-list">
-                                            <li><i class="fas fa-check text-success me-2"></i>Kualitas Premium</li>
-                                            <li><i class="fas fa-check text-success me-2"></i>Bahan Berkualitas Tinggi</li>
-                                            <li><i class="fas fa-check text-success me-2"></i>Garansi Resmi</li>
-                                            <li><i class="fas fa-check text-success me-2"></i>Pengiriman Gratis</li>
-                                        </ul>
-                                    </div>
-                                </div>
-
                                 <!-- Size Selection -->
                                 <div class="option-group mb-4">
                                     <label class="form-label fw-semibold">Ukuran:</label>
@@ -456,7 +439,7 @@
                                         <label class="btn color-btn" for="color-black" style="background-color: #000000;" title="Hitam"></label>
 
                                         <input type="radio" name="color" id="color-white" value="Putih" class="btn-check" checked>
-                                        <label class="btn color-btn" for="color-white" style="background-color: #ffffff; border: 2px solid #ddd;" title="Putih"></label>
+                                        <label class="btn color-btn" for="color-white" style="background-color: #ffffff;" title="Putih"></label>
 
                                         <input type="radio" name="color" id="color-red" value="Merah" class="btn-check">
                                         <label class="btn color-btn" for="color-red" style="background-color: #dc3545;" title="Merah"></label>
@@ -490,6 +473,71 @@
                                         </div>
                                         <small class="text-muted">Stok tersedia: <span class="fw-bold text-success">20</span></small>
                                     </div>
+                                </div>
+
+                                <!-- Panduan Detail Ukuran - Dipindah ke sini -->
+                                <div class="size-guide mb-4">
+                                    <h6 class="fw-semibold text-dark mb-2">
+                                        <i class="fas fa-ruler me-2"></i>Panduan Detail Ukuran:
+                                    </h6>
+                                    
+                                    <!-- Deskripsi Produk di dalam panduan ukuran -->
+                                    <div class="product-description-inline mb-3">
+                                        <div class="description-card">
+                                            <h6 class="fw-semibold mb-2 text-primary">
+                                                <i class="fas fa-info-circle me-2"></i>Deskripsi Produk:
+                                            </h6>
+                                            <p id="modalProductDescription" class="text-muted mb-2 description-text"></p>
+                                            
+                                            <!-- Product Features -->
+                                            <div class="product-features-inline">
+                                                <h6 class="fw-semibold mb-2 text-success">Keunggulan:</h6>
+                                                <ul class="feature-list-inline">
+                                                    <li><i class="fas fa-check text-success me-2"></i>Kualitas Premium</li>
+                                                    <li><i class="fas fa-check text-success me-2"></i>Bahan Berkualitas Tinggi</li>
+                                                    <li><i class="fas fa-check text-success me-2"></i>Garansi Resmi</li>
+                                                    <li><i class="fas fa-check text-success me-2"></i>Pengiriman Gratis</li>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="row g-2">
+                                        <div class="col-md-6">
+                                            <div class="size-detail-card">
+                                                <strong>XS:</strong> Lebar Dada 46cm | Panjang 65cm<br>
+                                                <strong>S:</strong> Lebar Dada 50cm | Panjang 68cm<br>
+                                                <strong>M:</strong> Lebar Dada 54cm | Panjang 71cm
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="size-detail-card">
+                                                <strong>L:</strong> Lebar Dada 58cm | Panjang 74cm<br>
+                                                <strong>XL:</strong> Lebar Dada 62cm | Panjang 77cm<br>
+                                                <strong>XXL:</strong> Lebar Dada 66cm | Panjang 80cm
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <small class="text-muted mt-2 d-block">
+                                        <i class="fas fa-info-circle me-1"></i>
+                                        Semua ukuran dalam satuan centimeter (cm). Toleransi ±1-2cm.
+                                    </small>
+                                </div>
+
+                                <!-- Add to Cart Button -->
+                                <div class="cart-action-section">
+                                    <button type="button" 
+                                            id="addToCartBtn"
+                                            class="btn btn-primary btn-lg w-100 add-to-cart-btn" 
+                                            onclick="addToCart(event)" 
+                                            style="position: relative; z-index: 10; pointer-events: auto; cursor: pointer;">
+                                        <i class="fas fa-shopping-cart me-2"></i>
+                                        Tambah ke Keranjang
+                                    </button>
+                                    <small class="text-muted d-block text-center mt-2">
+                                        <i class="fas fa-shield-alt me-1"></i>
+                                        Aman dan terpercaya • Garansi kualitas
+                                    </small>
                                 </div>
                             </div>
                         </div>
@@ -530,37 +578,68 @@
         transition: transform 0.3s ease;
     }
 
-    /* Product Modal Styles */
+    /* Product Modal Styles - No border, with thumbnails */
     .main-product-image {
         max-height: 400px;
-        object-fit: cover;
-        width: 100%;
-        border: 1px solid #eee;
+        height: auto;
+        object-fit: contain;
+        width: auto;
+        max-width: 350px;
+        border: none;
+        border-radius: 15px;
+        margin: 0 auto;
+        display: block;
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+        background: #fff;
+        padding: 10px;
     }
 
+    .product-image-gallery {
+        padding: 20px;
+    }
+
+    .main-image-container {
+        width: 100%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        background: white;
+        border-radius: 15px;
+        padding: 15px;
+        box-shadow: 0 2px 10px rgba(0,0,0,0.08);
+        margin-bottom: 15px;
+    }
+
+    /* Thumbnail Images - Hover effects minimal */
     .thumbnail-images {
         max-height: 80px;
+        justify-content: center;
     }
 
     .thumbnail-item {
         cursor: pointer;
-        border: 2px solid transparent;
-        border-radius: 8px;
+        border: none;
+        border-radius: 10px;
         overflow: hidden;
         transition: all 0.3s ease;
-        opacity: 0.7;
+        opacity: 0.8;
     }
 
-    .thumbnail-item.active,
+    .thumbnail-item.active {
+        opacity: 1;
+        transform: scale(1.02);
+        box-shadow: 0 4px 15px rgba(242, 107, 55, 0.3);
+    }
+
     .thumbnail-item:hover {
-        border-color: #f26b37;
         opacity: 1;
     }
 
     .thumbnail-img {
-        width: 70px;
-        height: 70px;
+        width: 65px;
+        height: 65px;
         object-fit: cover;
+        border-radius: 8px;
     }
 
     .product-header .badge {
@@ -620,7 +699,7 @@
         font-size: 1.1rem;
     }
 
-    /* Size Options */
+    /* Size Options - No tooltips */
     .size-options {
         display: flex;
         flex-wrap: wrap;
@@ -646,30 +725,110 @@
         color: white !important;
     }
 
-    /* Color Options */
+    .size-guide {
+        background: #f8f9fa;
+        padding: 15px;
+        border-radius: 12px;
+        border-left: 4px solid #f26b37;
+    }
+
+    .size-detail-card {
+        background: white;
+        padding: 12px;
+        border-radius: 8px;
+        font-size: 0.9rem;
+        line-height: 1.6;
+        box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+    }
+
+    .size-detail-card strong {
+        color: #f26b37;
+        font-weight: 600;
+    }
+
+    /* Deskripsi produk di dalam size guide */
+    .product-description-inline {
+        margin-bottom: 15px;
+    }
+
+    .description-card {
+        background: linear-gradient(135deg, #fff 0%, #f8f9fa 100%);
+        padding: 15px;
+        border-radius: 10px;
+        border: 1px solid #e9ecef;
+        box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+    }
+
+    .description-text {
+        font-size: 0.9rem;
+        line-height: 1.5;
+        margin-bottom: 10px;
+    }
+
+    .product-features-inline h6 {
+        font-size: 0.9rem;
+        margin-bottom: 8px;
+    }
+
+    .feature-list-inline {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 4px;
+    }
+
+    .feature-list-inline li {
+        font-size: 0.85rem;
+        padding: 2px 0;
+    }
+
+    @media (max-width: 768px) {
+        .feature-list-inline {
+            grid-template-columns: 1fr;
+        }
+    }
+
+    /* Color Options - Improved circular design */
     .color-options {
         display: flex;
         flex-wrap: wrap;
-        gap: 10px;
+        gap: 12px;
     }
 
     .color-btn {
-        width: 40px;
-        height: 40px;
+        width: 45px;
+        height: 45px;
         border-radius: 50% !important;
-        border: 3px solid transparent !important;
+        border: 3px solid #e9ecef !important;
         transition: all 0.3s ease;
         position: relative;
+        padding: 0;
+        display: inline-block;
+        cursor: pointer;
     }
 
     .color-btn:hover {
-        transform: scale(1.1);
-        box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+        transform: scale(1.15);
+        box-shadow: 0 6px 15px rgba(0,0,0,0.2);
+        border-color: #adb5bd !important;
     }
 
     .btn-check:checked + .color-btn {
         border-color: #f26b37 !important;
-        box-shadow: 0 0 0 3px rgba(242, 107, 55, 0.3);
+        box-shadow: 0 0 0 4px rgba(242, 107, 55, 0.3);
+        transform: scale(1.1);
+    }
+
+    /* Special handling for white color to show border */
+    .color-btn[style*="ffffff"], .color-btn[style*="FFFFFF"] {
+        border-color: #dee2e6 !important;
+    }
+
+    .btn-check:checked + .color-btn[style*="ffffff"], 
+    .btn-check:checked + .color-btn[style*="FFFFFF"] {
+        border-color: #f26b37 !important;
     }
 
     /* Quantity Selector */
@@ -712,7 +871,132 @@
         border-color: #f26b37;
     }
 
-    /* Modal Actions - Cart button removed */
+    /* Add to Cart Button - Ensure it's clickable */
+    .add-to-cart-btn {
+        background: linear-gradient(45deg, #f26b37, #ff6b4a);
+        border: none !important;
+        border-radius: 12px;
+        padding: 15px 20px;
+        font-weight: 600;
+        font-size: 1.1rem;
+        transition: all 0.3s ease;
+        box-shadow: 0 4px 15px rgba(242, 107, 55, 0.3);
+        cursor: pointer !important;
+        position: relative;
+        z-index: 10 !important;
+        pointer-events: auto !important;
+        user-select: none;
+    }
+
+    .add-to-cart-btn:hover:not(:disabled) {
+        background: linear-gradient(45deg, #e55a2b, #f55a3a);
+        transform: translateY(-2px);
+        box-shadow: 0 6px 20px rgba(242, 107, 55, 0.4);
+    }
+
+    .add-to-cart-btn:active:not(:disabled) {
+        transform: translateY(0);
+    }
+
+    .add-to-cart-btn:focus {
+        outline: none;
+        box-shadow: 0 0 0 3px rgba(242, 107, 55, 0.3);
+    }
+
+    .add-to-cart-btn:disabled {
+        opacity: 0.7;
+        cursor: not-allowed !important;
+        transform: none;
+    }
+
+    /* Login Required Modal Styles - Clean Design */
+    #loginRequiredModal .modal-content {
+        border-radius: 15px;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+        border: none;
+        overflow: hidden;
+    }
+
+    #loginRequiredModal .modal-header {
+        background-color: #ffffff;
+        border-bottom: none;
+        padding: 1.5rem 1.5rem 0.5rem;
+        position: relative;
+    }
+
+    #loginRequiredModal .btn-close {
+        position: absolute;
+        top: 15px;
+        right: 15px;
+        background: none;
+        border: none;
+        font-size: 1.2rem;
+        opacity: 0.6;
+    }
+
+    #loginRequiredModal .btn-close:hover {
+        opacity: 1;
+    }
+
+    #loginRequiredModal .login-icon-container {
+        width: 80px;
+        height: 80px;
+        background: linear-gradient(135deg, #e3f2fd, #bbdefb);
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin: 0 auto;
+    }
+
+    #loginRequiredModal .modal-body {
+        padding: 1rem 1.5rem 1.5rem;
+        background-color: #ffffff;
+    }
+
+    #loginRequiredModal .modal-title {
+        font-size: 1.25rem;
+        font-weight: 600;
+        color: #212529;
+        margin-bottom: 0;
+    }
+
+    #loginRequiredModal .btn {
+        border-radius: 8px;
+        font-weight: 500;
+        padding: 12px 24px;
+        transition: all 0.2s ease;
+    }
+
+    #loginRequiredModal .btn-secondary {
+        background-color: #6c757d;
+        border-color: #6c757d;
+    }
+
+    #loginRequiredModal .btn-secondary:hover {
+        background-color: #5a6268;
+        border-color: #545b62;
+        transform: translateY(-1px);
+    }
+
+    #loginRequiredModal .btn-primary {
+        background-color: #f26b37;
+        border-color: #f26b37;
+    }
+
+    #loginRequiredModal .btn-primary:hover {
+        background-color: #e55a2b;
+        border-color: #e55a2b;
+        transform: translateY(-1px);
+        box-shadow: 0 4px 12px rgba(242, 107, 55, 0.3);
+    }
+
+    /* Modal Actions */
+    .cart-action-section {
+        border-top: 1px solid #eee;
+        padding-top: 20px;
+        margin-top: 20px;
+    }
 
     /* Responsive Modal */
     @media (max-width: 768px) {
@@ -848,6 +1132,39 @@
         // Initialize pagination
         updatePagination();
 
+        // Make quantity functions globally available
+        window.increaseQuantity = increaseQuantity;
+        window.decreaseQuantity = decreaseQuantity;
+        window.addToCart = addToCart;
+
+        // Add event listener for add to cart button
+        document.addEventListener('click', function(event) {
+            // Check for both id and class to ensure we catch the button
+            if (event.target.closest('#addToCartBtn') || 
+                event.target.closest('.add-to-cart-btn')) {
+                console.log('Add to cart button clicked via event listener'); // Debug log
+                event.preventDefault();
+                event.stopPropagation();
+                addToCart(event);
+            }
+        });
+
+        // Also add direct event listener to the button when modal opens
+        document.addEventListener('shown.bs.modal', function(event) {
+            if (event.target.id === 'productModal') {
+                const addToCartBtn = document.getElementById('addToCartBtn');
+                if (addToCartBtn && !addToCartBtn.hasAttribute('data-listener-added')) {
+                    addToCartBtn.addEventListener('click', function(e) {
+                        console.log('Add to cart button clicked via direct listener'); // Debug log
+                        e.preventDefault();
+                        e.stopPropagation();
+                        addToCart(e);
+                    });
+                    addToCartBtn.setAttribute('data-listener-added', 'true');
+                }
+            }
+        });
+
         if (productModal) {
             productModal.addEventListener('show.bs.modal', function(event) {
                 const button = event.relatedTarget;
@@ -862,8 +1179,24 @@
                 // Update modal content
                 document.getElementById('modalProductName').textContent = productName;
                 document.getElementById('modalCurrentPrice').textContent = productPrice;
-                document.getElementById('modalProductImage').src = productImage;
-                document.getElementById('modalProductImage').alt = productName;
+                
+                // Set image with error handling and debugging
+                const modalImage = document.getElementById('modalProductImage');
+                console.log('Setting image src to:', productImage);
+                modalImage.src = productImage;
+                modalImage.alt = productName;
+                
+                modalImage.onload = function() {
+                    console.log('Image loaded successfully');
+                };
+                
+                modalImage.onerror = function() {
+                    console.log('Image failed to load, using fallback');
+                    // Fallback to a default image
+                    this.src = '/image/kategori/fashion/kemeja_formal.png';
+                    this.onerror = null; // Prevent infinite loop
+                };
+                
                 document.getElementById('modalProductDescription').textContent = productDescription;
                 document.getElementById('modalProductCategory').textContent = productCategory;
 
@@ -874,7 +1207,7 @@
                 productModal.setAttribute('data-product-image', productImage);
                 productModal.setAttribute('data-product-category', productCategory);
 
-                // Handle original price
+                                // Handle original price
                 const originalPriceElement = document.getElementById('modalOriginalPrice');
                 if (productOriginalPrice && productOriginalPrice !== '') {
                     originalPriceElement.textContent = productOriginalPrice;
@@ -914,38 +1247,205 @@
                 }
             });
         }
+    });
+            });
 
-                // Reset form
-                document.getElementById('quantity').value = 1;
-                document.querySelector('input[name="size"][value="M"]').checked = true;
-                document.querySelector('input[name="color"][value="Putih"]').checked = true;
+            // Handle thumbnail clicks
+            document.addEventListener('click', function(e) {
+                if (e.target.closest('.thumbnail-item')) {
+                    const clickedThumb = e.target.closest('.thumbnail-item');
+
+                    // Remove active class from all thumbnails
+                    document.querySelectorAll('.thumbnail-item').forEach(t => t.classList.remove('active'));
+                    // Add active class to clicked thumbnail
+                    clickedThumb.classList.add('active');
+
+                    // Update main image
+                    const mainImage = document.getElementById('modalProductImage');
+                    const thumbImage = clickedThumb.querySelector('img');
+                    if (thumbImage && mainImage) {
+                        mainImage.src = thumbImage.src;
+                    }
+                }
             });
         }
 
-        // Update cart badge on page load
-        updateCartBadge();
-    });
+    // Add to Cart function with login validation
+    function addToCart(event) {
+        console.log('addToCart function called'); // Debug log
+        
+        // Prevent default and stop propagation
+        if (event) {
+            event.preventDefault();
+            event.stopPropagation();
+        }
 
+        // Check if user is logged in first
+        const isLoggedIn = checkUserLogin();
+        console.log('User logged in status:', isLoggedIn); // Debug log
+        
+        if (!isLoggedIn) {
+            console.log('User not logged in, showing login modal'); // Debug log
+            showLoginAlert();
+            return;
+        }
+
+        // Validate required selections
+        const modal = document.getElementById('productModal');
+        const selectedSize = document.querySelector('input[name="size"]:checked');
+        const selectedColor = document.querySelector('input[name="color"]:checked');
+        const quantityInput = document.getElementById('quantity');
+
+        if (!selectedSize) {
+            showToast('Silakan pilih ukuran terlebih dahulu!', 'warning');
+            return;
+        }
+
+        if (!selectedColor) {
+            showToast('Silakan pilih warna terlebih dahulu!', 'warning');
+            return;
+        }
+
+        if (!quantityInput || quantityInput.value < 1) {
+            showToast('Jumlah produk tidak valid!', 'warning');
+            return;
+        }
+
+        // Get product details
+        const productId = modal.getAttribute('data-product-id');
+        const productName = modal.getAttribute('data-product-name');
+        const productPrice = modal.getAttribute('data-product-price');
+        const productImage = modal.getAttribute('data-product-image');
+        
+        // Prepare cart data
+        const cartItem = {
+            id: productId,
+            name: productName,
+            price: productPrice,
+            image: productImage,
+            size: selectedSize.value,
+            color: selectedColor.value,
+            quantity: parseInt(quantityInput.value)
+        };
+
+        // Show loading state
+        const button = event ? event.target : document.getElementById('addToCartBtn');
+        const originalText = button.innerHTML;
+        button.innerHTML = '<i class="fas fa-spinner fa-spin me-2"></i>Menambahkan...';
+        button.disabled = true;
+
+        // Simulate API call (replace with actual implementation)
+        setTimeout(() => {
+            // Reset button
+            button.innerHTML = originalText;
+            button.disabled = false;
+            
+            // Show success message
+            showToast('Produk berhasil ditambahkan ke keranjang!', 'success');
+            
+            // Close modal
+            const bootstrapModal = bootstrap.Modal.getInstance(modal);
+            if (bootstrapModal) {
+                bootstrapModal.hide();
+            }
+        }, 1000);
     }
 
-    // Quantity functions (kept for display purposes only)
+    // Check if user is logged in - Laravel session check
+    function checkUserLogin() {
+        // Check Laravel authentication status for 'pelanggan' guard
+        @if(auth('pelanggan')->check())
+            return true;
+        @else
+            return false;
+        @endif
+    }
+
+    // Show login required alert
+    function showLoginAlert() {
+        // Create a custom alert modal that matches the screenshot design
+        const alertHtml = `
+            <div class="modal fade" id="loginRequiredModal" tabindex="-1" aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered modal-sm">
+                    <div class="modal-content" style="border-radius: 15px; border: none; box-shadow: 0 10px 30px rgba(0,0,0,0.2);">
+                        <div class="modal-header border-0 text-center pb-2">
+                            <div class="w-100">
+                                <button type="button" class="btn-close float-end" data-bs-dismiss="modal" aria-label="Close"></button>
+                                <div class="text-center mt-3">
+                                    <div class="login-icon-container mb-3">
+                                        <i class="fas fa-lock" style="font-size: 3rem; color: #007bff;"></i>
+                                    </div>
+                                    <h5 class="modal-title fw-bold text-dark">Login Diperlukan</h5>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="modal-body text-center px-4 py-3">
+                            <p class="text-muted mb-4" style="font-size: 14px; line-height: 1.5;">
+                                Silakan login terlebih dahulu untuk menambahkan produk ke keranjang.
+                            </p>
+                            <div class="d-grid gap-2">
+                                <button type="button" class="btn btn-secondary" 
+                                        style="background-color: #6c757d; border: none; border-radius: 8px; padding: 10px 20px; font-weight: 500;"
+                                        data-bs-dismiss="modal">
+                                    Batal
+                                </button>
+                                <a href="/pelanggan/login" 
+                                   class="btn btn-primary" 
+                                   style="background-color: #f26b37; border: none; border-radius: 8px; padding: 10px 20px; font-weight: 600; text-decoration: none; color: white;">
+                                    Login Sekarang
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        `;
+
+        // Remove existing modal if any
+        const existingModal = document.getElementById('loginRequiredModal');
+        if (existingModal) {
+            existingModal.remove();
+        }
+
+        // Add modal to body
+        document.body.insertAdjacentHTML('beforeend', alertHtml);
+
+        // Show modal
+        const loginModal = new bootstrap.Modal(document.getElementById('loginRequiredModal'));
+        loginModal.show();
+
+        // Clean up modal after it's hidden
+        document.getElementById('loginRequiredModal').addEventListener('hidden.bs.modal', function() {
+            this.remove();
+        });
+    }
+
+    // Quantity functions - Fixed to work properly
     function increaseQuantity() {
         const quantityInput = document.getElementById('quantity');
-        const currentValue = parseInt(quantityInput.value);
-        const maxValue = parseInt(quantityInput.max);
+        if (quantityInput) {
+            const currentValue = parseInt(quantityInput.value) || 1;
+            const maxValue = parseInt(quantityInput.getAttribute('max')) || 10;
 
-        if (currentValue < maxValue) {
-            quantityInput.value = currentValue + 1;
+            if (currentValue < maxValue) {
+                quantityInput.value = currentValue + 1;
+                // Trigger change event for any listeners
+                quantityInput.dispatchEvent(new Event('change'));
+            }
         }
     }
 
     function decreaseQuantity() {
         const quantityInput = document.getElementById('quantity');
-        const currentValue = parseInt(quantityInput.value);
-        const minValue = parseInt(quantityInput.min);
+        if (quantityInput) {
+            const currentValue = parseInt(quantityInput.value) || 1;
+            const minValue = parseInt(quantityInput.getAttribute('min')) || 1;
 
-        if (currentValue > minValue) {
-            quantityInput.value = currentValue - 1;
+            if (currentValue > minValue) {
+                quantityInput.value = currentValue - 1;
+                // Trigger change event for any listeners
+                quantityInput.dispatchEvent(new Event('change'));
+            }
         }
     }
 
