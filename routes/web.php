@@ -8,6 +8,31 @@ use App\Http\Controllers\ProductController;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\GudangController;
+
+// Test route untuk validasi keranjang multi-user
+Route::get('/test-cart-isolation', function() {
+    if (!Auth::guard('pelanggan')->check()) {
+        return response()->json(['error' => 'Not authenticated']);
+    }
+    
+    $pelanggan = Auth::guard('pelanggan')->user();
+    $myCartItems = App\Models\Keranjang::forPelanggan($pelanggan->id_pelanggan)->get();
+    $totalCartItems = App\Models\Keranjang::count();
+    $totalUsers = App\Models\Pelanggan::count();
+    
+    return response()->json([
+        'current_user' => [
+            'id' => $pelanggan->id_pelanggan,
+            'name' => $pelanggan->nama,
+            'email' => $pelanggan->email
+        ],
+        'my_cart_items' => $myCartItems->count(),
+        'my_cart_total' => $myCartItems->sum('subtotal'),
+        'total_cart_items_in_db' => $totalCartItems,
+        'total_users' => $totalUsers,
+        'is_isolated' => $myCartItems->count() < $totalCartItems ? 'YES - Cart is isolated per user' : 'UNKNOWN - Need more users to test'
+    ]);
+});
 use App\Http\Controllers\StokGudangPusatController;
 use App\Http\Controllers\ProdukTerlarisController;
 use App\Http\Controllers\KeranjangController;

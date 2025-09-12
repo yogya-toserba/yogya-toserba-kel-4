@@ -14,8 +14,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     <!-- Custom CSS (consolidated) -->
     <link href="{{ asset('css/dashboard.css') }}" rel="stylesheet">
-    <!-- Google Fonts - Roboto Mono -->
-    <link href="https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Google Fonts - Roboto Mon        // Show toast notification functionref="https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
     
     <style>
         /* Modal stability fixes */
@@ -136,6 +135,17 @@
         .promo-icon, .welcome-icon, .voucher-section, .modal-buttons {
             animation: initial !important;
             transition: all 0.3s ease !important;
+        }
+        
+        /* Guest restriction styles */
+        .guest-restricted {
+            opacity: 0.6 !important;
+            cursor: not-allowed !important;
+            pointer-events: auto !important;
+        }
+        
+        .guest-restricted:hover {
+            opacity: 0.8 !important;
         }
     </style>
 </head>
@@ -713,6 +723,8 @@
             }
         }
 
+        });
+        
         // Cart functionality
         let cart = JSON.parse(localStorage.getItem('cart') || '[]');
 
@@ -726,65 +738,179 @@
             }
         }
 
+        // Block cart and notification access for non-authenticated users
+        @guest
+        document.addEventListener('DOMContentLoaded', function() {
+            // Block cart access
+            const cartLink = document.querySelector('.cart-link');
+            if (cartLink) {
+                cartLink.classList.add('guest-restricted');
+                cartLink.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    showLoginRequired();
+                });
+            }
+
+            // Block notification access
+            const notificationDropdown = document.querySelector('[data-bs-toggle="dropdown"]');
+            if (notificationDropdown && notificationDropdown.closest('.nav-item').querySelector('.notification-badge')) {
+                notificationDropdown.classList.add('guest-restricted');
+                notificationDropdown.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    showLoginRequired();
+                });
+            }
+
+            // Alternative selector for notification icon
+            const notificationIcon = document.querySelector('.fas.fa-bell');
+            if (notificationIcon) {
+                const notificationLink = notificationIcon.closest('a');
+                if (notificationLink) {
+                    notificationLink.classList.add('guest-restricted');
+                    notificationLink.addEventListener('click', function(e) {
+                        e.preventDefault();
+                        e.stopPropagation();
+                        showLoginRequired();
+                    });
+                }
+            }
+
+            // Also hide badge counts for guests
+            const cartBadge = document.querySelector('.cart-badge');
+            if (cartBadge) {
+                cartBadge.style.display = 'none';
+            }
+
+            const notificationBadge = document.querySelector('.notification-badge');
+            if (notificationBadge) {
+                notificationBadge.style.display = 'none';
+            }
+        });
+        @endguest
+
         // Add to cart function
         // Enhanced cart functionality with authentication
         function addToCart(event, product) {
+            console.log('addToCart called with product:', product);
             event.preventDefault();
             event.stopPropagation();
             
-            @guest
+            // Get button element for visual feedback
+            const button = event.target.matches('.btn-add-cart') ? event.target : event.target.closest('.btn-add-cart');
+            const originalText = button.innerHTML;
+            
+            // Show loading state
+            button.innerHTML = '<i class="fas fa-spinner fa-spin me-1"></i>Menambahkan...';
+            button.disabled = true;
+            
+            // Check authentication status
+            @auth('pelanggan')
+                console.log('User is authenticated, proceeding with cart addition');
+                
+                // Prepare data for server
+                const formData = {
+                    id: product.id,
+                    name: product.name,
+                    price: product.price,
+                    image: product.image || '{{ asset("image/illustration.png") }}',
+                    category: product.category || 'Produk Populer',
+                    quantity: 1
+                };
+                
+                console.log('Sending data to server:', formData);
+                
+                // Send to server
+                fetch('/keranjang/add', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+                    },
+                    body: JSON.stringify(formData)
+                })
+                .then(response => {
+                    console.log('Server response status:', response.status);
+                    return response.json();
+                })
+                .then(data => {
+                    console.log('Server response data:', data);
+                    if (data.success) {
+                        // Update cart badge
+                        updateCartBadgeFromServer(data.cartCount || 0);
+                        
+                        // Show success toast
+                        showToast(data.message || 'Produk berhasil ditambahkan ke keranjang', 'success');
+                        
+                        // Change button text temporarily
+                        button.innerHTML = '<i class="fas fa-check me-1"></i>Ditambahkan!';
+                        button.classList.add('btn-success');
+                        button.classList.remove('btn-primary');
+                        
+                        setTimeout(() => {
+                            button.innerHTML = originalText;
+                            button.classList.remove('btn-success');
+                            button.classList.add('btn-primary');
+                            button.disabled = false;
+                        }, 2000);
+                    } else {
+                        showToast(data.message || 'Gagal menambahkan ke keranjang', 'danger');
+                        button.innerHTML = originalText;
+                        button.disabled = false;
+                    }
+                })
+                .catch(error => {
+                    console.error('Error adding to cart:', error);
+                    showToast('Terjadi kesalahan saat menambahkan ke keranjang', 'danger');
+                    button.innerHTML = originalText;
+                    button.disabled = false;
+                });
+            @else
+                console.log('User not authenticated, showing login dialog');
                 // User not logged in, show login modal
                 showLoginRequired();
-                return;
-            @endguest
-            
-            // User is logged in, proceed with adding to cart
-            const formData = {
-                id: product.id,
-                name: product.name,
-                price: product.price,
-                image: product.image,
-                category: product.category,
-                quantity: 1
-            };
-            
-            // Send to server
-            fetch('/keranjang/add', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
-                },
-                body: JSON.stringify(formData)
-            })
-            .then(response => response.json())
-            .then(data => {
-                if (data.success) {
-                    // Update cart badge
-                    updateCartBadgeFromServer(data.cartCount);
-                    
-                    // Show success toast
-                    showToast(data.message, 'success');
-                } else if (data.requireLogin) {
-                    // Redirect to login or show login modal
-                    showLoginRequired();
-                } else {
-                    showToast(data.message || 'Gagal menambahkan ke keranjang', 'danger');
-                }
-            })
-            .catch(error => {
-                console.error('Error adding to cart:', error);
-                showToast('Terjadi kesalahan saat menambahkan ke keranjang', 'danger');
-            });
+                button.innerHTML = originalText;
+                button.disabled = false;
+            @endauth
+        }
+
+        // Show login required modal/message
+        function showLoginRequired() {
+            // Create modal or redirect to login
+            if (confirm('Anda harus login terlebih dahulu untuk menambahkan produk ke keranjang. Login sekarang?')) {
+                window.location.href = '{{ route("pelanggan.login") }}';
+            }
         }
 
         // Update cart badge from server response
         function updateCartBadgeFromServer(count) {
+            console.log('Updating cart badge with count:', count);
             const cartBadges = document.querySelectorAll('.cart-badge, .cart-count');
             cartBadges.forEach(badge => {
-                badge.textContent = count;
+                badge.textContent = count || 0;
                 badge.style.display = count > 0 ? 'inline' : 'none';
             });
+        }
+
+        // Update cart badge function
+        function updateCartBadge() {
+            @auth('pelanggan')
+                // For authenticated users, get count from server
+                fetch('/keranjang/data')
+                    .then(response => response.json())
+                    .then(data => {
+                        if (data.success) {
+                            updateCartBadgeFromServer(data.cartCount || 0);
+                        }
+                    })
+                    .catch(error => {
+                        console.error('Error loading cart data:', error);
+                    });
+            @else
+                // For guests, hide badge
+                updateCartBadgeFromServer(0);
+            @endauth
         }
 
         // Load cart count on page load for authenticated users
@@ -846,29 +972,54 @@
 
         // Initialize cart badge and event listeners
         document.addEventListener('DOMContentLoaded', function() {
+            console.log('DOM loaded, initializing cart functionality');
+            
+            // Update cart badge on load
             updateCartBadge();
             
-            // Add event listeners to add to cart buttons
-            document.querySelectorAll('.btn-add-cart').forEach(function(button) {
-                button.addEventListener('click', function(event) {
-                    const productData = @json($popularProducts);
-                    const productId = parseInt(this.dataset.productId);
+            // Debug: Check if products data exists
+            const productData = @json($popularProducts);
+            console.log('Product data loaded:', productData);
+            console.log('Product count:', productData.length);
+            
+            // Use event delegation for better reliability
+            document.addEventListener('click', function(e) {
+                if (e.target.matches('.btn-add-cart') || e.target.closest('.btn-add-cart')) {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    
+                    const button = e.target.matches('.btn-add-cart') ? e.target : e.target.closest('.btn-add-cart');
+                    const productId = parseInt(button.dataset.productId);
+                    
+                    console.log('Cart button clicked! Product ID:', productId);
+                    console.log('Button element:', button);
+                    
                     const product = productData.find(p => p.id === productId);
+                    console.log('Found product:', product);
                     
                     if (product) {
                         const cartProduct = {
                             id: product.id,
                             name: product.name,
                             price: product.price,
-                            image: '{{ asset("image/illustration.png") }}',
-                            category: 'Produk Populer',
-                            stock: 100, // Default stock
-                            size: null,
-                            color: null
+                            image: product.image || '{{ asset("image/illustration.png") }}',
+                            category: product.category || 'Produk Populer',
+                            stock: 100 // Default stock
                         };
-                        addToCart(event, cartProduct);
+                        addToCart(e, cartProduct);
+                    } else {
+                        console.error('Product not found for ID:', productId);
+                        showToast('Produk tidak ditemukan', 'danger');
                     }
-                });
+                }
+            });
+            
+            // Also keep the original method as fallback
+            const cartButtons = document.querySelectorAll('.btn-add-cart');
+            console.log('Found cart buttons:', cartButtons.length);
+            
+            cartButtons.forEach(function(button, index) {
+                console.log('Setting up button', index, 'with product ID:', button.dataset.productId);
             });
         });
 

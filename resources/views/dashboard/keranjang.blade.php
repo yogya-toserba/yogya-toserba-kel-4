@@ -1094,13 +1094,6 @@ function proceedToCheckout() {
 function updateAllCart() {
     location.reload();
 }
-</script>
-@endsection
-    checkoutBtn.disabled = checkedItems.length === 0;
-    selectedCount.textContent = checkedItems.length;
-    
-    updateCartSummary();
-}
 
 function deleteSelected() {
     const checkedItems = document.querySelectorAll('.item-checkbox:checked');

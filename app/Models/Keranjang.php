@@ -46,11 +46,4 @@ class Keranjang extends Model
     {
         return $query->where('id_pelanggan', $pelangganId);
     }
-}space App\Models;
-
-use Illuminate\Database\Eloquent\Model;
-
-class Keranjang extends Model
-{
-    //
 }

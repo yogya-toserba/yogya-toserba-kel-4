@@ -105,12 +105,13 @@ class DashboardController extends Controller
           DB::raw('(4.0 + (RAND() * 1.0)) as rating'),
           DB::raw('FLOOR(10 + (RAND() * 500)) as sold')
         )
+        ->where('stok_produk.stok', '>', 0) // Pastikan ada stok
         ->orderBy('stok_produk.stok', 'desc')
         ->limit(8)
         ->get()
         ->map(function ($product) {
           return [
-            'id' => $product->id,
+            'id' => (int) $product->id,
             'name' => $product->name,
             'price' => (int) $product->price,
             'original_price' => (int) $product->original_price,
@@ -121,6 +122,32 @@ class DashboardController extends Controller
           ];
         })
         ->toArray();
+    }
+
+    // Fallback jika masih kosong
+    if (empty($popularProducts)) {
+      $popularProducts = [
+        [
+          'id' => 1,
+          'name' => 'Produk Sample 1',
+          'price' => 50000,
+          'original_price' => 60000,
+          'image' => 'default-product.jpg',
+          'rating' => 4.5,
+          'sold' => 100,
+          'category' => 'Sample'
+        ],
+        [
+          'id' => 2,
+          'name' => 'Produk Sample 2',
+          'price' => 75000,
+          'original_price' => 90000,
+          'image' => 'default-product.jpg',
+          'rating' => 4.2,
+          'sold' => 85,
+          'category' => 'Sample'
+        ]
+      ];
     }
 
     return view('dashboard.index', compact('user', 'promoSlides', 'categories', 'flashSaleVouchers', 'popularProducts'));

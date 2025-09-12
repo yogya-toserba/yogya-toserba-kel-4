@@ -31,61 +31,73 @@ class KeranjangController extends Controller
      */
     public function add(Request $request)
     {
-        // Check if user is authenticated
-        if (!Auth::guard('pelanggan')->check()) {
+        try {
+            // Check if user is authenticated
+            if (!Auth::guard('pelanggan')->check()) {
+                return response()->json([
+                    'success' => false,
+                    'message' => 'Silakan login terlebih dahulu untuk menambahkan produk ke keranjang.',
+                    'requireLogin' => true
+                ], 401);
+            }
+
+            $request->validate([
+                'id' => 'required|integer',
+                'name' => 'required|string|max:255',
+                'price' => 'required|numeric|min:0',
+                'image' => 'nullable|string',
+                'category' => 'nullable|string',
+                'quantity' => 'nullable|integer|min:1'
+            ]);
+
+            $pelanggan = Auth::guard('pelanggan')->user();
+            $quantity = $request->quantity ?? 1;
+            
+            // Check if item already exists in cart
+            $existingItem = Keranjang::where('id_pelanggan', $pelanggan->id_pelanggan)
+                                    ->where('id_produk', $request->id)
+                                    ->first();
+            
+            if ($existingItem) {
+                // Update quantity
+                $existingItem->jumlah += $quantity;
+                $existingItem->calculateSubtotal();
+                $existingItem->save();
+                
+                $message = 'Jumlah produk di keranjang berhasil diperbarui';
+            } else {
+                // Create new cart item
+                $keranjang = new Keranjang([
+                    'id_pelanggan' => $pelanggan->id_pelanggan,
+                    'id_produk' => $request->id,
+                    'nama_produk' => $request->name,
+                    'harga' => $request->price,
+                    'jumlah' => $quantity,
+                    'gambar' => $request->image,
+                    'kategori' => $request->category
+                ]);
+                
+                $keranjang->calculateSubtotal();
+                $keranjang->save();
+                
+                $message = 'Produk berhasil ditambahkan ke keranjang';
+            }
+            
+            // Get updated cart count
+            $cartCount = Keranjang::forPelanggan($pelanggan->id_pelanggan)->sum('jumlah');
+            
             return response()->json([
-                'success' => false,
-                'message' => 'Silakan login terlebih dahulu untuk menambahkan produk ke keranjang.',
-                'requireLogin' => true
-            ], 401);
-        }
-
-        $request->validate([
-            'id' => 'required',
-            'name' => 'required|string',
-            'price' => 'required|numeric',
-            'image' => 'nullable|string',
-            'category' => 'nullable|string',
-            'quantity' => 'integer|min:1'
-        ]);
-
-        $pelanggan = Auth::guard('pelanggan')->user();
-        $quantity = $request->quantity ?? 1;
-        
-        // Check if item already exists in cart
-        $existingItem = Keranjang::where('id_pelanggan', $pelanggan->id_pelanggan)
-                                ->where('id_produk', $request->id)
-                                ->first();
-        
-        if ($existingItem) {
-            // Update quantity
-            $existingItem->jumlah += $quantity;
-            $existingItem->calculateSubtotal();
-            $existingItem->save();
-        } else {
-            // Create new cart item
-            $keranjang = new Keranjang([
-                'id_pelanggan' => $pelanggan->id_pelanggan,
-                'id_produk' => $request->id,
-                'nama_produk' => $request->name,
-                'harga' => $request->price,
-                'jumlah' => $quantity,
-                'gambar' => $request->image,
-                'kategori' => $request->category
+                'success' => true,
+                'message' => $message,
+                'cartCount' => $cartCount
             ]);
             
-            $keranjang->calculateSubtotal();
-            $keranjang->save();
+        } catch (\Exception $e) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Terjadi kesalahan: ' . $e->getMessage()
+            ], 500);
         }
-        
-        // Get updated cart count
-        $cartCount = Keranjang::forPelanggan($pelanggan->id_pelanggan)->sum('jumlah');
-        
-        return response()->json([
-            'success' => true,
-            'message' => 'Produk berhasil ditambahkan ke keranjang!',
-            'cartCount' => $cartCount
-        ]);
     }
 
     /**
