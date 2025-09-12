@@ -651,26 +651,6 @@
 
             <!-- Navbar Actions -->
             <div class="navbar-actions">
-                <!-- Wishlist -->
-                <div class="nav-item">
-                    <a href="#" class="nav-link">
-                        <div class="nav-icon-wrapper">
-                            <i class="far fa-heart"></i>
-                            <span class="notification-badge">3</span>
-                        </div>
-                    </a>
-                </div>
-
-                <!-- Cart -->
-                <div class="nav-item">
-                    <a href="{{ route('keranjang') }}" class="nav-link" id="cart-nav-link">
-                        <div class="nav-icon-wrapper">
-                            <i class="fas fa-shopping-cart"></i>
-                            <span class="cart-badge" id="cart-badge">0</span>
-                        </div>
-                    </a>
-                </div>
-
                 <!-- Profile -->
                 <div class="nav-item">
                     @guest

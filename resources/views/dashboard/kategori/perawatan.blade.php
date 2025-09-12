@@ -228,9 +228,6 @@
                 @if($product['discount'])
                 <span class="discount-badge">-{{ $product['discount'] }}</span>
                 @endif
-                <button class="wishlist-btn">
-                    <i class="far fa-heart"></i>
-                </button>
             </div>
             
             <div class="product-info">

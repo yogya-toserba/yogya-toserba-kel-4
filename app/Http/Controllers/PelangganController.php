@@ -89,12 +89,50 @@ class PelangganController extends Controller
       return view('pelanggan.search-results', ['results' => [], 'query' => '']);
     }
 
-    // Search products by name from stok_produk table
+    // Search products from stok_produk with kategori join
     $results = \DB::table('stok_produk')
-      ->select('id_produk', 'nama_barang', 'harga_jual as harga', 'stok', 'foto')
-      ->where('nama_barang', 'like', "%{$query}%")
-      ->limit(10)
+      ->leftJoin('kategori', 'stok_produk.id_kategori', '=', 'kategori.id_kategori')
+      ->select(
+        'stok_produk.id_produk', 
+        'stok_produk.nama_barang', 
+        'stok_produk.harga_jual as harga', 
+        'stok_produk.stok', 
+        'stok_produk.foto',
+        'kategori.nama_kategori as kategori',
+        'stok_produk.jumlah_barang'
+      )
+      ->where(function($q) use ($query) {
+          $q->where('stok_produk.nama_barang', 'like', "%{$query}%")
+            ->orWhere('kategori.nama_kategori', 'like', "%{$query}%");
+      })
+      ->where('stok_produk.stok', '>', 0) // Only show products with stock
+      ->orderBy('stok_produk.nama_barang')
+      ->limit(20)
       ->get();
+
+    // If no results from stok_produk, also search from produks table
+    if ($results->isEmpty()) {
+      $additionalResults = \DB::table('produks')
+        ->select(
+          'id as id_produk',
+          'nama as nama_barang',
+          'harga_jual as harga',
+          'unit as stok',
+          'gambar as foto',
+          \DB::raw("'Produk' as kategori"),
+          'deskripsi'
+        )
+        ->where(function($q) use ($query) {
+            $q->where('nama', 'like', "%{$query}%")
+              ->orWhere('deskripsi', 'like', "%{$query}%");
+        })
+        ->where('status', 'aktif')
+        ->orderBy('nama')
+        ->limit(20)
+        ->get();
+
+      $results = $additionalResults;
+    }
 
     return view('pelanggan.search-results', [
       'results' => $results,

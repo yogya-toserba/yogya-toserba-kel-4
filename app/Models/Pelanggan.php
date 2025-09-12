@@ -71,4 +71,22 @@ class Pelanggan extends Authenticatable
   {
     return $this->password;
   }
+  
+  // Relationship dengan Keranjang
+  public function keranjang()
+  {
+    return $this->hasMany(Keranjang::class, 'id_pelanggan', 'id_pelanggan');
+  }
+  
+  // Method untuk mendapatkan total item di keranjang
+  public function getTotalKeranjangAttribute()
+  {
+    return $this->keranjang()->sum('jumlah');
+  }
+  
+  // Method untuk mendapatkan total harga keranjang
+  public function getTotalHargaKeranjangAttribute()
+  {
+    return $this->keranjang()->sum('subtotal');
+  }
 }

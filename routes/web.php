@@ -2,11 +2,37 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\PelangganController;
+use App\Http\Controllers\PelangganForgotPasswordController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\GudangController;
+
+// Test route untuk validasi keranjang multi-user
+Route::get('/test-cart-isolation', function() {
+    if (!Auth::guard('pelanggan')->check()) {
+        return response()->json(['error' => 'Not authenticated']);
+    }
+    
+    $pelanggan = Auth::guard('pelanggan')->user();
+    $myCartItems = App\Models\Keranjang::forPelanggan($pelanggan->id_pelanggan)->get();
+    $totalCartItems = App\Models\Keranjang::count();
+    $totalUsers = App\Models\Pelanggan::count();
+    
+    return response()->json([
+        'current_user' => [
+            'id' => $pelanggan->id_pelanggan,
+            'name' => $pelanggan->nama,
+            'email' => $pelanggan->email
+        ],
+        'my_cart_items' => $myCartItems->count(),
+        'my_cart_total' => $myCartItems->sum('subtotal'),
+        'total_cart_items_in_db' => $totalCartItems,
+        'total_users' => $totalUsers,
+        'is_isolated' => $myCartItems->count() < $totalCartItems ? 'YES - Cart is isolated per user' : 'UNKNOWN - Need more users to test'
+    ]);
+});
 use App\Http\Controllers\StokGudangPusatController;
 use App\Http\Controllers\ProdukTerlarisController;
 use App\Http\Controllers\KeranjangController;
@@ -20,6 +46,31 @@ use App\Http\Controllers\PemasokController;
 Route::get('/login', function () {
     return redirect()->route('admin.login');
 })->name('login');
+
+// Route untuk lupa sandi (forgot password)
+Route::get('/forgot-password', [PelangganForgotPasswordController::class, 'showForgotPasswordForm'])->name('password.request');
+Route::post('/forgot-password', [PelangganForgotPasswordController::class, 'sendResetCode'])->name('password.send.otp');
+Route::post('/resend-otp', [PelangganForgotPasswordController::class, 'sendResetCode'])->name('password.resend.otp');
+Route::get('/verify-code', [PelangganForgotPasswordController::class, 'showVerifyCodeForm'])->name('password.verify.form');
+Route::post('/verify-code', [PelangganForgotPasswordController::class, 'verifyCode'])->name('password.verify')
+    ->middleware('App\Http\Middleware\LogPostRequests');
+
+// Test route untuk debug 
+Route::get('/test-verify-debug', function (Request $request) {
+    \Log::info('DEBUG: GET Test verify route hit');
+    return response()->json(['status' => 'GET Test route works']);
+});
+
+Route::post('/test-verify-debug', function (Request $request) {
+    \Log::info('DEBUG: POST Test verify route hit', [
+        'data' => $request->all(),
+        'method' => $request->method()
+    ]);
+    return response()->json(['status' => 'POST Test route works', 'data' => $request->all()]);
+});
+
+Route::get('/reset-password/{token?}', [PelangganForgotPasswordController::class, 'showResetPasswordForm'])->name('password.reset.form');
+Route::post('/reset-password', [PelangganForgotPasswordController::class, 'resetPassword'])->name('password.update');
 
 // Route untuk testing error pages
 Route::get('/test-errors', function () {
@@ -57,6 +108,16 @@ Route::get('/405', function () {
 
 Route::get('/500', function () {
     return response()->view('errors.500', [], 500);
+});
+
+// Test route for guest access blocking
+Route::get('/test-guest', function () {
+    if (auth('pelanggan')->check()) {
+        auth('pelanggan')->logout();
+        session()->invalidate();
+        session()->regenerateToken();
+    }
+    return redirect('/')->with('success', 'You are now viewing as guest. Try clicking cart or notification icons.');
 });
 
 // Dashboard utama
@@ -123,6 +184,7 @@ Route::prefix('keranjang')->name('keranjang.')->group(function () {
     Route::delete('/remove', [KeranjangController::class, 'remove'])->name('remove');
     Route::delete('/clear', [KeranjangController::class, 'clear'])->name('clear');
     Route::get('/data', [KeranjangController::class, 'getCart'])->name('data');
+    Route::post('/sync', [KeranjangController::class, 'syncCart'])->name('sync');
 });
 
 // Product Detail Routes
@@ -355,11 +417,6 @@ Route::prefix('kategori')->name('kategori.')->group(function () {
     Route::get('/buku', [CategoryController::class, 'buku'])->name('buku');
     Route::get('/perawatan', [CategoryController::class, 'perawatan'])->name('perawatan');
 });
-
-// Route keranjang belanja
-Route::get('/keranjang', function () {
-    return view('dashboard.keranjang');
-})->name('keranjang');
 
 // Route checkout
 Route::get('/checkout', function () {

@@ -445,10 +445,10 @@
                     <p class="welcome-subtitle">Masukkan email Anda untuk menerima kode OTP</p>
                 </div>
 
-                @if(session('success'))
+                @if(session('success') || session('status'))
                     <div class="alert alert-success alert-dismissible fade show" role="alert">
                         <i class="fas fa-check-circle me-2"></i>
-                        {{ session('success') }}
+                        {{ session('success') ?? session('status') }}
                         <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
                     </div>
                 @endif
@@ -525,6 +525,18 @@
                     }
                 });
             });
+        });
+
+        // Debug form submission
+        document.querySelector('form').addEventListener('submit', function(e) {
+            console.log('Form submitted!');
+            const email = document.querySelector('#email').value;
+            console.log('Email value:', email);
+            if (!email) {
+                e.preventDefault();
+                alert('Please enter email');
+                return false;
+            }
         });
     </script>
 </body>

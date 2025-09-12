@@ -1415,13 +1415,11 @@ body {
     align-items: center;
     text-decoration: none;
     padding: 10px 0;
-    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     position: relative;
 }
 
 .navbar-brand:hover {
     text-decoration: none;
-    transform: translateY(-1px);
 }
 
 .logo-container {
@@ -1434,13 +1432,6 @@ body {
 .logo-container img {
     height: 52px;
     width: auto;
-    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-    filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.1));
-}
-
-.navbar-brand:hover .logo-container img {
-    filter: drop-shadow(0 6px 12px rgba(0, 0, 0, 0.15));
-    transform: scale(1.05);
 }
 
 .brand-info {
@@ -1460,7 +1451,6 @@ body {
     line-height: 1;
     letter-spacing: -1px;
     font-family: 'Montserrat', sans-serif;
-    transition: all 0.3s ease;
 }
 
 .brand-tagline {
@@ -1473,23 +1463,6 @@ body {
     opacity: 0.8;
     font-family: 'Inter', sans-serif;
     position: relative;
-}
-
-.navbar-brand:hover .brand-text {
-    background: linear-gradient(135deg, var(--elegant-primary) 0%, var(--elegant-secondary) 100%);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
-    transform: scale(1.02);
-}
-
-.navbar-brand:hover .brand-tagline {
-    opacity: 1;
-    color: var(--elegant-primary);
-}
-
-.navbar-brand:hover .brand-tagline::before {
-    width: 100%;
 }
 
 /* Enhanced Elegant Search Container */

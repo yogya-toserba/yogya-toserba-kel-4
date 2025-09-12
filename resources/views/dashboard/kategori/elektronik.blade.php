@@ -228,9 +228,6 @@
                 @if($product['discount'])
                 <span class="discount-badge">-{{ $product['discount'] }}</span>
                 @endif
-                <button class="wishlist-btn" onclick="event.stopPropagation();">
-                    <i class="far fa-heart"></i>
-                </button>
             </div>
             
             <div class="product-info">
@@ -402,39 +399,6 @@
 @endpush
 
 <script>
-// Add to cart function
-function addToCart(event, product) {
-    event.stopPropagation(); // Prevent any parent click events
-    
-    // Get existing cart from localStorage
-    let cart = JSON.parse(localStorage.getItem('cart') || '[]');
-    
-    // Check if product already exists in cart
-    const existingProductIndex = cart.findIndex(item => 
-        item.id === product.id && item.name === product.name
-    );
-    
-    if (existingProductIndex > -1) {
-        // If product exists, increase quantity
-        cart[existingProductIndex].quantity += 1;
-    } else {
-        // If new product, add to cart
-        product.quantity = 1;
-        cart.push(product);
-    }
-    
-    // Save to localStorage
-    localStorage.setItem('cart', JSON.stringify(cart));
-    
-    // Update cart counter in navbar (use global function from layout)
-    if (typeof updateCartBadge === 'function') {
-        updateCartBadge();
-    }
-    
-    // Show success toast
-    showToast(`${product.name} berhasil ditambahkan ke keranjang!`, 'success');
-}
-
 // Toast notification function
 function showToast(message, type = 'success') {
     // Create toast element
@@ -508,55 +472,7 @@ function openProductModal(name, image, price, originalPrice, rating, reviews, st
     modalInstance.show();
 }
 
-function addToCartFromModal() {
-    const modal = document.getElementById('productModal');
-    const productTitle = modal.querySelector('.modal-title').textContent;
-    const productPrice = modal.querySelector('.current-price').textContent;
-    const productImage = modal.querySelector('.product-image').src;
-    const quantityInput = document.getElementById('quantity');
-    const quantity = parseInt(quantityInput?.value || 1);
-    
-    // Data produk yang akan ditambahkan ke keranjang
-    const product = {
-        id: Date.now(), // Generate unique ID
-        name: productTitle,
-        price: parseInt(productPrice.replace(/[^0-9]/g, '')),
-        quantity: quantity,
-        image: productImage,
-        category: 'Elektronik'
-    };
-    
-    // Use existing addToCart function but modify for modal context
-    let cart = JSON.parse(localStorage.getItem('cart') || '[]');
-    
-    // Check if product already exists in cart
-    const existingProductIndex = cart.findIndex(item => 
-        item.name === product.name
-    );
-    
-    if (existingProductIndex !== -1) {
-        // If product exists, increase quantity
-        cart[existingProductIndex].quantity += quantity;
-    } else {
-        // If new product, add to cart
-        cart.push(product);
-    }
-    
-    // Save updated cart to localStorage
-    localStorage.setItem('cart', JSON.stringify(cart));
-    
-    // Update cart counter in navbar
-    if (typeof updateCartBadge === 'function') {
-        updateCartBadge();
-    }
-    
-    // Tutup modal
-    const modalInstance = bootstrap.Modal.getInstance(modal);
-    modalInstance.hide();
-    
-    showToast('Produk berhasil ditambahkan ke keranjang!', 'success');
-}
-
+// Quantity functions (kept for display purposes only)
 function increaseQuantity() {
     const quantityInput = document.getElementById('quantity');
     const currentValue = parseInt(quantityInput.value);
@@ -576,17 +492,6 @@ function decreaseQuantity() {
         quantityInput.value = currentValue - 1;
     }
 }
-
-function addToWishlist() {
-    showToast('Produk ditambahkan ke wishlist!', 'success');
-}
-
-// Initialize cart counter on page load
-document.addEventListener('DOMContentLoaded', function() {
-    if (typeof updateCartBadge === 'function') {
-        updateCartBadge();
-    }
-});
 </script>
 
 <!-- Product Detail Modal -->
@@ -690,13 +595,8 @@ document.addEventListener('DOMContentLoaded', function() {
                 </div>
             </div>
             <div class="modal-footer border-0 pt-0">
-                <div class="d-flex gap-2 w-100">
-                    <button type="button" class="btn btn-outline-primary flex-fill" onclick="addToWishlist()">
-                        <i class="far fa-heart me-2"></i>Wishlist
-                    </button>
-                    <button type="button" class="btn btn-primary flex-fill" onclick="addToCartFromModal()">
-                        <i class="fas fa-shopping-cart me-2"></i>Tambah ke Keranjang
-                    </button>
+                <div class="text-center w-100">
+                    <p class="text-muted mb-0">Lihat detail produk untuk informasi lengkap</p>
                 </div>
             </div>
         </div>

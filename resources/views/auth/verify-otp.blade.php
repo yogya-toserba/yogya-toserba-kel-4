@@ -188,7 +188,7 @@
             <div class="card-body">
                 <div class="email-display">
                     <small>Kode dikirim ke:</small><br>
-                    <strong>{{ session('email') }}</strong>
+                    <strong>{{ session('reset_email') }}</strong>
                 </div>
 
                 @if(session('success'))
@@ -207,18 +207,18 @@
                     </div>
                 @endif
 
-                <form action="{{ route('password.verify.otp') }}" method="POST" id="otpForm">
+                <form action="{{ route('password.verify') }}" method="POST" id="otpForm">
                     @csrf
-                    <input type="hidden" name="email" value="{{ session('email') }}">
+                    <input type="hidden" name="email" value="{{ session('reset_email') }}">
                     
                     <div class="mb-3">
                         <label for="otp" class="form-label">
                             <i class="fas fa-lock me-1"></i>Kode OTP
                         </label>
-                        <input type="text" class="form-control @error('otp') is-invalid @enderror" 
-                               id="otp" name="otp" value="{{ old('otp') }}" 
+                        <input type="text" class="form-control @error('code') is-invalid @enderror" 
+                               id="otp" name="code" value="{{ old('code') }}" 
                                placeholder="000000" maxlength="6" pattern="[0-9]{6}" required>
-                        @error('otp')
+                        @error('code')
                             <div class="invalid-feedback">{{ $message }}</div>
                         @enderror
                         <div class="form-text mt-1">
@@ -238,7 +238,7 @@
                     <p class="text-muted mb-1">Tidak menerima kode?</p>
                     <form action="{{ route('password.resend.otp') }}" method="POST" style="display: inline;">
                         @csrf
-                        <input type="hidden" name="email" value="{{ session('email') }}">
+                        <input type="hidden" name="email" value="{{ session('reset_email') }}">
                         <button type="submit" class="btn btn-outline-secondary btn-sm" id="resendBtn">
                             <i class="fas fa-redo me-1"></i>Kirim Ulang
                         </button>
@@ -246,7 +246,7 @@
                 </div>
 
                 <div class="text-center">
-                    <a href="{{ route('pelanggan.password.request') }}" class="back-link">
+                    <a href="{{ route('password.request') }}" class="back-link">
                         <i class="fas fa-arrow-left me-1"></i>Kembali
                     </a>
                 </div>

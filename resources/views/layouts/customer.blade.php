@@ -28,12 +28,280 @@
             font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
             background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
             min-height: 100vh;
+            padding-top: 100px; /* Space for fixed navbar */
         }
         
+        /* Navbar Pelanggan Styles */
         .navbar {
-            background: white !important;
-            box-shadow: 0 2px 20px rgba(0,0,0,0.08);
-            padding: 1rem 0;
+            background: rgba(255, 255, 255, 0.95) !important;
+            backdrop-filter: blur(10px);
+            box-shadow: 0 2px 20px rgba(0,0,0,0.1);
+            border-bottom: 1px solid rgba(0,0,0,0.1);
+            padding: 0.75rem 0;
+        }
+
+        .navbar-brand .logo-container {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .navbar-brand .brand-info {
+            display: flex;
+            flex-direction: column;
+            line-height: 1;
+        }
+
+        .navbar-brand .brand-text {
+            font-weight: 700;
+            font-size: 1.25rem;
+            background: linear-gradient(135deg, var(--yogya-orange) 0%, var(--yogya-yellow) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .navbar-brand .brand-tagline {
+            font-size: 0.75rem;
+            color: var(--yogya-gray);
+            font-weight: 500;
+        }
+
+        /* Search Container */
+        .search-container {
+            max-width: 500px;
+            position: relative;
+        }
+
+        .search-box {
+            position: relative;
+        }
+
+        .search-input {
+            padding: 12px 50px 12px 45px;
+            border-radius: 25px;
+            border: 2px solid #e9ecef;
+            font-size: 0.95rem;
+            background: white;
+            width: 100%;
+        }
+
+        .search-input:focus {
+            border-color: var(--yogya-blue);
+            box-shadow: 0 0 0 0.2rem rgba(33, 150, 243, 0.25);
+            outline: none;
+        }
+
+        .search-icon-left {
+            position: absolute;
+            left: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #6c757d;
+            z-index: 10;
+        }
+
+        .search-btn {
+            position: absolute;
+            right: 5px;
+            top: 50%;
+            transform: translateY(-50%);
+            background: var(--yogya-blue);
+            border: none;
+            border-radius: 50%;
+            width: 35px;
+            height: 35px;
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+        }
+
+        .search-btn:hover {
+            background: var(--yogya-orange);
+            transform: translateY(-50%) scale(1.1);
+        }
+
+        /* Search Suggestions */
+        .search-suggestions {
+            display: flex;
+            gap: 8px;
+            margin-top: 8px;
+            flex-wrap: wrap;
+        }
+
+        .suggestion-tag {
+            background: rgba(242, 107, 55, 0.1);
+            color: var(--yogya-orange);
+            padding: 4px 12px;
+            border-radius: 15px;
+            font-size: 0.8rem;
+            cursor: pointer;
+            border: 1px solid transparent;
+            transition: all 0.2s ease;
+        }
+
+        .suggestion-tag:hover {
+            background: var(--yogya-orange);
+            color: white;
+            transform: translateY(-1px);
+        }
+
+        /* Navbar Actions */
+        .navbar-actions .nav-link {
+            color: var(--yogya-dark) !important;
+            font-weight: 500;
+            padding: 8px 12px;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .nav-icon-wrapper {
+            position: relative;
+            display: inline-block;
+        }
+
+        .notification-badge, .cart-badge {
+            position: absolute;
+            top: -8px;
+            right: -8px;
+            background: var(--yogya-red);
+            color: white;
+            border-radius: 50%;
+            width: 18px;
+            height: 18px;
+            font-size: 0.7rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: 2px solid white;
+        }
+
+        .pulse {
+            animation: pulse 2s infinite;
+        }
+
+        .bounce {
+            animation: bounce 1s infinite;
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+            100% { transform: scale(1); }
+        }
+
+        @keyframes bounce {
+            0%, 20%, 50%, 80%, 100% { transform: translateY(0); }
+            40% { transform: translateY(-3px); }
+            60% { transform: translateY(-2px); }
+        }
+
+        /* Profile Section */
+        .profile-link .profile-info {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .profile-link .avatar {
+            background: linear-gradient(135deg, var(--yogya-orange) 0%, var(--yogya-yellow) 100%);
+            width: 35px;
+            height: 35px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 0.9rem;
+        }
+
+        .profile-link .user-details {
+            display: flex;
+            flex-direction: column;
+            line-height: 1.2;
+        }
+
+        .profile-link .user-name {
+            font-weight: 600;
+            font-size: 0.9rem;
+        }
+
+        .profile-link .user-status {
+            font-size: 0.75rem;
+            color: var(--yogya-gray);
+        }
+
+        /* Buttons */
+        .btn-nav-outline {
+            border: 2px solid var(--yogya-orange);
+            color: var(--yogya-orange);
+            background: transparent;
+            border-radius: 25px;
+            padding: 8px 16px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+
+        .btn-nav-outline:hover {
+            background: var(--yogya-orange);
+            color: white;
+            transform: translateY(-1px);
+        }
+
+        .btn-nav-primary {
+            background: var(--yogya-orange);
+            color: white;
+            border: 2px solid var(--yogya-orange);
+            border-radius: 25px;
+            padding: 8px 16px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+
+        .btn-nav-primary:hover {
+            background: var(--yogya-orange-dark);
+            border-color: var(--yogya-orange-dark);
+            color: white;
+            transform: translateY(-1px);
+        }
+
+        /* Dropdown Menus */
+        .dropdown-menu {
+            border: none;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.15);
+            border-radius: 12px;
+            padding: 8px 0;
+            margin-top: 8px;
+        }
+
+        .dropdown-item {
+            padding: 12px 20px;
+            font-size: 0.9rem;
+            transition: all 0.2s ease;
+        }
+
+        .dropdown-item:hover {
+            background: rgba(242, 107, 55, 0.1);
+            color: var(--yogya-orange);
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .search-container {
+                max-width: 100%;
+                margin: 1rem 0;
+            }
+            
+            .navbar-actions {
+                margin-top: 1rem;
+            }
+            
+            .profile-link .user-details {
+                display: none;
+            }
         }
         
         .navbar-brand {
@@ -182,7 +450,7 @@
     @include('layouts.navbar_pelanggan')
     
     <!-- Main Content -->
-    <main class="py-4">
+    <main>
         @yield('content')
     </main>
     
