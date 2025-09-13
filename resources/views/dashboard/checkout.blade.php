@@ -10,7 +10,7 @@
             <nav class="breadcrumb-custom">
                 <a href="{{ route('dashboard') }}">Beranda</a>
                 <span class="mx-2">/</span>
-                <a href="{{ route('keranjang') }}">Keranjang</a>
+                <a href="{{ route('keranjang.index') }}">Keranjang</a>
                 <span class="mx-2">/</span>
                 <span>Checkout</span>
             </nav>

@@ -5,7 +5,11 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Schema;
 use App\Models\Pelanggan;
+use App\Models\Product;
+use App\Models\StokProduk;
+use App\Models\Cart;
 
 class PelangganController extends Controller
 {
@@ -259,5 +263,249 @@ class PelangganController extends Controller
     ]);
 
     return redirect()->route('pelanggan.profile')->with('success', 'Password berhasil diperbarui!');
+  }
+
+  // Method untuk kategori produk
+    public function fashion()
+    {
+        try {
+            // Ambil produk fashion dari tabel stok_produk
+            $products = StokProduk::fashionProducts()
+                                ->active()
+                                ->with(['kategori', 'cabang'])
+                                ->paginate(12);
+                            
+            return view('dashboard.kategori.fashion', compact('products'));
+        } catch (\Exception $e) {
+            // Jika ada error, tampilkan dengan data kosong
+            $products = new \Illuminate\Pagination\LengthAwarePaginator(
+                collect([]),
+                0,
+                12,
+                1,
+                ['path' => request()->url()]
+            );
+            return view('dashboard.kategori.fashion', compact('products'))
+                ->with('error', 'Terjadi kesalahan saat memuat produk: ' . $e->getMessage());
+        }
+    }
+
+  public function elektronik()
+  {
+      $products = Product::byCategory('elektronik')
+                        ->active()
+                        ->inStock()
+                        ->paginate(12);
+                        
+      return view('dashboard.kategori.elektronik', compact('products'));
+  }
+
+  public function makanan()
+  {
+      $products = Product::byCategory('makanan')
+                        ->active()
+                        ->inStock()
+                        ->paginate(12);
+                        
+      return view('dashboard.kategori.makanan', compact('products'));
+  }
+
+  public function rumahTangga()
+  {
+      $products = Product::byCategory('rumah-tangga')
+                        ->active()
+                        ->inStock()
+                        ->paginate(12);
+                        
+      return view('dashboard.kategori.rumah-tangga', compact('products'));
+  }
+
+  public function olahraga()
+  {
+      $products = Product::byCategory('olahraga')
+                        ->active()
+                        ->inStock()
+                        ->paginate(12);
+                        
+      return view('dashboard.kategori.olahraga', compact('products'));
+  }
+
+  public function otomotif()
+  {
+      $products = Product::byCategory('otomotif')
+                        ->active()
+                        ->inStock()
+                        ->paginate(12);
+                        
+      return view('dashboard.kategori.otomotif', compact('products'));
+  }
+
+  public function perawatan()
+  {
+      $products = Product::byCategory('perawatan')
+                        ->active()
+                        ->inStock()
+                        ->paginate(12);
+                        
+      return view('dashboard.kategori.perawatan', compact('products'));
+  }
+
+  public function buku()
+  {
+      $products = Product::byCategory('buku')
+                        ->active()
+                        ->inStock()
+                        ->paginate(12);
+                        
+      return view('dashboard.kategori.buku', compact('products'));
+  }
+
+  // API untuk mendapatkan detail produk
+  public function getProductDetail($id)
+  {
+      $product = StokProduk::with(['kategori', 'cabang'])->findOrFail($id);
+      
+      return response()->json([
+          'id' => $product->id_produk,
+          'name' => $product->name,
+          'description' => $product->description,
+          'price' => $product->formatted_price,
+          'image' => $product->image,
+          'gallery' => $product->gallery,
+          'category' => $product->category,
+          'subcategory' => $product->subcategory,
+          'rating' => $product->rating,
+          'reviews_count' => $product->reviews_count,
+          'stock' => $product->stock,
+          'features' => $product->features
+      ]);
+  }
+
+  // API untuk menambahkan produk ke keranjang
+  public function addToCart(Request $request)
+  {
+      try {
+          $request->validate([
+              'id_produk' => 'required|exists:stok_produk,id_produk',
+              'quantity' => 'required|integer|min:1'
+          ]);
+
+          $product = StokProduk::findOrFail($request->id_produk);
+          
+          // Check stock availability
+          if ($product->stok < $request->quantity) {
+              return response()->json([
+                  'success' => false,
+                  'message' => 'Stok tidak mencukupi. Stok tersedia: ' . $product->stok
+              ], 400);
+          }
+
+          $userId = Auth::guard('pelanggan')->id();
+          $sessionId = $request->session()->getId();
+          
+          // Check if item already exists in cart
+          $existingCartItem = Cart::where('id_produk', $request->id_produk)
+                                  ->where(function($query) use ($userId, $sessionId) {
+                                      if ($userId) {
+                                          $query->where('id_pelanggan', $userId);
+                                      } else {
+                                          $query->where('session_id', $sessionId)
+                                                ->whereNull('id_pelanggan');
+                                      }
+                                  })
+                                  ->first();
+
+          if ($existingCartItem) {
+              // Update quantity if item exists
+              $newQuantity = $existingCartItem->quantity + $request->quantity;
+              
+              if ($product->stok < $newQuantity) {
+                  return response()->json([
+                      'success' => false,
+                      'message' => 'Total quantity melebihi stok tersedia. Stok tersedia: ' . $product->stok
+                  ], 400);
+              }
+
+              $existingCartItem->update(['quantity' => $newQuantity]);
+              $cartItem = $existingCartItem;
+          } else {
+              // Create new cart item
+              $cartItem = Cart::create([
+                  'id_pelanggan' => $userId,
+                  'session_id' => $userId ? null : $sessionId,
+                  'id_produk' => $request->id_produk,
+                  'quantity' => $request->quantity,
+                  'price' => $product->harga_jual,
+                  'product_options' => null
+              ]);
+          }
+
+          // Get updated cart count
+          $cartCount = Cart::getCountForUserOrSession($userId, $sessionId);
+
+          return response()->json([
+              'success' => true,
+              'message' => 'Produk berhasil ditambahkan ke keranjang',
+              'cart_count' => $cartCount,
+              'cart_item' => [
+                  'id' => $cartItem->id,
+                  'product_name' => $product->name,
+                  'quantity' => $cartItem->quantity,
+                  'subtotal' => $cartItem->formatted_subtotal
+              ]
+          ]);
+
+      } catch (\Exception $e) {
+          return response()->json([
+              'success' => false,
+              'message' => 'Terjadi kesalahan saat menambahkan ke keranjang: ' . $e->getMessage()
+          ], 500);
+      }
+  }
+
+  // API untuk mendapatkan jumlah item di keranjang
+  public function getCartCount(Request $request)
+  {
+      $userId = Auth::guard('pelanggan')->id();
+      $sessionId = $request->session()->getId();
+      
+      $cartCount = Cart::getCountForUserOrSession($userId, $sessionId);
+      
+      return response()->json([
+          'cart_count' => $cartCount
+      ]);
+  }
+
+  // API untuk mendapatkan isi keranjang
+  public function getCartItems(Request $request)
+  {
+      $userId = Auth::guard('pelanggan')->id();
+      $sessionId = $request->session()->getId();
+      
+      $cartItems = Cart::forUserOrSession($userId, $sessionId)
+                      ->with('product')
+                      ->get();
+      
+      $total = $cartItems->sum('subtotal');
+      
+      return response()->json([
+          'success' => true,
+          'items' => $cartItems->map(function($item) {
+              return [
+                  'id' => $item->id,
+                  'product' => [
+                      'id' => $item->product->id_produk,
+                      'name' => $item->product->name,
+                      'image' => $item->product->image,
+                  ],
+                  'quantity' => $item->quantity,
+                  'price' => $item->formatted_price,
+                  'subtotal' => $item->formatted_subtotal,
+                  'options' => $item->product_options
+              ];
+          }),
+          'total' => 'Rp ' . number_format($total, 0, ',', '.'),
+          'count' => $cartItems->sum('quantity')
+      ]);
   }
 }

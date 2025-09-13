@@ -2,6 +2,8 @@
 
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Schema;
+use Illuminate\Support\Facades\Artisan;
 use Illuminate\Http\Request;
 use App\Http\Controllers\PelangganController;
 use App\Http\Controllers\PelangganForgotPasswordController;
@@ -9,6 +11,7 @@ use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\CategoryController;
+use App\Models\Product;
 use App\Http\Controllers\GudangController;
 
 // Test route untuk validasi keranjang multi-user
@@ -188,6 +191,9 @@ Route::prefix('keranjang')->name('keranjang.')->group(function () {
     Route::get('/data', [KeranjangController::class, 'getCart'])->name('data');
     Route::post('/sync', [KeranjangController::class, 'syncCart'])->name('sync');
 });
+
+// Keranjang alias route for backward compatibility
+Route::get('/keranjang', [KeranjangController::class, 'index'])->name('keranjang');
 
 // Product Detail Routes
 Route::prefix('produk')->name('produk.')->group(function () {
@@ -406,18 +412,103 @@ Route::prefix('gudang')->name('gudang.')->group(function () {
     });
 });
 
+// API Routes for AJAX requests
+Route::prefix('api')->group(function () {
+    Route::get('/product/{id}', [PelangganController::class, 'getProductDetail'])->name('api.product.detail');
+    
+    // Cart API Routes
+    Route::post('/cart/add', [PelangganController::class, 'addToCart'])->name('api.cart.add');
+    Route::get('/cart/count', [PelangganController::class, 'getCartCount'])->name('api.cart.count');
+    Route::get('/cart/items', [PelangganController::class, 'getCartItems'])->name('api.cart.items');
+});
+
+// Test route untuk database products
+Route::get('/test-products-db', function () {
+    try {
+        $output = [];
+        $output[] = "=== TEST DATABASE PRODUCTS ===";
+        
+        // Test 1: Cek apakah tabel ada
+        if (Schema::hasTable('products')) {
+            $output[] = "✅ Tabel 'products' ditemukan";
+        } else {
+            $output[] = "❌ Tabel 'products' tidak ditemukan";
+            return response()->json(['error' => 'Tabel products tidak ditemukan']);
+        }
+        
+        // Test 2: Cek jumlah total produk
+        $totalProducts = Product::count();
+        $output[] = "📊 Total produk di database: {$totalProducts}";
+        
+        if ($totalProducts == 0) {
+            $output[] = "⚠️  Database kosong, menjalankan seeder...";
+            Artisan::call('db:seed', ['--class' => 'ProductSeeder']);
+            $totalProducts = Product::count();
+            $output[] = "📊 Total produk setelah seeder: {$totalProducts}";
+        }
+        
+        // Test 3: Cek produk fashion
+        $fashionProducts = Product::where('category', 'fashion')->count();
+        $output[] = "👔 Produk kategori fashion: {$fashionProducts}";
+        
+        // Test 4: Cek produk aktif dengan stock
+        $activeProducts = Product::where('category', 'fashion')
+                                ->where('is_active', 1)
+                                ->where('stock', '>', 0)
+                                ->count();
+        $output[] = "✅ Produk fashion aktif dengan stock: {$activeProducts}";
+        
+        // Test 5: Tampilkan sample produk fashion
+        $sampleProducts = Product::where('category', 'fashion')
+                                ->where('is_active', 1)
+                                ->where('stock', '>', 0)
+                                ->limit(3)
+                                ->get(['id', 'name', 'price', 'category', 'stock']);
+        
+        $output[] = "";
+        $output[] = "=== SAMPLE PRODUK FASHION ===";
+        foreach ($sampleProducts as $product) {
+            $output[] = "ID: {$product->id} | {$product->name} | Rp {$product->price} | Stock: {$product->stock}";
+        }
+        
+        $output[] = "";
+        $output[] = "✅ Test selesai - Database siap digunakan!";
+        
+        return response()->json([
+            'status' => 'success',
+            'output' => $output,
+            'total_products' => $totalProducts,
+            'fashion_products' => $fashionProducts,
+            'active_fashion_products' => $activeProducts,
+            'sample_products' => $sampleProducts
+        ]);
+        
+    } catch (Exception $e) {
+        return response()->json([
+            'status' => 'error',
+            'message' => $e->getMessage(),
+            'trace' => $e->getTraceAsString()
+        ]);
+    }
+});
+
 // Route kategori - cleaned up without duplicates
 Route::prefix('kategori')->name('kategori.')->group(function () {
-    Route::get('/elektronik', [CategoryController::class, 'elektronik'])->name('elektronik');
-    Route::get('/fashion', [CategoryController::class, 'fashion'])->name('fashion');
-    Route::get('/makanan', [CategoryController::class, 'makanan'])->name('makanan');
-    Route::get('/makanan-minuman', [CategoryController::class, 'makanan'])->name('makanan-minuman');
-    Route::get('/otomotif', [CategoryController::class, 'otomotif'])->name('otomotif');
-    Route::get('/kesehatan-kecantikan', [CategoryController::class, 'kesehatan'])->name('kesehatan-kecantikan');
-    Route::get('/rumah-tangga', [CategoryController::class, 'rumahTangga'])->name('rumah-tangga');
-    Route::get('/olahraga', [CategoryController::class, 'olahraga'])->name('olahraga');
-    Route::get('/buku', [CategoryController::class, 'buku'])->name('buku');
-    Route::get('/perawatan', [CategoryController::class, 'perawatan'])->name('perawatan');
+    Route::get('/elektronik', [PelangganController::class, 'elektronik'])->name('elektronik');
+    Route::get('/fashion', [PelangganController::class, 'fashion'])->name('fashion');
+    Route::get('/makanan', [PelangganController::class, 'makanan'])->name('makanan');
+    Route::get('/makanan-minuman', [PelangganController::class, 'makanan'])->name('makanan-minuman');
+    Route::get('/otomotif', [PelangganController::class, 'otomotif'])->name('otomotif');
+    Route::get('/kesehatan-kecantikan', [PelangganController::class, 'perawatan'])->name('kesehatan-kecantikan');
+    Route::get('/rumah-tangga', [PelangganController::class, 'rumahTangga'])->name('rumah-tangga');
+    Route::get('/olahraga', [PelangganController::class, 'olahraga'])->name('olahraga');
+    Route::get('/buku', [PelangganController::class, 'buku'])->name('buku');
+    Route::get('/perawatan', [PelangganController::class, 'perawatan'])->name('perawatan');
+});
+
+// API Routes untuk produk
+Route::prefix('api')->group(function () {
+    Route::get('/product/{id}', [PelangganController::class, 'getProductDetail'])->name('api.product.detail');
 });
 
 // Route checkout
